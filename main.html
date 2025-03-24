@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scientific History Timeline</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .timeline-container {
+      position: relative;
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid #ccc;
+      white-space: nowrap;
+      padding: 60px 0;
+    }
+    .timeline {
+      position: relative;
+      height: 2px;
+      background: #000;
+      margin: 0 auto;
+      width: 2000px; /* Extend as needed */
+    }
+    .event {
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      width: 100px;
+      margin-left: -50px; /* centre the marker */
+    }
+    .event .marker {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 20px solid #007BFF;
+      margin: 0 auto;
+    }
+    .event .date,
+    .event .label {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    /* For the first event (Newton) add an image connector */
+    .event.newton .image-line {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      width: 2px;
+      height: 100px;
+      background: #000;
+      transform: translateX(-50%);
+    }
+    .event.newton .image {
+      position: absolute;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="timeline-container">
+    <div class="timeline"></div>
+    <!-- Newton -->
+    <div class="event newton" style="left: 100px;">
+      <div class="marker"></div>
+      <div class="date">1687</div>
+      <div class="label">Newton</div>
+      <div class="image-line"></div>
+      <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Sir_Isaac_Newton_%281643-1727%29.jpg" alt="Newton">
+    </div>
+    <!-- Weber -->
+    <div class="event" style="left: 300px;">
+      <div class="marker"></div>
+      <div class="date">? <!-- Adjust date --></div>
+      <div class="label">Weber</div>
+    </div>
+    <!-- Maxwell -->
+    <div class="event" style="left: 500px;">
+      <div class="marker"></div>
+      <div class="date">1865</div>
+      <div class="label">Maxwell</div>
+    </div>
+    <!-- Heaviside -->
+    <div class="event" style="left: 700px;">
+      <div class="marker"></div>
+      <div class="date">1900</div>
+      <div class="label">Heaviside</div>
+    </div>
+    <!-- Heisenberg -->
+    <div class="event" style="left: 900px;">
+      <div class="marker"></div>
+      <div class="date">1925</div>
+      <div class="label">Heisenberg</div>
+    </div>
+    <!-- Lorenz -->
+    <div class="event" style="left: 1100px;">
+      <div class="marker"></div>
+      <div class="date">? <!-- Adjust date --></div>
+      <div class="label">Lorenz</div>
+    </div>
+    <!-- Einstein -->
+    <div class="event" style="left: 1300px;">
+      <div class="marker"></div>
+      <div class="date">1905</div>
+      <div class="label">Einstein</div>
+    </div>
+    <!-- Dirac -->
+    <div class="event" style="left: 1500px;">
+      <div class="marker"></div>
+      <div class="date">1928</div>
+      <div class="label">Dirac</div>
+    </div>
+    <!-- Dicke -->
+    <div class="event" style="left: 1700px;">
+      <div class="marker"></div>
+      <div class="date">1960</div>
+      <div class="label">Dicke</div>
+    </div>
+    <!-- de Broglie -->
+    <div class="event" style="left: 1900px;">
+      <div class="marker"></div>
+      <div class="date">1924</div>
+      <div class="label">de Broglie</div>
+    </div>
+  </div>
+</body>
+</html>
