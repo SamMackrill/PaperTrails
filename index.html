@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paper Trails - Scientific History Explorer</title>
+    <title>Paper Trails - Scientific History Explorer 3</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -234,7 +234,7 @@
     </div>
     
     <script>
-        // Scientist data
+        // Scientist data with all photos
         const scientists = {
             newton: {
                 name: "Isaac Newton",
@@ -277,13 +277,7 @@
                 birth: "1850-05-18",
                 death: "1925-02-03",
                 publications: [
-                    { year: 1888, title: "Electromagnetic Induction and Its Propagation", abstract: "Heaviside reformulated Maxwell's original mathematical analysis into the modern form of four vector equations." }
-                ]
-            },
-            heaviside2: {
-                name: "Oliver Heaviside",
-                color: "#a8dadc",
-                publications: [
+                    { year: 1888, title: "Electromagnetic Induction and Its Propagation", abstract: "Heaviside reformulated Maxwell's original mathematical analysis into the modern form of four vector equations." },
                     { year: 1893, title: "Electrical Papers", abstract: "Collection of Heaviside's papers where he developed operational calculus and vector analysis techniques." }
                 ]
             },
@@ -571,6 +565,9 @@
                     scale += delta * scaleStep;
                     updateZoom();
                 }
+            } else {
+                // Regular horizontal scrolling when Ctrl is not pressed
+                timelineContainer.scrollLeft += e.deltaY;
             }
         });
 
