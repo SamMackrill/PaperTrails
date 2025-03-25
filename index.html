@@ -1,134 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Scientific History Timeline</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    .timeline-container {
-      position: relative;
-      width: 100%;
-      overflow-x: auto;
-      border: 1px solid #ccc;
-      white-space: nowrap;
-      padding: 60px 0;
-    }
-    .timeline {
-      position: relative;
-      height: 2px;
-      background: #000;
-      margin: 0 auto;
-      width: 2000px; /* Extend as needed */
-    }
-    .event {
-      position: absolute;
-      bottom: 0;
-      text-align: center;
-      width: 100px;
-      margin-left: -50px; /* centre the marker */
-    }
-    .event .marker {
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 20px solid #007BFF;
-      margin: 0 auto;
-    }
-    .event .date,
-    .event .label {
-      font-size: 12px;
-      margin-top: 5px;
-    }
-    /* For the first event (Newton) add an image connector */
-    .event.newton .image-line {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      width: 2px;
-      height: 100px;
-      background: #000;
-      transform: translateX(-50%);
-    }
-    .event.newton .image {
-      position: absolute;
-      bottom: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      border: 1px solid #ccc;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific History Timeline</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .timeline-container {
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 100px 0;
+        }
+
+        .timeline {
+            position: relative;
+            height: 300px;
+            min-width: 10000px;
+            margin-top: 50px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #333;
+            transform: translateY(-50%);
+        }
+
+        .timeline-years {
+            position: absolute;
+            top: 55%;
+            width: 100%;
+            height: 30px;
+        }
+
+        .year-marker {
+            position: absolute;
+            top: 0;
+            width: 1px;
+            height: 15px;
+            background-color: #666;
+            transform: translateX(-50%);
+        }
+
+        .year-label {
+            position: absolute;
+            top: 20px;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #666;
+        }
+
+        .scientist {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .scientist-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            filter: grayscale(100%);
+        }
+
+        .paper-marker {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid #4285f4;
+            cursor: pointer;
+            transform: translateX(-50%);
+            transition: all 0.2s;
+        }
+
+        .paper-marker:hover {
+            border-bottom-color: #0d47a1;
+            transform: translateX(-50%) scale(1.2);
+        }
+
+        .scientist-line {
+            position: absolute;
+            height: 2px;
+            background-color: #666;
+            transform-origin: left center;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <div class="timeline-container">
-    <div class="timeline"></div>
-    <!-- Newton -->
-    <div class="event newton" style="left: 100px;">
-      <div class="marker"></div>
-      <div class="date">1687</div>
-      <div class="label">Newton</div>
-      <div class="image-line"></div>
-      <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Sir_Isaac_Newton_%281643-1727%29.jpg" alt="Newton">
+    <div class="controls">
+        <button id="zoom-in">Zoom In</button>
+        <button id="zoom-out">Zoom Out</button>
+        <span id="zoom-level">100%</span>
     </div>
-    <!-- Weber -->
-    <div class="event" style="left: 300px;">
-      <div class="marker"></div>
-      <div class="date">? <!-- Adjust date --></div>
-      <div class="label">Weber</div>
+    
+    <div class="timeline-container">
+        <div class="timeline" id="timeline">
+            <!-- Timeline line -->
+            <div class="timeline-line"></div>
+            
+            <!-- Timeline years -->
+            <div class="timeline-years"></div>
+            
+            <!-- Scientists and papers will be added here by JavaScript -->
+        </div>
     </div>
-    <!-- Maxwell -->
-    <div class="event" style="left: 500px;">
-      <div class="marker"></div>
-      <div class="date">1865</div>
-      <div class="label">Maxwell</div>
+    
+    <!-- Paper abstract popup -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <button class="close-btn">&times;</button>
+            <h2 id="paper-title"></h2>
+            <h3 id="paper-author"></h3>
+            <p id="paper-year"></p>
+            <div id="paper-abstract"></div>
+        </div>
     </div>
-    <!-- Heaviside -->
-    <div class="event" style="left: 700px;">
-      <div class="marker"></div>
-      <div class="date">1900</div>
-      <div class="label">Heaviside</div>
-    </div>
-    <!-- Heisenberg -->
-    <div class="event" style="left: 900px;">
-      <div class="marker"></div>
-      <div class="date">1925</div>
-      <div class="label">Heisenberg</div>
-    </div>
-    <!-- Lorenz -->
-    <div class="event" style="left: 1100px;">
-      <div class="marker"></div>
-      <div class="date">? <!-- Adjust date --></div>
-      <div class="label">Lorenz</div>
-    </div>
-    <!-- Einstein -->
-    <div class="event" style="left: 1300px;">
-      <div class="marker"></div>
-      <div class="date">1905</div>
-      <div class="label">Einstein</div>
-    </div>
-    <!-- Dirac -->
-    <div class="event" style="left: 1500px;">
-      <div class="marker"></div>
-      <div class="date">1928</div>
-      <div class="label">Dirac</div>
-    </div>
-    <!-- Dicke -->
-    <div class="event" style="left: 1700px;">
-      <div class="marker"></div>
-      <div class="date">1960</div>
-      <div class="label">Dicke</div>
-    </div>
-    <!-- de Broglie -->
-    <div class="event" style="left: 1900px;">
-      <div class="marker"></div>
-      <div class="date">1924</div>
-      <div class="label">de Broglie</div>
-    </div>
-  </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Timeline data
+            const scientists = [
+                {
+                    name: "Isaac Newton",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/3/39/GodfreyKneller-IsaacNewton-1689.jpg",
+                    papers: [
+                        { year: 1687, title: "Philosophiæ Naturalis Principia Mathematica", abstract: "Newton's work established classical mechanics, introducing his laws of motion and universal gravitation, which dominated scientists' view of the physical universe for the next three centuries." }
+                    ]
+                },
+                {
+                    name: "Wilhelm Weber",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Wilhelm_Weber.jpg",
+                    papers: [
+                        { year: 1833, title: "Measurement of Electrical Forces", abstract: "Weber developed sensitive magnetometers and other magnetic instruments, and worked on the measurement of electrical forces." },
+                        { year: 1846, title: "Electrodynamic Measurements", abstract: "Weber developed a theory of electrodynamics, including the first statement of the law of electrical force that is now called Weber's electrodynamics." }
+                    ]
+                },
+                {
+                    name: "James Clerk Maxwell",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/5/57/James_Clerk_Maxwell.png",
+                    papers: [
+                        { year: 1865, title: "A Dynamical Theory of the Electromagnetic Field", abstract: "Maxwell's equations demonstrated that electricity, magnetism and light are all manifestations of the same phenomenon: the electromagnetic field." }
+                    ]
+                },
+                {
+                    name: "Oliver Heaviside",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Oliver_Heaviside2.jpg",
+                    papers: [
+                        { year: 1885, title: "Electromagnetic Induction and Its Propagation", abstract: "Heaviside reformulated Maxwell's original mathematical treatment of electromagnetic theory into the modern vector calculus form we use today." }
+                    ]
+                },
+                {
+                    name: "Werner Heisenberg",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/d/d6/Bundesarchiv_Bild183-R57262%2C_Werner_Heisenberg.jpg",
+                    papers: [
+                        { year: 1925, title: "Quantum Theoretical Re-interpretation of Kinematic and Mechanical Relations", abstract: "Heisenberg's paper marked the beginning of quantum mechanics with his formulation of matrix mechanics." },
+                        { year: 1927, title: "On the Perceptual Content of Quantum Theoretical Kinematics and Mechanics", abstract: "Heisenberg formulated his uncertainty principle, which states that the more precisely the position of a particle is determined, the less precisely its momentum can be known, and vice versa." }
+                    ]
+                },
+                {
+                    name: "Max Planck",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/6/64/Max_Planck_1933.jpg",
+                    papers: [
+                        { year: 1900, title: "On the Theory of the Energy Distribution Law of the Normal Spectrum", abstract: "Planck introduced the idea that energy is quantized, marking the birth of quantum theory." }
+                    ]
+                },
+                {
+                    name: "Hendrik Lorentz",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/5/51/Hendrik_Antoon_Lorentz.jpg",
+                    papers: [
+                        { year: 1892, title: "The Electromagnetic Theory of Maxwell and Its Application to Moving Bodies", abstract: "Lorentz proposed that moving bodies contract in the direction of motion (FitzGerald-Lorentz contraction) and introduced the concept of local time." },
+                        { year: 1895, title: "Attempt of a Theory of Electrical and Optical Phenomena in Moving Bodies", abstract: "Lorentz developed his theory of electrons, which became the foundation of classical electron theory." }
+                    ]
+                },
+                {
+                    name: "Albert Einstein",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+                    papers: [
+                        { year: 1905, title: "On the Electrodynamics of Moving Bodies", abstract: "Einstein introduced the special theory of relativity, which reconciled mechanics with electromagnetism." },
+                        { year: 1915, title: "The Field Equations of Gravitation", abstract: "Einstein presented the Einstein field equations of general relativity, which describe the fundamental interaction of gravitation." }
+                    ]
+                },
+                {
+                    name: "Paul Dirac",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Paul_Dirac.jpg",
+                    papers: [
+                        { year: 1928, title: "The Quantum Theory of the Electron", abstract: "Dirac derived the Dirac equation, which describes the behavior of fermions and predicted the existence of antimatter." }
+                    ]
+                },
+                {
+                    name: "Robert Dicke",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Robert_Dicke.jpg",
+                    papers: [
+                        { year: 1961, title: "Dirac's Cosmology and Mach's Principle", abstract: "Dicke developed the Brans-Dicke theory of gravity, an alternative to Einstein's general relativity." },
+                        { year: 1965, title: "Cosmic Black-Body Radiation", abstract: "Dicke and his team began searching for cosmic microwave background radiation, which they predicted would be a remnant of the Big Bang." }
+                    ]
+                },
+                {
+                    name: "Louis de Broglie",
+                    photo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Louis_de_Broglie.jpg",
+                    papers: [
+                        { year: 1924, title: "Recherches sur la théorie des quanta", abstract: "De Broglie proposed the wave nature of electrons and suggested that all matter has wave properties, known as wave-particle duality." }
+                    ]
+                }
+            ];
+
+            // Timeline setup
+            const timeline = document.getElementById('timeline');
+            const timelineYears = document.querySelector('.timeline-years');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            const zoomLevel = document.getElementById('zoom-level');
+            const popup = document.getElementById('popup');
+            const popupTitle = document.getElementById('paper-title');
+            const popupAuthor = document.getElementById('paper-author');
+            const popupYear = document.getElementById('paper-year');
+            const popupAbstract = document.getElementById('paper-abstract');
+            const timelineContainer = document.querySelector('.timeline-container');
+            
+            let zoom = 1;
+            const minYear = 1680;
+            const maxYear = 1970;
+            
+            // Create year markers
+            function createYearMarkers() {
+                timelineYears.innerHTML = '';
+                const yearsRange = maxYear - minYear;
+                const step = yearsRange > 200 ? 20 : yearsRange > 100 ? 10 : 5;
+                
+                for (let year = minYear; year <= maxYear; year += step) {
+                    const marker = document.createElement('div');
+                    marker.className = 'year-marker';
+                    const label = document.createElement('div');
+                    label.className = 'year-label';
+                    label.textContent = year;
+                    
+                    const position = ((year - minYear) / (maxYear - minYear)) * 100;
+                    
+                    marker.style.left = `${position}%`;
+                    label.style.left = `${position}%`;
+                    
+                    timelineYears.appendChild(marker);
+                    timelineYears.appendChild(label);
+                }
+            }
+            
+            // Position scientists and papers on timeline
+            function positionElements() {
+                // Clear existing elements (except timeline line and years)
+                const elementsToRemove = document.querySelectorAll('.scientist, .paper-marker, .scientist-line');
+                elementsToRemove.forEach(el => el.remove());
+                
+                scientists.forEach(scientist => {
+                    // Find the earliest paper year for this scientist
+                    const earliestPaperYear = Math.min(...scientist.papers.map(p => p.year));
+                    const position = ((earliestPaperYear - minYear) / (maxYear - minYear)) * 100;
+                    
+                    // Create scientist photo
+                    const photoContainer = document.createElement('div');
+                    photoContainer.className = 'scientist';
+                    photoContainer.style.left = `${position}%`;
+                    
+                    const photo = document.createElement('img');
+                    photo.className = 'scientist-photo';
+                    photo.src = scientist.photo;
+                    photo.alt = scientist.name;
+                    photo.title = scientist.name;
+                    photoContainer.appendChild(photo);
+                    
+                    // Create line from photo to first paper
+                    const firstPaperYear = earliestPaperYear;
+                    const firstPaperPosition = ((firstPaperYear - minYear) / (maxYear - minYear)) * 100;
+                    
+                    const line = document.createElement('div');
+                    line.className = 'scientist-line';
+                    
+                    // Calculate line length and angle
+                    const lineLength = 100;
+                    const angle = -45;
+                    
+                    line.style.width = `${lineLength}px`;
+                    line.style.left = `${position}%`;
+                    line.style.top = '50%';
+                    line.style.transform = `translateY(-50%) rotate(${angle}deg)`;
+                    
+                    timeline.appendChild(line);
+                    timeline.appendChild(photoContainer);
+                    
+                    // Create paper markers
+                    scientist.papers.forEach(paper => {
+                        const paperPosition = ((paper.year - minYear) / (maxYear - minYear)) * 100;
+                        
+                        const paperMarker = document.createElement('div');
+                        paperMarker.className = 'paper-marker';
+                        paperMarker.style.left = `${paperPosition}%`;
+                        paperMarker.dataset.title = paper.title;
+                        paperMarker.dataset.author = scientist.name;
+                        paperMarker.dataset.year = paper.year;
+                        paperMarker.dataset.abstract = paper.abstract;
+                        
+                        // Position vertically based on whether it's the first paper
+                        const isFirstPaper = paper.year === earliestPaperYear;
+                        paperMarker.style.top = isFirstPaper ? 'calc(50% - 100px)' : 'calc(50% - 50px)';
+                        
+                        paperMarker.addEventListener('click', showPaperPopup);
+                        timeline.appendChild(paperMarker);
+                    });
+                });
+            }
+            
+            // Show paper popup
+            function showPaperPopup(e) {
+                const marker = e.target;
+                popupTitle.textContent = marker.dataset.title;
+                popupAuthor.textContent = marker.dataset.author;
+                popupYear.textContent = marker.dataset.year;
+                popupAbstract.textContent = marker.dataset.abstract;
+                popup.style.display = 'flex';
+            }
+            
+            // Close popup
+            document.querySelector('.close-btn').addEventListener('click', function() {
+                popup.style.display = 'none';
+            });
+            
+            // Zoom functions
+            function updateZoom() {
+                timeline.style.transform = `scale(${zoom})`;
+                timeline.style.transformOrigin = 'center center';
+                zoomLevel.textContent = `${Math.round(zoom * 100)}%`;
+            }
+            
+            zoomInBtn.addEventListener('click', function() {
+                if (zoom < 3) {
+                    zoom += 0.1;
+                    updateZoom();
+                }
+            });
+            
+            zoomOutBtn.addEventListener('click', function() {
+                if (zoom > 0.5) {
+                    zoom -= 0.1;
+                    updateZoom();
+                }
+            });
+            
+            // Initialize
+            createYearMarkers();
+            positionElements();
+            
+            // Center timeline on load
+            setTimeout(() => {
+                timelineContainer.scrollLeft = (timelineContainer.scrollWidth - timelineContainer.clientWidth) / 2;
+            }, 100);
+        });
+    </script>
 </body>
 </html>
