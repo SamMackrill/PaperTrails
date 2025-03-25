@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paper Trails - Scientific History Explorer 3</title>
+    <title>Paper Trails - Scientific History Explorer 4</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -44,7 +44,7 @@
             width: 100%;
             overflow-x: auto;
             position: relative;
-            padding: 50px 0;
+            padding: 80px 0; /* Increased padding to accommodate photos */
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -92,6 +92,7 @@
             transform: translate(-50%, -50%) rotate(45deg);
             cursor: pointer;
             transition: all 0.2s;
+            z-index: 10;
         }
         
         .publication:hover {
@@ -107,6 +108,7 @@
             cursor: pointer;
             object-fit: cover;
             filter: grayscale(100%);
+            z-index: 5;
         }
         
         .photo-connector {
@@ -114,6 +116,7 @@
             height: 2px;
             background-color: #999;
             transform-origin: left center;
+            z-index: 1;
         }
         
         .modal {
@@ -195,7 +198,7 @@
     </style>
 </head>
 <body>
-    <h1>Paper Trails: Scientific History Explorer 3</h1>
+    <h1>Paper Trails: Scientific History Explorer</h1>
     
     <div class="controls">
         <button id="zoom-in">Zoom In (+)</button>
@@ -234,12 +237,12 @@
     </div>
     
     <script>
-        // Scientist data with all photos
+        // Scientist data with verified photo URLs
         const scientists = {
             newton: {
                 name: "Isaac Newton",
                 color: "#e63946",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/3/39/GodfreyKneller-IsaacNewton-1689.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Portrait_of_Sir_Isaac_Newton%2C_1689.jpg/220px-Portrait_of_Sir_Isaac_Newton%2C_1689.jpg",
                 nationality: "English",
                 birth: "1643-01-04",
                 death: "1727-03-31",
@@ -250,7 +253,7 @@
             weber: {
                 name: "Wilhelm Eduard Weber",
                 color: "#1d3557",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Wilhelm_Eduard_Weber.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Wilhelm_Eduard_Weber.jpg/220px-Wilhelm_Eduard_Weber.jpg",
                 nationality: "German",
                 birth: "1804-10-24",
                 death: "1891-06-23",
@@ -261,7 +264,7 @@
             maxwell: {
                 name: "James Clerk Maxwell",
                 color: "#457b9d",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/5/57/James_Clerk_Maxwell.png",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/James_Clerk_Maxwell.png/220px-James_Clerk_Maxwell.png",
                 nationality: "Scottish",
                 birth: "1831-06-13",
                 death: "1879-11-05",
@@ -272,7 +275,7 @@
             heaviside: {
                 name: "Oliver Heaviside",
                 color: "#a8dadc",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Oliver_Heaviside2.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Oliver_Heaviside2.jpg/220px-Oliver_Heaviside2.jpg",
                 nationality: "English",
                 birth: "1850-05-18",
                 death: "1925-02-03",
@@ -284,7 +287,7 @@
             heisenberg: {
                 name: "Werner Heisenberg",
                 color: "#e9c46a",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Heisenberg10.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Heisenberg10.jpg/220px-Heisenberg10.jpg",
                 nationality: "German",
                 birth: "1901-12-05",
                 death: "1976-02-01",
@@ -295,7 +298,7 @@
             plank: {
                 name: "Max Planck",
                 color: "#f4a261",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/6/64/Max_Planck_1933.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Max_Planck_1933.jpg/220px-Max_Planck_1933.jpg",
                 nationality: "German",
                 birth: "1858-04-23",
                 death: "1947-10-04",
@@ -306,7 +309,7 @@
             lorenz: {
                 name: "Hendrik Lorentz",
                 color: "#2a9d8f",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Hendrik_Antoon_Lorentz.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Hendrik_Antoon_Lorentz.jpg/220px-Hendrik_Antoon_Lorentz.jpg",
                 nationality: "Dutch",
                 birth: "1853-07-18",
                 death: "1928-02-04",
@@ -317,7 +320,7 @@
             einstein: {
                 name: "Albert Einstein",
                 color: "#e76f51",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
                 nationality: "German-born, later Swiss and American",
                 birth: "1879-03-14",
                 death: "1955-04-18",
@@ -329,7 +332,7 @@
             dirac: {
                 name: "Paul Dirac",
                 color: "#9b5de5",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Paul_Dirac.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Paul_Dirac.jpg/220px-Paul_Dirac.jpg",
                 nationality: "British",
                 birth: "1902-08-08",
                 death: "1984-10-20",
@@ -340,7 +343,7 @@
             dicke: {
                 name: "Robert H. Dicke",
                 color: "#f15bb5",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Robert_Dicke.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Robert_Dicke.jpg/220px-Robert_Dicke.jpg",
                 nationality: "American",
                 birth: "1916-05-06",
                 death: "1997-03-04",
@@ -351,7 +354,7 @@
             deBroglie: {
                 name: "Louis de Broglie",
                 color: "#00bbf9",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Louis_de_Broglie.jpg",
+                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Louis_de_Broglie.jpg/220px-Louis_de_Broglie.jpg",
                 nationality: "French",
                 birth: "1892-08-15",
                 death: "1987-03-19",
@@ -440,8 +443,8 @@
                         photo.src = scientist.photo;
                         photo.style.borderColor = scientist.color;
                         
-                        // Position photo above or below timeline randomly
-                        const photoTop = Math.random() > 0.5 ? '30%' : '70%';
+                        // Position photo above or below timeline with enough space
+                        const photoTop = Math.random() > 0.5 ? '20%' : '80%';
                         photo.style.top = photoTop;
                         photo.style.left = `${(pub.year - startYear) * pixelsPerYear}px`;
                         
@@ -459,7 +462,7 @@
                         const startX = (pub.year - startYear) * pixelsPerYear;
                         const startY = 50; // Timeline center
                         const endX = startX;
-                        const endY = photoTop === '30%' ? 30 : 70;
+                        const endY = photoTop === '20%' ? 20 : 80;
                         const length = Math.abs(endY - startY);
                         const angle = endY < startY ? 90 : -90;
                         
