@@ -1,588 +1,754 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paper Trails - Scientific History Explorer 5</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            overflow-x: hidden;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-        
-        button {
-            padding: 8px 15px;
-            background-color: #4a6fa5;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        button:hover {
-            background-color: #3a5a8a;
-        }
-        
-        .timeline-container {
-            width: 100%;
-            overflow-x: auto;
-            position: relative;
-            padding: 100px 0; /* Increased padding for photos */
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .timeline {
-            height: 100px;
-            position: relative;
-            width: 5000px;
-            transform-origin: 0 0;
-        }
-        
-        .timeline-line {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #333;
-            transform: translateY(-50%);
-        }
-        
-        .timeline-marker {
-            position: absolute;
-            top: 50%;
-            height: 10px;
-            width: 1px;
-            background-color: #999;
-            transform: translateY(-50%);
-        }
-        
-        .timeline-year {
-            position: absolute;
-            top: 60%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .publication {
-            position: absolute;
-            top: 50%;
-            width: 12px;
-            height: 12px;
-            transform: translate(-50%, -50%) rotate(45deg);
-            cursor: pointer;
-            transition: all 0.2s;
-            z-index: 10;
-        }
-        
-        .publication:hover {
-            transform: translate(-50%, -50%) rotate(45deg) scale(1.5);
-        }
-        
-        .scientist-photo {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border: 3px solid;
-            border-radius: 2px;
-            cursor: pointer;
-            object-fit: cover;
-            filter: grayscale(100%);
-            z-index: 5;
-        }
-        
-        .photo-connector {
-            position: absolute;
-            height: 2px;
-            background-color: #999;
-            transform-origin: left center;
-            z-index: 1;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 600px;
-            width: 80%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
-            color: #666;
-        }
-        
-        .modal-title {
-            margin-top: 0;
-            color: #333;
-        }
-        
-        .abstract {
-            line-height: 1.6;
-        }
-        
-        .scientist-info {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .scientist-photo-modal {
-            width: 100px;
-            height: 100px;
-            border: 4px solid;
-            border-radius: 2px;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-        
-        .scientist-details {
-            flex: 1;
-        }
-        
-        .scientist-name {
-            font-size: 24px;
-            margin: 0 0 10px 0;
-        }
-        
-        .scientist-bio {
-            margin: 5px 0;
-            color: #555;
-        }
-        
-        .zoom-level {
-            margin-left: 20px;
-            font-weight: bold;
-            color: #333;
-        }
-    </style>
+  <title>Paper Trails - Scientific History</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Basic Reset & Body */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Controls */
+    .controls {
+      margin-bottom: 20px;
+      background-color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 100; /* Keep controls above timeline */
+    }
+
+    .controls button {
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background-color: #eee;
+      border-radius: 3px;
+    }
+    .controls button:hover {
+      background-color: #ddd;
+    }
+    .zoom-level {
+      font-weight: bold;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* Timeline Container & Timeline */
+    .timeline-container {
+      width: 95%;
+      max-width: 1200px; /* Max width on large screens */
+      height: 450px; /* Adjust height as needed */
+      overflow: hidden; /* Crucial for containing the scaled/translated timeline */
+      border: 1px solid #ccc;
+      background-color: #fff;
+      position: relative; /* Needed for absolute positioning of timeline */
+      cursor: grab;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .timeline-container:active {
+        cursor: grabbing;
+    }
+
+    .timeline {
+      position: relative; /* Child elements are positioned relative to this */
+      height: 100%;
+      /* Width is set dynamically by JS */
+      transform-origin: 0 0; /* Zoom from the top-left */
+      background-color: #ffffff;
+      /* The main timeline axis line */
+      border-bottom: 2px solid #333;
+      box-sizing: border-box; /* Include border in height */
+    }
+
+    /* Timeline Axis (drawn by border-bottom on .timeline) */
+    .timeline-axis-label {
+        position: absolute;
+        bottom: -20px; /* Position below the border */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: #555;
+    }
+
+    /* Year Markers */
+    .year-marker {
+        position: absolute;
+        bottom: 0; /* Align with the timeline border */
+        width: 1px;
+        height: 10px; /* Small tick */
+        background-color: #888;
+    }
+    .year-marker.major {
+        height: 20px; /* Taller tick for centuries */
+        background-color: #333;
+    }
+    .year-marker span {
+        position: absolute;
+        bottom: -18px; /* Position label below tick */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
+        color: #555;
+    }
+     .year-marker.major span {
+         font-weight: bold;
+         color: #333;
+     }
+
+
+    /* Publication Diamonds */
+    .publication {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      transform: rotate(45deg);
+      cursor: pointer;
+      z-index: 20; /* Above lines, below photos */
+      /* background-color is set dynamically */
+      border: 1px solid rgba(0,0,0,0.3); /* Subtle border */
+      /* Position is set dynamically */
+    }
+     .publication:hover {
+         transform: rotate(45deg) scale(1.3);
+         z-index: 21;
+     }
+
+    /* Scientist Photos */
+    .scientist-photo {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover; /* Crop image nicely */
+      filter: grayscale(100%);
+      border: 3px solid; /* Color set dynamically */
+      cursor: pointer;
+      z-index: 30; /* Above publications */
+      background-color: #fff; /* BG for images that might have transparency */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      transition: filter 0.2s ease, transform 0.2s ease;
+      /* Position is set dynamically */
+    }
+    .scientist-photo:hover {
+        filter: grayscale(0%);
+        transform: scale(1.1);
+        z-index: 31;
+    }
+
+    /* Connecting Lines (SVG) */
+    .timeline-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Cover the entire timeline div */
+        height: 100%;
+        pointer-events: none; /* Allow clicks to pass through */
+        z-index: 10; /* Below publications and photos */
+    }
+    .connecting-line {
+        stroke-width: 1.5px;
+        /* stroke color set dynamically */
+    }
+
+    /* Modals */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1000; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 25px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .modal-content h3 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+     .modal-content p {
+         line-height: 1.6;
+         color: #555;
+     }
+
+    .close-button {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+  </style>
 </head>
 <body>
-    <h1>Paper Trails: Scientific History Explorer</h1>
-    
-    <div class="controls">
-        <button id="zoom-in">Zoom In (+)</button>
-        <button id="zoom-out">Zoom Out (-)</button>
-        <button id="reset-zoom">Reset Zoom</button>
-        <span class="zoom-level">Zoom: 100%</span>
+
+  <h1>Paper Trails: A Scientific History</h1>
+
+  <div class="controls">
+    <button id="zoom-in" title="Zoom In">+</button>
+    <button id="zoom-out" title="Zoom Out">-</button>
+    <button id="reset-zoom" title="Reset Zoom">Reset</button>
+    <span>Zoom: <span class="zoom-level">100%</span></span>
+  </div>
+
+  <div class="timeline-container" id="timeline-container">
+    <div class="timeline" id="timeline">
+        <svg class="timeline-svg" id="timeline-svg"></svg>
+        <div class="timeline-axis-label">Year</div>
     </div>
-    
-    <div class="timeline-container">
-        <div class="timeline" id="timeline">
-            <div class="timeline-line"></div>
-        </div>
+  </div>
+
+  <div id="publication-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="close-pub-modal">&times;</span>
+      <h3 id="pub-modal-title">Publication Title</h3>
+      <p id="pub-modal-abstract">Abstract details...</p>
     </div>
-    
-    <div class="modal" id="publication-modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2 class="modal-title" id="pub-title"></h2>
-            <p class="abstract" id="pub-abstract"></p>
-        </div>
-    </div>
-    
-    <div class="modal" id="scientist-modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div class="scientist-info">
-                <img class="scientist-photo-modal" id="scientist-photo-modal" src="">
-                <div class="scientist-details">
-                    <h2 class="scientist-name" id="scientist-name"></h2>
-                    <p class="scientist-bio" id="scientist-nationality"></p>
-                    <p class="scientist-bio" id="scientist-birth"></p>
-                    <p class="scientist-bio" id="scientist-death"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Scientist data with verified photo URLs
-        const scientists = {
-            newton: {
-                name: "Isaac Newton",
-                color: "#e63946",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Portrait_of_Sir_Isaac_Newton%2C_1689.jpg/220px-Portrait_of_Sir_Isaac_Newton%2C_1689.jpg",
-                nationality: "English",
-                birth: "1643-01-04",
-                death: "1727-03-31",
-                publications: [
-                    { year: 1687, title: "Philosophiæ Naturalis Principia Mathematica", abstract: "Newton's Principia formulated the laws of motion and universal gravitation that dominated scientists' view of the physical universe for the next three centuries." }
-                ]
-            },
-            weber: {
-                name: "Wilhelm Eduard Weber",
-                color: "#1d3557",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Wilhelm_Eduard_Weber.jpg/220px-Wilhelm_Eduard_Weber.jpg",
-                nationality: "German",
-                birth: "1804-10-24",
-                death: "1891-06-23",
-                publications: [
-                    { year: 1833, title: "On the Measurement of Electric Currents", abstract: "Weber's work on electrical measurements laid the foundation for precise electrical measurement techniques." }
-                ]
-            },
-            maxwell: {
-                name: "James Clerk Maxwell",
-                color: "#457b9d",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/James_Clerk_Maxwell.png/220px-James_Clerk_Maxwell.png",
-                nationality: "Scottish",
-                birth: "1831-06-13",
-                death: "1879-11-05",
-                publications: [
-                    { year: 1865, title: "A Dynamical Theory of the Electromagnetic Field", abstract: "Maxwell's equations for electromagnetism have been called the 'second great unification in physics' after the first one realized by Newton." }
-                ]
-            },
-            heaviside: {
-                name: "Oliver Heaviside",
-                color: "#a8dadc",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Oliver_Heaviside2.jpg/220px-Oliver_Heaviside2.jpg",
-                nationality: "English",
-                birth: "1850-05-18",
-                death: "1925-02-03",
-                publications: [
-                    { year: 1888, title: "Electromagnetic Induction and Its Propagation", abstract: "Heaviside reformulated Maxwell's original mathematical analysis into the modern form of four vector equations." },
-                    { year: 1893, title: "Electrical Papers", abstract: "Collection of Heaviside's papers where he developed operational calculus and vector analysis techniques." }
-                ]
-            },
-            heisenberg: {
-                name: "Werner Heisenberg",
-                color: "#e9c46a",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Heisenberg10.jpg/220px-Heisenberg10.jpg",
-                nationality: "German",
-                birth: "1901-12-05",
-                death: "1976-02-01",
-                publications: [
-                    { year: 1925, title: "Quantum Theoretical Re-interpretation of Kinematic and Mechanical Relations", abstract: "Heisenberg's paper marked the beginning of quantum mechanics with his formulation of matrix mechanics." }
-                ]
-            },
-            plank: {
-                name: "Max Planck",
-                color: "#f4a261",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Max_Planck_1933.jpg/220px-Max_Planck_1933.jpg",
-                nationality: "German",
-                birth: "1858-04-23",
-                death: "1947-10-04",
-                publications: [
-                    { year: 1900, title: "On the Theory of the Energy Distribution Law of the Normal Spectrum", abstract: "Planck's law of black-body radiation marked the birth of quantum theory." }
-                ]
-            },
-            lorenz: {
-                name: "Hendrik Lorentz",
-                color: "#2a9d8f",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Hendrik_Antoon_Lorentz.jpg/220px-Hendrik_Antoon_Lorentz.jpg",
-                nationality: "Dutch",
-                birth: "1853-07-18",
-                death: "1928-02-04",
-                publications: [
-                    { year: 1895, title: "Attempt of a Theory of Electrical and Optical Phenomena in Moving Bodies", abstract: "Lorentz's theory of electrons and his transformations were fundamental to Einstein's special relativity." }
-                ]
-            },
-            einstein: {
-                name: "Albert Einstein",
-                color: "#e76f51",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
-                nationality: "German-born, later Swiss and American",
-                birth: "1879-03-14",
-                death: "1955-04-18",
-                publications: [
-                    { year: 1905, title: "On the Electrodynamics of Moving Bodies", abstract: "Einstein's paper on special relativity introduced fundamental changes to the concepts of space and time." },
-                    { year: 1915, title: "The Field Equations of Gravitation", abstract: "Einstein presented the final form of the field equations for general relativity." }
-                ]
-            },
-            dirac: {
-                name: "Paul Dirac",
-                color: "#9b5de5",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Paul_Dirac.jpg/220px-Paul_Dirac.jpg",
-                nationality: "British",
-                birth: "1902-08-08",
-                death: "1984-10-20",
-                publications: [
-                    { year: 1928, title: "The Quantum Theory of the Electron", abstract: "Dirac derived the relativistic wave equation for the electron, predicting antimatter." }
-                ]
-            },
-            dicke: {
-                name: "Robert H. Dicke",
-                color: "#f15bb5",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Robert_Dicke.jpg/220px-Robert_Dicke.jpg",
-                nationality: "American",
-                birth: "1916-05-06",
-                death: "1997-03-04",
-                publications: [
-                    { year: 1961, title: "Dirac's Cosmology and Mach's Principle", abstract: "Dicke developed the Brans-Dicke theory of gravity, an alternative to Einstein's general relativity." }
-                ]
-            },
-            deBroglie: {
-                name: "Louis de Broglie",
-                color: "#00bbf9",
-                photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Louis_de_Broglie.jpg/220px-Louis_de_Broglie.jpg",
-                nationality: "French",
-                birth: "1892-08-15",
-                death: "1987-03-19",
-                publications: [
-                    { year: 1924, title: "Recherches sur la théorie des quanta", abstract: "De Broglie proposed the wave nature of electrons and suggested that all matter has wave properties." }
-                ]
-            }
+  </div>
+
+  <div id="scientist-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="close-sci-modal">&times;</span>
+      <h3 id="sci-modal-name">Scientist Name</h3>
+      <p><strong>Nationality:</strong> <span id="sci-modal-nationality"></span></p>
+      <p><strong>Born:</strong> <span id="sci-modal-birth"></span></p>
+      <p><strong>Died:</strong> <span id="sci-modal-death"></span></p>
+      </div>
+  </div>
+
+  <script>
+    const scientists = {
+      newton: {
+        name: "Isaac Newton",
+        color: "#e63946", // Red
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Sir_Isaac_Newton_%281689%29.jpg/440px-Sir_Isaac_Newton_%281689%29.jpg",
+        nationality: "English",
+        birth: "1643-01-04",
+        death: "1727-03-31",
+        publications: [
+          { year: 1687, title: "Philosophiæ Naturalis Principia Mathematica", abstract: "Presented Newton's laws of motion and universal gravitation." }
+        ]
+      },
+      weber: {
+        name: "Wilhelm Weber",
+        color: "#f4a261", // Orange
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Weber%2C_Wilhelm_Eduard_LOC.jpg/440px-Weber%2C_Wilhelm_Eduard_LOC.jpg",
+        nationality: "German",
+        birth: "1804-10-24",
+        death: "1891-06-23",
+        publications: [
+          { year: 1846, title: "Elektrodynamische Massbestimmungen", abstract: "Work on the electrodynamics of moving charges, relating electrical and light speed units." },
+          { year: 1856, title: "On the Measurement of Electric Resistance", abstract: "Developed sensitive magnetometers and contributed to establishing absolute electrical units." } // Collaborated with Gauss earlier
+        ]
+      },
+      maxwell: {
+        name: "James Clerk Maxwell",
+        color: "#2a9d8f", // Teal
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/James_Clerk_Maxwell.jpg/440px-James_Clerk_Maxwell.jpg",
+        nationality: "Scottish",
+        birth: "1831-06-13",
+        death: "1879-11-05",
+        publications: [
+          { year: 1861, title: "On Physical Lines of Force", abstract: "Introduced the concept of displacement current and early forms of his equations." },
+          { year: 1873, title: "A Treatise on Electricity and Magnetism", abstract: "Unified electricity, magnetism, and light into Maxwell's equations, predicting electromagnetic waves." }
+        ]
+      },
+      heaviside: {
+        name: "Oliver Heaviside",
+        color: "#e9c46a", // Yellow
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Oliver_Heaviside.jpg/440px-Oliver_Heaviside.jpg",
+        nationality: "English",
+        birth: "1850-05-18",
+        death: "1925-02-03",
+        publications: [
+          { year: 1885, title: "Electromagnetic Induction and its Propagation", abstract: "Reformulated Maxwell's equations into the vector calculus form commonly used today." }, // Published over several years
+          { year: 1902, title: "Theory of the Electric Telegraph", abstract: "Predicted the existence of the Kennelly–Heaviside layer (ionosphere)." } // Based on telegraphy work
+        ]
+      },
+       planck: {
+        name: "Max Planck",
+        color: "#457b9d", // Blue
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Max_Planck_%281858-1947%29.jpg/440px-Max_Planck_%281858-1947%29.jpg",
+        nationality: "German",
+        birth: "1858-04-23",
+        death: "1947-10-04",
+        publications: [
+          { year: 1900, title: "Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum", abstract: "Introduced the concept of quantized energy (Planck's constant) to explain black-body radiation, founding quantum theory." }
+        ]
+      },
+       lorenz: { // Note: Assuming H.A. Lorentz, the physicist
+        name: "Hendrik Lorentz",
+        color: "#fca311", // Dark Orange
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Hendrik_Antoon_Lorentz.jpg/440px-Hendrik_Antoon_Lorentz.jpg",
+        nationality: "Dutch",
+        birth: "1853-07-18",
+        death: "1928-02-04",
+        publications: [
+          { year: 1892, title: "La Théorie électromagnétique de Maxwell et son application aux corps mouvants", abstract: "Developed the Lorentz transformation equations, laying groundwork for special relativity." },
+           { year: 1904, title: "Electromagnetic phenomena in a system moving with any velocity smaller than that of light", abstract: "Further refined the transformations used by Einstein in special relativity." }
+        ]
+      },
+      einstein: {
+        name: "Albert Einstein",
+        color: "#1d3557", // Dark Blue
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/440px-Albert_Einstein_Head.jpg",
+        nationality: "German/American",
+        birth: "1879-03-14",
+        death: "1955-04-18",
+        publications: [
+          { year: 1905, title: "Zur Elektrodynamik bewegter Körper", abstract: "Introduced the theory of special relativity." },
+          { year: 1905, title: "Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt", abstract: "Explained the photoelectric effect using light quanta (photons)." },
+          { year: 1915, title: "Die Feldgleichungen der Gravitation", abstract: "Presented the field equations of general relativity." }
+        ]
+      },
+      deBroglie: {
+          name: "Louis de Broglie",
+          color: "#ffc300", // Gold
+          photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Louis_de_Broglie_1929.jpg/440px-Louis_de_Broglie_1929.jpg",
+          nationality: "French",
+          birth: "1892-08-15",
+          death: "1987-03-19",
+          publications: [
+              { year: 1924, title: "Recherches sur la théorie des quanta", abstract: "PhD thesis proposing the wave nature of electrons (wave-particle duality)." }
+          ]
+      },
+       heisenberg: {
+        name: "Werner Heisenberg",
+        color: "#6a0dad", // Purple
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Bundesarchiv_Bild183-R57262%2C_Werner_Heisenberg.jpg/440px-Bundesarchiv_Bild183-R57262%2C_Werner_Heisenberg.jpg",
+        nationality: "German",
+        birth: "1901-12-05",
+        death: "1976-02-01",
+        publications: [
+          { year: 1925, title: "Über quantentheoretische Umdeutung kinematischer und mechanischer Beziehungen", abstract: "Formulated matrix mechanics, a version of quantum mechanics." },
+          { year: 1927, title: "Über den anschaulichen Inhalt der quantentheoretischen Kinematik und Mechanik", abstract: "Introduced the uncertainty principle." }
+        ]
+      },
+      dirac: {
+        name: "Paul Dirac",
+        color: "#007f5f", // Dark Green
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Dirac_4_cropped.jpg/440px-Dirac_4_cropped.jpg",
+        nationality: "British",
+        birth: "1902-08-08",
+        death: "1984-10-20",
+        publications: [
+          { year: 1928, title: "The Quantum Theory of the Electron", abstract: "Introduced the Dirac equation, describing relativistic electrons and predicting antimatter (positrons)." }
+        ]
+      },
+      dicke: {
+        name: "Robert H. Dicke",
+        color: "#8d99ae", // Slate Gray
+        photo: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Robert_H_Dicke.jpg/440px-Robert_H_Dicke.jpg", // Check copyright if used outside fair use context
+        nationality: "American",
+        birth: "1916-05-06",
+        death: "1997-03-04",
+        publications: [
+          { year: 1965, title: "Cosmic Black-Body Radiation", abstract: "Independently predicted the cosmic microwave background radiation (CMB) and was building an experiment to detect it when Penzias and Wilson made their discovery." }
+        ]
+      }
+    };
+
+    // DOM Elements
+    const timelineContainer = document.getElementById('timeline-container');
+    const timeline = document.getElementById('timeline');
+    const timelineSvg = document.getElementById('timeline-svg');
+    const zoomInButton = document.getElementById('zoom-in');
+    const zoomOutButton = document.getElementById('zoom-out');
+    const resetZoomButton = document.getElementById('reset-zoom');
+    const zoomLevelDisplay = document.querySelector('.zoom-level');
+
+    // Modals
+    const pubModal = document.getElementById('publication-modal');
+    const sciModal = document.getElementById('scientist-modal');
+    const closePubModal = document.getElementById('close-pub-modal');
+    const closeSciModal = document.getElementById('close-sci-modal');
+    const pubModalTitle = document.getElementById('pub-modal-title');
+    const pubModalAbstract = document.getElementById('pub-modal-abstract');
+    const sciModalName = document.getElementById('sci-modal-name');
+    const sciModalNationality = document.getElementById('sci-modal-nationality');
+    const sciModalBirth = document.getElementById('sci-modal-birth');
+    const sciModalDeath = document.getElementById('sci-modal-death');
+
+    // Constants and State
+    const START_YEAR = 1600;
+    const END_YEAR = 1970;
+    const YEAR_SPAN = END_YEAR - START_YEAR;
+    const MIN_SCALE = 0.5;
+    const MAX_SCALE = 3.0;
+    const ZOOM_STEP = 0.1;
+    const PHOTO_SIZE = 50; // px
+    const PUBLICATION_SIZE = 12; // px
+    const TIMELINE_CENTER_Y = 250; // Vertical center line for publications
+    const PHOTO_VERTICAL_OFFSET = 60; // Base offset above timeline center for photos
+    const PHOTO_VERTICAL_STAGGER = 70; // Additional vertical separation for alternating photos
+
+    let currentScale = 1.0;
+    let currentTranslateX = 0;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartTranslateX = 0;
+
+    // --- Helper Functions ---
+
+    function updateTimelineTransform() {
+      // Clamp translation to prevent excessive scrolling
+      const containerWidth = timelineContainer.clientWidth;
+      const timelineScaledWidth = timeline.offsetWidth * currentScale;
+
+      // Max translate (usually 0, unless timeline is narrower than container)
+      const maxTranslateX = Math.max(0, containerWidth - timelineScaledWidth);
+      // Min translate (prevent scrolling past the right edge)
+      const minTranslateX = containerWidth - timelineScaledWidth;
+
+      currentTranslateX = Math.max(minTranslateX, Math.min(maxTranslateX, currentTranslateX));
+
+      // Apply transform
+      timeline.style.transform = `translateX(${currentTranslateX}px) scale(${currentScale})`;
+      zoomLevelDisplay.textContent = `${Math.round(currentScale * 100)}%`;
+    }
+
+    // --- Timeline Rendering ---
+
+    function renderTimeline() {
+      // Clear previous elements
+      timeline.innerHTML = ''; // Clear HTML elements
+       timelineSvg.innerHTML = ''; // Clear SVG lines
+
+        // Re-add SVG container and axis label
+        timeline.appendChild(timelineSvg);
+        const axisLabel = document.createElement('div');
+        axisLabel.className = 'timeline-axis-label';
+        axisLabel.textContent = 'Year';
+        timeline.appendChild(axisLabel);
+
+
+      // Calculate base width (unscaled) - make it wide enough
+      const baseTimelineWidth = timelineContainer.clientWidth * 3; // Start with a generous width
+      timeline.style.width = `${baseTimelineWidth}px`;
+
+      const timelineHeight = timelineContainer.clientHeight;
+
+       // Add Year Markers
+       for (let year = START_YEAR; year <= END_YEAR; year += 10) {
+           const isMajor = year % 100 === 0;
+           const yearMarker = document.createElement('div');
+           yearMarker.className = `year-marker ${isMajor ? 'major' : ''}`;
+
+           const posX = ((year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+           yearMarker.style.left = `${posX}px`;
+           // Position marker relative to the bottom border of the timeline div
+           yearMarker.style.bottom = `0px`;
+
+           const yearLabel = document.createElement('span');
+           yearLabel.textContent = year;
+           yearMarker.appendChild(yearLabel);
+           timeline.appendChild(yearMarker);
+       }
+
+
+      // Store element references for line drawing
+      const elementCoords = {}; // { pubId: {x, y}, photoId: {x, y} }
+
+      let photoIndex = 0; // For staggering photos vertically
+
+      Object.entries(scientists).forEach(([id, scientist]) => {
+        if (!scientist.publications || scientist.publications.length === 0) {
+          console.warn(`Scientist ${scientist.name} has no publications listed.`);
+          return;
+        }
+
+        // Sort publications by year to find the first
+        scientist.publications.sort((a, b) => a.year - b.year);
+        const firstPub = scientist.publications[0];
+
+        // --- Create and Position Photo ---
+        const photoEl = document.createElement('img');
+        photoEl.src = scientist.photo;
+        photoEl.alt = scientist.name;
+        photoEl.className = 'scientist-photo';
+        photoEl.style.borderColor = scientist.color;
+        photoEl.dataset.scientistId = id; // Link photo to data
+
+        // Calculate photo position
+        const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+        const photoX = photoYearX - PHOTO_SIZE / 2; // Center horizontally over first pub year
+        const photoY = TIMELINE_CENTER_Y - PHOTO_VERTICAL_OFFSET - (photoIndex % 2 === 0 ? 0 : PHOTO_VERTICAL_STAGGER) ; // Stagger vertically
+
+
+        photoEl.style.left = `${photoX}px`;
+        photoEl.style.top = `${photoY}px`;
+
+        photoEl.addEventListener('click', () => showScientistModal(id));
+
+        timeline.appendChild(photoEl);
+
+        // Store coords for line drawing AFTER appending (offsetWidth/offsetTop available)
+        elementCoords[`photo_${id}`] = {
+            x: photoEl.offsetLeft + PHOTO_SIZE / 2,
+            y: photoEl.offsetTop + PHOTO_SIZE / 2
         };
 
-        // Timeline setup
-        const timeline = document.getElementById('timeline');
-        const timelineContainer = document.querySelector('.timeline-container');
-        const zoomInBtn = document.getElementById('zoom-in');
-        const zoomOutBtn = document.getElementById('zoom-out');
-        const resetZoomBtn = document.getElementById('reset-zoom');
-        const zoomLevelDisplay = document.querySelector('.zoom-level');
-        const pubModal = document.getElementById('publication-modal');
-        const scientistModal = document.getElementById('scientist-modal');
-        const closeBtns = document.querySelectorAll('.close-btn');
 
-        let scale = 1;
-        const minScale = 0.5;
-        const maxScale = 3;
-        const scaleStep = 0.1;
-        
-        // Years range for the timeline
-        const startYear = 1600;
-        const endYear = 1970;
-        const yearRange = endYear - startYear;
-        const pixelsPerYear = 10; // Base pixels per year at 100% zoom
+        // --- Create and Position Publications ---
+        scientist.publications.forEach((pub, pubIndex) => {
+          const pubEl = document.createElement('div');
+          pubEl.className = 'publication';
+          pubEl.style.backgroundColor = scientist.color;
+          pubEl.dataset.title = pub.title;
+          pubEl.dataset.abstract = pub.abstract;
+          pubEl.dataset.scientistId = id; // Store for reference if needed
+          pubEl.title = `${pub.title} (${pub.year})`; // Tooltip
 
-        // Create timeline markers
-        function createTimelineMarkers() {
-            // Major markers every 50 years
-            for (let year = startYear; year <= endYear; year += 50) {
-                const marker = document.createElement('div');
-                marker.className = 'timeline-marker';
-                marker.style.left = `${(year - startYear) * pixelsPerYear}px`;
-                
-                const yearLabel = document.createElement('div');
-                yearLabel.className = 'timeline-year';
-                yearLabel.textContent = year;
-                yearLabel.style.left = `${(year - startYear) * pixelsPerYear}px`;
-                
-                timeline.appendChild(marker);
-                timeline.appendChild(yearLabel);
-            }
-            
-            // Minor markers every 10 years
-            for (let year = startYear; year <= endYear; year += 10) {
-                if (year % 50 === 0) continue; // Skip major markers
-                
-                const marker = document.createElement('div');
-                marker.className = 'timeline-marker';
-                marker.style.left = `${(year - startYear) * pixelsPerYear}px`;
-                marker.style.height = '6px';
-                
-                timeline.appendChild(marker);
-            }
-        }
+          // Calculate publication position
+          const pubX = ((pub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth - PUBLICATION_SIZE / 2;
 
-        // Add publications to timeline
-        function addPublications() {
-            Object.keys(scientists).forEach(scientistKey => {
-                const scientist = scientists[scientistKey];
-                
-                scientist.publications.forEach((pub, index) => {
-                    const pubElement = document.createElement('div');
-                    pubElement.className = 'publication';
-                    pubElement.style.left = `${(pub.year - startYear) * pixelsPerYear}px`;
-                    pubElement.style.backgroundColor = scientist.color;
-                    pubElement.dataset.scientist = scientistKey;
-                    pubElement.dataset.pubIndex = index;
-                    
-                    pubElement.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        showPublicationModal(scientistKey, index);
-                    });
-                    
-                    timeline.appendChild(pubElement);
-                    
-                    // Add photo for first publication of each scientist
-                    if (index === 0 && scientist.photo) {
-                        const photo = document.createElement('img');
-                        photo.className = 'scientist-photo';
-                        photo.src = scientist.photo;
-                        photo.style.borderColor = scientist.color;
-                        
-                        // Position photo above or below timeline with proper spacing
-                        const photoTop = Math.random() > 0.5 ? '25%' : '75%';
-                        photo.style.top = photoTop;
-                        photo.style.left = `${(pub.year - startYear) * pixelsPerYear}px`;
-                        
-                        photo.dataset.scientist = scientistKey;
-                        
-                        photo.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            showScientistModal(scientistKey);
-                        });
-                        
-                        // Add connecting line with precise positioning
-                        const connector = document.createElement('div');
-                        connector.className = 'photo-connector';
-                        
-                        const startX = (pub.year - startYear) * pixelsPerYear;
-                        const startY = 50; // Timeline center (50%)
-                        const endY = photoTop === '25%' ? 25 : 75;
-                        const length = Math.abs(endY - startY);
-                        
-                        connector.style.width = `${length}%`;
-                        connector.style.left = `${startX}px`;
-                        connector.style.top = `${Math.min(startY, endY)}%`;
-                        connector.style.height = `${length}%`;
-                        connector.style.backgroundColor = scientist.color;
-                        
-                        // Adjust transform origin based on position
-                        if (endY < startY) {
-                            connector.style.transformOrigin = 'center bottom';
-                        } else {
-                            connector.style.transformOrigin = 'center top';
-                        }
-                        
-                        timeline.appendChild(connector);
-                        timeline.appendChild(photo);
-                    }
-                });
-            });
-        }
+          // Basic vertical offset from center - slightly above the axis line
+          // Add small jitter if multiple pubs in same year? For now, just place on line.
+          const pubY = TIMELINE_CENTER_Y - PUBLICATION_SIZE / 2 - 2; // -2 to sit just above the axis line visually
 
-        // Show publication modal
-        function showPublicationModal(scientistKey, pubIndex) {
-            const scientist = scientists[scientistKey];
-            const publication = scientist.publications[pubIndex];
-            
-            document.getElementById('pub-title').textContent = `${publication.title} (${publication.year})`;
-            document.getElementById('pub-abstract').textContent = publication.abstract;
-            
-            pubModal.style.display = 'flex';
-        }
 
-        // Show scientist modal
-        function showScientistModal(scientistKey) {
-            const scientist = scientists[scientistKey];
-            
-            document.getElementById('scientist-name').textContent = scientist.name;
-            document.getElementById('scientist-nationality').textContent = `Nationality: ${scientist.nationality}`;
-            document.getElementById('scientist-birth').textContent = `Born: ${formatDate(scientist.birth)}`;
-            document.getElementById('scientist-death').textContent = `Died: ${formatDate(scientist.death)}`;
-            document.getElementById('scientist-photo-modal').src = scientist.photo;
-            document.getElementById('scientist-photo-modal').style.borderColor = scientist.color;
-            
-            scientistModal.style.display = 'flex';
-        }
+          pubEl.style.left = `${pubX}px`;
+          pubEl.style.top = `${pubY}px`;
 
-        // Format date as Month Day, Year
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        }
+          pubEl.addEventListener('click', () => showPublicationModal(pub.title, pub.abstract));
 
-        // Close modals
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                pubModal.style.display = 'none';
-                scientistModal.style.display = 'none';
-            });
+          timeline.appendChild(pubEl);
+
+          // Store coords of the *first* publication for line drawing
+          if (pubIndex === 0) {
+              elementCoords[`pub_${id}_first`] = {
+                  x: pubEl.offsetLeft + PUBLICATION_SIZE / 2, // Center of the diamond
+                  y: pubEl.offsetTop + PUBLICATION_SIZE / 2
+              };
+          }
         });
 
-        // Close modals when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === pubModal) {
-                pubModal.style.display = 'none';
-            }
-            if (e.target === scientistModal) {
-                scientistModal.style.display = 'none';
-            }
-        });
+        photoIndex++; // Increment for next scientist's vertical position
+      });
 
-        // Zoom functionality
-        function updateZoom() {
-            timeline.style.transform = `scale(${scale})`;
-            zoomLevelDisplay.textContent = `Zoom: ${Math.round(scale * 100)}%`;
-            
-            // Adjust container scroll to keep content centered
-            const containerWidth = timelineContainer.clientWidth;
-            const scrollLeft = (timelineContainer.scrollLeft + containerWidth / 2) / scale;
-            timelineContainer.scrollLeft = scrollLeft * scale - containerWidth / 2;
+      // --- Draw Connecting Lines (SVG) ---
+       Object.keys(scientists).forEach(id => {
+            const photoCoord = elementCoords[`photo_${id}`];
+            const firstPubCoord = elementCoords[`pub_${id}_first`];
+
+            if (photoCoord && firstPubCoord) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', photoCoord.x);
+                line.setAttribute('y1', photoCoord.y);
+                line.setAttribute('x2', firstPubCoord.x);
+                line.setAttribute('y2', firstPubCoord.y);
+                line.setAttribute('stroke', scientists[id].color);
+                line.classList.add('connecting-line');
+                timelineSvg.appendChild(line);
+            }
+       });
+
+
+      // Apply initial transform after rendering
+      updateTimelineTransform();
+    }
+
+    // --- Modal Handling ---
+
+    function showPublicationModal(title, abstract) {
+      pubModalTitle.textContent = title;
+      pubModalAbstract.textContent = abstract || "No abstract available.";
+      pubModal.style.display = 'flex';
+    }
+
+    function showScientistModal(scientistId) {
+      const scientist = scientists[scientistId];
+      if (!scientist) return;
+
+      sciModalName.textContent = scientist.name;
+      sciModalNationality.textContent = scientist.nationality || 'N/A';
+      sciModalBirth.textContent = scientist.birth ? new Date(scientist.birth).toLocaleDateString() : 'N/A';
+      sciModalDeath.textContent = scientist.death ? new Date(scientist.death).toLocaleDateString() : 'N/A';
+      sciModal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      pubModal.style.display = 'none';
+      sciModal.style.display = 'none';
+    }
+
+    // --- Event Listeners ---
+
+    // Zooming and Scrolling (Wheel)
+    timelineContainer.addEventListener('wheel', (event) => {
+      event.preventDefault();
+
+      if (event.ctrlKey) { // Zooming
+        const rect = timelineContainer.getBoundingClientRect();
+        // Mouse position relative to the timeline container
+        const mouseXRelative = event.clientX - rect.left;
+       // const mouseYRelative = event.clientY - rect.top; // Not needed for horizontal zoom origin
+
+        // Calculate zoom factor (negative deltaY means zooming in)
+        const zoomFactor = event.deltaY < 0 ? 1 + ZOOM_STEP : 1 - ZOOM_STEP;
+        const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale * zoomFactor));
+
+        // Calculate the change in scale
+        const scaleChange = newScale / currentScale;
+
+        // Calculate the new translation to keep the mouse position fixed relative to content
+        // Point under mouse in content coords = (mouseXRelative - currentTranslateX) / currentScale
+        // We want this point to remain at mouseXRelative after zoom:
+        // mouseXRelative = newTranslateX + contentPointX * newScale
+        // mouseXRelative = newTranslateX + ((mouseXRelative - currentTranslateX) / currentScale) * newScale
+        // mouseXRelative = newTranslateX + (mouseXRelative - currentTranslateX) * scaleChange
+        // newTranslateX = mouseXRelative - (mouseXRelative - currentTranslateX) * scaleChange
+        currentTranslateX = mouseXRelative - (mouseXRelative - currentTranslateX) * scaleChange;
+
+
+        currentScale = newScale;
+
+      } else { // Scrolling (Panning)
+        // Adjust horizontal translation based on horizontal scroll delta
+        // Normalize scroll delta across browsers (optional, but good practice)
+        const deltaX = Math.sign(event.deltaX) * Math.min(Math.abs(event.deltaX), 50); // Limit scroll speed
+        const deltaY = Math.sign(event.deltaY) * Math.min(Math.abs(event.deltaY), 50); // Use deltaY if deltaX is 0 (trackpads)
+
+        currentTranslateX -= (deltaX || deltaY); // Use deltaY as fallback
+      }
+
+      updateTimelineTransform();
+    }, { passive: false }); // passive: false needed for preventDefault()
+
+     // Drag to Pan
+    timelineContainer.addEventListener('mousedown', (event) => {
+        // Allow dragging only with the primary mouse button, not when clicking interactive elements
+        if (event.button !== 0 || event.target.closest('.scientist-photo, .publication')) {
+            return;
         }
+        isDragging = true;
+        dragStartX = event.clientX;
+        dragStartTranslateX = currentTranslateX;
+        timelineContainer.style.cursor = 'grabbing'; // Change cursor
+        timelineContainer.style.userSelect = 'none'; // Prevent text selection
+    });
 
-        zoomInBtn.addEventListener('click', () => {
-            if (scale < maxScale) {
-                scale += scaleStep;
-                updateZoom();
-            }
-        });
+    document.addEventListener('mousemove', (event) => {
+        if (!isDragging) return;
+        const dx = event.clientX - dragStartX;
+        currentTranslateX = dragStartTranslateX + dx;
+        updateTimelineTransform(); // Update transform immediately during drag
+    });
 
-        zoomOutBtn.addEventListener('click', () => {
-            if (scale > minScale) {
-                scale -= scaleStep;
-                updateZoom();
-            }
-        });
+     document.addEventListener('mouseup', (event) => {
+        if (isDragging) {
+            isDragging = false;
+            timelineContainer.style.cursor = 'grab'; // Restore cursor
+             timelineContainer.style.removeProperty('user-select');
+        }
+    });
 
-        resetZoomBtn.addEventListener('click', () => {
-            scale = 1;
-            updateZoom();
-        });
+     // Prevent dragging images causing issues
+     timelineContainer.addEventListener('dragstart', (event) => {
+        event.preventDefault();
+     });
 
-        // Mouse wheel zoom
-        timelineContainer.addEventListener('wheel', (e) => {
-            if (e.ctrlKey) {
-                e.preventDefault();
-                const delta = -Math.sign(e.deltaY);
-                
-                if ((delta > 0 && scale < maxScale) || (delta < 0 && scale > minScale)) {
-                    scale += delta * scaleStep;
-                    updateZoom();
-                }
-            } else {
-                // Regular horizontal scrolling when Ctrl is not pressed
-                timelineContainer.scrollLeft += e.deltaY;
-            }
-        });
 
-        // Initialize
-        createTimelineMarkers();
-        addPublications();
-        updateZoom();
-    </script>
+    // Zoom Buttons
+    zoomInButton.addEventListener('click', () => {
+      const newScale = Math.min(MAX_SCALE, currentScale + ZOOM_STEP);
+       if (newScale === currentScale) return; // Already at max zoom
+
+        // Zoom towards the center of the container view
+        const containerWidth = timelineContainer.clientWidth;
+        const zoomOriginX = containerWidth / 2;
+        const scaleChange = newScale / currentScale;
+
+        currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange;
+        currentScale = newScale;
+        updateTimelineTransform();
+    });
+
+    zoomOutButton.addEventListener('click', () => {
+       const newScale = Math.max(MIN_SCALE, currentScale - ZOOM_STEP);
+        if (newScale === currentScale) return; // Already at min zoom
+
+        // Zoom towards the center of the container view
+        const containerWidth = timelineContainer.clientWidth;
+        const zoomOriginX = containerWidth / 2;
+        const scaleChange = newScale / currentScale;
+
+        currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange;
+        currentScale = newScale;
+        updateTimelineTransform();
+    });
+
+    resetZoomButton.addEventListener('click', () => {
+      currentScale = 1.0;
+      currentTranslateX = 0; // Reset pan as well
+      updateTimelineTransform();
+    });
+
+    // Modal Close Buttons
+    closePubModal.addEventListener('click', closeModal);
+    closeSciModal.addEventListener('click', closeModal);
+
+    // Close modal if clicking outside the content area
+    window.addEventListener('click', (event) => {
+      if (event.target === pubModal || event.target === sciModal) {
+        closeModal();
+      }
+    });
+
+    // Initial Render on Load
+    window.addEventListener('load', renderTimeline);
+
+     // Optional: Re-render on resize to adjust base width?
+     // For simplicity, we'll rely on the initial generous width and scaling/panning.
+     // A full resize handler might re-calculate baseTimelineWidth and re-run renderTimeline.
+     // window.addEventListener('resize', renderTimeline);
+
+
+  </script>
+
 </body>
 </html>
