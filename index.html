@@ -74,11 +74,11 @@
       transform-origin: 0 0; /* Zoom from the top-left */
       background-color: #ffffff;
       /* The main timeline axis line */
-      border-bottom: 2px solid #333;
+      border-bottom: 2px solid #333; /* This IS the timeline axis */
       box-sizing: border-box; /* Include border in height */
     }
 
-    /* Timeline Axis (drawn by border-bottom on .timeline) */
+    /* Timeline Axis Label (Optional, as axis is the border) */
     .timeline-axis-label {
         position: absolute;
         bottom: -20px; /* Position below the border */
@@ -95,6 +95,7 @@
         width: 1px;
         height: 10px; /* Small tick */
         background-color: #888;
+        transform: translateY(100%); /* Position top edge at the bottom border */
     }
     .year-marker.major {
         height: 20px; /* Taller tick for centuries */
@@ -102,7 +103,7 @@
     }
     .year-marker span {
         position: absolute;
-        bottom: -18px; /* Position label below tick */
+        top: 5px; /* Position label below tick (relative to top of marker) */
         left: 50%;
         transform: translateX(-50%);
         font-size: 10px;
@@ -124,7 +125,7 @@
       z-index: 20; /* Above lines, below photos */
       /* background-color is set dynamically */
       border: 1px solid rgba(0,0,0,0.3); /* Subtle border */
-      /* Position is set dynamically */
+      /* Position is set dynamically by JS */
     }
      .publication:hover {
          transform: rotate(45deg) scale(1.3);
@@ -162,6 +163,7 @@
         height: 100%;
         pointer-events: none; /* Allow clicks to pass through */
         z-index: 10; /* Below publications and photos */
+        overflow: visible; /* Ensure lines aren't clipped if they slightly exceed bounds */
     }
     .connecting-line {
         stroke-width: 1.5px;
@@ -181,7 +183,15 @@
       background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
       align-items: center;
       justify-content: center;
+      display: flex; /* Use flex for centering */
+      visibility: hidden; /* Use visibility for transition */
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
+     .modal.visible {
+         visibility: visible;
+         opacity: 1;
+     }
 
     .modal-content {
       background-color: #fefefe;
@@ -193,7 +203,13 @@
       border-radius: 5px;
       position: relative;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transform: scale(0.9); /* Start slightly smaller */
+      transition: transform 0.3s ease;
     }
+     .modal.visible .modal-content {
+         transform: scale(1); /* Scale up when visible */
+     }
+
     .modal-content h3 {
         margin-top: 0;
         color: #333;
@@ -255,13 +271,11 @@
       <span class="close-button" id="close-sci-modal">&times;</span>
       <h3 id="sci-modal-name">Scientist Name</h3>
       <p><strong>Nationality:</strong> <span id="sci-modal-nationality"></span></p>
-      <p><strong>Born:</strong> <span id="sci-modal-birth"></span></p>
-      <p><strong>Died:</strong> <span id="sci-modal-death"></span></p>
-      </div>
+      <p><strong>Born:</strong> <span id="sci-modal-birth"></span></p> <p><strong>Died:</strong> <span id="sci-modal-death"></span></p> </div>
   </div>
 
   <script>
-    const scientists = {
+    const scientists = { // Data uses ISO 8601 format (YYYY-MM-DD)
       newton: {
         name: "Isaac Newton",
         color: "#e63946", // Red
@@ -282,7 +296,7 @@
         death: "1891-06-23",
         publications: [
           { year: 1846, title: "Elektrodynamische Massbestimmungen", abstract: "Work on the electrodynamics of moving charges, relating electrical and light speed units." },
-          { year: 1856, title: "On the Measurement of Electric Resistance", abstract: "Developed sensitive magnetometers and contributed to establishing absolute electrical units." } // Collaborated with Gauss earlier
+          { year: 1856, title: "On the Measurement of Electric Resistance", abstract: "Developed sensitive magnetometers and contributed to establishing absolute electrical units." }
         ]
       },
       maxwell: {
@@ -305,8 +319,8 @@
         birth: "1850-05-18",
         death: "1925-02-03",
         publications: [
-          { year: 1885, title: "Electromagnetic Induction and its Propagation", abstract: "Reformulated Maxwell's equations into the vector calculus form commonly used today." }, // Published over several years
-          { year: 1902, title: "Theory of the Electric Telegraph", abstract: "Predicted the existence of the Kennelly–Heaviside layer (ionosphere)." } // Based on telegraphy work
+          { year: 1885, title: "Electromagnetic Induction and its Propagation", abstract: "Reformulated Maxwell's equations into the vector calculus form commonly used today." },
+          { year: 1902, title: "Theory of the Electric Telegraph", abstract: "Predicted the existence of the Kennelly–Heaviside layer (ionosphere)." }
         ]
       },
        planck: {
@@ -320,7 +334,7 @@
           { year: 1900, title: "Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum", abstract: "Introduced the concept of quantized energy (Planck's constant) to explain black-body radiation, founding quantum theory." }
         ]
       },
-       lorenz: { // Note: Assuming H.A. Lorentz, the physicist
+       lorenz: {
         name: "Hendrik Lorentz",
         color: "#fca311", // Dark Orange
         photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Hendrik_Antoon_Lorentz.jpg/440px-Hendrik_Antoon_Lorentz.jpg",
@@ -422,8 +436,8 @@
     const ZOOM_STEP = 0.1;
     const PHOTO_SIZE = 50; // px
     const PUBLICATION_SIZE = 12; // px
-    const TIMELINE_CENTER_Y = 250; // Vertical center line for publications
-    const PHOTO_VERTICAL_OFFSET = 60; // Base offset above timeline center for photos
+    const TIMELINE_BORDER_WIDTH = 2; // px, matches CSS border-bottom width
+    const PHOTO_BASE_OFFSET_Y = 80; // Base distance of photo center above the timeline axis
     const PHOTO_VERTICAL_STAGGER = 70; // Additional vertical separation for alternating photos
 
     let currentScale = 1.0;
@@ -437,17 +451,24 @@
     function updateTimelineTransform() {
       // Clamp translation to prevent excessive scrolling
       const containerWidth = timelineContainer.clientWidth;
-      const timelineScaledWidth = timeline.offsetWidth * currentScale;
+      // Ensure offsetWidth is read after potential initial render adjustments
+      const timelineCurrentWidth = timeline.offsetWidth;
+      if (timelineCurrentWidth === 0) return; // Avoid division by zero if hidden or not rendered
+
+      const timelineScaledWidth = timelineCurrentWidth * currentScale;
 
       // Max translate (usually 0, unless timeline is narrower than container)
       const maxTranslateX = Math.max(0, containerWidth - timelineScaledWidth);
       // Min translate (prevent scrolling past the right edge)
       const minTranslateX = containerWidth - timelineScaledWidth;
 
-      currentTranslateX = Math.max(minTranslateX, Math.min(maxTranslateX, currentTranslateX));
+      // Handle case where timeline is narrower than container even at max zoom
+      const effectiveMinTranslateX = timelineScaledWidth < containerWidth ? 0 : minTranslateX;
+
+      currentTranslateX = Math.max(effectiveMinTranslateX, Math.min(maxTranslateX, currentTranslateX));
 
       // Apply transform
-      timeline.style.transform = `translateX(${currentTranslateX}px) scale(${currentScale})`;
+      timeline.style.transform = `translateX(<span class="math-inline">\{currentTranslateX\}px\) scale\(</span>{currentScale})`;
       zoomLevelDisplay.textContent = `${Math.round(currentScale * 100)}%`;
     }
 
@@ -470,7 +491,9 @@
       const baseTimelineWidth = timelineContainer.clientWidth * 3; // Start with a generous width
       timeline.style.width = `${baseTimelineWidth}px`;
 
-      const timelineHeight = timelineContainer.clientHeight;
+      const timelineHeight = timelineContainer.clientHeight; // Height of the container/timeline div
+       // Y position of the timeline axis (top edge of the bottom border)
+       const axisY = timelineHeight - TIMELINE_BORDER_WIDTH;
 
        // Add Year Markers
        for (let year = START_YEAR; year <= END_YEAR; year += 10) {
@@ -480,8 +503,7 @@
 
            const posX = ((year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
            yearMarker.style.left = `${posX}px`;
-           // Position marker relative to the bottom border of the timeline div
-           yearMarker.style.bottom = `0px`;
+           // CSS handles positioning relative to bottom
 
            const yearLabel = document.createElement('span');
            yearLabel.textContent = year;
@@ -516,11 +538,14 @@
         // Calculate photo position
         const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
         const photoX = photoYearX - PHOTO_SIZE / 2; // Center horizontally over first pub year
-        const photoY = TIMELINE_CENTER_Y - PHOTO_VERTICAL_OFFSET - (photoIndex % 2 === 0 ? 0 : PHOTO_VERTICAL_STAGGER) ; // Stagger vertically
 
+        // Position photo relative to the timeline axis (axisY)
+        const photoBaseY = axisY - PHOTO_BASE_OFFSET_Y; // Base Y for photo center
+        const photoTopY = photoBaseY - (photoIndex % 2 === 0 ? 0 : PHOTO_VERTICAL_STAGGER); // Stagger from this base
+        const photoStyleTop = photoTopY - PHOTO_SIZE / 2; // Calculate 'top' style property
 
         photoEl.style.left = `${photoX}px`;
-        photoEl.style.top = `${photoY}px`;
+        photoEl.style.top = `${photoStyleTop}px`;
 
         photoEl.addEventListener('click', () => showScientistModal(id));
 
@@ -529,7 +554,7 @@
         // Store coords for line drawing AFTER appending (offsetWidth/offsetTop available)
         elementCoords[`photo_${id}`] = {
             x: photoEl.offsetLeft + PHOTO_SIZE / 2,
-            y: photoEl.offsetTop + PHOTO_SIZE / 2
+            y: photoEl.offsetTop + PHOTO_SIZE / 2 // Center Y
         };
 
 
@@ -541,28 +566,28 @@
           pubEl.dataset.title = pub.title;
           pubEl.dataset.abstract = pub.abstract;
           pubEl.dataset.scientistId = id; // Store for reference if needed
-          pubEl.title = `${pub.title} (${pub.year})`; // Tooltip
+          pubEl.title = `<span class="math-inline">\{pub\.title\} \(</span>{pub.year})`; // Tooltip
 
           // Calculate publication position
-          const pubX = ((pub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth - PUBLICATION_SIZE / 2;
+          const pubX = ((pub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
 
-          // Basic vertical offset from center - slightly above the axis line
-          // Add small jitter if multiple pubs in same year? For now, just place on line.
-          const pubY = TIMELINE_CENTER_Y - PUBLICATION_SIZE / 2 - 2; // -2 to sit just above the axis line visually
+          // Position the CENTER of the diamond on the timeline axis (axisY)
+          const pubStyleTop = axisY - (PUBLICATION_SIZE / 2); // 'top' style for the element
+          const pubStyleLeft = pubX - (PUBLICATION_SIZE / 2); // 'left' style for the element
 
-
-          pubEl.style.left = `${pubX}px`;
-          pubEl.style.top = `${pubY}px`;
+          pubEl.style.left = `${pubStyleLeft}px`;
+          pubEl.style.top = `${pubStyleTop}px`;
 
           pubEl.addEventListener('click', () => showPublicationModal(pub.title, pub.abstract));
 
           timeline.appendChild(pubEl);
 
-          // Store coords of the *first* publication for line drawing
+          // Store coords of the *first* publication's center for line drawing
           if (pubIndex === 0) {
+              // Center X is simply pubX. Center Y is axisY.
               elementCoords[`pub_${id}_first`] = {
-                  x: pubEl.offsetLeft + PUBLICATION_SIZE / 2, // Center of the diamond
-                  y: pubEl.offsetTop + PUBLICATION_SIZE / 2
+                  x: pubX,
+                  y: axisY
               };
           }
         });
@@ -580,7 +605,7 @@
                 line.setAttribute('x1', photoCoord.x);
                 line.setAttribute('y1', photoCoord.y);
                 line.setAttribute('x2', firstPubCoord.x);
-                line.setAttribute('y2', firstPubCoord.y);
+                line.setAttribute('y2', firstPubCoord.y); // Target the axis Y
                 line.setAttribute('stroke', scientists[id].color);
                 line.classList.add('connecting-line');
                 timelineSvg.appendChild(line);
@@ -597,7 +622,7 @@
     function showPublicationModal(title, abstract) {
       pubModalTitle.textContent = title;
       pubModalAbstract.textContent = abstract || "No abstract available.";
-      pubModal.style.display = 'flex';
+      pubModal.classList.add('visible');
     }
 
     function showScientistModal(scientistId) {
@@ -606,14 +631,15 @@
 
       sciModalName.textContent = scientist.name;
       sciModalNationality.textContent = scientist.nationality || 'N/A';
-      sciModalBirth.textContent = scientist.birth ? new Date(scientist.birth).toLocaleDateString() : 'N/A';
-      sciModalDeath.textContent = scientist.death ? new Date(scientist.death).toLocaleDateString() : 'N/A';
-      sciModal.style.display = 'flex';
+      // Display dates directly in ISO format (YYYY-MM-DD)
+      sciModalBirth.textContent = scientist.birth || 'N/A';
+      sciModalDeath.textContent = scientist.death || 'N/A';
+      sciModal.classList.add('visible');
     }
 
     function closeModal() {
-      pubModal.style.display = 'none';
-      sciModal.style.display = 'none';
+      pubModal.classList.remove('visible');
+      sciModal.classList.remove('visible');
     }
 
     // --- Event Listeners ---
@@ -624,36 +650,18 @@
 
       if (event.ctrlKey) { // Zooming
         const rect = timelineContainer.getBoundingClientRect();
-        // Mouse position relative to the timeline container
         const mouseXRelative = event.clientX - rect.left;
-       // const mouseYRelative = event.clientY - rect.top; // Not needed for horizontal zoom origin
-
-        // Calculate zoom factor (negative deltaY means zooming in)
         const zoomFactor = event.deltaY < 0 ? 1 + ZOOM_STEP : 1 - ZOOM_STEP;
         const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale * zoomFactor));
-
-        // Calculate the change in scale
         const scaleChange = newScale / currentScale;
 
-        // Calculate the new translation to keep the mouse position fixed relative to content
-        // Point under mouse in content coords = (mouseXRelative - currentTranslateX) / currentScale
-        // We want this point to remain at mouseXRelative after zoom:
-        // mouseXRelative = newTranslateX + contentPointX * newScale
-        // mouseXRelative = newTranslateX + ((mouseXRelative - currentTranslateX) / currentScale) * newScale
-        // mouseXRelative = newTranslateX + (mouseXRelative - currentTranslateX) * scaleChange
-        // newTranslateX = mouseXRelative - (mouseXRelative - currentTranslateX) * scaleChange
         currentTranslateX = mouseXRelative - (mouseXRelative - currentTranslateX) * scaleChange;
-
-
         currentScale = newScale;
 
       } else { // Scrolling (Panning)
-        // Adjust horizontal translation based on horizontal scroll delta
-        // Normalize scroll delta across browsers (optional, but good practice)
-        const deltaX = Math.sign(event.deltaX) * Math.min(Math.abs(event.deltaX), 50); // Limit scroll speed
-        const deltaY = Math.sign(event.deltaY) * Math.min(Math.abs(event.deltaY), 50); // Use deltaY if deltaX is 0 (trackpads)
-
-        currentTranslateX -= (deltaX || deltaY); // Use deltaY as fallback
+        const deltaX = Math.sign(event.deltaX) * Math.min(Math.abs(event.deltaX), 50);
+        const deltaY = Math.sign(event.deltaY) * Math.min(Math.abs(event.deltaY), 50);
+        currentTranslateX -= (deltaX || deltaY);
       }
 
       updateTimelineTransform();
@@ -661,31 +669,36 @@
 
      // Drag to Pan
     timelineContainer.addEventListener('mousedown', (event) => {
-        // Allow dragging only with the primary mouse button, not when clicking interactive elements
-        if (event.button !== 0 || event.target.closest('.scientist-photo, .publication')) {
-            return;
-        }
+        if (event.button !== 0 || event.target.closest('.scientist-photo, .publication')) return;
         isDragging = true;
         dragStartX = event.clientX;
         dragStartTranslateX = currentTranslateX;
-        timelineContainer.style.cursor = 'grabbing'; // Change cursor
-        timelineContainer.style.userSelect = 'none'; // Prevent text selection
+        timelineContainer.style.cursor = 'grabbing';
+        timelineContainer.style.userSelect = 'none';
     });
 
     document.addEventListener('mousemove', (event) => {
         if (!isDragging) return;
         const dx = event.clientX - dragStartX;
         currentTranslateX = dragStartTranslateX + dx;
-        updateTimelineTransform(); // Update transform immediately during drag
+        updateTimelineTransform();
     });
 
-     document.addEventListener('mouseup', (event) => {
+     document.addEventListener('mouseup', () => {
         if (isDragging) {
             isDragging = false;
-            timelineContainer.style.cursor = 'grab'; // Restore cursor
+            timelineContainer.style.cursor = 'grab';
              timelineContainer.style.removeProperty('user-select');
         }
     });
+     document.addEventListener('mouseleave', () => { // Stop dragging if mouse leaves document
+          if (isDragging) {
+            isDragging = false;
+            timelineContainer.style.cursor = 'grab';
+             timelineContainer.style.removeProperty('user-select');
+        }
+     });
+
 
      // Prevent dragging images causing issues
      timelineContainer.addEventListener('dragstart', (event) => {
@@ -694,37 +707,27 @@
 
 
     // Zoom Buttons
-    zoomInButton.addEventListener('click', () => {
-      const newScale = Math.min(MAX_SCALE, currentScale + ZOOM_STEP);
-       if (newScale === currentScale) return; // Already at max zoom
-
-        // Zoom towards the center of the container view
+    function applyZoom(newScale) {
+        if (newScale === currentScale) return;
         const containerWidth = timelineContainer.clientWidth;
         const zoomOriginX = containerWidth / 2;
         const scaleChange = newScale / currentScale;
-
         currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange;
         currentScale = newScale;
         updateTimelineTransform();
+    }
+
+    zoomInButton.addEventListener('click', () => {
+        applyZoom(Math.min(MAX_SCALE, currentScale + ZOOM_STEP));
     });
 
     zoomOutButton.addEventListener('click', () => {
-       const newScale = Math.max(MIN_SCALE, currentScale - ZOOM_STEP);
-        if (newScale === currentScale) return; // Already at min zoom
-
-        // Zoom towards the center of the container view
-        const containerWidth = timelineContainer.clientWidth;
-        const zoomOriginX = containerWidth / 2;
-        const scaleChange = newScale / currentScale;
-
-        currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange;
-        currentScale = newScale;
-        updateTimelineTransform();
+        applyZoom(Math.max(MIN_SCALE, currentScale - ZOOM_STEP));
     });
 
     resetZoomButton.addEventListener('click', () => {
       currentScale = 1.0;
-      currentTranslateX = 0; // Reset pan as well
+      currentTranslateX = 0;
       updateTimelineTransform();
     });
 
@@ -732,23 +735,18 @@
     closePubModal.addEventListener('click', closeModal);
     closeSciModal.addEventListener('click', closeModal);
 
-    // Close modal if clicking outside the content area
-    window.addEventListener('click', (event) => {
-      if (event.target === pubModal || event.target === sciModal) {
-        closeModal();
-      }
+    // Close modal if clicking background overlay
+    pubModal.addEventListener('click', (event) => {
+        if (event.target === pubModal) closeModal();
     });
+    sciModal.addEventListener('click', (event) => {
+        if (event.target === sciModal) closeModal();
+    });
+    // Close modal on Escape key
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeModal();
+    });
+
 
     // Initial Render on Load
     window.addEventListener('load', renderTimeline);
-
-     // Optional: Re-render on resize to adjust base width?
-     // For simplicity, we'll rely on the initial generous width and scaling/panning.
-     // A full resize handler might re-calculate baseTimelineWidth and re-run renderTimeline.
-     // window.addEventListener('resize', renderTimeline);
-
-
-  </script>
-
-</body>
-</html>
