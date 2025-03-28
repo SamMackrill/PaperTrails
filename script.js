@@ -200,225 +200,320 @@ export function unhighlightScientistGroup(scientistId) {
 
 
 // --- Timeline Rendering ---
-export function renderTimeline() {
-  console.log("Rendering timeline...");
-  if (!timelineContainer || !timeline) { console.error("Timeline elements not found for render!"); return; }
-  timeline.innerHTML = ''; // Clear previous
-  const containerWidth = timelineContainer.clientWidth; const timelineHeight = timelineContainer.clientHeight; if (timelineHeight === 0 || containerWidth === 0) { console.error("Container dimensions zero."); timelineContainer.innerHTML = '<p>Error: Container dimensions zero.</p>'; return; }
-  const axisY = timelineHeight / 2;
+function renderAxis(timeline, baseTimelineWidth, axisY) {
+  const axisLine = document.createElement('div');
+  axisLine.className = 'timeline-axis-line';
+  axisLine.style.top = `${axisY - 1}px`;
+  timeline.appendChild(axisLine);
 
-  // Create base elements (Axis, SVG, Label)
-  const axisLine = document.createElement('div'); axisLine.className = 'timeline-axis-line'; axisLine.style.top = `${axisY - 1}px`; timeline.appendChild(axisLine);
-  const currentTimelineSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); currentTimelineSvg.setAttribute('class', 'timeline-svg'); timeline.appendChild(currentTimelineSvg);
-  const axisLabel = document.createElement('div'); axisLabel.className = 'timeline-axis-label'; axisLabel.textContent = 'Year'; axisLabel.style.top = `${axisY}px`; timeline.appendChild(axisLabel);
+  const axisLabel = document.createElement('div');
+  axisLabel.className = 'timeline-axis-label';
+  axisLabel.textContent = 'Year';
+  axisLabel.style.top = `${axisY}px`;
+  timeline.appendChild(axisLabel);
+}
 
-  // Calculate and set timeline width
-  const estimatedCharWidth = 8; const minWidthForLabels = config.YEAR_SPAN / 10 * (4 * estimatedCharWidth); const baseTimelineWidth = Math.max(containerWidth * 3, minWidthForLabels); timeline.style.width = `${baseTimelineWidth}px`;
+function renderYearMarkers(timeline, baseTimelineWidth, axisY) {
+  const { START_YEAR, END_YEAR, YEAR_SPAN } = config;
+  const lastDecade = Math.floor(END_YEAR / 10) * 10;
 
-  // Add Year Markers
-  const lastDecade = Math.floor(config.END_YEAR / 10) * 10;
-  for (let year = config.START_YEAR; year <= lastDecade; year += 10) {
-      const isMajor = year % 100 === 0; const yearMarker = document.createElement('div'); yearMarker.className = `year-marker ${isMajor ? 'major' : ''}`; const posX = ((year - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth; yearMarker.style.left = `${posX}px`; yearMarker.style.top = `${axisY}px`; const yearLabel = document.createElement('span'); yearLabel.textContent = year; yearMarker.appendChild(yearLabel); timeline.appendChild(yearMarker);
+  for (let year = START_YEAR; year <= lastDecade; year += 10) {
+    const isMajor = year % 100 === 0;
+    const yearMarker = document.createElement('div');
+    yearMarker.className = `year-marker ${isMajor ? 'major' : ''}`;
+    const posX = ((year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    yearMarker.style.left = `${posX}px`;
+    yearMarker.style.top = `${axisY}px`;
+
+    const yearLabel = document.createElement('span');
+    yearLabel.textContent = year;
+    yearMarker.appendChild(yearLabel);
+    timeline.appendChild(yearMarker);
   }
-  // Add final year marker if needed
-  if (config.END_YEAR > lastDecade) {
-      const endMarker = document.createElement('div'); endMarker.className = 'year-marker current-year'; const endPosX = ((config.END_YEAR - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth; endMarker.style.left = `${endPosX}px`; endMarker.style.top = `${axisY}px`; const endLabel = document.createElement('span'); endLabel.textContent = config.END_YEAR; endMarker.appendChild(endLabel); timeline.appendChild(endMarker);
+
+  if (END_YEAR > lastDecade) {
+    const endMarker = document.createElement('div');
+    endMarker.className = 'year-marker current-year';
+    const endPosX = ((END_YEAR - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    endMarker.style.left = `${endPosX}px`;
+    endMarker.style.top = `${axisY}px`;
+
+    const endLabel = document.createElement('span');
+    endLabel.textContent = END_YEAR;
+    endMarker.appendChild(endLabel);
+    timeline.appendChild(endMarker);
   }
+}
 
-  const elementCoords = {}; let photoIndex = 0;
-  // Sort scientists by first publication year for consistent layout order
-  const sortedScientistEntries = Object.entries(scientists).sort(([, sciA], [, sciB]) => { let yearA = Infinity, yearB = Infinity; try { if (sciA.publications?.length) { yearA = Math.min(...sciA.publications.map(p => p.year || Infinity)); } } catch (e) {} try { if (sciB.publications?.length) { yearB = Math.min(...sciB.publications.map(p => p.year || Infinity)); } } catch (e) {} if (yearA === Infinity && yearB === Infinity) return 0; if (yearA === Infinity) return 1; if (yearB === Infinity) return -1; return yearA - yearB; });
+function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords) {
+  const { START_YEAR, YEAR_SPAN, PHOTO_SIZE, PHOTO_BASE_OFFSET_Y, PHOTO_VERTICAL_STAGGER } = config;
+  let photoIndex = 0;
 
-  // --- Render Scientists ---
+  const sortedScientistEntries = Object.entries(scientists).sort(([, sciA], [, sciB]) => {
+    let yearA = Infinity, yearB = Infinity;
+    try {
+      if (sciA.publications?.length) {
+        yearA = Math.min(...sciA.publications.map(p => p.year || Infinity));
+      }
+    } catch (e) {}
+    try {
+      if (sciB.publications?.length) {
+        yearB = Math.min(...sciB.publications.map(p => p.year || Infinity));
+      }
+    } catch (e) {}
+    if (yearA === Infinity && yearB === Infinity) return 0;
+    if (yearA === Infinity) return 1;
+    if (yearB === Infinity) return -1;
+    return yearA - yearB;
+  });
+
   sortedScientistEntries.forEach(([id, scientist]) => {
     try {
-        if (!scientist?.publications?.length) return; // Skip no pubs
-        scientist.publications.sort((a, b) => (a.year || Infinity) - (b.year || Infinity)); const firstPub = scientist.publications[0];
-        if (!firstPub?.year) return; // Skip no valid year
+      if (!scientist?.publications?.length) return;
+      scientist.publications.sort((a, b) => (a.year || Infinity) - (b.year || Infinity));
+      const firstPub = scientist.publications[0];
+      if (!firstPub?.year) return;
 
-        // Create Photo Element
-        const photoEl = document.createElement('img'); photoEl.src = scientist.photo; photoEl.alt = scientist.name; photoEl.className = 'scientist-photo'; photoEl.style.border = `3px solid ${scientist.color}`; photoEl.dataset.scientistId = id;
-        photoEl.id = `photo-${id}`; // Add ID
-        photoEl.loading = 'lazy'; // Add lazy loading
-        photoEl.onerror = function() {
-          console.warn(`Failed image: ${scientist.photo}`);
-          const isDarkMode = document.body.classList.contains('dark-mode');
-          photoEl.src = isDarkMode ? 'images/default.png' : 'images/default.png';
-        };
-        const photoYearX = ((firstPub.year - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth; const photoX = photoYearX - config.PHOTO_SIZE / 2; let photoCenterY; const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : config.PHOTO_VERTICAL_STAGGER; if (photoIndex % 2 === 0) { photoCenterY = axisY - config.PHOTO_BASE_OFFSET_Y - staggerOffset; } else { photoCenterY = axisY + config.PHOTO_BASE_OFFSET_Y + staggerOffset; } const photoStyleTop = photoCenterY - config.PHOTO_SIZE / 2; photoEl.style.left = `${photoX}px`; photoEl.style.top = `${photoStyleTop}px`;
-        photoEl.addEventListener('click', () => showScientistModal(id));
-        photoEl.addEventListener('mouseenter', () => highlightScientistGroup(id)); // Add hover
-        photoEl.addEventListener('mouseleave', () => unhighlightScientistGroup(id)); // Add hover
-        timeline.appendChild(photoEl); // Append Photo
-        elementCoords[`photo_${id}`] = { x: photoX + config.PHOTO_SIZE / 2, y: photoStyleTop + config.PHOTO_SIZE / 2 };
+      const photoEl = document.createElement('img');
+      photoEl.src = scientist.photo;
+      photoEl.alt = scientist.name;
+      photoEl.className = 'scientist-photo';
+      photoEl.style.border = `3px solid ${scientist.color}`;
+      photoEl.dataset.scientistId = id;
+      photoEl.id = `photo-${id}`;
+      photoEl.loading = 'lazy';
+      photoEl.onerror = function () {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        photoEl.src = isDarkMode ? 'images/default.png' : 'images/default.png';
+      };
 
-        // Create Publication Elements
-        scientist.publications.forEach((pub, pubIndex) => {
-          if (typeof pub.year !== 'number') return; // Skip invalid year
-          const pubEl = document.createElement('div'); pubEl.className = 'publication'; pubEl.style.backgroundColor = scientist.color; pubEl.dataset.title = pub.title || 'N/A'; pubEl.dataset.abstract = pub.abstract || 'N/A'; pubEl.dataset.scientistId = id; // Ensure data-id is set
-          pubEl.title = `${pub.title || 'N/A'} (${pub.year})`;
-
-          // Offset the year slightly to avoid complete overlap
-          const offsetFactor = (pubIndex % 2 === 0 ? 1 : -1) * (pubIndex * 0.5);
-          const adjustedYear = pub.year + offsetFactor;
-
-          const pubX = ((adjustedYear - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
-          const pubStyleTop = axisY - (config.PUBLICATION_SIZE / 2);
-          const pubStyleLeft = pubX - (config.PUBLICATION_SIZE / 2);
-          const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - config.PUBLICATION_SIZE, pubStyleLeft));
-
-          pubEl.style.left = `${clampedPubX}px`;
-          pubEl.style.top = `${pubStyleTop}px`;
-
-          pubEl.addEventListener('click', () => showPublicationModal(scientist.name, pub.year, pub.title || 'N/A', pub.abstract || 'N/A', 'publication'));
-          timeline.appendChild(pubEl); // Append Publication
-
-          if (pubIndex === 0) { elementCoords[`pub_${id}_first`] = { x: clampedPubX + config.PUBLICATION_SIZE / 2, y: axisY }; }
-        });
-        photoIndex++;
-    } catch (error) { console.error("Error processing scientist:", id, scientist?.name || 'Unknown', error); }
-  }); // End forEach Scientist
-
-  // --- Render Discoveries ---
-  discoveries.forEach((discovery, index) => {
-      try {
-          if (typeof discovery.year !== 'number') return;
-          const discoveryEl = document.createElement('div'); discoveryEl.className = 'discovery-marker';
-
-          // Use the color from the YAML file, fallback to default if not provided
-          const color = discovery.color || '#aaaaaa';
-          discoveryEl.style.backgroundColor = color;
-
-          // Set size to twice the original
-          const bubbleSize = 24; // Twice the original size of 12px
-          discoveryEl.style.width = `${bubbleSize}px`;
-          discoveryEl.style.height = `${bubbleSize}px`;
-
-          discoveryEl.title = `${discovery.title || 'Untitled Discovery'} (${discovery.year})`;
-          const discoveryX = ((discovery.year - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
-
-          // Position all discoveries at the same height above the timeline
-          const discoveryStyleTop = axisY - 50; // Fixed height above the timeline
-
-          // Adjust horizontal position to avoid overlap
-          const horizontalSpacing = 10; // Minimum space between bubbles
-          const discoveryStyleLeft = discoveryX + (index % 2 === 0 ? index * horizontalSpacing : -index * horizontalSpacing);
-          const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - bubbleSize, discoveryStyleLeft));
-          discoveryEl.style.left = `${clampedDiscoveryX}px`;
-          discoveryEl.style.top = `${discoveryStyleTop}px`;
-
-          // Add particle name inside the bubble
-          const particleLabel = document.createElement('span');
-          particleLabel.textContent = discovery.particle || 'Unknown Particle';
-          particleLabel.style.position = 'absolute';
-          particleLabel.style.top = '50%';
-          particleLabel.style.left = '50%';
-          particleLabel.style.transform = 'translate(-50%, -50%)';
-          particleLabel.style.fontSize = '12px'; // Adjust font size for larger bubbles
-          particleLabel.style.color = '#fff';
-          particleLabel.style.textAlign = 'center';
-          discoveryEl.appendChild(particleLabel);
-
-          discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer || 'Unknown', discovery.year, discovery.title || 'Untitled Discovery', discovery.details || 'No details available.', 'discovery'));
-          timeline.appendChild(discoveryEl); // Append Discovery
-
-          // Draw a line connecting the discovery to the timeline
-          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          line.setAttribute('x1', clampedDiscoveryX + bubbleSize / 2);
-          line.setAttribute('y1', discoveryStyleTop + bubbleSize);
-          line.setAttribute('x2', discoveryX);
-          line.setAttribute('y2', axisY);
-          line.setAttribute('stroke', color);
-          line.setAttribute('stroke-width', '2');
-          currentTimelineSvg.appendChild(line); // Append line to the SVG
-      } catch (error) {
-          console.error("Error processing discovery:", discovery?.title || 'Unknown', error);
+      const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+      const photoX = photoYearX - PHOTO_SIZE / 2;
+      let photoCenterY;
+      const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : PHOTO_VERTICAL_STAGGER;
+      if (photoIndex % 2 === 0) {
+        photoCenterY = axisY - PHOTO_BASE_OFFSET_Y - staggerOffset;
+      } else {
+        photoCenterY = axisY + PHOTO_BASE_OFFSET_Y + staggerOffset;
       }
-  });
-  // --- End Render Discoveries ---
+      const photoStyleTop = photoCenterY - PHOTO_SIZE / 2;
+      photoEl.style.left = `${photoX}px`;
+      photoEl.style.top = `${photoStyleTop}px`;
 
-  // Render Significant Events
-  significantEvents.forEach((event) => {
-      try {
-          const eventEl = document.createElement('div');
-          eventEl.className = 'event-box';
-          eventEl.style.backgroundColor = event.color || '#888';
-          eventEl.style.border = '2px solid #000'; // Add border to the event box
-          eventEl.style.padding = '5px'; // Add padding for text
-          eventEl.style.boxSizing = 'border-box'; // Ensure padding is included in dimensions
+      photoEl.addEventListener('click', () => showScientistModal(id));
+      photoEl.addEventListener('mouseenter', () => highlightScientistGroup(id));
+      photoEl.addEventListener('mouseleave', () => unhighlightScientistGroup(id));
+      timeline.appendChild(photoEl);
 
-          const startX = ((event.startYear - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
-          const endX = ((event.endYear - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
-          const eventWidth = endX - startX;
-
-          // Position the box below the timeline
-          const eventStyleTop = axisY + 30; // Fixed height below the timeline
-          eventEl.style.position = 'absolute';
-          eventEl.style.left = `${startX}px`;
-          eventEl.style.top = `${eventStyleTop}px`;
-          eventEl.style.width = `${eventWidth}px`;
-
-          // Add event title inside the box
-          const eventLabel = document.createElement('span');
-          eventLabel.textContent = event.title || 'Unknown Event';
-          eventLabel.style.display = 'block';
-          eventLabel.style.fontSize = '10px';
-          eventLabel.style.color = '#fff';
-          eventLabel.style.textAlign = 'center';
-
-          eventEl.appendChild(eventLabel);
-
-          eventEl.addEventListener('click', () => {
-              showPublicationModal(
-                  'Significant Event',
-                  `${event.startYear} - ${event.endYear}`,
-                  event.title,
-                  event.details || 'No details available.',
-                  'event'
-              );
-          });
-
-          timeline.appendChild(eventEl);
-
-          // Draw a line connecting the start year to the box
-          const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          startLine.setAttribute(
-              'd',
-              `M ${startX} ${axisY} L ${startX} ${eventStyleTop} L ${startX + 5} ${eventStyleTop}`
-          );
-          startLine.setAttribute('stroke', event.color || '#888');
-          startLine.setAttribute('stroke-width', '2');
-          startLine.setAttribute('fill', 'none');
-          currentTimelineSvg.appendChild(startLine);
-
-          // Draw a line connecting the end year to the box
-          const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          endLine.setAttribute(
-              'd',
-              `M ${endX} ${axisY} L ${endX} ${eventStyleTop} L ${endX - 5} ${eventStyleTop}`
-          );
-          endLine.setAttribute('stroke', event.color || '#888');
-          endLine.setAttribute('stroke-width', '2');
-          endLine.setAttribute('fill', 'none');
-          currentTimelineSvg.appendChild(endLine);
-      } catch (error) {
-          console.error("Error processing significant event:", event?.title || 'Unknown', error);
-      }
-  });
-
-  // Draw Connecting Lines
-  Object.keys(scientists).forEach(id => {
-    const photoCoord = elementCoords[`photo_${id}`]; const firstPubCoord = elementCoords[`pub_${id}_first`];
-    if (photoCoord && firstPubCoord && !isNaN(photoCoord.x) && !isNaN(photoCoord.y) && !isNaN(firstPubCoord.x) && !isNaN(firstPubCoord.y)) {
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', photoCoord.x); line.setAttribute('y1', photoCoord.y); line.setAttribute('x2', firstPubCoord.x); line.setAttribute('y2', firstPubCoord.y);
-      line.setAttribute('stroke', scientists[id]?.color || '#ccc');
-      line.id = `line-${id}`; // Add ID for highlighting
-      line.classList.add('connecting-line'); currentTimelineSvg.appendChild(line);
+      elementCoords[`photo_${id}`] = { x: photoX + PHOTO_SIZE / 2, y: photoStyleTop + PHOTO_SIZE / 2 };
+      photoIndex++;
+    } catch (error) {
+      console.error("Error processing scientist:", id, scientist?.name || 'Unknown', error);
     }
   });
+}
 
-  updateTimelineTransform(); // Apply initial/updated transform
+function renderPublications(timeline, baseTimelineWidth, axisY, elementCoords) {
+  const { START_YEAR, YEAR_SPAN, PUBLICATION_SIZE } = config;
+
+  Object.entries(scientists).forEach(([id, scientist]) => {
+    if (!scientist?.publications?.length) return;
+
+    scientist.publications.forEach((pub, pubIndex) => {
+      if (typeof pub.year !== 'number') return;
+
+      const pubEl = document.createElement('div');
+      pubEl.className = 'publication';
+      pubEl.style.backgroundColor = scientist.color;
+      pubEl.dataset.title = pub.title || 'N/A';
+      pubEl.dataset.abstract = pub.abstract || 'N/A';
+      pubEl.dataset.scientistId = id;
+      pubEl.title = `${pub.title || 'N/A'} (${pub.year})`;
+
+      const offsetFactor = (pubIndex % 2 === 0 ? 1 : -1) * (pubIndex * 0.5);
+      const adjustedYear = pub.year + offsetFactor;
+
+      const pubX = ((adjustedYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+      const pubStyleTop = axisY - (PUBLICATION_SIZE / 2);
+      const pubStyleLeft = pubX - (PUBLICATION_SIZE / 2);
+      const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - PUBLICATION_SIZE, pubStyleLeft));
+
+      pubEl.style.left = `${clampedPubX}px`;
+      pubEl.style.top = `${pubStyleTop}px`;
+
+      pubEl.addEventListener('click', () => showPublicationModal(scientist.name, pub.year, pub.title || 'N/A', pub.abstract || 'N/A', 'publication'));
+      timeline.appendChild(pubEl);
+
+      if (pubIndex === 0) {
+        elementCoords[`pub_${id}_first`] = { x: clampedPubX + PUBLICATION_SIZE / 2, y: axisY };
+      }
+    });
+  });
+}
+
+function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
+  const { START_YEAR, YEAR_SPAN } = config;
+
+  discoveries.forEach((discovery, index) => {
+    if (typeof discovery.year !== 'number') return;
+
+    const discoveryEl = document.createElement('div');
+    discoveryEl.className = 'discovery-marker';
+    discoveryEl.style.backgroundColor = discovery.color || '#aaaaaa';
+
+    const bubbleSize = 24;
+    discoveryEl.style.width = `${bubbleSize}px`;
+    discoveryEl.style.height = `${bubbleSize}px`;
+
+    discoveryEl.title = `${discovery.title || 'Untitled Discovery'} (${discovery.year})`;
+    const discoveryX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+
+    const discoveryStyleTop = axisY - 50;
+    const horizontalSpacing = 10;
+    const discoveryStyleLeft = discoveryX + (index % 2 === 0 ? index * horizontalSpacing : -index * horizontalSpacing);
+    const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - bubbleSize, discoveryStyleLeft));
+    discoveryEl.style.left = `${clampedDiscoveryX}px`;
+    discoveryEl.style.top = `${discoveryStyleTop}px`;
+
+    const particleLabel = document.createElement('span');
+    particleLabel.textContent = discovery.particle || 'Unknown Particle';
+    particleLabel.style.position = 'absolute';
+    particleLabel.style.top = '50%';
+    particleLabel.style.left = '50%';
+    particleLabel.style.transform = 'translate(-50%, -50%)';
+    particleLabel.style.fontSize = '12px';
+    particleLabel.style.color = '#fff';
+    particleLabel.style.textAlign = 'center';
+    discoveryEl.appendChild(particleLabel);
+
+    discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer || 'Unknown', discovery.year, discovery.title || 'Untitled Discovery', discovery.details || 'No details available.', 'discovery'));
+    timeline.appendChild(discoveryEl);
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', clampedDiscoveryX + bubbleSize / 2);
+    line.setAttribute('y1', discoveryStyleTop + bubbleSize);
+    line.setAttribute('x2', discoveryX);
+    line.setAttribute('y2', axisY);
+    line.setAttribute('stroke', discovery.color || '#aaaaaa');
+    line.setAttribute('stroke-width', '2');
+    timelineSvg.appendChild(line);
+  });
+}
+
+function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
+  const { START_YEAR, YEAR_SPAN } = config;
+
+  significantEvents.forEach(event => {
+    if (typeof event.startYear !== 'number' || typeof event.endYear !== 'number') return;
+
+    const eventEl = document.createElement('div');
+    eventEl.className = 'event-box';
+    eventEl.style.backgroundColor = event.color || '#888';
+    eventEl.style.border = '2px solid #000';
+    eventEl.style.padding = '5px';
+    eventEl.style.boxSizing = 'border-box';
+
+    const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    const eventWidth = endX - startX;
+
+    const eventStyleTop = axisY + 30; // Position below the timeline
+    eventEl.style.position = 'absolute';
+    eventEl.style.left = `${startX}px`;
+    eventEl.style.top = `${eventStyleTop}px`;
+    eventEl.style.width = `${eventWidth}px`;
+
+    const eventLabel = document.createElement('span');
+    eventLabel.textContent = event.title || 'Unknown Event';
+    eventLabel.style.display = 'block';
+    eventLabel.style.fontSize = '10px';
+    eventLabel.style.color = '#fff';
+    eventLabel.style.textAlign = 'center';
+
+    eventEl.appendChild(eventLabel);
+
+    eventEl.addEventListener('click', () => {
+      showPublicationModal(
+        'Significant Event',
+        `${event.startYear} - ${event.endYear}`,
+        event.title,
+        event.details || 'No details available.',
+        'event'
+      );
+    });
+
+    timeline.appendChild(eventEl);
+
+    // Draw lines connecting the event to the timeline axis
+    const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    startLine.setAttribute('x1', startX);
+    startLine.setAttribute('y1', axisY);
+    startLine.setAttribute('x2', startX);
+    startLine.setAttribute('y2', eventStyleTop);
+    startLine.setAttribute('stroke', event.color || '#888');
+    startLine.setAttribute('stroke-width', '2');
+    timelineSvg.appendChild(startLine);
+
+    const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    endLine.setAttribute('x1', endX);
+    endLine.setAttribute('y1', axisY);
+    endLine.setAttribute('x2', endX);
+    endLine.setAttribute('y2', eventStyleTop);
+    endLine.setAttribute('stroke', event.color || '#888');
+    endLine.setAttribute('stroke-width', '2');
+    timelineSvg.appendChild(endLine);
+  });
+}
+
+function drawConnectingLines(timelineSvg, elementCoords) {
+  Object.keys(scientists).forEach(id => {
+    const photoCoord = elementCoords[`photo_${id}`];
+    const firstPubCoord = elementCoords[`pub_${id}_first`];
+    if (photoCoord && firstPubCoord) {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', photoCoord.x);
+      line.setAttribute('y1', photoCoord.y);
+      line.setAttribute('x2', firstPubCoord.x);
+      line.setAttribute('y2', firstPubCoord.y);
+      line.setAttribute('stroke', scientists[id]?.color || '#ccc');
+      line.classList.add('connecting-line');
+      timelineSvg.appendChild(line);
+    }
+  });
+}
+
+export function renderTimeline() {
+  if (!timelineContainer || !timeline) {
+    console.error("Timeline elements not found for render!");
+    return;
+  }
+
+  timeline.innerHTML = '';
+  const containerWidth = timelineContainer.clientWidth;
+  const timelineHeight = timelineContainer.clientHeight;
+  if (timelineHeight === 0 || containerWidth === 0) {
+    console.error("Container dimensions zero.");
+    return;
+  }
+
+  const axisY = timelineHeight / 2;
+  const baseTimelineWidth = Math.max(containerWidth * 3, config.YEAR_SPAN / 10 * 32);
+  timeline.style.width = `${baseTimelineWidth}px`;
+
+  const timelineSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  timelineSvg.setAttribute('class', 'timeline-svg');
+  timeline.appendChild(timelineSvg);
+
+  const elementCoords = {};
+  renderAxis(timeline, baseTimelineWidth, axisY);
+  renderYearMarkers(timeline, baseTimelineWidth, axisY);
+  renderScientists(timeline, baseTimelineWidth, axisY, elementCoords);
+  renderPublications(timeline, baseTimelineWidth, axisY, elementCoords);
+  renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg);
+  renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg); // Pass timelineSvg here
+  drawConnectingLines(timelineSvg, elementCoords);
+
+  updateTimelineTransform();
 }
 
 // --- Modal Handling ---
