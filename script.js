@@ -244,7 +244,7 @@ function renderYearMarkers(timeline, baseTimelineWidth, axisY) {
   }
 }
 
-function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords) {
+function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, timelineSvg) {
   const { START_YEAR, YEAR_SPAN, PHOTO_SIZE, PHOTO_BASE_OFFSET_Y, PHOTO_VERTICAL_STAGGER } = config;
   let photoIndex = 0;
 
@@ -305,6 +305,20 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords) {
       timeline.appendChild(photoEl);
 
       elementCoords[`photo_${id}`] = { x: photoX + PHOTO_SIZE / 2, y: photoStyleTop + PHOTO_SIZE / 2 };
+
+      // Ensure publication coordinates are populated before drawing lines
+      const firstPubCoord = elementCoords[`pub_${id}_first`];
+      if (firstPubCoord) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', photoX + PHOTO_SIZE / 2);
+        line.setAttribute('y1', photoStyleTop + PHOTO_SIZE / 2);
+        line.setAttribute('x2', firstPubCoord.x);
+        line.setAttribute('y2', firstPubCoord.y);
+        line.setAttribute('stroke', scientist.color || '#ccc');
+        line.classList.add('connecting-line');
+        timelineSvg.appendChild(line);
+      }
+
       photoIndex++;
     } catch (error) {
       console.error("Error processing scientist:", id, scientist?.name || 'Unknown', error);
@@ -468,23 +482,6 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
   });
 }
 
-function drawConnectingLines(timelineSvg, elementCoords) {
-  Object.keys(scientists).forEach(id => {
-    const photoCoord = elementCoords[`photo_${id}`];
-    const firstPubCoord = elementCoords[`pub_${id}_first`];
-    if (photoCoord && firstPubCoord) {
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', photoCoord.x);
-      line.setAttribute('y1', photoCoord.y);
-      line.setAttribute('x2', firstPubCoord.x);
-      line.setAttribute('y2', firstPubCoord.y);
-      line.setAttribute('stroke', scientists[id]?.color || '#ccc');
-      line.classList.add('connecting-line');
-      timelineSvg.appendChild(line);
-    }
-  });
-}
-
 export function renderTimeline() {
   if (!timelineContainer || !timeline) {
     console.error("Timeline elements not found for render!");
@@ -510,11 +507,10 @@ export function renderTimeline() {
   const elementCoords = {};
   renderAxis(timeline, baseTimelineWidth, axisY);
   renderYearMarkers(timeline, baseTimelineWidth, axisY);
-  renderScientists(timeline, baseTimelineWidth, axisY, elementCoords);
-  renderPublications(timeline, baseTimelineWidth, axisY, elementCoords);
+  renderPublications(timeline, baseTimelineWidth, axisY, elementCoords); // Populate publication coordinates first
+  renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, timelineSvg); // Pass timelineSvg here
   renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg);
-  renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg); // Pass timelineSvg here
-  drawConnectingLines(timelineSvg, elementCoords);
+  renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg);
 
   updateTimelineTransform();
 }
