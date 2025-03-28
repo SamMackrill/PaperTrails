@@ -2,6 +2,25 @@ export let scientists = {};
 export let discoveries = [];
 export let significantEvents = [];
 
+// Configuration object
+export const config = {
+  START_YEAR: 1600,
+  CURRENT_YEAR: new Date().getFullYear(),
+  MIN_SCALE: 0.5,
+  MAX_SCALE: 3.0,
+  ZOOM_STEP: 0.1,
+  PHOTO_SIZE: 50,
+  PUBLICATION_SIZE: 12,
+  PHOTO_BASE_OFFSET_Y: 70,
+  PHOTO_VERTICAL_STAGGER: 40,
+  DRAG_THRESHOLD: 5,
+  RESIZE_DEBOUNCE_DELAY: 250,
+  themeLocalStorageKey: 'paperTrailsTheme',
+};
+
+config.END_YEAR = config.CURRENT_YEAR;
+config.YEAR_SPAN = config.END_YEAR - config.START_YEAR;
+
 export async function loadScientistsData() {
     try {
         const response = await fetch('data/scientists.yaml');
@@ -50,22 +69,6 @@ let pubModal, sciModal, closePubModal, closeSciModal, pubModalTitle, pubModalAbs
 let pubModalAuthor, pubModalYear, sciModalName, sciModalNationality, sciModalBirth, sciModalDeath;
 let modeToggleButton, pubModalAuthorLabel;
 
-// Constants
-const START_YEAR = 1600;
-const CURRENT_YEAR = new Date().getFullYear();
-const END_YEAR = CURRENT_YEAR;
-const YEAR_SPAN = END_YEAR - START_YEAR;
-const MIN_SCALE = 0.5;
-const MAX_SCALE = 3.0;
-const ZOOM_STEP = 0.1;
-const PHOTO_SIZE = 50;
-const PUBLICATION_SIZE = 12;
-const PHOTO_BASE_OFFSET_Y = 70;
-const PHOTO_VERTICAL_STAGGER = 40;
-const DRAG_THRESHOLD = 5;
-const RESIZE_DEBOUNCE_DELAY = 250;
-const themeLocalStorageKey = 'paperTrailsTheme';
-
 // State Variables
 let currentScale = 1.0;
 let currentTranslateX = 0;
@@ -86,14 +89,14 @@ export function applyTheme(theme) {
       modeToggleButton.textContent = '☀️';
       modeToggleButton.title = 'Switch to Light Mode';
     }
-    localStorage.setItem(themeLocalStorageKey, 'dark');
+    localStorage.setItem(config.themeLocalStorageKey, 'dark');
   } else {
     document.body.classList.remove('dark-mode');
     if (modeToggleButton) {
       modeToggleButton.textContent = '🌙';
       modeToggleButton.title = 'Switch to Dark Mode';
     }
-    localStorage.setItem(themeLocalStorageKey, 'light');
+    localStorage.setItem(config.themeLocalStorageKey, 'light');
   }
 }
 
@@ -103,7 +106,7 @@ export function toggleTheme() {
 }
 
 export function initializeTheme() {
-  const savedTheme = localStorage.getItem(themeLocalStorageKey);
+  const savedTheme = localStorage.getItem(config.themeLocalStorageKey);
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   modeToggleButton = document.getElementById('mode-toggle'); // Fetch button here
 
@@ -210,16 +213,16 @@ export function renderTimeline() {
   const axisLabel = document.createElement('div'); axisLabel.className = 'timeline-axis-label'; axisLabel.textContent = 'Year'; axisLabel.style.top = `${axisY}px`; timeline.appendChild(axisLabel);
 
   // Calculate and set timeline width
-  const estimatedCharWidth = 8; const minWidthForLabels = YEAR_SPAN / 10 * (4 * estimatedCharWidth); const baseTimelineWidth = Math.max(containerWidth * 3, minWidthForLabels); timeline.style.width = `${baseTimelineWidth}px`;
+  const estimatedCharWidth = 8; const minWidthForLabels = config.YEAR_SPAN / 10 * (4 * estimatedCharWidth); const baseTimelineWidth = Math.max(containerWidth * 3, minWidthForLabels); timeline.style.width = `${baseTimelineWidth}px`;
 
   // Add Year Markers
-  const lastDecade = Math.floor(END_YEAR / 10) * 10;
-  for (let year = START_YEAR; year <= lastDecade; year += 10) {
-      const isMajor = year % 100 === 0; const yearMarker = document.createElement('div'); yearMarker.className = `year-marker ${isMajor ? 'major' : ''}`; const posX = ((year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; yearMarker.style.left = `${posX}px`; yearMarker.style.top = `${axisY}px`; const yearLabel = document.createElement('span'); yearLabel.textContent = year; yearMarker.appendChild(yearLabel); timeline.appendChild(yearMarker);
+  const lastDecade = Math.floor(config.END_YEAR / 10) * 10;
+  for (let year = config.START_YEAR; year <= lastDecade; year += 10) {
+      const isMajor = year % 100 === 0; const yearMarker = document.createElement('div'); yearMarker.className = `year-marker ${isMajor ? 'major' : ''}`; const posX = ((year - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth; yearMarker.style.left = `${posX}px`; yearMarker.style.top = `${axisY}px`; const yearLabel = document.createElement('span'); yearLabel.textContent = year; yearMarker.appendChild(yearLabel); timeline.appendChild(yearMarker);
   }
   // Add final year marker if needed
-  if (END_YEAR > lastDecade) {
-      const endMarker = document.createElement('div'); endMarker.className = 'year-marker current-year'; const endPosX = ((END_YEAR - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; endMarker.style.left = `${endPosX}px`; endMarker.style.top = `${axisY}px`; const endLabel = document.createElement('span'); endLabel.textContent = END_YEAR; endMarker.appendChild(endLabel); timeline.appendChild(endMarker);
+  if (config.END_YEAR > lastDecade) {
+      const endMarker = document.createElement('div'); endMarker.className = 'year-marker current-year'; const endPosX = ((config.END_YEAR - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth; endMarker.style.left = `${endPosX}px`; endMarker.style.top = `${axisY}px`; const endLabel = document.createElement('span'); endLabel.textContent = config.END_YEAR; endMarker.appendChild(endLabel); timeline.appendChild(endMarker);
   }
 
   const elementCoords = {}; let photoIndex = 0;
@@ -242,12 +245,12 @@ export function renderTimeline() {
           const isDarkMode = document.body.classList.contains('dark-mode');
           photoEl.src = isDarkMode ? 'images/default.png' : 'images/default.png';
         };
-        const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const photoX = photoYearX - PHOTO_SIZE / 2; let photoCenterY; const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : PHOTO_VERTICAL_STAGGER; if (photoIndex % 2 === 0) { photoCenterY = axisY - PHOTO_BASE_OFFSET_Y - staggerOffset; } else { photoCenterY = axisY + PHOTO_BASE_OFFSET_Y + staggerOffset; } const photoStyleTop = photoCenterY - PHOTO_SIZE / 2; photoEl.style.left = `${photoX}px`; photoEl.style.top = `${photoStyleTop}px`;
+        const photoYearX = ((firstPub.year - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth; const photoX = photoYearX - config.PHOTO_SIZE / 2; let photoCenterY; const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : config.PHOTO_VERTICAL_STAGGER; if (photoIndex % 2 === 0) { photoCenterY = axisY - config.PHOTO_BASE_OFFSET_Y - staggerOffset; } else { photoCenterY = axisY + config.PHOTO_BASE_OFFSET_Y + staggerOffset; } const photoStyleTop = photoCenterY - config.PHOTO_SIZE / 2; photoEl.style.left = `${photoX}px`; photoEl.style.top = `${photoStyleTop}px`;
         photoEl.addEventListener('click', () => showScientistModal(id));
         photoEl.addEventListener('mouseenter', () => highlightScientistGroup(id)); // Add hover
         photoEl.addEventListener('mouseleave', () => unhighlightScientistGroup(id)); // Add hover
         timeline.appendChild(photoEl); // Append Photo
-        elementCoords[`photo_${id}`] = { x: photoX + PHOTO_SIZE / 2, y: photoStyleTop + PHOTO_SIZE / 2 };
+        elementCoords[`photo_${id}`] = { x: photoX + config.PHOTO_SIZE / 2, y: photoStyleTop + config.PHOTO_SIZE / 2 };
 
         // Create Publication Elements
         scientist.publications.forEach((pub, pubIndex) => {
@@ -259,10 +262,10 @@ export function renderTimeline() {
           const offsetFactor = (pubIndex % 2 === 0 ? 1 : -1) * (pubIndex * 0.5);
           const adjustedYear = pub.year + offsetFactor;
 
-          const pubX = ((adjustedYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
-          const pubStyleTop = axisY - (PUBLICATION_SIZE / 2);
-          const pubStyleLeft = pubX - (PUBLICATION_SIZE / 2);
-          const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - PUBLICATION_SIZE, pubStyleLeft));
+          const pubX = ((adjustedYear - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
+          const pubStyleTop = axisY - (config.PUBLICATION_SIZE / 2);
+          const pubStyleLeft = pubX - (config.PUBLICATION_SIZE / 2);
+          const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - config.PUBLICATION_SIZE, pubStyleLeft));
 
           pubEl.style.left = `${clampedPubX}px`;
           pubEl.style.top = `${pubStyleTop}px`;
@@ -270,7 +273,7 @@ export function renderTimeline() {
           pubEl.addEventListener('click', () => showPublicationModal(scientist.name, pub.year, pub.title || 'N/A', pub.abstract || 'N/A', 'publication'));
           timeline.appendChild(pubEl); // Append Publication
 
-          if (pubIndex === 0) { elementCoords[`pub_${id}_first`] = { x: clampedPubX + PUBLICATION_SIZE / 2, y: axisY }; }
+          if (pubIndex === 0) { elementCoords[`pub_${id}_first`] = { x: clampedPubX + config.PUBLICATION_SIZE / 2, y: axisY }; }
         });
         photoIndex++;
     } catch (error) { console.error("Error processing scientist:", id, scientist?.name || 'Unknown', error); }
@@ -292,7 +295,7 @@ export function renderTimeline() {
           discoveryEl.style.height = `${bubbleSize}px`;
 
           discoveryEl.title = `${discovery.title || 'Untitled Discovery'} (${discovery.year})`;
-          const discoveryX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+          const discoveryX = ((discovery.year - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
 
           // Position all discoveries at the same height above the timeline
           const discoveryStyleTop = axisY - 50; // Fixed height above the timeline
@@ -344,8 +347,8 @@ export function renderTimeline() {
           eventEl.style.padding = '5px'; // Add padding for text
           eventEl.style.boxSizing = 'border-box'; // Ensure padding is included in dimensions
 
-          const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
-          const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+          const startX = ((event.startYear - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
+          const endX = ((event.endYear - config.START_YEAR) / config.YEAR_SPAN) * baseTimelineWidth;
           const eventWidth = endX - startX;
 
           // Position the box below the timeline
@@ -429,16 +432,16 @@ export function setupEventListeners() {
     timelineContainer = document.getElementById('timeline-container'); zoomInButton = document.getElementById('zoom-in'); zoomOutButton = document.getElementById('zoom-out'); resetZoomButton = document.getElementById('reset-zoom'); closePubModal = document.getElementById('close-pub-modal'); closeSciModal = document.getElementById('close-sci-modal'); pubModal = document.getElementById('publication-modal'); sciModal = document.getElementById('scientist-modal');
     if (!timelineContainer || !zoomInButton || !zoomOutButton || !resetZoomButton || !closePubModal || !closeSciModal || !pubModal || !sciModal ) { console.error("Cannot setup event listeners: Elements missing."); return; }
     // Wheel listener
-    timelineContainer.addEventListener('wheel', (event) => { event.preventDefault(); const rect = timelineContainer.getBoundingClientRect(); const mouseXRelative = event.clientX - rect.left; if (event.ctrlKey) { const zoomFactor = event.deltaY < 0 ? 1 + ZOOM_STEP : 1 - ZOOM_STEP; const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale * zoomFactor)); if (newScale !== currentScale) { const scaleChange = newScale / currentScale; currentTranslateX = mouseXRelative - (mouseXRelative - currentTranslateX) * scaleChange; currentScale = newScale; updateTimelineTransform(); } } else if (event.shiftKey) { const scrollAmount = event.deltaX || event.deltaY; if (scrollAmount !== 0) { currentTranslateX -= Math.sign(scrollAmount) * Math.min(Math.abs(scrollAmount), 50); updateTimelineTransform(); } } else { const scrollAmount = event.deltaY; if (scrollAmount !== 0) { currentTranslateY -= Math.sign(scrollAmount) * Math.min(Math.abs(scrollAmount), 50); updateTimelineTransform(); } } }, { passive: false });
+    timelineContainer.addEventListener('wheel', (event) => { event.preventDefault(); const rect = timelineContainer.getBoundingClientRect(); const mouseXRelative = event.clientX - rect.left; if (event.ctrlKey) { const zoomFactor = event.deltaY < 0 ? 1 + config.ZOOM_STEP : 1 - config.ZOOM_STEP; const newScale = Math.max(config.MIN_SCALE, Math.min(config.MAX_SCALE, currentScale * zoomFactor)); if (newScale !== currentScale) { const scaleChange = newScale / currentScale; currentTranslateX = mouseXRelative - (mouseXRelative - currentTranslateX) * scaleChange; currentScale = newScale; updateTimelineTransform(); } } else if (event.shiftKey) { const scrollAmount = event.deltaX || event.deltaY; if (scrollAmount !== 0) { currentTranslateX -= Math.sign(scrollAmount) * Math.min(Math.abs(scrollAmount), 50); updateTimelineTransform(); } } else { const scrollAmount = event.deltaY; if (scrollAmount !== 0) { currentTranslateY -= Math.sign(scrollAmount) * Math.min(Math.abs(scrollAmount), 50); updateTimelineTransform(); } } }, { passive: false });
     // Drag listeners
     timelineContainer.addEventListener('mousedown', (event) => { if (event.button !== 0 || event.target.closest('.scientist-photo, .publication, .discovery-marker, .controls, button')) return; potentialDrag = true; isDragging = false; dragStartX = event.clientX; dragStartY = event.clientY; dragStartTranslateX = currentTranslateX; dragStartTranslateY = currentTranslateY; });
-    document.addEventListener('mousemove', (event) => { if (!potentialDrag) return; const dx = event.clientX - dragStartX; const dy = event.clientY - dragStartY; if (!isDragging) { if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) { isDragging = true; timelineContainer.style.cursor = 'grabbing'; timelineContainer.style.userSelect = 'none'; } else { return; } } if (isDragging) { event.preventDefault(); currentTranslateX = dragStartTranslateX + dx; currentTranslateY = dragStartTranslateY + dy; timeline.style.transform = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`; } });
+    document.addEventListener('mousemove', (event) => { if (!potentialDrag) return; const dx = event.clientX - dragStartX; const dy = event.clientY - dragStartY; if (!isDragging) { if (Math.abs(dx) > config.DRAG_THRESHOLD || Math.abs(dy) > config.DRAG_THRESHOLD) { isDragging = true; timelineContainer.style.cursor = 'grabbing'; timelineContainer.style.userSelect = 'none'; } else { return; } } if (isDragging) { event.preventDefault(); currentTranslateX = dragStartTranslateX + dx; currentTranslateY = dragStartTranslateY + dy; timeline.style.transform = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`; } });
     const stopDragging = (event) => { if (potentialDrag) { if (isDragging) { updateTimelineTransform(); timelineContainer.style.cursor = 'grab'; timelineContainer.style.removeProperty('user-select'); } potentialDrag = false; isDragging = false; } };
     document.addEventListener('mouseup', stopDragging); document.addEventListener('mouseleave', (event) => { if (!event.relatedTarget && !event.toElement && event.buttons === 0) { stopDragging(); } });
     timelineContainer.addEventListener('dragstart', (event) => event.preventDefault());
     // Zoom Button listeners
-    function applyZoom(newScaleTarget) { const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScaleTarget)); if (newScale === currentScale) return; const containerWidth = timelineContainer.clientWidth; const containerHeight = timelineContainer.clientHeight; const zoomOriginX = containerWidth / 2; const zoomOriginY = containerHeight / 2; const scaleChange = newScale / currentScale; currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange; currentTranslateY = zoomOriginY - (zoomOriginY - currentTranslateY) * scaleChange; currentScale = newScale; updateTimelineTransform(); }
-    zoomInButton.addEventListener('click', () => applyZoom(currentScale + ZOOM_STEP)); zoomOutButton.addEventListener('click', () => applyZoom(currentScale - ZOOM_STEP)); resetZoomButton.addEventListener('click', () => { currentScale = 1.0; currentTranslateX = 0; currentTranslateY = 0; updateTimelineTransform(); });
+    function applyZoom(newScaleTarget) { const newScale = Math.max(config.MIN_SCALE, Math.min(config.MAX_SCALE, newScaleTarget)); if (newScale === currentScale) return; const containerWidth = timelineContainer.clientWidth; const containerHeight = timelineContainer.clientHeight; const zoomOriginX = containerWidth / 2; const zoomOriginY = containerHeight / 2; const scaleChange = newScale / currentScale; currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange; currentTranslateY = zoomOriginY - (zoomOriginY - currentTranslateY) * scaleChange; currentScale = newScale; updateTimelineTransform(); }
+    zoomInButton.addEventListener('click', () => applyZoom(currentScale + config.ZOOM_STEP)); zoomOutButton.addEventListener('click', () => applyZoom(currentScale - config.ZOOM_STEP)); resetZoomButton.addEventListener('click', () => { currentScale = 1.0; currentTranslateX = 0; currentTranslateY = 0; updateTimelineTransform(); });
     // Modal listeners
     closePubModal.addEventListener('click', closeModal); closeSciModal.addEventListener('click', closeModal); pubModal.addEventListener('click', (event) => { if (event.target === pubModal) closeModal(); }); sciModal.addEventListener('click', (event) => { if (event.target === sciModal) closeModal(); }); window.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal(); });
     // Resize listener
@@ -446,7 +449,7 @@ export function setupEventListeners() {
 }
 
 // --- Resize Handler ---
-export function debouncedRender() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { console.log("Window resized, resetting view and re-rendering..."); currentScale = 1.0; currentTranslateX = 0; currentTranslateY = 0; renderTimeline(); }, RESIZE_DEBOUNCE_DELAY); }
+export function debouncedRender() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { console.log("Window resized, resetting view and re-rendering..."); currentScale = 1.0; currentTranslateX = 0; currentTranslateY = 0; renderTimeline(); }, config.RESIZE_DEBOUNCE_DELAY); }
 
 // --- Initial Setup Function ---
 function initializeApp() {
