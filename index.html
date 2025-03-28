@@ -390,36 +390,23 @@
 
   <img src="images/default.png" style="display: none;" alt="Default Image">
 
+<script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
 <script>
-    // *** IMPORTANT ***
-    // Ensure you have an 'images' folder with correctly named images.
-    const scientists = {
-      newton: { name: "Isaac Newton", color: "#e63946", photo: "images/newton.jpg", nationality: "English", birth: "1643-01-04", death: "1727-03-31", publications: [ { year: 1687, title: "Philosophiæ Naturalis Principia Mathematica", abstract: "Presented Newton's laws of motion and universal gravitation." } ] },
-      fatio: { name: "Nicolas Fatio de Duillier", color: "#a44a3f", photo: "images/fatio.jpg", nationality: "Swiss", birth: "1664-02-16", death: "1753-05-10", publications: [ { year: 1690, title: "Letter outlining kinetic theory of gravity", abstract: "Early theory explaining gravity via particle collisions/shadowing." } ] },
-      lesage: { name: "Georges-Louis Le Sage", color: "#588157", photo: "images/lesage.jpg", nationality: "Genevan (Swiss)", birth: "1724-06-13", death: "1803-11-09", publications: [ { year: 1784, title: "Lucrèce Newtonien", abstract: "Proposed Le Sage's theory of gravitation based on ultra-mundane corpuscles." } ] },
-      coulomb: { name: "Charles-Augustin de Coulomb", color: "#023e8a", photo: "images/coulomb.jpg", nationality: "French", birth: "1736-06-14", death: "1806-08-23", publications: [ { year: 1785, title: "Premier mémoire sur l'électricité et le magnétisme", abstract: "Established Coulomb's law..." } ] },
-      biot: { name: "Jean-Baptiste Biot", color: "#00a6fb", photo: "images/biot.jpg", nationality: "French", birth: "1774-04-21", death: "1862-02-03", publications: [ { year: 1820, title: "Note sur le magnétisme de la pile de Volta", abstract: "With Savart, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)." } ] },
-      ampere: { name: "André-Marie Ampère", color: "#fb5607", photo: "images/ampere.jpg", nationality: "French", birth: "1775-01-20", death: "1836-06-10", publications: [ { year: 1820, title: "Mémoire sur l'action mutuelle...", abstract: "Ampère's force law." }, { year: 1826, title: "Mémoire sur la théorie mathématique...", abstract: "Ampère's circuital law." } ] },
-      oersted: { name: "Hans Christian Ørsted", color: "#bc6c25", photo: "images/oersted.jpg", nationality: "Danish", birth: "1777-08-14", death: "1851-03-09", publications: [ { year: 1820, title: "Experimenta circa effectum conflictus electrici in acum magneticam", abstract: "Discovered that electric currents create magnetic fields (electromagnetism)." } ] },
-      faraday: { name: "Michael Faraday", color: "#e76f51", photo: "images/faraday.jpg", nationality: "English", birth: "1791-09-22", death: "1867-08-25", publications: [ { year: 1831, title: "Experimental Researches in Electricity (Series I)", abstract: "Discovered electromagnetic induction..." }, { year: 1846, title: "Experimental Researches in Electricity (Series XIX)", abstract: "Described diamagnetism and proposed lines of force." } ] },
-      savart: { name: "Félix Savart", color: "#5e60ce", photo: "images/savart0.jpg", nationality: "French", birth: "1791-06-30", death: "1841-03-16", publications: [ { year: 1820, title: "Note sur le magnétisme de la pile de Volta", abstract: "With Biot, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)." } ] },
-      neumann_franz: { name: "Franz Ernst Neumann", color: "#606c38", photo: "images/neumann_franz.jpg", nationality: "German (Prussian)", birth: "1798-09-11", death: "1895-05-23", publications: [ { year: 1845, title: "Die mathematischen Gesetze der inducirten elektrischen Ströme", abstract: "Developed the mathematical theory of electromagnetic induction (Neumann's formula)." } ] },
-      weber: { name: "Wilhelm Weber", color: "#f4a261", photo: "images/weber.jpg", nationality: "German", birth: "1804-10-24", death: "1891-06-23", publications: [ { year: 1846, title: "Elektrodynamische Massbestimmungen", abstract: "Work on the electrodynamics of moving charges." }, { year: 1856, title: "On the Measurement of Electric Resistance", abstract: "Contributed to establishing absolute electrical units." } ] },
-      maxwell: { name: "James Clerk Maxwell", color: "#2a9d8f", photo: "images/maxwell.jpg", nationality: "Scottish", birth: "1831-06-13", death: "1879-11-05", publications: [ { year: 1861, title: "On Physical Lines of Force", abstract: "Introduced displacement current." }, { year: 1873, title: "A Treatise on Electricity and Magnetism", abstract: "Unified electricity, magnetism, and light." } ] },
-      lorentz: { name: "Hendrik Lorentz", color: "#fca311", photo: "images/lorentz.jpg", nationality: "Dutch", birth: "1853-07-18", death: "1928-02-04", publications: [ { year: 1892, title: "La Théorie électromagnétique de Maxwell...", abstract: "Developed Lorentz transformation equations." }, { year: 1904, title: "Electromagnetic phenomena...", abstract: "Refined transformations used in special relativity." } ] },
-      heaviside: { name: "Oliver Heaviside", color: "#e9c46a", photo: "images/heaviside.jpg", nationality: "English", birth: "1850-05-18", death: "1925-02-03", publications: [ { year: 1885, title: "Electromagnetic Induction and its Propagation", abstract: "Reformulated Maxwell's equations." }, { year: 1902, title: "Theory of the Electric Telegraph", abstract: "Predicted the Kennelly–Heaviside layer." } ] },
-      planck: { name: "Max Planck", color: "#457b9d", photo: "images/planck.jpg", nationality: "German", birth: "1858-04-23", death: "1947-10-04", publications: [ { year: 1900, title: "Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum", abstract: "Introduced quantized energy (Planck's constant)." } ] },
-      einstein: { name: "Albert Einstein", color: "#1d3557", photo: "images/einstein.jpg", nationality: "German/American", birth: "1879-03-14", death: "1955-04-18", publications: [ { year: 1905, title: "Zur Elektrodynamik bewegter Körper", abstract: "Introduced special relativity." }, { year: 1905, title: "Über einen die Erzeugung...", abstract: "Explained the photoelectric effect." }, { year: 1915, title: "Die Feldgleichungen der Gravitation", abstract: "Presented general relativity." } ] },
-      bohr: { name: "Niels Bohr", color: "#ff006e", photo: "images/bohr.jpg", nationality: "Danish", birth: "1885-10-07", death: "1962-11-18", publications: [ { year: 1913, title: "On the Constitution of Atoms and Molecules", abstract: "Introduced the Bohr model of the atom." }, { year: 1927, title: "The Quantum Postulate...", abstract: "Developed the principle of complementarity." } ] },
-      deBroglie: { name: "Louis de Broglie", color: "#ffc300", photo: "images/debroglie.jpg", nationality: "French", birth: "1892-08-15", death: "1987-03-19", publications: [ { year: 1924, title: "Recherches sur la théorie des quanta", abstract: "Proposed wave nature of electrons." } ] },
-      schrodinger: { name: "Erwin Schrödinger", color: "#2ec4b6", photo: "images/schrodinger.jpg", nationality: "Austrian", birth: "1887-08-12", death: "1961-01-04", publications: [ { year: 1926, title: "Quantisierung als Eigenwertproblem", abstract: "Developed wave mechanics and the Schrödinger equation." }, { year: 1935, title: "Die gegenwärtige Situation in der Quantenmechanik", abstract: "Introduced Schrödinger's cat thought experiment." } ] },
-      pauli: { name: "Wolfgang Pauli", color: "#8338ec", photo: "images/pauli.jpg", nationality: "Austrian", birth: "1900-04-25", death: "1958-12-15", publications: [ { year: 1925, title: "Über den Zusammenhang des Abschlusses...", abstract: "Pauli exclusion principle." }, { year: 1930, title: "Open Letter on Beta Decay", abstract: "Proposed the neutrino." } ] },
-      heisenberg: { name: "Werner Heisenberg", color: "#6a0dad", photo: "images/heisenberg.jpg", nationality: "German", birth: "1901-12-05", death: "1976-02-01", publications: [ { year: 1925, title: "Über quantentheoretische Umdeutung...", abstract: "Formulated matrix mechanics." }, { year: 1927, title: "Über den anschaulichen Inhalt...", abstract: "Introduced the uncertainty principle." } ] },
-      dirac: { name: "Paul Dirac", color: "#007f5f", photo: "images/dirac.jpg", nationality: "British", birth: "1902-08-08", death: "1984-10-20", publications: [ { year: 1928, title: "The Quantum Theory of the Electron", abstract: "Introduced the Dirac equation, predicted antimatter." } ] },
-      casimir: { name: "Hendrik Casimir", color: "#3a86ff", photo: "images/casimir.jpg", nationality: "Dutch", birth: "1909-07-15", death: "2000-05-04", publications: [ { year: 1948, title: "On the attraction between two perfectly conducting plates", abstract: "Predicted the Casimir effect." } ] },
-      dicke: { name: "Robert H. Dicke", color: "#8d99ae", photo: "images/dicke.jpg", nationality: "American", birth: "1916-05-06", death: "1997-03-04", publications: [ { year: 1965, title: "Cosmic Black-Body Radiation", abstract: "Predicted the cosmic microwave background (CMB)." } ] },
-      arp: { name: "Halton Arp", color: "#5f0f40", photo: "images/arp.jpg", nationality: "American", birth: "1927-03-21", death: "2013-12-28", publications: [ { year: 1966, title: "Atlas of Peculiar Galaxies", abstract: "Cataloged unusual galaxy structures." } ] }
-    };
+    let scientists = {};
+
+    async function loadScientistsData() {
+        try {
+            const response = await fetch('data/scientists.yaml');
+            const yamlText = await response.text();
+            scientists = jsyaml.load(yamlText);
+            renderTimeline(); // Re-render timeline after loading data
+        } catch (error) {
+            console.error('Failed to load scientists data:', error);
+        }
+    }
+
+    // Call the function to load data
+    loadScientistsData();
 
     // Discoveries Data
     const discoveries = [
