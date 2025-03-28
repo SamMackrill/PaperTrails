@@ -26,6 +26,34 @@
   color: "#1abc9c"
   details: "Infamous flawed claim to disprove the existence of the Luminiferous Aether."
 
+- year: 1676
+  title: "First Measurement of the Speed of Light"
+  discoverer: "Ole Rømer"
+  details: "Ole Rømer measured the speed of light by observing the eclipses of Jupiter's moons."
+  particle: "c"
+  color: "#ffcc00" # Golden Yellow
+
+- year: 1745
+  title: "Invention of the Leyden Jar"
+  discoverer: "Ewald Georg von Kleist"
+  details: "Ewald Georg von Kleist invented the Leyden jar, the first capacitor, capable of storing electrical charge."
+  particle: "LJar"
+  color: "#8b0000" # Dark Red
+
+- year: 1848
+  title: "Concept of Absolute Zero"
+  discoverer: "Lord Kelvin"
+  details: "Lord Kelvin introduced the concept of absolute zero, the theoretical temperature at which all molecular motion ceases."
+  particle: "0K"
+  color: "#4682B4" # Steel Blue
+
+- year: 1831
+  title: "Discovery of Electromagnetic Induction"
+  discoverer: "Michael Faraday"
+  details: "Michael Faraday discovered electromagnetic induction, the principle behind electric generators and transformers."
+  particle: "EMI"
+  color: "#e76f51" # Coral Red
+
 - title: "Casimir Effect Verification"
   year: 1997
   discoverer: "Steve K. Lamoreaux and others"
