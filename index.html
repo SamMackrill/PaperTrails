@@ -395,6 +395,7 @@
 <script>
     let scientists = {};
     let discoveries = [];
+    let significantEvents = [];
 
     async function loadScientistsData() {
         try {
@@ -416,9 +417,23 @@
         }
     }
 
+    async function loadSignificantEventsData() {
+        try {
+            const response = await fetch('data/significantevents.yaml');
+            const yamlText = await response.text();
+            significantEvents = jsyaml.load(yamlText);
+        } catch (error) {
+            console.error('Failed to load significant events data:', error);
+        }
+    }
+
     async function initializeData() {
-        await Promise.all([loadScientistsData(), loadDiscoveriesData()]);
-        renderTimeline(); // Ensure timeline is rendered after loading both datasets
+        await Promise.all([
+            loadScientistsData(),
+            loadDiscoveriesData(),
+            loadSignificantEventsData()
+        ]);
+        renderTimeline(); // Render everything in the timeline
     }
 
     // Call the function to load data
@@ -699,6 +714,75 @@
           }
       });
       // --- End Render Discoveries ---
+
+      // Render Significant Events
+      significantEvents.forEach((event, index) => {
+          try {
+              const eventEl = document.createElement('div');
+              eventEl.className = 'discovery-marker';
+              eventEl.style.backgroundColor = event.color || '#888';
+
+              const bubbleSize = 24; // Bubble size
+              eventEl.style.width = `${bubbleSize}px`;
+              eventEl.style.height = `${bubbleSize}px`;
+
+              eventEl.title = `${event.title} (${event.startYear} - ${event.endYear})`;
+              const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+              const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+
+              // Position all significant events below the timeline
+              const eventStyleTop = axisY + 50; // Fixed height below the timeline
+              const eventCenterX = (startX + endX) / 2; // Center the bubble between start and end years
+              eventEl.style.left = `${eventCenterX - bubbleSize / 2}px`;
+              eventEl.style.top = `${eventStyleTop}px`;
+
+              // Add event title inside the bubble
+              const eventLabel = document.createElement('span');
+              eventLabel.textContent = event.title || 'Unknown Event';
+              eventLabel.style.position = 'absolute';
+              eventLabel.style.top = '50%';
+              eventLabel.style.left = '50%';
+              eventLabel.style.transform = 'translate(-50%, -50%)';
+              eventLabel.style.fontSize = '10px';
+              eventLabel.style.color = '#fff';
+              eventLabel.style.textAlign = 'center';
+              eventEl.appendChild(eventLabel);
+
+              eventEl.addEventListener('click', () => {
+                  showPublicationModal(
+                      'Significant Event',
+                      `${event.startYear} - ${event.endYear}`,
+                      event.title,
+                      event.details || 'No details available.',
+                      'event'
+                  );
+              });
+
+              timeline.appendChild(eventEl);
+
+              // Draw a line connecting the start year to the bubble
+              const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+              startLine.setAttribute('x1', startX);
+              startLine.setAttribute('y1', axisY);
+              startLine.setAttribute('x2', eventCenterX);
+              startLine.setAttribute('y2', eventStyleTop);
+              startLine.setAttribute('stroke', event.color || '#888');
+              startLine.setAttribute('stroke-width', '2');
+              currentTimelineSvg.appendChild(startLine);
+
+              // Draw a line connecting the end year to the bubble
+              const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+              endLine.setAttribute('x1', endX);
+              endLine.setAttribute('y1', axisY);
+              endLine.setAttribute('x2', eventCenterX);
+              endLine.setAttribute('y2', eventStyleTop);
+              endLine.setAttribute('stroke', event.color || '#888');
+              endLine.setAttribute('stroke-width', '2');
+              currentTimelineSvg.appendChild(endLine);
+          } catch (error) {
+              console.error("Error processing significant event:", event?.title || 'Unknown', error);
+          }
+      });
 
       // Draw Connecting Lines
       Object.keys(scientists).forEach(id => {
