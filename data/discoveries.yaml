@@ -18,3 +18,17 @@
   details: "Identified the neutron as a neutral subatomic particle in the atomic nucleus."
   particle: N
   color: "#A9A9A9" # Dark Gray (matches icon.png)
+
+- title: "Michelson-Morley Experiment"
+  year: 1887
+  discoverer: "Albert A. Michelson and Edward W. Morley"
+  particle: "MM"
+  color: "#1abc9c"
+  details: "An experiment that disproved the existence of the luminiferous ether, paving the way for Einstein's theory of relativity."
+
+- title: "Casimir Effect Verification"
+  year: 1997
+  discoverer: "Steve K. Lamoreaux and others"
+  particle: "ZPE"
+  color: "#9b59b6"
+  details: "The experimental verification of the Casimir effect, demonstrating the existence of quantum vacuum fluctuations."

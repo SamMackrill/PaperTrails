@@ -648,9 +648,23 @@
             scientist.publications.forEach((pub, pubIndex) => {
               if (typeof pub.year !== 'number') return; // Skip invalid year
               const pubEl = document.createElement('div'); pubEl.className = 'publication'; pubEl.style.backgroundColor = scientist.color; pubEl.dataset.title = pub.title || 'N/A'; pubEl.dataset.abstract = pub.abstract || 'N/A'; pubEl.dataset.scientistId = id; // Ensure data-id is set
-              pubEl.title = `${pub.title || 'N/A'} (${pub.year})`; const pubX = ((pub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const pubStyleTop = axisY - (PUBLICATION_SIZE / 2); const pubStyleLeft = pubX - (PUBLICATION_SIZE / 2); const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - PUBLICATION_SIZE, pubStyleLeft)); pubEl.style.left = `${clampedPubX}px`; pubEl.style.top = `${pubStyleTop}px`;
+              pubEl.title = `${pub.title || 'N/A'} (${pub.year})`;
+
+              // Offset the year slightly to avoid complete overlap
+              const offsetFactor = (pubIndex % 2 === 0 ? 1 : -1) * (pubIndex * 0.5);
+              const adjustedYear = pub.year + offsetFactor;
+
+              const pubX = ((adjustedYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+              const pubStyleTop = axisY - (PUBLICATION_SIZE / 2);
+              const pubStyleLeft = pubX - (PUBLICATION_SIZE / 2);
+              const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - PUBLICATION_SIZE, pubStyleLeft));
+
+              pubEl.style.left = `${clampedPubX}px`;
+              pubEl.style.top = `${pubStyleTop}px`;
+
               pubEl.addEventListener('click', () => showPublicationModal(scientist.name, pub.year, pub.title || 'N/A', pub.abstract || 'N/A', 'publication'));
               timeline.appendChild(pubEl); // Append Publication
+
               if (pubIndex === 0) { elementCoords[`pub_${id}_first`] = { x: clampedPubX + PUBLICATION_SIZE / 2, y: axisY }; }
             });
             photoIndex++;

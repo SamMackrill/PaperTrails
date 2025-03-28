@@ -43,3 +43,9 @@
   endYear: 1815
   color: "#f39c12"
   details: "The period during which Napoleon Bonaparte ruled as Emperor of France."
+
+- title: "The Great Depression"
+  startYear: 1929
+  endYear: 1939
+  color: "#34495e"
+  details: "A severe worldwide economic depression that took place during the 1930s."
