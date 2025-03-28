@@ -492,3 +492,15 @@ alfven:
     - year: 1942
       title: "Existence of Electromagnetic-Hydrodynamic Waves"
       abstract: "Discovered Alfvén waves in magnetohydrodynamics."
+
+ohm:
+  name: "Georg Simon Ohm"
+  color: "#ff7f50"
+  photo: "images/ohm.jpg"
+  nationality: "German"
+  birth: "1789-03-16"
+  death: "1854-07-06"
+  publications:
+    - year: 1827
+      title: "Die galvanische Kette, mathematisch bearbeitet"
+      abstract: "Formulated Ohm's law, describing the relationship between voltage, current, and resistance."
