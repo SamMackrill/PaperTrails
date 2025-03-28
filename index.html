@@ -643,7 +643,7 @@
       }); // End forEach Scientist
 
       // --- Render Discoveries ---
-      discoveries.forEach((discovery) => {
+      discoveries.forEach((discovery, index) => {
           try {
               if (typeof discovery.year !== 'number') return;
               const discoveryEl = document.createElement('div'); discoveryEl.className = 'discovery-marker';
@@ -658,8 +658,17 @@
               discoveryEl.style.height = `${bubbleSize}px`;
 
               discoveryEl.title = `${discovery.title || 'Untitled Discovery'} (${discovery.year})`;
-              const discoveryX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const discoveryStyleTop = axisY - 50; // Adjust position for larger bubbles
-              const discoveryStyleLeft = discoveryX - (bubbleSize / 2); const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - bubbleSize, discoveryStyleLeft)); discoveryEl.style.left = `${clampedDiscoveryX}px`; discoveryEl.style.top = `${discoveryStyleTop}px`;
+              const discoveryX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+
+              // Position all discoveries at the same height above the timeline
+              const discoveryStyleTop = axisY - 100; // Fixed height above the timeline
+
+              // Adjust horizontal position to avoid overlap
+              const horizontalSpacing = 30; // Minimum space between bubbles
+              const discoveryStyleLeft = discoveryX + (index % 2 === 0 ? index * horizontalSpacing : -index * horizontalSpacing);
+              const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - bubbleSize, discoveryStyleLeft));
+              discoveryEl.style.left = `${clampedDiscoveryX}px`;
+              discoveryEl.style.top = `${discoveryStyleTop}px`;
 
               // Add particle name inside the bubble
               const particleLabel = document.createElement('span');
@@ -675,6 +684,16 @@
 
               discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer || 'Unknown', discovery.year, discovery.title || 'Untitled Discovery', discovery.details || 'No details available.', 'discovery'));
               timeline.appendChild(discoveryEl); // Append Discovery
+
+              // Draw a line connecting the discovery to the timeline
+              const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+              line.setAttribute('x1', clampedDiscoveryX + bubbleSize / 2);
+              line.setAttribute('y1', discoveryStyleTop + bubbleSize);
+              line.setAttribute('x2', discoveryX);
+              line.setAttribute('y2', axisY);
+              line.setAttribute('stroke', color);
+              line.setAttribute('stroke-width', '2');
+              currentTimelineSvg.appendChild(line); // Append line to the SVG
           } catch (error) {
               console.error("Error processing discovery:", discovery?.title || 'Unknown', error);
           }
