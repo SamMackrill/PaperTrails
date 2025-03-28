@@ -46,6 +46,18 @@ coulomb:
       title: "Premier mémoire sur l'électricité et le magnétisme"
       abstract: "Established Coulomb's law."
 
+volta:
+  name: "Alessandro Volta"
+  color: "#ff5733"
+  photo: "images/volta.jpg"
+  nationality: "Italian"
+  birth: "1745-02-18"
+  death: "1827-03-05"
+  publications:
+    - year: 1800
+      title: "On the Electricity Excited by the Mere Contact of Conducting Substances of Different Kinds"
+      abstract: "Invented the voltaic pile, the first electrical battery."
+
 biot:
   name: "Jean-Baptiste Biot"
   color: "#00a6fb"
@@ -72,6 +84,18 @@ ampere:
     - year: 1826
       title: "Mémoire sur la théorie mathématique..."
       abstract: "Ampère's circuital law."
+
+dalton:
+  name: "John Dalton"
+  color: "#c70039"
+  photo: "images/dalton.jpg"
+  nationality: "English"
+  birth: "1766-09-06"
+  death: "1844-07-27"
+  publications:
+    - year: 1803
+      title: "A New System of Chemical Philosophy"
+      abstract: "Proposed atomic theory and law of multiple proportions."
 
 oersted:
   name: "Hans Christian Ørsted"
@@ -103,7 +127,7 @@ faraday:
 savart:
   name: "Félix Savart"
   color: "#5e60ce"
-  photo: "images/savart0.jpg"
+  photo: "images/savart.jpg"
   nationality: "French"
   birth: "1791-06-30"
   death: "1841-03-16"
@@ -333,3 +357,138 @@ arp:
     - year: 1966
       title: "Atlas of Peculiar Galaxies"
       abstract: "Cataloged unusual galaxy structures."
+
+thomson:
+  name: "J.J. Thomson"
+  color: "#900c3f"
+  photo: "images/thomson.jpg"
+  nationality: "British"
+  birth: "1856-12-18"
+  death: "1940-08-30"
+  publications:
+    - year: 1897
+      title: "Cathode Rays"
+      abstract: "Discovered the electron and proposed the plum pudding model of the atom."
+
+rutherford:
+  name: "Ernest Rutherford"
+  color: "#581845"
+  photo: "images/rutherford.jpg"
+  nationality: "New Zealand/British"
+  birth: "1871-08-30"
+  death: "1937-10-19"
+  publications:
+    - year: 1911
+      title: "The Scattering of α and β Particles by Matter and the Structure of the Atom"
+      abstract: "Proposed the nuclear model of the atom."
+    - year: 1919
+      title: "Collision of α Particles with Light Atoms"
+      abstract: "Discovered the proton."
+
+birkeland:
+  name: "Kristian Birkeland"
+  color: "#6a994e"
+  photo: "images/birkeland.jpg"
+  nationality: "Norwegian"
+  birth: "1867-12-13"
+  death: "1917-06-15"
+  publications:
+    - year: 1908
+      title: "The Norwegian Aurora Polaris Expedition"
+      abstract: "Explained the aurora borealis as caused by charged particles from the Sun."
+
+velikovsky:
+  name: "Immanuel Velikovsky"
+  color: "#ff6f61"
+  photo: "images/velikovsky.jpg"
+  nationality: "Russian/American"
+  birth: "1895-06-10"
+  death: "1979-11-17"
+  publications:
+    - year: 1950
+      title: "Worlds in Collision"
+      abstract: "Proposed controversial theories about planetary catastrophes."
+
+van_der_waals:
+  name: "Johannes Diderik van der Waals"
+  color: "#264653"
+  photo: "images/van_der_waals.jpg"
+  nationality: "Dutch"
+  birth: "1837-11-23"
+  death: "1923-03-08"
+  publications:
+    - year: 1873
+      title: "On the Continuity of the Gaseous and Liquid States"
+      abstract: "Introduced the van der Waals equation of state."
+
+compton:
+  name: "Arthur Compton"
+  color: "#ff9f1c"
+  photo: "images/compton.jpg"
+  nationality: "American"
+  birth: "1892-09-10"
+  death: "1962-03-15"
+  publications:
+    - year: 1923
+      title: "A Quantum Theory of the Scattering of X-rays by Light Elements"
+      abstract: "Discovered the Compton effect, demonstrating particle-like behavior of photons."
+
+raman:
+  name: "C. V. Raman"
+  color: "#118ab2"
+  photo: "images/raman.jpg"
+  nationality: "Indian"
+  birth: "1888-11-07"
+  death: "1970-11-21"
+  publications:
+    - year: 1928
+      title: "A New Radiation"
+      abstract: "Discovered the Raman effect, inelastic scattering of photons."
+
+chadwick:
+  name: "James Chadwick"
+  color: "#ef476f"
+  photo: "images/chadwick.jpg"
+  nationality: "British"
+  birth: "1891-10-20"
+  death: "1974-07-24"
+  publications:
+    - year: 1932
+      title: "Possible Existence of a Neutron"
+      abstract: "Discovered the neutron."
+
+anderson:
+  name: "Carl David Anderson"
+  color: "#06d6a0"
+  photo: "images/anderson.jpg"
+  nationality: "American"
+  birth: "1905-09-03"
+  death: "1991-01-11"
+  publications:
+    - year: 1932
+      title: "The Apparent Existence of Easily Deflectable Positives"
+      abstract: "Discovered the positron."
+
+lamb:
+  name: "Willis Lamb"
+  color: "#8338ec"
+  photo: "images/lamb.jpg"
+  nationality: "American"
+  birth: "1913-07-12"
+  death: "2008-05-15"
+  publications:
+    - year: 1947
+      title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
+      abstract: "Discovered the Lamb shift in hydrogen spectra."
+
+alfven:
+  name: "Hannes Alfvén"
+  color: "#ffbe0b"
+  photo: "images/alfven.jpg"
+  nationality: "Swedish"
+  birth: "1908-05-30"
+  death: "1995-04-02"
+  publications:
+    - year: 1942
+      title: "Existence of Electromagnetic-Hydrodynamic Waves"
+      abstract: "Discovered Alfvén waves in magnetohydrodynamics."
