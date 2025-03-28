@@ -4,10 +4,10 @@ export let significantEvents = [];
 
 // Configuration object
 export const config = {
-  START_YEAR: 1600,
+  START_YEAR: 1650,
   CURRENT_YEAR: new Date().getFullYear(),
-  MIN_SCALE: 0.5,
-  MAX_SCALE: 3.0,
+  MIN_SCALE: 0.2,
+  MAX_SCALE: 5.0,
   ZOOM_STEP: 0.1,
   PHOTO_SIZE: 50,
   PUBLICATION_SIZE: 12,
@@ -65,9 +65,8 @@ initializeData();
 
 // DOM Elements (fetched in initializeApp)
 let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay;
-let pubModal, sciModal, closePubModal, closeSciModal, pubModalTitle, pubModalAbstract;
-let pubModalAuthor, pubModalYear, sciModalName, sciModalNationality, sciModalBirth, sciModalDeath;
-let modeToggleButton, pubModalAuthorLabel;
+let pubModal, sciModal, closePubModal, closeSciModal;
+let modeToggleButton;
 
 // State Variables
 let currentScale = 1.0;
@@ -553,9 +552,15 @@ export function debouncedRender() { clearTimeout(resizeTimer); resizeTimer = set
 // --- Initial Setup Function ---
 function initializeApp() {
     // Fetch elements needed globally or frequently
-    timelineContainer = document.getElementById('timeline-container'); timeline = document.getElementById('timeline'); zoomLevelDisplay = document.querySelector('.zoom-level');
-    pubModalTitle = document.getElementById('pub-modal-title'); pubModalAbstract = document.getElementById('pub-modal-abstract'); pubModalAuthor = document.getElementById('pub-modal-author'); pubModalYear = document.getElementById('pub-modal-year'); pubModalAuthorLabel = document.getElementById('pub-modal-author-label');
-    sciModalName = document.getElementById('sci-modal-name'); sciModalNationality = document.getElementById('sci-modal-nationality'); sciModalBirth = document.getElementById('sci-modal-birth'); sciModalDeath = document.getElementById('sci-modal-death');
+    timelineContainer = document.getElementById('timeline-container');
+    timeline = document.getElementById('timeline');
+    zoomLevelDisplay = document.querySelector('.zoom-level');
+    modeToggleButton = document.getElementById('mode-toggle');
+    pubModal = document.getElementById('publication-modal');
+    sciModal = document.getElementById('scientist-modal');
+    closePubModal = document.getElementById('close-pub-modal');
+    closeSciModal = document.getElementById('close-sci-modal');
+
     // Initialize theme first (fetches toggle button inside & adds listener)
     initializeTheme();
     // Render timeline content
