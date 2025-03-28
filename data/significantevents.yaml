@@ -13,3 +13,33 @@
   details: "The Second World War."
   shape: square
   color: "#8B0000" # Dark Red
+
+- title: "The French Revolution"
+  startYear: 1789
+  endYear: 1799
+  color: "#ff5733"
+  details: "A period of radical social and political change in France."
+
+- title: "The American Revolution"
+  startYear: 1775
+  endYear: 1783
+  color: "#33a1ff"
+  details: "The war of independence fought by the American colonies against Britain."
+
+- title: "The American Civil War"
+  startYear: 1861
+  endYear: 1865
+  color: "#8e44ad"
+  details: "A civil war in the United States between the Union and the Confederacy."
+
+- title: "The Cold War"
+  startYear: 1947
+  endYear: 1991
+  color: "#2ecc71"
+  details: "A period of geopolitical tension between the West and the Soviet Union."
+
+- title: "Reign of Napoleon"
+  startYear: 1804
+  endYear: 1815
+  color: "#f39c12"
+  details: "The period during which Napoleon Bonaparte ruled as Emperor of France."

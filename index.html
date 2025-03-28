@@ -716,36 +716,34 @@
       // --- End Render Discoveries ---
 
       // Render Significant Events
-      significantEvents.forEach((event, index) => {
+      significantEvents.forEach((event) => {
           try {
               const eventEl = document.createElement('div');
-              eventEl.className = 'discovery-marker';
+              eventEl.className = 'event-box';
               eventEl.style.backgroundColor = event.color || '#888';
+              eventEl.style.border = '2px solid #000'; // Add border to the event box
+              eventEl.style.padding = '5px'; // Add padding for text
+              eventEl.style.boxSizing = 'border-box'; // Ensure padding is included in dimensions
 
-              const bubbleSize = 24; // Bubble size
-              eventEl.style.width = `${bubbleSize}px`;
-              eventEl.style.height = `${bubbleSize}px`;
-
-              eventEl.title = `${event.title} (${event.startYear} - ${event.endYear})`;
               const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
               const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+              const eventWidth = endX - startX;
 
-              // Position all significant events below the timeline
-              const eventStyleTop = axisY + 50; // Fixed height below the timeline
-              const eventCenterX = (startX + endX) / 2; // Center the bubble between start and end years
-              eventEl.style.left = `${eventCenterX - bubbleSize / 2}px`;
+              // Position the box below the timeline
+              const eventStyleTop = axisY + 30; // Fixed height below the timeline
+              eventEl.style.position = 'absolute';
+              eventEl.style.left = `${startX}px`;
               eventEl.style.top = `${eventStyleTop}px`;
+              eventEl.style.width = `${eventWidth}px`;
 
-              // Add event title inside the bubble
+              // Add event title inside the box
               const eventLabel = document.createElement('span');
               eventLabel.textContent = event.title || 'Unknown Event';
-              eventLabel.style.position = 'absolute';
-              eventLabel.style.top = '50%';
-              eventLabel.style.left = '50%';
-              eventLabel.style.transform = 'translate(-50%, -50%)';
+              eventLabel.style.display = 'block';
               eventLabel.style.fontSize = '10px';
               eventLabel.style.color = '#fff';
               eventLabel.style.textAlign = 'center';
+
               eventEl.appendChild(eventLabel);
 
               eventEl.addEventListener('click', () => {
@@ -760,24 +758,26 @@
 
               timeline.appendChild(eventEl);
 
-              // Draw a line connecting the start year to the bubble
-              const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-              startLine.setAttribute('x1', startX);
-              startLine.setAttribute('y1', axisY);
-              startLine.setAttribute('x2', eventCenterX);
-              startLine.setAttribute('y2', eventStyleTop);
+              // Draw a line connecting the start year to the box
+              const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              startLine.setAttribute(
+                  'd',
+                  `M ${startX} ${axisY} L ${startX} ${eventStyleTop} L ${startX + 5} ${eventStyleTop}`
+              );
               startLine.setAttribute('stroke', event.color || '#888');
               startLine.setAttribute('stroke-width', '2');
+              startLine.setAttribute('fill', 'none');
               currentTimelineSvg.appendChild(startLine);
 
-              // Draw a line connecting the end year to the bubble
-              const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-              endLine.setAttribute('x1', endX);
-              endLine.setAttribute('y1', axisY);
-              endLine.setAttribute('x2', eventCenterX);
-              endLine.setAttribute('y2', eventStyleTop);
+              // Draw a line connecting the end year to the box
+              const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              endLine.setAttribute(
+                  'd',
+                  `M ${endX} ${axisY} L ${endX} ${eventStyleTop} L ${endX - 5} ${eventStyleTop}`
+              );
               endLine.setAttribute('stroke', event.color || '#888');
               endLine.setAttribute('stroke-width', '2');
+              endLine.setAttribute('fill', 'none');
               currentTimelineSvg.appendChild(endLine);
           } catch (error) {
               console.error("Error processing significant event:", event?.title || 'Unknown', error);
