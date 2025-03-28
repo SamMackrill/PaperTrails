@@ -609,6 +609,7 @@
             // Create Photo Element
             const photoEl = document.createElement('img'); photoEl.src = scientist.photo; photoEl.alt = scientist.name; photoEl.className = 'scientist-photo'; photoEl.style.border = `3px solid ${scientist.color}`; photoEl.dataset.scientistId = id;
             photoEl.id = `photo-${id}`; // Add ID
+            photoEl.loading = 'lazy'; // Add lazy loading
             photoEl.onerror = function() { console.warn(`Failed image: ${scientist.photo}`); };
             const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const photoX = photoYearX - PHOTO_SIZE / 2; let photoCenterY; const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : PHOTO_VERTICAL_STAGGER; if (photoIndex % 2 === 0) { photoCenterY = axisY - PHOTO_BASE_OFFSET_Y - staggerOffset; } else { photoCenterY = axisY + PHOTO_BASE_OFFSET_Y + staggerOffset; } const photoStyleTop = photoCenterY - PHOTO_SIZE / 2; photoEl.style.left = `${photoX}px`; photoEl.style.top = `${photoStyleTop}px`;
             photoEl.addEventListener('click', () => showScientistModal(id));
