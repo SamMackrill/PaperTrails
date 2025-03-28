@@ -84,8 +84,12 @@
 
     /* Controls */
     .controls {
-      margin: 0 auto 20px auto;
-      width: fit-content;
+      margin: 0;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      transform: scale(0.5);
+      transform-origin: top right;
       background-color: var(--card-bg-color);
       color: var(--text-color);
       padding: 10px 15px;
@@ -384,6 +388,8 @@
     </div>
   </div>
 
+  <img src="images/default.png" style="display: none;" alt="Default Image">
+
 <script>
     // *** IMPORTANT ***
     // Ensure you have an 'images' folder with correctly named images.
@@ -396,7 +402,7 @@
       ampere: { name: "André-Marie Ampère", color: "#fb5607", photo: "images/ampere.jpg", nationality: "French", birth: "1775-01-20", death: "1836-06-10", publications: [ { year: 1820, title: "Mémoire sur l'action mutuelle...", abstract: "Ampère's force law." }, { year: 1826, title: "Mémoire sur la théorie mathématique...", abstract: "Ampère's circuital law." } ] },
       oersted: { name: "Hans Christian Ørsted", color: "#bc6c25", photo: "images/oersted.jpg", nationality: "Danish", birth: "1777-08-14", death: "1851-03-09", publications: [ { year: 1820, title: "Experimenta circa effectum conflictus electrici in acum magneticam", abstract: "Discovered that electric currents create magnetic fields (electromagnetism)." } ] },
       faraday: { name: "Michael Faraday", color: "#e76f51", photo: "images/faraday.jpg", nationality: "English", birth: "1791-09-22", death: "1867-08-25", publications: [ { year: 1831, title: "Experimental Researches in Electricity (Series I)", abstract: "Discovered electromagnetic induction..." }, { year: 1846, title: "Experimental Researches in Electricity (Series XIX)", abstract: "Described diamagnetism and proposed lines of force." } ] },
-      savart: { name: "Félix Savart", color: "#5e60ce", photo: "images/savart.jpg", nationality: "French", birth: "1791-06-30", death: "1841-03-16", publications: [ { year: 1820, title: "Note sur le magnétisme de la pile de Volta", abstract: "With Biot, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)." } ] },
+      savart: { name: "Félix Savart", color: "#5e60ce", photo: "images/savart0.jpg", nationality: "French", birth: "1791-06-30", death: "1841-03-16", publications: [ { year: 1820, title: "Note sur le magnétisme de la pile de Volta", abstract: "With Biot, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)." } ] },
       neumann_franz: { name: "Franz Ernst Neumann", color: "#606c38", photo: "images/neumann_franz.jpg", nationality: "German (Prussian)", birth: "1798-09-11", death: "1895-05-23", publications: [ { year: 1845, title: "Die mathematischen Gesetze der inducirten elektrischen Ströme", abstract: "Developed the mathematical theory of electromagnetic induction (Neumann's formula)." } ] },
       weber: { name: "Wilhelm Weber", color: "#f4a261", photo: "images/weber.jpg", nationality: "German", birth: "1804-10-24", death: "1891-06-23", publications: [ { year: 1846, title: "Elektrodynamische Massbestimmungen", abstract: "Work on the electrodynamics of moving charges." }, { year: 1856, title: "On the Measurement of Electric Resistance", abstract: "Contributed to establishing absolute electrical units." } ] },
       maxwell: { name: "James Clerk Maxwell", color: "#2a9d8f", photo: "images/maxwell.jpg", nationality: "Scottish", birth: "1831-06-13", death: "1879-11-05", publications: [ { year: 1861, title: "On Physical Lines of Force", abstract: "Introduced displacement current." }, { year: 1873, title: "A Treatise on Electricity and Magnetism", abstract: "Unified electricity, magnetism, and light." } ] },
@@ -614,7 +620,11 @@
             const photoEl = document.createElement('img'); photoEl.src = scientist.photo; photoEl.alt = scientist.name; photoEl.className = 'scientist-photo'; photoEl.style.border = `3px solid ${scientist.color}`; photoEl.dataset.scientistId = id;
             photoEl.id = `photo-${id}`; // Add ID
             photoEl.loading = 'lazy'; // Add lazy loading
-            photoEl.onerror = function() { console.warn(`Failed image: ${scientist.photo}`); };
+            photoEl.onerror = function() {
+              console.warn(`Failed image: ${scientist.photo}`);
+              const isDarkMode = document.body.classList.contains('dark-mode');
+              photoEl.src = isDarkMode ? 'images/default.png' : 'images/default.png';
+            };
             const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const photoX = photoYearX - PHOTO_SIZE / 2; let photoCenterY; const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : PHOTO_VERTICAL_STAGGER; if (photoIndex % 2 === 0) { photoCenterY = axisY - PHOTO_BASE_OFFSET_Y - staggerOffset; } else { photoCenterY = axisY + PHOTO_BASE_OFFSET_Y + staggerOffset; } const photoStyleTop = photoCenterY - PHOTO_SIZE / 2; photoEl.style.left = `${photoX}px`; photoEl.style.top = `${photoStyleTop}px`;
             photoEl.addEventListener('click', () => showScientistModal(id));
             photoEl.addEventListener('mouseenter', () => highlightScientistGroup(id)); // Add hover
