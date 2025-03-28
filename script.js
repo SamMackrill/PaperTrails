@@ -444,23 +444,27 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
 
     timeline.appendChild(eventEl);
 
-    // Draw lines connecting the event to the timeline axis
-    const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    startLine.setAttribute('x1', startX);
-    startLine.setAttribute('y1', axisY);
-    startLine.setAttribute('x2', startX);
-    startLine.setAttribute('y2', eventStyleTop);
+    // Draw lines connecting the event to the timeline axis with slight horizontal offsets
+    const offset = 5; // Horizontal offset for alignment
+
+    const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    startLine.setAttribute(
+      'd',
+      `M ${startX} ${axisY} L ${startX} ${eventStyleTop} L ${startX + offset} ${eventStyleTop}`
+    );
     startLine.setAttribute('stroke', event.color || '#888');
     startLine.setAttribute('stroke-width', '2');
+    startLine.setAttribute('fill', 'none');
     timelineSvg.appendChild(startLine);
 
-    const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    endLine.setAttribute('x1', endX);
-    endLine.setAttribute('y1', axisY);
-    endLine.setAttribute('x2', endX);
-    endLine.setAttribute('y2', eventStyleTop);
+    const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    endLine.setAttribute(
+      'd',
+      `M ${endX} ${axisY} L ${endX} ${eventStyleTop} L ${endX - offset} ${eventStyleTop}`
+    );
     endLine.setAttribute('stroke', event.color || '#888');
     endLine.setAttribute('stroke-width', '2');
+    endLine.setAttribute('fill', 'none');
     timelineSvg.appendChild(endLine);
   });
 }
