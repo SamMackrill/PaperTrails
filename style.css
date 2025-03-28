@@ -1,0 +1,344 @@
+/* --- Color Variables --- */
+:root {
+  --bg-color: #f4f4f4;
+  --text-color: #333;
+  --card-bg-color: #fff;
+  --card-border-color: #ccc;
+  --shadow-color: rgba(0,0,0,0.1);
+  --button-bg: #eee;
+  --button-hover-bg: #ddd;
+  --button-border: #ccc;
+  --button-text: #333;
+  --axis-color: #333;
+  --marker-color: #888;
+  --marker-text-color: #555;
+  --marker-major-color: #333;
+  --current-year-color: #c1121f;
+  --modal-overlay: rgba(0,0,0,0.6);
+  --modal-bg: #fefefe;
+  --modal-border: #888;
+  --modal-text: #555;
+  --modal-close-color: #aaa;
+  --modal-close-hover: #000;
+  --pub-border-color: rgba(0,0,0,0.3);
+  --img-error-bg: #eee;
+  --img-error-border: #aaa;
+  --discovery-border-color: rgba(0,0,0,0.3);
+}
+
+body.dark-mode {
+  --bg-color: #1a1a1a;
+  --text-color: #eee;
+  --card-bg-color: #2a2a2a;
+  --card-border-color: #555;
+  --shadow-color: rgba(255,255,255,0.08);
+  --button-bg: #444;
+  --button-hover-bg: #555;
+  --button-border: #666;
+  --button-text: #eee;
+  --axis-color: #ccc;
+  --marker-color: #aaa;
+  --marker-text-color: #bbb;
+  --marker-major-color: #eee;
+  --current-year-color: #ff6b6b;
+  --modal-overlay: rgba(0,0,0,0.75);
+  --modal-bg: #333;
+  --modal-border: #666;
+  --modal-text: #ccc;
+  --modal-close-color: #bbb;
+  --modal-close-hover: #fff;
+  --pub-border-color: rgba(255,255,255,0.3);
+  --img-error-bg: #444;
+  --img-error-border: #777;
+  --discovery-border-color: rgba(255,255,255,0.3);
+}
+
+/* Basic Reset & Body */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+  color: var(--text-color);
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+/* Controls */
+.controls {
+  margin: 0;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transform: scale(0.5);
+  transform-origin: top right;
+  background-color: var(--card-bg-color);
+  color: var(--text-color);
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 100;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls button {
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid var(--button-border);
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.controls button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.zoom-level {
+  font-weight: bold;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Timeline Container & Timeline */
+.timeline-container {
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  border-top: 1px solid var(--card-border-color);
+  border-bottom: 1px solid var(--card-border-color);
+  background-color: var(--card-bg-color);
+  position: relative;
+  cursor: grab;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.timeline {
+  position: relative;
+  height: 100%;
+  transform-origin: 0 0;
+  background-color: var(--card-bg-color);
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  will-change: transform, background-color;
+  /* width set dynamically */
+}
+
+/* Timeline Axis Line element */
+.timeline-axis-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--axis-color);
+  z-index: 5;
+  transition: background-color 0.3s ease;
+  /* top set by JS */
+}
+
+/* Timeline Axis Label */
+.timeline-axis-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--marker-text-color);
+  white-space: nowrap;
+  margin-top: 10px;
+  z-index: 6;
+  transition: color 0.3s ease;
+  /* top set by JS */
+}
+
+/* Year Markers */
+.year-marker {
+  position: absolute;
+  width: 1px;
+  height: 10px; /* Tick goes downwards */
+  background-color: var(--marker-color);
+  z-index: 6;
+  transition: background-color 0.3s ease;
+  /* top/left set by JS */
+}
+
+.year-marker.major {
+  height: 20px;
+  background-color: var(--marker-major-color);
+}
+
+.year-marker span {
+  position: absolute;
+  top: 100%;
+  margin-top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--marker-text-color);
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.year-marker.major span {
+  font-weight: bold;
+  color: var(--marker-major-color);
+}
+.year-marker.current-year span {
+  font-weight: bold;
+  color: var(--current-year-color);
+}
+
+/* Publication Diamonds */
+.publication {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  cursor: pointer;
+  z-index: 20;
+  border: 1px solid var(--pub-border-color);
+  transition: border-color 0.3s ease, transform 0.2s ease;
+  will-change: transform, background-color;
+  /* background, top/left set by JS */
+}
+
+.publication:hover,
+.publication.highlight {
+  transform: rotate(45deg) scale(1.3);
+  z-index: 25;
+}
+
+/* Discovery Marker Style */
+.discovery-marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; /* Circle */
+  cursor: pointer;
+  z-index: 18; /* Below publications */
+  border: 1px solid var(--discovery-border-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+  will-change: transform, background-color;
+  /* background, top/left set by JS */
+}
+
+.discovery-marker:hover,
+.discovery-marker.highlight {
+  transform: scale(1.3); /* No rotation */
+  z-index: 24;
+}
+
+/* Scientist Photos */
+.scientist-photo {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  cursor: pointer;
+  z-index: 30;
+  background-color: var(--card-bg-color);
+  box-shadow: 0 1px 3px var(--shadow-color);
+  transition: filter 0.2s ease, transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, filter;
+  /* border set dynamically */
+  /* top/left set by JS */
+}
+
+.scientist-photo:hover,
+.scientist-photo.highlight {
+  filter: grayscale(0%);
+  transform: scale(1.1);
+  z-index: 35;
+}
+
+.scientist-photo:error {
+  background-color: var(--img-error-bg) !important;
+  border-style: dashed !important;
+  border-color: var(--img-error-border) !important;
+  color: var(--img-error-border) !important;
+}
+
+/* Connecting Lines (SVG) */
+.timeline-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.connecting-line {
+  stroke-width: 1.5px;
+  transition: stroke-width 0.2s ease;
+  /* stroke set dynamically */
+}
+
+.connecting-line.highlight {
+    stroke-width: 3px; /* Make line thicker on highlight */
+}
+
+/* Modals */
+.modal {
+  position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+  overflow: auto; background-color: var(--modal-overlay); display: flex;
+  align-items: center; justify-content: center; visibility: hidden; opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+}
+
+.modal.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: var(--modal-bg); color: var(--text-color); margin: auto;
+  padding: 25px; border: 1px solid var(--modal-border); width: 80%; max-width: 600px;
+  border-radius: 5px; position: relative; box-shadow: 0 4px 8px var(--shadow-color);
+  transform: scale(0.9); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal.visible .modal-content {
+  transform: scale(1);
+}
+
+.modal-content h3 {
+  margin-top: 0; color: var(--text-color); border-bottom: 1px solid var(--button-bg);
+  padding-bottom: 10px; margin-bottom: 15px; transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-content p {
+  line-height: 1.6; color: var(--modal-text); margin-top: 10px; margin-bottom: 10px; transition: color 0.3s ease;
+}
+
+.modal-content hr {
+  margin: 15px 0; border: 0; border-top: 1px solid var(--button-bg); transition: border-color 0.3s ease;
+}
+
+.close-button {
+  color: var(--modal-close-color); position: absolute; top: 10px; right: 15px;
+  font-size: 28px; font-weight: bold; transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: var(--modal-close-hover); text-decoration: none; cursor: pointer;
+}
