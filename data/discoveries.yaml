@@ -2,16 +2,19 @@
   title: "Discovery of the Electron"
   discoverer: "J. J. Thomson"
   details: "Identified the electron as a subatomic particle..."
+  particle: e-
   color: "#adb5bd"
 
 - year: 1932
   title: "Discovery of the Positron"
   discoverer: "Carl Anderson"
   details: "Observed the positron (antielectron) in cosmic ray tracks..."
+  particle: p+
   color: "#adb5bd"
 
 - year: 1932
   title: "Discovery of the Neutron"
   discoverer: "James Chadwick"
   details: "Identified the neutron as a neutral subatomic particle in the atomic nucleus."
+  particle: N
   color: "#ef476f"

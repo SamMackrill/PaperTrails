@@ -418,7 +418,7 @@
 
     async function initializeData() {
         await Promise.all([loadScientistsData(), loadDiscoveriesData()]);
-        renderTimeline(); // Re-render timeline after loading data
+        renderTimeline(); // Ensure timeline is rendered after loading both datasets
     }
 
     // Call the function to load data
@@ -643,14 +643,41 @@
       }); // End forEach Scientist
 
       // --- Render Discoveries ---
-      discoveries.forEach((discovery, index) => {
+      discoveries.forEach((discovery) => {
           try {
               if (typeof discovery.year !== 'number') return;
-              const discoveryEl = document.createElement('div'); discoveryEl.className = 'discovery-marker'; discoveryEl.style.backgroundColor = discovery.color || '#aaaaaa'; discoveryEl.title = `${discovery.title} (${discovery.year})`;
-              const discoveryX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const discoveryStyleTop = axisY - (PUBLICATION_SIZE / 2); const discoveryStyleLeft = discoveryX - (PUBLICATION_SIZE / 2); const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - PUBLICATION_SIZE, discoveryStyleLeft)); discoveryEl.style.left = `${clampedDiscoveryX}px`; discoveryEl.style.top = `${discoveryStyleTop}px`;
-              discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer, discovery.year, discovery.title, discovery.details, 'discovery'));
+              const discoveryEl = document.createElement('div'); discoveryEl.className = 'discovery-marker';
+
+              // Use the color from the YAML file, fallback to default if not provided
+              const color = discovery.color || '#aaaaaa';
+              discoveryEl.style.backgroundColor = color;
+
+              // Set size to twice the original
+              const bubbleSize = 24; // Twice the original size of 12px
+              discoveryEl.style.width = `${bubbleSize}px`;
+              discoveryEl.style.height = `${bubbleSize}px`;
+
+              discoveryEl.title = `${discovery.title || 'Untitled Discovery'} (${discovery.year})`;
+              const discoveryX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; const discoveryStyleTop = axisY - 50; // Adjust position for larger bubbles
+              const discoveryStyleLeft = discoveryX - (bubbleSize / 2); const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - bubbleSize, discoveryStyleLeft)); discoveryEl.style.left = `${clampedDiscoveryX}px`; discoveryEl.style.top = `${discoveryStyleTop}px`;
+
+              // Add particle name inside the bubble
+              const particleLabel = document.createElement('span');
+              particleLabel.textContent = discovery.particle || 'Unknown Particle';
+              particleLabel.style.position = 'absolute';
+              particleLabel.style.top = '50%';
+              particleLabel.style.left = '50%';
+              particleLabel.style.transform = 'translate(-50%, -50%)';
+              particleLabel.style.fontSize = '12px'; // Adjust font size for larger bubbles
+              particleLabel.style.color = '#fff';
+              particleLabel.style.textAlign = 'center';
+              discoveryEl.appendChild(particleLabel);
+
+              discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer || 'Unknown', discovery.year, discovery.title || 'Untitled Discovery', discovery.details || 'No details available.', 'discovery'));
               timeline.appendChild(discoveryEl); // Append Discovery
-          } catch(error) { console.error("Error processing discovery:", discovery?.title || 'Unknown', error); }
+          } catch (error) {
+              console.error("Error processing discovery:", discovery?.title || 'Unknown', error);
+          }
       });
       // --- End Render Discoveries ---
 
