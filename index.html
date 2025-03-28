@@ -394,26 +394,35 @@
 <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
 <script>
     let scientists = {};
+    let discoveries = [];
 
     async function loadScientistsData() {
         try {
             const response = await fetch('data/scientists.yaml');
             const yamlText = await response.text();
             scientists = jsyaml.load(yamlText);
-            renderTimeline(); // Re-render timeline after loading data
         } catch (error) {
             console.error('Failed to load scientists data:', error);
         }
     }
 
-    // Call the function to load data
-    loadScientistsData();
+    async function loadDiscoveriesData() {
+        try {
+            const response = await fetch('data/discoveries.yaml');
+            const yamlText = await response.text();
+            discoveries = jsyaml.load(yamlText);
+        } catch (error) {
+            console.error('Failed to load discoveries data:', error);
+        }
+    }
 
-    // Discoveries Data
-    const discoveries = [
-      { year: 1897, title: "Discovery of the Electron", discoverer: "J. J. Thomson", details: "Identified the electron as a subatomic particle...", color: "#adb5bd" },
-      { year: 1932, title: "Discovery of the Positron", discoverer: "Carl Anderson", details: "Observed the positron (antielectron) in cosmic ray tracks...", color: "#adb5bd" }
-    ];
+    async function initializeData() {
+        await Promise.all([loadScientistsData(), loadDiscoveriesData()]);
+        renderTimeline(); // Re-render timeline after loading data
+    }
+
+    // Call the function to load data
+    initializeData();
 
     // DOM Elements (fetched in initializeApp)
     let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay;
