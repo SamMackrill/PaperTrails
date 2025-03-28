@@ -664,7 +664,7 @@
               const discoveryStyleTop = axisY - 50; // Fixed height above the timeline
 
               // Adjust horizontal position to avoid overlap
-              const horizontalSpacing = 30; // Minimum space between bubbles
+              const horizontalSpacing = 10; // Minimum space between bubbles
               const discoveryStyleLeft = discoveryX + (index % 2 === 0 ? index * horizontalSpacing : -index * horizontalSpacing);
               const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - bubbleSize, discoveryStyleLeft));
               discoveryEl.style.left = `${clampedDiscoveryX}px`;
