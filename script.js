@@ -1,8 +1,8 @@
-let scientists = {};
-let discoveries = [];
-let significantEvents = [];
+export let scientists = {};
+export let discoveries = [];
+export let significantEvents = [];
 
-async function loadScientistsData() {
+export async function loadScientistsData() {
     try {
         const response = await fetch('data/scientists.yaml');
         const yamlText = await response.text();
@@ -12,7 +12,7 @@ async function loadScientistsData() {
     }
 }
 
-async function loadDiscoveriesData() {
+export async function loadDiscoveriesData() {
     try {
         const response = await fetch('data/discoveries.yaml');
         const yamlText = await response.text();
@@ -22,7 +22,7 @@ async function loadDiscoveriesData() {
     }
 }
 
-async function loadSignificantEventsData() {
+export async function loadSignificantEventsData() {
     try {
         const response = await fetch('data/significantevents.yaml');
         const yamlText = await response.text();
@@ -32,7 +32,7 @@ async function loadSignificantEventsData() {
     }
 }
 
-async function initializeData() {
+export async function initializeData() {
     await Promise.all([
         loadScientistsData(),
         loadDiscoveriesData(),
@@ -79,7 +79,7 @@ let dragStartTranslateY = 0;
 let resizeTimer;
 
 // --- Dark/Light Mode Logic ---
-function applyTheme(theme) {
+export function applyTheme(theme) {
   if (theme === 'dark') {
     document.body.classList.add('dark-mode');
     if (modeToggleButton) {
@@ -97,12 +97,12 @@ function applyTheme(theme) {
   }
 }
 
-function toggleTheme() {
+export function toggleTheme() {
   const currentThemeIsDark = document.body.classList.contains('dark-mode');
   applyTheme(currentThemeIsDark ? 'light' : 'dark');
 }
 
-function initializeTheme() {
+export function initializeTheme() {
   const savedTheme = localStorage.getItem(themeLocalStorageKey);
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   modeToggleButton = document.getElementById('mode-toggle'); // Fetch button here
@@ -123,7 +123,7 @@ function initializeTheme() {
 }
 
 // --- Helper Functions ---
-function updateTimelineTransform() {
+export function updateTimelineTransform() {
   // Ensure critical elements are available
   if (!timeline || !zoomLevelDisplay) {
     console.error("Timeline or zoom display element missing during transform update.");
@@ -177,7 +177,7 @@ function updateTimelineTransform() {
 
 
 // --- Highlight Functions ---
-function highlightScientistGroup(scientistId) {
+export function highlightScientistGroup(scientistId) {
     const photo = document.getElementById(`photo-${scientistId}`);
     const line = document.getElementById(`line-${scientistId}`);
     const publications = document.querySelectorAll(`.publication[data-scientist-id="${scientistId}"]`);
@@ -186,7 +186,7 @@ function highlightScientistGroup(scientistId) {
     publications.forEach(pub => pub.classList.add('highlight'));
 }
 
-function unhighlightScientistGroup(scientistId) {
+export function unhighlightScientistGroup(scientistId) {
     const photo = document.getElementById(`photo-${scientistId}`);
     const line = document.getElementById(`line-${scientistId}`);
     const publications = document.querySelectorAll(`.publication[data-scientist-id="${scientistId}"]`);
@@ -197,7 +197,7 @@ function unhighlightScientistGroup(scientistId) {
 
 
 // --- Timeline Rendering ---
-function renderTimeline() {
+export function renderTimeline() {
   console.log("Rendering timeline...");
   if (!timelineContainer || !timeline) { console.error("Timeline elements not found for render!"); return; }
   timeline.innerHTML = ''; // Clear previous
@@ -419,12 +419,12 @@ function renderTimeline() {
 }
 
 // --- Modal Handling ---
-function showPublicationModal(actorName, pubYear, title, abstract, type = 'publication') { const targetModal = document.getElementById('publication-modal'); const titleEl = document.getElementById('pub-modal-title'); const authorLabelEl = document.getElementById('pub-modal-author-label'); const authorEl = document.getElementById('pub-modal-author'); const yearEl = document.getElementById('pub-modal-year'); const abstractEl = document.getElementById('pub-modal-abstract'); if (!targetModal || !titleEl || !authorLabelEl || !authorEl || !yearEl || !abstractEl) { console.error("Cannot show publication modal: Missing elements."); return; } authorLabelEl.textContent = (type === 'discovery') ? 'Discoverer:' : 'Author:'; titleEl.textContent = title; authorEl.textContent = actorName || 'N/A'; yearEl.textContent = pubYear || 'N/A'; abstractEl.textContent = abstract || "No details available."; targetModal.classList.add('visible'); }
-function showScientistModal(scientistId) { const scientist = scientists[scientistId]; if (!scientist) return; const targetModal = document.getElementById('scientist-modal'); const nameEl = document.getElementById('sci-modal-name'); const natEl = document.getElementById('sci-modal-nationality'); const birthEl = document.getElementById('sci-modal-birth'); const deathEl = document.getElementById('sci-modal-death'); if (!targetModal || !nameEl || !natEl || !birthEl || !deathEl) { console.error("Cannot show scientist modal: Missing elements."); return; } nameEl.textContent = scientist.name; natEl.textContent = scientist.nationality || 'N/A'; birthEl.textContent = scientist.birth || 'N/A'; deathEl.textContent = scientist.death || 'N/A'; targetModal.classList.add('visible'); }
-function closeModal() { const pubM = document.getElementById('publication-modal'); const sciM = document.getElementById('scientist-modal'); if(pubM) pubM.classList.remove('visible'); if(sciM) sciM.classList.remove('visible'); }
+export function showPublicationModal(actorName, pubYear, title, abstract, type = 'publication') { const targetModal = document.getElementById('publication-modal'); const titleEl = document.getElementById('pub-modal-title'); const authorLabelEl = document.getElementById('pub-modal-author-label'); const authorEl = document.getElementById('pub-modal-author'); const yearEl = document.getElementById('pub-modal-year'); const abstractEl = document.getElementById('pub-modal-abstract'); if (!targetModal || !titleEl || !authorLabelEl || !authorEl || !yearEl || !abstractEl) { console.error("Cannot show publication modal: Missing elements."); return; } authorLabelEl.textContent = (type === 'discovery') ? 'Discoverer:' : 'Author:'; titleEl.textContent = title; authorEl.textContent = actorName || 'N/A'; yearEl.textContent = pubYear || 'N/A'; abstractEl.textContent = abstract || "No details available."; targetModal.classList.add('visible'); }
+export function showScientistModal(scientistId) { const scientist = scientists[scientistId]; if (!scientist) return; const targetModal = document.getElementById('scientist-modal'); const nameEl = document.getElementById('sci-modal-name'); const natEl = document.getElementById('sci-modal-nationality'); const birthEl = document.getElementById('sci-modal-birth'); const deathEl = document.getElementById('sci-modal-death'); if (!targetModal || !nameEl || !natEl || !birthEl || !deathEl) { console.error("Cannot show scientist modal: Missing elements."); return; } nameEl.textContent = scientist.name; natEl.textContent = scientist.nationality || 'N/A'; birthEl.textContent = scientist.birth || 'N/A'; deathEl.textContent = scientist.death || 'N/A'; targetModal.classList.add('visible'); }
+export function closeModal() { const pubM = document.getElementById('publication-modal'); const sciM = document.getElementById('scientist-modal'); if(pubM) pubM.classList.remove('visible'); if(sciM) sciM.classList.remove('visible'); }
 
 // --- Event Listeners Setup Function ---
-function setupEventListeners() {
+export function setupEventListeners() {
     // Fetch elements needed for listeners
     timelineContainer = document.getElementById('timeline-container'); zoomInButton = document.getElementById('zoom-in'); zoomOutButton = document.getElementById('zoom-out'); resetZoomButton = document.getElementById('reset-zoom'); closePubModal = document.getElementById('close-pub-modal'); closeSciModal = document.getElementById('close-sci-modal'); pubModal = document.getElementById('publication-modal'); sciModal = document.getElementById('scientist-modal');
     if (!timelineContainer || !zoomInButton || !zoomOutButton || !resetZoomButton || !closePubModal || !closeSciModal || !pubModal || !sciModal ) { console.error("Cannot setup event listeners: Elements missing."); return; }
@@ -446,7 +446,7 @@ function setupEventListeners() {
 }
 
 // --- Resize Handler ---
-function debouncedRender() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { console.log("Window resized, resetting view and re-rendering..."); currentScale = 1.0; currentTranslateX = 0; currentTranslateY = 0; renderTimeline(); }, RESIZE_DEBOUNCE_DELAY); }
+export function debouncedRender() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { console.log("Window resized, resetting view and re-rendering..."); currentScale = 1.0; currentTranslateX = 0; currentTranslateY = 0; renderTimeline(); }, RESIZE_DEBOUNCE_DELAY); }
 
 // --- Initial Setup Function ---
 function initializeApp() {
@@ -468,3 +468,5 @@ if (document.readyState === 'loading') {
 } else {
     initializeApp(); // Already loaded
 }
+
+export default initializeApp;
