@@ -235,6 +235,9 @@ h1 {
   cursor: pointer;
   z-index: 18; /* Below publications */
   border: 1px solid var(--discovery-border-color);
+  /* Apply inverse scale using CSS variable */
+  transform: scale(var(--current-inverse-scale, 1));
+  transform-origin: center center; /* Ensure scaling happens from the center */
   transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
   will-change: transform, background-color;
   /* background, top/left set by JS */
@@ -242,7 +245,8 @@ h1 {
 
 .discovery-marker:hover,
 .discovery-marker.highlight {
-  transform: scale(1.3); /* No rotation */
+  /* Combine hover scale effect with inverse scale */
+  transform: scale(calc(1.3 * var(--current-inverse-scale, 1)));
   z-index: 24;
 }
 

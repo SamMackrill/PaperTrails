@@ -154,6 +154,7 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
         line.setAttribute('stroke', scientist.color || '#ccc');
         line.classList.add('connecting-line');
         line.dataset.scientistId = id; // Add data attribute for highlighting
+        line.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
         timelineSvg.appendChild(line);
       } else {
           console.warn(`First publication coordinate for ${id} not found when drawing line.`);
@@ -277,6 +278,7 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
     line.setAttribute('stroke', discovery.color || '#aaaaaa');
     line.setAttribute('stroke-width', '1.5'); // Thinner line
     line.classList.add('connecting-line'); // Add class for potential styling/highlighting
+    line.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
     timelineSvg.appendChild(line);
   });
 }
