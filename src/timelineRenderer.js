@@ -211,9 +211,15 @@ function renderPublications(timeline, baseTimelineWidth, axisY, elementCoords) {
 
 
 function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
+  // Use the DISCOVERY_SIZE from config (which might have been updated by user feedback)
   const { START_YEAR, YEAR_SPAN, DISCOVERY_SIZE, DISCOVERY_BASE_OFFSET_Y } = config;
+  const STAGGER_PADDING = 5; // Pixels between staggered markers
+  let lastMarkerEndX = -Infinity; // Track the right edge of the last placed marker
 
-  discoveries.forEach((discovery, index) => {
+  // Sort discoveries by year to handle staggering correctly left-to-right
+  const sortedDiscoveries = [...discoveries].sort((a, b) => (a.year || 0) - (b.year || 0));
+
+  sortedDiscoveries.forEach((discovery, index) => {
     if (typeof discovery.year !== 'number') return;
 
     const discoveryEl = document.createElement('div');
@@ -223,13 +229,24 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
     discoveryEl.style.height = `${DISCOVERY_SIZE}px`;
     discoveryEl.title = `${discovery.title || 'Untitled Discovery'} (${discovery.year})`;
 
-    const discoveryYearX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    const discoveryYearX = ((discovery.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth; // Center X for the year
 
-    // Position above the axis line
-    const discoveryStyleTop = axisY - DISCOVERY_BASE_OFFSET_Y - (DISCOVERY_SIZE / 2);
-    // Simple horizontal positioning, maybe add staggering later if needed
-    const discoveryStyleLeft = discoveryYearX - (DISCOVERY_SIZE / 2);
+    // Calculate default horizontal position
+    let discoveryStyleLeft = discoveryYearX - (DISCOVERY_SIZE / 2);
+
+    // Check for overlap with the previous marker
+    if (discoveryStyleLeft < lastMarkerEndX + STAGGER_PADDING) {
+        discoveryStyleLeft = lastMarkerEndX + STAGGER_PADDING; // Stagger to the right
+    }
+
+    // Clamp position to stay within timeline bounds
     const clampedDiscoveryX = Math.max(0, Math.min(baseTimelineWidth - DISCOVERY_SIZE, discoveryStyleLeft));
+
+    // Update the end position for the next marker's check *after* clamping
+    lastMarkerEndX = clampedDiscoveryX + DISCOVERY_SIZE;
+
+    // Position *above* the axis line using the offset
+    const discoveryStyleTop = axisY - DISCOVERY_BASE_OFFSET_Y - (DISCOVERY_SIZE / 2); // Changed '+' back to '-' before offset
 
     discoveryEl.style.left = `${clampedDiscoveryX}px`;
     discoveryEl.style.top = `${discoveryStyleTop}px`;
@@ -241,7 +258,8 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
     particleLabel.style.top = '50%';
     particleLabel.style.left = '50%';
     particleLabel.style.transform = 'translate(-50%, -50%)';
-    particleLabel.style.fontSize = '10px'; // Smaller font
+    // Adjust font size based on potentially changed DISCOVERY_SIZE
+    particleLabel.style.fontSize = `${Math.max(6, Math.floor(DISCOVERY_SIZE * 0.6))}px`;
     particleLabel.style.color = '#fff'; // White text for contrast
     particleLabel.style.textAlign = 'center';
     particleLabel.style.pointerEvents = 'none'; // Prevent label from interfering with clicks
@@ -250,12 +268,12 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
     discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer, discovery.year, discovery.title, discovery.details, 'discovery'));
     timeline.appendChild(discoveryEl);
 
-    // Draw connecting line from bottom-center of marker to axis
+    // Draw connecting line from *bottom*-center of marker to axis
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', clampedDiscoveryX + DISCOVERY_SIZE / 2);
+    line.setAttribute('x1', clampedDiscoveryX + DISCOVERY_SIZE / 2); // Center X of the *placed* marker
     line.setAttribute('y1', discoveryStyleTop + DISCOVERY_SIZE); // Bottom of marker
-    line.setAttribute('x2', discoveryYearX); // Point to the actual year on axis
-    line.setAttribute('y2', axisY);
+    line.setAttribute('x2', discoveryYearX); // Point line to the *actual* year position on axis
+    line.setAttribute('y2', axisY); // Axis line
     line.setAttribute('stroke', discovery.color || '#aaaaaa');
     line.setAttribute('stroke-width', '1.5'); // Thinner line
     line.classList.add('connecting-line'); // Add class for potential styling/highlighting

@@ -7,11 +7,11 @@ export const config = {
   ZOOM_STEP: 0.1,
   PHOTO_SIZE: 50,
   PUBLICATION_SIZE: 12,
-  DISCOVERY_SIZE: 24, // Added for consistency
+  DISCOVERY_SIZE: 16, // Made 50% smaller
   EVENT_BOX_HEIGHT: 30, // Added for consistency
   PHOTO_BASE_OFFSET_Y: 70,
   PHOTO_VERTICAL_STAGGER: 40,
-  DISCOVERY_BASE_OFFSET_Y: 50, // Added for consistency
+  DISCOVERY_BASE_OFFSET_Y: 30, // Moved closer to axis (below)
   EVENT_BASE_OFFSET_Y: 30, // Added for consistency
   DRAG_THRESHOLD: 5,
   RESIZE_DEBOUNCE_DELAY: 250,
