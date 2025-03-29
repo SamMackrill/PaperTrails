@@ -75,9 +75,12 @@ function updateTimelineTransform() {
 
   // Apply transform using requestAnimationFrame for smoother rendering
   const transformString = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`;
+  const inverseScale = 1 / currentScale; // Calculate inverse scale for counter-scaling elements
+
   requestAnimationFrame(() => {
       if (timeline) { // Check if timeline still exists
         timeline.style.transform = transformString;
+        timeline.style.setProperty('--current-inverse-scale', inverseScale); // Set CSS variable
       }
   });
 
