@@ -213,6 +213,7 @@ h1 {
   cursor: pointer;
   z-index: 20;
   border: 1px solid var(--pub-border-color);
+  box-sizing: border-box; /* Include border in element's dimensions */
   transition: border-color 0.3s ease, transform 0.2s ease;
   will-change: transform, background-color;
   /* background, top/left set by JS */
