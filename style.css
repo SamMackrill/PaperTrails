@@ -314,20 +314,13 @@ h1 {
   height: auto; /* Allow vertical expansion */
   min-height: 16px; /* Ensure a minimum height */
   padding: 3px 5px; /* Add some padding */
-  z-index: 15; /* Position relative to other elements */
+  z-index: 9; /* Position below SVG layer (10) so SVG text appears above */
   transition: background-color 0.3s ease; /* Match other transitions */
+  /* Reverted: transform: scale(var(--current-inverse-scale, 1)); */
+  /* Reverted: transform-origin: top left; */
 }
 
-.event-label {
-  display: block;
-  font-size: 10px;
-  color: #fff; /* Assuming dark background colors, might need adjustment for themes */
-  text-align: center;
-  white-space: normal; /* Allow text wrapping */
-  line-height: 1.2; /* Adjust line height for wrapped text */
-  pointer-events: none; /* Prevent label interference */
-  /* Remove overflow, text-overflow as wrapping is now allowed */
-}
+/* .event-label rule removed - text rendered via SVG */
 
 /* Modals */
 .modal {

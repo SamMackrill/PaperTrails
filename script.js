@@ -77,10 +77,13 @@ function updateTimelineTransform() {
   const transformString = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`;
   const inverseScale = 1 / currentScale; // Calculate inverse scale for counter-scaling elements
 
+  // const dynamicFontSize = 10 * currentScale; // Reverted: Calculate dynamic font size (base 10px)
+
   requestAnimationFrame(() => {
       if (timeline) { // Check if timeline still exists
         timeline.style.transform = transformString;
-        timeline.style.setProperty('--current-inverse-scale', inverseScale); // Set CSS variable
+        timeline.style.setProperty('--current-inverse-scale', inverseScale); // Set CSS variable for fixed-size elements
+        timeline.style.setProperty('--current-scale', currentScale); // Set CSS variable for normal scale
       }
   });
 

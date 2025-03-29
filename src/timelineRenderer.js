@@ -284,7 +284,8 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
 }
 
 function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
-  const { START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y, EVENT_BOX_HEIGHT } = config;
+  const { START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y } = config;
+  const EVENT_TEXT_BASE_SIZE = 10; // Base font size for event text
 
   significantEvents.forEach(event => {
     if (typeof event.startYear !== 'number' || typeof event.endYear !== 'number' || event.startYear >= event.endYear) return;
@@ -292,14 +293,11 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     const eventEl = document.createElement('div');
     eventEl.className = 'event-box'; // Use a more descriptive class name
     eventEl.style.backgroundColor = event.color || '#888888';
-    // Consider adding border/padding via CSS for cleaner JS
     eventEl.style.border = '1px solid rgba(0,0,0,0.2)';
-    // Use padding from CSS for better control
-    // eventEl.style.padding = '2px 4px';
     eventEl.style.boxSizing = 'border-box';
     eventEl.style.position = 'absolute';
-    // eventEl.style.overflow = 'hidden'; // Let CSS handle overflow/height
     eventEl.style.cursor = 'pointer';
+    // Height is auto via CSS
 
     const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
     const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
@@ -309,22 +307,8 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     eventEl.style.left = `${startX}px`;
     eventEl.style.top = `${eventStyleTop}px`;
     eventEl.style.width = `${eventWidth}px`;
-    // eventEl.style.height = `${EVENT_BOX_HEIGHT}px`; // Let CSS handle height
 
-    const eventLabel = document.createElement('span');
-    eventLabel.className = 'event-label'; // Add class for easier CSS targeting
-    eventLabel.textContent = event.title || 'Event';
-    // Style via CSS using .event-label class
-    // eventLabel.style.display = 'block';
-    // eventLabel.style.fontSize = '10px';
-    // eventLabel.style.color = '#fff';
-    // eventLabel.style.textAlign = 'center';
-    // eventLabel.style.whiteSpace = 'nowrap';
-    // eventLabel.style.textOverflow = 'ellipsis';
-    // eventLabel.style.overflow = 'hidden';
-    // eventLabel.style.lineHeight = `${EVENT_BOX_HEIGHT}px`;
-    eventLabel.style.pointerEvents = 'none'; // Keep this one
-    eventEl.appendChild(eventLabel);
+    // HTML label is NOT created here
 
     eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`; // Tooltip
 
@@ -338,7 +322,30 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
       );
     });
 
-    timeline.appendChild(eventEl);
+    timeline.appendChild(eventEl); // Append the box first
+
+    // Create SVG text element for the label
+    const svgText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    const textX = startX + eventWidth / 2; // Center horizontally
+    // Adjust vertical position slightly to center within typical line height + padding
+    const textY = eventStyleTop + EVENT_TEXT_BASE_SIZE * 0.6 + 3; // Added padding offset (approx)
+
+    svgText.setAttribute('x', textX);
+    svgText.setAttribute('y', textY);
+    svgText.setAttribute('font-size', `${EVENT_TEXT_BASE_SIZE}px`);
+    svgText.setAttribute('fill', '#fff'); // Assuming dark background colors
+    svgText.setAttribute('text-anchor', 'middle'); // Center align text
+    svgText.setAttribute('dominant-baseline', 'central'); // Better vertical centering for SVG
+    svgText.setAttribute('pointer-events', 'none'); // Prevent interference
+    svgText.textContent = event.title || 'Event';
+    // Apply inverse scale to the text element itself
+    svgText.setAttribute('transform', `scale(var(--current-inverse-scale, 1))`);
+    svgText.setAttribute('transform-origin', `${textX}px ${textY}px`); // Scale from text center
+
+    // Note: SVG text doesn't wrap automatically. Complex wrapping requires more JS logic.
+    // Text might overflow horizontally if too long. Box height is auto via CSS, but won't contain SVG text.
+
+    timelineSvg.appendChild(svgText); // Append text to SVG layer
 
     // Draw simple vertical lines connecting the event box ends to the timeline axis
     const lineStroke = event.color || '#888888';
@@ -351,6 +358,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     startLine.setAttribute('y2', eventStyleTop);
     startLine.setAttribute('stroke', lineStroke);
     startLine.setAttribute('stroke-width', lineStrokeWidth);
+    startLine.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
     timelineSvg.appendChild(startLine);
 
     const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -360,6 +368,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     endLine.setAttribute('y2', eventStyleTop);
     endLine.setAttribute('stroke', lineStroke);
     endLine.setAttribute('stroke-width', lineStrokeWidth);
+    endLine.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
     timelineSvg.appendChild(endLine);
   });
 }
@@ -409,7 +418,7 @@ export function renderTimeline(timelineContainer, timeline, updateTimelineTransf
   // Render scientists and draw lines to their first publication
   renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, timelineSvg);
   renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg);
-  renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg);
+  renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg); // Renders boxes AND SVG text
 
   // Apply initial transform after rendering
   if (updateTimelineTransform) {
