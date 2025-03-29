@@ -296,6 +296,27 @@ h1 {
     stroke-width: 3px; /* Make line thicker on highlight */
 }
 
+/* Event Boxes */
+.event-box {
+  /* Position, width, top, left, background-color, border, box-sizing, cursor set by JS */
+  height: auto; /* Allow vertical expansion */
+  min-height: 16px; /* Ensure a minimum height */
+  padding: 3px 5px; /* Add some padding */
+  z-index: 15; /* Position relative to other elements */
+  transition: background-color 0.3s ease; /* Match other transitions */
+}
+
+.event-label {
+  display: block;
+  font-size: 10px;
+  color: #fff; /* Assuming dark background colors, might need adjustment for themes */
+  text-align: center;
+  white-space: normal; /* Allow text wrapping */
+  line-height: 1.2; /* Adjust line height for wrapped text */
+  pointer-events: none; /* Prevent label interference */
+  /* Remove overflow, text-overflow as wrapping is now allowed */
+}
+
 /* Modals */
 .modal {
   position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;

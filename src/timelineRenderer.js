@@ -274,10 +274,11 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     eventEl.style.backgroundColor = event.color || '#888888';
     // Consider adding border/padding via CSS for cleaner JS
     eventEl.style.border = '1px solid rgba(0,0,0,0.2)';
-    eventEl.style.padding = '2px 4px';
+    // Use padding from CSS for better control
+    // eventEl.style.padding = '2px 4px';
     eventEl.style.boxSizing = 'border-box';
     eventEl.style.position = 'absolute';
-    eventEl.style.overflow = 'hidden'; // Hide overflowing text
+    // eventEl.style.overflow = 'hidden'; // Let CSS handle overflow/height
     eventEl.style.cursor = 'pointer';
 
     const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
@@ -288,19 +289,21 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     eventEl.style.left = `${startX}px`;
     eventEl.style.top = `${eventStyleTop}px`;
     eventEl.style.width = `${eventWidth}px`;
-    eventEl.style.height = `${EVENT_BOX_HEIGHT}px`; // Use config height
+    // eventEl.style.height = `${EVENT_BOX_HEIGHT}px`; // Let CSS handle height
 
     const eventLabel = document.createElement('span');
+    eventLabel.className = 'event-label'; // Add class for easier CSS targeting
     eventLabel.textContent = event.title || 'Event';
-    eventLabel.style.display = 'block'; // Or inline-block
-    eventLabel.style.fontSize = '10px';
-    eventLabel.style.color = '#fff'; // Assuming dark background colors
-    eventLabel.style.textAlign = 'center';
-    eventLabel.style.whiteSpace = 'nowrap'; // Prevent wrapping
-    eventLabel.style.textOverflow = 'ellipsis'; // Add ellipsis if text overflows
-    eventLabel.style.overflow = 'hidden';
-    eventLabel.style.lineHeight = `${EVENT_BOX_HEIGHT}px`; // Vertically center text
-    eventLabel.style.pointerEvents = 'none'; // Prevent label interference
+    // Style via CSS using .event-label class
+    // eventLabel.style.display = 'block';
+    // eventLabel.style.fontSize = '10px';
+    // eventLabel.style.color = '#fff';
+    // eventLabel.style.textAlign = 'center';
+    // eventLabel.style.whiteSpace = 'nowrap';
+    // eventLabel.style.textOverflow = 'ellipsis';
+    // eventLabel.style.overflow = 'hidden';
+    // eventLabel.style.lineHeight = `${EVENT_BOX_HEIGHT}px`;
+    eventLabel.style.pointerEvents = 'none'; // Keep this one
     eventEl.appendChild(eventLabel);
 
     eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`; // Tooltip
