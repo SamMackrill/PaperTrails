@@ -6,13 +6,14 @@ import { setupModalEventListeners } from './src/modalManager.js';
 import { renderTimeline } from './src/timelineRenderer.js';
 
 // DOM Elements (fetched in initializeApp or modules)
-let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay, heightIncreaseButton, heightDecreaseButton, scientistTooltip;
+let timelineContainer, timeline, zoomLevelDisplay, scientistTooltip,
+    zoomSlider, heightSlider, resetViewButton; // Changed button names
 
 // State Variables for Timeline Interaction
 const INITIAL_TIMELINE_HEIGHT = 450; // Default height from CSS
 const MIN_TIMELINE_HEIGHT = 200;
 const MAX_TIMELINE_HEIGHT = 800;
-const HEIGHT_STEP = 50;
+const HEIGHT_STEP = 50; // Keep for potential future use? Or remove? Let's keep for reset logic.
 let currentTimelineHeight = INITIAL_TIMELINE_HEIGHT;
 let currentScale = 1.0;
 let currentTranslateX = 0;
@@ -26,6 +27,19 @@ let dragStartTranslateY = 0;
 let resizeTimer;
 
 // --- Timeline Interaction State & Logic ---
+
+// Helper function to map slider value (0-100) to a range
+function mapSliderValue(value, min, max) {
+    // Simple linear mapping for now
+    return min + (max - min) * (value / 100);
+}
+
+// Helper function to map a value in a range back to a slider value (0-100)
+function mapValueToSlider(value, min, max) {
+    if (max - min === 0) return 50; // Avoid division by zero, default to middle
+    return Math.round(((value - min) / (max - min)) * 100);
+}
+
 
 // Helper function to update timeline transform (pan/zoom)
 function updateTimelineTransform() {
@@ -82,8 +96,6 @@ function updateTimelineTransform() {
   const transformString = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`;
   const inverseScale = 1 / currentScale; // Calculate inverse scale for counter-scaling elements
 
-  // const dynamicFontSize = 10 * currentScale; // Reverted: Calculate dynamic font size (base 10px)
-
   requestAnimationFrame(() => {
       if (timeline) { // Check if timeline still exists
         timeline.style.transform = transformString;
@@ -102,15 +114,13 @@ function updateTimelineTransform() {
 function setupEventListeners() {
     // Fetch elements needed *only* for these listeners
     timelineContainer = document.getElementById('timeline-container');
-    zoomInButton = document.getElementById('zoom-in');
-    zoomOutButton = document.getElementById('zoom-out');
-    resetZoomButton = document.getElementById('reset-zoom');
-    heightIncreaseButton = document.getElementById('height-increase'); // Get height buttons
-    heightDecreaseButton = document.getElementById('height-decrease');
+    zoomSlider = document.getElementById('zoom-slider'); // Get sliders
+    heightSlider = document.getElementById('height-slider');
+    resetViewButton = document.getElementById('reset-view'); // Get reset button
     // Note: Modal close buttons are handled by modalManager.setupModalEventListeners()
     // Note: Theme toggle button is handled by themeManager.initializeTheme()
 
-    if (!timelineContainer || !zoomInButton || !zoomOutButton || !resetZoomButton || !heightIncreaseButton || !heightDecreaseButton) {
+    if (!timelineContainer || !zoomSlider || !heightSlider || !resetViewButton ) {
         console.error("Cannot setup interaction event listeners: Core elements missing.");
         return;
     }
@@ -133,6 +143,8 @@ function setupEventListeners() {
                 currentTranslateY = mouseYRelative - (mouseYRelative - currentTranslateY) * scaleChange;
                 currentScale = newScale;
                 updateTimelineTransform();
+                // Update slider position after zoom
+                zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
             }
         } else if (event.shiftKey) { // Horizontal pan
             const scrollAmount = event.deltaX || event.deltaY; // Use deltaX if available, fallback to deltaY
@@ -152,7 +164,7 @@ function setupEventListeners() {
     // Drag listeners for panning
     timelineContainer.addEventListener('mousedown', (event) => {
         // Only pan with left mouse button, and not on interactive elements
-        if (event.button !== 0 || event.target.closest('.scientist-photo, .publication, .discovery-marker, .event-box, .controls button, .modal')) return;
+        if (event.button !== 0 || event.target.closest('.scientist-photo, .publication, .discovery-marker, .event-box, .controls button, .controls input, .modal')) return; // Ignore controls
         potentialDrag = true;
         isDragging = false; // Reset dragging state
         dragStartX = event.clientX;
@@ -220,35 +232,27 @@ function setupEventListeners() {
         timelineContainer.addEventListener('dragstart', (event) => event.preventDefault());
     }
 
-    // Zoom Button listeners
-    function applyZoom(newScaleTarget) {
-        const newScale = Math.max(config.MIN_SCALE, Math.min(config.MAX_SCALE, newScaleTarget));
-        if (newScale === currentScale || !timelineContainer) return;
+    // Zoom Slider listener
+    zoomSlider.addEventListener('input', () => {
+        const newScale = mapSliderValue(zoomSlider.value, config.MIN_SCALE, config.MAX_SCALE);
+        if (newScale !== currentScale) {
+            // Zoom towards center when using slider
+            const containerWidth = timelineContainer.clientWidth;
+            const containerHeight = timelineContainer.clientHeight;
+            const zoomOriginX = containerWidth / 2;
+            const zoomOriginY = containerHeight / 2;
+            const scaleChange = newScale / currentScale;
+            currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange;
+            currentTranslateY = zoomOriginY - (zoomOriginY - currentTranslateY) * scaleChange;
 
-        // Zoom towards the center of the container view
-        const containerWidth = timelineContainer.clientWidth;
-        const containerHeight = timelineContainer.clientHeight;
-        const zoomOriginX = containerWidth / 2;
-        const zoomOriginY = containerHeight / 2;
-
-        const scaleChange = newScale / currentScale;
-        currentTranslateX = zoomOriginX - (zoomOriginX - currentTranslateX) * scaleChange;
-        currentTranslateY = zoomOriginY - (zoomOriginY - currentTranslateY) * scaleChange;
-        currentScale = newScale;
-        updateTimelineTransform();
-    }
-    if (zoomInButton) zoomInButton.addEventListener('click', () => applyZoom(currentScale * (1 + config.ZOOM_STEP))); // Multiplicative zoom feels more natural
-    if (zoomOutButton) zoomOutButton.addEventListener('click', () => applyZoom(currentScale / (1 + config.ZOOM_STEP))); // Use division for zooming out
-    if (resetZoomButton) resetZoomButton.addEventListener('click', () => {
-        currentScale = 1.0;
-        currentTranslateX = 0;
-        currentTranslateY = 0;
-        updateTimelineTransform();
+            currentScale = newScale;
+            updateTimelineTransform();
+        }
     });
 
-    // Height Adjustment Button listeners
-    function adjustHeight(amount) {
-        const newHeight = Math.max(MIN_TIMELINE_HEIGHT, Math.min(MAX_TIMELINE_HEIGHT, currentTimelineHeight + amount));
+    // Height Slider listener
+    heightSlider.addEventListener('input', () => {
+        const newHeight = mapSliderValue(heightSlider.value, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT);
         if (newHeight !== currentTimelineHeight) {
             currentTimelineHeight = newHeight;
             timelineContainer.style.height = `${currentTimelineHeight}px`;
@@ -257,9 +261,22 @@ function setupEventListeners() {
             // We might need to re-center vertically after height change, updateTimelineTransform handles clamping
             updateTimelineTransform();
         }
-    }
-    if (heightIncreaseButton) heightIncreaseButton.addEventListener('click', () => adjustHeight(HEIGHT_STEP));
-    if (heightDecreaseButton) heightDecreaseButton.addEventListener('click', () => adjustHeight(-HEIGHT_STEP));
+    });
+
+    // Reset View Button listener
+    resetViewButton.addEventListener('click', () => {
+        currentScale = 1.0;
+        currentTranslateX = 0;
+        currentTranslateY = 0;
+        currentTimelineHeight = INITIAL_TIMELINE_HEIGHT; // Reset height state
+
+        timelineContainer.style.height = `${currentTimelineHeight}px`; // Apply height reset
+        zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE); // Reset zoom slider
+        heightSlider.value = mapValueToSlider(currentTimelineHeight, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT); // Reset height slider
+
+        renderTimeline(timelineContainer, timeline, updateTimelineTransform); // Re-render
+        updateTimelineTransform(); // Apply transform reset
+    });
 
 
     // Resize listener - Debounced
@@ -320,6 +337,9 @@ function debouncedRender() {
         // Re-render with current state but adjusted dimensions
         // Pass the necessary elements again as they might be affected by resize indirectly
         renderTimeline(document.getElementById('timeline-container'), document.getElementById('timeline'), updateTimelineTransform);
+        // Update slider positions after resize/re-render
+        if (zoomSlider) zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
+        if (heightSlider) heightSlider.value = mapValueToSlider(currentTimelineHeight, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT);
     }, config.RESIZE_DEBOUNCE_DELAY);
 }
 
@@ -331,14 +351,20 @@ async function initializeApp() {
     timeline = document.getElementById('timeline');
     zoomLevelDisplay = document.querySelector('.zoom-level');
     scientistTooltip = document.getElementById('scientist-tooltip'); // Get tooltip element
+    zoomSlider = document.getElementById('zoom-slider'); // Get sliders
+    heightSlider = document.getElementById('height-slider');
+    resetViewButton = document.getElementById('reset-view'); // Get reset button
 
-    if (!timelineContainer || !timeline || !zoomLevelDisplay || !scientistTooltip) {
-        console.error("Core timeline or tooltip elements not found! Cannot initialize.");
+    if (!timelineContainer || !timeline || !zoomLevelDisplay || !scientistTooltip || !zoomSlider || !heightSlider || !resetViewButton) {
+        console.error("Core timeline or control elements not found! Cannot initialize.");
         return;
     }
     // Set initial height from state (in case it differs from CSS default)
     currentTimelineHeight = timelineContainer.offsetHeight || INITIAL_TIMELINE_HEIGHT;
     timelineContainer.style.height = `${currentTimelineHeight}px`;
+    // Set initial slider positions
+    zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
+    heightSlider.value = mapValueToSlider(currentTimelineHeight, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT);
 
 
     // Initialize modules in order

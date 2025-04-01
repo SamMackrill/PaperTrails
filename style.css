@@ -90,11 +90,82 @@ h1 {
   border-radius: 5px;
   box-shadow: 0 2px 5px var(--shadow-color);
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: center; /* Vertically center align the groups */
+  justify-content: space-between; /* Push left and right groups apart */
+  gap: 15px;
   z-index: 100;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+.controls-left {
+  display: flex;
+  flex-direction: column; /* Stack zoom slider and buttons */
+  gap: 10px; /* Increased space between slider group and buttons */
+  /* position: relative; */ /* Removed nudge */
+  /* bottom: 10px; */ /* Removed nudge */
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px; /* Space between buttons */
+}
+
+.slider-control {
+  display: flex;
+  align-items: center; /* Align label/value with slider */
+   gap: 5px;
+}
+
+.zoom-control {
+   flex-direction: column; /* Stack label/value above slider */
+   align-items: center; /* Center items horizontally */
+   gap: 4px; /* Slightly more gap between label/value and slider */
+}
+
+.zoom-label-value {
+    display: flex;
+    justify-content: space-between; /* Space out label and value */
+    width: 100px; /* Explicitly set width to match slider */
+    padding: 0 2px; /* Align text edges with slider */
+    box-sizing: border-box;
+}
+
+.height-control {
+  /* margin-left: auto; */ /* No longer needed due to justify-content */
+  /* Align label and vertical slider */
+  display: flex;
+  flex-direction: column; /* Stack label above slider */
+  align-items: center;
+  gap: 2px;
+}
+
+.slider-control label {
+  font-size: 11px;
+  /* margin-left: 2px; */ /* Removed */
+}
+
+.zoom-control .zoom-level { /* Style zoom level display */
+  font-size: 11px;
+  font-weight: normal; /* Make it less prominent than the main label */
+}
+
+
+.slider-control input[type="range"] {
+  width: 100px; /* Default width */
+  height: 5px; /* Default horizontal height */
+  cursor: pointer;
+  margin: 0; /* Reset margin */
+}
+
+/* Make height slider vertical */
+#height-slider {
+  appearance: slider-vertical; /* Standard */
+  writing-mode: bt-lr; /* For browsers supporting writing-mode */
+  width: 8px; /* Slightly thicker */
+  height: 60px; /* Adjust height */
+  padding: 0 2px;
+}
+
 
 .controls button {
   padding: 5px 10px;

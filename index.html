@@ -11,14 +11,28 @@
 <body>
   <h1>Paper Trails: A Scientific History</h1>
   <div class="controls">
-    <button id="zoom-out" title="Zoom Out">-</button>
-    <button id="zoom-in" title="Zoom In">+</button>
-    <button id="reset-zoom" title="Reset Zoom">Reset</button>
-    <span>Zoom: <span class="zoom-level">100%</span></span>
-    <span style="margin-left: 10px;">Height:</span>
-    <button id="height-decrease" title="Decrease Height">-</button>
-    <button id="height-increase" title="Increase Height">+</button>
-    <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
+    <!-- Left/Middle Group -->
+    <div class="controls-left">
+      <!-- Zoom Controls Group -->
+      <div class="slider-control zoom-control">
+        <div class="zoom-label-value"> <!-- New wrapper for label and value -->
+            <label for="zoom-slider">Zoom:</label>
+            <span class="zoom-level">100%</span>
+        </div>
+        <input type="range" id="zoom-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
+      </div>
+      <!-- Action Buttons Group -->
+      <div class="action-buttons">
+          <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
+          <button id="reset-view" title="Reset Zoom and Height">↺</button> <!-- Swapped order and changed text to icon -->
+      </div>
+    </div>
+
+    <!-- Height Control Group (Pushed to the right) -->
+    <div class="slider-control height-control">
+      <label for="height-slider">Height:</label>
+      <input type="range" id="height-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
+    </div>
   </div>
   <div class="timeline-container" id="timeline-container">
     <div class="timeline" id="timeline"></div>
