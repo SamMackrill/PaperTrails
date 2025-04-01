@@ -138,7 +138,7 @@ savart:
 
 neumann_franz:
   name: "Franz Ernst Neumann"
-  color: "#606c38"
+  color: "#6a994e" # Brighter green
   photo: "images/neumann_franz.jpg"
   nationality: "German (Prussian)"
   birth: "1798-09-11"
@@ -210,7 +210,7 @@ heaviside:
 
 planck:
   name: "Max Planck"
-  color: "#457b9d"
+  color: "#457b9d" # Kept as is
   photo: "images/planck.jpg"
   nationality: "German"
   birth: "1858-04-23"
@@ -222,7 +222,7 @@ planck:
 
 einstein:
   name: "Albert Einstein"
-  color: "#1d3557"
+  color: "#457b9d" # Lighter blue (same as Planck)
   photo: "images/einstein.jpg"
   nationality: "German/American"
   birth: "1879-03-14"
@@ -297,7 +297,7 @@ pauli:
 
 heisenberg:
   name: "Werner Heisenberg"
-  color: "#6a0dad"
+  color: "#8338ec" # Brighter purple (same as Pauli/Lamb)
   photo: "images/heisenberg.jpg"
   nationality: "German"
   birth: "1901-12-05"
@@ -348,7 +348,7 @@ dicke:
 
 arp:
   name: "Halton Arp"
-  color: "#5f0f40"
+  color: "#fb8500" # Orange
   photo: "images/arp.jpg"
   nationality: "American"
   birth: "1927-03-21"
@@ -372,7 +372,7 @@ thomson:
 
 rutherford:
   name: "Ernest Rutherford"
-  color: "#581845"
+  color: "#c1121f" # Red (same as current year)
   photo: "images/rutherford.jpg"
   nationality: "New Zealand/British"
   birth: "1871-08-30"
@@ -411,7 +411,7 @@ velikovsky:
 
 van_der_waals:
   name: "Johannes Diderik van der Waals"
-  color: "#264653"
+  color: "#2a9d8f" # Brighter teal (same as Maxwell)
   photo: "images/van_der_waals.jpg"
   nationality: "Dutch"
   birth: "1837-11-23"

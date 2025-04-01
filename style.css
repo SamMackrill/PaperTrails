@@ -377,7 +377,7 @@ h1 {
   white-space: normal; /* Allow text wrapping */
   line-height: 1.2; /* Adjust line height for wrapped text */
   pointer-events: none; /* Prevent label interference */
-  /* will-change: transform; */ /* Removed */
+  will-change: transform; /* Hint for rendering optimization during scaling */
 }
 
 /* Modals */
