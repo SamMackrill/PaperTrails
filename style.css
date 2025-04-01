@@ -90,7 +90,7 @@ h1 {
   border-radius: 5px;
   box-shadow: 0 2px 5px var(--shadow-color);
   display: flex;
-  align-items: center; /* Vertically center align the groups */
+  align-items: flex-end; /* Align items to bottom for vertical slider */
   justify-content: space-between; /* Push left and right groups apart */
   gap: 15px;
   z-index: 100;
@@ -100,9 +100,7 @@ h1 {
 .controls-left {
   display: flex;
   flex-direction: column; /* Stack zoom slider and buttons */
-  gap: 10px; /* Increased space between slider group and buttons */
-  /* position: relative; */ /* Removed nudge */
-  /* bottom: 10px; */ /* Removed nudge */
+  gap: 10px; /* Space between slider group and buttons */
 }
 
 .action-buttons {
@@ -131,7 +129,6 @@ h1 {
 }
 
 .height-control {
-  /* margin-left: auto; */ /* No longer needed due to justify-content */
   /* Align label and vertical slider */
   display: flex;
   flex-direction: column; /* Stack label above slider */
@@ -141,7 +138,6 @@ h1 {
 
 .slider-control label {
   font-size: 11px;
-  /* margin-left: 2px; */ /* Removed */
 }
 
 .zoom-control .zoom-level { /* Style zoom level display */
