@@ -4,43 +4,31 @@ export let scientists = {};
 export let discoveries = [];
 export let significantEvents = [];
 
-async function loadScientistsData() {
+async function loadYamlData(filePath, targetVariable, variableName) {
     try {
-        const response = await fetch('data/scientists.yaml');
+        const response = await fetch(filePath);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const yamlText = await response.text();
-        scientists = jsyaml.load(yamlText);
-        console.log("Scientists data loaded:", scientists);
+        targetVariable = jsyaml.load(yamlText);
+        console.log(`${variableName} data loaded:`, targetVariable);
+        return targetVariable;
     } catch (error) {
-        console.error('Failed to load scientists data:', error);
+        console.error(`Failed to load ${variableName} data:`, error);
         // Optionally: Display error to user
     }
+}
+
+// Updated functions to use the generic loader
+async function loadScientistsData() {
+    scientists = await loadYamlData('data/scientists.yaml', scientists, 'Scientists');
 }
 
 async function loadDiscoveriesData() {
-    try {
-        const response = await fetch('data/discoveries.yaml');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const yamlText = await response.text();
-        discoveries = jsyaml.load(yamlText);
-        console.log("Discoveries data loaded:", discoveries);
-    } catch (error) {
-        console.error('Failed to load discoveries data:', error);
-        // Optionally: Display error to user
-    }
+    discoveries = await loadYamlData('data/discoveries.yaml', discoveries, 'Discoveries');
 }
 
 async function loadSignificantEventsData() {
-    try {
-        const response = await fetch('data/significantevents.yaml');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const yamlText = await response.text();
-        significantEvents = jsyaml.load(yamlText);
-        console.log("Significant events data loaded:", significantEvents);
-    } catch (error) {
-        console.error('Failed to load significant events data:', error);
-        // Optionally: Display error to user
-    }
+    significantEvents = await loadYamlData('data/significantevents.yaml', significantEvents, 'Significant Events');
 }
 
 // Initializes all data and returns a promise that resolves when done

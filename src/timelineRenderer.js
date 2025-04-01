@@ -335,6 +335,7 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
     // Add particle label inside
     const particleLabel = document.createElement('span');
     particleLabel.textContent = discovery.particle || '?';
+    particleLabel.setAttribute('aria-label', `Discovery: ${discovery.title || 'Untitled'} (${discovery.year})`); // Accessibility
     particleLabel.style.position = 'absolute';
     particleLabel.style.top = '50%';
     particleLabel.style.left = '50%';
@@ -425,6 +426,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     svgText.setAttribute('text-anchor', 'middle'); // Center align text
     svgText.setAttribute('dominant-baseline', 'central'); // Better vertical centering for SVG
     svgText.setAttribute('pointer-events', 'none'); // Prevent interference
+    svgText.setAttribute('aria-label', `Event: ${event.title || 'Untitled'} (${event.startYear}-${event.endYear})`); // Accessibility
     svgText.textContent = event.title || 'Event';
     // Apply inverse scale to the text element itself
     svgText.setAttribute('transform', `scale(var(--current-inverse-scale, 1))`);

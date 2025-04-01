@@ -24,6 +24,8 @@
   --img-error-bg: #eee;
   --img-error-border: #aaa;
   --discovery-border-color: rgba(0,0,0,0.3);
+  --current-scale: 1; /* Default scale */
+  --current-inverse-scale: 1; /* Default inverse scale */
 }
 
 body.dark-mode {
