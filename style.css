@@ -24,7 +24,6 @@
   --img-error-bg: #eee;
   --img-error-border: #aaa;
   --discovery-border-color: rgba(0,0,0,0.3);
-  /* --event-svg-text-color removed - will be calculated dynamically */
 }
 
 body.dark-mode {
@@ -52,7 +51,6 @@ body.dark-mode {
   --img-error-bg: #444;
   --img-error-border: #777;
   --discovery-border-color: rgba(255,255,255,0.3);
-  /* --event-svg-text-color removed - will be calculated dynamically */
 }
 
 /* Basic Reset & Body */
@@ -366,22 +364,20 @@ h1 {
   height: auto; /* Allow vertical expansion */
   min-height: 16px; /* Ensure a minimum height */
   padding: 3px 5px; /* Add some padding */
-  z-index: 9; /* Position below SVG layer (10) so SVG text appears above */
+  /* z-index: 9; */ /* Removed z-index */
   transition: background-color 0.3s ease; /* Match other transitions */
-  /* Reverted: transform: scale(var(--current-inverse-scale, 1)); */
-  /* Reverted: transform-origin: top left; */
 }
 
-/* Re-add basic .event-label rule with will-change */
+/* Restore basic .event-label rule */
 .event-label {
   display: block;
-  font-size: 10px;
-  color: #fff; /* Assuming dark background colors, might need adjustment for themes */
+  font-size: 15px; /* Increased size */
+  /* color: #fff; */ /* Color set dynamically by JS */
   text-align: center;
   white-space: normal; /* Allow text wrapping */
   line-height: 1.2; /* Adjust line height for wrapped text */
   pointer-events: none; /* Prevent label interference */
-  will-change: transform; /* Hint for rendering optimization during scaling */
+  /* will-change: transform; */ /* Removed */
 }
 
 /* Modals */

@@ -365,7 +365,7 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
 
 function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
   const { START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y } = config;
-  const EVENT_TEXT_BASE_SIZE = 10; // Base font size for event text
+  const EVENT_TEXT_BASE_SIZE = 15; // Increased base font size by 50%
 
   // Calculate pixel offset based on fraction and current axisY
   const eventOffsetY = EVENT_BASE_OFFSET_Y * axisY;
@@ -413,7 +413,8 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     const svgText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     const textX = startX + eventWidth / 2; // Center horizontally
     // Adjust vertical position slightly to center within typical line height + padding
-    const textY = eventStyleTop + EVENT_TEXT_BASE_SIZE * 0.6 + 3; // Added padding offset (approx)
+    // Use half the *base* font size for vertical centering calculation before scaling
+    const textY = eventStyleTop + (EVENT_TEXT_BASE_SIZE / 2) + 3; // Approx center + padding
 
     // Calculate contrast color based on the event box background
     const textColor = getContrastColor(bgColor);
