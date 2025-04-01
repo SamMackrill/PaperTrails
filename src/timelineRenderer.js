@@ -462,20 +462,22 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     startLine.setAttribute('x1', startX);
     startLine.setAttribute('y1', axisY);
     startLine.setAttribute('x2', startX);
-    startLine.setAttribute('y2', eventStyleTop);
+    startLine.setAttribute('y2', eventStyleTop + 1); // Extend slightly into the box
     startLine.setAttribute('stroke', lineStroke);
     startLine.setAttribute('stroke-width', lineStrokeWidth);
     startLine.setAttribute('vector-effect', 'non-scaling-stroke');
+    startLine.setAttribute('stroke-linecap', 'round'); // Add rounded cap
     timelineSvg.appendChild(startLine);
 
     const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     endLine.setAttribute('x1', endX);
     endLine.setAttribute('y1', axisY);
     endLine.setAttribute('x2', endX);
-    endLine.setAttribute('y2', eventStyleTop);
+    endLine.setAttribute('y2', eventStyleTop + 1); // Extend slightly into the box
     endLine.setAttribute('stroke', lineStroke);
     endLine.setAttribute('stroke-width', lineStrokeWidth);
     endLine.setAttribute('vector-effect', 'non-scaling-stroke');
+    endLine.setAttribute('stroke-linecap', 'round'); // Add rounded cap
     timelineSvg.appendChild(endLine);
   });
 }
