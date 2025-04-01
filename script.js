@@ -6,9 +6,14 @@ import { setupModalEventListeners } from './src/modalManager.js';
 import { renderTimeline } from './src/timelineRenderer.js';
 
 // DOM Elements (fetched in initializeApp or modules)
-let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay;
+let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay, heightIncreaseButton, heightDecreaseButton;
 
 // State Variables for Timeline Interaction
+const INITIAL_TIMELINE_HEIGHT = 450; // Default height from CSS
+const MIN_TIMELINE_HEIGHT = 200;
+const MAX_TIMELINE_HEIGHT = 800;
+const HEIGHT_STEP = 50;
+let currentTimelineHeight = INITIAL_TIMELINE_HEIGHT;
 let currentScale = 1.0;
 let currentTranslateX = 0;
 let currentTranslateY = 0;
@@ -100,10 +105,12 @@ function setupEventListeners() {
     zoomInButton = document.getElementById('zoom-in');
     zoomOutButton = document.getElementById('zoom-out');
     resetZoomButton = document.getElementById('reset-zoom');
+    heightIncreaseButton = document.getElementById('height-increase'); // Get height buttons
+    heightDecreaseButton = document.getElementById('height-decrease');
     // Note: Modal close buttons are handled by modalManager.setupModalEventListeners()
     // Note: Theme toggle button is handled by themeManager.initializeTheme()
 
-    if (!timelineContainer || !zoomInButton || !zoomOutButton || !resetZoomButton ) {
+    if (!timelineContainer || !zoomInButton || !zoomOutButton || !resetZoomButton || !heightIncreaseButton || !heightDecreaseButton) {
         console.error("Cannot setup interaction event listeners: Core elements missing.");
         return;
     }
@@ -239,6 +246,22 @@ function setupEventListeners() {
         updateTimelineTransform();
     });
 
+    // Height Adjustment Button listeners
+    function adjustHeight(amount) {
+        const newHeight = Math.max(MIN_TIMELINE_HEIGHT, Math.min(MAX_TIMELINE_HEIGHT, currentTimelineHeight + amount));
+        if (newHeight !== currentTimelineHeight) {
+            currentTimelineHeight = newHeight;
+            timelineContainer.style.height = `${currentTimelineHeight}px`;
+            // Re-render the timeline completely after height change
+            renderTimeline(timelineContainer, timeline, updateTimelineTransform);
+            // We might need to re-center vertically after height change, updateTimelineTransform handles clamping
+            updateTimelineTransform();
+        }
+    }
+    if (heightIncreaseButton) heightIncreaseButton.addEventListener('click', () => adjustHeight(HEIGHT_STEP));
+    if (heightDecreaseButton) heightDecreaseButton.addEventListener('click', () => adjustHeight(-HEIGHT_STEP));
+
+
     // Resize listener - Debounced
     window.addEventListener('resize', debouncedRender);
 }
@@ -267,6 +290,10 @@ async function initializeApp() {
         console.error("Core timeline elements not found! Cannot initialize.");
         return;
     }
+    // Set initial height from state (in case it differs from CSS default)
+    currentTimelineHeight = timelineContainer.offsetHeight || INITIAL_TIMELINE_HEIGHT;
+    timelineContainer.style.height = `${currentTimelineHeight}px`;
+
 
     // Initialize modules in order
     initializeTheme(); // Set up theme first (affects default images)
