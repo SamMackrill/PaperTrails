@@ -3,6 +3,40 @@ import { scientists, discoveries, significantEvents } from './dataLoader.js';
 import { showPublicationModal, showScientistModal } from './modalManager.js';
 import { handleImageError } from './themeManager.js'; // Import image error handler
 
+// --- Helper Function for Contrast Color ---
+function getContrastColor(hexColor) {
+    // If hexColor is undefined or null, default to white text
+    if (!hexColor) return '#ffffff';
+
+    // Remove # if present
+    let hex = hexColor.replace('#', '');
+
+    // Handle shorthand hex (e.g., #03F -> #0033FF)
+    if (hex.length === 3) {
+        hex = hex.split('').map(char => char + char).join('');
+    }
+
+    // Ensure hex is 6 digits
+    if (hex.length !== 6) {
+        console.warn(`Invalid hex color format received: ${hexColor}. Defaulting contrast color.`);
+        return '#ffffff'; // Default to white on invalid format
+    }
+
+    // Convert hex to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    // Calculate luminance using the WCAG formula part
+    // https://www.w3.org/TR/WCAG20/#relativeluminancedef
+    const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+
+    // Use a threshold (0.5 is common) to decide contrast color
+    // Return dark gray for light backgrounds, white for dark backgrounds
+    return lum > 0.5 ? '#333333' : '#ffffff';
+}
+
+
 // --- Highlight Functions ---
 // These are closely tied to rendering elements, so keep them here for now.
 // Alternatively, they could move to uiInteractions if preferred.
@@ -341,7 +375,8 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
 
     const eventEl = document.createElement('div');
     eventEl.className = 'event-box'; // Use a more descriptive class name
-    eventEl.style.backgroundColor = event.color || '#888888';
+    const bgColor = event.color || '#888888'; // Determine background color
+    eventEl.style.backgroundColor = bgColor;
     eventEl.style.border = '1px solid rgba(0,0,0,0.2)';
     eventEl.style.boxSizing = 'border-box';
     eventEl.style.position = 'absolute';
@@ -358,14 +393,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     eventEl.style.top = `${eventStyleTop}px`;
     eventEl.style.width = `${eventWidth}px`;
 
-    // Create HTML label inside the box
-    const eventLabel = document.createElement('span');
-    eventLabel.className = 'event-label'; // Add class for easier CSS targeting
-    eventLabel.textContent = event.title || 'Event';
-    // Style via CSS using .event-label class
-    eventLabel.style.pointerEvents = 'none'; // Keep this one
-    eventEl.appendChild(eventLabel);
-
+    // HTML label is NOT created here
 
     eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`; // Tooltip
 
@@ -380,6 +408,32 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     });
 
     timeline.appendChild(eventEl); // Append the box first
+
+    // Create SVG text element for the label
+    const svgText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    const textX = startX + eventWidth / 2; // Center horizontally
+    // Adjust vertical position slightly to center within typical line height + padding
+    const textY = eventStyleTop + EVENT_TEXT_BASE_SIZE * 0.6 + 3; // Added padding offset (approx)
+
+    // Calculate contrast color based on the event box background
+    const textColor = getContrastColor(bgColor);
+
+    svgText.setAttribute('x', textX);
+    svgText.setAttribute('y', textY);
+    svgText.setAttribute('font-size', `${EVENT_TEXT_BASE_SIZE}px`);
+    svgText.setAttribute('fill', textColor); // Use calculated contrast color
+    svgText.setAttribute('text-anchor', 'middle'); // Center align text
+    svgText.setAttribute('dominant-baseline', 'central'); // Better vertical centering for SVG
+    svgText.setAttribute('pointer-events', 'none'); // Prevent interference
+    svgText.textContent = event.title || 'Event';
+    // Apply inverse scale to the text element itself
+    svgText.setAttribute('transform', `scale(var(--current-inverse-scale, 1))`);
+    svgText.setAttribute('transform-origin', `${textX}px ${textY}px`); // Scale from text center
+
+    // Note: SVG text doesn't wrap automatically. Complex wrapping requires more JS logic.
+    // Text might overflow horizontally if too long. Box height is auto via CSS, but won't contain SVG text.
+
+    timelineSvg.appendChild(svgText); // Append text to SVG layer
 
     // Draw simple vertical lines connecting the event box ends to the timeline axis
     const lineStroke = event.color || '#888888';

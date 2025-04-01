@@ -24,6 +24,7 @@
   --img-error-bg: #eee;
   --img-error-border: #aaa;
   --discovery-border-color: rgba(0,0,0,0.3);
+  /* --event-svg-text-color removed - will be calculated dynamically */
 }
 
 body.dark-mode {
@@ -51,6 +52,7 @@ body.dark-mode {
   --img-error-bg: #444;
   --img-error-border: #777;
   --discovery-border-color: rgba(255,255,255,0.3);
+  /* --event-svg-text-color removed - will be calculated dynamically */
 }
 
 /* Basic Reset & Body */
@@ -301,7 +303,17 @@ h1 {
   /* Reverted: transform-origin: top left; */
 }
 
-/* .event-label rule removed - text rendered via SVG */
+/* Re-add basic .event-label rule with will-change */
+.event-label {
+  display: block;
+  font-size: 10px;
+  color: #fff; /* Assuming dark background colors, might need adjustment for themes */
+  text-align: center;
+  white-space: normal; /* Allow text wrapping */
+  line-height: 1.2; /* Adjust line height for wrapped text */
+  pointer-events: none; /* Prevent label interference */
+  will-change: transform; /* Hint for rendering optimization during scaling */
+}
 
 /* Modals */
 .modal {
