@@ -105,7 +105,7 @@ h1 {
 
 .action-buttons {
   display: flex;
-  gap: 5px; /* Space between buttons */
+  gap: 20px; /* Space between buttons */
 }
 
 .slider-control {
@@ -117,7 +117,9 @@ h1 {
 .zoom-control {
    flex-direction: column; /* Stack label/value above slider */
    align-items: center; /* Center items horizontally */
-   gap: 4px; /* Slightly more gap between label/value and slider */
+   gap: 6px; /* Slightly more gap between label/value and slider */
+   position: relative; /* Allow nudging */
+   bottom: 6px; /* Nudge zoom control up slightly */
 }
 
 .zoom-label-value {
