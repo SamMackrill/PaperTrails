@@ -349,3 +349,20 @@ h1 {
 .close-button:focus {
   color: var(--modal-close-hover); text-decoration: none; cursor: pointer;
 }
+
+/* Tooltip Style */
+.tooltip {
+  position: absolute; /* Position relative to the nearest positioned ancestor (likely body or timeline-container) */
+  display: none; /* Hidden by default */
+  background-color: var(--card-bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--card-border-color);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap; /* Prevent wrapping */
+  z-index: 101; /* Ensure it's above most other elements */
+  box-shadow: 0 1px 3px var(--shadow-color);
+  pointer-events: none; /* Prevent tooltip from interfering with mouse events */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Match theme transitions */
+}

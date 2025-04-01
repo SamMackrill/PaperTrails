@@ -6,7 +6,7 @@ import { setupModalEventListeners } from './src/modalManager.js';
 import { renderTimeline } from './src/timelineRenderer.js';
 
 // DOM Elements (fetched in initializeApp or modules)
-let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay, heightIncreaseButton, heightDecreaseButton;
+let timelineContainer, timeline, zoomInButton, zoomOutButton, resetZoomButton, zoomLevelDisplay, heightIncreaseButton, heightDecreaseButton, scientistTooltip;
 
 // State Variables for Timeline Interaction
 const INITIAL_TIMELINE_HEIGHT = 450; // Default height from CSS
@@ -264,6 +264,51 @@ function setupEventListeners() {
 
     // Resize listener - Debounced
     window.addEventListener('resize', debouncedRender);
+
+    // Tooltip listeners (using event delegation on timelineContainer)
+    let currentHoveredPhoto = null; // Track the currently hovered photo
+
+    timelineContainer.addEventListener('mouseover', (event) => {
+        const photo = event.target.closest('.scientist-photo');
+        if (photo && scientistTooltip) {
+            currentHoveredPhoto = photo; // Set the current photo
+            const name = photo.dataset.name || 'Name not found';
+            scientistTooltip.textContent = name;
+            scientistTooltip.style.display = 'block';
+            // Initial position update (mousemove will refine)
+            updateTooltipPosition(event);
+        }
+    });
+
+    timelineContainer.addEventListener('mouseout', (event) => {
+        const photo = event.target.closest('.scientist-photo');
+        // Hide only if moving out of the currently tracked photo
+        if (photo && photo === currentHoveredPhoto && scientistTooltip) {
+            scientistTooltip.style.display = 'none';
+            currentHoveredPhoto = null; // Reset tracked photo
+        }
+        // Handle edge case: if mouse moves quickly out of container while over photo
+        if (!event.relatedTarget || !timelineContainer.contains(event.relatedTarget)) {
+             if (scientistTooltip) scientistTooltip.style.display = 'none';
+             currentHoveredPhoto = null;
+        }
+    });
+
+    timelineContainer.addEventListener('mousemove', (event) => {
+        // Update position only if tooltip is visible (implicitly means we are over a photo)
+        if (scientistTooltip && scientistTooltip.style.display === 'block') {
+            updateTooltipPosition(event);
+        }
+    });
+
+    function updateTooltipPosition(event) {
+        // Position tooltip relative to viewport, slightly above the cursor
+        const offsetX = 10; // Offset X from cursor
+        const offsetY = -25; // Offset Y from cursor (negative to appear above)
+        scientistTooltip.style.left = `${event.clientX + offsetX}px`;
+        scientistTooltip.style.top = `${event.clientY + offsetY}px`;
+    }
+
 }
 
 // --- Resize Handler ---
@@ -285,9 +330,10 @@ async function initializeApp() {
     timelineContainer = document.getElementById('timeline-container');
     timeline = document.getElementById('timeline');
     zoomLevelDisplay = document.querySelector('.zoom-level');
+    scientistTooltip = document.getElementById('scientist-tooltip'); // Get tooltip element
 
-    if (!timelineContainer || !timeline || !zoomLevelDisplay) {
-        console.error("Core timeline elements not found! Cannot initialize.");
+    if (!timelineContainer || !timeline || !zoomLevelDisplay || !scientistTooltip) {
+        console.error("Core timeline or tooltip elements not found! Cannot initialize.");
         return;
     }
     // Set initial height from state (in case it differs from CSS default)

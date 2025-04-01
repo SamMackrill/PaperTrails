@@ -159,6 +159,7 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
       photoEl.className = 'scientist-photo';
       photoEl.style.border = `3px solid ${scientist.color || '#ccc'}`;
       photoEl.dataset.scientistId = id;
+      photoEl.dataset.name = scientist.name || 'Unknown Scientist'; // Add name attribute
       photoEl.id = `photo-${id}`;
       photoEl.loading = 'lazy'; // Improve initial load performance
       photoEl.onerror = () => handleImageError(photoEl); // Use centralized error handler
