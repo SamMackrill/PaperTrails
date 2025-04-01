@@ -10,7 +10,7 @@ let timelineContainer, timeline, zoomLevelDisplay, scientistTooltip,
     zoomSlider, heightSlider, resetViewButton; // Changed button names
 
 // State Variables for Timeline Interaction
-const INITIAL_TIMELINE_HEIGHT = 450; // Default height from CSS
+const INITIAL_TIMELINE_HEIGHT = 600; // Set default height to 600px
 const MIN_TIMELINE_HEIGHT = 200;
 const MAX_TIMELINE_HEIGHT = 800;
 const HEIGHT_STEP = 50; // Keep for potential future use? Or remove? Let's keep for reset logic.
