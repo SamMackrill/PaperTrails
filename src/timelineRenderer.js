@@ -366,7 +366,9 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
 
 function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
   const { START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y } = config;
-  const EVENT_TEXT_BASE_SIZE = 15; // Base font size for event text (Increased)
+  const EVENT_TEXT_BASE_SIZE = 15; // Base font size for event text
+  const EVENT_TEXT_LINE_HEIGHT = 1.2; // Line height multiplier for text wrapping
+  const EVENT_BOX_PADDING = 5; // Padding inside the event box
 
   // Calculate pixel offset based on fraction and current axisY
   const eventOffsetY = EVENT_BASE_OFFSET_Y * axisY;
@@ -375,69 +377,84 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     if (typeof event.startYear !== 'number' || typeof event.endYear !== 'number' || event.startYear >= event.endYear) return;
 
     const eventEl = document.createElement('div');
-    eventEl.className = 'event-box'; // Use a more descriptive class name
-    const bgColor = event.color || '#888888'; // Determine background color
+    eventEl.className = 'event-box';
+    const bgColor = event.color || '#888888';
     eventEl.style.backgroundColor = bgColor;
     eventEl.style.border = '1px solid rgba(0,0,0,0.2)';
     eventEl.style.boxSizing = 'border-box';
     eventEl.style.position = 'absolute';
     eventEl.style.cursor = 'pointer';
-    // Height is auto via CSS
 
     const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
     const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
-    const eventWidth = Math.max(1, endX - startX); // Ensure minimum width of 1px
+    const eventWidth = Math.max(1, endX - startX);
 
-    // Position below the timeline axis using calculated pixel offset
     const eventStyleTop = axisY + eventOffsetY;
     eventEl.style.left = `${startX}px`;
     eventEl.style.top = `${eventStyleTop}px`;
     eventEl.style.width = `${eventWidth}px`;
 
-    // HTML label is NOT created here
-
-    eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`; // Tooltip
+    eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`;
 
     eventEl.addEventListener('click', () => {
       showPublicationModal(
-        'Significant Event', // Category
-        `${event.startYear} - ${event.endYear}`, // Period
+        'Significant Event',
+        `${event.startYear} - ${event.endYear}`,
         event.title,
         event.details,
-        'event' // Type for modal formatting
+        'event'
       );
     });
 
-    timeline.appendChild(eventEl); // Append the box first
+    timeline.appendChild(eventEl);
 
     // Create SVG text element for the label
     const svgText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    const textX = startX + eventWidth / 2; // Center horizontally
-    // Adjust vertical position slightly to center within typical line height + padding
-    const textY = eventStyleTop + (EVENT_TEXT_BASE_SIZE / 2) + 3; // Approx center + padding
+    const textX = startX + eventWidth / 2;
+    const textY = eventStyleTop + EVENT_BOX_PADDING;
 
-    // Calculate contrast color based on the event box background
     const textColor = getContrastColor(bgColor);
 
     svgText.setAttribute('x', textX);
     svgText.setAttribute('y', textY);
     svgText.setAttribute('font-size', `${EVENT_TEXT_BASE_SIZE}px`);
-    svgText.setAttribute('fill', textColor); // Use calculated contrast color
-    svgText.setAttribute('text-anchor', 'middle'); // Center align text
-    svgText.setAttribute('dominant-baseline', 'central'); // Better vertical centering for SVG
-    svgText.setAttribute('pointer-events', 'none'); // Prevent interference
-    svgText.setAttribute('aria-label', `Event: ${event.title || 'Untitled'} (${event.startYear}-${event.endYear})`); // Accessibility
-    svgText.textContent = event.title || 'Event';
-    // Apply inverse scale to the text element itself
-    svgText.setAttribute('transform', `scale(var(--current-inverse-scale, 1))`);
-    svgText.setAttribute('transform-origin', `${textX}px ${textY}px`); // Scale from text center
+    svgText.setAttribute('fill', textColor);
+    svgText.setAttribute('text-anchor', 'middle');
+    svgText.setAttribute('dominant-baseline', 'hanging');
+    svgText.setAttribute('pointer-events', 'none');
 
-    // Note: SVG text doesn't wrap automatically. Complex wrapping requires more JS logic.
-    // Text might overflow horizontally if too long. Box height is auto via CSS, but won't contain SVG text.
+    // Split text into lines for wrapping
+    const words = (event.title || 'Event').split(' ');
+    let currentLine = '';
+    const lines = [];
+    words.forEach(word => {
+      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      const testWidth = testLine.length * EVENT_TEXT_BASE_SIZE * 0.6; // Approximate width
+      if (testWidth > eventWidth - 2 * EVENT_BOX_PADDING) {
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = testLine;
+      }
+    });
+    if (currentLine) lines.push(currentLine);
 
-    timelineSvg.appendChild(svgText); // Append text to SVG layer
+    // Adjust event box height based on the number of lines
+    const boxHeight = lines.length * EVENT_TEXT_BASE_SIZE * EVENT_TEXT_LINE_HEIGHT + 2 * EVENT_BOX_PADDING;
+    eventEl.style.height = `${boxHeight}px`;
 
-    // Draw simple vertical lines connecting the event box ends to the timeline axis
+    // Add each line as a <tspan> element
+    lines.forEach((line, index) => {
+      const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+      tspan.setAttribute('x', textX);
+      tspan.setAttribute('y', textY + index * EVENT_TEXT_BASE_SIZE * EVENT_TEXT_LINE_HEIGHT + EVENT_BOX_PADDING);
+      tspan.textContent = line;
+      svgText.appendChild(tspan);
+    });
+
+    timelineSvg.appendChild(svgText);
+
+    // Draw vertical lines connecting the event box ends to the timeline axis
     const lineStroke = event.color || '#888888';
     const lineStrokeWidth = '1.5';
 
@@ -448,7 +465,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     startLine.setAttribute('y2', eventStyleTop);
     startLine.setAttribute('stroke', lineStroke);
     startLine.setAttribute('stroke-width', lineStrokeWidth);
-    startLine.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
+    startLine.setAttribute('vector-effect', 'non-scaling-stroke');
     timelineSvg.appendChild(startLine);
 
     const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -458,7 +475,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     endLine.setAttribute('y2', eventStyleTop);
     endLine.setAttribute('stroke', lineStroke);
     endLine.setAttribute('stroke-width', lineStrokeWidth);
-    endLine.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
+    endLine.setAttribute('vector-effect', 'non-scaling-stroke');
     timelineSvg.appendChild(endLine);
   });
 }
