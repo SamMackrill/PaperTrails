@@ -69,11 +69,12 @@ function renderAxis(timeline, baseTimelineWidth, axisY) {
   axisLine.style.top = `${axisY - 1}px`; // Center the line visually
   timeline.appendChild(axisLine);
 
-  const axisLabel = document.createElement('div');
-  axisLabel.className = 'timeline-axis-label';
-  axisLabel.textContent = 'Year';
-  axisLabel.style.top = `${axisY + 5}px`; // Position below the line
-  timeline.appendChild(axisLabel);
+  // Remove the axis label creation
+  // const axisLabel = document.createElement('div');
+  // axisLabel.className = 'timeline-axis-label';
+  // axisLabel.textContent = 'Year';
+  // axisLabel.style.top = `${axisY + 5}px`; // Position below the line
+  // timeline.appendChild(axisLabel);
 }
 
 // Modified to render labels as SVG text
