@@ -11,8 +11,8 @@ export const config = {
   EVENT_BOX_HEIGHT: 30, // Added for consistency
   PHOTO_BASE_OFFSET_Y: 0.4,    // Increased fraction for more spread
   PHOTO_VERTICAL_STAGGER: 0.2,  // Increased fraction for more spread
-  DISCOVERY_BASE_OFFSET_Y: 0.25, // Increased fraction for more spread
-  EVENT_BASE_OFFSET_Y: 0.25,    // Increased fraction for more spread
+  DISCOVERY_BASE_OFFSET_Y: 0.15, // Increased fraction for more spread
+  EVENT_BASE_OFFSET_Y: 0.1,    // Increased fraction for more spread
   DRAG_THRESHOLD: 5,
   RESIZE_DEBOUNCE_DELAY: 250,
   themeLocalStorageKey: 'paperTrailsTheme',
