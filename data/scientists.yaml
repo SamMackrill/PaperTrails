@@ -345,6 +345,9 @@ dicke:
     - year: 1965
       title: "Cosmic Black-Body Radiation"
       abstract: "Predicted the cosmic microwave background (CMB)."
+    - year: 1957
+      title: "Gravitation without a principle of equivalence"
+      abstract: "Explored alternative theories of gravitation, questioning the principle of equivalence."
 
 arp:
   name: "Halton Arp"
@@ -357,6 +360,9 @@ arp:
     - year: 1966
       title: "Atlas of Peculiar Galaxies"
       abstract: "Cataloged unusual galaxy structures."
+    - year: 1990
+      title: "Seeing Red"
+      abstract: "Discussed redshift anomalies and their implications for cosmology."
 
 thomson:
   name: "J.J. Thomson"
@@ -407,7 +413,7 @@ velikovsky:
   publications:
     - year: 1950
       title: "Worlds in Collision"
-      abstract: "Proposed controversial theories about planetary catastrophes."
+      abstract: "Proposed theories about planetary catastrophes."
 
 van_der_waals:
   name: "Johannes Diderik van der Waals"
@@ -492,6 +498,9 @@ alfven:
     - year: 1942
       title: "Existence of Electromagnetic-Hydrodynamic Waves"
       abstract: "Discovered Alfvén waves in magnetohydrodynamics."
+    - year: 1981
+      title: "Cosmic Plasma"
+      abstract: "Discussed the behavior of plasma in cosmic environments, laying the foundation for modern plasma physics."
 
 ohm:
   name: "Georg Simon Ohm"
@@ -504,3 +513,15 @@ ohm:
     - year: 1827
       title: "Die galvanische Kette, mathematisch bearbeitet"
       abstract: "Formulated Ohm's law, describing the relationship between voltage, current, and resistance."
+
+h_a_wilson:
+  name: "Harold Albert Wilson"
+  color: "#6c757d" # Neutral gray
+  photo: "images/wilson.jpg"
+  nationality: "British"
+  birth: "1874-12-01"
+  death: "1964-10-13"
+  publications:
+    - year: 1921
+      title: "An electromagnetic theory of gravitation"
+      abstract: "Proposed a theory linking electromagnetism and gravitation."
