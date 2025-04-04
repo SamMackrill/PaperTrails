@@ -3,21 +3,28 @@
   discoverer: "J. J. Thomson"
   details: "Identified the electron as a subatomic particle..."
   particle: e-
-  color: "#1E90FF" # Dodger Blue (matches icon.png)
+  color: "#0000FF" # Blue
 
 - year: 1932
   title: "Discovery of the Positron"
   discoverer: "Carl Anderson"
   details: "Observed the positron (antielectron) in cosmic ray tracks..."
-  particle: p+
-  color: "#FF4500" # Orange Red (matches icon.png)
+  particle: e+
+  color: "#FF0000" # Red
 
 - year: 1932
   title: "Discovery of the Neutron"
   discoverer: "James Chadwick"
   details: "Identified the neutron as a neutral subatomic particle in the atomic nucleus."
   particle: N
-  color: "#A9A9A9" # Dark Gray (matches icon.png)
+  color: "#008000" # Green
+
+- year: 1919
+  title: "Discovery of the Proton"
+  discoverer: "Ernest Rutherford"
+  details: "Ernest Rutherford discovered the proton through experiments involving alpha particles and nitrogen gas."
+  particle: "p⁺"
+  color: "#FF0000" # Red
 
 - title: "Michelson-Morley Experiment"
   year: 1887
