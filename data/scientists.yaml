@@ -525,3 +525,18 @@ h_a_wilson:
     - year: 1921
       title: "An electromagnetic theory of gravitation"
       abstract: "Proposed a theory linking electromagnetism and gravitation."
+
+mach:
+  name: "Ernst Mach"
+  color: "#b5838d" # Muted Rose
+  photo: "images/mach.jpg" # Placeholder - image needs to be added
+  nationality: "Austrian/Czech"
+  birth: "1838-02-18"
+  death: "1916-02-19"
+  publications:
+    - year: 1883
+      title: "Die Mechanik in ihrer Entwickelung historisch-kritisch dargestellt (The Science of Mechanics)"
+      abstract: "Critiqued Newtonian mechanics and influenced Einstein; introduced Mach's principle."
+    - year: 1886
+      title: "Beiträge zur Analyse der Empfindungen (Analysis of Sensations)"
+      abstract: "Explored the relationship between physics and psychophysics, influencing philosophy of science."
