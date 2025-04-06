@@ -540,3 +540,15 @@ mach:
     - year: 1886
       title: "Beiträge zur Analyse der Empfindungen (Analysis of Sensations)"
       abstract: "Explored the relationship between physics and psychophysics, influencing philosophy of science."
+
+young:
+  name: "Thomas Young"
+  color: "#4cc9f0" # Light Blue
+  photo: "images/young.jpg" # Placeholder - image needs to be added
+  nationality: "British"
+  birth: "1773-06-13"
+  death: "1829-05-10"
+  publications:
+    - year: 1803
+      title: "Experiments and Calculations Relative to Physical Optics"
+      abstract: "Demonstrated the wave nature of light through the double-slit experiment."
