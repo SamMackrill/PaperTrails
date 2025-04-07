@@ -532,7 +532,7 @@ h_a_wilson:
 mach:
   name: "Ernst Mach"
   color: "#b5838d" # Muted Rose
-  photo: "images/mach.jpg" # Placeholder - image needs to be added
+  photo: "images/mach.jpg"
   nationality: "Austrian/Czech"
   birth: "1838-02-18"
   death: "1916-02-19"
@@ -547,7 +547,7 @@ mach:
 young:
   name: "Thomas Young"
   color: "#4cc9f0" # Light Blue
-  photo: "images/young.jpg" # Placeholder - image needs to be added
+  photo: "images/young.jpg"
   nationality: "British"
   birth: "1773-06-13"
   death: "1829-05-10"
@@ -555,3 +555,15 @@ young:
     - year: 1803
       title: "Experiments and Calculations Relative to Physical Optics"
       abstract: "Demonstrated the wave nature of light through the double-slit experiment."
+
+fresnel:
+  name: "Augustin-Jean Fresnel"
+  color: "#7209b7" # Purple
+  photo: "images/fresnel.jpg" # Placeholder - image needs to be added
+  nationality: "French"
+  birth: "1788-05-10"
+  death: "1827-07-14"
+  publications:
+    - year: 1819
+      title: "Mémoire sur la diffraction de la lumière"
+      abstract: "Developed the wave theory of light, explaining diffraction and interference phenomena."
