@@ -249,12 +249,21 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
 
 function renderPublications(timeline, baseTimelineWidth, axisY, elementCoords) {
   const { START_YEAR, YEAR_SPAN, PUBLICATION_SIZE } = config;
+  const yearOffsets = {}; // Track publications per year for offsetting
 
   Object.entries(scientists).forEach(([id, scientist]) => {
     if (!scientist?.publications?.length) return;
 
-    scientist.publications.forEach((pub, pubIndex) => {
+    // Sort publications by year within each scientist to ensure consistent offset application if needed later
+    const sortedPubs = [...scientist.publications].sort((a, b) => (a.year || 0) - (b.year || 0));
+
+    sortedPubs.forEach((pub, pubIndex) => {
       if (typeof pub.year !== 'number') return; // Skip invalid years
+
+      // Calculate offset for this year
+      const offsetCount = yearOffsets[pub.year] || 0;
+      const horizontalOffset = offsetCount * (PUBLICATION_SIZE / 2);
+      yearOffsets[pub.year] = offsetCount + 1; // Increment count for this year
 
       const pubEl = document.createElement('div');
       pubEl.className = 'publication';
@@ -262,10 +271,11 @@ function renderPublications(timeline, baseTimelineWidth, axisY, elementCoords) {
       pubEl.dataset.scientistId = id; // Link to scientist
       pubEl.title = `${pub.title || 'N/A'} (${pub.year})`; // Tooltip
 
-      // Simple horizontal positioning based on year
-      const pubX = ((pub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+      // Simple horizontal positioning based on year, adding the calculated offset
+      const basePubX = ((pub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
       const pubStyleTop = axisY - (PUBLICATION_SIZE / 2); // Center vertically on axis
-      const pubStyleLeft = pubX - (PUBLICATION_SIZE / 2); // Center horizontally on year
+      // Apply offset: Center horizontally on year, then add offset
+      const pubStyleLeft = basePubX - (PUBLICATION_SIZE / 2) + horizontalOffset;
 
       // Clamp position to stay within timeline bounds
       const clampedPubX = Math.max(0, Math.min(baseTimelineWidth - PUBLICATION_SIZE, pubStyleLeft));

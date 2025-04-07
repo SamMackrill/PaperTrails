@@ -321,6 +321,9 @@ dirac:
     - year: 1928
       title: "The Quantum Theory of the Electron"
       abstract: "Introduced the Dirac equation, predicted antimatter."
+    - year: 1937
+      title: "The Cosmological Constants"
+      abstract: "Proposed the Large Number Hypothesis, suggesting a relationship between fundamental constants and the age of the universe."
 
 casimir:
   name: "Hendrik Casimir"
