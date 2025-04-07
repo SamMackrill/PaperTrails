@@ -567,3 +567,33 @@ fresnel:
     - year: 1819
       title: "Mémoire sur la diffraction de la lumière"
       abstract: "Developed the wave theory of light, explaining diffraction and interference phenomena."
+
+franklin:
+  name: "Benjamin Franklin"
+  color: "#005f73" # Dark Teal
+  photo: "images/franklin.jpg" # Placeholder - image needs to be added
+  nationality: "American"
+  birth: "1706-01-17"
+  death: "1790-04-17"
+  publications:
+    - year: 1751 # Book publication year
+      title: "Experiments and Observations on Electricity"
+      abstract: "Detailed experiments on electricity, including the kite experiment (1752) proving lightning's electrical nature."
+
+euler:
+  name: "Leonhard Euler"
+  color: "#9b2226" # Dark Red
+  photo: "images/euler.jpg" # Placeholder - image needs to be added
+  nationality: "Swiss"
+  birth: "1707-04-15"
+  death: "1783-09-18"
+  publications:
+    - year: 1736
+      title: "Mechanica sive motus scientia analytice exposita"
+      abstract: "Formulated precise equations for rigid-body rotation (Euler's rotation equations)."
+    - year: 1746
+      title: "Nova theoria lucis et colorum"
+      abstract: "Advanced the wave theory of light, proposing light propagates as waves through the ether."
+    - year: 1748
+      title: "Introductio in analysin infinitorum"
+      abstract: "Laid the foundations of mathematical analysis, introducing concepts like Euler's formula and identity."
