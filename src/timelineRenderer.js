@@ -153,6 +153,8 @@ function renderYearMarkers(timeline, baseTimelineWidth, axisY, timelineSvg) { //
 function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, timelineSvg) {
   const { START_YEAR, YEAR_SPAN, PHOTO_SIZE, PHOTO_BASE_OFFSET_Y, PHOTO_VERTICAL_STAGGER } = config;
   let photoIndex = 0;
+  let lastTopPhotoEndX = -Infinity; // Track the right edge of the last photo on the top row
+  let lastBottomPhotoEndX = -Infinity; // Track the right edge of the last photo on the bottom row
 
   // Calculate pixel offsets based on fractions and current axisY
   const photoOffsetY = PHOTO_BASE_OFFSET_Y * axisY;
@@ -200,16 +202,33 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
       photoEl.onerror = () => handleImageError(photoEl); // Use centralized error handler
 
       const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
-      const photoX = photoYearX - PHOTO_SIZE / 2;
+      let photoX = photoYearX - PHOTO_SIZE / 2; // Initial horizontal position
 
       // Stagger photos vertically using calculated pixel offsets
+      const isTopRow = photoIndex % 2 === 0;
       const staggerOffset = (Math.floor(photoIndex / 2) % 2 === 0) ? 0 : photoStaggerY;
-      const photoCenterY = (photoIndex % 2 === 0)
+      const photoCenterY = isTopRow
           ? axisY - photoOffsetY - staggerOffset // Above axis
           : axisY + photoOffsetY + staggerOffset; // Below axis
-
       const photoStyleTop = photoCenterY - PHOTO_SIZE / 2;
-      photoEl.style.left = `${photoX}px`;
+
+      // Check for horizontal overlap and adjust if necessary (max 50% overlap)
+      if (isTopRow) {
+          if (photoX < lastTopPhotoEndX - PHOTO_SIZE / 2) {
+              photoX = lastTopPhotoEndX - PHOTO_SIZE / 2; // Adjust to allow max 50% overlap
+          }
+          lastTopPhotoEndX = photoX + PHOTO_SIZE; // Update the end position for the top row
+      } else {
+          if (photoX < lastBottomPhotoEndX - PHOTO_SIZE / 2) {
+              photoX = lastBottomPhotoEndX - PHOTO_SIZE / 2; // Adjust to allow max 50% overlap
+          }
+          lastBottomPhotoEndX = photoX + PHOTO_SIZE; // Update the end position for the bottom row
+      }
+
+      // Clamp position after overlap adjustment
+      const clampedPhotoX = Math.max(0, Math.min(baseTimelineWidth - PHOTO_SIZE, photoX));
+
+      photoEl.style.left = `${clampedPhotoX}px`;
       photoEl.style.top = `${photoStyleTop}px`;
 
       // Add event listeners
@@ -218,8 +237,8 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
       photoEl.addEventListener('mouseleave', () => unhighlightScientistGroup(id));
       timeline.appendChild(photoEl);
 
-      // Store coordinates for drawing lines
-      const photoCoord = { x: photoX + PHOTO_SIZE / 2, y: photoStyleTop + PHOTO_SIZE / 2 };
+      // Store coordinates for drawing lines (use clamped position)
+      const photoCoord = { x: clampedPhotoX + PHOTO_SIZE / 2, y: photoStyleTop + PHOTO_SIZE / 2 };
       elementCoords[`photo_${id}`] = photoCoord;
 
       // Draw connecting line (ensure publication coords are ready)
