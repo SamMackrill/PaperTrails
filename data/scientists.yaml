@@ -597,3 +597,15 @@ euler:
     - year: 1748
       title: "Introductio in analysin infinitorum"
       abstract: "Laid the foundations of mathematical analysis, introducing concepts like Euler's formula and identity."
+
+noether:
+  name: "Emmy Noether"
+  color: "#9d4edd"
+  photo: "images/noether.jpg"
+  nationality: "German"
+  birth: "1882-03-23"
+  death: "1935-04-14"
+  publications:
+    - year: 1918
+      title: "Invariante Variationsprobleme"
+      abstract: "Established Noether's theorem, linking symmetries in physics to conservation laws."
