@@ -297,7 +297,7 @@ pauli:
 
 heisenberg:
   name: "Werner Heisenberg"
-  color: "#8338ec" # Brighter purple (same as Pauli/Lamb)
+  color: "#8338ec"
   photo: "images/heisenberg.jpg"
   nationality: "German"
   birth: "1901-12-05"
@@ -354,7 +354,7 @@ dicke:
 
 arp:
   name: "Halton Arp"
-  color: "#fb8500" # Orange
+  color: "#fb8500"
   photo: "images/arp.jpg"
   nationality: "American"
   birth: "1927-03-21"
@@ -381,7 +381,7 @@ thomson:
 
 rutherford:
   name: "Ernest Rutherford"
-  color: "#c1121f" # Red (same as current year)
+  color: "#c1121f"
   photo: "images/rutherford.jpg"
   nationality: "New Zealand/British"
   birth: "1871-08-30"
@@ -420,7 +420,7 @@ velikovsky:
 
 van_der_waals:
   name: "Johannes Diderik van der Waals"
-  color: "#2a9d8f" # Brighter teal (same as Maxwell)
+  color: "#2a9d8f"
   photo: "images/van_der_waals.jpg"
   nationality: "Dutch"
   birth: "1837-11-23"
@@ -519,7 +519,7 @@ ohm:
 
 h_a_wilson:
   name: "Harold Albert Wilson"
-  color: "#6c757d" # Neutral gray
+  color: "#6c757d"
   photo: "images/wilson.jpg"
   nationality: "British"
   birth: "1874-12-01"
@@ -531,7 +531,7 @@ h_a_wilson:
 
 mach:
   name: "Ernst Mach"
-  color: "#b5838d" # Muted Rose
+  color: "#b5838d"
   photo: "images/mach.jpg"
   nationality: "Austrian/Czech"
   birth: "1838-02-18"
@@ -546,7 +546,7 @@ mach:
 
 young:
   name: "Thomas Young"
-  color: "#4cc9f0" # Light Blue
+  color: "#4cc9f0"
   photo: "images/young.jpg"
   nationality: "British"
   birth: "1773-06-13"
@@ -558,8 +558,8 @@ young:
 
 fresnel:
   name: "Augustin-Jean Fresnel"
-  color: "#7209b7" # Purple
-  photo: "images/fresnel.jpg" # Placeholder - image needs to be added
+  color: "#7209b7"
+  photo: "images/fresnel.jpg"
   nationality: "French"
   birth: "1788-05-10"
   death: "1827-07-14"
@@ -570,20 +570,20 @@ fresnel:
 
 franklin:
   name: "Benjamin Franklin"
-  color: "#005f73" # Dark Teal
-  photo: "images/franklin.jpg" # Placeholder - image needs to be added
+  color: "#005f73"
+  photo: "images/franklin.jpg"
   nationality: "American"
   birth: "1706-01-17"
   death: "1790-04-17"
   publications:
-    - year: 1751 # Book publication year
+    - year: 1751
       title: "Experiments and Observations on Electricity"
       abstract: "Detailed experiments on electricity, including the kite experiment (1752) proving lightning's electrical nature."
 
 euler:
   name: "Leonhard Euler"
-  color: "#9b2226" # Dark Red
-  photo: "images/euler.jpg" # Placeholder - image needs to be added
+  color: "#9b2226"
+  photo: "images/euler.jpg"
   nationality: "Swiss"
   birth: "1707-04-15"
   death: "1783-09-18"
