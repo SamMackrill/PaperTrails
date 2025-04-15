@@ -609,3 +609,18 @@ noether:
     - year: 1918
       title: "Invariante Variationsprobleme"
       abstract: "Established Noether's theorem, linking symmetries in physics to conservation laws."
+
+tait:
+  name: "Peter Guthrie Tait"
+  color: "#8a2be2"
+  photo: "images/tait.jpg"
+  nationality: "Scottish"
+  birth: "1831-04-28"
+  death: "1901-07-04"
+  publications:
+    - year: 1867
+      title: "Treatise on Natural Philosophy"
+      abstract: "Co-authored with Lord Kelvin, foundational work in classical mechanics."
+    - year: 1877
+      title: "On Knots"
+      abstract: "Pioneered the mathematical theory of knots, linking it to physics."
