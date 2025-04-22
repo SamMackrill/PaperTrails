@@ -7,7 +7,7 @@ export const config = {
   ZOOM_STEP: 0.1,
   PHOTO_SIZE: 50,
   PUBLICATION_SIZE: 12,
-  DISCOVERY_SIZE: 16, // Keep size as is for now
+  DISCOVERY_SIZE: 24,
   EVENT_BOX_HEIGHT: 30, // Added for consistency
   PHOTO_BASE_OFFSET_Y: 0.4,    // Increased fraction for more spread
   PHOTO_VERTICAL_STAGGER: 0.2,  // Increased fraction for more spread

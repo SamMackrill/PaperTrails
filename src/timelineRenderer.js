@@ -380,16 +380,17 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
     discoveryEl.addEventListener('click', () => showPublicationModal(discovery.discoverer, discovery.year, discovery.title, discovery.details, 'discovery'));
     timeline.appendChild(discoveryEl);
 
-    // Draw connecting line from *bottom*-center of marker to axis
+    // Draw connecting line from *center* of marker to axis
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', clampedDiscoveryX + DISCOVERY_SIZE / 2); // Center X of the *placed* marker
-    line.setAttribute('y1', discoveryStyleTop + DISCOVERY_SIZE); // Bottom of marker
-    line.setAttribute('x2', discoveryYearX); // Point line to the *actual* year position on axis
+    line.setAttribute('x1', clampedDiscoveryX + DISCOVERY_SIZE / 2); // Center of marker horizontally
+    // Connect line to the vertical center of the marker
+    line.setAttribute('y1', discoveryStyleTop + DISCOVERY_SIZE / 2); // Center of marker vertically
+    line.setAttribute('x2', discoveryYearX); // Target X at actual year position
     line.setAttribute('y2', axisY); // Axis line
     line.setAttribute('stroke', discovery.color || '#aaaaaa');
     line.setAttribute('stroke-width', '1.5'); // Thinner line
-    line.classList.add('connecting-line'); // Add class for potential styling/highlighting
-    line.setAttribute('vector-effect', 'non-scaling-stroke'); // Keep stroke width constant
+    line.classList.add('connecting-line'); // Add class for styling
+    line.setAttribute('vector-effect', 'non-scaling-stroke'); // Ensure stroke width remains constant
     timelineSvg.appendChild(line);
   });
 }
