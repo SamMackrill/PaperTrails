@@ -67,3 +67,10 @@
   particle: "ZPE"
   color: "#9b59b6"
   details: "Experimental verification of the Casimir effect, demonstrating the existence of quantum vacuum fluctuations."
+
+- title: "Solar Eclipse"
+  year: 1919
+  discoverer: "Arthur Stanley Eddington"
+  particle: "🌓︎"
+  details: "Observed solar eclipse providing evidence supporting general relativity."
+  color: "#c0c0c0"
