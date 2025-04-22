@@ -13,6 +13,12 @@ export const config = {
   PHOTO_VERTICAL_STAGGER: 0.2,  // Increased fraction for more spread
   DISCOVERY_BASE_OFFSET_Y: 0.15, // Increased fraction for more spread
   EVENT_BASE_OFFSET_Y: 0.1,    // Increased fraction for more spread
+  // Timeline Height Configuration
+  INITIAL_TIMELINE_HEIGHT: 600,
+  MIN_TIMELINE_HEIGHT: 200,
+  MAX_TIMELINE_HEIGHT: 1000,
+  HEIGHT_STEP: 50, // Used for reset logic, potentially other steps
+  // Other Configuration
   DRAG_THRESHOLD: 5,
   RESIZE_DEBOUNCE_DELAY: 250,
   themeLocalStorageKey: 'paperTrailsTheme',

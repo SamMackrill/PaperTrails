@@ -10,11 +10,8 @@ let timelineContainer, timeline, zoomLevelDisplay, scientistTooltip,
     zoomSlider, heightSlider, resetViewButton; // Changed button names
 
 // State Variables for Timeline Interaction
-const INITIAL_TIMELINE_HEIGHT = 600; // Set default height to 600px
-const MIN_TIMELINE_HEIGHT = 200;
-const MAX_TIMELINE_HEIGHT = 800;
-const HEIGHT_STEP = 50; // Keep for potential future use? Or remove? Let's keep for reset logic.
-let currentTimelineHeight = INITIAL_TIMELINE_HEIGHT;
+// Timeline height constants moved to config.js
+let currentTimelineHeight = config.INITIAL_TIMELINE_HEIGHT; // Use config value
 let currentScale = 1.0;
 let currentTranslateX = 0;
 let currentTranslateY = 0;
@@ -252,7 +249,7 @@ function setupEventListeners() {
 
     // Height Slider listener
     heightSlider.addEventListener('input', () => {
-        const newHeight = mapSliderValue(heightSlider.value, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT);
+        const newHeight = mapSliderValue(heightSlider.value, config.MIN_TIMELINE_HEIGHT, config.MAX_TIMELINE_HEIGHT); // Use config values
         if (newHeight !== currentTimelineHeight) {
             currentTimelineHeight = newHeight;
             timelineContainer.style.height = `${currentTimelineHeight}px`;
@@ -268,11 +265,11 @@ function setupEventListeners() {
         currentScale = 1.0;
         currentTranslateX = 0;
         currentTranslateY = 0;
-        currentTimelineHeight = INITIAL_TIMELINE_HEIGHT; // Reset height state
+        currentTimelineHeight = config.INITIAL_TIMELINE_HEIGHT; // Reset height state using config
 
         timelineContainer.style.height = `${currentTimelineHeight}px`; // Apply height reset
         zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE); // Reset zoom slider
-        heightSlider.value = mapValueToSlider(currentTimelineHeight, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT); // Reset height slider
+        heightSlider.value = mapValueToSlider(currentTimelineHeight, config.MIN_TIMELINE_HEIGHT, config.MAX_TIMELINE_HEIGHT); // Reset height slider using config
 
         renderTimeline(timelineContainer, timeline, updateTimelineTransform); // Re-render
         updateTimelineTransform(); // Apply transform reset
@@ -339,7 +336,7 @@ function debouncedRender() {
         renderTimeline(document.getElementById('timeline-container'), document.getElementById('timeline'), updateTimelineTransform);
         // Update slider positions after resize/re-render
         if (zoomSlider) zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
-        if (heightSlider) heightSlider.value = mapValueToSlider(currentTimelineHeight, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT);
+        if (heightSlider) heightSlider.value = mapValueToSlider(currentTimelineHeight, config.MIN_TIMELINE_HEIGHT, config.MAX_TIMELINE_HEIGHT); // Use config values
     }, config.RESIZE_DEBOUNCE_DELAY);
 }
 
@@ -360,11 +357,11 @@ async function initializeApp() {
         return;
     }
     // Set initial height from state (in case it differs from CSS default)
-    currentTimelineHeight = timelineContainer.offsetHeight || INITIAL_TIMELINE_HEIGHT;
+    currentTimelineHeight = timelineContainer.offsetHeight || config.INITIAL_TIMELINE_HEIGHT; // Use config value
     timelineContainer.style.height = `${currentTimelineHeight}px`;
     // Set initial slider positions
     zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
-    heightSlider.value = mapValueToSlider(currentTimelineHeight, MIN_TIMELINE_HEIGHT, MAX_TIMELINE_HEIGHT);
+    heightSlider.value = mapValueToSlider(currentTimelineHeight, config.MIN_TIMELINE_HEIGHT, config.MAX_TIMELINE_HEIGHT); // Use config values
 
 
     // Initialize modules in order
