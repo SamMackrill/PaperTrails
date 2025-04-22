@@ -8,7 +8,7 @@ newton:
   publications:
     - year: 1687
       title: "Philosophiæ Naturalis Principia Mathematica"
-      abstract: "Presented Newton's laws of motion and universal gravitation."
+      abstract: "Presented laws of motion and universal gravitation."
 
 fatio:
   name: "Nicolas Fatio de Duillier"
@@ -21,6 +21,36 @@ fatio:
     - year: 1690
       title: "Letter outlining kinetic theory of gravity"
       abstract: "Early theory explaining gravity via particle collisions/shadowing."
+
+franklin:
+  name: "Benjamin Franklin"
+  color: "#005f73"
+  photo: "images/franklin.jpg"
+  nationality: "American"
+  birth: "1706-01-17"
+  death: "1790-04-17"
+  publications:
+    - year: 1751
+      title: "Experiments and Observations on Electricity"
+      abstract: "Detailed experiments on electricity, including the kite experiment (1752) proving lightning's electrical nature."
+
+euler:
+  name: "Leonhard Euler"
+  color: "#9b2226"
+  photo: "images/euler.jpg"
+  nationality: "Swiss"
+  birth: "1707-04-15"
+  death: "1783-09-18"
+  publications:
+    - year: 1736
+      title: "Mechanica sive motus scientia analytice exposita"
+      abstract: "Formulated precise equations for rigid-body rotation (Euler's rotation equations)."
+    - year: 1746
+      title: "Nova theoria lucis et colorum"
+      abstract: "Advanced the wave theory of light, proposing light propagates as waves through the ether."
+    - year: 1748
+      title: "Introductio in analysin infinitorum"
+      abstract: "Laid the foundations of mathematical analysis, introducing concepts like Euler's formula and identity."
 
 lesage:
   name: "Georges-Louis Le Sage"
@@ -58,6 +88,30 @@ volta:
       title: "On the Electricity Excited by the Mere Contact of Conducting Substances of Different Kinds"
       abstract: "Invented the voltaic pile, the first electrical battery."
 
+dalton:
+  name: "John Dalton"
+  color: "#c70039"
+  photo: "images/dalton.jpg"
+  nationality: "English"
+  birth: "1766-09-06"
+  death: "1844-07-27"
+  publications:
+    - year: 1803
+      title: "A New System of Chemical Philosophy"
+      abstract: "Proposed atomic theory and law of multiple proportions."
+
+young:
+  name: "Thomas Young"
+  color: "#4cc9f0"
+  photo: "images/young.jpg"
+  nationality: "British"
+  birth: "1773-06-13"
+  death: "1829-05-10"
+  publications:
+    - year: 1803
+      title: "Experiments and Calculations Relative to Physical Optics"
+      abstract: "Demonstrated the wave nature of light through the double-slit experiment."
+
 biot:
   name: "Jean-Baptiste Biot"
   color: "#00a6fb"
@@ -85,18 +139,6 @@ ampere:
       title: "Mémoire sur la théorie mathématique..."
       abstract: "Ampère's circuital law."
 
-dalton:
-  name: "John Dalton"
-  color: "#c70039"
-  photo: "images/dalton.jpg"
-  nationality: "English"
-  birth: "1766-09-06"
-  death: "1844-07-27"
-  publications:
-    - year: 1803
-      title: "A New System of Chemical Philosophy"
-      abstract: "Proposed atomic theory and law of multiple proportions."
-
 oersted:
   name: "Hans Christian Ørsted"
   color: "#bc6c25"
@@ -108,6 +150,42 @@ oersted:
     - year: 1820
       title: "Experimenta circa effectum conflictus electrici in acum magneticam"
       abstract: "Discovered that electric currents create magnetic fields (electromagnetism)."
+
+fresnel:
+  name: "Augustin-Jean Fresnel"
+  color: "#7209b7"
+  photo: "images/fresnel.jpg"
+  nationality: "French"
+  birth: "1788-05-10"
+  death: "1827-07-14"
+  publications:
+    - year: 1819
+      title: "Mémoire sur la diffraction de la lumière"
+      abstract: "Developed the wave theory of light, explaining diffraction and interference phenomena."
+
+ohm:
+  name: "Georg Simon Ohm"
+  color: "#ff7f50"
+  photo: "images/ohm.jpg"
+  nationality: "German"
+  birth: "1789-03-16"
+  death: "1854-07-06"
+  publications:
+    - year: 1827
+      title: "Die galvanische Kette, mathematisch bearbeitet"
+      abstract: "Formulated Ohm's law, describing the relationship between voltage, current, and resistance."
+
+savart:
+  name: "Félix Savart"
+  color: "#5e60ce"
+  photo: "images/savart.jpg"
+  nationality: "French"
+  birth: "1791-06-30"
+  death: "1841-03-16"
+  publications:
+    - year: 1820
+      title: "Note sur le magnétisme de la pile de Volta"
+      abstract: "With Biot, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)."
 
 faraday:
   name: "Michael Faraday"
@@ -123,18 +201,6 @@ faraday:
     - year: 1846
       title: "Experimental Researches in Electricity (Series XIX)"
       abstract: "Described diamagnetism and proposed lines of force."
-
-savart:
-  name: "Félix Savart"
-  color: "#5e60ce"
-  photo: "images/savart.jpg"
-  nationality: "French"
-  birth: "1791-06-30"
-  death: "1841-03-16"
-  publications:
-    - year: 1820
-      title: "Note sur le magnétisme de la pile de Volta"
-      abstract: "With Biot, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)."
 
 neumann_franz:
   name: "Franz Ernst Neumann"
@@ -163,6 +229,21 @@ weber:
       title: "On the Measurement of Electric Resistance"
       abstract: "Contributed to establishing absolute electrical units."
 
+tait:
+  name: "Peter Guthrie Tait"
+  color: "#8a2be2"
+  photo: "images/tait.jpg"
+  nationality: "Scottish"
+  birth: "1831-04-28"
+  death: "1901-07-04"
+  publications:
+    - year: 1867
+      title: "Treatise on Natural Philosophy"
+      abstract: "Co-authored with Lord Kelvin, foundational work in classical mechanics."
+    - year: 1877
+      title: "On Knots"
+      abstract: "Pioneered the mathematical theory of knots, linking it to physics."
+
 maxwell:
   name: "James Clerk Maxwell"
   color: "#2a9d8f"
@@ -178,20 +259,32 @@ maxwell:
       title: "A Treatise on Electricity and Magnetism"
       abstract: "Unified electricity, magnetism, and light."
 
-lorentz:
-  name: "Hendrik Lorentz"
-  color: "#fca311"
-  photo: "images/lorentz.jpg"
+van_der_waals:
+  name: "Johannes Diderik van der Waals"
+  color: "#2a9d8f"
+  photo: "images/van_der_waals.jpg"
   nationality: "Dutch"
-  birth: "1853-07-18"
-  death: "1928-02-04"
+  birth: "1837-11-23"
+  death: "1923-03-08"
   publications:
-    - year: 1892
-      title: "La Théorie électromagnétique de Maxwell..."
-      abstract: "Developed Lorentz transformation equations."
-    - year: 1904
-      title: "Electromagnetic phenomena..."
-      abstract: "Refined transformations used in special relativity."
+    - year: 1873
+      title: "On the Continuity of the Gaseous and Liquid States"
+      abstract: "Introduced the van der Waals equation of state."
+
+mach:
+  name: "Ernst Mach"
+  color: "#b5838d"
+  photo: "images/mach.jpg"
+  nationality: "Austrian/Czech"
+  birth: "1838-02-18"
+  death: "1916-02-19"
+  publications:
+    - year: 1883
+      title: "Die Mechanik in ihrer Entwickelung historisch-kritisch dargestellt (The Science of Mechanics)"
+      abstract: "Critiqued Newtonian mechanics and influenced Einstein; introduced Mach's principle."
+    - year: 1886
+      title: "Beiträge zur Analyse der Empfindungen (Analysis of Sensations)"
+      abstract: "Explored the relationship between physics and psychophysics, influencing philosophy of science."
 
 heaviside:
   name: "Oliver Heaviside"
@@ -208,6 +301,33 @@ heaviside:
       title: "Theory of the Electric Telegraph"
       abstract: "Predicted the Kennelly–Heaviside layer."
 
+lorentz:
+  name: "Hendrik Lorentz"
+  color: "#fca311"
+  photo: "images/lorentz.jpg"
+  nationality: "Dutch"
+  birth: "1853-07-18"
+  death: "1928-02-04"
+  publications:
+    - year: 1892
+      title: "La Théorie électromagnétique de Maxwell..."
+      abstract: "Developed Lorentz transformation equations."
+    - year: 1904
+      title: "Electromagnetic phenomena..."
+      abstract: "Refined transformations used in special relativity."
+
+thomson:
+  name: "J.J. Thomson"
+  color: "#900c3f"
+  photo: "images/thomson.jpg"
+  nationality: "British"
+  birth: "1856-12-18"
+  death: "1940-08-30"
+  publications:
+    - year: 1897
+      title: "Cathode Rays"
+      abstract: "Discovered the electron and proposed the plum pudding model of the atom."
+
 planck:
   name: "Max Planck"
   color: "#457b9d" # Kept as is
@@ -219,6 +339,45 @@ planck:
     - year: 1900
       title: "Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum"
       abstract: "Introduced quantized energy (Planck's constant)."
+
+birkeland:
+  name: "Kristian Birkeland"
+  color: "#6a994e"
+  photo: "images/birkeland.jpg"
+  nationality: "Norwegian"
+  birth: "1867-12-13"
+  death: "1917-06-15"
+  publications:
+    - year: 1908
+      title: "The Norwegian Aurora Polaris Expedition"
+      abstract: "Explained the aurora borealis as caused by charged particles from the Sun."
+
+rutherford:
+  name: "Ernest Rutherford"
+  color: "#c1121f"
+  photo: "images/rutherford.jpg"
+  nationality: "New Zealand/British"
+  birth: "1871-08-30"
+  death: "1937-10-19"
+  publications:
+    - year: 1911
+      title: "The Scattering of α and β Particles by Matter and the Structure of the Atom"
+      abstract: "Proposed the nuclear model of the atom."
+    - year: 1919
+      title: "Collision of α Particles with Light Atoms"
+      abstract: "Discovered the proton."
+
+h_a_wilson:
+  name: "Harold Albert Wilson"
+  color: "#6c757d"
+  photo: "images/wilson.jpg"
+  nationality: "British"
+  birth: "1874-12-01"
+  death: "1964-10-13"
+  publications:
+    - year: 1921
+      title: "An electromagnetic theory of gravitation"
+      abstract: "Proposed a theory linking electromagnetism and gravitation."
 
 einstein:
   name: "Albert Einstein"
@@ -238,6 +397,18 @@ einstein:
       title: "Die Feldgleichungen der Gravitation"
       abstract: "Presented general relativity."
 
+noether:
+  name: "Emmy Noether"
+  color: "#9d4edd"
+  photo: "images/noether.jpg"
+  nationality: "German"
+  birth: "1882-03-23"
+  death: "1935-04-14"
+  publications:
+    - year: 1918
+      title: "Invariante Variationsprobleme"
+      abstract: "Established Noether's theorem, linking symmetries in physics to conservation laws."
+
 bohr:
   name: "Niels Bohr"
   color: "#ff006e"
@@ -253,18 +424,6 @@ bohr:
       title: "The Quantum Postulate..."
       abstract: "Developed the principle of complementarity."
 
-deBroglie:
-  name: "Louis de Broglie"
-  color: "#ffc300"
-  photo: "images/debroglie.jpg"
-  nationality: "French"
-  birth: "1892-08-15"
-  death: "1987-03-19"
-  publications:
-    - year: 1924
-      title: "Recherches sur la théorie des quanta"
-      abstract: "Proposed wave nature of electrons."
-
 schrodinger:
   name: "Erwin Schrödinger"
   color: "#2ec4b6"
@@ -279,6 +438,66 @@ schrodinger:
     - year: 1935
       title: "Die gegenwärtige Situation in der Quantenmechanik"
       abstract: "Introduced Schrödinger's cat thought experiment."
+
+raman:
+  name: "C. V. Raman"
+  color: "#118ab2"
+  photo: "images/raman.jpg"
+  nationality: "Indian"
+  birth: "1888-11-07"
+  death: "1970-11-21"
+  publications:
+    - year: 1928
+      title: "A New Radiation"
+      abstract: "Discovered the Raman effect, inelastic scattering of photons."
+
+chadwick:
+  name: "James Chadwick"
+  color: "#ef476f"
+  photo: "images/chadwick.jpg"
+  nationality: "British"
+  birth: "1891-10-20"
+  death: "1974-07-24"
+  publications:
+    - year: 1932
+      title: "Possible Existence of a Neutron"
+      abstract: "Discovered the neutron."
+
+compton:
+  name: "Arthur Compton"
+  color: "#ff9f1c"
+  photo: "images/compton.jpg"
+  nationality: "American"
+  birth: "1892-09-10"
+  death: "1962-03-15"
+  publications:
+    - year: 1923
+      title: "A Quantum Theory of the Scattering of X-rays by Light Elements"
+      abstract: "Discovered the Compton effect, demonstrating particle-like behavior of photons."
+
+deBroglie:
+  name: "Louis de Broglie"
+  color: "#ffc300"
+  photo: "images/debroglie.jpg"
+  nationality: "French"
+  birth: "1892-08-15"
+  death: "1987-03-19"
+  publications:
+    - year: 1924
+      title: "Recherches sur la théorie des quanta"
+      abstract: "Proposed wave nature of electrons."
+
+velikovsky:
+  name: "Immanuel Velikovsky"
+  color: "#ff6f61"
+  photo: "images/velikovsky.jpg"
+  nationality: "Russian/American"
+  birth: "1895-06-10"
+  death: "1979-11-17"
+  publications:
+    - year: 1950
+      title: "Worlds in Collision"
+      abstract: "Proposed theories about planetary catastrophes."
 
 pauli:
   name: "Wolfgang Pauli"
@@ -325,6 +544,33 @@ dirac:
       title: "The Cosmological Constants"
       abstract: "Proposed the Large Number Hypothesis, suggesting a relationship between fundamental constants and the age of the universe."
 
+anderson:
+  name: "Carl David Anderson"
+  color: "#06d6a0"
+  photo: "images/anderson.jpg"
+  nationality: "American"
+  birth: "1905-09-03"
+  death: "1991-01-11"
+  publications:
+    - year: 1932
+      title: "The Apparent Existence of Easily Deflectable Positives"
+      abstract: "Discovered the positron."
+
+alfven:
+  name: "Hannes Alfvén"
+  color: "#ffbe0b"
+  photo: "images/alfven.jpg"
+  nationality: "Swedish"
+  birth: "1908-05-30"
+  death: "1995-04-02"
+  publications:
+    - year: 1942
+      title: "Existence of Electromagnetic-Hydrodynamic Waves"
+      abstract: "Discovered Alfvén waves in magnetohydrodynamics."
+    - year: 1981
+      title: "Cosmic Plasma"
+      abstract: "Discussed the behavior of plasma in cosmic environments, laying the foundation for modern plasma physics."
+
 casimir:
   name: "Hendrik Casimir"
   color: "#3a86ff"
@@ -336,6 +582,18 @@ casimir:
     - year: 1948
       title: "On the attraction between two perfectly conducting plates"
       abstract: "Predicted the Casimir effect."
+
+lamb:
+  name: "Willis Lamb"
+  color: "#8338ec"
+  photo: "images/lamb.jpg"
+  nationality: "American"
+  birth: "1913-07-12"
+  death: "2008-05-15"
+  publications:
+    - year: 1947
+      title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
+      abstract: "Discovered the Lamb shift in hydrogen spectra."
 
 dicke:
   name: "Robert H. Dicke"
@@ -366,261 +624,3 @@ arp:
     - year: 1990
       title: "Seeing Red"
       abstract: "Discussed redshift anomalies and their implications for cosmology."
-
-thomson:
-  name: "J.J. Thomson"
-  color: "#900c3f"
-  photo: "images/thomson.jpg"
-  nationality: "British"
-  birth: "1856-12-18"
-  death: "1940-08-30"
-  publications:
-    - year: 1897
-      title: "Cathode Rays"
-      abstract: "Discovered the electron and proposed the plum pudding model of the atom."
-
-rutherford:
-  name: "Ernest Rutherford"
-  color: "#c1121f"
-  photo: "images/rutherford.jpg"
-  nationality: "New Zealand/British"
-  birth: "1871-08-30"
-  death: "1937-10-19"
-  publications:
-    - year: 1911
-      title: "The Scattering of α and β Particles by Matter and the Structure of the Atom"
-      abstract: "Proposed the nuclear model of the atom."
-    - year: 1919
-      title: "Collision of α Particles with Light Atoms"
-      abstract: "Discovered the proton."
-
-birkeland:
-  name: "Kristian Birkeland"
-  color: "#6a994e"
-  photo: "images/birkeland.jpg"
-  nationality: "Norwegian"
-  birth: "1867-12-13"
-  death: "1917-06-15"
-  publications:
-    - year: 1908
-      title: "The Norwegian Aurora Polaris Expedition"
-      abstract: "Explained the aurora borealis as caused by charged particles from the Sun."
-
-velikovsky:
-  name: "Immanuel Velikovsky"
-  color: "#ff6f61"
-  photo: "images/velikovsky.jpg"
-  nationality: "Russian/American"
-  birth: "1895-06-10"
-  death: "1979-11-17"
-  publications:
-    - year: 1950
-      title: "Worlds in Collision"
-      abstract: "Proposed theories about planetary catastrophes."
-
-van_der_waals:
-  name: "Johannes Diderik van der Waals"
-  color: "#2a9d8f"
-  photo: "images/van_der_waals.jpg"
-  nationality: "Dutch"
-  birth: "1837-11-23"
-  death: "1923-03-08"
-  publications:
-    - year: 1873
-      title: "On the Continuity of the Gaseous and Liquid States"
-      abstract: "Introduced the van der Waals equation of state."
-
-compton:
-  name: "Arthur Compton"
-  color: "#ff9f1c"
-  photo: "images/compton.jpg"
-  nationality: "American"
-  birth: "1892-09-10"
-  death: "1962-03-15"
-  publications:
-    - year: 1923
-      title: "A Quantum Theory of the Scattering of X-rays by Light Elements"
-      abstract: "Discovered the Compton effect, demonstrating particle-like behavior of photons."
-
-raman:
-  name: "C. V. Raman"
-  color: "#118ab2"
-  photo: "images/raman.jpg"
-  nationality: "Indian"
-  birth: "1888-11-07"
-  death: "1970-11-21"
-  publications:
-    - year: 1928
-      title: "A New Radiation"
-      abstract: "Discovered the Raman effect, inelastic scattering of photons."
-
-chadwick:
-  name: "James Chadwick"
-  color: "#ef476f"
-  photo: "images/chadwick.jpg"
-  nationality: "British"
-  birth: "1891-10-20"
-  death: "1974-07-24"
-  publications:
-    - year: 1932
-      title: "Possible Existence of a Neutron"
-      abstract: "Discovered the neutron."
-
-anderson:
-  name: "Carl David Anderson"
-  color: "#06d6a0"
-  photo: "images/anderson.jpg"
-  nationality: "American"
-  birth: "1905-09-03"
-  death: "1991-01-11"
-  publications:
-    - year: 1932
-      title: "The Apparent Existence of Easily Deflectable Positives"
-      abstract: "Discovered the positron."
-
-lamb:
-  name: "Willis Lamb"
-  color: "#8338ec"
-  photo: "images/lamb.jpg"
-  nationality: "American"
-  birth: "1913-07-12"
-  death: "2008-05-15"
-  publications:
-    - year: 1947
-      title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
-      abstract: "Discovered the Lamb shift in hydrogen spectra."
-
-alfven:
-  name: "Hannes Alfvén"
-  color: "#ffbe0b"
-  photo: "images/alfven.jpg"
-  nationality: "Swedish"
-  birth: "1908-05-30"
-  death: "1995-04-02"
-  publications:
-    - year: 1942
-      title: "Existence of Electromagnetic-Hydrodynamic Waves"
-      abstract: "Discovered Alfvén waves in magnetohydrodynamics."
-    - year: 1981
-      title: "Cosmic Plasma"
-      abstract: "Discussed the behavior of plasma in cosmic environments, laying the foundation for modern plasma physics."
-
-ohm:
-  name: "Georg Simon Ohm"
-  color: "#ff7f50"
-  photo: "images/ohm.jpg"
-  nationality: "German"
-  birth: "1789-03-16"
-  death: "1854-07-06"
-  publications:
-    - year: 1827
-      title: "Die galvanische Kette, mathematisch bearbeitet"
-      abstract: "Formulated Ohm's law, describing the relationship between voltage, current, and resistance."
-
-h_a_wilson:
-  name: "Harold Albert Wilson"
-  color: "#6c757d"
-  photo: "images/wilson.jpg"
-  nationality: "British"
-  birth: "1874-12-01"
-  death: "1964-10-13"
-  publications:
-    - year: 1921
-      title: "An electromagnetic theory of gravitation"
-      abstract: "Proposed a theory linking electromagnetism and gravitation."
-
-mach:
-  name: "Ernst Mach"
-  color: "#b5838d"
-  photo: "images/mach.jpg"
-  nationality: "Austrian/Czech"
-  birth: "1838-02-18"
-  death: "1916-02-19"
-  publications:
-    - year: 1883
-      title: "Die Mechanik in ihrer Entwickelung historisch-kritisch dargestellt (The Science of Mechanics)"
-      abstract: "Critiqued Newtonian mechanics and influenced Einstein; introduced Mach's principle."
-    - year: 1886
-      title: "Beiträge zur Analyse der Empfindungen (Analysis of Sensations)"
-      abstract: "Explored the relationship between physics and psychophysics, influencing philosophy of science."
-
-young:
-  name: "Thomas Young"
-  color: "#4cc9f0"
-  photo: "images/young.jpg"
-  nationality: "British"
-  birth: "1773-06-13"
-  death: "1829-05-10"
-  publications:
-    - year: 1803
-      title: "Experiments and Calculations Relative to Physical Optics"
-      abstract: "Demonstrated the wave nature of light through the double-slit experiment."
-
-fresnel:
-  name: "Augustin-Jean Fresnel"
-  color: "#7209b7"
-  photo: "images/fresnel.jpg"
-  nationality: "French"
-  birth: "1788-05-10"
-  death: "1827-07-14"
-  publications:
-    - year: 1819
-      title: "Mémoire sur la diffraction de la lumière"
-      abstract: "Developed the wave theory of light, explaining diffraction and interference phenomena."
-
-franklin:
-  name: "Benjamin Franklin"
-  color: "#005f73"
-  photo: "images/franklin.jpg"
-  nationality: "American"
-  birth: "1706-01-17"
-  death: "1790-04-17"
-  publications:
-    - year: 1751
-      title: "Experiments and Observations on Electricity"
-      abstract: "Detailed experiments on electricity, including the kite experiment (1752) proving lightning's electrical nature."
-
-euler:
-  name: "Leonhard Euler"
-  color: "#9b2226"
-  photo: "images/euler.jpg"
-  nationality: "Swiss"
-  birth: "1707-04-15"
-  death: "1783-09-18"
-  publications:
-    - year: 1736
-      title: "Mechanica sive motus scientia analytice exposita"
-      abstract: "Formulated precise equations for rigid-body rotation (Euler's rotation equations)."
-    - year: 1746
-      title: "Nova theoria lucis et colorum"
-      abstract: "Advanced the wave theory of light, proposing light propagates as waves through the ether."
-    - year: 1748
-      title: "Introductio in analysin infinitorum"
-      abstract: "Laid the foundations of mathematical analysis, introducing concepts like Euler's formula and identity."
-
-noether:
-  name: "Emmy Noether"
-  color: "#9d4edd"
-  photo: "images/noether.jpg"
-  nationality: "German"
-  birth: "1882-03-23"
-  death: "1935-04-14"
-  publications:
-    - year: 1918
-      title: "Invariante Variationsprobleme"
-      abstract: "Established Noether's theorem, linking symmetries in physics to conservation laws."
-
-tait:
-  name: "Peter Guthrie Tait"
-  color: "#8a2be2"
-  photo: "images/tait.jpg"
-  nationality: "Scottish"
-  birth: "1831-04-28"
-  death: "1901-07-04"
-  publications:
-    - year: 1867
-      title: "Treatise on Natural Philosophy"
-      abstract: "Co-authored with Lord Kelvin, foundational work in classical mechanics."
-    - year: 1877
-      title: "On Knots"
-      abstract: "Pioneered the mathematical theory of knots, linking it to physics."
