@@ -74,3 +74,10 @@
   particle: "🌓︎"
   details: "Observed solar eclipse providing evidence supporting general relativity."
   color: "#c0c0c0"
+
+- year: 1964
+  title: "Discovery of Cosmic Microwave Background"
+  discoverer: "Arno Penzias and Robert Wilson"
+  details: "Accidentally detected the CMB radiation, providing strong evidence for the Big Bang theory."
+  particle: "CMB"
+  color: "#add8e6" # Light Blue
