@@ -2,14 +2,14 @@
   title: "Discovery of the Electron"
   discoverer: "J. J. Thomson"
   details: "Identified the electron as a subatomic particle..."
-  particle: e-
+  particle: e⁻
   color: "#0000FF" # Blue
 
 - year: 1932
   title: "Discovery of the Positron"
   discoverer: "Carl Anderson"
   details: "Observed the positron (antielectron) in cosmic ray tracks..."
-  particle: e+
+  particle: e⁺
   color: "#FF0000" # Red
 
 - year: 1932
@@ -23,13 +23,13 @@
   title: "Discovery of the Proton"
   discoverer: "Ernest Rutherford"
   details: "Ernest Rutherford discovered the proton through experiments involving alpha particles and nitrogen gas."
-  particle: "p⁺"
+  particle: p⁺
   color: "#FF0000" # Red
 
 - title: "Michelson-Morley Experiment"
   year: 1887
   discoverer: "Albert A. Michelson and Edward W. Morley"
-  particle: "MM"
+  particle: MM
   color: "#1abc9c"
   details: "Infamous flawed claim to disprove the existence of the Luminiferous Aether."
 
@@ -37,41 +37,41 @@
   title: "First Measurement of the Speed of Light"
   discoverer: "Ole Rømer"
   details: "Ole Rømer measured the speed of light by observing the eclipses of Jupiter's moons."
-  particle: "c"
+  particle: c
   color: "#ffcc00" # Golden Yellow
 
 - year: 1745
   title: "Invention of the Leyden Jar"
   discoverer: "Ewald Georg von Kleist"
   details: "Ewald Georg von Kleist invented the Leyden jar, the first capacitor, capable of storing electrical charge."
-  particle: "LJar"
+  particle: LJar
   color: "#8b0000" # Dark Red
 
 - year: 1848
   title: "Concept of Absolute Zero"
   discoverer: "Lord Kelvin"
   details: "Lord Kelvin introduced the concept of absolute zero, the theoretical temperature at which all molecular motion ceases."
-  particle: "0K"
+  particle: 0K
   color: "#4682B4" # Steel Blue
 
 - year: 1831
   title: "Discovery of Electromagnetic Induction"
   discoverer: "Michael Faraday"
   details: "Michael Faraday discovered electromagnetic induction, the principle behind electric generators and transformers."
-  particle: "EMI"
+  particle: EMI
   color: "#e76f51" # Coral Red
 
 - title: "Casimir Effect Verification"
   year: 1997
   discoverer: "Steve K. Lamoreaux and others"
-  particle: "ZPE"
+  particle: ZPE
   color: "#9b59b6"
   details: "Experimental verification of the Casimir effect, demonstrating the existence of quantum vacuum fluctuations."
 
 - title: "Solar Eclipse"
   year: 1919
   discoverer: "Arthur Stanley Eddington"
-  particle: "🌓︎"
+  particle: 🌓︎
   details: "Observed solar eclipse providing evidence supporting general relativity."
   color: "#c0c0c0"
 
@@ -79,5 +79,5 @@
   title: "Discovery of Cosmic Microwave Background"
   discoverer: "Arno Penzias and Robert Wilson"
   details: "Accidentally detected the CMB radiation, providing strong evidence for the Big Bang theory."
-  particle: "CMB"
+  particle: CMB
   color: "#add8e6" # Light Blue
