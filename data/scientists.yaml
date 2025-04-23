@@ -595,6 +595,21 @@ lamb:
       title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
       abstract: "Discovered the Lamb shift in hydrogen spectra."
 
+hoyle:
+  name: "Fred Hoyle"
+  color: "#ff6b6b" # Reddish
+  photo: "images/hoyle.jpg" # Placeholder - User may need to add an image file
+  nationality: "British"
+  birth: "1915-06-24"
+  death: "2001-08-20"
+  publications:
+    - year: 1948
+      title: "A New Model for the Expanding Universe"
+      abstract: "Co-developed the Steady State theory of the universe as an alternative to the Big Bang."
+    - year: 1957
+      title: "Synthesis of the Elements in Stars"
+      abstract: "Co-authored the influential B²FH paper explaining how elements heavier than helium are synthesized in stars (stellar nucleosynthesis)."
+
 sciama:
   name: "Dennis W. Sciama"
   color: "#6a0dad" # Purple
@@ -606,6 +621,9 @@ sciama:
     - year: 1953
       title: "On the Origin of Inertia"
       abstract: "Proposed a theory linking inertia to the gravitational influence of distant matter in the universe, based on Mach's principle."
+    - year: 1969
+      title: "The Physical Foundations of General Relativity"
+      abstract: "A concise introduction to the conceptual basis of general relativity."
     - year: 1971
       title: "Modern Cosmology"
       abstract: "Influential textbook summarizing the state of cosmology and exploring topics like the cosmic microwave background and black holes."
