@@ -248,8 +248,7 @@ function setupEventListeners() {
             dragStartY = touches[0].clientY;
             dragStartTranslateX = currentTranslateX;
             dragStartTranslateY = currentTranslateY;
-            // Prevent default only if we might drag (prevents pull-to-refresh etc.)
-            event.preventDefault();
+            // DO NOT prevent default here for single touch yet. Wait for touchmove to confirm drag.
         } else if (touches.length === 2) { // Start Pinch Zoom
             potentialDrag = false; // Disable panning if starting pinch
             isDragging = false;
@@ -301,14 +300,15 @@ function setupEventListeners() {
             if (!isDragging) {
                 if (Math.abs(dx) > config.DRAG_THRESHOLD || Math.abs(dy) > config.DRAG_THRESHOLD) {
                     isDragging = true;
-                    // No cursor change needed for touch
+                    // Prevent default browser actions (like scrolling) ONLY when dragging starts.
+                    event.preventDefault();
                 } else {
                     return; // Not dragging yet
                 }
             }
 
             if (isDragging) {
-                event.preventDefault(); // Prevent scroll during drag
+                // Already prevented default above when isDragging became true
                 currentTranslateX = dragStartTranslateX + dx;
                 currentTranslateY = dragStartTranslateY + dy;
                 // Apply transform directly

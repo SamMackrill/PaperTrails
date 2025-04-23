@@ -197,6 +197,7 @@ h1 {
   position: relative;
   cursor: grab;
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  touch-action: none; /* Disable default browser touch actions (scrolling, zooming) on this element */
 }
 
 .timeline {
