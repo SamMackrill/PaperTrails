@@ -595,6 +595,21 @@ lamb:
       title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
       abstract: "Discovered the Lamb shift in hydrogen spectra."
 
+sciama:
+  name: "Dennis W. Sciama"
+  color: "#6a0dad" # Purple
+  photo: "images/sciama.jpg" # Placeholder - User may need to add an image file
+  nationality: "British"
+  birth: "1926-11-18"
+  death: "1999-12-19"
+  publications:
+    - year: 1953
+      title: "On the Origin of Inertia"
+      abstract: "Proposed a theory linking inertia to the gravitational influence of distant matter in the universe, based on Mach's principle."
+    - year: 1971
+      title: "Modern Cosmology"
+      abstract: "Influential textbook summarizing the state of cosmology and exploring topics like the cosmic microwave background and black holes."
+
 dicke:
   name: "Robert H. Dicke"
   color: "#8d99ae"
