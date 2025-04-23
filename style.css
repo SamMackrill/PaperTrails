@@ -445,3 +445,84 @@ h1 {
   pointer-events: none; /* Prevent tooltip from interfering with mouse events */
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Match theme transitions */
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  body {
+    align-items: stretch; /* Allow container to take full width */
+  }
+
+  h1 {
+    font-size: 1.5em; /* Reduce title size */
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  .controls {
+    position: relative; /* Change from absolute */
+    top: auto;
+    right: auto;
+    width: 95%;
+    max-width: 400px; /* Limit width on slightly larger mobile */
+    margin: 10px auto 15px auto; /* Center below title */
+    transform: scale(1); /* Reset scale */
+    flex-direction: column; /* Stack control groups */
+    align-items: center; /* Center items */
+    gap: 10px;
+    padding: 8px 10px;
+  }
+
+  .controls-left {
+    flex-direction: row; /* Arrange zoom/height side-by-side */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    justify-content: center;
+    gap: 15px;
+    width: 100%; /* Take full width of controls box */
+  }
+
+  .action-buttons {
+    justify-content: center; /* Center buttons */
+    width: 100%;
+    gap: 15px;
+  }
+
+  .zoom-control {
+    bottom: 0; /* Reset nudge */
+  }
+
+  .slider-control input[type="range"] {
+    width: 90px; /* Slightly smaller sliders */
+  }
+
+  #height-slider {
+    height: 50px; /* Slightly shorter vertical slider */
+  }
+
+  .timeline-container {
+    height: 500px; /* Slightly reduce default height */
+    border-left: none; /* Remove side borders for full width feel */
+    border-right: none;
+  }
+
+  .scientist-photo {
+    width: 40px; /* Smaller photos */
+    height: 40px;
+  }
+
+  .publication,
+  .discovery-marker {
+    width: 10px; /* Slightly smaller markers */
+    height: 10px;
+  }
+
+  .modal-content {
+    width: 90%; /* More width for modal on mobile */
+    padding: 20px;
+  }
+
+  .close-button {
+    top: 5px;
+    right: 10px;
+    font-size: 24px;
+  }
+}
