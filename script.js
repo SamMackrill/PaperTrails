@@ -22,6 +22,11 @@ let dragStartY = 0;
 let dragStartTranslateX = 0;
 let dragStartTranslateY = 0;
 let resizeTimer;
+let isPinching = false; // For touch zoom
+let initialPinchDistance = 0;
+let pinchCenterX = 0;
+let pinchCenterY = 0;
+let startScale = 1.0; // Store scale at pinch start
 
 // --- Timeline Interaction State & Logic ---
 
@@ -229,6 +234,131 @@ function setupEventListeners() {
         timelineContainer.addEventListener('dragstart', (event) => event.preventDefault());
     }
 
+    // --- Touch Event Listeners for Pan and Zoom ---
+
+    timelineContainer.addEventListener('touchstart', (event) => {
+        // Ignore if interacting with controls inside the container potentially
+        if (event.target.closest('.controls button, .controls input, .modal')) return;
+
+        const touches = event.touches;
+        if (touches.length === 1) { // Start Pan
+            potentialDrag = true;
+            isDragging = false;
+            dragStartX = touches[0].clientX;
+            dragStartY = touches[0].clientY;
+            dragStartTranslateX = currentTranslateX;
+            dragStartTranslateY = currentTranslateY;
+            // Prevent default only if we might drag (prevents pull-to-refresh etc.)
+            event.preventDefault();
+        } else if (touches.length === 2) { // Start Pinch Zoom
+            potentialDrag = false; // Disable panning if starting pinch
+            isDragging = false;
+            isPinching = true;
+            initialPinchDistance = getPinchDistance(touches);
+            const center = getPinchCenter(touches, timelineContainer);
+            pinchCenterX = center.x;
+            pinchCenterY = center.y;
+            startScale = currentScale;
+            event.preventDefault(); // Prevent default pinch actions
+        }
+    }, { passive: false }); // Need passive: false to prevent default
+
+    document.addEventListener('touchmove', (event) => {
+        if (!potentialDrag && !isPinching) return; // Not interacting
+
+        const touches = event.touches;
+
+        if (isPinching && touches.length === 2) { // Pinch Zoom Move
+            event.preventDefault(); // Prevent scroll/zoom during pinch
+            const currentPinchDistance = getPinchDistance(touches);
+            if (initialPinchDistance > 0) { // Avoid division by zero
+                const scaleChangeRatio = currentPinchDistance / initialPinchDistance;
+                const newScale = Math.max(config.MIN_SCALE, Math.min(config.MAX_SCALE, startScale * scaleChangeRatio));
+
+                if (newScale !== currentScale) {
+                    const scaleChange = newScale / currentScale; // Relative change from current scale
+                    // Adjust translate to keep the pinch center stationary
+                    currentTranslateX = pinchCenterX - (pinchCenterX - currentTranslateX) * scaleChange;
+                    currentTranslateY = pinchCenterY - (pinchCenterY - currentTranslateY) * scaleChange;
+                    currentScale = newScale;
+
+                    // Apply transform directly for responsiveness
+                    if(timeline) {
+                        timeline.style.transform = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`;
+                        const inverseScale = 1 / currentScale;
+                        timeline.style.setProperty('--current-inverse-scale', inverseScale);
+                        timeline.style.setProperty('--current-scale', currentScale);
+                    }
+                    // Update slider value in real-time (optional, can be deferred to touchend)
+                    if (zoomSlider) zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
+                    if (zoomLevelDisplay) zoomLevelDisplay.textContent = `${Math.round(currentScale * 100)}%`;
+                }
+            }
+        } else if (potentialDrag && touches.length === 1) { // Pan Move
+            const dx = touches[0].clientX - dragStartX;
+            const dy = touches[0].clientY - dragStartY;
+
+            if (!isDragging) {
+                if (Math.abs(dx) > config.DRAG_THRESHOLD || Math.abs(dy) > config.DRAG_THRESHOLD) {
+                    isDragging = true;
+                    // No cursor change needed for touch
+                } else {
+                    return; // Not dragging yet
+                }
+            }
+
+            if (isDragging) {
+                event.preventDefault(); // Prevent scroll during drag
+                currentTranslateX = dragStartTranslateX + dx;
+                currentTranslateY = dragStartTranslateY + dy;
+                // Apply transform directly
+                if(timeline) {
+                    timeline.style.transform = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) scale(${currentScale})`;
+                }
+            }
+        }
+    }, { passive: false }); // Need passive: false to prevent default
+
+    document.addEventListener('touchend', (event) => {
+        if (isDragging) {
+            // Final update with clamping after pan
+            updateTimelineTransform();
+        } else if (isPinching) {
+             // Final update with clamping after zoom
+            updateTimelineTransform();
+             // Ensure slider reflects final value
+             if (zoomSlider) zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
+        }
+
+        // Reset states based on remaining touches
+        const remainingTouches = event.touches.length;
+        if (remainingTouches < 2) {
+            isPinching = false; // Stop pinching if less than 2 fingers
+        }
+        if (remainingTouches === 0) {
+            potentialDrag = false; // Stop potential drag if no fingers left
+            isDragging = false;
+        }
+    });
+
+    // Helper function to calculate distance between two touches
+    function getPinchDistance(touches) {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    // Helper function to calculate the center point between two touches relative to the container
+    function getPinchCenter(touches, container) {
+        const rect = container.getBoundingClientRect();
+        const clientX = (touches[0].clientX + touches[1].clientX) / 2;
+        const clientY = (touches[0].clientY + touches[1].clientY) / 2;
+        return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+        };
+    }
+
     // Zoom Slider listener
     zoomSlider.addEventListener('input', () => {
         const newScale = mapSliderValue(zoomSlider.value, config.MIN_SCALE, config.MAX_SCALE);
@@ -279,7 +409,7 @@ function setupEventListeners() {
     // Resize listener - Debounced
     window.addEventListener('resize', debouncedRender);
 
-    // Tooltip listeners (using event delegation on timelineContainer)
+    // Tooltip listeners (using event delegation on timelineContainer) - Note: Tooltips are generally mouse-driven
     let currentHoveredPhoto = null; // Track the currently hovered photo
 
     timelineContainer.addEventListener('mouseover', (event) => {
@@ -319,8 +449,11 @@ function setupEventListeners() {
         // Position tooltip relative to viewport, slightly above the cursor
         const offsetX = 10; // Offset X from cursor
         const offsetY = -25; // Offset Y from cursor (negative to appear above)
-        scientistTooltip.style.left = `${event.clientX + offsetX}px`;
-        scientistTooltip.style.top = `${event.clientY + offsetY}px`;
+        // Use pageX/pageY for broader compatibility if clientX/Y issues arise
+        const xPos = event.clientX !== undefined ? event.clientX : event.pageX;
+        const yPos = event.clientY !== undefined ? event.clientY : event.pageY;
+        scientistTooltip.style.left = `${xPos + offsetX}px`;
+        scientistTooltip.style.top = `${yPos + offsetY}px`;
     }
 
 }
