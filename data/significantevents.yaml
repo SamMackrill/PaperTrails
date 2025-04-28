@@ -16,18 +16,16 @@
   color: "#34495e"
   details: "A series of civil wars and political machinations between Parliamentarians and Royalists."
 
-- id: WW1
+- title: "World War I"
   startYear: 1914
   endYear: 1918
-  title: "World War I"
   details: "First World War."
   shape: square
   color: "#34495e"
 
-- id: WW2
+- title: "World War II"
   startYear: 1939
-  endYear: 1945  
-  title: "World War II"
+  endYear: 1945
   details: "Second World War."
   shape: square
   color: "#34495e"
