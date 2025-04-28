@@ -16,6 +16,12 @@
   color: "#34495e"
   details: "A series of civil wars and political machinations between Parliamentarians and Royalists."
 
+- title: "Major European Famine"
+  startYear: 1693
+  endYear: 1697
+  color: "#8b4513" # SaddleBrown
+  details: "Widespread famine across Europe, particularly severe in France, Finland, and Scotland, caused by cold and wet weather."
+
 - title: "World War I"
   startYear: 1914
   endYear: 1918
@@ -41,6 +47,12 @@
   endYear: 1709
   color: "#34495e"
   details: "An exceptionally cold winter in Europe, causing widespread famine and hardship."
+
+- title: "The Seven Years' War"
+  startYear: 1756
+  endYear: 1763
+  color: "#34495e"
+  details: "A global conflict fought between 1756 and 1763, involving most of the great powers of the time."
 
 - title: "French Revolution"
   startYear: 1789
