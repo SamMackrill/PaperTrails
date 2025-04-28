@@ -1,3 +1,21 @@
+huygens:
+  name: "Christiaan Huygens"
+  color: "#4682b4"
+  photo: "images/huygens.jpg"
+  nationality: "Dutch"
+  birth: "1629-04-14"
+  death: "1695-07-08"
+  publications:
+    - year: 1656
+      title: "De Saturni Luna Observatio Nova"
+      abstract: "Discovery of Titan, Saturn's largest moon, and accurate description of Saturn's rings."
+    - year: 1673
+      title: "Horologium Oscillatorium"
+      abstract: "Presented the theory of the pendulum clock and derived the formula for centrifugal force."
+    - year: 1690
+      title: "Traité de la Lumière"
+      abstract: "Developed the wave theory of light, proposing Huygens' principle."
+
 newton:
   name: "Isaac Newton"
   color: "#e63946"
