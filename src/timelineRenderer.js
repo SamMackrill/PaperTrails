@@ -396,11 +396,11 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
 }
 
 function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
-  const { START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y } = config;
-  const EVENT_TEXT_BASE_SIZE = 15; // Base font size for event text
-  const EVENT_TEXT_LINE_HEIGHT = 1.2; // Line height multiplier for text wrapping
-  const EVENT_BOX_PADDING = 5; // Padding inside the event box
-  const EVENT_VERTICAL_PADDING = 5; // Vertical space between stacked boxes
+  // Destructure all needed constants from config, including the newly moved ones
+  const {
+    START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y,
+    EVENT_TEXT_BASE_SIZE, EVENT_TEXT_LINE_HEIGHT, EVENT_BOX_PADDING, EVENT_VERTICAL_PADDING
+  } = config;
 
   // Calculate base pixel offset based on fraction and current axisY
   const baseEventOffsetY = EVENT_BASE_OFFSET_Y * axisY;
@@ -408,7 +408,8 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
   // Sort events by start year to process them chronologically for stacking
   const sortedEvents = [...significantEvents].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
 
-  const occupiedLevels = []; // Stores arrays of {startX, endX} intervals for each vertical level
+  const occupiedLevels = []; // Stores arrays of {startX, endX, boxHeight} intervals for each vertical level
+  const levelMaxHeights = []; // Stores the max height encountered *on* each level index
 
   sortedEvents.forEach(event => {
     if (typeof event.startYear !== 'number' || typeof event.endYear !== 'number' || event.startYear >= event.endYear) return;
@@ -460,12 +461,22 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
         }
       }
     }
-    // Add the current event's interval to the chosen level
-    occupiedLevels[levelIndex].push({ startX, endX });
+    // Add the current event's interval *and its calculated height* to the chosen level
+    occupiedLevels[levelIndex].push({ startX, endX, boxHeight });
+
+    // Update the maximum height recorded for this specific level
+    levelMaxHeights[levelIndex] = Math.max(levelMaxHeights[levelIndex] || 0, boxHeight);
     // --- End Level Finding ---
 
-    // Calculate final vertical position based on level
-    const eventStyleTop = baseEventOffsetY + axisY + levelIndex * (boxHeight + EVENT_VERTICAL_PADDING);
+    // --- Calculate final vertical position based on actual max heights of preceding levels ---
+    let cumulativeLevelOffset = 0;
+    for (let l = 0; l < levelIndex; l++) {
+      // Sum the max height of the level above plus the padding
+      cumulativeLevelOffset += (levelMaxHeights[l] || 0) + EVENT_VERTICAL_PADDING;
+    }
+    const eventStyleTop = baseEventOffsetY + axisY + cumulativeLevelOffset;
+    // --- End Vertical Position Calculation ---
+
 
     // --- Create and position the event box ---
     const eventEl = document.createElement('div');

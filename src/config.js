@@ -13,6 +13,11 @@ export const config = {
   PHOTO_VERTICAL_STAGGER: 0.2,  // Increased fraction for more spread
   DISCOVERY_BASE_OFFSET_Y: 0.15, // Increased fraction for more spread
   EVENT_BASE_OFFSET_Y: 0.1,    // Increased fraction for more spread
+  // Event Box Specific Configuration
+  EVENT_TEXT_BASE_SIZE: 15,    // Base font size for event text
+  EVENT_TEXT_LINE_HEIGHT: 1.2, // Line height multiplier for text wrapping
+  EVENT_BOX_PADDING: 5,        // Padding inside the event box
+  EVENT_VERTICAL_PADDING: 15,  // Vertical space between stacked boxes (Increased)
   // Timeline Height Configuration
   INITIAL_TIMELINE_HEIGHT: 600,
   MIN_TIMELINE_HEIGHT: 200,
