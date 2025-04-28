@@ -1,3 +1,9 @@
+- title: "The Little Ice Age"
+  startYear: 1600
+  endYear: 1850
+  color: "#aec6cf" # Light blue-gray
+  details: "A period of regional cooling, particularly pronounced in the North Atlantic region."
+
 - title: "Thirty Years' War"
   startYear: 1618
   endYear: 1648
@@ -33,7 +39,7 @@
   details: "A major European conflict triggered by the death of the last Habsburg king of Spain."
 
 - title: "Great Frost of 1709"
-  startYear: 1709
+  startYear: 1708
   endYear: 1709
   color: "#34495e"
   details: "An exceptionally cold winter in Europe, causing widespread famine and hardship."
