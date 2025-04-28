@@ -1,3 +1,21 @@
+galileo:
+  name: "Galileo Galilei"
+  color: "#d4a373"
+  photo: "images/galileo.jpg"
+  nationality: "Italian"
+  birth: "1564-02-15"
+  death: "1642-01-08"
+  publications:
+    - year: 1610
+      title: "Sidereus Nuncius (Starry Messenger)"
+      abstract: "Reported telescopic observations of the Moon's surface, Jupiter's moons, and stars invisible to the naked eye."
+    - year: 1632
+      title: "Dialogue Concerning the Two Chief World Systems"
+      abstract: "Compared the Copernican (heliocentric) and Ptolemaic (geocentric) models of the universe."
+    - year: 1638
+      title: "Discourses and Mathematical Demonstrations Relating to Two New Sciences"
+      abstract: "Summarized work on kinematics (motion) and the strength of materials."
+
 huygens:
   name: "Christiaan Huygens"
   color: "#4682b4"

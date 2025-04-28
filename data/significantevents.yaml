@@ -1,3 +1,15 @@
+- title: "Thirty Years' War"
+  startYear: 1618
+  endYear: 1648
+  color: "#34495e"
+  details: "A major conflict primarily fought in Central Europe, involving most of the European powers."
+
+- title: "English Civil War"
+  startYear: 1642
+  endYear: 1651
+  color: "#34495e"
+  details: "A series of civil wars and political machinations between Parliamentarians and Royalists."
+
 - id: WW1
   startYear: 1914
   endYear: 1918
@@ -13,6 +25,18 @@
   details: "Second World War."
   shape: square
   color: "#34495e"
+
+- title: "War of the Spanish Succession"
+  startYear: 1701
+  endYear: 1714
+  color: "#34495e"
+  details: "A major European conflict triggered by the death of the last Habsburg king of Spain."
+
+- title: "Great Frost of 1709"
+  startYear: 1709
+  endYear: 1709
+  color: "#34495e"
+  details: "An exceptionally cold winter in Europe, causing widespread famine and hardship."
 
 - title: "French Revolution"
   startYear: 1789

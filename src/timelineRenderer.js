@@ -400,13 +400,74 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
   const EVENT_TEXT_BASE_SIZE = 15; // Base font size for event text
   const EVENT_TEXT_LINE_HEIGHT = 1.2; // Line height multiplier for text wrapping
   const EVENT_BOX_PADDING = 5; // Padding inside the event box
+  const EVENT_VERTICAL_PADDING = 5; // Vertical space between stacked boxes
 
-  // Calculate pixel offset based on fraction and current axisY
-  const eventOffsetY = EVENT_BASE_OFFSET_Y * axisY;
+  // Calculate base pixel offset based on fraction and current axisY
+  const baseEventOffsetY = EVENT_BASE_OFFSET_Y * axisY;
 
-  significantEvents.forEach(event => {
+  // Sort events by start year to process them chronologically for stacking
+  const sortedEvents = [...significantEvents].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+
+  const occupiedLevels = []; // Stores arrays of {startX, endX} intervals for each vertical level
+
+  sortedEvents.forEach(event => {
     if (typeof event.startYear !== 'number' || typeof event.endYear !== 'number' || event.startYear >= event.endYear) return;
 
+    const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
+    const eventWidth = Math.max(1, endX - startX); // Ensure minimum width of 1px
+
+    // --- Calculate required height based on text wrapping ---
+    const words = (event.title || 'Event').split(' ');
+    let currentLine = '';
+    const lines = [];
+    words.forEach(word => {
+      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      // Estimate text width (simple approximation)
+      const testWidth = testLine.length * EVENT_TEXT_BASE_SIZE * 0.6;
+      if (testWidth > eventWidth - 2 * EVENT_BOX_PADDING && currentLine !== '') { // Check currentLine to avoid pushing empty lines
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = testLine;
+      }
+    });
+    if (currentLine) lines.push(currentLine);
+    // Ensure at least one line if title was empty or very short
+    if (lines.length === 0 && (event.title || 'Event')) lines.push(event.title || 'Event');
+
+    const boxHeight = Math.max(EVENT_TEXT_BASE_SIZE + 2 * EVENT_BOX_PADDING, // Minimum height
+                           lines.length * EVENT_TEXT_BASE_SIZE * EVENT_TEXT_LINE_HEIGHT + 2 * EVENT_BOX_PADDING);
+    // --- End Height Calculation ---
+
+    // --- Find the first available vertical level ---
+    let levelIndex = 0;
+    let foundLevel = false;
+    while (!foundLevel) {
+      if (!occupiedLevels[levelIndex]) {
+        occupiedLevels[levelIndex] = []; // Initialize level if it doesn't exist
+        foundLevel = true;
+      } else {
+        // Check for overlap with intervals on this level
+        const overlaps = occupiedLevels[levelIndex].some(interval => {
+          // Overlap condition: new interval starts before existing ends AND new interval ends after existing starts
+          return startX < interval.endX && endX > interval.startX;
+        });
+        if (!overlaps) {
+          foundLevel = true; // Found a non-overlapping spot on this level
+        } else {
+          levelIndex++; // Try the next level down
+        }
+      }
+    }
+    // Add the current event's interval to the chosen level
+    occupiedLevels[levelIndex].push({ startX, endX });
+    // --- End Level Finding ---
+
+    // Calculate final vertical position based on level
+    const eventStyleTop = baseEventOffsetY + axisY + levelIndex * (boxHeight + EVENT_VERTICAL_PADDING);
+
+    // --- Create and position the event box ---
     const eventEl = document.createElement('div');
     eventEl.className = 'event-box';
     const bgColor = event.color || '#888888';
@@ -416,16 +477,13 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     eventEl.style.position = 'absolute';
     eventEl.style.cursor = 'pointer';
 
-    const startX = ((event.startYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
-    const endX = ((event.endYear - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
-    const eventWidth = Math.max(1, endX - startX);
-
-    const eventStyleTop = axisY + eventOffsetY;
+    // Use the startX and endX calculated earlier in the loop
     eventEl.style.left = `${startX}px`;
-    eventEl.style.top = `${eventStyleTop}px`;
+    eventEl.style.top = `${eventStyleTop}px`; // Use calculated top
     eventEl.style.width = `${eventWidth}px`;
+    eventEl.style.height = `${boxHeight}px`; // Use calculated height
 
-    eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`;
+    eventEl.title = `${event.title} (${event.startYear}-${event.endYear})`; // Tooltip remains the same
 
     eventEl.addEventListener('click', () => {
       showPublicationModal(
@@ -439,12 +497,13 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
 
     timeline.appendChild(eventEl);
 
-    // Create SVG text element for the label
+    // --- Create and position SVG text ---
     const svgText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    const textX = startX + eventWidth / 2;
+    const textX = startX + eventWidth / 2; // Center horizontally
+    // Adjust textY based on calculated eventStyleTop
     const textY = eventStyleTop + EVENT_BOX_PADDING;
 
-    const textColor = getContrastColor(bgColor);
+    const textColor = getContrastColor(bgColor); // Get contrast color based on box background
 
     svgText.setAttribute('x', textX);
     svgText.setAttribute('y', textY);
@@ -452,38 +511,24 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     svgText.setAttribute('fill', textColor);
     svgText.setAttribute('text-anchor', 'middle');
     svgText.setAttribute('dominant-baseline', 'hanging');
-    svgText.setAttribute('pointer-events', 'none');
+    svgText.setAttribute('pointer-events', 'none'); // Text should not block clicks on the box
 
-    // Split text into lines for wrapping
-    const words = (event.title || 'Event').split(' ');
-    let currentLine = '';
-    const lines = [];
-    words.forEach(word => {
-      const testLine = currentLine ? `${currentLine} ${word}` : word;
-      const testWidth = testLine.length * EVENT_TEXT_BASE_SIZE * 0.6; // Approximate width
-      if (testWidth > eventWidth - 2 * EVENT_BOX_PADDING) {
-        lines.push(currentLine);
-        currentLine = word;
-      } else {
-        currentLine = testLine;
-      }
-    });
-    if (currentLine) lines.push(currentLine);
-
-    // Adjust event box height based on the number of lines
-    const boxHeight = lines.length * EVENT_TEXT_BASE_SIZE * EVENT_TEXT_LINE_HEIGHT + 2 * EVENT_BOX_PADDING;
-    eventEl.style.height = `${boxHeight}px`;
-
-    // Add each line as a <tspan> element
+    // Add each calculated line as a <tspan> element
     lines.forEach((line, index) => {
-      const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-      tspan.setAttribute('x', textX);
-      tspan.setAttribute('y', textY + index * EVENT_TEXT_BASE_SIZE * EVENT_TEXT_LINE_HEIGHT + EVENT_BOX_PADDING);
-      tspan.textContent = line;
-      svgText.appendChild(tspan);
+        const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        tspan.setAttribute('x', textX);
+        // Adjust tspan y based on base textY and line index
+        tspan.setAttribute('y', textY + index * EVENT_TEXT_BASE_SIZE * EVENT_TEXT_LINE_HEIGHT);
+        tspan.textContent = line;
+        svgText.appendChild(tspan);
     });
+
+    // Apply inverse scale transform to the text
+    svgText.setAttribute('transform', `scale(var(--current-inverse-scale, 1))`);
+    svgText.setAttribute('transform-origin', `${textX}px ${textY}px`); // Scale from top-center
 
     timelineSvg.appendChild(svgText);
+    // --- End SVG Text ---
 
     // Draw vertical lines connecting the event box ends to the timeline axis
     const lineStroke = event.color || '#888888';
@@ -493,6 +538,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     startLine.setAttribute('x1', startX);
     startLine.setAttribute('y1', axisY);
     startLine.setAttribute('x2', startX);
+    // Adjust line end point (y2) based on calculated eventStyleTop
     startLine.setAttribute('y2', eventStyleTop + 1); // Extend slightly into the box
     startLine.setAttribute('stroke', lineStroke);
     startLine.setAttribute('stroke-width', lineStrokeWidth);
@@ -504,6 +550,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
     endLine.setAttribute('x1', endX);
     endLine.setAttribute('y1', axisY);
     endLine.setAttribute('x2', endX);
+    // Adjust line end point (y2) based on calculated eventStyleTop
     endLine.setAttribute('y2', eventStyleTop + 1); // Extend slightly into the box
     endLine.setAttribute('stroke', lineStroke);
     endLine.setAttribute('stroke-width', lineStrokeWidth);

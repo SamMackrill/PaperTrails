@@ -1,6 +1,6 @@
 // Configuration object
 export const config = {
-  START_YEAR: 1650,
+  START_YEAR: 1600,
   CURRENT_YEAR: new Date().getFullYear(),
   MIN_SCALE: 0.2,
   MAX_SCALE: 5.0,
