@@ -27,6 +27,9 @@ newton:
     - year: 1687
       title: "Philosophiæ Naturalis Principia Mathematica"
       abstract: "Presented laws of motion and universal gravitation."
+    - year: 1704
+      title: "Opticks"
+      abstract: "Detailed experiments and theories on light, color, and diffraction."
 
 fatio:
   name: "Nicolas Fatio de Duillier"
