@@ -19,9 +19,9 @@ export const config = {
   EVENT_BOX_PADDING: 5,        // Padding inside the event box
   EVENT_VERTICAL_PADDING: 15,  // Vertical space between stacked boxes (Increased)
   // Timeline Height Configuration
-  INITIAL_TIMELINE_HEIGHT: 600,
+  INITIAL_TIMELINE_HEIGHT: 640,
   MIN_TIMELINE_HEIGHT: 200,
-  MAX_TIMELINE_HEIGHT: 1000,
+  MAX_TIMELINE_HEIGHT: 1200,
   HEIGHT_STEP: 50, // Used for reset logic, potentially other steps
   // Other Configuration
   DRAG_THRESHOLD: 5,
