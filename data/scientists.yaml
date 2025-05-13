@@ -178,6 +178,18 @@ ampere:
       title: "Mémoire sur la théorie mathématique..."
       abstract: "Ampère's circuital law."
 
+gauss:
+  name: "Carl Friedrich Gauss"
+  color: "#3498db"
+  photo: "images/gauss.jpg"
+  nationality: "German"
+  birth: "1777-04-30"
+  death: "1855-02-23"
+  publications:
+    - year: 1801
+      title: "Disquisitiones Arithmeticae"
+      abstract: "A groundbreaking work in number theory, introducing concepts like modular arithmetic and quadratic reciprocity."
+
 oersted:
   name: "Hans Christian Ørsted"
   color: "#bc6c25"

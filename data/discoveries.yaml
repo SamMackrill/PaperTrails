@@ -72,12 +72,19 @@
   year: 1919
   discoverer: "Arthur Stanley Eddington"
   particle: 🌓︎
-  details: "Observed solar eclipse providing evidence supporting general relativity."
+  details: "Observed solar eclipse showing light slows near heavy bodies."
   color: "#c0c0c0"
 
 - year: 1964
   title: "Discovery of Cosmic Microwave Background"
   discoverer: "Arno Penzias and Robert Wilson"
-  details: "Accidentally detected the CMB radiation, providing strong evidence for the Big Bang theory."
+  details: "Accidentally detected the CMB radiation."
   particle: CMB
   color: "#add8e6" # Light Blue
+
+- year: 2021
+  title: "Breit-Wheeler photon-photon matter creation Verification"
+  discoverer: "RHIC"
+  details: "Experimental verification of the Breit-Wheeler process, converting light into matter."
+  particle: γγ
+  color: "#2ecc71" # Emerald green
