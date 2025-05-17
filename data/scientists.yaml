@@ -723,3 +723,15 @@ nernst:
     - year: 1889
       title: "Die elektromotorische Wirksamkeit der Jonen"
       abstract: "Studied the electromotive force of ions."
+
+bose:
+  name: "Satyendra Nath Bose"
+  color: "#800080"
+  photo: "images/bose.jpg"
+  nationality: "Indian"
+  birth: "1894-01-01"
+  death: "1974-02-04"
+  publications:
+    - year: 1924
+      title: "Planck’s Law and the Hypothesis of Light Quanta"
+      abstract: "Derived Planck's black-body radiation law."
