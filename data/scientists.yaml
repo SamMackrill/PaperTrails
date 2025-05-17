@@ -708,3 +708,18 @@ arp:
     - year: 1990
       title: "Seeing Red"
       abstract: "Discussed redshift anomalies and their implications for cosmology."
+
+nernst:
+  name: "Walther Hermann Nernst"
+  color: "#008080"
+  photo: "images/nernst.jpg"
+  nationality: "German"
+  birth: "1864-06-25"
+  death: "1941-11-18"
+  publications:
+    - year: 1906
+      title: "The New Heat Theorem"
+      abstract: "Formulated the Third Law of Thermodynamics."
+    - year: 1889
+      title: "Die elektromotorische Wirksamkeit der Jonen"
+      abstract: "Studied the electromotive force of ions."
