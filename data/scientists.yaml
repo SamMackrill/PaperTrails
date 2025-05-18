@@ -2,6 +2,7 @@ galileo:
   name: "Galileo Galilei"
   color: "#d4a373"
   photo: "images/galileo.jpg"
+  cartoon: "images/cartoons/galileo.png"
   nationality: "Italian"
   birth: "1564-02-15"
   death: "1642-01-08"
@@ -20,6 +21,7 @@ huygens:
   name: "Christiaan Huygens"
   color: "#4682b4"
   photo: "images/huygens.jpg"
+  cartoon: "images/cartoons/huygens.png"
   nationality: "Dutch"
   birth: "1629-04-14"
   death: "1695-07-08"
@@ -54,6 +56,7 @@ fatio:
   name: "Nicolas Fatio de Duillier"
   color: "#a44a3f"
   photo: "images/fatio.jpg"
+  cartoon: "images/cartoons/fatio.png"
   nationality: "Swiss"
   birth: "1664-02-16"
   death: "1753-05-10"
@@ -664,7 +667,8 @@ lamb:
 hoyle:
   name: "Fred Hoyle"
   color: "#ff6b6b" # Reddish
-  photo: "images/hoyle.jpg" # Placeholder - User may need to add an image file
+  photo: "images/hoyle.jpg"
+  cartoon: "images/cartoons/hoyle.png"
   nationality: "British"
   birth: "1915-06-24"
   death: "2001-08-20"
