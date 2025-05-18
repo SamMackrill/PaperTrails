@@ -69,6 +69,7 @@ franklin:
   name: "Benjamin Franklin"
   color: "#005f73"
   photo: "images/franklin.jpg"
+  cartoon: "images/cartoons/franklin.png"
   nationality: "American"
   birth: "1706-01-17"
   death: "1790-04-17"
