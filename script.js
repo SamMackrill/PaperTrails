@@ -384,7 +384,7 @@ function setupEventListeners() {
             currentTimelineHeight = newHeight;
             timelineContainer.style.height = `${currentTimelineHeight}px`;
             // Re-render the timeline completely after height change
-            renderTimeline(timelineContainer, timeline, updateTimelineTransform);
+            renderTimeline(timelineContainer, timeline, updateTimelineTransform, updateScientistImages);
             // We might need to re-center vertically after height change, updateTimelineTransform handles clamping
             updateTimelineTransform();
         }
@@ -401,7 +401,7 @@ function setupEventListeners() {
         zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE); // Reset zoom slider
         heightSlider.value = mapValueToSlider(currentTimelineHeight, config.MIN_TIMELINE_HEIGHT, config.MAX_TIMELINE_HEIGHT); // Reset height slider using config
 
-        renderTimeline(timelineContainer, timeline, updateTimelineTransform); // Re-render
+        renderTimeline(timelineContainer, timeline, updateTimelineTransform, updateScientistImages); // Re-render
         updateTimelineTransform(); // Apply transform reset
     });
 
@@ -466,7 +466,7 @@ function debouncedRender() {
         console.log("Window resized, re-rendering timeline...");
         // Re-render with current state but adjusted dimensions
         // Pass the necessary elements again as they might be affected by resize indirectly
-        renderTimeline(document.getElementById('timeline-container'), document.getElementById('timeline'), updateTimelineTransform);
+        renderTimeline(document.getElementById('timeline-container'), document.getElementById('timeline'), updateTimelineTransform, updateScientistImages);
         // Update slider positions after resize/re-render
         if (zoomSlider) zoomSlider.value = mapValueToSlider(currentScale, config.MIN_SCALE, config.MAX_SCALE);
         if (heightSlider) heightSlider.value = mapValueToSlider(currentTimelineHeight, config.MIN_TIMELINE_HEIGHT, config.MAX_TIMELINE_HEIGHT); // Use config values
@@ -514,19 +514,15 @@ async function initializeApp() {
         }
 
         // Render the timeline *after* data is loaded
-        // Pass the update function needed by the renderer
-        renderTimeline(timelineContainer, timeline, updateTimelineTransform);
+        // Pass the update function needed by the renderer, and now also updateScientistImages
+        renderTimeline(timelineContainer, timeline, updateTimelineTransform, updateScientistImages);
         console.log("Initial timeline render complete.");
 
         // Setup interaction listeners *after* the timeline is rendered
         setupEventListeners();
         console.log("Interaction event listeners ready.");
 
-        // Initial images will be set by the first call to renderTimeline.
-        // Then, call updateScientistImages to ensure the correct view (photos by default) is set.
-        const initialCartoonToggleState = cartoonToggle ? cartoonToggle.checked : false;
-        updateScientistImages(initialCartoonToggleState);
-        console.log("Initial scientist images processed by updateScientistImages.");
+        // The first call to renderTimeline will now also handle the initial image state via updateScientistImages.
 
     } catch (error) {
         console.error("Failed to initialize application:", error);

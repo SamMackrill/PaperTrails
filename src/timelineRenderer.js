@@ -578,7 +578,7 @@ function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
 
 
 // Main render function for the entire timeline
-export function renderTimeline(timelineContainer, timeline, updateTimelineTransform) {
+export function renderTimeline(timelineContainer, timeline, updateTimelineTransform, updateScientistImages) { // Added updateScientistImages
   if (!timelineContainer || !timeline) {
     console.error("Timeline elements not found for render!");
     return;
@@ -628,5 +628,14 @@ export function renderTimeline(timelineContainer, timeline, updateTimelineTransf
       updateTimelineTransform();
   } else {
       console.warn("updateTimelineTransform function not provided to renderTimeline.");
+  }
+
+  // After all elements are rendered, call updateScientistImages to set the correct initial state
+  if (updateScientistImages) {
+    const cartoonToggle = document.getElementById('cartoonToggle');
+    const initialCartoonState = cartoonToggle ? cartoonToggle.checked : false;
+    updateScientistImages(initialCartoonState);
+  } else {
+    console.warn("updateScientistImages function not provided to renderTimeline.");
   }
 }
