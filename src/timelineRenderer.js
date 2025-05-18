@@ -191,15 +191,20 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
       if (!firstPub) return; // Skip if no valid publication year found
 
       const photoEl = document.createElement('img');
-      photoEl.src = scientist.photo || 'images/default.png'; // Fallback src
+      const sanitizedName = (scientist.name || 'unknown').toLowerCase().replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
       photoEl.alt = scientist.name || 'Unknown Scientist';
       photoEl.className = 'scientist-photo';
       photoEl.style.border = `3px solid ${scientist.color || '#ccc'}`;
       photoEl.dataset.scientistId = id;
-      photoEl.dataset.name = scientist.name || 'Unknown Scientist'; // Add name attribute
+      photoEl.dataset.name = sanitizedName; // Still useful for tooltips or other non-path purposes
+      photoEl.dataset.originalPhoto = scientist.photo || config.DEFAULT_IMAGE_PATH || 'images/default.png';
+      if (scientist.cartoon) {
+        photoEl.dataset.cartoonPhoto = scientist.cartoon;
+      }
       photoEl.id = `photo-${id}`;
       photoEl.loading = 'lazy'; // Improve initial load performance
       photoEl.onerror = () => handleImageError(photoEl); // Use centralized error handler
+      photoEl.src = scientist.photo || config.DEFAULT_IMAGE_PATH || 'images/default.png'; // Initial src is always the photo
 
       const photoYearX = ((firstPub.year - START_YEAR) / YEAR_SPAN) * baseTimelineWidth;
       let photoX = photoYearX - PHOTO_SIZE / 2; // Initial horizontal position

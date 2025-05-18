@@ -505,6 +505,14 @@ async function initializeApp() {
         await initializeData(); // Load all data
         console.log("Data initialization complete.");
 
+        // Add toggle event listener
+        const cartoonToggle = document.getElementById('cartoonToggle');
+        if (cartoonToggle) {
+            cartoonToggle.addEventListener('change', function() {
+                updateScientistImages(this.checked);
+            });
+        }
+
         // Render the timeline *after* data is loaded
         // Pass the update function needed by the renderer
         renderTimeline(timelineContainer, timeline, updateTimelineTransform);
@@ -514,10 +522,47 @@ async function initializeApp() {
         setupEventListeners();
         console.log("Interaction event listeners ready.");
 
+        // Initial images will be set by the first call to renderTimeline.
+        // Then, call updateScientistImages to ensure the correct view (photos by default) is set.
+        const initialCartoonToggleState = cartoonToggle ? cartoonToggle.checked : false;
+        updateScientistImages(initialCartoonToggleState);
+        console.log("Initial scientist images processed by updateScientistImages.");
+
     } catch (error) {
         console.error("Failed to initialize application:", error);
         // Optionally display an error message to the user on the page
     }
+}
+
+// Function to update scientist images based on toggle
+function updateScientistImages(useCartoons) {
+    const scientistImages = document.querySelectorAll('.scientist-photo');
+    scientistImages.forEach(img => {
+        const originalPhotoSrc = img.dataset.originalPhoto;
+        const cartoonPhotoSrc = img.dataset.cartoonPhoto; // Path from YAML
+
+        if (!originalPhotoSrc) {
+            console.error('Image is missing data-original-photo attribute:', img);
+            img.src = config.DEFAULT_IMAGE_PATH || 'images/default.png';
+            return;
+        }
+
+        if (useCartoons && cartoonPhotoSrc) {
+            // Attempt to load cartoon if path exists
+            const imageChecker = new Image();
+            imageChecker.onload = () => {
+                img.src = cartoonPhotoSrc;
+            };
+            imageChecker.onerror = () => {
+                console.warn(`Cartoon image not found at ${cartoonPhotoSrc}. Falling back to original photo: ${originalPhotoSrc}`);
+                img.src = originalPhotoSrc; // Fallback to original photo
+            };
+            imageChecker.src = cartoonPhotoSrc;
+        } else {
+            // If not using cartoons, or if cartoon path is missing, use original photo
+            img.src = originalPhotoSrc;
+        }
+    });
 }
 
 // --- Run Initial Setup ---
