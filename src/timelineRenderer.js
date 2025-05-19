@@ -196,6 +196,7 @@ function renderScientists(timeline, baseTimelineWidth, axisY, elementCoords, tim
       photoEl.className = 'scientist-photo';
       photoEl.style.border = `3px solid ${scientist.color || '#ccc'}`;
       photoEl.dataset.scientistId = id;
+      photoEl.title = scientist.name || 'Unknown Scientist'; // Set title for proper name tooltip
       photoEl.dataset.name = sanitizedName; // Still useful for tooltips or other non-path purposes
       photoEl.dataset.originalPhoto = scientist.photo || config.DEFAULT_IMAGE_PATH || 'images/default.png';
       if (scientist.cartoon) {
