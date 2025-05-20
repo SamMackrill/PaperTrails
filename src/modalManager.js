@@ -4,7 +4,7 @@ import { scientists } from './dataLoader.js';
 // Module-level variables for modal elements
 let pubModal, sciModal, closePubModal, closeSciModal;
 let pubModalTitle, pubModalAuthorLabel, pubModalAuthor, pubModalYear, pubModalAbstract;
-let sciModalName, sciModalNationality, sciModalBirth, sciModalDeath;
+let sciModalName, sciModalNationality, sciModalBirth, sciModalDeath, sciModalCartoon;
 
 // Fetches all modal DOM elements needed
 function fetchModalElements() {
@@ -25,9 +25,10 @@ function fetchModalElements() {
     sciModalNationality = document.getElementById('sci-modal-nationality');
     sciModalBirth = document.getElementById('sci-modal-birth');
     sciModalDeath = document.getElementById('sci-modal-death');
+    sciModalCartoon = document.getElementById('sci-modal-cartoon');
 
     // Basic check if elements exist
-    if (!pubModal || !sciModal || !closePubModal || !closeSciModal || !pubModalTitle || !sciModalName) {
+    if (!pubModal || !sciModal || !closePubModal || !closeSciModal || !pubModalTitle || !sciModalName || !sciModalCartoon) {
         console.error("Essential modal elements missing!");
         return false;
     }
@@ -55,7 +56,7 @@ export function showScientistModal(scientistId) {
         console.warn(`Scientist data not found for ID: ${scientistId}`);
         return;
     }
-    if (!sciModal || !sciModalName || !sciModalNationality || !sciModalBirth || !sciModalDeath) {
+    if (!sciModal || !sciModalName || !sciModalNationality || !sciModalBirth || !sciModalDeath || !sciModalCartoon) {
         console.error("Cannot show scientist modal: Missing elements.");
         return;
     }
@@ -63,6 +64,8 @@ export function showScientistModal(scientistId) {
     sciModalNationality.textContent = scientist.nationality || 'N/A';
     sciModalBirth.textContent = scientist.birth || 'N/A';
     sciModalDeath.textContent = scientist.death || 'N/A';
+    sciModalCartoon.src = scientist.cartoon || 'images/default.png'; // Use default if no cartoon
+    sciModalCartoon.alt = scientist.name ? `${scientist.name} cartoon` : 'Scientist cartoon';
     sciModal.classList.add('visible');
 }
 
