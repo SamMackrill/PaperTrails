@@ -792,9 +792,9 @@ bose:
 
 hooke:
   name: "Robert Hooke"
-  color: "#aabbcc" # Placeholder color
-  photo: "images/default.png" # Placeholder photo
-  cartoon: "images/cartoons/default.png" # Placeholder cartoon
+  color: "#aabbcc"
+  photo: "images/hooke.jpg"
+  cartoon: "images/cartoons/hooke.png"
   nationality: "English"
   birth: "1635-07-18"
   death: "1703-03-03"
