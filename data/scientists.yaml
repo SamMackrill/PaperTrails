@@ -789,3 +789,22 @@ bose:
     - year: 1924
       title: "Planck's Law and the Hypothesis of Light Quanta"
       abstract: "Derived Planck's black-body radiation law."
+
+hooke:
+  name: "Robert Hooke"
+  color: "#aabbcc" # Placeholder color
+  photo: "images/default.png" # Placeholder photo
+  cartoon: "images/cartoons/default.png" # Placeholder cartoon
+  nationality: "English"
+  birth: "1635-07-18"
+  death: "1703-03-03"
+  publications:
+    - year: 1665
+      title: "Micrographia"
+      abstract: "Detailed microscopic and telescopic observations, coined the term 'cell', and discussed various natural phenomena."
+    - year: 1678 # Hooke's Law first described in 1660, published in this work
+      title: "Lectures de Potentia Restitutiva, or, Of Spring Explaining the Power of Springing Bodies"
+      abstract: "Presented Hooke's Law of elasticity."
+    - year: 1674 # Gresham lecture
+      title: "An Attempt to Prove the Motion of the Earth by Observations"
+      abstract: "Discussed gravitation and planetary motion, proposing an attractive principle."
