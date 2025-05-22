@@ -82,16 +82,14 @@ h1 {
   position: absolute;
   top: 20px;
   right: 20px;
-  transform: scale(0.8);
-  transform-origin: top right;
   background-color: var(--card-bg-color);
   color: var(--text-color);
   padding: 10px 10px; /* Adjusted padding for compactness */
   border-radius: 5px;
   box-shadow: 0 2px 5px var(--shadow-color);
   display: flex;
-  flex-direction: column; /* Stack zoom and main area */
-  align-items: stretch; /* Make children take full width */
+  flex-direction: row; /* Stack zoom and main area */
+  align-items: center; /* Make children take full width */
   gap: 10px; /* Space between zoom and main area */
   z-index: 100;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -101,14 +99,16 @@ h1 {
 .controls-main-area {
   display: flex;
   flex-direction: row; /* Toggles/actions on left, height slider on right */
-  align-items: stretch; /* Children stretch vertically */
+  align-items: center; /* Vertically center its children */
   gap: 10px; /* Space between left group and height slider */
+  flex-grow: 1; /* Allow this area to take available space in the parent row */
 }
 
 /* New class for grouping toggles and action buttons */
 .toggles-and-actions-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Layout items in a row */
+  align-items: center; /* Vertically center items in the row */
   gap: 8px; /* Space between toggles and action buttons */
   flex-grow: 1; /* Allow this group to take available space */
 }
@@ -142,41 +142,38 @@ h1 {
 }
 
 .slider-control.zoom-control { /* Target zoom specifically */
-   flex-direction: column; /* Stack label/value above slider */
-   align-items: stretch; /* Stretch to fill width */
-   gap: 4px; /* Compactness */
-   /* position: relative; Remove nudging */
-   /* bottom: 6px; */
-   width: 100%; /* Ensure full width */
+   flex-direction: row; /* Arrange items horizontally */
+   align-items: center; /* Vertically align items in the center */
+   gap: 8px; /* Adjust gap for horizontal layout, was 4px */
+   width: auto; /* Allow it to fit with other controls */
 }
 
 .zoom-label-value {
     display: flex;
     justify-content: space-between; /* Space out label and value */
-    width: 100%; /* Take full width of parent */
-    padding: 0 2px; /* Align text edges with slider */
+    width: auto; /* Adjust width, was 100% */
+    /* padding: 0 2px; Removed, let gap handle spacing or add specific if needed */
     box-sizing: border-box;
+    gap: 5px; /* Add gap between label and value text */
 }
 
 .slider-control.zoom-control input[type="range"] {
-  width: 100%; /* Make slider input take full width */
+  width: 100px; /* Specific width for the slider */
   box-sizing: border-box; /* Include padding/border in width */
 }
 
 
 .slider-control.height-control {
-  /* Align label and vertical slider */
   display: flex;
-  flex-direction: column; /* Stack label above slider */
-  align-items: center; /* Center label and slider horizontally */
-  gap: 4px; /* Compactness */
-  /* justify-content: space-between; Removed */
-  /* width: auto; Allow it to be as wide as its content (slider width + padding) */
+  flex-direction: row; /* Arrange items horizontally */
+  align-items: center; /* Vertically align items in the center */
+  gap: 8px; /* Adjust gap for horizontal layout */
+  width: auto; /* Allow it to fit with other controls */
 }
 
 .slider-control label {
   font-size: 11px;
-  margin-bottom: 2px; /* Small space for height slider label */
+  /* margin-bottom: 2px; Removed for horizontal layout */
 }
 
 .zoom-control .zoom-level { /* Style zoom level display */
@@ -192,16 +189,15 @@ h1 {
   margin: 0; /* Reset margin */
 }
 
-/* Make height slider vertical */
+/* Make height slider vertical - now horizontal */
 #height-slider {
-  appearance: slider-vertical; /* Standard */
-  writing-mode: bt-lr; /* For browsers supporting writing-mode */
-  width: 8px; /* Slightly thicker */
-  /* height: 60px; Will be set to stretch */
-  /* height: 100%; Removed */
-  flex-grow: 1; /* Make slider take available vertical space */
+  /* appearance: slider-vertical; Removed for horizontal */
+  /* writing-mode: bt-lr; Removed for horizontal */
+  width: 100px; /* Specific width for the horizontal slider */
+  height: 5px; /* Default height for horizontal slider */
+  /* flex-grow: 1; Removed as not needed for fixed width horizontal slider */
   box-sizing: border-box;
-  padding: 0 2px;
+  padding: 0 2px; /* Maintain small padding */
   margin: 0; /* Ensure no extra margin affecting layout */
 }
 
@@ -525,7 +521,7 @@ h1 {
   }
 
   .toggles-and-actions-group {
-    /* No changes needed here for mobile, already column */
+    flex-direction: column; /* Ensure vertical stacking on mobile */
     align-items: center; /* Center items horizontally */
   }
   .image-toggle-control {
@@ -544,13 +540,15 @@ h1 {
 
 
   .slider-control.zoom-control {
-    /* bottom: 0; Reset nudge - already removed */
+    flex-direction: column; /* Stack label above slider on mobile */
+    align-items: center; /* Center items */
+    /* width: 100%; Ensure it takes full width if needed, auto might be fine if parent is controlling */
   }
   .slider-control.zoom-control input[type="range"] {
-    width: 100%; /* Full width already */
+    width: 100%; /* Full width for zoom slider input on mobile */
   }
   .slider-control.height-control {
-    /* When stacked, height slider should not try to take 100% height of a column parent */
+    flex-direction: column; /* Stack label and slider vertically */
     /* It should behave more like the zoom slider in terms of height */
     height: auto; /* Reset height behavior */
     width: 100%; /* Take full width like zoom slider */
