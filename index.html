@@ -11,42 +11,42 @@
 <body>
   <h1>Paper Trails: A Scientific History</h1>
   <div class="controls">
-    <!-- Left/Middle Group -->
-    <div class="controls-left">
-      <!-- Zoom Controls Group -->
-      <div class="slider-control zoom-control">
-        <div class="zoom-label-value"> <!-- New wrapper for label and value -->
-            <label for="zoom-slider">Zoom:</label>
-            <span class="zoom-level">100%</span>
-        </div>
-        <input type="range" id="zoom-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
+    <!-- Zoom Controls Group -->
+    <div class="slider-control zoom-control">
+      <div class="zoom-label-value"> <!-- New wrapper for label and value -->
+          <label for="zoom-slider">Zoom:</label>
+          <span class="zoom-level">100%</span>
       </div>
-      <!-- Action Buttons Group -->
-      <div class="action-buttons">
-          <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
-          <button id="reset-view" title="Reset Zoom and Height">↺</button> <!-- Swapped order and changed text to icon -->
-      </div>
-      <!-- Image Toggle -->
-      <div class="image-toggle-control">
-        <label for="cartoonToggle">Cartoons:</label>
-        <input type="checkbox" id="cartoonToggle" title="Toggle Cartoon/Photo Images">
-      </div>
-      <!-- Significant Events Toggle -->
-      <div class="image-toggle-control">
-        <label for="significantEventsToggle">Events:</label>
-        <input type="checkbox" id="significantEventsToggle" title="Toggle Significant Events" checked>
-      </div>
-      <!-- Discoveries Toggle -->
-      <div class="image-toggle-control">
-        <label for="discoveriesToggle">Discoveries:</label>
-        <input type="checkbox" id="discoveriesToggle" title="Toggle Discoveries" checked>
-      </div>
+      <input type="range" id="zoom-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
     </div>
-
-    <!-- Height Control Group (Pushed to the right) -->
-    <div class="slider-control height-control">
-      <label for="height-slider">Height:</label>
-      <input type="range" id="height-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
+    <div class="controls-main-area">
+      <div class="toggles-and-actions-group">
+        <!-- Image Toggle -->
+        <div class="image-toggle-control">
+          <label for="cartoonToggle">Cartoons:</label>
+          <input type="checkbox" id="cartoonToggle" title="Toggle Cartoon/Photo Images">
+        </div>
+        <!-- Significant Events Toggle -->
+        <div class="image-toggle-control">
+          <label for="significantEventsToggle">Events:</label>
+          <input type="checkbox" id="significantEventsToggle" title="Toggle Significant Events" checked>
+        </div>
+        <!-- Discoveries Toggle -->
+        <div class="image-toggle-control">
+          <label for="discoveriesToggle">Discoveries:</label>
+          <input type="checkbox" id="discoveriesToggle" title="Toggle Discoveries" checked>
+        </div>
+        <!-- Action Buttons Group -->
+        <div class="action-buttons">
+            <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
+            <button id="reset-view" title="Reset Zoom and Height">↺</button> <!-- Swapped order and changed text to icon -->
+        </div>
+      </div>
+      <!-- Height Control Group (Pushed to the right) -->
+      <div class="slider-control height-control">
+        <label for="height-slider">Height:</label>
+        <input type="range" id="height-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
+      </div>
     </div>
   </div>
   <div class="timeline-container" id="timeline-container">
