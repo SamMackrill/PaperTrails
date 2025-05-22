@@ -7,7 +7,8 @@ import { renderTimeline } from './src/timelineRenderer.js';
 
 // DOM Elements (fetched in initializeApp or modules)
 let timelineContainer, timeline, zoomLevelDisplay,
-    zoomSlider, heightSlider, resetViewButton; // Changed button names
+    zoomSlider, heightSlider, resetViewButton, // Changed button names
+    significantEventsToggle, discoveriesToggle;
 
 // State Variables for Timeline Interaction
 // Timeline height constants moved to config.js
@@ -437,8 +438,10 @@ async function initializeApp() {
     zoomSlider = document.getElementById('zoom-slider'); // Get sliders
     heightSlider = document.getElementById('height-slider');
     resetViewButton = document.getElementById('reset-view'); // Get reset button
+    significantEventsToggle = document.getElementById('significantEventsToggle');
+    discoveriesToggle = document.getElementById('discoveriesToggle');
 
-    if (!timelineContainer || !timeline || !zoomLevelDisplay || /*!scientistTooltip ||*/ !zoomSlider || !heightSlider || !resetViewButton) {
+    if (!timelineContainer || !timeline || !zoomLevelDisplay || /*!scientistTooltip ||*/ !zoomSlider || !heightSlider || !resetViewButton || !significantEventsToggle || !discoveriesToggle) {
         console.error("Core timeline or control elements not found! Cannot initialize.");
         return;
     }
@@ -463,6 +466,20 @@ async function initializeApp() {
         if (cartoonToggle) {
             cartoonToggle.addEventListener('change', function() {
                 updateScientistImages(this.checked);
+            });
+        }
+
+        // Event listener for Significant Events toggle
+        if (significantEventsToggle) {
+            significantEventsToggle.addEventListener('change', function() {
+                renderTimeline(timelineContainer, timeline, updateTimelineTransform, updateScientistImages);
+            });
+        }
+
+        // Event listener for Discoveries toggle
+        if (discoveriesToggle) {
+            discoveriesToggle.addEventListener('change', function() {
+                renderTimeline(timelineContainer, timeline, updateTimelineTransform, updateScientistImages);
             });
         }
 

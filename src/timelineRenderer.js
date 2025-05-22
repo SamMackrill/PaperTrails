@@ -326,6 +326,10 @@ function renderPublications(timeline, baseTimelineWidth, axisY, elementCoords) {
 
 
 function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
+  const discoveriesToggle = document.getElementById('discoveriesToggle');
+  if (discoveriesToggle && !discoveriesToggle.checked) {
+    return;
+  }
   const { START_YEAR, YEAR_SPAN, DISCOVERY_SIZE, DISCOVERY_BASE_OFFSET_Y } = config;
   const STAGGER_PADDING = 5; // Pixels between staggered markers
   let lastMarkerEndX = -Infinity; // Track the right edge of the last placed marker
@@ -402,6 +406,10 @@ function renderDiscoveries(timeline, baseTimelineWidth, axisY, timelineSvg) {
 }
 
 function renderEvents(timeline, baseTimelineWidth, axisY, timelineSvg) {
+  const significantEventsToggle = document.getElementById('significantEventsToggle');
+  if (significantEventsToggle && !significantEventsToggle.checked) {
+    return;
+  }
   // Destructure all needed constants from config, including the newly moved ones
   const {
     START_YEAR, YEAR_SPAN, EVENT_BASE_OFFSET_Y,
