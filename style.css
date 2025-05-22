@@ -121,6 +121,8 @@ h1 {
 }
 .image-toggle-control label {
   margin: 0;
+  min-width: 75px; /* Ensure consistent label width */
+  text-align: left; /* Align text to the left */
 }
 .image-toggle-control input[type="checkbox"] {
   margin: 0;
@@ -168,7 +170,7 @@ h1 {
   flex-direction: column; /* Stack label above slider */
   align-items: center; /* Center label and slider horizontally */
   gap: 4px; /* Compactness */
-  justify-content: space-between; /* Push label and slider apart to fill height */
+  /* justify-content: space-between; Removed */
   /* width: auto; Allow it to be as wide as its content (slider width + padding) */
 }
 
@@ -196,7 +198,8 @@ h1 {
   writing-mode: bt-lr; /* For browsers supporting writing-mode */
   width: 8px; /* Slightly thicker */
   /* height: 60px; Will be set to stretch */
-  height: 100%; /* Stretch to fill parent */
+  /* height: 100%; Removed */
+  flex-grow: 1; /* Make slider take available vertical space */
   box-sizing: border-box;
   padding: 0 2px;
   margin: 0; /* Ensure no extra margin affecting layout */
@@ -551,6 +554,7 @@ h1 {
     /* It should behave more like the zoom slider in terms of height */
     height: auto; /* Reset height behavior */
     width: 100%; /* Take full width like zoom slider */
+    align-items: stretch; /* Stretch children, label will self-center or use text-align */
   }
 
   #height-slider {
@@ -558,6 +562,7 @@ h1 {
     writing-mode: initial; /* Revert */
     width: 100%; /* Full width horizontal */
     height: 5px; /* Default horizontal height */
+    flex-grow: 0; /* Do not grow, use explicit height */
     /* padding: 0 2px; Already set */
   }
   .height-control label {
