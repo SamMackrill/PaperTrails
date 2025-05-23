@@ -64,7 +64,8 @@ body {
   color: var(--text-color);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch; /* Allow children to define their own width/alignment */
+  gap: 15px; /* Add vertical spacing between child elements */
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -74,14 +75,18 @@ h1 {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 15px;
+  margin-left: auto; /* Center h1 when body is align-items: stretch */
+  margin-right: auto; /* Center h1 when body is align-items: stretch */
 }
 
 /* Controls */
 .controls {
-  margin: 0;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  /* margin: 0; Removed to use more specific margins */
+  position: relative;
+  width: auto; /* Allow box to shrink to content size */
+  margin-left: auto; /* Push to the right */
+  margin-right: 20px; /* Space from the right edge */
+  /* Note: Vertical margins will be handled by body's gap or can be added if needed */
   background-color: var(--card-bg-color);
   color: var(--text-color);
   padding: 10px 10px; /* Adjusted padding for compactness */
