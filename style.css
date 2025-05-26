@@ -79,13 +79,13 @@ h1 {
 /* Controls */
 .controls {
   position: absolute;
-  top: 10px; /* Adjusted for better placement */
+  top: 10px; /* Ensuring this is 10px as intended */
   right: 20px; /* Position to the right */
   display: flex;
   justify-content: space-between; /* Space out left, center, right groups */
   align-items: center;
   /* width: auto; /* Let content determine width, or set a specific max-width if needed */
-  padding: 5px 10px; /* Reduced top/bottom padding */
+  padding: 2px 6px; /* Reduced top/bottom padding */
   align-items: flex-start; /* Align groups to their top */
   background-color: var(--card-bg-color);
   color: var(--text-color);
@@ -114,14 +114,14 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px; /* Gap between individual toggles */
+  gap: 2px; /* Gap between individual toggles */
 }
 
 .controls-center, /* This might be empty now, or can be removed if truly unused */
 .controls-right {
   display: flex;
   align-items: center;
-  gap: 10px; /* Reduced gap between control groups, e.g., between center and right */
+  gap: 8px; /* Reduced gap between control groups, e.g., between center and right */
 }
 
 .controls-center {
@@ -194,7 +194,7 @@ h1 {
   align-items: flex-start; /* Align slider to the top of this container */
   justify-content: center; 
   width: 20px; 
-  height: 81px; /* Match height of .controls-left content */
+  height: 64px; /* Match height of .controls-left content */
   padding: 0 2px; 
 }
 
