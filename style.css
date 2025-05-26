@@ -73,44 +73,43 @@ h1 {
   color: var(--text-color);
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 15px; /* Will be overridden by controls margin if they are close */
 }
 
 /* Controls */
 .controls {
-  margin: 0;
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 20px; /* Position near the top */
+  right: 20px; /* Position to the right */
+  display: flex;
+  justify-content: space-between; /* Space out left, center, right groups */
+  align-items: center;
+  /* width: auto; /* Let content determine width, or set a specific max-width if needed */
+  padding: 10px;
   background-color: var(--card-bg-color);
   color: var(--text-color);
-  padding: 10px 10px; /* Adjusted padding for compactness */
   border-radius: 5px;
   box-shadow: 0 2px 5px var(--shadow-color);
-  display: flex;
-  flex-direction: row; /* Stack zoom and main area */
-  align-items: center; /* Make children take full width */
-  gap: 10px; /* Space between zoom and main area */
   z-index: 100;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
-/* New class for the main area below zoom */
-.controls-main-area {
+.controls-left,
+.controls-center,
+.controls-right {
   display: flex;
-  flex-direction: row; /* Toggles/actions on left, height slider on right */
-  align-items: center; /* Vertically center its children */
-  gap: 10px; /* Space between left group and height slider */
-  flex-grow: 1; /* Allow this area to take available space in the parent row */
+  align-items: center;
+  gap: 15px; /* Consistent gap within each control group */
 }
 
-/* New class for grouping toggles and action buttons */
-.toggles-and-actions-group {
-  display: flex;
-  flex-direction: row; /* Layout items in a row */
-  align-items: center; /* Vertically center items in the row */
-  gap: 8px; /* Space between toggles and action buttons */
-  flex-grow: 1; /* Allow this group to take available space */
+.controls-center {
+  justify-content: center; /* Center the toggles */
+  flex-grow: 1; /* Allow center to take up space */
+}
+
+.controls-right {
+  justify-content: flex-end; /* Push sliders to the far right */
 }
 
 .image-toggle-control {
@@ -189,18 +188,13 @@ h1 {
   margin: 0; /* Reset margin */
 }
 
-/* Make height slider vertical - now horizontal */
 #height-slider {
-  /* appearance: slider-vertical; Removed for horizontal */
-  /* writing-mode: bt-lr; Removed for horizontal */
   width: 100px; /* Specific width for the horizontal slider */
   height: 5px; /* Default height for horizontal slider */
-  /* flex-grow: 1; Removed as not needed for fixed width horizontal slider */
   box-sizing: border-box;
   padding: 0 2px; /* Maintain small padding */
   margin: 0; /* Ensure no extra margin affecting layout */
 }
-
 
 .controls button {
   padding: 4px 8px; /* Adjusted for compactness */
@@ -504,27 +498,35 @@ h1 {
     right: auto;
     width: 95%;
     max-width: 400px; /* Limit width on slightly larger mobile */
-    margin: 10px auto 15px auto; /* Center below title */
-    transform: scale(1); /* Reset scale */
-    flex-direction: column; /* Stack control groups */
-    align-items: center; /* Center items */
-    gap: 10px;
-    padding: 8px 10px;
-  }
+  margin: 10px auto 15px auto; /* Center below title */
+  flex-direction: column; /* Stack control groups */
+  align-items: stretch; /* Stretch groups to full width */
+  gap: 10px;
+  padding: 8px 10px;
+  width: 90%; /* More controlled width */
+  max-width: 500px; /* Max width for controls on mobile */
+}
 
-  /* .controls-left is removed */
+.controls-left,
+.controls-center,
+.controls-right {
+  flex-direction: column; /* Stack items within each group */
+  width: 100%; /* Make each group take full width of .controls */
+  gap: 8px; /* Smaller gap for stacked items */
+  align-items: center; /* Center items within each column group */
+}
+.controls-center {
+  /* Order can be adjusted if needed, e.g., order: 2; */
+}
+.controls-left {
+  /* order: 1; */
+}
+.controls-right {
+ /* order: 3; */
+}
 
-  .controls-main-area {
-    flex-direction: column; /* Stack toggles/actions and height slider */
-    align-items: stretch; /* Ensure children take full width */
-    gap: 8px;
-  }
 
-  .toggles-and-actions-group {
-    flex-direction: column; /* Ensure vertical stacking on mobile */
-    align-items: center; /* Center items horizontally */
-  }
-  .image-toggle-control {
+.image-toggle-control {
     justify-content: space-between; /* Space out label and checkbox */
     width: 150px; /* Give some fixed width */
   }
