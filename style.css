@@ -104,8 +104,12 @@ h1 {
 }
 
 .controls-center {
-  justify-content: center; /* Center the toggles */
+  display: flex; /* Already flex, ensure it's set */
+  flex-direction: column; /* Stack toggles vertically */
+  align-items: flex-start; /* Align toggles to the start of the column */
+  justify-content: center; 
   flex-grow: 1; /* Allow center to take up space */
+  gap: 4px; /* Adjust gap between stacked toggles */
 }
 
 .controls-right {
