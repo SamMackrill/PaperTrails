@@ -85,7 +85,8 @@ h1 {
   justify-content: space-between; /* Space out left, center, right groups */
   align-items: center;
   /* width: auto; /* Let content determine width, or set a specific max-width if needed */
-  padding: 10px;
+  padding: 5px 10px; /* Reduced top/bottom padding */
+  align-items: flex-start; /* Align groups to their top */
   background-color: var(--card-bg-color);
   color: var(--text-color);
   border-radius: 5px;
@@ -106,7 +107,7 @@ h1 {
   display: flex;
   flex-direction: row;
   align-items: flex-start; /* Align buttons and toggle group at their top */
-  gap: 10px; /* Space between action-buttons and toggles-group-stacked */
+  gap: 5px; /* Reduced space between action-buttons and toggles-group-stacked */
 }
 
 .toggles-group-stacked {
@@ -120,7 +121,7 @@ h1 {
 .controls-right {
   display: flex;
   align-items: center;
-  gap: 15px; /* Consistent gap within each control group */
+  gap: 10px; /* Reduced gap between control groups, e.g., between center and right */
 }
 
 .controls-center {
@@ -128,7 +129,8 @@ h1 {
   /* flex-direction: column; /* Stack toggles vertically */
   /* align-items: flex-start; /* Align toggles to the start of the column */
   /* justify-content: center; */
-  flex-grow: 1; /* Allow center to take up space - adjust if it causes issues with empty div */
+  flex-grow: 0; /* Was 1. If empty, it shouldn't expand. */
+  min-width: 5px; /* Minimal space if it's kept in HTML */
   /* gap: 4px; /* Adjust gap between stacked toggles */
 }
 
@@ -144,7 +146,7 @@ h1 {
 }
 .image-toggle-control label {
   margin: 0;
-  min-width: 75px; /* Ensure consistent label width */
+  min-width: 65px; /* Reduced from 75px */
   text-align: left; /* Align text to the left */
 }
 .image-toggle-control input[type="checkbox"] {
@@ -189,10 +191,11 @@ h1 {
 .slider-control.height-control {
   display: flex;
   /* flex-direction: column; /* No longer needed as label is gone */
-  align-items: center; 
+  align-items: center;
   justify-content: center; /* Center the vertical slider if container is wider */
-  width: auto; 
+  width: 20px; /* Make container narrow */
   height: 100px; /* Provide a fixed height for the vertical slider container */
+  padding: 0 2px; /* Small padding to help center slider if it's thinner */
 }
 
 /* .slider-control label { /* Label is removed */
