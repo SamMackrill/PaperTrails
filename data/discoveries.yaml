@@ -88,3 +88,10 @@
   details: "Experimental verification of the Breit-Wheeler process, converting light into matter."
   particle: γγ
   color: "#2ecc71" # Emerald green
+
+- year: 1927
+  title: "Fifth Solvay International Conference"
+  discoverer: "Solvay Conference"
+  details: "The fifth Solvay International Conference on Electrons and Photons, where many of the world's most notable physicists met to discuss the newly formulated quantum theory. Key discussions on wave-particle duality and the uncertainty principle took place."
+  particle: ⑤
+  color: "#8A2BE2" # BlueViolet

@@ -73,44 +73,69 @@ h1 {
   color: var(--text-color);
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 15px; /* Will be overridden by controls margin if they are close */
 }
 
 /* Controls */
 .controls {
-  margin: 0;
   position: absolute;
-  top: 20px;
-  right: 20px;
-  transform: scale(0.8);
-  transform-origin: top right;
+  top: 10px; /* Ensuring this is 10px as intended */
+  right: 20px; /* Position to the right */
+  display: flex;
+  justify-content: space-between; /* Space out left, center, right groups */
+  align-items: center;
+  /* width: auto; /* Let content determine width, or set a specific max-width if needed */
+  padding: 2px 6px; /* Reduced top/bottom padding */
+  align-items: flex-start; /* Align groups to their top */
   background-color: var(--card-bg-color);
   color: var(--text-color);
-  padding: 10px 10px; /* Adjusted padding for compactness */
   border-radius: 5px;
   box-shadow: 0 2px 5px var(--shadow-color);
-  display: flex;
-  flex-direction: column; /* Stack zoom and main area */
-  align-items: stretch; /* Make children take full width */
-  gap: 10px; /* Space between zoom and main area */
   z-index: 100;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
-/* New class for the main area below zoom */
-.controls-main-area {
+.controls-left {
   display: flex;
-  flex-direction: row; /* Toggles/actions on left, height slider on right */
-  align-items: stretch; /* Children stretch vertically */
-  gap: 10px; /* Space between left group and height slider */
+  flex-direction: column; /* Stack zoom slider and action buttons vertically */
+  align-items: flex-start; /* Align items to the start of the column */
+  gap: 8px; /* Gap between zoom slider and the actions-toggles-row */
 }
 
-/* New class for grouping toggles and action buttons */
-.toggles-and-actions-group {
+.actions-toggles-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* Align buttons and toggle group at their top */
+  gap: 5px; /* Reduced space between action-buttons and toggles-group-stacked */
+}
+
+.toggles-group-stacked {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Space between toggles and action buttons */
-  flex-grow: 1; /* Allow this group to take available space */
+  align-items: flex-start;
+  gap: 2px; /* Gap between individual toggles */
+}
+
+.controls-center, /* This might be empty now, or can be removed if truly unused */
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced gap between control groups, e.g., between center and right */
+}
+
+.controls-center {
+  /* display: flex; /* Already flex, ensure it's set */
+  /* flex-direction: column; /* Stack toggles vertically */
+  /* align-items: flex-start; /* Align toggles to the start of the column */
+  /* justify-content: center; */
+  flex-grow: 0; /* Was 1. If empty, it shouldn't expand. */
+  min-width: 5px; /* Minimal space if it's kept in HTML */
+  /* gap: 4px; /* Adjust gap between stacked toggles */
+}
+
+.controls-right {
+  justify-content: flex-end; /* Push sliders to the far right */
 }
 
 .image-toggle-control {
@@ -121,7 +146,7 @@ h1 {
 }
 .image-toggle-control label {
   margin: 0;
-  min-width: 75px; /* Ensure consistent label width */
+  min-width: 65px; /* Reduced from 75px */
   text-align: left; /* Align text to the left */
 }
 .image-toggle-control input[type="checkbox"] {
@@ -142,42 +167,40 @@ h1 {
 }
 
 .slider-control.zoom-control { /* Target zoom specifically */
-   flex-direction: column; /* Stack label/value above slider */
-   align-items: stretch; /* Stretch to fill width */
-   gap: 4px; /* Compactness */
-   /* position: relative; Remove nudging */
-   /* bottom: 6px; */
-   width: 100%; /* Ensure full width */
+   flex-direction: row; /* Arrange items horizontally */
+   align-items: center; /* Vertically align items in the center */
+   gap: 8px; /* Adjust gap for horizontal layout, was 4px */
+   width: auto; /* Allow it to fit with other controls */
 }
 
 .zoom-label-value {
     display: flex;
     justify-content: space-between; /* Space out label and value */
-    width: 100%; /* Take full width of parent */
-    padding: 0 2px; /* Align text edges with slider */
+    width: auto; /* Adjust width, was 100% */
+    /* padding: 0 2px; Removed, let gap handle spacing or add specific if needed */
     box-sizing: border-box;
+    gap: 5px; /* Add gap between label and value text */
 }
 
 .slider-control.zoom-control input[type="range"] {
-  width: 100%; /* Make slider input take full width */
+  width: 100px; /* Specific width for the slider */
   box-sizing: border-box; /* Include padding/border in width */
 }
 
 
 .slider-control.height-control {
-  /* Align label and vertical slider */
   display: flex;
-  flex-direction: column; /* Stack label above slider */
-  align-items: center; /* Center label and slider horizontally */
-  gap: 4px; /* Compactness */
-  /* justify-content: space-between; Removed */
-  /* width: auto; Allow it to be as wide as its content (slider width + padding) */
+  /* flex-direction: column; /* No longer needed as label is gone */
+  align-items: flex-start; /* Align slider to the top of this container */
+  justify-content: center; 
+  width: 20px; 
+  height: 64px; /* Match height of .controls-left content */
+  padding: 0 2px; 
 }
 
-.slider-control label {
-  font-size: 11px;
-  margin-bottom: 2px; /* Small space for height slider label */
-}
+/* .slider-control label { /* Label is removed */
+/*  font-size: 11px; */
+/* } */
 
 .zoom-control .zoom-level { /* Style zoom level display */
   font-size: 11px;
@@ -192,19 +215,15 @@ h1 {
   margin: 0; /* Reset margin */
 }
 
-/* Make height slider vertical */
 #height-slider {
-  appearance: slider-vertical; /* Standard */
-  writing-mode: bt-lr; /* For browsers supporting writing-mode */
-  width: 8px; /* Slightly thicker */
-  /* height: 60px; Will be set to stretch */
-  /* height: 100%; Removed */
-  flex-grow: 1; /* Make slider take available vertical space */
+  appearance: slider-vertical; /* Make it vertical */
+  writing-mode: bt-lr; /* Bottom-to-top, left-to-right (standard for vertical sliders) */
+  width: 5px; /* Thickness of the vertical slider */
+  height: 100%; /* Fill the container's 81px height */
+  padding: 0; /* Reset padding */
+  margin: 0; /* Reset margin */
   box-sizing: border-box;
-  padding: 0 2px;
-  margin: 0; /* Ensure no extra margin affecting layout */
 }
-
 
 .controls button {
   padding: 4px 8px; /* Adjusted for compactness */
@@ -508,27 +527,35 @@ h1 {
     right: auto;
     width: 95%;
     max-width: 400px; /* Limit width on slightly larger mobile */
-    margin: 10px auto 15px auto; /* Center below title */
-    transform: scale(1); /* Reset scale */
-    flex-direction: column; /* Stack control groups */
-    align-items: center; /* Center items */
-    gap: 10px;
-    padding: 8px 10px;
-  }
+  margin: 10px auto 15px auto; /* Center below title */
+  flex-direction: column; /* Stack control groups */
+  align-items: stretch; /* Stretch groups to full width */
+  gap: 10px;
+  padding: 8px 10px;
+  width: 90%; /* More controlled width */
+  max-width: 500px; /* Max width for controls on mobile */
+}
 
-  /* .controls-left is removed */
+.controls-left,
+.controls-center, /* Will apply to the (now empty) center div */
+.controls-right {
+  flex-direction: column; /* Stack items within each group */
+  width: 100%; /* Make each group take full width of .controls */
+  gap: 8px; /* Smaller gap for stacked items */
+  align-items: center; /* Center items within each column group */
+}
 
-  .controls-main-area {
-    flex-direction: column; /* Stack toggles/actions and height slider */
-    align-items: stretch; /* Ensure children take full width */
-    gap: 8px;
-  }
+.actions-toggles-row {
+  flex-direction: column; /* Stack buttons above toggles on mobile */
+  align-items: center; /* Center them */
+  width: 100%;
+}
 
-  .toggles-and-actions-group {
-    /* No changes needed here for mobile, already column */
-    align-items: center; /* Center items horizontally */
-  }
-  .image-toggle-control {
+.toggles-group-stacked {
+  align-items: center; /* Center toggles on mobile if they are stacked under buttons */
+}
+
+.image-toggle-control {
     justify-content: space-between; /* Space out label and checkbox */
     width: 150px; /* Give some fixed width */
   }
@@ -544,30 +571,31 @@ h1 {
 
 
   .slider-control.zoom-control {
-    /* bottom: 0; Reset nudge - already removed */
+    flex-direction: column; /* Stack label above slider on mobile */
+    align-items: center; /* Center items */
+    /* width: 100%; Ensure it takes full width if needed, auto might be fine if parent is controlling */
   }
   .slider-control.zoom-control input[type="range"] {
-    width: 100%; /* Full width already */
+    width: 100%; /* Full width for zoom slider input on mobile */
   }
   .slider-control.height-control {
-    /* When stacked, height slider should not try to take 100% height of a column parent */
-    /* It should behave more like the zoom slider in terms of height */
-    height: auto; /* Reset height behavior */
-    width: 100%; /* Take full width like zoom slider */
-    align-items: stretch; /* Stretch children, label will self-center or use text-align */
+    /* flex-direction: column; /* No longer stacking label */
+    height: auto; /* Let content determine height */
+    width: auto; /* Let content determine width */
+    align-items: center; /* Center the horizontal slider */
   }
 
   #height-slider {
     appearance: auto; /* Revert to default horizontal slider for mobile */
     writing-mode: initial; /* Revert */
     width: 100%; /* Full width horizontal */
+    max-width: 150px; /* Max width for aesthetics */
     height: 5px; /* Default horizontal height */
-    flex-grow: 0; /* Do not grow, use explicit height */
-    /* padding: 0 2px; Already set */
+    /* flex-grow: 0; /* Do not grow, use explicit height */
   }
-  .height-control label {
-    margin-bottom: 0; /* No extra margin for horizontal slider label */
-  }
+  /* .height-control label { /* Label removed */
+  /*  margin-bottom: 0; */
+  /* } */
 
 
   .timeline-container {
