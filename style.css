@@ -95,7 +95,13 @@ h1 {
   box-sizing: border-box;
 }
 
-.controls-left,
+.controls-left {
+  display: flex;
+  flex-direction: column; /* Stack zoom slider and action buttons vertically */
+  align-items: flex-start; /* Align items to the start of the column */
+  gap: 8px; /* Gap between zoom slider and action buttons */
+}
+
 .controls-center,
 .controls-right {
   display: flex;
