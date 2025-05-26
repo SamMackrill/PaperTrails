@@ -79,7 +79,7 @@ h1 {
 /* Controls */
 .controls {
   position: absolute;
-  top: 20px; /* Position near the top */
+  top: 2px; /* Moved up closer to the top */
   right: 20px; /* Position to the right */
   display: flex;
   justify-content: space-between; /* Space out left, center, right groups */
