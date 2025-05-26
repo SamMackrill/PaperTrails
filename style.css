@@ -79,7 +79,7 @@ h1 {
 /* Controls */
 .controls {
   position: absolute;
-  top: 2px; /* Moved up closer to the top */
+  top: 10px; /* Adjusted for better placement */
   right: 20px; /* Position to the right */
   display: flex;
   justify-content: space-between; /* Space out left, center, right groups */
@@ -191,11 +191,11 @@ h1 {
 .slider-control.height-control {
   display: flex;
   /* flex-direction: column; /* No longer needed as label is gone */
-  align-items: center;
-  justify-content: center; /* Center the vertical slider if container is wider */
-  width: 20px; /* Make container narrow */
-  height: 100px; /* Provide a fixed height for the vertical slider container */
-  padding: 0 2px; /* Small padding to help center slider if it's thinner */
+  align-items: flex-start; /* Align slider to the top of this container */
+  justify-content: center; 
+  width: 20px; 
+  height: 81px; /* Match height of .controls-left content */
+  padding: 0 2px; 
 }
 
 /* .slider-control label { /* Label is removed */
@@ -219,7 +219,7 @@ h1 {
   appearance: slider-vertical; /* Make it vertical */
   writing-mode: bt-lr; /* Bottom-to-top, left-to-right (standard for vertical sliders) */
   width: 5px; /* Thickness of the vertical slider */
-  height: 80px; /* Length of the vertical slider */
+  height: 100%; /* Fill the container's 81px height */
   padding: 0; /* Reset padding */
   margin: 0; /* Reset margin */
   box-sizing: border-box;
