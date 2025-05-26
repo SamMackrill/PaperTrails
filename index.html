@@ -20,28 +20,33 @@
         </div>
         <input type="range" id="zoom-slider" min="0" max="100" value="50"> <!-- Value mapped later -->
       </div>
-      <!-- Action Buttons Group (now directly under zoom-control within controls-left) -->
-      <div class="action-buttons">
-          <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
-          <button id="reset-view" title="Reset Zoom and Height">↺</button>
+      <!-- Row for Action Buttons and Toggles -->
+      <div class="actions-toggles-row">
+        <div class="action-buttons">
+            <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
+            <button id="reset-view" title="Reset Zoom and Height">↺</button>
+        </div>
+        <div class="toggles-group-stacked">
+          <!-- Image Toggle -->
+          <div class="image-toggle-control">
+            <label for="cartoonToggle">Cartoons:</label>
+            <input type="checkbox" id="cartoonToggle" title="Toggle Cartoon/Photo Images">
+          </div>
+          <!-- Significant Events Toggle -->
+          <div class="image-toggle-control">
+            <label for="significantEventsToggle">Events:</label>
+            <input type="checkbox" id="significantEventsToggle" title="Toggle Significant Events" checked>
+          </div>
+          <!-- Discoveries Toggle -->
+          <div class="image-toggle-control">
+            <label for="discoveriesToggle">Discoveries:</label>
+            <input type="checkbox" id="discoveriesToggle" title="Toggle Discoveries" checked>
+          </div>
+        </div>
       </div>
     </div>
     <div class="controls-center">
-      <!-- Image Toggle -->
-      <div class="image-toggle-control">
-        <label for="cartoonToggle">Cartoons:</label>
-        <input type="checkbox" id="cartoonToggle" title="Toggle Cartoon/Photo Images">
-      </div>
-      <!-- Significant Events Toggle -->
-      <div class="image-toggle-control">
-        <label for="significantEventsToggle">Events:</label>
-        <input type="checkbox" id="significantEventsToggle" title="Toggle Significant Events" checked>
-      </div>
-      <!-- Discoveries Toggle -->
-      <div class="image-toggle-control">
-        <label for="discoveriesToggle">Discoveries:</label>
-        <input type="checkbox" id="discoveriesToggle" title="Toggle Discoveries" checked>
-      </div>
+      <!-- This div is now empty or can be removed if not used for other purposes -->
     </div>
     <div class="controls-right">
       <!-- Height Control Group -->
