@@ -188,16 +188,16 @@ h1 {
 
 .slider-control.height-control {
   display: flex;
-  flex-direction: row; /* Arrange items horizontally */
-  align-items: center; /* Vertically align items in the center */
-  gap: 8px; /* Adjust gap for horizontal layout */
-  width: auto; /* Allow it to fit with other controls */
+  /* flex-direction: column; /* No longer needed as label is gone */
+  align-items: center; 
+  justify-content: center; /* Center the vertical slider if container is wider */
+  width: auto; 
+  height: 100px; /* Provide a fixed height for the vertical slider container */
 }
 
-.slider-control label {
-  font-size: 11px;
-  /* margin-bottom: 2px; Removed for horizontal layout */
-}
+/* .slider-control label { /* Label is removed */
+/*  font-size: 11px; */
+/* } */
 
 .zoom-control .zoom-level { /* Style zoom level display */
   font-size: 11px;
@@ -213,11 +213,13 @@ h1 {
 }
 
 #height-slider {
-  width: 100px; /* Specific width for the horizontal slider */
-  height: 5px; /* Default height for horizontal slider */
+  appearance: slider-vertical; /* Make it vertical */
+  writing-mode: bt-lr; /* Bottom-to-top, left-to-right (standard for vertical sliders) */
+  width: 5px; /* Thickness of the vertical slider */
+  height: 80px; /* Length of the vertical slider */
+  padding: 0; /* Reset padding */
+  margin: 0; /* Reset margin */
   box-sizing: border-box;
-  padding: 0 2px; /* Maintain small padding */
-  margin: 0; /* Ensure no extra margin affecting layout */
 }
 
 .controls button {
@@ -574,24 +576,23 @@ h1 {
     width: 100%; /* Full width for zoom slider input on mobile */
   }
   .slider-control.height-control {
-    flex-direction: column; /* Stack label and slider vertically */
-    /* It should behave more like the zoom slider in terms of height */
-    height: auto; /* Reset height behavior */
-    width: 100%; /* Take full width like zoom slider */
-    align-items: stretch; /* Stretch children, label will self-center or use text-align */
+    /* flex-direction: column; /* No longer stacking label */
+    height: auto; /* Let content determine height */
+    width: auto; /* Let content determine width */
+    align-items: center; /* Center the horizontal slider */
   }
 
   #height-slider {
     appearance: auto; /* Revert to default horizontal slider for mobile */
     writing-mode: initial; /* Revert */
     width: 100%; /* Full width horizontal */
+    max-width: 150px; /* Max width for aesthetics */
     height: 5px; /* Default horizontal height */
-    flex-grow: 0; /* Do not grow, use explicit height */
-    /* padding: 0 2px; Already set */
+    /* flex-grow: 0; /* Do not grow, use explicit height */
   }
-  .height-control label {
-    margin-bottom: 0; /* No extra margin for horizontal slider label */
-  }
+  /* .height-control label { /* Label removed */
+  /*  margin-bottom: 0; */
+  /* } */
 
 
   .timeline-container {
