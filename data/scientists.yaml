@@ -827,3 +827,22 @@ eddington:
     - year: 1926
       title: "The Internal Constitution of the Stars"
       abstract: "Synthesized the physics of stellar structure, including radiative equilibrium and the mass–luminosity relation, into a foundational account of theoretical astrophysics."
+
+hertz:
+  name: "Heinrich Rudolf Hertz"
+  color: "#4361ee"
+  photo: "images/hertz.jpg"
+  cartoon: "images/cartoons/hertz.png"
+  nationality: "German"
+  birth: "1857-02-22"
+  death: "1894-01-01"
+  publications:
+    - year: 1887
+      title: "Ueber sehr schnelle electrische Schwingungen"
+      abstract: "Developed a spark-gap oscillator and resonant detector that made very rapid electrical oscillations experimentally observable."
+    - year: 1888
+      title: "Ueber electrodynamische Wellen im Luftraume und deren Reflexion"
+      abstract: "Demonstrated the wave-like propagation and reflection of electromagnetic disturbances in air and measured their wavelength directly."
+    - year: 1889
+      title: "Ueber Strahlen electrischer Kraft"
+      abstract: "Showed that electric waves could be reflected, refracted, and polarized like light, strengthening Maxwell's electromagnetic theory of light."
