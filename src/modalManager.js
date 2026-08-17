@@ -103,7 +103,7 @@ export function showScientistModal(scientistId) {
 }
 
 export function closeModal() {
-  if (!panel || panel.hidden) return;
+  if (!panel || panel.hidden || closeTimer) return;
 
   panel.classList.remove('is-open');
   backdrop.classList.remove('is-open');

@@ -294,7 +294,7 @@ function renderEvents(timeline, width, height, contextTop) {
   const occupiedLevels = Array.from({ length: availableLevels }, () => []);
 
   [...significantEvents]
-    .filter((event) => Number.isFinite(event.startYear) && Number.isFinite(event.endYear) && event.endYear > event.startYear)
+    .filter((event) => Number.isFinite(event.startYear) && Number.isFinite(event.endYear) && event.endYear >= event.startYear)
     .sort((a, b) => a.startYear - b.startYear)
     .forEach((event) => {
       const startX = yearToX(event.startYear, width);

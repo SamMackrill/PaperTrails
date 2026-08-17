@@ -1,7 +1,13 @@
+// Define base values
+const START_YEAR = 1600;
+const CURRENT_YEAR = new Date().getFullYear();
+
 // Configuration object
 export const config = {
-  START_YEAR: 1600,
-  CURRENT_YEAR: new Date().getFullYear(),
+  START_YEAR,
+  CURRENT_YEAR,
+  END_YEAR: CURRENT_YEAR,
+  YEAR_SPAN: CURRENT_YEAR - START_YEAR,
   MIN_SCALE: 1,
   MAX_SCALE: 8,
   ZOOM_STEP: 0.2,
@@ -28,7 +34,3 @@ export const config = {
   RESIZE_DEBOUNCE_DELAY: 250,
   themeLocalStorageKey: 'paperTrailsTheme',
 };
-
-// Calculate derived configuration values
-config.END_YEAR = config.CURRENT_YEAR;
-config.YEAR_SPAN = config.END_YEAR - config.START_YEAR;

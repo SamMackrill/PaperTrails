@@ -467,10 +467,10 @@ body.dark-mode .icon-sun {
       var(--border) 41.85%,
       var(--border) 42.05%,
       var(--lane-alt) 42.05%,
-      var(--lane-alt) 61.85%,
-      var(--border) 61.85%,
-      var(--border) 62.05%,
-      var(--context-bg) 62.05%,
+      var(--lane-alt) 68.85%,
+      var(--border) 68.85%,
+      var(--border) 69.05%,
+      var(--context-bg) 69.05%,
       var(--context-bg) 100%);
 }
 
