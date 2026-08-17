@@ -1,86 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Paper Trails - Scientific History</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore scientific publications, discoveries, and their historical context from 1600 to today.">
+  <title>Paper Trails — Scientific History</title>
   <link rel="icon" href="images/icon.png" type="image/png">
-  <link rel="stylesheet" href="style.css">
-  <link rel="preload" href="images/default.png" as="image">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
-  <h1>Paper Trails: A Scientific History</h1>
-  <div class="controls">
-    <div class="controls-left">
-      <!-- Zoom Controls Group -->
-      <div class="slider-control zoom-control">
-        <div class="zoom-label-value"> <!-- New wrapper for label and value -->
-            <span class="zoom-level">100%</span>
-        </div>
-        <input type="range" id="zoom-slider" min="0" max="100" value="50" title="Zoom"> <!-- Value mapped later -->
-      </div>
-      <!-- Row for Action Buttons and Toggles -->
-      <div class="actions-toggles-row">
-        <div class="action-buttons">
-            <button id="mode-toggle" title="Toggle Dark/Light Mode">◐</button>
-            <button id="reset-view" title="Reset Zoom and Height">↺</button>
-        </div>
-        <div class="toggles-group-stacked">
-          <!-- Image Toggle -->
-          <div class="image-toggle-control">
-            <label for="cartoonToggle">Cartoons:</label>
-            <input type="checkbox" id="cartoonToggle" title="Toggle Cartoon/Photo Images">
-          </div>
-          <!-- Significant Events Toggle -->
-          <div class="image-toggle-control">
-            <label for="significantEventsToggle">Events:</label>
-            <input type="checkbox" id="significantEventsToggle" title="Toggle Significant Events" checked>
-          </div>
-          <!-- Discoveries Toggle -->
-          <div class="image-toggle-control">
-            <label for="discoveriesToggle">Discoveries:</label>
-            <input type="checkbox" id="discoveriesToggle" title="Toggle Discoveries" checked>
-          </div>
-        </div>
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">PT</div>
+      <div>
+        <h1>Paper Trails</h1>
+        <p>Scientific ideas in historical context · <span id="timeline-range">1600–today</span></p>
       </div>
     </div>
-    <div class="controls-center">
-      <!-- This div is now empty or can be removed if not used for other purposes -->
+
+    <div class="header-actions">
+      <button class="icon-button" id="help-toggle" type="button" aria-label="Show timeline help" title="Timeline help">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M9.8 9a2.4 2.4 0 1 1 3.7 2c-1 .65-1.5 1.15-1.5 2.5"></path>
+          <path d="M12 17h.01"></path>
+        </svg>
+      </button>
+      <button class="icon-button" id="mode-toggle" type="button" aria-label="Switch theme" title="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z"></path>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.5"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+      </button>
+      <button class="icon-button options-button" id="options-toggle" type="button" aria-label="Show view options" aria-controls="toolbar-secondary" aria-expanded="false" title="View options">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+          <circle cx="9" cy="7" r="1.5"></circle>
+          <circle cx="15" cy="12" r="1.5"></circle>
+          <circle cx="11" cy="17" r="1.5"></circle>
+        </svg>
+      </button>
     </div>
-    <div class="controls-right">
-      <!-- Height Control Group -->
-      <div class="slider-control height-control">
-        <input type="range" id="height-slider" min="0" max="100" value="50" title="Timeline Height"> <!-- Value mapped later, added title attribute -->
+  </header>
+
+  <nav class="timeline-toolbar" aria-label="Timeline controls">
+    <div class="toolbar-primary">
+      <div class="zoom-controls" role="group" aria-label="Zoom controls">
+        <button class="icon-button compact" id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"></path></svg>
+        </button>
+        <output class="zoom-level" for="zoom-slider" aria-live="polite">100%</output>
+        <button class="icon-button compact" id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"></path></svg>
+        </button>
+        <label class="sr-only" for="zoom-slider">Zoom level</label>
+        <input type="range" id="zoom-slider" min="0" max="100" value="50" aria-label="Zoom level">
+      </div>
+
+      <div class="view-actions" role="group" aria-label="View actions">
+        <button class="text-button" id="fit-view" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path></svg>
+          <span>Fit timeline</span>
+        </button>
+        <button class="icon-button compact" id="reset-view" type="button" aria-label="Centre timeline" title="Centre timeline">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6"></path><path d="M4 4v4.6h4.6"></path></svg>
+        </button>
       </div>
     </div>
-  </div>
-  <div class="timeline-container" id="timeline-container">
-    <div class="timeline" id="timeline"></div>
-  </div>
-  <div id="publication-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" id="close-pub-modal">&times;</span>
-      <h3 id="pub-modal-title">Publication Title</h3>
-      <p><strong id="pub-modal-author-label">Author:</strong> <span id="pub-modal-author"></span></p>
-      <p><strong>Year:</strong> <span id="pub-modal-year"></span></p>
-      <hr>
-      <p id="pub-modal-abstract">Abstract details...</p>
+
+    <div class="toolbar-secondary" id="toolbar-secondary">
+      <div class="filter-legend" role="group" aria-label="Timeline layers">
+        <button class="filter-button" id="peopleToggle" type="button" aria-pressed="true">
+          <span class="legend-symbol person-symbol" aria-hidden="true"></span>
+          <span>People</span>
+        </button>
+        <button class="filter-button" id="publicationsToggle" type="button" aria-pressed="true">
+          <span class="legend-symbol publication-symbol" aria-hidden="true"></span>
+          <span>Publications</span>
+        </button>
+        <button class="filter-button" id="discoveriesToggle" type="button" aria-pressed="true">
+          <span class="legend-symbol discovery-symbol" aria-hidden="true"></span>
+          <span>Discoveries</span>
+        </button>
+        <button class="filter-button" id="significantEventsToggle" type="button" aria-pressed="true">
+          <span class="legend-symbol event-symbol" aria-hidden="true"></span>
+          <span>Context</span>
+        </button>
+      </div>
+
+      <div class="toolbar-divider" aria-hidden="true"></div>
+
+      <button class="filter-button portrait-toggle" id="cartoonToggle" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"></circle><path d="M6.5 20a5.5 5.5 0 0 1 11 0M5 5l2-2M19 5l-2-2"></path></svg>
+        <span>Illustrations</span>
+      </button>
     </div>
-  </div>
-  <div id="scientist-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" id="close-sci-modal">&times;</span>
-      <img id="sci-modal-cartoon" src="" alt="Scientist Cartoon" style="max-width: 100px; float: right; margin-left: 15px;">
-      <h3 id="sci-modal-name">Scientist Name</h3>
-      <p><strong>Nationality:</strong> <span id="sci-modal-nationality"></span></p>
-      <p><strong>Born:</strong> <span id="sci-modal-birth"></span></p>
-      <p><strong>Died:</strong> <span id="sci-modal-death"></span></p>
+  </nav>
+
+  <main class="timeline-shell">
+    <section class="timeline-frame" aria-label="Interactive scientific history timeline">
+      <div class="lane-labels" aria-hidden="true">
+        <span class="lane-label people-label">People</span>
+        <span class="lane-label publications-label">Publications</span>
+        <span class="lane-label discoveries-label">Discoveries</span>
+        <span class="lane-label context-label">Context</span>
+      </div>
+      <div class="timeline-container" id="timeline-container" tabindex="0" aria-label="Timeline canvas. Drag to pan and use the zoom controls to explore.">
+        <div class="timeline" id="timeline"></div>
+        <div class="interaction-hint" id="interaction-hint">
+          <span class="desktop-hint">Drag to explore · Scroll to pan · Ctrl + scroll to zoom</span>
+          <span class="mobile-hint">Swipe to explore · Pinch to zoom</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="detail-backdrop" id="detail-backdrop" hidden></div>
+  <aside class="detail-panel" id="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title" hidden>
+    <button class="detail-close icon-button" id="detail-close" type="button" aria-label="Close details">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+    </button>
+    <div class="detail-media" id="detail-media" hidden>
+      <img id="detail-image" alt="">
     </div>
-  </div>
-  <!-- Tooltip Element -->
-  <div id="scientist-tooltip" class="tooltip"></div>
+    <p class="detail-eyebrow" id="detail-eyebrow">Publication</p>
+    <h2 id="detail-title">Details</h2>
+    <dl class="detail-metadata" id="detail-metadata"></dl>
+    <div class="detail-divider"></div>
+    <p class="detail-body" id="detail-body"></p>
+  </aside>
+
+  <div class="timeline-tooltip" id="timeline-tooltip" role="tooltip" hidden></div>
 
   <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
-  <script type="module" src="script.js"></script> <!-- Load script.js as a module -->
+  <script type="module" src="script.js?v=7"></script>
 </body>
 </html>
