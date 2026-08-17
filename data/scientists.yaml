@@ -862,3 +862,60 @@ descartes:
     - year: 1644
       title: "Principia philosophiæ"
       abstract: "Systematized a mechanistic account of nature in terms of matter and motion, including laws of motion and a vortex-based cosmology."
+
+poincare:
+  name: "Henri Poincaré"
+  color: "#43aa8b"
+  photo: "images/poincare.jpg"
+  cartoon: "images/cartoons/poincare.png"
+  nationality: "French"
+  birth: "1854-04-29"
+  death: "1912-07-17"
+  publications:
+    - year: 1890
+      title: "Sur le problème des trois corps et les équations de la dynamique"
+      abstract: "Developed qualitative methods for the three-body problem, revealing homoclinic behavior and the complex dynamics later associated with deterministic chaos."
+    - year: 1895
+      title: "Analysis situs"
+      abstract: "Established foundational methods of algebraic topology by studying manifolds with invariants including homology, the fundamental group, and Betti numbers."
+    - year: 1906
+      title: "Sur la dynamique de l’électron"
+      abstract: "Extended Lorentz-covariant electron dynamics and articulated the relativity principle using transformations that form the Lorentz group."
+
+kelvin:
+  name: "William Thomson (Lord Kelvin)"
+  color: "#5f0f40"
+  photo: "images/kelvin.jpg"
+  cartoon: "images/cartoons/kelvin.png"
+  nationality: "British"
+  birth: "1824-06-26"
+  death: "1907-12-17"
+  publications:
+    - year: 1848
+      title: "On an Absolute Thermometric Scale"
+      abstract: "Proposed a temperature scale independent of the properties of any particular substance and located absolute zero near −273 degrees Celsius."
+    - year: 1851
+      title: "On the Dynamical Theory of Heat"
+      abstract: "Reconciled Carnot's heat-engine theory with Joule's mechanical equivalent of heat and stated a foundational form of the second law of thermodynamics."
+    - year: 1852
+      title: "On a Universal Tendency in Nature to the Dissipation of Mechanical Energy"
+      abstract: "Described the irreversible degradation of mechanical energy into less useful forms, establishing energy dissipation as a universal tendency."
+
+feynman:
+  name: "Richard Feynman"
+  color: "#9b5de5"
+  photo: "images/feynman.jpg"
+  cartoon: "images/cartoons/feynman.png"
+  nationality: "American"
+  birth: "1918-05-11"
+  death: "1988-02-15"
+  publications:
+    - year: 1948
+      title: "Space-Time Approach to Non-Relativistic Quantum Mechanics"
+      abstract: "Formulated quantum mechanics as a sum over possible paths through spacetime, establishing the path-integral approach to quantum theory."
+    - year: 1949
+      title: "Space-Time Approach to Quantum Electrodynamics"
+      abstract: "Developed a practical spacetime method for calculating electron–photon interactions, laying the foundation for Feynman diagrams and renormalized quantum electrodynamics."
+    - year: 1969
+      title: "Very High-Energy Collisions of Hadrons"
+      abstract: "Introduced the parton picture of high-energy hadron collisions, helping reveal the point-like constituents later identified with quarks and gluons."
