@@ -827,3 +827,95 @@ eddington:
     - year: 1926
       title: "The Internal Constitution of the Stars"
       abstract: "Synthesized the physics of stellar structure, including radiative equilibrium and the mass–luminosity relation, into a foundational account of theoretical astrophysics."
+
+hertz:
+  name: "Heinrich Rudolf Hertz"
+  color: "#4361ee"
+  photo: "images/hertz.jpg"
+  cartoon: "images/cartoons/hertz.png"
+  nationality: "German"
+  birth: "1857-02-22"
+  death: "1894-01-01"
+  publications:
+    - year: 1887
+      title: "Ueber sehr schnelle electrische Schwingungen"
+      abstract: "Developed a spark-gap oscillator and resonant detector that made very rapid electrical oscillations experimentally observable."
+    - year: 1888
+      title: "Ueber electrodynamische Wellen im Luftraume und deren Reflexion"
+      abstract: "Demonstrated the wave-like propagation and reflection of electromagnetic disturbances in air and measured their wavelength directly."
+    - year: 1889
+      title: "Ueber Strahlen electrischer Kraft"
+      abstract: "Showed that electric waves could be reflected, refracted, and polarized like light, strengthening Maxwell's electromagnetic theory of light."
+
+descartes:
+  name: "René Descartes"
+  color: "#b56576"
+  photo: "images/descartes.jpg"
+  cartoon: "images/cartoons/descartes.png"
+  nationality: "French"
+  birth: "1596-03-31"
+  death: "1650-02-11"
+  publications:
+    - year: 1637
+      title: "Discours de la méthode, plus La Dioptrique, Les Météores et La Géométrie"
+      abstract: "Presented a general method of inquiry alongside scientific essays that applied mathematics to optics, meteorology, and geometry, helping establish analytic geometry."
+    - year: 1644
+      title: "Principia philosophiæ"
+      abstract: "Systematized a mechanistic account of nature in terms of matter and motion, including laws of motion and a vortex-based cosmology."
+
+poincare:
+  name: "Henri Poincaré"
+  color: "#43aa8b"
+  photo: "images/poincare.jpg"
+  cartoon: "images/cartoons/poincare.png"
+  nationality: "French"
+  birth: "1854-04-29"
+  death: "1912-07-17"
+  publications:
+    - year: 1890
+      title: "Sur le problème des trois corps et les équations de la dynamique"
+      abstract: "Developed qualitative methods for the three-body problem, revealing homoclinic behavior and the complex dynamics later associated with deterministic chaos."
+    - year: 1895
+      title: "Analysis situs"
+      abstract: "Established foundational methods of algebraic topology by studying manifolds with invariants including homology, the fundamental group, and Betti numbers."
+    - year: 1906
+      title: "Sur la dynamique de l’électron"
+      abstract: "Extended Lorentz-covariant electron dynamics and articulated the relativity principle using transformations that form the Lorentz group."
+
+kelvin:
+  name: "William Thomson (Lord Kelvin)"
+  color: "#5f0f40"
+  photo: "images/kelvin.jpg"
+  cartoon: "images/cartoons/kelvin.png"
+  nationality: "British"
+  birth: "1824-06-26"
+  death: "1907-12-17"
+  publications:
+    - year: 1848
+      title: "On an Absolute Thermometric Scale"
+      abstract: "Proposed a temperature scale independent of the properties of any particular substance and located absolute zero near −273 degrees Celsius."
+    - year: 1851
+      title: "On the Dynamical Theory of Heat"
+      abstract: "Reconciled Carnot's heat-engine theory with Joule's mechanical equivalent of heat and stated a foundational form of the second law of thermodynamics."
+    - year: 1852
+      title: "On a Universal Tendency in Nature to the Dissipation of Mechanical Energy"
+      abstract: "Described the irreversible degradation of mechanical energy into less useful forms, establishing energy dissipation as a universal tendency."
+
+feynman:
+  name: "Richard Feynman"
+  color: "#9b5de5"
+  photo: "images/feynman.jpg"
+  cartoon: "images/cartoons/feynman.png"
+  nationality: "American"
+  birth: "1918-05-11"
+  death: "1988-02-15"
+  publications:
+    - year: 1948
+      title: "Space-Time Approach to Non-Relativistic Quantum Mechanics"
+      abstract: "Formulated quantum mechanics as a sum over possible paths through spacetime, establishing the path-integral approach to quantum theory."
+    - year: 1949
+      title: "Space-Time Approach to Quantum Electrodynamics"
+      abstract: "Developed a practical spacetime method for calculating electron–photon interactions, laying the foundation for Feynman diagrams and renormalized quantum electrodynamics."
+    - year: 1969
+      title: "Very High-Energy Collisions of Hadrons"
+      abstract: "Introduced the parton picture of high-energy hadron collisions, helping reveal the point-like constituents later identified with quarks and gluons."
