@@ -808,3 +808,22 @@ hooke:
     - year: 1674 # Gresham lecture
       title: "An Attempt to Prove the Motion of the Earth by Observations"
       abstract: "Discussed gravitation and planetary motion, proposing an attractive principle."
+
+eddington:
+  name: "Arthur Stanley Eddington"
+  color: "#ca6702"
+  photo: "images/eddington.jpg"
+  cartoon: "images/cartoons/eddington.png"
+  nationality: "British"
+  birth: "1882-12-28"
+  death: "1944-11-22"
+  publications:
+    - year: 1916
+      title: "On the Radiative Equilibrium of the Stars"
+      abstract: "Developed a theory of radiative stellar interiors that related a star's mass, luminosity, density, and temperature."
+    - year: 1920
+      title: "A Determination of the Deflection of Light by the Sun's Gravitational Field, from Observations Made at the Total Eclipse of May 29, 1919"
+      abstract: "Co-authored the eclipse-expedition analysis that found the Sun's gravitational deflection of starlight consistent with general relativity."
+    - year: 1926
+      title: "The Internal Constitution of the Stars"
+      abstract: "Synthesized the physics of stellar structure, including radiative equilibrium and the mass–luminosity relation, into a foundational account of theoretical astrophysics."
