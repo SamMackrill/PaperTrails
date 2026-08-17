@@ -1,628 +1,1165 @@
-/* --- Color Variables --- */
 :root {
-  --bg-color: #f4f4f4;
-  --text-color: #333;
-  --card-bg-color: #fff;
-  --card-border-color: #ccc;
-  --shadow-color: rgba(0,0,0,0.1);
-  --button-bg: #eee;
-  --button-hover-bg: #ddd;
-  --button-border: #ccc;
-  --button-text: #333;
-  --axis-color: #333;
-  --marker-color: #888;
-  --marker-text-color: #555;
-  --marker-major-color: #333;
-  --current-year-color: #c1121f;
-  --modal-overlay: rgba(0,0,0,0.6);
-  --modal-bg: #fefefe;
-  --modal-border: #888;
-  --modal-text: #555;
-  --modal-close-color: #aaa;
-  --modal-close-hover: #000;
-  --pub-border-color: rgba(0,0,0,0.3);
-  --img-error-bg: #eee;
-  --img-error-border: #aaa;
-  --discovery-border-color: rgba(0,0,0,0.3);
-  --current-scale: 1; /* Default scale */
-  --current-inverse-scale: 1; /* Default inverse scale */
+  color-scheme: light;
+  --page-bg: #f3f5f8;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-muted: #f8fafc;
+  --lane-alt: #f8fafc;
+  --context-bg: #f5f7fa;
+  --text-primary: #172033;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  --border: #dce2ea;
+  --border-strong: #c8d1dd;
+  --axis: #6b7a90;
+  --grid: #dbe2ea;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: #e8f0ff;
+  --publication: #64748b;
+  --discovery: #7c3aed;
+  --discovery-soft: #ede9fe;
+  --context: #52718f;
+  --context-soft: #dce7f0;
+  --focus-ring: rgba(37, 99, 235, 0.3);
+  --backdrop: rgba(15, 23, 42, 0.42);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.2);
+  --header-height: 68px;
+  --current-scale: 1;
+  --current-inverse-scale: 1;
 }
 
 body.dark-mode {
-  --bg-color: #1a1a1a;
-  --text-color: #eee;
-  --card-bg-color: #2a2a2a;
-  --card-border-color: #555;
-  --shadow-color: rgba(255,255,255,0.08);
-  --button-bg: #444;
-  --button-hover-bg: #555;
-  --button-border: #666;
-  --button-text: #eee;
-  --axis-color: #ccc;
-  --marker-color: #aaa;
-  --marker-text-color: #bbb;
-  --marker-major-color: #eee;
-  --current-year-color: #ff6b6b;
-  --modal-overlay: rgba(0,0,0,0.75);
-  --modal-bg: #333;
-  --modal-border: #666;
-  --modal-text: #ccc;
-  --modal-close-color: #bbb;
-  --modal-close-hover: #fff;
-  --pub-border-color: rgba(255,255,255,0.3);
-  --img-error-bg: #444;
-  --img-error-border: #777;
-  --discovery-border-color: rgba(255,255,255,0.3);
+  color-scheme: dark;
+  --page-bg: #0b1220;
+  --surface: #111a2b;
+  --surface-raised: #172235;
+  --surface-muted: #141f31;
+  --lane-alt: #121d2f;
+  --context-bg: #0f1929;
+  --text-primary: #e7edf6;
+  --text-secondary: #a8b5c7;
+  --text-tertiary: #718096;
+  --border: #26364c;
+  --border-strong: #34465f;
+  --axis: #8291a7;
+  --grid: #26364b;
+  --accent: #6ea2ff;
+  --accent-hover: #8bb5ff;
+  --accent-soft: #1d3154;
+  --publication: #a4b2c5;
+  --discovery: #a78bfa;
+  --discovery-soft: #302650;
+  --context: #7995b1;
+  --context-soft: #24384b;
+  --focus-ring: rgba(110, 162, 255, 0.35);
+  --backdrop: rgba(2, 6, 23, 0.68);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.4);
 }
 
-/* Basic Reset & Body */
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  font-family: sans-serif;
+  width: 100%;
+  height: 100%;
+}
+
+body {
   margin: 0;
-  padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  overflow: hidden;
+  background: var(--page-bg);
+  color: var(--text-primary);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-h1 {
-  color: var(--text-color);
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 15px; /* Will be overridden by controls margin if they are close */
+button,
+input {
+  font: inherit;
 }
 
-/* Controls */
-.controls {
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+.timeline-container:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
   position: absolute;
-  top: 10px; /* Ensuring this is 10px as intended */
-  right: 20px; /* Position to the right */
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-header {
+  min-height: var(--header-height);
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
   display: flex;
-  justify-content: space-between; /* Space out left, center, right groups */
   align-items: center;
-  /* width: auto; /* Let content determine width, or set a specific max-width if needed */
-  padding: 2px 6px; /* Reduced top/bottom padding */
-  align-items: flex-start; /* Align groups to their top */
-  background-color: var(--card-bg-color);
-  color: var(--text-color);
-  border-radius: 5px;
-  box-shadow: 0 2px 5px var(--shadow-color);
+  justify-content: space-between;
+  gap: 24px;
   z-index: 100;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box;
 }
 
-.controls-left {
-  display: flex;
-  flex-direction: column; /* Stack zoom slider and action buttons vertically */
-  align-items: flex-start; /* Align items to the start of the column */
-  gap: 8px; /* Gap between zoom slider and the actions-toggles-row */
-}
-
-.actions-toggles-row {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start; /* Align buttons and toggle group at their top */
-  gap: 5px; /* Reduced space between action-buttons and toggles-group-stacked */
-}
-
-.toggles-group-stacked {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px; /* Gap between individual toggles */
-}
-
-.controls-center, /* This might be empty now, or can be removed if truly unused */
-.controls-right {
+.brand {
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 8px; /* Reduced gap between control groups, e.g., between center and right */
+  gap: 12px;
 }
 
-.controls-center {
-  /* display: flex; /* Already flex, ensure it's set */
-  /* flex-direction: column; /* Stack toggles vertically */
-  /* align-items: flex-start; /* Align toggles to the start of the column */
-  /* justify-content: center; */
-  flex-grow: 0; /* Was 1. If empty, it shouldn't expand. */
-  min-width: 5px; /* Minimal space if it's kept in HTML */
-  /* gap: 4px; /* Adjust gap between stacked toggles */
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--accent), #5946c8);
+  box-shadow: var(--shadow-sm);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
 }
 
-.controls-right {
-  justify-content: flex-end; /* Push sliders to the far right */
+.brand h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-.image-toggle-control {
+.brand p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.header-actions,
+.toolbar-primary,
+.toolbar-secondary,
+.zoom-controls,
+.view-actions,
+.filter-legend {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 11px; /* Compactness */
-}
-.image-toggle-control label {
-  margin: 0;
-  min-width: 65px; /* Reduced from 75px */
-  text-align: left; /* Align text to the left */
-}
-.image-toggle-control input[type="checkbox"] {
-  margin: 0;
 }
 
-
-.action-buttons {
-  display: flex;
-  flex-direction: row; /* Keep buttons in a row */
-  gap: 8px; /* Adjusted space between buttons for compactness */
+.header-actions {
+  gap: 6px;
 }
 
-.slider-control {
-  display: flex;
-  align-items: center; /* Align label/value with slider */
-   gap: 5px;
-}
-
-.slider-control.zoom-control { /* Target zoom specifically */
-   flex-direction: row; /* Arrange items horizontally */
-   align-items: center; /* Vertically align items in the center */
-   gap: 8px; /* Adjust gap for horizontal layout, was 4px */
-   width: auto; /* Allow it to fit with other controls */
-}
-
-.zoom-label-value {
-    display: flex;
-    justify-content: space-between; /* Space out label and value */
-    width: auto; /* Adjust width, was 100% */
-    /* padding: 0 2px; Removed, let gap handle spacing or add specific if needed */
-    box-sizing: border-box;
-    gap: 5px; /* Add gap between label and value text */
-}
-
-.slider-control.zoom-control input[type="range"] {
-  width: 100px; /* Specific width for the slider */
-  box-sizing: border-box; /* Include padding/border in width */
-}
-
-
-.slider-control.height-control {
-  display: flex;
-  /* flex-direction: column; /* No longer needed as label is gone */
-  align-items: flex-start; /* Align slider to the top of this container */
-  justify-content: center; 
-  width: 20px; 
-  height: 64px; /* Match height of .controls-left content */
-  padding: 0 2px; 
-}
-
-/* .slider-control label { /* Label is removed */
-/*  font-size: 11px; */
-/* } */
-
-.zoom-control .zoom-level { /* Style zoom level display */
-  font-size: 11px;
-  font-weight: normal; /* Make it less prominent than the main label */
-}
-
-
-.slider-control input[type="range"] {
-  /* width: 100px; Default width, overridden for zoom */
-  height: 5px; /* Default horizontal height */
+.icon-button,
+.text-button,
+.filter-button {
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
   cursor: pointer;
-  margin: 0; /* Reset margin */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
 }
 
-#height-slider {
-  appearance: slider-vertical; /* Make it vertical */
-  writing-mode: bt-lr; /* Bottom-to-top, left-to-right (standard for vertical sliders) */
-  width: 5px; /* Thickness of the vertical slider */
-  height: 100%; /* Fill the container's 81px height */
-  padding: 0; /* Reset padding */
-  margin: 0; /* Reset margin */
-  box-sizing: border-box;
+.icon-button:hover,
+.text-button:hover,
+.filter-button:hover {
+  background: var(--surface-muted);
+  border-color: var(--border);
 }
 
-.controls button {
-  padding: 4px 8px; /* Adjusted for compactness */
-  font-size: 14px; /* Adjusted for compactness */
-  cursor: pointer;
-  border: 1px solid var(--button-border);
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border-radius: 3px;
-  transition: background-color 0.2s ease;
-  flex-grow: 1; /* Allow buttons to share space in action-buttons row */
+.icon-button {
+  width: 36px;
+  padding: 0;
 }
 
-.controls button:hover {
-  background-color: var(--button-hover-bg);
+.icon-button.compact {
+  width: 32px;
+  min-height: 32px;
+}
+
+.icon-button svg,
+.text-button svg,
+.portrait-toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-sun {
+  display: none;
+}
+
+body.dark-mode .icon-moon {
+  display: none;
+}
+
+body.dark-mode .icon-sun {
+  display: block;
+}
+
+.options-button {
+  display: none;
+}
+
+.timeline-toolbar {
+  min-height: 54px;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 90;
+  box-shadow: var(--shadow-sm);
+}
+
+.toolbar-primary {
+  flex: 0 0 auto;
+  gap: 12px;
+}
+
+.toolbar-secondary {
+  min-width: 0;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.zoom-controls,
+.view-actions {
+  gap: 4px;
 }
 
 .zoom-level {
-  font-weight: bold;
-  min-width: 30px; /* Adjusted for compactness */
-  text-align: right;
+  min-width: 48px;
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 
+#zoom-slider {
+  width: 112px;
+  height: 18px;
+  margin: 0 4px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
 
-/* Timeline Container & Timeline */
-.timeline-container {
+#zoom-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+
+#zoom-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+
+#zoom-slider::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  margin-top: -5.5px;
+  appearance: none;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm);
+}
+
+#zoom-slider::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm);
+}
+
+.text-button {
+  gap: 7px;
+  padding: 0 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.text-button:hover {
+  color: var(--text-primary);
+}
+
+.filter-legend {
+  min-width: 0;
+  gap: 4px;
+}
+
+.filter-button {
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 9px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.filter-button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.filter-button[aria-pressed="false"] {
+  opacity: 0.58;
+}
+
+.legend-symbol {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  display: inline-block;
+}
+
+.person-symbol {
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.publication-symbol {
+  width: 10px;
+  height: 10px;
+  margin-inline: 2px;
+  background: var(--publication);
+  transform: rotate(45deg);
+}
+
+.discovery-symbol {
+  border: 2px solid var(--discovery);
+  border-radius: 50%;
+  background: var(--discovery-soft);
+}
+
+.event-symbol {
+  height: 8px;
+  margin-block: 3px;
+  border-radius: 2px;
+  background: var(--context);
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+}
+
+.portrait-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.timeline-shell {
+  min-height: 0;
+  flex: 1;
+  padding: 16px 20px 20px;
+}
+
+.timeline-frame {
   width: 100%;
-  height: 600px; /* Set default height to 600px */
+  height: 100%;
+  min-height: 360px;
   overflow: hidden;
-  border-top: 1px solid var(--card-border-color);
-  border-bottom: 1px solid var(--card-border-color);
-  background-color: var(--card-bg-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: 94px minmax(0, 1fr);
+}
+
+.lane-labels {
   position: relative;
+  border-right: 1px solid var(--border);
+  background: var(--surface-muted);
+  z-index: 40;
+}
+
+.lane-label {
+  position: absolute;
+  left: 12px;
+  right: 8px;
+  color: var(--text-tertiary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: translateY(-50%);
+}
+
+.people-label {
+  top: 20%;
+}
+
+.publications-label {
+  top: 42%;
+}
+
+.discoveries-label {
+  top: 53%;
+}
+
+.context-label {
+  top: 79%;
+}
+
+.timeline-container {
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
   cursor: grab;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  touch-action: none; /* Disable default browser touch actions (scrolling, zooming) on this element */
+  touch-action: none;
+  background:
+    linear-gradient(to bottom,
+      var(--surface) 0,
+      var(--surface) 41.85%,
+      var(--border) 41.85%,
+      var(--border) 42.05%,
+      var(--lane-alt) 42.05%,
+      var(--lane-alt) 61.85%,
+      var(--border) 61.85%,
+      var(--border) 62.05%,
+      var(--context-bg) 62.05%,
+      var(--context-bg) 100%);
+}
+
+.timeline-container.is-dragging {
+  cursor: grabbing;
 }
 
 .timeline {
   position: relative;
   height: 100%;
   transform-origin: 0 0;
-  background-color: var(--card-bg-color);
-  box-sizing: border-box;
-  transition: background-color 0.3s ease;
-  will-change: transform, background-color;
-  /* width set dynamically */
+  will-change: transform;
 }
 
-/* Timeline Axis Line element */
+.timeline-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 5;
+}
+
 .timeline-axis-line {
   position: absolute;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--axis-color);
-  z-index: 5;
-  transition: background-color 0.3s ease;
-  /* top set by JS */
+  background: var(--axis);
+  z-index: 10;
 }
 
-/* Timeline Axis Label */
-.timeline-axis-label {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: var(--marker-text-color);
-  white-space: nowrap;
-  margin-top: 10px;
-  z-index: 6;
-  transition: color 0.3s ease;
-  /* top set by JS */
-}
-
-/* Year Markers */
 .year-marker {
   position: absolute;
   width: 1px;
-  height: 10px; /* Tick goes downwards */
-  background-color: var(--marker-color);
-  z-index: 6;
-  transition: background-color 0.3s ease;
-  /* top/left set by JS */
+  height: 7px;
+  background: var(--grid);
+  transform-origin: top;
+  z-index: 9;
 }
 
-.year-marker.major {
-  height: 20px;
-  background-color: var(--marker-major-color);
+.year-marker.tick-half-century {
+  height: 11px;
+  background: var(--border-strong);
 }
 
-/* Removed .year-marker span rules - labels now rendered via SVG */
+.year-marker.tick-century {
+  width: 2px;
+  height: 16px;
+  background: var(--axis);
+}
 
-/* Publication Diamonds */
-.publication {
+.year-marker.tick-current {
+  width: 2px;
+  height: 13px;
+  background: var(--accent);
+}
+
+.year-label {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  /* Apply inverse scale using CSS variable, combined with rotation */
-  transform: rotate(45deg) scale(var(--current-inverse-scale, 1));
-  transform-origin: center center; /* Ensure scaling happens from the center */
+  padding-top: 2px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  z-index: 12;
+}
+
+.year-label.tick-century,
+.year-label.tick-current {
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.year-label.tick-current {
+  color: var(--accent);
+}
+
+.timeline[data-zoom-tier="overview"] .tick-decade:not(.tick-century):not(.tick-current),
+.timeline[data-zoom-tier="standard"] .tick-decade:not(.tick-half-century):not(.tick-century):not(.tick-current) {
+  display: none;
+}
+
+.publication,
+.discovery-marker,
+.scientist-node,
+.scientist-cluster,
+.event-band {
+  position: absolute;
+  margin: 0;
   cursor: pointer;
-  z-index: 20;
-  border: 1px solid var(--pub-border-color);
-  box-sizing: border-box; /* Include border in element's dimensions */
-  transition: border-color 0.3s ease, transform 0.2s ease;
-  will-change: transform, background-color;
-  /* background, top/left set by JS */
+}
+
+.scientist-cluster {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 38%, var(--border));
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  z-index: 31;
+  transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.scientist-cluster:hover,
+.scientist-cluster:focus-visible {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring), var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.publication {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform-origin: center;
+  z-index: 24;
+  transition: opacity 140ms ease;
+}
+
+.publication-mark {
+  position: absolute;
+  inset: 7.5px;
+  border: 2px solid var(--surface);
+  border-radius: 1px;
+  background: var(--publication);
+  box-shadow: 0 0 0 1px var(--border-strong);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transition: background-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.publication:hover .publication-mark,
+.publication:focus-visible .publication-mark,
+.publication.highlight .publication-mark,
+.publication.is-selected .publication-mark {
+  background: var(--scientist-color, var(--accent));
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--scientist-color, var(--accent));
+  transform: scale(1.08);
 }
 
 .publication:hover,
-.publication.highlight {
-  /* Combine hover scale effect with inverse scale */
-  transform: rotate(45deg) scale(calc(1.3 * var(--current-inverse-scale, 1)));
-  z-index: 25;
+.publication:focus-visible,
+.publication.highlight,
+.publication.is-selected {
+  z-index: 28;
 }
 
-/* Discovery Marker Style */
+.scientist-node {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border-strong), var(--shadow-sm);
+  transform-origin: center;
+  z-index: 30;
+  transition: box-shadow 140ms ease, opacity 140ms ease, transform 140ms ease;
+}
+
+.scientist-photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(0.94);
+  transition: filter 160ms ease;
+}
+
+.scientist-node:hover,
+.scientist-node:focus-visible,
+.scientist-node.highlight,
+.scientist-node.is-selected {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--scientist-color, var(--accent)), var(--shadow-md);
+  z-index: 36;
+}
+
+.scientist-node:hover .scientist-photo,
+.scientist-node:focus-visible .scientist-photo,
+.scientist-node.highlight .scientist-photo,
+.scientist-node.is-selected .scientist-photo {
+  filter: grayscale(0%) contrast(1);
+}
+
 .discovery-marker {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%; /* Circle */
-  cursor: pointer;
-  z-index: 18; /* Below publications */
-  border: 1px solid var(--discovery-border-color);
-  /* Apply inverse scale using CSS variable */
-  transform: scale(var(--current-inverse-scale, 1));
-  transform-origin: center center; /* Ensure scaling happens from the center */
-  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
-  will-change: transform, background-color;
-  /* background, top/left set by JS */
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 2px solid var(--discovery);
+  border-radius: 50%;
+  background: var(--discovery-soft);
+  color: var(--discovery);
+  box-shadow: 0 0 0 2px var(--surface);
+  display: grid;
+  place-items: center;
+  transform-origin: center;
+  z-index: 22;
+  transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+}
+
+.discovery-marker span {
+  max-width: 22px;
+  overflow: hidden;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .discovery-marker:hover,
-.discovery-marker.highlight {
-  /* Combine hover scale effect with inverse scale */
-  transform: scale(calc(1.3 * var(--current-inverse-scale, 1)));
-  z-index: 24;
+.discovery-marker:focus-visible,
+.discovery-marker.is-selected {
+  background: var(--discovery);
+  color: #fff;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px color-mix(in srgb, var(--discovery) 35%, transparent);
+  z-index: 28;
 }
 
-/* Scientist Photos */
-.scientist-photo {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  filter: grayscale(100%);
-  /* Apply inverse scale using CSS variable */
-  transform: scale(var(--current-inverse-scale, 1));
-  transform-origin: center center; /* Ensure scaling happens from the center */
-  cursor: pointer;
-  z-index: 30;
-  background-color: var(--card-bg-color);
-  box-shadow: 0 1px 3px var(--shadow-color);
-  transition: filter 0.2s ease, transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform, filter;
-  /* border set dynamically */
-  /* top/left set by JS */
-}
-
-.scientist-photo:hover,
-.scientist-photo.highlight {
-  filter: grayscale(0%);
-  /* Combine hover scale effect with inverse scale */
-  transform: scale(calc(1.1 * var(--current-inverse-scale, 1)));
-  z-index: 35;
-}
-
-.scientist-photo:error {
-  background-color: var(--img-error-bg) !important;
-  border-style: dashed !important;
-  border-color: var(--img-error-border) !important;
-  color: var(--img-error-border) !important;
-}
-
-/* Connecting Lines (SVG) */
-.timeline-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10;
+.event-band {
+  height: 30px;
+  min-width: 2px;
+  padding: 0;
   overflow: visible;
+  border: 1px solid color-mix(in srgb, var(--context) 48%, transparent);
+  border-radius: 5px;
+  background: var(--context-soft);
+  color: var(--text-primary);
+  opacity: 0.9;
+  z-index: 15;
+  transition: background-color 140ms ease, border-color 140ms ease, opacity 140ms ease, box-shadow 140ms ease;
 }
 
-.connecting-line {
-  stroke-width: 1.5px;
-  transition: stroke-width 0.2s ease;
-  /* stroke set dynamically */
+.event-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+  max-width: calc(100% - 12px);
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
 }
 
-.connecting-line.highlight {
-    stroke-width: 3px; /* Make line thicker on highlight */
-}
-
-/* Event Boxes */
-.event-box {
-  /* Position, width, top, left, background-color, border, box-sizing, cursor set by JS */
-  height: auto; /* Allow vertical expansion */
-  min-height: 16px; /* Ensure a minimum height */
-  padding: 3px 5px; /* Add some padding */
-  /* z-index: 9; */ /* Removed z-index */
-  transition: background-color 0.3s ease; /* Match other transitions */
-}
-
-/* Restore basic .event-label rule */
-.event-label {
+.event-band.show-label .event-title {
   display: block;
-  font-size: 15px; /* Increased size */
-  /* color: #fff; */ /* Color set dynamically by JS */
-  text-align: center;
-  white-space: normal; /* Allow text wrapping */
-  line-height: 1.2; /* Adjust line height for wrapped text */
-  pointer-events: none; /* Prevent label interference */
-  will-change: transform; /* Hint for rendering optimization during scaling */
 }
 
-/* Modals */
-.modal {
-  position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-  overflow: auto; background-color: var(--modal-overlay); display: flex;
-  align-items: center; justify-content: center; visibility: hidden; opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+.event-band:hover,
+.event-band:focus-visible,
+.event-band.is-selected {
+  border-color: var(--context);
+  background: color-mix(in srgb, var(--context-soft) 70%, var(--context) 30%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--context) 18%, transparent);
+  opacity: 1;
+  z-index: 20;
 }
 
-.modal.visible {
-  visibility: visible;
+.scientist-link,
+.discovery-link,
+.event-link {
+  vector-effect: non-scaling-stroke;
+  fill: none;
+  pointer-events: none;
+}
+
+.century-grid {
+  stroke: var(--grid);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.55;
+}
+
+.timeline[data-zoom-tier="overview"] .scientist-node,
+.timeline[data-zoom-tier="overview"] .discovery-marker {
+  transform: scale(0.82);
+}
+
+.timeline[data-zoom-tier="overview"] .publication-mark {
+  transform: scale(0.86);
+}
+
+.scientist-link {
+  stroke: var(--border-strong);
+  stroke-width: 1.25;
+  opacity: 0.7;
+  transition: stroke 140ms ease, stroke-width 140ms ease, opacity 140ms ease;
+}
+
+.scientist-link.highlight {
+  stroke: var(--scientist-color, var(--accent));
+  stroke-width: 2.25;
   opacity: 1;
 }
 
-.modal-content {
-  background-color: var(--modal-bg); color: var(--text-color); margin: auto;
-  padding: 25px; border: 1px solid var(--modal-border); width: 80%; max-width: 600px;
-  border-radius: 5px; position: relative; box-shadow: 0 4px 8px var(--shadow-color);
-  transform: scale(0.9); transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+.discovery-link {
+  stroke: var(--discovery);
+  stroke-width: 1.25;
+  opacity: 0.55;
 }
 
-.modal.visible .modal-content {
-  transform: scale(1);
+.event-link {
+  stroke: var(--context);
+  stroke-width: 1;
+  opacity: 0.45;
 }
 
-.modal-content h3 {
-  margin-top: 0; color: var(--text-color); border-bottom: 1px solid var(--button-bg);
-  padding-bottom: 10px; margin-bottom: 15px; transition: color 0.3s ease, border-color 0.3s ease;
+.timeline.has-highlight .publication:not(.highlight),
+.timeline.has-highlight .scientist-node:not(.highlight) {
+  opacity: 0.28;
 }
 
-.modal-content p {
-  line-height: 1.6; color: var(--modal-text); margin-top: 10px; margin-bottom: 10px; transition: color 0.3s ease;
+.interaction-hint {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  z-index: 50;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--surface-raised) 92%, transparent);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-secondary);
+  font-size: 11px;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.modal-content hr {
-  margin: 15px 0; border: 0; border-top: 1px solid var(--button-bg); transition: border-color 0.3s ease;
+.interaction-hint.is-hidden {
+  opacity: 0;
+  transform: translateY(4px);
 }
 
-.close-button {
-  color: var(--modal-close-color); position: absolute; top: 10px; right: 15px;
-  font-size: 28px; font-weight: bold; transition: color 0.2s ease;
+.mobile-hint {
+  display: none;
 }
 
-.close-button:hover,
-.close-button:focus {
-  color: var(--modal-close-hover); text-decoration: none; cursor: pointer;
-}
-
-/* Tooltip Style */
-.tooltip {
-  position: absolute; /* Position relative to the nearest positioned ancestor (likely body or timeline-container) */
-  display: none; /* Hidden by default */
-  background-color: var(--card-bg-color);
-  color: var(--text-color);
-  border: 1px solid var(--card-border-color);
-  padding: 5px 10px;
-  border-radius: 4px;
+.timeline-tooltip {
+  position: fixed;
+  z-index: 900;
+  max-width: min(280px, calc(100vw - 24px));
+  padding: 7px 9px;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
   font-size: 12px;
-  white-space: nowrap; /* Prevent wrapping */
-  z-index: 101; /* Ensure it's above most other elements */
-  box-shadow: 0 1px 3px var(--shadow-color);
-  pointer-events: none; /* Prevent tooltip from interfering with mouse events */
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Match theme transitions */
+  line-height: 1.35;
+  pointer-events: none;
 }
 
-/* --- Responsive Design --- */
-@media (max-width: 768px) {
-  body {
-    align-items: stretch; /* Allow container to take full width */
-  }
-
-  h1 {
-    font-size: 1.5em; /* Reduce title size */
-    margin-top: 15px;
-    margin-bottom: 10px;
-  }
-
-  .controls {
-    position: relative; /* Change from absolute */
-    top: auto;
-    right: auto;
-    width: 95%;
-    max-width: 400px; /* Limit width on slightly larger mobile */
-  margin: 10px auto 15px auto; /* Center below title */
-  flex-direction: column; /* Stack control groups */
-  align-items: stretch; /* Stretch groups to full width */
-  gap: 10px;
-  padding: 8px 10px;
-  width: 90%; /* More controlled width */
-  max-width: 500px; /* Max width for controls on mobile */
+.detail-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--backdrop);
+  opacity: 0;
+  transition: opacity 180ms ease;
 }
 
-.controls-left,
-.controls-center, /* Will apply to the (now empty) center div */
-.controls-right {
-  flex-direction: column; /* Stack items within each group */
-  width: 100%; /* Make each group take full width of .controls */
-  gap: 8px; /* Smaller gap for stacked items */
-  align-items: center; /* Center items within each column group */
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: min(430px, 92vw);
+  padding: 72px 34px 34px;
+  overflow-y: auto;
+  border-left: 1px solid var(--border);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(100%);
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.actions-toggles-row {
-  flex-direction: column; /* Stack buttons above toggles on mobile */
-  align-items: center; /* Center them */
+.detail-backdrop.is-open {
+  opacity: 1;
+}
+
+.detail-panel.is-open {
+  transform: translateX(0);
+}
+
+.detail-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: var(--surface-muted);
+  border-color: var(--border);
+}
+
+.detail-media {
+  width: 82px;
+  height: 82px;
+  margin-bottom: 22px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-muted);
+}
+
+.detail-media img {
   width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
-.toggles-group-stacked {
-  align-items: center; /* Center toggles on mobile if they are stacked under buttons */
+.detail-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.image-toggle-control {
-    justify-content: space-between; /* Space out label and checkbox */
-    width: 150px; /* Give some fixed width */
+.detail-panel h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 3vw, 30px);
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+}
+
+.detail-metadata {
+  margin: 24px 0 0;
+  display: grid;
+  grid-template-columns: minmax(84px, auto) 1fr;
+  gap: 10px 16px;
+  font-size: 13px;
+}
+
+.detail-metadata dt {
+  color: var(--text-tertiary);
+  font-weight: 650;
+}
+
+.detail-metadata dd {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.detail-divider {
+  height: 1px;
+  margin: 26px 0 22px;
+  background: var(--border);
+}
+
+.detail-body {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+@media (max-width: 980px) {
+  #zoom-slider {
+    width: 84px;
   }
 
-  .action-buttons {
-    justify-content: center; /* Center buttons */
+  .filter-button {
+    padding-inline: 7px;
+  }
+
+  .toolbar-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 58px;
+  }
+
+  .app-header {
+    min-height: var(--header-height);
+    padding: 8px 12px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    font-size: 12px;
+  }
+
+  .brand h1 {
+    font-size: 19px;
+  }
+
+  .brand p {
+    max-width: 210px;
+    overflow: hidden;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header-actions {
+    gap: 2px;
+  }
+
+  .header-actions .icon-button {
+    width: 34px;
+    min-height: 34px;
+  }
+
+  .options-button {
+    display: inline-flex;
+  }
+
+  .timeline-toolbar {
+    min-height: 50px;
+    padding: 7px 10px;
+    display: block;
+  }
+
+  .toolbar-primary {
     width: 100%;
-    gap: 10px; /* Adjust gap */
-  }
-  .action-buttons button {
-    flex-grow: 0; /* Prevent buttons from growing too much */
+    justify-content: space-between;
   }
 
-
-  .slider-control.zoom-control {
-    flex-direction: column; /* Stack label above slider on mobile */
-    align-items: center; /* Center items */
-    /* width: 100%; Ensure it takes full width if needed, auto might be fine if parent is controlling */
-  }
-  .slider-control.zoom-control input[type="range"] {
-    width: 100%; /* Full width for zoom slider input on mobile */
-  }
-  .slider-control.height-control {
-    /* flex-direction: column; /* No longer stacking label */
-    height: auto; /* Let content determine height */
-    width: auto; /* Let content determine width */
-    align-items: center; /* Center the horizontal slider */
+  .toolbar-secondary {
+    display: none;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    align-items: stretch;
+    flex-direction: column;
   }
 
-  #height-slider {
-    appearance: auto; /* Revert to default horizontal slider for mobile */
-    writing-mode: initial; /* Revert */
-    width: 100%; /* Full width horizontal */
-    max-width: 150px; /* Max width for aesthetics */
-    height: 5px; /* Default horizontal height */
-    /* flex-grow: 0; /* Do not grow, use explicit height */
-  }
-  /* .height-control label { /* Label removed */
-  /*  margin-bottom: 0; */
-  /* } */
-
-
-  .timeline-container {
-    height: 500px; /* Slightly reduce default height */
-    border-left: none; /* Remove side borders for full width feel */
-    border-right: none;
+  .timeline-toolbar.is-open .toolbar-secondary {
+    display: flex;
   }
 
-  .scientist-photo {
-    width: 40px; /* Smaller photos */
-    height: 40px;
+  #zoom-slider {
+    display: none;
   }
 
-  .publication,
-  .discovery-marker {
-    width: 10px; /* Slightly smaller markers */
-    height: 10px;
+  .zoom-level {
+    min-width: 44px;
   }
 
-  .modal-content {
-    width: 90%; /* More width for modal on mobile */
-    padding: 20px;
+  .filter-legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
   }
 
-  .close-button {
-    top: 5px;
+  .filter-button {
+    min-height: 38px;
+    justify-content: flex-start;
+  }
+
+  .portrait-toggle {
+    align-self: stretch;
+  }
+
+  .timeline-shell {
+    padding: 0;
+  }
+
+  .timeline-frame {
+    min-height: 300px;
+    border-width: 0;
+    border-radius: 0;
+    grid-template-columns: 66px minmax(0, 1fr);
+  }
+
+  .lane-label {
+    left: 8px;
+    right: 5px;
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .interaction-hint {
     right: 10px;
+    bottom: 9px;
+    font-size: 10px;
+  }
+
+  .desktop-hint {
+    display: none;
+  }
+
+  .mobile-hint {
+    display: inline;
+  }
+
+  .detail-panel {
+    top: auto;
+    left: 0;
+    width: 100%;
+    max-height: min(72dvh, 650px);
+    padding: 48px 22px 28px;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+  }
+
+  .detail-panel::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 38px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--border-strong);
+    transform: translateX(-50%);
+  }
+
+  .detail-panel.is-open {
+    transform: translateY(0);
+  }
+
+  .detail-close {
+    top: 14px;
+    right: 14px;
+  }
+
+  .detail-media {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 16px;
+  }
+
+  .detail-panel h2 {
+    padding-right: 30px;
     font-size: 24px;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand p {
+    max-width: 170px;
+  }
+
+  #help-toggle {
+    display: none;
+  }
+
+  .text-button {
+    padding-inline: 8px;
+  }
+
+  .view-actions {
+    gap: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

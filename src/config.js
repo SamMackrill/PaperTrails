@@ -2,9 +2,9 @@
 export const config = {
   START_YEAR: 1600,
   CURRENT_YEAR: new Date().getFullYear(),
-  MIN_SCALE: 0.2,
-  MAX_SCALE: 5.0,
-  ZOOM_STEP: 0.1,
+  MIN_SCALE: 1,
+  MAX_SCALE: 8,
+  ZOOM_STEP: 0.2,
   PHOTO_SIZE: 50,
   PUBLICATION_SIZE: 12,
   DISCOVERY_SIZE: 24,
