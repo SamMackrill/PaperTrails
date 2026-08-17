@@ -846,3 +846,19 @@ hertz:
     - year: 1889
       title: "Ueber Strahlen electrischer Kraft"
       abstract: "Showed that electric waves could be reflected, refracted, and polarized like light, strengthening Maxwell's electromagnetic theory of light."
+
+descartes:
+  name: "René Descartes"
+  color: "#b56576"
+  photo: "images/descartes.jpg"
+  cartoon: "images/cartoons/descartes.png"
+  nationality: "French"
+  birth: "1596-03-31"
+  death: "1650-02-11"
+  publications:
+    - year: 1637
+      title: "Discours de la méthode, plus La Dioptrique, Les Météores et La Géométrie"
+      abstract: "Presented a general method of inquiry alongside scientific essays that applied mathematics to optics, meteorology, and geometry, helping establish analytic geometry."
+    - year: 1644
+      title: "Principia philosophiæ"
+      abstract: "Systematized a mechanistic account of nature in terms of matter and motion, including laws of motion and a vortex-based cosmology."
