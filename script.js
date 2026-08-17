@@ -195,6 +195,7 @@ function setupPointerInteractions() {
   timelineContainer.addEventListener('touchmove', (event) => {
     if (isPinching && event.touches.length === 2) {
       event.preventDefault();
+      if (!Number.isFinite(initialPinchDistance) || initialPinchDistance <= 0) return;
       const distance = getPinchDistance(event.touches);
       const nextScale = clampScale(pinchStartScale * (distance / initialPinchDistance));
       const ratio = nextScale / pinchStartScale;
