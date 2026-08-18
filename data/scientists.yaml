@@ -920,3 +920,339 @@ feynman:
     - year: 1969
       title: "Very High-Energy Collisions of Hadrons"
       abstract: "Introduced the parton picture of high-energy hadron collisions, helping reveal the point-like constituents later identified with quarks and gluons."
+
+kepler:
+  name: "Johannes Kepler"
+  summary: "Established the mathematical laws of planetary motion and made influential contributions to geometrical and physiological optics."
+  color: "#7b2cbf"
+  photo: "images/kepler.jpg"
+  cartoon: "images/cartoons/kepler.png"
+  nationality: "German"
+  birth: "1571-12-27"
+  death: "1630-11-15"
+  publications:
+    - year: 1604
+      title: "Ad Vitellionem paralipomena, quibus astronomiae pars optica traditur"
+      abstract: "Developed a geometrical theory of vision and explained how the eye forms an inverted image on the retina."
+    - year: 1609
+      title: "Astronomia Nova"
+      abstract: "Established that Mars follows an elliptical orbit and that a planet sweeps out equal areas in equal times."
+    - year: 1619
+      title: "Harmonices Mundi"
+      abstract: "Published the third law of planetary motion, relating orbital periods to the sizes of planetary orbits."
+
+william_gilbert:
+  name: "William Gilbert"
+  summary: "Made magnetism an experimental science and argued that Earth itself behaves as a great magnet."
+  color: "#3a5a40"
+  photo: "images/william_gilbert.jpg"
+  cartoon: "images/cartoons/william_gilbert.png"
+  nationality: "English"
+  birth: "1544"
+  death: "1603-11-30"
+  publications:
+    - year: 1600
+      title: "De Magnete, Magneticisque Corporibus, et de Magno Magnete Tellure"
+      abstract: "Reported systematic experiments on magnets and proposed that the Earth is itself magnetic."
+
+henry_cavendish:
+  name: "Henry Cavendish"
+  summary: "Conducted exceptionally precise experiments in electricity and gravitation, including the first measurement of Earth's mean density."
+  color: "#a63d40"
+  photo: "images/henry_cavendish.jpg"
+  cartoon: "images/cartoons/henry_cavendish.png"
+  nationality: "English"
+  birth: "1731-10-10"
+  death: "1810-02-24"
+  publications:
+    - year: 1771
+      title: "An Attempt to Explain Some of the Principal Phænomena of Electricity, by Means of an Elastic Fluid"
+      abstract: "Presented a mathematical one-fluid account of electrical attraction, repulsion, induction, and capacitance."
+    - year: 1798
+      title: "Experiments to Determine the Density of the Earth"
+      abstract: "Used a torsion balance devised by John Michell to measure the attraction between laboratory masses and determine Earth's mean density."
+
+george_green:
+  name: "George Green"
+  summary: "Created mathematical tools for potential theory that became fundamental to electrostatics, gravitation, and field physics."
+  color: "#2d6a4f"
+  photo: "images/george_green.jpg"
+  cartoon: "images/cartoons/george_green.png"
+  nationality: "English"
+  birth: "1793-07-14"
+  death: "1841-05-31"
+  publications:
+    - year: 1828
+      title: "An Essay on the Application of Mathematical Analysis to the Theories of Electricity and Magnetism"
+      abstract: "Introduced Green's theorem, Green's functions, and the potential methods that unified many electrostatic and gravitational calculations."
+
+joseph_henry:
+  name: "Joseph Henry"
+  summary: "Discovered electromagnetic self-induction and built powerful electromagnets that helped establish practical electromagnetism."
+  color: "#0077b6"
+  photo: "images/joseph_henry.jpg"
+  cartoon: "images/cartoons/joseph_henry.png"
+  nationality: "American"
+  birth: "1797-12-17"
+  death: "1878-05-13"
+  publications:
+    - year: 1831
+      title: "On a Reciprocating Motion Produced by Magnetic Attraction and Repulsion"
+      abstract: "Described an early electromagnetic motor whose rocking motion was driven by alternating magnetic attraction and repulsion."
+    - year: 1832
+      title: "On the Production of Currents and Sparks of Electricity from Magnetism"
+      abstract: "Reported electromagnetic induction experiments and phenomena that led to his discovery of self-induction."
+
+gustav_kirchhoff:
+  name: "Gustav Kirchhoff"
+  summary: "Formulated circuit laws and, with Robert Bunsen, established spectroscopy as a method for identifying elements in light sources."
+  color: "#d62828"
+  photo: "images/gustav_kirchhoff.jpg"
+  cartoon: "images/cartoons/gustav_kirchhoff.png"
+  nationality: "German"
+  birth: "1824-03-12"
+  death: "1887-10-17"
+  publications:
+    - year: 1845
+      title: "Ueber den Durchgang eines elektrischen Stromes durch eine Ebene, insbesondere durch eine kreisförmige"
+      abstract: "Introduced the junction and loop rules now known as Kirchhoff's circuit laws."
+    - year: 1860
+      title: "Ueber das Verhältniss zwischen dem Emissionsvermögen und dem Absorptionsvermögen der Körper für Wärme und Licht"
+      abstract: "Established the equality of emissive and absorptive power at thermal equilibrium, a foundation of black-body radiation theory."
+
+joseph_fraunhofer:
+  name: "Joseph von Fraunhofer"
+  summary: "Turned dark lines in the solar spectrum into precise optical standards and pioneered the diffraction grating."
+  color: "#6d597a"
+  photo: "images/joseph_fraunhofer.jpg"
+  cartoon: "images/cartoons/joseph_fraunhofer.png"
+  nationality: "Bavarian"
+  birth: "1787-03-06"
+  death: "1826-06-07"
+  publications:
+    - year: 1817
+      title: "Bestimmung des Brechungs- und Farbenzerstreuungs-Vermögens verschiedener Glasarten"
+      abstract: "Mapped hundreds of dark absorption lines in the solar spectrum and used them as fixed references for measuring optical dispersion."
+    - year: 1821
+      title: "Neue Modification des Lichtes durch gegenseitige Einwirkung und Beugung der Strahlen"
+      abstract: "Reported quantitative diffraction experiments with finely ruled gratings and related wavelength to diffraction angle."
+
+hippolyte_fizeau:
+  name: "Hippolyte Fizeau"
+  summary: "Made the first terrestrial measurement of the speed of light and measured light propagation through moving water."
+  color: "#0081a7"
+  photo: "images/hippolyte_fizeau.jpg"
+  cartoon: "images/cartoons/hippolyte_fizeau.png"
+  nationality: "French"
+  birth: "1819-09-23"
+  death: "1896-09-18"
+  publications:
+    - year: 1849
+      title: "Sur une expérience relative à la vitesse de propagation de la lumière"
+      abstract: "Measured the speed of light over a terrestrial path using a rapidly rotating toothed wheel."
+    - year: 1851
+      title: "Sur les hypothèses relatives à l'éther lumineux"
+      abstract: "Measured the speed of light in moving water, producing the partial-drag result later explained by relativistic velocity addition."
+
+albert_michelson:
+  name: "Albert A. Michelson"
+  summary: "Made optical interferometry a precision science and led increasingly sensitive experiments on light propagation and standards of length."
+  color: "#1d4ed8"
+  photo: "images/albert_michelson.jpg"
+  cartoon: "images/cartoons/albert_michelson.png"
+  nationality: "American"
+  birth: "1852-12-19"
+  death: "1931-05-09"
+  publications:
+    - year: 1881
+      title: "The Relative Motion of the Earth and the Luminiferous Ether"
+      abstract: "Reported the first interferometric search for the expected effect of Earth's motion through a stationary luminiferous ether."
+    - year: 1887
+      title: "On the Relative Motion of the Earth and the Luminiferous Ether"
+      abstract: "With Edward Morley, reported the more sensitive interferometer experiment now known as the Michelson–Morley experiment."
+
+edward_morley:
+  name: "Edward W. Morley"
+  summary: "A meticulous experimentalist who collaborated with Michelson on the best-known nineteenth-century ether-drift experiment."
+  color: "#6b705c"
+  photo: "images/edward_morley.jpg"
+  cartoon: "images/cartoons/edward_morley.png"
+  nationality: "American"
+  birth: "1838-01-29"
+  death: "1923-02-24"
+  publications:
+    - year: 1887
+      title: "On the Relative Motion of the Earth and the Luminiferous Ether"
+      abstract: "With Albert Michelson, compared perpendicular light paths while the apparatus rotated to test for the predicted directional effect."
+    - year: 1905
+      title: "Report of an Experiment to Detect the FitzGerald–Lorentz Effect"
+      abstract: "With Dayton Miller, conducted a larger interferometer test for directional changes associated with motion through the ether."
+
+george_fitzgerald:
+  name: "George Francis FitzGerald"
+  summary: "Advanced Maxwellian electromagnetism and proposed the length-contraction hypothesis in response to ether-drift experiments."
+  color: "#c44536"
+  photo: "images/george_fitzgerald.jpg"
+  cartoon: "images/cartoons/george_fitzgerald.png"
+  nationality: "Irish"
+  birth: "1851-08-03"
+  death: "1901-02-22"
+  publications:
+    - year: 1883
+      title: "On the Energy Lost by Radiation from Alternating Electric Currents"
+      abstract: "Showed theoretically that rapidly oscillating electrical currents should radiate electromagnetic energy."
+    - year: 1889
+      title: "The Ether and the Earth's Atmosphere"
+      abstract: "Suggested that motion through the ether might contract material bodies along their direction of travel."
+
+joseph_larmor:
+  name: "Joseph Larmor"
+  summary: "Developed an electron-and-aether theory that anticipated time dilation and supplied enduring results on radiation and magnetism."
+  color: "#4a4e69"
+  photo: "images/joseph_larmor.jpg"
+  cartoon: "images/cartoons/joseph_larmor.png"
+  nationality: "Irish"
+  birth: "1857-07-11"
+  death: "1942-05-19"
+  publications:
+    - year: 1897
+      title: "A Dynamical Theory of the Electric and Luminiferous Medium. Part III. Relations with Material Media"
+      abstract: "Developed transformations and an electron model for matter interacting with the electromagnetic aether."
+    - year: 1900
+      title: "Aether and Matter"
+      abstract: "Synthesized an electromagnetic account of matter, radiation, and motion through the aether."
+
+hermann_minkowski:
+  name: "Hermann Minkowski"
+  summary: "Recast special relativity as the geometry of a unified four-dimensional spacetime."
+  color: "#5a189a"
+  photo: "images/hermann_minkowski.jpg"
+  cartoon: "images/cartoons/hermann_minkowski.png"
+  nationality: "German"
+  birth: "1864-06-22"
+  death: "1909-01-12"
+  publications:
+    - year: 1908
+      title: "Die Grundgleichungen für die elektromagnetischen Vorgänge in bewegten Körpern"
+      abstract: "Expressed the electrodynamics of moving bodies in a four-dimensional mathematical form."
+    - year: 1909
+      title: "Raum und Zeit"
+      abstract: "Presented space and time as aspects of a single four-dimensional spacetime geometry."
+
+karl_schwarzschild:
+  name: "Karl Schwarzschild"
+  summary: "Found the first exact solution of Einstein's field equations, defining the spacetime outside a spherical mass."
+  color: "#343a40"
+  photo: "images/karl_schwarzschild.jpg"
+  cartoon: "images/cartoons/karl_schwarzschild.png"
+  nationality: "German"
+  birth: "1873-10-09"
+  death: "1916-05-11"
+  publications:
+    - year: 1916
+      title: "Über das Gravitationsfeld eines Massenpunktes nach der Einsteinschen Theorie"
+      abstract: "Derived the exact vacuum solution describing spacetime outside a static spherical mass."
+    - year: 1916
+      title: "Über das Gravitationsfeld einer Kugel aus inkompressibler Flüssigkeit"
+      abstract: "Derived an interior solution for a sphere of uniform-density fluid in general relativity."
+
+pierre_laplace:
+  name: "Pierre-Simon Laplace"
+  summary: "Systematized celestial mechanics and explored how gravitation shapes the long-term behavior of the Solar System."
+  color: "#8c1c13"
+  photo: "images/pierre_laplace.jpg"
+  cartoon: "images/cartoons/pierre_laplace.png"
+  nationality: "French"
+  birth: "1749-03-23"
+  death: "1827-03-05"
+  publications:
+    - year: 1796
+      title: "Exposition du système du monde"
+      abstract: "Presented a comprehensive account of astronomy and proposed a nebular hypothesis for the formation of the Solar System."
+    - year: 1799
+      title: "Traité de mécanique céleste, Volume I"
+      abstract: "Began a five-volume mathematical synthesis of Newtonian gravitation and planetary dynamics."
+
+john_poynting:
+  name: "John Henry Poynting"
+  summary: "Identified the directional flow of electromagnetic energy and the momentum carried by radiation."
+  color: "#006d77"
+  photo: "images/john_poynting.jpg"
+  cartoon: "images/cartoons/john_poynting.png"
+  nationality: "English"
+  birth: "1852-09-09"
+  death: "1914-03-30"
+  publications:
+    - year: 1884
+      title: "On the Transfer of Energy in the Electromagnetic Field"
+      abstract: "Derived the energy-flux vector now bearing his name and described electromagnetic energy as flowing through the surrounding field."
+    - year: 1903
+      title: "Radiation in the Solar System: Its Effect on Temperature and Its Pressure on Small Bodies"
+      abstract: "Analyzed radiation pressure and the orbital drag on small particles later called the Poynting–Robertson effect."
+
+pieter_zeeman:
+  name: "Pieter Zeeman"
+  summary: "Discovered that a magnetic field splits spectral lines, directly connecting light with electromagnetism and atomic charge."
+  color: "#f77f00"
+  photo: "images/pieter_zeeman.jpg"
+  cartoon: "images/cartoons/pieter_zeeman.png"
+  nationality: "Dutch"
+  birth: "1865-05-25"
+  death: "1943-10-09"
+  publications:
+    - year: 1896
+      title: "Over den invloed eener magnetisatie op den aard van het door een stof uitgezonden licht"
+      abstract: "Reported the splitting and polarization of spectral lines when a light source was placed in a strong magnetic field."
+    - year: 1913
+      title: "Researches in Magneto-Optics"
+      abstract: "Collected and extended experimental studies of how magnetic fields alter the emission and propagation of light."
+
+etienne_malus:
+  name: "Étienne-Louis Malus"
+  summary: "Discovered polarization by reflection and established the intensity law for light passing through crossed polarizers."
+  color: "#9c6644"
+  photo: "images/etienne_malus.jpg"
+  cartoon: "images/cartoons/etienne_malus.png"
+  nationality: "French"
+  birth: "1775-07-23"
+  death: "1812-02-24"
+  publications:
+    - year: 1809
+      title: "Sur une propriété de la lumière réfléchie"
+      abstract: "Announced the discovery that ordinary reflection can polarize light and investigated the angular dependence of the effect."
+    - year: 1810
+      title: "Théorie de la double réfraction de la lumière dans les substances cristallisées"
+      abstract: "Developed a mathematical theory of double refraction and polarization in crystals."
+
+carl_brans:
+  name: "Carl H. Brans"
+  summary: "Co-developed Brans–Dicke theory, an influential scalar–tensor alternative to Einstein's general theory of relativity."
+  color: "#577590"
+  photo: "images/carl_brans.jpg"
+  cartoon: "images/cartoons/carl_brans.png"
+  nationality: "American"
+  birth: "1935-12-13"
+  death: "2026-02-26"
+  publications:
+    - year: 1961
+      title: "Mach's Principle and a Relativistic Theory of Gravitation"
+      abstract: "With Robert Dicke, formulated a scalar–tensor theory in which gravitational coupling varies with a dynamical field."
+    - year: 1962
+      title: "Mach's Principle and a Relativistic Theory of Gravitation. II"
+      abstract: "Extended the scalar–tensor framework and examined further solutions and physical consequences of the theory."
+
+john_michell:
+  name: "John Michell"
+  summary: "Applied quantitative reasoning to magnetism, gravitation, earthquakes, and astronomy, and proposed stars massive enough to prevent light from escaping."
+  color: "#386641"
+  photo: "images/default.png"
+  nationality: "English"
+  birth: "1724"
+  death: "1793-04-21"
+  publications:
+    - year: 1750
+      title: "A Treatise of Artificial Magnets"
+      abstract: "Described methods for making strong artificial magnets and gave an early quantitative account of magnetic forces."
+    - year: 1784
+      title: "On the Means of Discovering the Distance, Magnitude, &c. of the Fixed Stars"
+      abstract: "Proposed that sufficiently massive stars could prevent their own light from escaping and might be detected through the motions of companion stars."
