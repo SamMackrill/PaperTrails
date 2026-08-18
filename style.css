@@ -136,13 +136,12 @@ input:focus-visible,
 }
 
 .brand-mark {
-  width: 38px;
-  height: 38px;
+  width: clamp(38px, 3vw, 42px);
+  height: auto;
+  aspect-ratio: 1;
   flex: 0 0 auto;
-  border-radius: 10px;
-  box-shadow: var(--shadow-sm);
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .brand h1 {
@@ -550,6 +549,16 @@ body.dark-mode .icon-sun {
   color: var(--accent);
 }
 
+.year-label.tick-start {
+  transform: none;
+  transform-origin: top left;
+}
+
+.year-label.tick-end {
+  transform: translateX(-100%);
+  transform-origin: top right;
+}
+
 .timeline[data-zoom-tier="overview"] .tick-decade:not(.tick-century):not(.tick-current),
 .timeline[data-zoom-tier="standard"] .tick-decade:not(.tick-half-century):not(.tick-century):not(.tick-current) {
   display: none;
@@ -717,23 +726,17 @@ body.dark-mode .icon-sun {
 .event-title {
   position: absolute;
   top: 50%;
-  left: 50%;
-  display: none;
-  max-width: calc(100% - 12px);
-  overflow: hidden;
+  left: 0;
+  display: block;
+  width: max-content;
   color: var(--text-secondary);
   font-size: 11px;
   font-weight: 650;
   line-height: 1;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  transform: translateY(-50%);
   transform-origin: center;
-}
-
-.event-band.show-label .event-title {
-  display: block;
 }
 
 .event-band:hover,
@@ -955,6 +958,34 @@ body.dark-mode .icon-sun {
   color: var(--text-secondary);
 }
 
+.detail-scientist-links {
+  line-height: 1.5;
+}
+
+.detail-scientist-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+.detail-scientist-link:hover {
+  text-decoration-color: currentcolor;
+}
+
+.detail-scientist-link:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .detail-divider {
   height: 1px;
   margin: 26px 0 22px;
@@ -1164,10 +1195,7 @@ body.dark-mode .icon-sun {
   }
 
   .brand-mark {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    font-size: 12px;
+    width: clamp(36px, 9vw, 38px);
   }
 
   .brand h1 {

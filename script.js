@@ -1,8 +1,8 @@
-import { config } from './src/config.js?v=8';
-import { initializeData } from './src/dataLoader.js?v=8';
-import { initializeTheme } from './src/themeManager.js?v=8';
-import { setupModalEventListeners } from './src/modalManager.js?v=8';
-import { clearTimelineSelection, renderTimeline } from './src/timelineRenderer.js?v=8';
+import { config } from './src/config.js?v=10';
+import { initializeData } from './src/dataLoader.js?v=10';
+import { initializeTheme } from './src/themeManager.js?v=10';
+import { setupModalEventListeners } from './src/modalManager.js?v=10';
+import { clearTimelineSelection, renderTimeline, updateEventLabelPositions } from './src/timelineRenderer.js?v=11';
 
 let timelineContainer;
 let timeline;
@@ -47,6 +47,7 @@ function updateTransform() {
   if (!timeline || !timelineContainer) return;
   clampTranslation();
   timeline.style.transform = `translateX(${currentTranslateX}px)`;
+  updateEventLabelPositions(timeline, timelineContainer);
   zoomLevelDisplay.textContent = `${Math.round(currentScale * 100)}%`;
   zoomSlider.value = String(mapScaleToSlider(currentScale));
 }
