@@ -64,11 +64,28 @@ example_id:
   nationality: "English"
   birth: "1900-01-01"
   death: "1980-01-01"
+  academic_affiliations:
+    - institution: "Example University"
+      association: "Student and later professor"
+      coat: "images/institutions/example-university.png"
   publications:
     - year: 1930
       title: "Example Paper"
       abstract: "A short description of the work."
 ```
+
+`academic_affiliations` records university-level education, teaching, or research associations. Use a person's individual college for Oxford and Cambridge affiliations. Store verified institutional arms, seals, or official emblems under `images/institutions/`, record their source and licence in that directory's `ATTRIBUTION.md`, and reference the local asset with `coat`. Entries without a verified asset use a neutral academic-building icon; do not invent or approximate heraldry.
+
+### Academic affiliations without emblems
+
+Four affiliation rows deliberately omit `coat` and display the neutral icon:
+
+- **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
+- **Royal Engineering School of Mézières** — archival sources document the school, but no distinct school emblem suitable for reuse was found. The later Corps royal du génie insignia is not substituted.
+- **Royal Institution** — its [copyright notice](https://www.rigb.org/copyright) says the institution's marks and logos may not be reproduced without prior permission.
+- **SISSA** — the school publishes an official logo and seal, but [requires the Director's authorization for external use](https://www2.sissa.it/media-and-press/researchers-and-sissa-staff).
+
+The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 
 Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. Conference milestones in that file use `type: conference` instead of `discoverer` and can include `attendee_ids`, containing scientist keys from `data/scientists.yaml`; their detail cards list those attendees with links to their timeline nodes. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`, and can also use `attendee_ids`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
 
@@ -95,4 +112,4 @@ The displayed date range and layout constants can be changed in `src/config.js`.
 
 ## License
 
-This project is released into the public domain under [The Unlicense](LICENSE). Third-party images retain the terms listed in [the image attribution file](images/ATTRIBUTION.md).
+This project is released into the public domain under [The Unlicense](LICENSE). Third-party images retain the terms listed in [the portrait attribution file](images/ATTRIBUTION.md) and [institutional-emblem attribution file](images/institutions/ATTRIBUTION.md).

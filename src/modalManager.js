@@ -1,4 +1,4 @@
-import { scientists } from './dataLoader.js?v=10';
+import { scientists } from './dataLoader.js?v=14';
 
 let panel;
 let backdrop;
@@ -152,6 +152,74 @@ function getScientistSummary(scientist) {
     || scientist.details
     || scientist.publications?.find((publication) => publication.abstract)?.abstract
     || 'No biographical summary is available yet.';
+}
+
+function createAcademicPlaceholderCoat() {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'detail-academic-coat detail-academic-coat-placeholder');
+  svg.setAttribute('viewBox', '0 0 32 34');
+  svg.setAttribute('aria-hidden', 'true');
+
+  const building = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  building.setAttribute('class', 'detail-academic-placeholder-icon');
+  building.setAttribute('d', 'M4 12 16 5l12 7M6 14h20M8 15v11m5-11v11m6-11v11m5-11v11M5 28h22');
+  svg.appendChild(building);
+  return svg;
+}
+
+function createAcademicCoat(affiliation) {
+  if (!affiliation.coat) return createAcademicPlaceholderCoat();
+
+  const coat = document.createElement('img');
+  coat.className = 'detail-academic-coat detail-academic-coat-image';
+  coat.src = affiliation.coat;
+  coat.alt = '';
+  coat.setAttribute('aria-hidden', 'true');
+  coat.decoding = 'async';
+  coat.addEventListener('error', () => {
+    coat.replaceWith(createAcademicPlaceholderCoat());
+  }, { once: true });
+  return coat;
+}
+
+function createAcademicAffiliations(scientist) {
+  const affiliations = Array.isArray(scientist.academic_affiliations)
+    ? scientist.academic_affiliations.filter((affiliation) => affiliation?.institution)
+    : [];
+  if (!affiliations.length) return null;
+
+  const section = document.createElement('section');
+  section.className = 'detail-academic-affiliations';
+
+  const heading = document.createElement('h3');
+  heading.textContent = 'Education & academic associations';
+  section.appendChild(heading);
+
+  const list = document.createElement('ul');
+  list.className = 'detail-academic-list';
+  affiliations.forEach((affiliation) => {
+    const item = document.createElement('li');
+    const copy = document.createElement('span');
+    copy.className = 'detail-academic-copy';
+
+    const institution = document.createElement('span');
+    institution.className = 'detail-academic-institution';
+    institution.textContent = affiliation.institution;
+    copy.appendChild(institution);
+
+    if (affiliation.association) {
+      const association = document.createElement('span');
+      association.className = 'detail-academic-association';
+      association.textContent = affiliation.association;
+      copy.appendChild(association);
+    }
+
+    item.append(createAcademicCoat(affiliation), copy);
+    list.appendChild(item);
+  });
+
+  section.appendChild(list);
+  return section;
 }
 
 function createPublicationList(scientist) {
@@ -325,8 +393,9 @@ export function showScientistModal(scientistId) {
   summary.className = 'detail-summary';
   summary.textContent = getScientistSummary(scientist);
 
+  const academicAffiliations = createAcademicAffiliations(scientist);
   const locateAction = createLocateAction(scientistId, scientist);
-  body.replaceChildren(summary, createPublicationList(scientist), locateAction);
+  body.replaceChildren(...[academicAffiliations, summary, createPublicationList(scientist), locateAction].filter(Boolean));
   image.src = scientist.photo || 'images/default.png';
   image.alt = scientist.name ? `Portrait of ${scientist.name}` : 'Scientist portrait';
   media.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');

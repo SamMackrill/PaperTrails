@@ -1011,6 +1011,90 @@ body.dark-mode .icon-sun {
   line-height: 1.65;
 }
 
+.detail-academic-affiliations {
+  margin-bottom: 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-academic-affiliations h3 {
+  margin: 0 0 12px;
+  color: var(--text-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.085em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.detail-academic-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+
+.detail-academic-list li {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.detail-academic-coat {
+  width: 30px;
+  height: 34px;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--text-primary) 18%, transparent));
+}
+
+.detail-academic-coat-image {
+  padding: 2px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 72%, transparent);
+  border-radius: 5px;
+  background: #fff;
+  object-fit: contain;
+}
+
+.detail-academic-coat-placeholder {
+  padding: 3px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 5px;
+  color: var(--text-tertiary);
+}
+
+.detail-academic-placeholder-icon {
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.detail-academic-copy,
+.detail-academic-institution,
+.detail-academic-association {
+  min-width: 0;
+  display: block;
+}
+
+.detail-academic-institution {
+  color: var(--text-primary);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.detail-academic-association {
+  margin-top: 2px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .detail-publications {
   margin-top: 30px;
 }
