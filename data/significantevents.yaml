@@ -1,28 +1,33 @@
 - title: "The Little Ice Age"
+  shortTitle: "LIA"
   startYear: 1600
   endYear: 1850
   color: "#aec6cf" # Light blue-gray
   details: "A period of regional cooling, particularly pronounced in the North Atlantic region."
 
 - title: "Thirty Years' War"
+  shortTitle: "TYW"
   startYear: 1618
   endYear: 1648
   color: "#34495e"
   details: "A major conflict primarily fought in Central Europe, involving most of the European powers."
 
 - title: "English Civil War"
+  shortTitle: "ECW"
   startYear: 1642
   endYear: 1651
   color: "#34495e"
   details: "A series of civil wars and political machinations between Parliamentarians and Royalists."
 
 - title: "Major European Famine"
+  shortTitle: "Famine"
   startYear: 1693
   endYear: 1697
   color: "#8b4513" # SaddleBrown
   details: "Widespread famine across Europe, particularly severe in France, Finland, and Scotland, caused by cold and wet weather."
 
 - title: "World War I"
+  shortTitle: "WW1"
   startYear: 1914
   endYear: 1918
   details: "First World War."
@@ -30,6 +35,7 @@
   color: "#34495e"
 
 - title: "World War II"
+  shortTitle: "WW2"
   startYear: 1939
   endYear: 1945
   details: "Second World War."
@@ -37,54 +43,63 @@
   color: "#34495e"
 
 - title: "War of the Spanish Succession"
+  shortTitle: "WSS"
   startYear: 1701
   endYear: 1714
   color: "#34495e"
   details: "A major European conflict triggered by the death of the last Habsburg king of Spain."
 
 - title: "Great Frost of 1709"
+  shortTitle: "1709"
   startYear: 1708
   endYear: 1709
   color: "#34495e"
   details: "An exceptionally cold winter in Europe, causing widespread famine and hardship."
 
 - title: "The Seven Years' War"
+  shortTitle: "SYW"
   startYear: 1756
   endYear: 1763
   color: "#34495e"
   details: "A global conflict fought between 1756 and 1763, involving most of the great powers of the time."
 
 - title: "French Revolution"
+  shortTitle: "FR"
   startYear: 1789
   endYear: 1799
   color: "#34495e"
   details: "A period of radical social and political change in France."
 
 - title: "American Revolution"
+  shortTitle: "AR"
   startYear: 1775
   endYear: 1783
   color: "#34495e"
   details: "The war of independence fought by the American colonies against Britain."
 
 - title: "American Civil War"
+  shortTitle: "ACW"
   startYear: 1861
   endYear: 1865
   color: "#34495e"
   details: "A civil war in the United States between the Union and the Confederacy."
 
 - title: "Cold War"
+  shortTitle: "CW"
   startYear: 1947
   endYear: 1991
   color: "#34495e"
   details: "A period of geopolitical tension between the West and the Soviet Union."
 
 - title: "Reign of Napoleon"
+  shortTitle: "Nap."
   startYear: 1804
   endYear: 1815
   color: "#34495e"
   details: "The period during which Napoleon Bonaparte ruled as Emperor of France."
 
 - title: "Great Depression"
+  shortTitle: "GD"
   startYear: 1929
   endYear: 1939
   color: "#34495e"

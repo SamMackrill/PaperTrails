@@ -1,4 +1,4 @@
-import { scientists } from './dataLoader.js?v=9';
+import { scientists } from './dataLoader.js?v=10';
 
 let panel;
 let backdrop;

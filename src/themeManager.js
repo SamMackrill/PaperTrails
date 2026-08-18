@@ -1,4 +1,4 @@
-import { config } from './config.js?v=9';
+import { config } from './config.js?v=10';
 
 let modeToggleButton;
 
