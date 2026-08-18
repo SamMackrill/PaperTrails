@@ -1,7 +1,7 @@
-import { config } from './config.js?v=8';
-import { scientists, discoveries, significantEvents } from './dataLoader.js?v=8';
-import { showPublicationModal, showScientistModal } from './modalManager.js?v=8';
-import { handleImageError } from './themeManager.js?v=8';
+import { config } from './config.js?v=10';
+import { scientists, discoveries, significantEvents } from './dataLoader.js?v=10';
+import { showPublicationModal, showScientistModal } from './modalManager.js?v=10';
+import { handleImageError } from './themeManager.js?v=10';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -289,8 +289,8 @@ function renderEvents(timeline, width, height, contextTop) {
   if (!isLayerVisible('significantEventsToggle')) return;
 
   const bandHeight = 30;
-  const levelGap = 38;
-  const availableLevels = Math.max(1, Math.floor((height - contextTop - 18) / levelGap));
+  const levelGap = 36;
+  const availableLevels = Math.max(1, Math.floor((height - contextTop - bandHeight) / levelGap) + 1);
   const occupiedLevels = Array.from({ length: availableLevels }, () => []);
 
   [...significantEvents]
@@ -299,15 +299,23 @@ function renderEvents(timeline, width, height, contextTop) {
     .forEach((event) => {
       const startX = yearToX(event.startYear, width);
       const endX = yearToX(event.endYear, width);
-      let level = occupiedLevels.findIndex((intervals) => intervals.every((interval) => endX <= interval.start || startX >= interval.end));
+      const fullTitle = event.title || 'Historical event';
+      const shortTitle = event.shortTitle || fullTitle;
+      const centreX = (startX + endX) / 2;
+      const minimumLabelWidth = Math.max(24, shortTitle.length * 6.5 + 12);
+      const labelStartX = Math.max(0, Math.min(startX, centreX - minimumLabelWidth / 2));
+      const labelEndX = Math.min(width, Math.max(endX, centreX + minimumLabelWidth / 2));
+      let level = occupiedLevels.findIndex((intervals) => intervals.every((interval) => labelEndX <= interval.start || labelStartX >= interval.end));
       if (level === -1) level = occupiedLevels.length - 1;
-      occupiedLevels[level].push({ start: startX, end: endX });
+      occupiedLevels[level].push({ start: labelStartX, end: labelEndX });
 
       const band = document.createElement('button');
       band.type = 'button';
       band.className = 'event-band';
-      band.dataset.tooltip = `${event.title || 'Historical event'} · ${event.startYear}–${event.endYear}`;
-      band.setAttribute('aria-label', `${event.title || 'Historical event'}, ${event.startYear} to ${event.endYear}`);
+      band.dataset.fullTitle = fullTitle;
+      band.dataset.shortTitle = shortTitle;
+      band.dataset.tooltip = `${fullTitle} · ${event.startYear}–${event.endYear}`;
+      band.setAttribute('aria-label', `${fullTitle}, ${event.startYear} to ${event.endYear}`);
       band.style.left = `${startX}px`;
       band.style.top = `${contextTop + level * levelGap}px`;
       band.style.width = `${Math.max(2, endX - startX)}px`;
@@ -315,7 +323,7 @@ function renderEvents(timeline, width, height, contextTop) {
 
       const eventTitle = document.createElement('span');
       eventTitle.className = 'event-title';
-      eventTitle.textContent = event.title || 'Historical event';
+      eventTitle.textContent = fullTitle;
       band.appendChild(eventTitle);
       band.addEventListener('click', () => {
         selectItem(band);
@@ -331,9 +339,34 @@ export function updateScalePresentation(timeline, scale) {
   timeline.style.setProperty('--current-scale', safeScale);
   timeline.style.setProperty('--current-inverse-scale', 1 / safeScale);
   timeline.dataset.zoomTier = safeScale < 1.5 ? 'overview' : safeScale < 3 ? 'standard' : 'detail';
+}
+
+export function updateEventLabelPositions(timeline, timelineContainer) {
+  if (!timeline || !timelineContainer) return;
+
+  const viewportRect = timelineContainer.getBoundingClientRect();
 
   timeline.querySelectorAll('.event-band').forEach((band) => {
-    band.classList.toggle('show-label', band.offsetWidth >= 100);
+    const label = band.querySelector('.event-title');
+    if (!label) return;
+
+    const bandRect = band.getBoundingClientRect();
+    const visibleLeft = Math.max(bandRect.left, viewportRect.left);
+    const visibleRight = Math.min(bandRect.right, viewportRect.right);
+    const visibleWidth = Math.max(0, visibleRight - visibleLeft);
+    label.hidden = visibleWidth === 0;
+    if (label.hidden) return;
+
+    label.textContent = band.dataset.fullTitle || 'Historical event';
+    const availableWidth = Math.max(0, Math.min(band.clientWidth, visibleWidth) - 12);
+    if (label.getBoundingClientRect().width > availableWidth) {
+      label.textContent = band.dataset.shortTitle || label.textContent;
+    }
+
+    const labelWidth = label.getBoundingClientRect().width;
+    const centredLeft = visibleLeft + (visibleWidth - labelWidth) / 2;
+    const clampedLeft = Math.max(viewportRect.left + 4, Math.min(viewportRect.right - labelWidth - 4, centredLeft));
+    label.style.left = `${clampedLeft - bandRect.left}px`;
   });
 }
 
@@ -365,4 +398,5 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   renderDiscoveries(timeline, svg, width, axisY, contextTop);
   renderEvents(timeline, width, height, contextTop);
   updateScalePresentation(timeline, scale);
+  updateEventLabelPositions(timeline, timelineContainer);
 }
