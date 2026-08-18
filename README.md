@@ -70,7 +70,7 @@ example_id:
       abstract: "A short description of the work."
 ```
 
-Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. Historical event entries use `title`, `startYear`, `endYear`, `details`, and `color`.
+Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
 
 Place portrait files under `images/` and cartoon variants under `images/cartoons/`. Missing scientist portraits fall back to a theme-appropriate default image.
 
