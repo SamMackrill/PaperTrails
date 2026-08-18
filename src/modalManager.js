@@ -1,10 +1,11 @@
-import { scientists } from './dataLoader.js?v=7';
+import { scientists } from './dataLoader.js?v=8';
 
 let panel;
 let backdrop;
 let closeButton;
 let eyebrow;
 let title;
+let identity;
 let metadata;
 let body;
 let media;
@@ -18,12 +19,13 @@ function fetchElements() {
   closeButton = document.getElementById('detail-close');
   eyebrow = document.getElementById('detail-eyebrow');
   title = document.getElementById('detail-title');
+  identity = document.getElementById('detail-identity');
   metadata = document.getElementById('detail-metadata');
   body = document.getElementById('detail-body');
   media = document.getElementById('detail-media');
   image = document.getElementById('detail-image');
 
-  return Boolean(panel && backdrop && closeButton && eyebrow && title && metadata && body && media && image);
+  return Boolean(panel && backdrop && closeButton && eyebrow && title && identity && metadata && body && media && image);
 }
 
 function renderMetadata(items) {
@@ -45,7 +47,9 @@ function openPanel() {
     closeTimer = null;
   }
 
-  lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  if (panel.hidden) {
+    lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  }
   panel.hidden = false;
   backdrop.hidden = false;
 
@@ -54,6 +58,152 @@ function openPanel() {
     backdrop.classList.add('is-open');
     closeButton.focus({ preventScroll: true });
   });
+}
+
+function formatYear(date) {
+  const year = Number.parseInt(String(date || '').slice(0, 4), 10);
+  return Number.isFinite(year) ? String(year) : null;
+}
+
+function calculateAge(birth, death) {
+  const birthMatch = String(birth || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const deathMatch = String(death || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!birthMatch || !deathMatch) return null;
+
+  let age = Number(deathMatch[1]) - Number(birthMatch[1]);
+  const birthMonthDay = `${birthMatch[2]}-${birthMatch[3]}`;
+  const deathMonthDay = `${deathMatch[2]}-${deathMatch[3]}`;
+  if (deathMonthDay < birthMonthDay) age -= 1;
+  return age >= 0 ? age : null;
+}
+
+function getIdentityLine(scientist) {
+  const birthYear = formatYear(scientist.birth);
+  const deathYear = formatYear(scientist.death);
+  const age = calculateAge(scientist.birth, scientist.death);
+  const lifespan = birthYear && deathYear ? `${birthYear}–${deathYear}` : birthYear ? `Born ${birthYear}` : null;
+  return [scientist.nationality, lifespan, age !== null ? `aged ${age}` : null].filter(Boolean).join(' · ');
+}
+
+function getScientistSummary(scientist) {
+  return scientist.summary
+    || scientist.details
+    || scientist.publications?.find((publication) => publication.abstract)?.abstract
+    || 'No biographical summary is available yet.';
+}
+
+function createPublicationList(scientist) {
+  const section = document.createElement('section');
+  section.className = 'detail-publications';
+
+  const headingRow = document.createElement('div');
+  headingRow.className = 'detail-section-heading';
+
+  const heading = document.createElement('h3');
+  heading.textContent = 'Publications on this timeline';
+
+  const count = document.createElement('span');
+  count.className = 'detail-section-count';
+  count.textContent = String(scientist.publications?.length || 0);
+  count.setAttribute('aria-label', `${count.textContent} publications`);
+  headingRow.append(heading, count);
+  section.appendChild(headingRow);
+
+  const list = document.createElement('ul');
+  list.className = 'detail-publication-list';
+
+  [...(scientist.publications || [])]
+    .sort((a, b) => (a.year || 0) - (b.year || 0))
+    .forEach((publication) => {
+      const item = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'detail-publication-link';
+      button.setAttribute('aria-label', `Open ${publication.title || 'untitled publication'}, ${publication.year || 'year not recorded'}`);
+
+      const year = document.createElement('span');
+      year.className = 'detail-publication-year';
+      year.textContent = publication.year || '—';
+
+      const content = document.createElement('span');
+      content.className = 'detail-publication-content';
+
+      const publicationTitle = document.createElement('span');
+      publicationTitle.className = 'detail-publication-title';
+      publicationTitle.textContent = publication.title || 'Untitled publication';
+      content.appendChild(publicationTitle);
+
+      if (publication.abstract) {
+        const abstract = document.createElement('span');
+        abstract.className = 'detail-publication-abstract';
+        abstract.textContent = publication.abstract;
+        content.appendChild(abstract);
+      }
+
+      const arrow = document.createElement('span');
+      arrow.className = 'detail-publication-arrow';
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.textContent = '→';
+
+      button.append(year, content, arrow);
+      button.addEventListener('click', () => {
+        showPublicationModal(scientist.name, publication.year, publication.title, publication.abstract, 'publication');
+      });
+      item.appendChild(button);
+      list.appendChild(item);
+    });
+
+  if (list.children.length) {
+    section.appendChild(list);
+  } else {
+    const emptyState = document.createElement('p');
+    emptyState.className = 'detail-empty-state';
+    emptyState.textContent = 'No publications are represented on this timeline yet.';
+    section.appendChild(emptyState);
+  }
+
+  return section;
+}
+
+function createLocateAction(scientistId, scientist) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'detail-locate-action';
+
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.setAttribute('class', 'detail-locate-icon');
+  icon.setAttribute('aria-hidden', 'true');
+  icon.setAttribute('viewBox', '0 0 24 24');
+
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', '12');
+  circle.setAttribute('cy', '12');
+  circle.setAttribute('r', '3');
+
+  const crosshairs = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  crosshairs.setAttribute('d', 'M12 2v4M12 18v4M2 12h4M18 12h4');
+  icon.append(circle, crosshairs);
+
+  const label = document.createElement('span');
+  label.textContent = `Locate ${scientist.name || 'scientist'} on timeline`;
+  button.append(icon, label);
+
+  button.addEventListener('click', () => {
+    const firstPublication = [...(scientist.publications || [])]
+      .filter((publication) => Number.isFinite(publication.year))
+      .sort((a, b) => a.year - b.year)[0];
+
+    closeModal({
+      restoreFocus: false,
+      afterClose: () => {
+        document.dispatchEvent(new CustomEvent('papertrails:locatescientist', {
+          detail: { scientistId, year: firstPublication?.year }
+        }));
+      }
+    });
+  });
+
+  return button;
 }
 
 export function showPublicationModal(actorName, itemYear, itemTitle, description, type = 'publication') {
@@ -67,8 +217,15 @@ export function showPublicationModal(actorName, itemYear, itemTitle, description
 
   eyebrow.textContent = typeLabels[type] || 'Timeline item';
   title.textContent = itemTitle || 'Untitled item';
-  body.textContent = description || 'No further details are available.';
+  identity.hidden = true;
+  identity.textContent = '';
+  body.replaceChildren();
+  const descriptionText = document.createElement('p');
+  descriptionText.className = 'detail-copy';
+  descriptionText.textContent = description || 'No further details are available.';
+  body.appendChild(descriptionText);
   media.hidden = true;
+  metadata.hidden = false;
 
   if (type === 'event') {
     renderMetadata([['Period', itemYear]]);
@@ -88,21 +245,25 @@ export function showScientistModal(scientistId) {
 
   eyebrow.textContent = 'Scientist';
   title.textContent = scientist.name || 'Unknown scientist';
-  renderMetadata([
-    ['Nationality', scientist.nationality],
-    ['Born', scientist.birth],
-    ['Died', scientist.death]
-  ]);
+  identity.textContent = getIdentityLine(scientist);
+  identity.hidden = !identity.textContent;
+  metadata.replaceChildren();
+  metadata.hidden = true;
 
-  const publicationCount = scientist.publications?.length || 0;
-  body.textContent = scientist.details || `${publicationCount} ${publicationCount === 1 ? 'publication is' : 'publications are'} represented on this timeline.`;
+  const summary = document.createElement('p');
+  summary.className = 'detail-summary';
+  summary.textContent = getScientistSummary(scientist);
+
+  const locateAction = createLocateAction(scientistId, scientist);
+  body.replaceChildren(summary, createPublicationList(scientist), locateAction);
   image.src = scientist.photo || 'images/default.png';
   image.alt = scientist.name ? `Portrait of ${scientist.name}` : 'Scientist portrait';
+  media.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
   media.hidden = false;
   openPanel();
 }
 
-export function closeModal() {
+export function closeModal({ restoreFocus = true, afterClose = null } = {}) {
   if (!panel || panel.hidden || closeTimer) return;
 
   panel.classList.remove('is-open');
@@ -111,10 +272,17 @@ export function closeModal() {
     panel.hidden = true;
     backdrop.hidden = true;
     closeTimer = null;
+    if (typeof afterClose === 'function') afterClose();
   }, 230);
 
   document.dispatchEvent(new CustomEvent('papertrails:detailsclosed'));
-  lastFocusedElement?.focus({ preventScroll: true });
+  if (restoreFocus) lastFocusedElement?.focus({ preventScroll: true });
+}
+
+function getFocusableElements() {
+  if (!panel) return [];
+  return [...panel.querySelectorAll('button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+    .filter((element) => !element.hidden && element.getClientRects().length > 0);
 }
 
 export function setupModalEventListeners() {
@@ -126,10 +294,26 @@ export function setupModalEventListeners() {
   closeButton.addEventListener('click', closeModal);
   backdrop.addEventListener('click', closeModal);
   window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeModal();
+    if (event.key === 'Escape') {
+      closeModal();
+      return;
+    }
     if (event.key === 'Tab' && !panel.hidden) {
-      event.preventDefault();
-      closeButton.focus();
+      const focusableElements = getFocusableElements();
+      if (!focusableElements.length) return;
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (!panel.contains(document.activeElement)) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
 }

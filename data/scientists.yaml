@@ -38,6 +38,7 @@ huygens:
 
 newton:
   name: "Isaac Newton"
+  summary: "A central figure in the Scientific Revolution whose work established classical mechanics and transformed the study of light."
   color: "#e63946"
   photo: "images/newton.jpg"
   cartoon: "images/cartoons/newton.png"
@@ -154,7 +155,7 @@ young:
   color: "#4cc9f0"
   photo: "images/young.jpg"
   cartoon: "images/cartoons/young.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1773-06-13"
   death: "1829-05-10"
   publications:
@@ -399,7 +400,7 @@ thomson:
   color: "#900c3f"
   photo: "images/thomson.jpg"
   cartoon: "images/cartoons/thomson.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1856-12-18"
   death: "1940-08-30"
   publications:
@@ -438,7 +439,7 @@ rutherford:
   color: "#c1121f"
   photo: "images/rutherford.jpg"
   cartoon: "images/cartoons/rutherford.png"
-  nationality: "New Zealand/British"
+  nationality: "New Zealander"
   birth: "1871-08-30"
   death: "1937-10-19"
   publications:
@@ -454,7 +455,7 @@ h_a_wilson:
   color: "#6c757d"
   photo: "images/wilson.jpg"
   cartoon: "images/cartoons/wilson.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1874-12-01"
   death: "1964-10-13"
   publications:
@@ -544,7 +545,7 @@ chadwick:
   color: "#ef476f"
   photo: "images/chadwick.jpg"
   cartoon: "images/cartoons/chadwick.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1891-10-20"
   death: "1974-07-24"
   publications:
@@ -628,7 +629,7 @@ dirac:
   color: "#007f5f"
   photo: "images/dirac.jpg"
   cartoon: "images/cartoons/dirac.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1902-08-08"
   death: "1984-10-20"
   publications:
@@ -699,7 +700,7 @@ hoyle:
   color: "#ff6b6b" # Reddish
   photo: "images/hoyle.jpg"
   cartoon: "images/cartoons/hoyle.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1915-06-24"
   death: "2001-08-20"
   publications:
@@ -715,7 +716,7 @@ sciama:
   color: "#6a0dad" # Purple
   photo: "images/sciama.jpg"
   cartoon: "images/cartoons/sciama.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1926-11-18"
   death: "1999-12-19"
   publications:
@@ -814,7 +815,7 @@ eddington:
   color: "#ca6702"
   photo: "images/eddington.jpg"
   cartoon: "images/cartoons/eddington.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1882-12-28"
   death: "1944-11-22"
   publications:
@@ -887,7 +888,7 @@ kelvin:
   color: "#5f0f40"
   photo: "images/kelvin.jpg"
   cartoon: "images/cartoons/kelvin.png"
-  nationality: "British"
+  nationality: "Irish"
   birth: "1824-06-26"
   death: "1907-12-17"
   publications:

@@ -1,7 +1,7 @@
-import { config } from './config.js?v=7';
-import { scientists, discoveries, significantEvents } from './dataLoader.js?v=7';
-import { showPublicationModal, showScientistModal } from './modalManager.js?v=7';
-import { handleImageError } from './themeManager.js?v=7';
+import { config } from './config.js?v=8';
+import { scientists, discoveries, significantEvents } from './dataLoader.js?v=8';
+import { showPublicationModal, showScientistModal } from './modalManager.js?v=8';
+import { handleImageError } from './themeManager.js?v=8';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 

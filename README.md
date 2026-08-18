@@ -57,10 +57,11 @@ A scientist entry has this shape:
 ```yaml
 example_id:
   name: "Example Scientist"
+  summary: "A concise explanation of why this person and their work matter."
   color: "#336699"
   photo: "images/example.jpg"
   cartoon: "images/cartoons/example.png"
-  nationality: "British"
+  nationality: "English"
   birth: "1900-01-01"
   death: "1980-01-01"
   publications:
