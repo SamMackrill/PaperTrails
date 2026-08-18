@@ -302,7 +302,9 @@ function renderEvents(timeline, width, height, contextTop) {
       const fullTitle = event.title || 'Historical event';
       const shortTitle = event.shortTitle || fullTitle;
       const centreX = (startX + endX) / 2;
-      const minimumLabelWidth = Math.max(24, shortTitle.length * 6.5 + 12);
+      const fullTitleWidth = fullTitle.length * 6.5 + 12;
+      const shortTitleWidth = shortTitle.length * 6.5 + 12;
+      const minimumLabelWidth = Math.max(24, fullTitleWidth, shortTitleWidth);
       const labelStartX = Math.max(0, Math.min(startX, centreX - minimumLabelWidth / 2));
       const labelEndX = Math.min(width, Math.max(endX, centreX + minimumLabelWidth / 2));
       let level = occupiedLevels.findIndex((intervals) => intervals.every((interval) => labelEndX <= interval.start || labelStartX >= interval.end));
