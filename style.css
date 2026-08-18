@@ -968,7 +968,7 @@ body.dark-mode .icon-sun {
 }
 
 .detail-scientist-link:hover {
-  text-decoration-color: currentColor;
+  text-decoration-color: currentcolor;
 }
 
 .detail-scientist-link:focus-visible {
