@@ -1,8 +1,8 @@
-import { config } from './src/config.js?v=7';
-import { initializeData } from './src/dataLoader.js?v=7';
-import { initializeTheme } from './src/themeManager.js?v=7';
-import { setupModalEventListeners } from './src/modalManager.js?v=7';
-import { clearTimelineSelection, renderTimeline } from './src/timelineRenderer.js?v=7';
+import { config } from './src/config.js?v=8';
+import { initializeData } from './src/dataLoader.js?v=8';
+import { initializeTheme } from './src/themeManager.js?v=8';
+import { setupModalEventListeners } from './src/modalManager.js?v=8';
+import { clearTimelineSelection, renderTimeline } from './src/timelineRenderer.js?v=8';
 
 let timelineContainer;
 let timeline;
@@ -113,6 +113,23 @@ function focusYear(year, scale = 2.5) {
   currentTranslateX = timelineContainer.clientWidth / 2 - targetX;
   updateTransform();
   hideInteractionHint();
+}
+
+function focusScientist(scientistId, year) {
+  if (!scientistId || !Number.isFinite(year)) return;
+
+  const peopleToggle = document.getElementById('peopleToggle');
+  if (peopleToggle?.getAttribute('aria-pressed') === 'false') {
+    peopleToggle.setAttribute('aria-pressed', 'true');
+  }
+
+  focusYear(year);
+  const node = timeline.querySelector(`.scientist-node[data-scientist-id="${CSS.escape(scientistId)}"]`);
+  if (!node) return;
+
+  clearTimelineSelection();
+  node.classList.add('is-selected');
+  node.focus({ preventScroll: true });
 }
 
 function togglePressed(button) {
@@ -345,6 +362,9 @@ async function initializeApp() {
     setupResizeHandler();
     document.addEventListener('papertrails:detailsclosed', clearTimelineSelection);
     document.addEventListener('papertrails:zoomcluster', (event) => focusYear(event.detail.year));
+    document.addEventListener('papertrails:locatescientist', (event) => {
+      focusScientist(event.detail.scientistId, event.detail.year);
+    });
     hideInteractionHint(6500);
   } catch (error) {
     console.error('Paper Trails failed to initialize:', error);

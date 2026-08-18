@@ -6,7 +6,7 @@
   <meta name="description" content="Explore scientific publications, discoveries, and their historical context from 1600 to today.">
   <title>Paper Trails — Scientific History</title>
   <link rel="icon" href="images/icon.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
   <header class="app-header">
@@ -123,19 +123,24 @@
     <button class="detail-close icon-button" id="detail-close" type="button" aria-label="Close details">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
     </button>
-    <div class="detail-media" id="detail-media" hidden>
-      <img id="detail-image" alt="">
+    <div class="detail-header">
+      <div class="detail-media" id="detail-media" hidden>
+        <img id="detail-image" alt="">
+      </div>
+      <div class="detail-heading">
+        <p class="detail-eyebrow" id="detail-eyebrow">Publication</p>
+        <h2 id="detail-title" tabindex="-1">Details</h2>
+        <p class="detail-identity" id="detail-identity" hidden></p>
+      </div>
     </div>
-    <p class="detail-eyebrow" id="detail-eyebrow">Publication</p>
-    <h2 id="detail-title">Details</h2>
     <dl class="detail-metadata" id="detail-metadata"></dl>
     <div class="detail-divider"></div>
-    <p class="detail-body" id="detail-body"></p>
+    <div class="detail-body" id="detail-body"></div>
   </aside>
 
   <div class="timeline-tooltip" id="timeline-tooltip" role="tooltip" hidden></div>
 
   <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
-  <script type="module" src="script.js?v=7"></script>
+  <script type="module" src="script.js?v=8"></script>
 </body>
 </html>
