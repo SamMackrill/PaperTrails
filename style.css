@@ -949,6 +949,34 @@ body.dark-mode .icon-sun {
   color: var(--text-secondary);
 }
 
+.detail-scientist-links {
+  line-height: 1.5;
+}
+
+.detail-scientist-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+.detail-scientist-link:hover {
+  text-decoration-color: currentcolor;
+}
+
+.detail-scientist-link:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .detail-divider {
   height: 1px;
   margin: 26px 0 22px;

@@ -277,7 +277,14 @@ function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
       marker.appendChild(symbol);
       marker.addEventListener('click', () => {
         selectItem(marker);
-        showPublicationModal(discovery.discoverer, discovery.year, discovery.title, discovery.details, 'discovery');
+        showPublicationModal(
+          discovery.discoverer,
+          discovery.year,
+          discovery.title,
+          discovery.details,
+          'discovery',
+          discovery.scientist_ids
+        );
       });
       timeline.appendChild(marker);
 

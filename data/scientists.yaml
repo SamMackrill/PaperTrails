@@ -920,3 +920,119 @@ feynman:
     - year: 1969
       title: "Very High-Energy Collisions of Hadrons"
       abstract: "Introduced the parton picture of high-energy hadron collisions, helping reveal the point-like constituents later identified with quarks and gluons."
+
+roemer:
+  name: "Ole Rømer"
+  summary: "A Danish astronomer whose timing of eclipses of Jupiter's moon Io provided the first quantitative evidence that light travels at a finite speed."
+  color: "#577590"
+  photo: "images/roemer.jpg"
+  cartoon: "images/cartoons/roemer.png"
+  nationality: "Danish"
+  birth: "1644-09-25"
+  death: "1710-09-19"
+  publications:
+    - year: 1676
+      title: "Démonstration touchant le mouvement de la lumière trouvé par M. Römer de l’Académie royale des Sciences"
+      abstract: "Used systematic variations in the observed eclipse times of Io to show that light takes a measurable time to cross space."
+
+kleist:
+  name: "Ewald Georg von Kleist"
+  summary: "A Prussian cleric and natural philosopher who independently invented an early electrical-storage device, a precursor of the Leyden jar and the modern capacitor."
+  color: "#a47148"
+  photo: "images/kleist.jpg"
+  cartoon: "images/cartoons/kleist.png"
+  nationality: "Prussian"
+  birth: "1700-06-10"
+  death: "1748-12-11"
+  publications:
+    - year: 1745
+      title: "Letter describing the electrical storage jar"
+      abstract: "Reported that electricity could be accumulated in a glass vessel and released as a powerful shock, documenting the Kleistian jar."
+
+michelson:
+  name: "Albert A. Michelson"
+  summary: "An American physicist who developed precision optical interferometry, performed the Michelson–Morley experiment, and became the first American Nobel laureate in a science."
+  color: "#3a6ea5"
+  photo: "images/michelson.jpg"
+  cartoon: "images/cartoons/michelson.png"
+  nationality: "American"
+  birth: "1852-12-19"
+  death: "1931-05-09"
+  publications:
+    - year: 1881
+      title: "The Relative Motion of the Earth and the Luminiferous Ether"
+      abstract: "Introduced an interferometric test for motion through the proposed luminiferous ether and reported no expected directional shift."
+    - year: 1887
+      title: "On the Relative Motion of the Earth and the Luminiferous Ether"
+      abstract: "With Edward W. Morley, carried out the landmark high-precision ether-drift experiment that produced a null result."
+    - year: 1921
+      title: "Measurement of the Diameter of α Orionis with the Interferometer"
+      abstract: "Used a stellar interferometer to make the first direct measurement of the angular diameter of a star, Betelgeuse."
+
+morley:
+  name: "Edward W. Morley"
+  summary: "An American physicist and chemist noted for precision measurement, the Michelson–Morley experiment, and exceptionally accurate determinations of the atomic weight of oxygen."
+  color: "#7f5539"
+  photo: "images/morley.jpg"
+  cartoon: "images/cartoons/morley.png"
+  nationality: "American"
+  birth: "1838-01-29"
+  death: "1923-02-24"
+  publications:
+    - year: 1887
+      title: "On the Relative Motion of the Earth and the Luminiferous Ether"
+      abstract: "With Albert A. Michelson, performed a precise interferometric search for Earth's motion through the proposed luminiferous ether."
+    - year: 1895
+      title: "On the Densities of Oxygen and Hydrogen and on the Ratio of Their Atomic Weights"
+      abstract: "Reported exacting measurements of gas densities and the oxygen-to-hydrogen atomic-weight ratio."
+
+lamoreaux:
+  name: "Steve K. Lamoreaux"
+  summary: "An American experimental physicist known for the first high-accuracy measurement of the Casimir force and for precision tests of fundamental physics."
+  color: "#277da1"
+  photo: "images/default.png"
+  cartoon: "images/cartoons/lamoreaux.png"
+  nationality: "American"
+  birth: ""
+  death: ""
+  publications:
+    - year: 1997
+      title: "Demonstration of the Casimir Force in the 0.6 to 6 µm Range"
+      abstract: "Reported the first high-accuracy measurement of the Casimir force over micrometre-scale separations."
+    - year: 2011
+      title: "Observation of the Thermal Casimir Force"
+      abstract: "Measured the temperature-dependent contribution to the Casimir force in a precision experiment."
+
+penzias:
+  name: "Arno A. Penzias"
+  summary: "A German-born American radio astronomer who, with Robert Woodrow Wilson, discovered the cosmic microwave background and shared the 1978 Nobel Prize in Physics."
+  color: "#f3722c"
+  photo: "images/penzias.jpg"
+  cartoon: "images/cartoons/penzias.png"
+  nationality: "American"
+  birth: "1933-04-26"
+  death: "2024-01-22"
+  publications:
+    - year: 1965
+      title: "A Measurement of Excess Antenna Temperature at 4080 Mc/s"
+      abstract: "With Robert Woodrow Wilson, reported the persistent microwave noise recognized as the cosmic microwave background."
+    - year: 1970
+      title: "Carbon Monoxide in the Orion Nebula"
+      abstract: "With Robert Woodrow Wilson and Keith B. Jefferts, reported the first detection of interstellar carbon monoxide."
+
+wilson_robert:
+  name: "Robert Woodrow Wilson"
+  summary: "An American radio astronomer who, with Arno Penzias, discovered the cosmic microwave background and shared the 1978 Nobel Prize in Physics."
+  color: "#90be6d"
+  photo: "images/wilson_robert.jpg"
+  cartoon: "images/cartoons/wilson_robert.png"
+  nationality: "American"
+  birth: "1936-01-10"
+  death: ""
+  publications:
+    - year: 1965
+      title: "A Measurement of Excess Antenna Temperature at 4080 Mc/s"
+      abstract: "With Arno Penzias, reported the unexplained microwave signal recognized as relic radiation from the early universe."
+    - year: 1970
+      title: "Carbon Monoxide in the Orion Nebula"
+      abstract: "With Keith B. Jefferts and Arno Penzias, reported the first detection of carbon monoxide in interstellar space."
