@@ -6,7 +6,7 @@
   details: "A period of regional cooling, particularly pronounced in the North Atlantic region."
 
 - title: "Thirty Years' War"
-  shortTitle: "TYW"
+  shortTitle: "30YW"
   startYear: 1618
   endYear: 1648
   color: "#34495e"
@@ -50,14 +50,14 @@
   details: "A major European conflict triggered by the death of the last Habsburg king of Spain."
 
 - title: "Great Frost of 1709"
-  shortTitle: "1709"
+  shortTitle: "Frost"
   startYear: 1708
   endYear: 1709
   color: "#34495e"
   details: "An exceptionally cold winter in Europe, causing widespread famine and hardship."
 
 - title: "The Seven Years' War"
-  shortTitle: "SYW"
+  shortTitle: "7YW"
   startYear: 1756
   endYear: 1763
   color: "#34495e"
@@ -104,3 +104,11 @@
   endYear: 1939
   color: "#34495e"
   details: "A severe worldwide economic depression that took place during the 1930s."
+
+- title: "Carrington Event"
+  shortTitle: "CE"
+  startYear: 1859
+  endYear: 1859
+  color: "#39FF88" # Aurora green
+  details: "Strongest recorded solar storm, causing brilliant auroras and widespread telegraph-system failures."
+  
