@@ -6,6 +6,13 @@ galileo:
   nationality: "Italian"
   birth: "1564-02-15"
   death: "1642-01-08"
+  academic_affiliations:
+    - institution: "University of Pisa"
+      association: "Medical student and professor of mathematics"
+      coat: "images/institutions/university-of-pisa.jpg"
+    - institution: "University of Padua"
+      association: "Professor of mathematics"
+      coat: "images/institutions/university-of-padua.jpg"
   publications:
     - year: 1610
       title: "Sidereus Nuncius (Starry Messenger)"
@@ -25,6 +32,10 @@ huygens:
   nationality: "Dutch"
   birth: "1629-04-14"
   death: "1695-07-08"
+  academic_affiliations:
+    - institution: "Leiden University"
+      association: "Student of mathematics and law"
+      coat: "images/institutions/leiden-university.png"
   publications:
     - year: 1656
       title: "De Saturni Luna Observatio Nova"
@@ -45,6 +56,10 @@ newton:
   nationality: "English"
   birth: "1643-01-04"
   death: "1727-03-31"
+  academic_affiliations:
+    - institution: "Trinity College, Cambridge"
+      association: "Student, fellow and Lucasian Professor"
+      coat: "images/institutions/trinity-college-cambridge.png"
   publications:
     - year: 1687
       title: "Philosophiæ Naturalis Principia Mathematica"
@@ -61,6 +76,10 @@ fatio:
   nationality: "Swiss"
   birth: "1664-02-16"
   death: "1753-05-10"
+  academic_affiliations:
+    - institution: "University of Geneva"
+      association: "Student at the Academy of Geneva"
+      coat: "images/institutions/university-of-geneva.svg"
   publications:
     - year: 1690
       title: "Letter outlining kinetic theory of gravity"
@@ -74,6 +93,10 @@ franklin:
   nationality: "American"
   birth: "1706-01-17"
   death: "1790-04-17"
+  academic_affiliations:
+    - institution: "University of Pennsylvania"
+      association: "Founder and trustee of its predecessor college"
+      coat: "images/institutions/university-of-pennsylvania.svg"
   publications:
     - year: 1751
       title: "Experiments and Observations on Electricity"
@@ -87,6 +110,10 @@ euler:
   nationality: "Swiss"
   birth: "1707-04-15"
   death: "1783-09-18"
+  academic_affiliations:
+    - institution: "University of Basel"
+      association: "Student"
+      coat: "images/institutions/university-of-basel.png"
   publications:
     - year: 1736
       title: "Mechanica sive motus scientia analytice exposita"
@@ -106,6 +133,10 @@ lesage:
   nationality: "Genevan (Swiss)"
   birth: "1724-06-13"
   death: "1803-11-09"
+  academic_affiliations:
+    - institution: "University of Geneva"
+      association: "Student and professor of mathematics"
+      coat: "images/institutions/university-of-geneva.svg"
   publications:
     - year: 1784
       title: "Lucrèce Newtonien"
@@ -119,6 +150,9 @@ coulomb:
   nationality: "French"
   birth: "1736-06-14"
   death: "1806-08-23"
+  academic_affiliations:
+    - institution: "Royal Engineering School of Mézières"
+      association: "Engineering student"
   publications:
     - year: 1785
       title: "Premier mémoire sur l'électricité et le magnétisme"
@@ -132,6 +166,10 @@ volta:
   nationality: "Italian"
   birth: "1745-02-18"
   death: "1827-03-05"
+  academic_affiliations:
+    - institution: "University of Pavia"
+      association: "Professor of experimental physics"
+      coat: "images/institutions/university-of-pavia.png"
   publications:
     - year: 1800
       title: "On the Electricity Excited by the Mere Contact of Conducting Substances of Different Kinds"
@@ -145,6 +183,9 @@ dalton:
   nationality: "English"
   birth: "1766-09-06"
   death: "1844-07-27"
+  academic_affiliations:
+    - institution: "Manchester Academy"
+      association: "Tutor of mathematics and natural philosophy"
   publications:
     - year: 1803
       title: "A New System of Chemical Philosophy"
@@ -158,6 +199,16 @@ young:
   nationality: "English"
   birth: "1773-06-13"
   death: "1829-05-10"
+  academic_affiliations:
+    - institution: "University of Edinburgh"
+      association: "Medical student"
+      coat: "images/institutions/university-of-edinburgh.jpg"
+    - institution: "University of Göttingen"
+      association: "Doctor of medicine"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "Emmanuel College, Cambridge"
+      association: "Fellow-commoner"
+      coat: "images/institutions/emmanuel-college-cambridge.png"
   publications:
     - year: 1803
       title: "Experiments and Calculations Relative to Physical Optics"
@@ -171,6 +222,13 @@ biot:
   nationality: "French"
   birth: "1774-04-21"
   death: "1862-02-03"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Student and professor"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "Collège de France"
+      association: "Professor of physics"
+      coat: "images/institutions/college-de-france.png"
   publications:
     - year: 1820
       title: "Note sur le magnétisme de la pile de Volta"
@@ -184,6 +242,13 @@ ampere:
   nationality: "French"
   birth: "1775-01-20"
   death: "1836-06-10"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Professor of analysis and mechanics"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "Collège de France"
+      association: "Professor of experimental physics"
+      coat: "images/institutions/college-de-france.png"
   publications:
     - year: 1820
       title: "Mémoire sur l'action mutuelle..."
@@ -200,6 +265,13 @@ gauss:
   nationality: "German"
   birth: "1777-04-30"
   death: "1855-02-23"
+  academic_affiliations:
+    - institution: "University of Göttingen"
+      association: "Student and professor"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "University of Helmstedt"
+      association: "Doctorate"
+      coat: "images/institutions/university-of-helmstedt.png"
   publications:
     - year: 1801
       title: "Disquisitiones Arithmeticae"
@@ -213,6 +285,10 @@ oersted:
   nationality: "Danish"
   birth: "1777-08-14"
   death: "1851-03-09"
+  academic_affiliations:
+    - institution: "University of Copenhagen"
+      association: "Student and professor"
+      coat: "images/institutions/university-of-copenhagen.png"
   publications:
     - year: 1820
       title: "Experimenta circa effectum conflictus electrici in acum magneticam"
@@ -226,6 +302,13 @@ fresnel:
   nationality: "French"
   birth: "1788-05-10"
   death: "1827-07-14"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Engineering student"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "École des Ponts ParisTech"
+      association: "Engineering student"
+      coat: "images/institutions/ecole-des-ponts-paristech.png"
   publications:
     - year: 1819
       title: "Mémoire sur la diffraction de la lumière"
@@ -239,6 +322,13 @@ ohm:
   nationality: "German"
   birth: "1789-03-16"
   death: "1854-07-06"
+  academic_affiliations:
+    - institution: "University of Erlangen–Nuremberg"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/university-of-erlangen-nuremberg.png"
+    - institution: "Ludwig Maximilian University of Munich"
+      association: "Professor of physics"
+      coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
   publications:
     - year: 1827
       title: "Die galvanische Kette, mathematisch bearbeitet"
@@ -252,6 +342,10 @@ savart:
   nationality: "French"
   birth: "1791-06-30"
   death: "1841-03-16"
+  academic_affiliations:
+    - institution: "Collège de France"
+      association: "Professor of experimental physics"
+      coat: "images/institutions/college-de-france.png"
   publications:
     - year: 1820
       title: "Note sur le magnétisme de la pile de Volta"
@@ -265,6 +359,9 @@ faraday:
   nationality: "English"
   birth: "1791-09-22"
   death: "1867-08-25"
+  academic_affiliations:
+    - institution: "Royal Institution"
+      association: "Researcher and Fullerian Professor of Chemistry"
   publications:
     - year: 1831
       title: "Experimental Researches in Electricity (Series I)"
@@ -281,6 +378,10 @@ neumann_franz:
   nationality: "German (Prussian)"
   birth: "1798-09-11"
   death: "1895-05-23"
+  academic_affiliations:
+    - institution: "University of Königsberg"
+      association: "Student and professor"
+      coat: "images/institutions/university-of-konigsberg.png"
   publications:
     - year: 1845
       title: "Die mathematischen Gesetze der inducirten elektrischen Ströme"
@@ -294,6 +395,16 @@ weber:
   nationality: "German"
   birth: "1804-10-24"
   death: "1891-06-23"
+  academic_affiliations:
+    - institution: "Martin Luther University Halle-Wittenberg"
+      association: "Student and lecturer"
+      coat: "images/institutions/martin-luther-university-halle-wittenberg.png"
+    - institution: "University of Göttingen"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "Leipzig University"
+      association: "Professor of physics"
+      coat: "images/institutions/leipzig-university.png"
   publications:
     - year: 1846
       title: "Elektrodynamische Massbestimmungen"
@@ -310,6 +421,13 @@ tait:
   nationality: "Scottish"
   birth: "1831-04-28"
   death: "1901-07-04"
+  academic_affiliations:
+    - institution: "Peterhouse, Cambridge"
+      association: "Student and fellow"
+      coat: "images/institutions/peterhouse-cambridge.png"
+    - institution: "University of Edinburgh"
+      association: "Professor of natural philosophy"
+      coat: "images/institutions/university-of-edinburgh.jpg"
   publications:
     - year: 1867
       title: "Treatise on Natural Philosophy"
@@ -326,6 +444,16 @@ maxwell:
   nationality: "Scottish"
   birth: "1831-06-13"
   death: "1879-11-05"
+  academic_affiliations:
+    - institution: "University of Edinburgh"
+      association: "Student"
+      coat: "images/institutions/university-of-edinburgh.jpg"
+    - institution: "Trinity College, Cambridge"
+      association: "Student and fellow"
+      coat: "images/institutions/trinity-college-cambridge.png"
+    - institution: "King's College London"
+      association: "Professor of natural philosophy"
+      coat: "images/institutions/kings-college-london.png"
   publications:
     - year: 1861
       title: "On Physical Lines of Force"
@@ -342,6 +470,10 @@ van_der_waals:
   nationality: "Dutch"
   birth: "1837-11-23"
   death: "1923-03-08"
+  academic_affiliations:
+    - institution: "Leiden University"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/leiden-university.png"
   publications:
     - year: 1873
       title: "On the Continuity of the Gaseous and Liquid States"
@@ -355,6 +487,16 @@ mach:
   nationality: "Austrian/Czech"
   birth: "1838-02-18"
   death: "1916-02-19"
+  academic_affiliations:
+    - institution: "University of Vienna"
+      association: "Doctorate and lecturer"
+      coat: "images/institutions/university-of-vienna.png"
+    - institution: "University of Graz"
+      association: "Professor of mathematics and physics"
+      coat: "images/institutions/university-of-graz.jpg"
+    - institution: "Charles University"
+      association: "Professor of experimental physics"
+      coat: "images/institutions/charles-university.png"
   publications:
     - year: 1883
       title: "Die Mechanik in ihrer Entwickelung historisch-kritisch dargestellt (The Science of Mechanics)"
@@ -371,6 +513,10 @@ heaviside:
   nationality: "English"
   birth: "1850-05-18"
   death: "1925-02-03"
+  academic_affiliations:
+    - institution: "University of Göttingen"
+      association: "Honorary doctorate"
+      coat: "images/institutions/university-of-gottingen.svg"
   publications:
     - year: 1885
       title: "Electromagnetic Induction and its Propagation"
@@ -387,6 +533,10 @@ lorentz:
   nationality: "Dutch"
   birth: "1853-07-18"
   death: "1928-02-04"
+  academic_affiliations:
+    - institution: "Leiden University"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/leiden-university.png"
   publications:
     - year: 1892
       title: "La Théorie électromagnétique de Maxwell..."
@@ -403,6 +553,13 @@ thomson:
   nationality: "English"
   birth: "1856-12-18"
   death: "1940-08-30"
+  academic_affiliations:
+    - institution: "University of Manchester"
+      association: "Student at Owens College"
+      coat: "images/institutions/university-of-manchester.png"
+    - institution: "Trinity College, Cambridge"
+      association: "Student, fellow, professor and master"
+      coat: "images/institutions/trinity-college-cambridge.png"
   publications:
     - year: 1897
       title: "Cathode Rays"
@@ -416,6 +573,16 @@ planck:
   nationality: "German"
   birth: "1858-04-23"
   death: "1947-10-04"
+  academic_affiliations:
+    - institution: "Ludwig Maximilian University of Munich"
+      association: "Student and professor"
+      coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
+    - institution: "Humboldt University of Berlin"
+      association: "Student and professor"
+      coat: "images/institutions/humboldt-university-of-berlin.png"
+    - institution: "Kiel University"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/kiel-university.webp"
   publications:
     - year: 1900
       title: "Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum"
@@ -429,6 +596,10 @@ birkeland:
   nationality: "Norwegian"
   birth: "1867-12-13"
   death: "1917-06-15"
+  academic_affiliations:
+    - institution: "University of Oslo"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/university-of-oslo.png"
   publications:
     - year: 1908
       title: "The Norwegian Aurora Polaris Expedition"
@@ -442,6 +613,19 @@ rutherford:
   nationality: "New Zealander"
   birth: "1871-08-30"
   death: "1937-10-19"
+  academic_affiliations:
+    - institution: "University of Canterbury"
+      association: "Student and research worker"
+      coat: "images/institutions/university-of-canterbury.svg"
+    - institution: "Trinity College, Cambridge"
+      association: "Research student and fellow"
+      coat: "images/institutions/trinity-college-cambridge.png"
+    - institution: "McGill University"
+      association: "Professor of physics"
+      coat: "images/institutions/mcgill-university.png"
+    - institution: "University of Manchester"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-manchester.png"
   publications:
     - year: 1911
       title: "The Scattering of α and β Particles by Matter and the Structure of the Atom"
@@ -458,6 +642,16 @@ h_a_wilson:
   nationality: "English"
   birth: "1874-12-01"
   death: "1964-10-13"
+  academic_affiliations:
+    - institution: "University of Manchester"
+      association: "Student and professor"
+      coat: "images/institutions/university-of-manchester.png"
+    - institution: "King's College London"
+      association: "Professor of physics"
+      coat: "images/institutions/kings-college-london.png"
+    - institution: "Rice University"
+      association: "Professor of physics"
+      coat: "images/institutions/rice-university.png"
   publications:
     - year: 1921
       title: "An electromagnetic theory of gravitation"
@@ -471,6 +665,19 @@ einstein:
   nationality: "German/American"
   birth: "1879-03-14"
   death: "1955-04-18"
+  academic_affiliations:
+    - institution: "ETH Zurich"
+      association: "Student and professor"
+      coat: "images/institutions/eth-zurich.png"
+    - institution: "University of Zurich"
+      association: "Doctorate and professor"
+      coat: "images/institutions/university-of-zurich.png"
+    - institution: "Charles University"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/charles-university.png"
+    - institution: "Institute for Advanced Study"
+      association: "Professor"
+      coat: "images/institutions/institute-for-advanced-study.png"
   publications:
     - year: 1905
       title: "Zur Elektrodynamik bewegter Körper"
@@ -490,6 +697,16 @@ noether:
   nationality: "German"
   birth: "1882-03-23"
   death: "1935-04-14"
+  academic_affiliations:
+    - institution: "University of Erlangen–Nuremberg"
+      association: "Student, doctorate and lecturer"
+      coat: "images/institutions/university-of-erlangen-nuremberg.png"
+    - institution: "University of Göttingen"
+      association: "Lecturer and professor"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "Bryn Mawr College"
+      association: "Visiting professor"
+      coat: "images/institutions/bryn-mawr-college.png"
   publications:
     - year: 1918
       title: "Invariante Variationsprobleme"
@@ -503,6 +720,13 @@ bohr:
   nationality: "Danish"
   birth: "1885-10-07"
   death: "1962-11-18"
+  academic_affiliations:
+    - institution: "University of Copenhagen"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/university-of-copenhagen.png"
+    - institution: "University of Manchester"
+      association: "Postdoctoral researcher"
+      coat: "images/institutions/university-of-manchester.png"
   publications:
     - year: 1913
       title: "On the Constitution of Atoms and Molecules"
@@ -519,6 +743,19 @@ schrodinger:
   nationality: "Austrian"
   birth: "1887-08-12"
   death: "1961-01-04"
+  academic_affiliations:
+    - institution: "University of Vienna"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/university-of-vienna.png"
+    - institution: "University of Zurich"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/university-of-zurich.png"
+    - institution: "Magdalen College, Oxford"
+      association: "Fellow"
+      coat: "images/institutions/magdalen-college-oxford.png"
+    - institution: "University of Graz"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-graz.jpg"
   publications:
     - year: 1926
       title: "Quantisierung als Eigenwertproblem"
@@ -535,6 +772,16 @@ raman:
   nationality: "Indian"
   birth: "1888-11-07"
   death: "1970-11-21"
+  academic_affiliations:
+    - institution: "Presidency University, Chennai"
+      association: "Student"
+      coat: "images/institutions/presidency-college-chennai.ico"
+    - institution: "University of Calcutta"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-calcutta.svg"
+    - institution: "Indian Institute of Science"
+      association: "Director and professor of physics"
+      coat: "images/institutions/indian-institute-of-science.png"
   publications:
     - year: 1928
       title: "A New Radiation"
@@ -548,6 +795,16 @@ chadwick:
   nationality: "English"
   birth: "1891-10-20"
   death: "1974-07-24"
+  academic_affiliations:
+    - institution: "University of Manchester"
+      association: "Student and researcher"
+      coat: "images/institutions/university-of-manchester.png"
+    - institution: "Gonville & Caius College, Cambridge"
+      association: "Research student and fellow"
+      coat: "images/institutions/gonville-and-caius-college-cambridge.png"
+    - institution: "University of Liverpool"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-liverpool.svg"
   publications:
     - year: 1932
       title: "Possible Existence of a Neutron"
@@ -561,6 +818,19 @@ compton:
   nationality: "American"
   birth: "1892-09-10"
   death: "1962-03-15"
+  academic_affiliations:
+    - institution: "College of Wooster"
+      association: "Student and professor"
+      coat: "images/institutions/college-of-wooster.png"
+    - institution: "Princeton University"
+      association: "Doctorate"
+      coat: "images/institutions/princeton-university.png"
+    - institution: "Washington University in St. Louis"
+      association: "Professor and chancellor"
+      coat: "images/institutions/washington-university-in-st-louis.png"
+    - institution: "University of Chicago"
+      association: "Professor"
+      coat: "images/institutions/university-of-chicago.png"
   publications:
     - year: 1923
       title: "A Quantum Theory of the Scattering of X-rays by Light Elements"
@@ -574,6 +844,10 @@ deBroglie:
   nationality: "French"
   birth: "1892-08-15"
   death: "1987-03-19"
+  academic_affiliations:
+    - institution: "University of Paris"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/university-of-paris.png"
   publications:
     - year: 1924
       title: "Recherches sur la théorie des quanta"
@@ -587,6 +861,10 @@ velikovsky:
   nationality: "Russian/American"
   birth: "1895-06-10"
   death: "1979-11-17"
+  academic_affiliations:
+    - institution: "Moscow State University"
+      association: "Medical degree"
+      coat: "images/institutions/moscow-state-university.jpg"
   publications:
     - year: 1950
       title: "Worlds in Collision"
@@ -600,6 +878,19 @@ pauli:
   nationality: "Austrian"
   birth: "1900-04-25"
   death: "1958-12-15"
+  academic_affiliations:
+    - institution: "Ludwig Maximilian University of Munich"
+      association: "Student and doctorate"
+      coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
+    - institution: "University of Göttingen"
+      association: "Research assistant"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "University of Hamburg"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/university-of-hamburg.svg"
+    - institution: "ETH Zurich"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/eth-zurich.png"
   publications:
     - year: 1925
       title: "Über den Zusammenhang des Abschlusses..."
@@ -616,6 +907,16 @@ heisenberg:
   nationality: "German"
   birth: "1901-12-05"
   death: "1976-02-01"
+  academic_affiliations:
+    - institution: "Ludwig Maximilian University of Munich"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
+    - institution: "University of Göttingen"
+      association: "Student and professor"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "Leipzig University"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/leipzig-university.png"
   publications:
     - year: 1925
       title: "Über quantentheoretische Umdeutung..."
@@ -632,6 +933,13 @@ dirac:
   nationality: "English"
   birth: "1902-08-08"
   death: "1984-10-20"
+  academic_affiliations:
+    - institution: "University of Bristol"
+      association: "Engineering and mathematics student"
+      coat: "images/institutions/university-of-bristol.png"
+    - institution: "St John's College, Cambridge"
+      association: "Student, fellow and Lucasian Professor"
+      coat: "images/institutions/st-johns-college-cambridge.png"
   publications:
     - year: 1928
       title: "The Quantum Theory of the Electron"
@@ -648,6 +956,10 @@ anderson:
   nationality: "American"
   birth: "1905-09-03"
   death: "1991-01-11"
+  academic_affiliations:
+    - institution: "California Institute of Technology"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/california-institute-of-technology.png"
   publications:
     - year: 1932
       title: "The Apparent Existence of Easily Deflectable Positives"
@@ -661,6 +973,16 @@ alfven:
   nationality: "Swedish"
   birth: "1908-05-30"
   death: "1995-04-02"
+  academic_affiliations:
+    - institution: "Uppsala University"
+      association: "Student and doctorate"
+      coat: "images/institutions/uppsala-university.svg"
+    - institution: "KTH Royal Institute of Technology"
+      association: "Professor of electrical theory"
+      coat: "images/institutions/kth-royal-institute-of-technology.jpg"
+    - institution: "University of California, San Diego"
+      association: "Professor"
+      coat: "images/institutions/university-of-california-san-diego.png"
   publications:
     - year: 1942
       title: "Existence of Electromagnetic-Hydrodynamic Waves"
@@ -677,6 +999,13 @@ casimir:
   nationality: "Dutch"
   birth: "1909-07-15"
   death: "2000-05-04"
+  academic_affiliations:
+    - institution: "Leiden University"
+      association: "Student, doctorate and professor"
+      coat: "images/institutions/leiden-university.png"
+    - institution: "ETH Zurich"
+      association: "Research assistant"
+      coat: "images/institutions/eth-zurich.png"
   publications:
     - year: 1948
       title: "On the attraction between two perfectly conducting plates"
@@ -690,6 +1019,19 @@ lamb:
   nationality: "American"
   birth: "1913-07-12"
   death: "2008-05-15"
+  academic_affiliations:
+    - institution: "University of California, Berkeley"
+      association: "Doctorate"
+      coat: "images/institutions/university-of-california-berkeley.png"
+    - institution: "Columbia University"
+      association: "Professor of physics"
+      coat: "images/institutions/columbia-university.png"
+    - institution: "New College, Oxford"
+      association: "Wykeham Professor of Physics"
+      coat: "images/institutions/new-college-oxford.png"
+    - institution: "Stanford University"
+      association: "Professor of physics"
+      coat: "images/institutions/stanford-university.png"
   publications:
     - year: 1947
       title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
@@ -703,6 +1045,13 @@ hoyle:
   nationality: "English"
   birth: "1915-06-24"
   death: "2001-08-20"
+  academic_affiliations:
+    - institution: "Emmanuel College, Cambridge"
+      association: "Student"
+      coat: "images/institutions/emmanuel-college-cambridge.png"
+    - institution: "St John's College, Cambridge"
+      association: "Fellow and lecturer"
+      coat: "images/institutions/st-johns-college-cambridge.png"
   publications:
     - year: 1948
       title: "A New Model for the Expanding Universe"
@@ -719,6 +1068,15 @@ sciama:
   nationality: "English"
   birth: "1926-11-18"
   death: "1999-12-19"
+  academic_affiliations:
+    - institution: "Trinity College, Cambridge"
+      association: "Student and doctorate"
+      coat: "images/institutions/trinity-college-cambridge.png"
+    - institution: "All Souls College, Oxford"
+      association: "Senior research fellow"
+      coat: "images/institutions/all-souls-college-oxford.png"
+    - institution: "SISSA"
+      association: "Professor"
   publications:
     - year: 1953
       title: "On the Origin of Inertia"
@@ -738,6 +1096,16 @@ dicke:
   nationality: "American"
   birth: "1916-05-06"
   death: "1997-03-04"
+  academic_affiliations:
+    - institution: "University of Rochester"
+      association: "Student"
+      coat: "images/institutions/university-of-rochester.png"
+    - institution: "Massachusetts Institute of Technology"
+      association: "Doctorate"
+      coat: "images/institutions/massachusetts-institute-of-technology.png"
+    - institution: "Princeton University"
+      association: "Professor of physics"
+      coat: "images/institutions/princeton-university.png"
   publications:
     - year: 1965
       title: "Cosmic Black-Body Radiation"
@@ -754,6 +1122,13 @@ arp:
   nationality: "American"
   birth: "1927-03-21"
   death: "2013-12-28"
+  academic_affiliations:
+    - institution: "Harvard University"
+      association: "Student"
+      coat: "images/institutions/harvard-university.png"
+    - institution: "California Institute of Technology"
+      association: "Doctorate and research staff"
+      coat: "images/institutions/california-institute-of-technology.png"
   publications:
     - year: 1966
       title: "Atlas of Peculiar Galaxies"
@@ -770,6 +1145,19 @@ nernst:
   nationality: "German"
   birth: "1864-06-25"
   death: "1941-11-18"
+  academic_affiliations:
+    - institution: "University of Zurich"
+      association: "Student"
+      coat: "images/institutions/university-of-zurich.png"
+    - institution: "University of Würzburg"
+      association: "Doctorate"
+      coat: "images/institutions/university-of-wurzburg.png"
+    - institution: "University of Göttingen"
+      association: "Professor of physical chemistry"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "Humboldt University of Berlin"
+      association: "Professor of physical chemistry"
+      coat: "images/institutions/humboldt-university-of-berlin.png"
   publications:
     - year: 1906
       title: "The New Heat Theorem"
@@ -786,6 +1174,13 @@ bose:
   nationality: "Indian"
   birth: "1894-01-01"
   death: "1974-02-04"
+  academic_affiliations:
+    - institution: "University of Calcutta"
+      association: "Student and professor"
+      coat: "images/institutions/university-of-calcutta.svg"
+    - institution: "University of Dhaka"
+      association: "Professor and head of physics"
+      coat: "images/institutions/university-of-dhaka.png"
   publications:
     - year: 1924
       title: "Planck's Law and the Hypothesis of Light Quanta"
@@ -799,6 +1194,13 @@ hooke:
   nationality: "English"
   birth: "1635-07-18"
   death: "1703-03-03"
+  academic_affiliations:
+    - institution: "Wadham College, Oxford"
+      association: "Student"
+      coat: "images/institutions/wadham-college-oxford.png"
+    - institution: "Gresham College"
+      association: "Professor of geometry"
+      coat: "images/institutions/gresham-college.gif"
   publications:
     - year: 1665
       title: "Micrographia"
@@ -818,6 +1220,13 @@ eddington:
   nationality: "English"
   birth: "1882-12-28"
   death: "1944-11-22"
+  academic_affiliations:
+    - institution: "University of Manchester"
+      association: "Student at Owens College"
+      coat: "images/institutions/university-of-manchester.png"
+    - institution: "Trinity College, Cambridge"
+      association: "Student, fellow and professor of astronomy"
+      coat: "images/institutions/trinity-college-cambridge.png"
   publications:
     - year: 1916
       title: "On the Radiative Equilibrium of the Stars"
@@ -837,6 +1246,19 @@ hertz:
   nationality: "German"
   birth: "1857-02-22"
   death: "1894-01-01"
+  academic_affiliations:
+    - institution: "Ludwig Maximilian University of Munich"
+      association: "Student"
+      coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
+    - institution: "Humboldt University of Berlin"
+      association: "Doctorate and research assistant"
+      coat: "images/institutions/humboldt-university-of-berlin.png"
+    - institution: "Karlsruhe Institute of Technology"
+      association: "Professor of physics"
+      coat: "images/institutions/karlsruhe-institute-of-technology.png"
+    - institution: "University of Bonn"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-bonn.png"
   publications:
     - year: 1887
       title: "Ueber sehr schnelle electrische Schwingungen"
@@ -856,6 +1278,10 @@ descartes:
   nationality: "French"
   birth: "1596-03-31"
   death: "1650-02-11"
+  academic_affiliations:
+    - institution: "University of Poitiers"
+      association: "Bachelor and licentiate in law"
+      coat: "images/institutions/university-of-poitiers.svg"
   publications:
     - year: 1637
       title: "Discours de la méthode, plus La Dioptrique, Les Météores et La Géométrie"
@@ -872,6 +1298,16 @@ poincare:
   nationality: "French"
   birth: "1854-04-29"
   death: "1912-07-17"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Student and professor"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "Mines Paris – PSL"
+      association: "Student and professor"
+      coat: "images/institutions/mines-paris-psl.png"
+    - institution: "University of Paris"
+      association: "Professor of mathematical physics"
+      coat: "images/institutions/university-of-paris.png"
   publications:
     - year: 1890
       title: "Sur le problème des trois corps et les équations de la dynamique"
@@ -891,6 +1327,13 @@ kelvin:
   nationality: "Irish"
   birth: "1824-06-26"
   death: "1907-12-17"
+  academic_affiliations:
+    - institution: "University of Glasgow"
+      association: "Student and professor of natural philosophy"
+      coat: "images/institutions/university-of-glasgow.svg"
+    - institution: "Peterhouse, Cambridge"
+      association: "Student and fellow"
+      coat: "images/institutions/peterhouse-cambridge.png"
   publications:
     - year: 1848
       title: "On an Absolute Thermometric Scale"
@@ -910,6 +1353,19 @@ feynman:
   nationality: "American"
   birth: "1918-05-11"
   death: "1988-02-15"
+  academic_affiliations:
+    - institution: "Massachusetts Institute of Technology"
+      association: "Student"
+      coat: "images/institutions/massachusetts-institute-of-technology.png"
+    - institution: "Princeton University"
+      association: "Doctorate"
+      coat: "images/institutions/princeton-university.png"
+    - institution: "Cornell University"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/cornell-university.png"
+    - institution: "California Institute of Technology"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/california-institute-of-technology.png"
   publications:
     - year: 1948
       title: "Space-Time Approach to Non-Relativistic Quantum Mechanics"
@@ -930,6 +1386,13 @@ kepler:
   nationality: "German"
   birth: "1571-12-27"
   death: "1630-11-15"
+  academic_affiliations:
+    - institution: "University of Tübingen"
+      association: "Student"
+      coat: "images/institutions/university-of-tubingen.svg"
+    - institution: "University of Graz"
+      association: "District mathematician and teacher"
+      coat: "images/institutions/university-of-graz.jpg"
   publications:
     - year: 1604
       title: "Ad Vitellionem paralipomena, quibus astronomiae pars optica traditur"
@@ -950,6 +1413,10 @@ william_gilbert:
   nationality: "English"
   birth: "1544"
   death: "1603-11-30"
+  academic_affiliations:
+    - institution: "St John's College, Cambridge"
+      association: "Student and fellow"
+      coat: "images/institutions/st-johns-college-cambridge.png"
   publications:
     - year: 1600
       title: "De Magnete, Magneticisque Corporibus, et de Magno Magnete Tellure"
@@ -964,6 +1431,10 @@ henry_cavendish:
   nationality: "English"
   birth: "1731-10-10"
   death: "1810-02-24"
+  academic_affiliations:
+    - institution: "Peterhouse, Cambridge"
+      association: "Student"
+      coat: "images/institutions/peterhouse-cambridge.png"
   publications:
     - year: 1771
       title: "An Attempt to Explain Some of the Principal Phænomena of Electricity, by Means of an Elastic Fluid"
@@ -981,6 +1452,10 @@ george_green:
   nationality: "English"
   birth: "1793-07-14"
   death: "1841-05-31"
+  academic_affiliations:
+    - institution: "Gonville & Caius College, Cambridge"
+      association: "Student and fellow"
+      coat: "images/institutions/gonville-and-caius-college-cambridge.png"
   publications:
     - year: 1828
       title: "An Essay on the Application of Mathematical Analysis to the Theories of Electricity and Magnetism"
@@ -995,6 +1470,10 @@ joseph_henry:
   nationality: "American"
   birth: "1797-12-17"
   death: "1878-05-13"
+  academic_affiliations:
+    - institution: "Princeton University"
+      association: "Professor of natural philosophy"
+      coat: "images/institutions/princeton-university.png"
   publications:
     - year: 1831
       title: "On a Reciprocating Motion Produced by Magnetic Attraction and Repulsion"
@@ -1012,6 +1491,16 @@ gustav_kirchhoff:
   nationality: "German"
   birth: "1824-03-12"
   death: "1887-10-17"
+  academic_affiliations:
+    - institution: "University of Königsberg"
+      association: "Student and doctorate"
+      coat: "images/institutions/university-of-konigsberg.png"
+    - institution: "Heidelberg University"
+      association: "Professor of physics"
+      coat: "images/institutions/heidelberg-university.png"
+    - institution: "Humboldt University of Berlin"
+      association: "Professor of theoretical physics"
+      coat: "images/institutions/humboldt-university-of-berlin.png"
   publications:
     - year: 1845
       title: "Ueber den Durchgang eines elektrischen Stromes durch eine Ebene, insbesondere durch eine kreisförmige"
@@ -1029,6 +1518,10 @@ joseph_fraunhofer:
   nationality: "Bavarian"
   birth: "1787-03-06"
   death: "1826-06-07"
+  academic_affiliations:
+    - institution: "University of Erlangen–Nuremberg"
+      association: "Honorary doctorate"
+      coat: "images/institutions/university-of-erlangen-nuremberg.png"
   publications:
     - year: 1817
       title: "Bestimmung des Brechungs- und Farbenzerstreuungs-Vermögens verschiedener Glasarten"
@@ -1046,6 +1539,10 @@ hippolyte_fizeau:
   nationality: "French"
   birth: "1819-09-23"
   death: "1896-09-18"
+  academic_affiliations:
+    - institution: "University of Paris"
+      association: "Medical student"
+      coat: "images/institutions/university-of-paris.png"
   publications:
     - year: 1849
       title: "Sur une expérience relative à la vitesse de propagation de la lumière"
@@ -1063,6 +1560,10 @@ roemer:
   nationality: "Danish"
   birth: "1644-09-25"
   death: "1710-09-19"
+  academic_affiliations:
+    - institution: "University of Copenhagen"
+      association: "Student and professor of astronomy"
+      coat: "images/institutions/university-of-copenhagen.png"
   publications:
     - year: 1676
       title: "Démonstration touchant le mouvement de la lumière trouvé par M. Römer de l’Académie royale des Sciences"
@@ -1077,6 +1578,13 @@ kleist:
   nationality: "Prussian"
   birth: "1700-06-10"
   death: "1748-12-11"
+  academic_affiliations:
+    - institution: "Leipzig University"
+      association: "Student"
+      coat: "images/institutions/leipzig-university.png"
+    - institution: "Leiden University"
+      association: "Student"
+      coat: "images/institutions/leiden-university.png"
   publications:
     - year: 1745
       title: "Letter describing the electrical storage jar"
@@ -1091,6 +1599,16 @@ michelson:
   nationality: "American"
   birth: "1852-12-19"
   death: "1931-05-09"
+  academic_affiliations:
+    - institution: "United States Naval Academy"
+      association: "Student and instructor"
+      coat: "images/institutions/united-states-naval-academy.png"
+    - institution: "Case Western Reserve University"
+      association: "Professor of physics"
+      coat: "images/institutions/case-western-reserve-university.png"
+    - institution: "University of Chicago"
+      association: "Professor and head of physics"
+      coat: "images/institutions/university-of-chicago.png"
   publications:
     - year: 1881
       title: "The Relative Motion of the Earth and the Luminiferous Ether"
@@ -1111,6 +1629,16 @@ morley:
   nationality: "American"
   birth: "1838-01-29"
   death: "1923-02-24"
+  academic_affiliations:
+    - institution: "Williams College"
+      association: "Student"
+      coat: "images/institutions/williams-college.png"
+    - institution: "Andover Newton Theological School"
+      association: "Student"
+      coat: "images/institutions/andover-newton-theological-school.png"
+    - institution: "Case Western Reserve University"
+      association: "Professor of chemistry"
+      coat: "images/institutions/case-western-reserve-university.png"
   publications:
     - year: 1887
       title: "On the Relative Motion of the Earth and the Luminiferous Ether"
@@ -1131,6 +1659,10 @@ george_fitzgerald:
   nationality: "Irish"
   birth: "1851-08-03"
   death: "1901-02-22"
+  academic_affiliations:
+    - institution: "Trinity College Dublin"
+      association: "Student, fellow and professor"
+      coat: "images/institutions/trinity-college-dublin.png"
   publications:
     - year: 1883
       title: "On the Energy Lost by Radiation from Alternating Electric Currents"
@@ -1148,6 +1680,13 @@ joseph_larmor:
   nationality: "Irish"
   birth: "1857-07-11"
   death: "1942-05-19"
+  academic_affiliations:
+    - institution: "St John's College, Cambridge"
+      association: "Student and fellow"
+      coat: "images/institutions/st-johns-college-cambridge.png"
+    - institution: "Queen's University Belfast"
+      association: "Professor of natural philosophy"
+      coat: "images/institutions/queens-university-belfast.png"
   publications:
     - year: 1897
       title: "A Dynamical Theory of the Electric and Luminiferous Medium. Part III. Relations with Material Media"
@@ -1165,6 +1704,16 @@ hermann_minkowski:
   nationality: "German"
   birth: "1864-06-22"
   death: "1909-01-12"
+  academic_affiliations:
+    - institution: "University of Königsberg"
+      association: "Student and doctorate"
+      coat: "images/institutions/university-of-konigsberg.png"
+    - institution: "ETH Zurich"
+      association: "Professor"
+      coat: "images/institutions/eth-zurich.png"
+    - institution: "University of Göttingen"
+      association: "Professor"
+      coat: "images/institutions/university-of-gottingen.svg"
   publications:
     - year: 1908
       title: "Die Grundgleichungen für die elektromagnetischen Vorgänge in bewegten Körpern"
@@ -1182,6 +1731,13 @@ karl_schwarzschild:
   nationality: "German"
   birth: "1873-10-09"
   death: "1916-05-11"
+  academic_affiliations:
+    - institution: "University of Strasbourg"
+      association: "Doctorate"
+      coat: "images/institutions/university-of-strasbourg.svg"
+    - institution: "University of Göttingen"
+      association: "Professor and observatory director"
+      coat: "images/institutions/university-of-gottingen.svg"
   publications:
     - year: 1916
       title: "Über das Gravitationsfeld eines Massenpunktes nach der Einsteinschen Theorie"
@@ -1199,6 +1755,13 @@ pierre_laplace:
   nationality: "French"
   birth: "1749-03-23"
   death: "1827-03-05"
+  academic_affiliations:
+    - institution: "University of Caen Normandy"
+      association: "Student"
+      coat: "images/institutions/university-of-caen-normandy.svg"
+    - institution: "École Normale Supérieure"
+      association: "Professor"
+      coat: "images/institutions/ecole-normale-superieure.png"
   publications:
     - year: 1796
       title: "Exposition du système du monde"
@@ -1216,6 +1779,16 @@ john_poynting:
   nationality: "English"
   birth: "1852-09-09"
   death: "1914-03-30"
+  academic_affiliations:
+    - institution: "University of Manchester"
+      association: "Student and lecturer at Owens College"
+      coat: "images/institutions/university-of-manchester.png"
+    - institution: "Trinity College, Cambridge"
+      association: "Student"
+      coat: "images/institutions/trinity-college-cambridge.png"
+    - institution: "University of Birmingham"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-birmingham.png"
   publications:
     - year: 1884
       title: "On the Transfer of Energy in the Electromagnetic Field"
@@ -1233,6 +1806,13 @@ pieter_zeeman:
   nationality: "Dutch"
   birth: "1865-05-25"
   death: "1943-10-09"
+  academic_affiliations:
+    - institution: "Leiden University"
+      association: "Student and doctorate"
+      coat: "images/institutions/leiden-university.png"
+    - institution: "University of Amsterdam"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-amsterdam.png"
   publications:
     - year: 1896
       title: "Over den invloed eener magnetisatie op den aard van het door een stof uitgezonden licht"
@@ -1250,6 +1830,10 @@ etienne_malus:
   nationality: "French"
   birth: "1775-07-23"
   death: "1812-02-24"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Engineering student"
+      coat: "images/institutions/ecole-polytechnique.jpg"
   publications:
     - year: 1809
       title: "Sur une propriété de la lumière réfléchie"
@@ -1266,6 +1850,10 @@ john_michell:
   nationality: "English"
   birth: "1724"
   death: "1793-04-21"
+  academic_affiliations:
+    - institution: "Queens' College, Cambridge"
+      association: "Student, fellow and lecturer"
+      coat: "images/institutions/queens-college-cambridge.png"
   publications:
     - year: 1750
       title: "A Treatise of Artificial Magnets"
@@ -1283,6 +1871,13 @@ carl_brans:
   nationality: "American"
   birth: "1935-12-13"
   death: "2026-02-26"
+  academic_affiliations:
+    - institution: "Loyola University New Orleans"
+      association: "Student and professor"
+      coat: "images/institutions/loyola-university-new-orleans.png"
+    - institution: "Princeton University"
+      association: "Doctorate"
+      coat: "images/institutions/princeton-university.png"
   publications:
     - year: 1961
       title: "Mach's Principle and a Relativistic Theory of Gravitation"
@@ -1300,6 +1895,13 @@ lamoreaux:
   nationality: "American"
   birth: ""
   death: ""
+  academic_affiliations:
+    - institution: "Stanford University"
+      association: "Doctorate"
+      coat: "images/institutions/stanford-university.png"
+    - institution: "Yale University"
+      association: "Professor of physics"
+      coat: "images/institutions/yale-university.png"
   publications:
     - year: 1997
       title: "Demonstration of the Casimir Force in the 0.6 to 6 µm Range"
@@ -1317,6 +1919,13 @@ penzias:
   nationality: "American"
   birth: "1933-04-26"
   death: "2024-01-22"
+  academic_affiliations:
+    - institution: "City College of New York"
+      association: "Student"
+      coat: "images/institutions/city-college-of-new-york.png"
+    - institution: "Columbia University"
+      association: "Doctorate"
+      coat: "images/institutions/columbia-university.png"
   publications:
     - year: 1965
       title: "A Measurement of Excess Antenna Temperature at 4080 Mc/s"
@@ -1334,6 +1943,13 @@ wilson_robert:
   nationality: "American"
   birth: "1936-01-10"
   death: ""
+  academic_affiliations:
+    - institution: "Rice University"
+      association: "Student"
+      coat: "images/institutions/rice-university.png"
+    - institution: "California Institute of Technology"
+      association: "Doctorate"
+      coat: "images/institutions/california-institute-of-technology.png"
   publications:
     - year: 1965
       title: "A Measurement of Excess Antenna Temperature at 4080 Mc/s"
