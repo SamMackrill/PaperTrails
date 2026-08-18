@@ -549,6 +549,16 @@ body.dark-mode .icon-sun {
   color: var(--accent);
 }
 
+.year-label.tick-start {
+  transform: none;
+  transform-origin: top left;
+}
+
+.year-label.tick-end {
+  transform: translateX(-100%);
+  transform-origin: top right;
+}
+
 .timeline[data-zoom-tier="overview"] .tick-decade:not(.tick-century):not(.tick-current),
 .timeline[data-zoom-tier="standard"] .tick-decade:not(.tick-half-century):not(.tick-century):not(.tick-current) {
   display: none;
