@@ -2,7 +2,7 @@
 
 Paper Trails is an interactive browser-based timeline of scientific history. It places scientists and their publications alongside major discoveries and wider historical events, making it easier to see how scientific ideas developed in context from 1600 to the present year.
 
-The included dataset focuses mainly on physics, astronomy, mathematics, and related subjects. It currently contains 56 scientists, 90 publications, 14 discoveries, and 15 historical events.
+The included dataset focuses mainly on physics, astronomy, mathematics, and related subjects. It currently contains 63 scientists, 103 publications, 14 discoveries, and 15 historical events.
 
 ## Features
 
@@ -70,7 +70,7 @@ example_id:
       abstract: "A short description of the work."
 ```
 
-Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. Historical event entries use `title`, `startYear`, `endYear`, `details`, and `color`.
+Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
 
 Place portrait files under `images/` and cartoon variants under `images/cartoons/`. Missing scientist portraits fall back to a theme-appropriate default image.
 
