@@ -66,6 +66,8 @@ function renderAxis(timeline, svg, width, height, axisY) {
     if (isHalfCentury) classes.push('tick-half-century');
     if (isCentury) classes.push('tick-century');
     if (isCurrent) classes.push('tick-current');
+    if (year === config.START_YEAR) classes.push('tick-start');
+    if (year === config.END_YEAR) classes.push('tick-end');
 
     const marker = document.createElement('div');
     marker.className = `year-marker ${classes.join(' ')}`;
