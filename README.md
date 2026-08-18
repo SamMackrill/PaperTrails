@@ -2,7 +2,7 @@
 
 Paper Trails is an interactive browser-based timeline of scientific history. It places scientists and their publications alongside major discoveries and wider historical events, making it easier to see how scientific ideas developed in context from 1600 to the present year.
 
-The included dataset focuses mainly on physics, astronomy, mathematics, and related subjects. It currently contains 86 scientists, 153 publications, 13 discoveries, 6 conference milestones, and 15 historical events.
+The included dataset focuses mainly on physics, astronomy, mathematics, and related subjects.
 
 ## Features
 
