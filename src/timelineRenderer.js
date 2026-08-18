@@ -1,7 +1,7 @@
-import { config } from './config.js?v=8';
-import { scientists, discoveries, significantEvents } from './dataLoader.js?v=8';
-import { showPublicationModal, showScientistModal } from './modalManager.js?v=8';
-import { handleImageError } from './themeManager.js?v=8';
+import { config } from './config.js?v=9';
+import { scientists, discoveries, significantEvents } from './dataLoader.js?v=9';
+import { showPublicationModal, showScientistModal } from './modalManager.js?v=9';
+import { handleImageError } from './themeManager.js?v=9';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -277,7 +277,14 @@ function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
       marker.appendChild(symbol);
       marker.addEventListener('click', () => {
         selectItem(marker);
-        showPublicationModal(discovery.discoverer, discovery.year, discovery.title, discovery.details, 'discovery');
+        showPublicationModal(
+          discovery.discoverer,
+          discovery.year,
+          discovery.title,
+          discovery.details,
+          'discovery',
+          discovery.scientist_ids
+        );
       });
       timeline.appendChild(marker);
 

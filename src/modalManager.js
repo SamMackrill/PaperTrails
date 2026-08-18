@@ -1,4 +1,4 @@
-import { scientists } from './dataLoader.js?v=8';
+import { scientists } from './dataLoader.js?v=9';
 
 let panel;
 let backdrop;
@@ -34,9 +34,49 @@ function renderMetadata(items) {
     const term = document.createElement('dt');
     const description = document.createElement('dd');
     term.textContent = label;
-    description.textContent = value || 'Not recorded';
+    if (value instanceof Node) {
+      description.appendChild(value);
+    } else {
+      description.textContent = value || 'Not recorded';
+    }
     metadata.append(term, description);
   });
+}
+
+function createScientistLinks(scientistIds, fallbackText) {
+  const wrapper = document.createElement('span');
+  wrapper.className = 'detail-scientist-links';
+
+  const linkedScientists = (Array.isArray(scientistIds) ? scientistIds : [])
+    .map((scientistId) => [scientistId, scientists[scientistId]])
+    .filter(([, scientist]) => Boolean(scientist));
+
+  if (!linkedScientists.length) {
+    wrapper.textContent = fallbackText || 'Not recorded';
+    return wrapper;
+  }
+
+  linkedScientists.forEach(([scientistId, scientist], index) => {
+    if (index > 0) {
+      wrapper.appendChild(document.createTextNode(
+        index === linkedScientists.length - 1 ? ' and ' : ', '
+      ));
+    }
+
+    const link = document.createElement('button');
+    link.type = 'button';
+    link.className = 'detail-scientist-link';
+    link.textContent = scientist.name;
+    link.setAttribute('aria-label', `Open scientist profile for ${scientist.name}`);
+    link.addEventListener('click', () => showScientistModal(scientistId));
+    wrapper.appendChild(link);
+  });
+
+  if (/\band others\b/i.test(fallbackText || '')) {
+    wrapper.appendChild(document.createTextNode(' and others'));
+  }
+
+  return wrapper;
 }
 
 function openPanel() {
@@ -206,7 +246,7 @@ function createLocateAction(scientistId, scientist) {
   return button;
 }
 
-export function showPublicationModal(actorName, itemYear, itemTitle, description, type = 'publication') {
+export function showPublicationModal(actorName, itemYear, itemTitle, description, type = 'publication', scientistIds = []) {
   if (!panel && !fetchElements()) return;
 
   const typeLabels = {
@@ -231,7 +271,9 @@ export function showPublicationModal(actorName, itemYear, itemTitle, description
     renderMetadata([['Period', itemYear]]);
   } else {
     renderMetadata([
-      [type === 'discovery' ? 'Discoverer' : 'Author', actorName],
+      [type === 'discovery' ? 'Discoverer' : 'Author', type === 'discovery'
+        ? createScientistLinks(scientistIds, actorName)
+        : actorName],
       ['Year', String(itemYear || 'Not recorded')]
     ]);
   }

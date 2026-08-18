@@ -1,8 +1,8 @@
-import { config } from './src/config.js?v=8';
-import { initializeData } from './src/dataLoader.js?v=8';
-import { initializeTheme } from './src/themeManager.js?v=8';
-import { setupModalEventListeners } from './src/modalManager.js?v=8';
-import { clearTimelineSelection, renderTimeline } from './src/timelineRenderer.js?v=8';
+import { config } from './src/config.js?v=9';
+import { initializeData } from './src/dataLoader.js?v=9';
+import { initializeTheme } from './src/themeManager.js?v=9';
+import { setupModalEventListeners } from './src/modalManager.js?v=9';
+import { clearTimelineSelection, renderTimeline } from './src/timelineRenderer.js?v=9';
 
 let timelineContainer;
 let timeline;
