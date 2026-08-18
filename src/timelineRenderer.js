@@ -1,6 +1,6 @@
 import { config } from './config.js?v=10';
 import { scientists, discoveries, significantEvents } from './dataLoader.js?v=10';
-import { showPublicationModal, showScientistModal } from './modalManager.js?v=10';
+import { showPublicationModal, showScientistModal } from './modalManager.js?v=12';
 import { handleImageError } from './themeManager.js?v=10';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -284,8 +284,9 @@ function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
           discovery.year,
           discovery.title,
           discovery.details,
-          'discovery',
-          discovery.scientist_ids
+          discovery.type === 'conference' ? 'conference' : 'discovery',
+          discovery.scientist_ids,
+          discovery.attendee_ids
         );
       });
       timeline.appendChild(marker);
@@ -338,7 +339,15 @@ function renderEvents(timeline, width, height, contextTop) {
       band.appendChild(eventTitle);
       band.addEventListener('click', () => {
         selectItem(band);
-        showPublicationModal('Historical context', `${event.startYear}–${event.endYear}`, event.title, event.details, 'event');
+        showPublicationModal(
+          'Historical context',
+          `${event.startYear}–${event.endYear}`,
+          event.title,
+          event.details,
+          'event',
+          [],
+          event.attendee_ids
+        );
       });
       timeline.appendChild(band);
     });
