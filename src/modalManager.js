@@ -43,7 +43,24 @@ function renderMetadata(items) {
   });
 }
 
-function createScientistLinks(scientistIds, fallbackText) {
+function getFirstPublicationYear(scientist) {
+  return [...(scientist.publications || [])]
+    .filter((publication) => Number.isFinite(publication.year))
+    .sort((a, b) => a.year - b.year)[0]?.year;
+}
+
+function locateScientistOnTimeline(scientistId, scientist) {
+  closeModal({
+    restoreFocus: false,
+    afterClose: () => {
+      document.dispatchEvent(new CustomEvent('papertrails:locatescientist', {
+        detail: { scientistId, year: getFirstPublicationYear(scientist) }
+      }));
+    }
+  });
+}
+
+function createScientistLinks(scientistIds, fallbackText, linkTarget = 'profile') {
   const wrapper = document.createElement('span');
   wrapper.className = 'detail-scientist-links';
 
@@ -67,8 +84,13 @@ function createScientistLinks(scientistIds, fallbackText) {
     link.type = 'button';
     link.className = 'detail-scientist-link';
     link.textContent = scientist.name;
-    link.setAttribute('aria-label', `Open scientist profile for ${scientist.name}`);
-    link.addEventListener('click', () => showScientistModal(scientistId));
+    if (linkTarget === 'timeline') {
+      link.setAttribute('aria-label', `Locate ${scientist.name} on the timeline`);
+      link.addEventListener('click', () => locateScientistOnTimeline(scientistId, scientist));
+    } else {
+      link.setAttribute('aria-label', `Open scientist profile for ${scientist.name}`);
+      link.addEventListener('click', () => showScientistModal(scientistId));
+    }
     wrapper.appendChild(link);
   });
 
@@ -229,29 +251,27 @@ function createLocateAction(scientistId, scientist) {
   button.append(icon, label);
 
   button.addEventListener('click', () => {
-    const firstPublication = [...(scientist.publications || [])]
-      .filter((publication) => Number.isFinite(publication.year))
-      .sort((a, b) => a.year - b.year)[0];
-
-    closeModal({
-      restoreFocus: false,
-      afterClose: () => {
-        document.dispatchEvent(new CustomEvent('papertrails:locatescientist', {
-          detail: { scientistId, year: firstPublication?.year }
-        }));
-      }
-    });
+    locateScientistOnTimeline(scientistId, scientist);
   });
 
   return button;
 }
 
-export function showPublicationModal(actorName, itemYear, itemTitle, description, type = 'publication', scientistIds = []) {
+export function showPublicationModal(
+  actorName,
+  itemYear,
+  itemTitle,
+  description,
+  type = 'publication',
+  scientistIds = [],
+  attendeeIds = []
+) {
   if (!panel && !fetchElements()) return;
 
   const typeLabels = {
     publication: 'Publication',
     discovery: 'Scientific discovery',
+    conference: 'Scientific conference',
     event: 'Historical context'
   };
 
@@ -268,14 +288,23 @@ export function showPublicationModal(actorName, itemYear, itemTitle, description
   metadata.hidden = false;
 
   if (type === 'event') {
-    renderMetadata([['Period', itemYear]]);
+    const eventMetadata = [['Period', itemYear]];
+    if (Array.isArray(attendeeIds) && attendeeIds.length) {
+      eventMetadata.push(['Attendees', createScientistLinks(attendeeIds, '', 'timeline')]);
+    }
+    renderMetadata(eventMetadata);
   } else {
-    renderMetadata([
-      [type === 'discovery' ? 'Discoverer' : 'Author', type === 'discovery'
-        ? createScientistLinks(scientistIds, actorName)
-        : actorName],
-      ['Year', String(itemYear || 'Not recorded')]
-    ]);
+    const itemMetadata = [];
+    if (type === 'discovery') {
+      itemMetadata.push(['Discoverer', createScientistLinks(scientistIds, actorName)]);
+    } else if (type === 'publication') {
+      itemMetadata.push(['Author', actorName]);
+    }
+    if (Array.isArray(attendeeIds) && attendeeIds.length) {
+      itemMetadata.push(['Attendees', createScientistLinks(attendeeIds, '', 'timeline')]);
+    }
+    itemMetadata.push(['Year', String(itemYear || 'Not recorded')]);
+    renderMetadata(itemMetadata);
   }
 
   openPanel();
