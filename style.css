@@ -617,7 +617,7 @@ body.dark-mode .icon-sun {
   border-radius: 1px;
   background: var(--publication);
   box-shadow: 0 0 0 1px var(--border-strong);
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  rotate: 45deg;
   transition: background-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
 }
 
