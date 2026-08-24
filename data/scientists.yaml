@@ -1957,3 +1957,61 @@ wilson_robert:
     - year: 1970
       title: "Carbon Monoxide in the Orion Nebula"
       abstract: "With Keith B. Jefferts and Arno Penzias, reported the first detection of carbon monoxide in interstellar space."
+
+wheeler:
+  name: "John Archibald Wheeler"
+  summary: "An American theoretical physicist who co-predicted photon-photon pair creation, developed the liquid-drop account of nuclear fission, and helped revive general relativity."
+  color: "#4d908e"
+  photo: "images/wheeler.jpg"
+  cartoon: "images/cartoons/wheeler.png"
+  nationality: "American"
+  birth: "1911-07-09"
+  death: "2008-04-13"
+  academic_affiliations:
+    - institution: "Johns Hopkins University"
+      association: "Student and doctorate"
+    - institution: "Princeton University"
+      association: "Professor of physics"
+      coat: "images/institutions/princeton-university.png"
+    - institution: "University of Texas at Austin"
+      association: "Director of the Center for Theoretical Physics"
+  publications:
+    - year: 1934
+      title: "Collision of Two Light Quanta"
+      abstract: "With Gregory Breit, calculated how the collision of two photons can produce an electron–positron pair."
+    - year: 1939
+      title: "The Mechanism of Nuclear Fission"
+      abstract: "With Niels Bohr, used the liquid-drop model to explain the mechanism and energy dependence of nuclear fission."
+    - year: 1955
+      title: "Geons"
+      abstract: "Introduced self-gravitating configurations made entirely of field energy and named them geons."
+
+breit:
+  name: "Gregory Breit"
+  summary: "An American theoretical physicist who made foundational contributions to relativistic electron interactions, nuclear-resonance theory, and photon-photon pair creation."
+  color: "#c77d32"
+  photo: "images/breit.jpg"
+  cartoon: "images/cartoons/breit.png"
+  nationality: "American"
+  birth: "1899-07-14"
+  death: "1981-09-11"
+  academic_affiliations:
+    - institution: "Johns Hopkins University"
+      association: "Student and doctorate"
+    - institution: "New York University"
+      association: "Professor of physics"
+    - institution: "University of Wisconsin–Madison"
+      association: "Professor of physics"
+    - institution: "Yale University"
+      association: "Professor of physics"
+      coat: "images/institutions/yale-university.png"
+  publications:
+    - year: 1929
+      title: "The Effect of Retardation on the Interaction of Two Electrons"
+      abstract: "Derived a relativistic correction to the interaction of two electrons, leading to the two-particle equation now associated with Breit."
+    - year: 1934
+      title: "Collision of Two Light Quanta"
+      abstract: "With John Archibald Wheeler, calculated electron–positron pair production from the collision of two photons."
+    - year: 1936
+      title: "Capture of Slow Neutrons"
+      abstract: "With Eugene Wigner, developed the resonance description of slow-neutron capture now known through the Breit–Wigner formula."

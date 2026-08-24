@@ -74,6 +74,7 @@
   year: 1997
   discoverer: "Steve K. Lamoreaux and others"
   scientist_ids: [lamoreaux]
+  theorist_ids: [casimir]
   particle: ZPE
   color: "#9b59b6"
   details: "Experimental verification of the Casimir effect, demonstrating the existence of quantum vacuum fluctuations."
@@ -97,6 +98,7 @@
 - year: 2021
   title: "Breit-Wheeler photon-photon matter creation Verification"
   discoverer: "RHIC"
+  theorist_ids: [breit, wheeler]
   details: "Experimental verification of the Breit-Wheeler process, converting light into matter."
   particle: γγ
   color: "#2ecc71" # Emerald green
