@@ -1,3 +1,39 @@
+- year: 1455
+  title: "Gutenberg Bible and European Movable-Type Printing"
+  discoverer: "Johannes Gutenberg and collaborators"
+  details: "The Gutenberg Bible became the first major Western book printed from movable metal type, demonstrating a reproducible process that greatly accelerated the circulation of texts."
+  particle: Aa
+  color: "#7f5539"
+
+- year: 1522
+  title: "First Circumnavigation of Earth"
+  discoverer: "Magellan–Elcano expedition"
+  details: "The Victoria returned to Spain after completing the first recorded circumnavigation, confirming in practice that the oceans were connected and supplying new evidence for the globe's scale."
+  particle: "⟳"
+  color: "#2a9d8f"
+
+- year: 1569
+  title: "Mercator World Map Projection"
+  discoverer: "Gerardus Mercator"
+  details: "Mercator's world map introduced a projection on which constant-bearing routes appear as straight lines, making it influential for marine navigation while strongly enlarging high latitudes."
+  particle: MAP
+  color: "#457b9d"
+
+- year: 1572
+  title: "Tycho's Supernova"
+  discoverer: "Tycho Brahe and other observers"
+  scientist_ids: [tycho_brahe]
+  details: "Brahe's measurements placed the 'new star' beyond the Moon, challenging the Aristotelian doctrine of an unchanging celestial realm; it is now known as SN 1572."
+  particle: SN
+  color: "#b07d2b"
+
+- year: 1582
+  title: "Gregorian Calendar Reform"
+  discoverer: "Aloysius Lilius, Christopher Clavius, and Pope Gregory XIII"
+  details: "The reform removed ten calendar days and revised leap-year rules to keep the civil year more closely aligned with the seasons; adoption spread gradually beyond the first Catholic states."
+  particle: CAL
+  color: "#6d597a"
+
 - year: 1897
   title: "Discovery of the Electron"
   discoverer: "J. J. Thomson"

@@ -93,7 +93,7 @@ Turn the current timeline prototype into a cleaner, more professional, responsiv
 
 - The controls no longer overlap the title at any supported width.
 - The timeline has visually distinct, labelled lanes.
-- The initial view shows the full 1600-to-present range.
+- The initial view shows the full 1400-to-present range.
 - Year labels adapt to the zoom level without overlapping excessively.
 - Historical event labels do not break inside words.
 - Mobile controls do not consume a large portion of the initial viewport.
