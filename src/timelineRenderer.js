@@ -1,6 +1,6 @@
 import { config } from './config.js?v=14';
-import { scientists, discoveries, significantEvents } from './dataLoader.js?v=14';
-import { showPublicationModal, showScientistModal } from './modalManager.js?v=15';
+import { scientists, discoveries, conferences, significantEvents } from './dataLoader.js?v=16';
+import { showPublicationModal, showScientistModal } from './modalManager.js?v=16';
 import { handleImageError } from './themeManager.js?v=14';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -253,8 +253,16 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
   });
 }
 
-function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
-  if (!isLayerVisible('discoveriesToggle')) return;
+function renderMilestones(timeline, svg, width, axisY, contextTop) {
+  const milestones = [
+    ...(isLayerVisible('discoveriesToggle')
+      ? discoveries.map((item) => ({ item, type: 'discovery' }))
+      : []),
+    ...(isLayerVisible('conferencesToggle')
+      ? conferences.map((item) => ({ item, type: 'conference' }))
+      : [])
+  ];
+  if (!milestones.length) return;
 
   const markerSize = 25;
   const firstLevelY = axisY + 78;
@@ -262,11 +270,11 @@ function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
   const maxLevels = Math.max(1, Math.floor((contextTop - firstLevelY - markerSize / 2) / levelGap) + 1);
   const lastEndByLevel = Array(maxLevels).fill(-Infinity);
 
-  [...discoveries]
-    .filter((discovery) => Number.isFinite(discovery.year))
-    .sort((a, b) => a.year - b.year)
-    .forEach((discovery) => {
-      const actualX = yearToX(discovery.year, width);
+  milestones
+    .filter(({ item }) => Number.isFinite(item.year))
+    .sort((a, b) => a.item.year - b.item.year)
+    .forEach(({ item, type }) => {
+      const actualX = yearToX(item.year, width);
       let level = lastEndByLevel.findIndex((lastEnd) => actualX - markerSize / 2 > lastEnd + 10);
       if (level === -1) level = lastEndByLevel.indexOf(Math.min(...lastEndByLevel));
       const centerX = Math.max(markerSize / 2, Math.min(width - markerSize / 2, actualX));
@@ -275,31 +283,32 @@ function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
 
       const marker = document.createElement('button');
       marker.type = 'button';
-      marker.className = 'discovery-marker';
-      marker.dataset.tooltip = `${discovery.title || 'Untitled discovery'} · ${discovery.year}`;
-      marker.setAttribute('aria-label', `${discovery.title || 'Untitled discovery'}, ${discovery.year}`);
+      marker.className = `${type}-marker`;
+      const fallbackTitle = type === 'conference' ? 'Untitled conference' : 'Untitled discovery';
+      marker.dataset.tooltip = `${item.title || fallbackTitle} · ${item.year}`;
+      marker.setAttribute('aria-label', `${item.title || fallbackTitle}, ${item.year}`);
       marker.style.left = `${centerX - markerSize / 2}px`;
       marker.style.top = `${centerY - markerSize / 2}px`;
 
       const symbol = document.createElement('span');
-      symbol.textContent = discovery.particle || '•';
+      symbol.textContent = item.particle || (type === 'conference' ? '◆' : '•');
       marker.appendChild(symbol);
       marker.addEventListener('click', () => {
         selectItem(marker);
         showPublicationModal(
-          discovery.discoverer,
-          discovery.year,
-          discovery.title,
-          discovery.details,
-          discovery.type === 'conference' ? 'conference' : 'discovery',
-          discovery.scientist_ids,
-          discovery.attendee_ids,
-          discovery.theorist_ids
+          type === 'conference' ? 'Conference' : item.discoverer,
+          item.year,
+          item.title,
+          item.details,
+          type,
+          item.scientist_ids,
+          item.attendee_ids,
+          item.theorist_ids
         );
       });
       timeline.appendChild(marker);
 
-      svg.appendChild(createSvgLine('discovery-link', actualX, axisY, centerX, centerY));
+      svg.appendChild(createSvgLine(`${type}-link`, actualX, axisY, centerX, centerY));
     });
 }
 
@@ -423,7 +432,7 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   renderAxis(timeline, svg, width, height, axisY);
   renderPublications(timeline, width, axisY, coordinates);
   renderScientists(timeline, svg, width, axisY, coordinates, scale);
-  renderDiscoveries(timeline, svg, width, axisY, contextTop);
+  renderMilestones(timeline, svg, width, axisY, contextTop);
   renderEvents(timeline, width, height, contextTop);
   updateScalePresentation(timeline, scale);
   updateEventLabelPositions(timeline, timelineContainer);

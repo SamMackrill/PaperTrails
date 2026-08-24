@@ -1,8 +1,8 @@
 import { config } from './src/config.js?v=14';
-import { initializeData } from './src/dataLoader.js?v=14';
+import { initializeData } from './src/dataLoader.js?v=16';
 import { initializeTheme } from './src/themeManager.js?v=14';
-import { setupModalEventListeners } from './src/modalManager.js?v=15';
-import { clearTimelineSelection, renderTimeline, updateEventLabelPositions } from './src/timelineRenderer.js?v=15';
+import { setupModalEventListeners } from './src/modalManager.js?v=16';
+import { clearTimelineSelection, renderTimeline, updateEventLabelPositions } from './src/timelineRenderer.js?v=16';
 
 let timelineContainer;
 let timeline;
@@ -307,7 +307,7 @@ function setupControls() {
 
   zoomSlider.addEventListener('input', () => zoomAt(mapSliderToScale(zoomSlider.value)));
 
-  ['peopleToggle', 'publicationsToggle', 'discoveriesToggle', 'significantEventsToggle'].forEach((id) => {
+  ['peopleToggle', 'publicationsToggle', 'discoveriesToggle', 'conferencesToggle', 'significantEventsToggle'].forEach((id) => {
     document.getElementById(id).addEventListener('click', (event) => {
       togglePressed(event.currentTarget);
       render();

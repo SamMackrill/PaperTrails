@@ -1,5 +1,6 @@
 export let scientists = {};
 export let discoveries = [];
+export let conferences = [];
 export let significantEvents = [];
 
 async function loadYamlData(filePath) {
@@ -16,6 +17,10 @@ async function loadDiscoveriesData() {
   discoveries = await loadYamlData('data/discoveries.yaml');
 }
 
+async function loadConferencesData() {
+  conferences = await loadYamlData('data/conferences.yaml');
+}
+
 async function loadSignificantEventsData() {
   significantEvents = await loadYamlData('data/significantevents.yaml');
 }
@@ -24,6 +29,7 @@ export async function initializeData() {
   await Promise.all([
     loadScientistsData(),
     loadDiscoveriesData(),
+    loadConferencesData(),
     loadSignificantEventsData()
   ]);
 }

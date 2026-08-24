@@ -1,6 +1,6 @@
 # Paper Trails
 
-Paper Trails is an interactive browser-based timeline of scientific history. It places scientists and their publications alongside major discoveries and wider historical events, making it easier to see how scientific ideas developed in context from 1400 to the present year.
+Paper Trails is an interactive browser-based timeline of scientific history. It places scientists and their publications alongside major discoveries, conferences, and wider historical events, making it easier to see how scientific ideas developed in context from 1400 to the present year.
 
 The included dataset focuses mainly on physics, astronomy, mathematics, and related subjects.
 
@@ -9,13 +9,14 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Scientist portraits linked to their first listed publication
 - Colour-coded publication markers with titles and abstracts
 - Discovery markers for experiments, particles, and milestones
+- Diamond markers for scientific conferences
 - Duration bars for significant historical events
-- Clickable detail dialogs for scientists, publications, discoveries, and events
+- Clickable detail dialogs for scientists, publications, discoveries, conferences, and events
 - Hover highlighting that connects a scientist with their publications
 - Mouse, touch, and slider controls for panning and zooming
 - Adjustable timeline height
 - Optional cartoon portraits
-- Toggles for discoveries and historical events
+- Toggles for discoveries, conferences, and historical events
 - Light and dark themes, with the preference saved in the browser
 
 ## Running locally
@@ -41,15 +42,16 @@ An internet connection is needed to load js-yaml from jsDelivr. The rest of the 
 - Use the vertical slider on the right to change the timeline height.
 - Click the reset button to restore the default zoom, position, and height.
 - Click a portrait or marker to see more information.
-- Use the Cartoons, Events, and Discoveries switches to change what is displayed.
+- Use the Illustrations, Context, Conferences, and Discoveries switches to change what is displayed.
 - Use the moon/sun button to switch themes.
 
 ## Editing the content
 
-Timeline content is kept in three YAML files:
+Timeline content is kept in four YAML files:
 
 - `data/scientists.yaml` contains biographical details, image paths, and publications.
 - `data/discoveries.yaml` contains dated scientific discoveries and milestones.
+- `data/conferences.yaml` contains dated scientific conferences and their attendees.
 - `data/significantevents.yaml` contains historical periods with start and end years.
 
 A scientist entry has this shape:
@@ -91,7 +93,7 @@ Eight affiliation rows deliberately omit `coat` and display the neutral icon:
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 
-Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. They can include `scientist_ids` for linked discoverers and `theorist_ids` for linked scientists whose theoretical prediction the event validates. Conference milestones in that file use `type: conference` instead of `discoverer` and can include `attendee_ids`, containing scientist keys from `data/scientists.yaml`; their detail cards list those attendees with links to their timeline nodes. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`, and can also use `attendee_ids`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
+Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. They can include `scientist_ids` for linked discoverers and `theorist_ids` for linked scientists whose theoretical prediction the event validates. Conference entries use `year`, `title`, `details`, `particle`, and `attendee_ids`, containing scientist keys from `data/scientists.yaml`; their detail cards list those attendees with links to their timeline nodes. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`, and can also use `attendee_ids`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
 
 Place portrait files under `images/` and cartoon variants under `images/cartoons/`. Missing scientist portraits fall back to a theme-appropriate default image.
 
