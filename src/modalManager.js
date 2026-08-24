@@ -165,9 +165,13 @@ function createScientistGrid(scientistIds, headingText, countNoun) {
     portrait.decoding = 'async';
     portrait.loading = 'lazy';
     portrait.addEventListener('error', () => {
-      portrait.src = portrait.src.endsWith('/default.png')
-        ? portrait.src
-        : scientist.photo || 'images/default.png';
+      if (portrait.src.endsWith('/default.png')) {
+        portrait.src = portrait.src;
+      } else if (scientist.photo && portrait.src !== scientist.photo) {
+        portrait.src = scientist.photo;
+      } else {
+        portrait.src = 'images/default.png';
+      }
     });
 
     const name = document.createElement('span');
