@@ -1176,6 +1176,76 @@ body.dark-mode .icon-sun {
   text-align: center;
 }
 
+.detail-people {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.detail-person-grid {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 14px 10px;
+  list-style: none;
+}
+
+.detail-person-link {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.detail-person-portrait {
+  width: 62px;
+  height: 62px;
+  display: block;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--surface-muted);
+  object-fit: cover;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.detail-person-name {
+  max-width: 100%;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.detail-person-link:hover {
+  color: var(--accent);
+}
+
+.detail-person-link:hover .detail-person-portrait {
+  border-color: var(--accent);
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--accent) 22%, transparent);
+  transform: translateY(-2px);
+}
+
+.detail-person-link:focus-visible {
+  border-radius: 6px;
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.detail-person-link:focus-visible .detail-person-portrait {
+  border-color: var(--accent);
+}
+
 .detail-publication-list {
   padding: 0;
   margin: 0;
