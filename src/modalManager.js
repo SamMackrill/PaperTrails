@@ -339,7 +339,8 @@ export function showPublicationModal(
   description,
   type = 'publication',
   scientistIds = [],
-  attendeeIds = []
+  attendeeIds = [],
+  theoristIds = []
 ) {
   if (!panel && !fetchElements()) return;
 
@@ -374,6 +375,9 @@ export function showPublicationModal(
       itemMetadata.push(['Discoverer', createScientistLinks(scientistIds, actorName)]);
     } else if (type === 'publication') {
       itemMetadata.push(['Author', createScientistLinks(scientistIds, actorName)]);
+    }
+    if (Array.isArray(theoristIds) && theoristIds.length) {
+      itemMetadata.push(['Theorists', createScientistLinks(theoristIds, '')]);
     }
     if (Array.isArray(attendeeIds) && attendeeIds.length) {
       itemMetadata.push(['Attendees', createScientistLinks(attendeeIds, '', 'timeline')]);

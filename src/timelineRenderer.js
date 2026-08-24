@@ -293,7 +293,8 @@ function renderDiscoveries(timeline, svg, width, axisY, contextTop) {
           discovery.details,
           discovery.type === 'conference' ? 'conference' : 'discovery',
           discovery.scientist_ids,
-          discovery.attendee_ids
+          discovery.attendee_ids,
+          discovery.theorist_ids
         );
       });
       timeline.appendChild(marker);
