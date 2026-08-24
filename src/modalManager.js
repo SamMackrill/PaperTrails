@@ -101,6 +101,89 @@ function createScientistLinks(scientistIds, fallbackText, linkTarget = 'profile'
   return wrapper;
 }
 
+function getScientistSurname(scientist) {
+  return String(scientist.name || '')
+    .replace(/[()]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .pop();
+}
+
+function createScientistGrid(scientistIds, headingText, countNoun) {
+  const seenScientistIds = new Set();
+  const linkedScientists = (Array.isArray(scientistIds) ? scientistIds : [])
+    .map((scientistId) => [scientistId, scientists[scientistId]])
+    .filter(([scientistId, scientist]) => {
+      if (!scientist || seenScientistIds.has(scientistId)) return false;
+      seenScientistIds.add(scientistId);
+      return true;
+    })
+    .sort(([, firstScientist], [, secondScientist]) => (
+      getScientistSurname(firstScientist).localeCompare(
+        getScientistSurname(secondScientist),
+        undefined,
+        { sensitivity: 'base' }
+      ) || String(firstScientist.name || '').localeCompare(
+        String(secondScientist.name || ''),
+        undefined,
+        { sensitivity: 'base' }
+      )
+    ));
+  if (!linkedScientists.length) return null;
+
+  const section = document.createElement('section');
+  section.className = 'detail-people';
+
+  const headingRow = document.createElement('div');
+  headingRow.className = 'detail-section-heading';
+
+  const heading = document.createElement('h3');
+  heading.textContent = headingText;
+
+  const count = document.createElement('span');
+  count.className = 'detail-section-count';
+  count.textContent = String(linkedScientists.length);
+  count.setAttribute(
+    'aria-label',
+    `${linkedScientists.length} ${countNoun}${linkedScientists.length === 1 ? '' : 's'}`
+  );
+  headingRow.append(heading, count);
+
+  const list = document.createElement('ul');
+  list.className = 'detail-person-grid';
+  linkedScientists.forEach(([scientistId, scientist]) => {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'detail-person-link';
+    button.setAttribute('aria-label', `Open scientist profile for ${scientist.name}`);
+
+    const portrait = document.createElement('img');
+    portrait.className = 'detail-person-portrait';
+    portrait.src = scientist.cartoon || scientist.photo || 'images/default.png';
+    portrait.alt = '';
+    portrait.decoding = 'async';
+    portrait.loading = 'lazy';
+    portrait.addEventListener('error', () => {
+      portrait.src = portrait.src.endsWith('/default.png')
+        ? portrait.src
+        : scientist.photo || 'images/default.png';
+    });
+
+    const name = document.createElement('span');
+    name.className = 'detail-person-name';
+    name.textContent = scientist.name;
+
+    button.append(portrait, name);
+    button.addEventListener('click', () => showScientistModal(scientistId));
+    item.appendChild(button);
+    list.appendChild(item);
+  });
+
+  section.append(headingRow, list);
+  return section;
+}
+
 function openPanel() {
   if (!panel || !backdrop) return;
 
@@ -360,6 +443,15 @@ export function showPublicationModal(
   descriptionText.className = 'detail-copy';
   descriptionText.textContent = description || 'No further details are available.';
   body.appendChild(descriptionText);
+  const peopleGrid = type === 'conference'
+    ? createScientistGrid(attendeeIds, 'Attendees', 'attendee')
+    : type === 'discovery'
+      ? createScientistGrid([
+        ...(Array.isArray(scientistIds) ? scientistIds : []),
+        ...(Array.isArray(theoristIds) ? theoristIds : [])
+      ], 'Scientists', 'scientist')
+      : null;
+  if (peopleGrid) body.appendChild(peopleGrid);
   media.hidden = true;
   metadata.hidden = false;
 
@@ -379,7 +471,7 @@ export function showPublicationModal(
     if (Array.isArray(theoristIds) && theoristIds.length) {
       itemMetadata.push(['Theorists', createScientistLinks(theoristIds, '')]);
     }
-    if (Array.isArray(attendeeIds) && attendeeIds.length) {
+    if (type !== 'conference' && Array.isArray(attendeeIds) && attendeeIds.length) {
       itemMetadata.push(['Attendees', createScientistLinks(attendeeIds, '', 'timeline')]);
     }
     itemMetadata.push(['Year', String(itemYear || 'Not recorded')]);

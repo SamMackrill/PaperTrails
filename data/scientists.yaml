@@ -1672,6 +1672,7 @@ kleist:
   summary: "A Prussian cleric and natural philosopher who independently invented an early electrical-storage device, a precursor of the Leyden jar and the modern capacitor."
   color: "#a47148"
   photo: "images/default.png"
+  cartoon: "images/cartoons/kleist.png"
   nationality: "Prussian"
   birth: "1700-06-10"
   death: "1748-12-11"
