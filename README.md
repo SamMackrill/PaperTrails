@@ -95,7 +95,9 @@ The full asset provenance, licence information, and institutional-use caveats ar
 
 Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. They can include `scientist_ids` for linked discoverers and `theorist_ids` for linked scientists whose theoretical prediction the event validates. Conference entries use `year`, `title`, `details`, `particle`, and `attendee_ids`, containing scientist keys from `data/scientists.yaml`; their detail cards list those attendees with links to their timeline nodes. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`, and can also use `attendee_ids`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
 
-Place portrait files under `images/` and cartoon variants under `images/cartoons/`. Missing scientist portraits fall back to a theme-appropriate default image.
+Place portrait files under `images/` and cartoon variants under `images/cartoons/`. For filenames containing both a surname and given name, use surname-first order—`surname_givenname.ext`—so related people sort and scan predictably. Keep surname particles together, and use a surname-only filename when it is already unambiguous. Missing scientist portraits fall back to a theme-appropriate default image.
+
+Cartoon portraits follow the repo-local [Paper Trails cartoon portrait skill](.agents/skills/papertrails-cartoon-portrait/SKILL.md). It defines the recognisable caricature house style, prompt structure, crop constraints, and acceptance checks. See the [collection audit](docs/cartoon-portrait-audit.md) for the current migration priorities.
 
 The displayed date range and layout constants can be changed in `src/config.js`. The timeline starts at `START_YEAR` and automatically ends at the browser's current year.
 
