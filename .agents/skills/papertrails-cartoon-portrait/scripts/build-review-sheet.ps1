@@ -146,6 +146,20 @@ try {
   }
 
   $resolvedOutput = [IO.Path]::GetFullPath($OutputPath)
+
+  $inputPaths = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+  foreach ($id in $scientistIdList) {
+    $assets = Get-ScientistAssets -ScientistId $id.Trim()
+    $inputPaths.Add([IO.Path]::GetFullPath($assets.Photo)) | Out-Null
+    $inputPaths.Add([IO.Path]::GetFullPath($assets.Cartoon)) | Out-Null
+    $candidatePath = Join-Path $CandidateDirectory "$($id.Trim())-v2-validated.png"
+    $inputPaths.Add([IO.Path]::GetFullPath($candidatePath)) | Out-Null
+  }
+
+  if ($inputPaths.Contains($resolvedOutput)) {
+    throw "Output path '$resolvedOutput' collides with one of the input source files. Choose a different output path."
+  }
+
   $outputDirectory = [IO.Path]::GetDirectoryName($resolvedOutput)
   if (-not (Test-Path -LiteralPath $outputDirectory -PathType Container)) {
     New-Item -ItemType Directory -Path $outputDirectory | Out-Null

@@ -19,6 +19,31 @@ if ([IO.Path]::GetExtension($resolvedPath) -ine '.png') {
   $failures.Add('file extension must be .png')
 }
 
+$pngSignature = [byte[]]@(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A)
+$fileBytes = [IO.File]::ReadAllBytes($resolvedPath) | Select-Object -First 8
+$signatureValid = $true
+if ($fileBytes.Length -lt 8) {
+  $signatureValid = $false
+}
+else {
+  for ($i = 0; $i -lt 8; $i++) {
+    if ($fileBytes[$i] -ne $pngSignature[$i]) {
+      $signatureValid = $false
+      break
+    }
+  }
+}
+if (-not $signatureValid) {
+  $failures.Add('file does not have a valid PNG signature')
+}
+
+if ($failures.Count -gt 0) {
+  foreach ($failure in $failures) {
+    [Console]::Error.WriteLine("FAIL: $failure")
+  }
+  exit 1
+}
+
 Add-Type -AssemblyName System.Drawing
 $bitmap = [System.Drawing.Bitmap]::FromFile($resolvedPath)
 
