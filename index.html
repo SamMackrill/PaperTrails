@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore scientific publications, discoveries, and their historical context from 1400 to today.">
+  <meta name="description" content="Explore scientific publications, discoveries, conferences, and their historical context from 1400 to today.">
   <title>Paper Trails — Scientific History</title>
   <link rel="icon" href="images/icon.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
   <header class="app-header">
@@ -85,6 +85,10 @@
           <span class="legend-symbol discovery-symbol" aria-hidden="true"></span>
           <span>Discoveries</span>
         </button>
+        <button class="filter-button" id="conferencesToggle" type="button" aria-pressed="true">
+          <span class="legend-symbol conference-symbol" aria-hidden="true"></span>
+          <span>Conferences</span>
+        </button>
         <button class="filter-button" id="significantEventsToggle" type="button" aria-pressed="true">
           <span class="legend-symbol event-symbol" aria-hidden="true"></span>
           <span>Context</span>
@@ -105,7 +109,7 @@
       <div class="lane-labels" aria-hidden="true">
         <span class="lane-label people-label">People</span>
         <span class="lane-label publications-label">Publications</span>
-        <span class="lane-label discoveries-label">Discoveries</span>
+        <span class="lane-label discoveries-label">Discoveries + conferences</span>
         <span class="lane-label context-label">Context</span>
       </div>
       <div class="timeline-container" id="timeline-container" tabindex="0" aria-label="Timeline canvas. Drag to pan and use the zoom controls to explore.">
@@ -141,6 +145,6 @@
   <div class="timeline-tooltip" id="timeline-tooltip" role="tooltip" hidden></div>
 
   <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
-  <script type="module" src="script.js?v=15"></script>
+  <script type="module" src="script.js?v=16"></script>
 </body>
 </html>

@@ -20,6 +20,8 @@
   --publication: #64748b;
   --discovery: #7c3aed;
   --discovery-soft: #ede9fe;
+  --conference: #b45309;
+  --conference-soft: #fef3c7;
   --context: #52718f;
   --context-soft: #dce7f0;
   --focus-ring: rgba(37, 99, 235, 0.3);
@@ -54,6 +56,8 @@ body.dark-mode {
   --publication: #a4b2c5;
   --discovery: #a78bfa;
   --discovery-soft: #302650;
+  --conference: #fbbf24;
+  --conference-soft: #3d2b12;
   --context: #7995b1;
   --context-soft: #24384b;
   --focus-ring: rgba(110, 162, 255, 0.35);
@@ -375,6 +379,16 @@ body.dark-mode .icon-sun {
   background: var(--discovery-soft);
 }
 
+.conference-symbol {
+  width: 11px;
+  height: 11px;
+  margin-inline: 2px;
+  border: 2px solid var(--conference);
+  border-radius: 2px;
+  background: var(--conference-soft);
+  rotate: 45deg;
+}
+
 .event-symbol {
   height: 8px;
   margin-block: 3px;
@@ -566,6 +580,7 @@ body.dark-mode .icon-sun {
 
 .publication,
 .discovery-marker,
+.conference-marker,
 .scientist-node,
 .scientist-cluster,
 .event-band {
@@ -675,14 +690,14 @@ body.dark-mode .icon-sun {
   filter: grayscale(0%) contrast(1);
 }
 
-.discovery-marker {
+.discovery-marker,
+.conference-marker {
   width: 25px;
   height: 25px;
   padding: 0;
-  border: 2px solid var(--discovery);
-  border-radius: 50%;
-  background: var(--discovery-soft);
-  color: var(--discovery);
+  border: 2px solid var(--milestone-color);
+  background: var(--milestone-soft);
+  color: var(--milestone-color);
   box-shadow: 0 0 0 2px var(--surface);
   display: grid;
   place-items: center;
@@ -691,7 +706,23 @@ body.dark-mode .icon-sun {
   transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
 }
 
-.discovery-marker span {
+.discovery-marker {
+  --milestone-color: var(--discovery);
+  --milestone-soft: var(--discovery-soft);
+
+  border-radius: 50%;
+}
+
+.conference-marker {
+  --milestone-color: var(--conference);
+  --milestone-soft: var(--conference-soft);
+
+  border-radius: 4px;
+  rotate: 45deg;
+}
+
+.discovery-marker span,
+.conference-marker span {
   max-width: 22px;
   overflow: hidden;
   font-size: 8px;
@@ -700,12 +731,19 @@ body.dark-mode .icon-sun {
   white-space: nowrap;
 }
 
+.conference-marker span {
+  rotate: -45deg;
+}
+
 .discovery-marker:hover,
 .discovery-marker:focus-visible,
-.discovery-marker.is-selected {
-  background: var(--discovery);
-  color: #fff;
-  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px color-mix(in srgb, var(--discovery) 35%, transparent);
+.discovery-marker.is-selected,
+.conference-marker:hover,
+.conference-marker:focus-visible,
+.conference-marker.is-selected {
+  background: var(--milestone-color);
+  color: var(--surface);
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px color-mix(in srgb, var(--milestone-color) 35%, transparent);
   z-index: 28;
 }
 
@@ -751,6 +789,7 @@ body.dark-mode .icon-sun {
 
 .scientist-link,
 .discovery-link,
+.conference-link,
 .event-link {
   vector-effect: non-scaling-stroke;
   fill: none;
@@ -765,7 +804,8 @@ body.dark-mode .icon-sun {
 }
 
 .timeline[data-zoom-tier="overview"] .scientist-node,
-.timeline[data-zoom-tier="overview"] .discovery-marker {
+.timeline[data-zoom-tier="overview"] .discovery-marker,
+.timeline[data-zoom-tier="overview"] .conference-marker {
   transform: scale(0.82);
 }
 
@@ -788,6 +828,12 @@ body.dark-mode .icon-sun {
 
 .discovery-link {
   stroke: var(--discovery);
+  stroke-width: 1.25;
+  opacity: 0.55;
+}
+
+.conference-link {
+  stroke: var(--conference);
   stroke-width: 1.25;
   opacity: 0.55;
 }
