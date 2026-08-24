@@ -709,12 +709,14 @@ body.dark-mode .icon-sun {
 .discovery-marker {
   --milestone-color: var(--discovery);
   --milestone-soft: var(--discovery-soft);
+
   border-radius: 50%;
 }
 
 .conference-marker {
   --milestone-color: var(--conference);
   --milestone-soft: var(--conference-soft);
+
   border-radius: 4px;
   rotate: 45deg;
 }
