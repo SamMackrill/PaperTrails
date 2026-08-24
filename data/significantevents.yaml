@@ -1,3 +1,31 @@
+- title: "The Renaissance"
+  shortTitle: "Renaissance"
+  startYear: 1400
+  endYear: 1600
+  color: "#9c6644"
+  details: "A broad period of renewed engagement with classical learning, artistic experimentation, humanism, and increasingly rapid circulation of texts in Europe."
+
+- title: "Fall of Constantinople"
+  shortTitle: "1453"
+  startYear: 1453
+  endYear: 1453
+  color: "#6c757d"
+  details: "Ottoman forces under Mehmed II captured the Byzantine capital, ending the Byzantine Empire and reshaping politics and trade in the eastern Mediterranean."
+
+- title: "Early Columbian Exchange"
+  shortTitle: "Exchange"
+  startYear: 1492
+  endYear: 1600
+  color: "#52796f"
+  details: "The early phase of large-scale movement of people, crops, animals, technologies, and diseases among the Americas, Europe, and Africa, with transformative and catastrophic effects."
+
+- title: "Protestant Reformation"
+  shortTitle: "Reformation"
+  startYear: 1517
+  endYear: 1648
+  color: "#7f5539"
+  details: "Religious and political reform movements fractured western Christendom, were amplified by print, and reshaped European institutions and conflicts."
+
 - title: "The Little Ice Age"
   shortTitle: "LIA"
   startYear: 1600
@@ -111,4 +139,3 @@
   endYear: 1859
   color: "#39FF88" # Aurora green
   details: "Strongest recorded solar storm, causing brilliant auroras and widespread telegraph-system failures."
-  

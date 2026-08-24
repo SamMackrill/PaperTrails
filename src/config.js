@@ -1,5 +1,5 @@
 // Define base values
-const START_YEAR = 1600;
+const START_YEAR = 1400;
 const CURRENT_YEAR = new Date().getFullYear();
 
 // Configuration object

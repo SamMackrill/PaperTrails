@@ -1,6 +1,6 @@
 # Paper Trails
 
-Paper Trails is an interactive browser-based timeline of scientific history. It places scientists and their publications alongside major discoveries and wider historical events, making it easier to see how scientific ideas developed in context from 1600 to the present year.
+Paper Trails is an interactive browser-based timeline of scientific history. It places scientists and their publications alongside major discoveries and wider historical events, making it easier to see how scientific ideas developed in context from 1400 to the present year.
 
 The included dataset focuses mainly on physics, astronomy, mathematics, and related subjects.
 
@@ -78,12 +78,16 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Four affiliation rows deliberately omit `coat` and display the neutral icon:
+Eight affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Royal Engineering School of Mézières** — archival sources document the school, but no distinct school emblem suitable for reuse was found. The later Corps royal du génie insignia is not substituted.
 - **Royal Institution** — its [copyright notice](https://www.rigb.org/copyright) says the institution's marks and logos may not be reproduced without prior permission.
 - **SISSA** — the school publishes an official logo and seal, but [requires the Director's authorization for external use](https://www2.sissa.it/media-and-press/researchers-and-sissa-staff).
+- **Jagiellonian University** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
+- **University of Bologna** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
+- **University of Ferrara** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
+- **University of Leuven** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 

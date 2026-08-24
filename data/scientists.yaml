@@ -1,3 +1,101 @@
+regiomontanus:
+  name: "Johann Müller Regiomontanus"
+  summary: "A German astronomer and mathematician who strengthened Renaissance astronomy through critical work on Ptolemy, trigonometry, observational tables, and scientific printing."
+  color: "#8f5d3b"
+  photo: "images/regiomontanus.jpg"
+  cartoon: "images/cartoons/regiomontanus.png"
+  nationality: "German"
+  birth: "1436-06-06"
+  death: "1476-07-06"
+  academic_affiliations:
+    - institution: "Leipzig University"
+      association: "Student"
+      coat: "images/institutions/leipzig-university.png"
+    - institution: "University of Vienna"
+      association: "Student, master and member of the arts faculty"
+      coat: "images/institutions/university-of-vienna.png"
+  publications:
+    - year: 1496
+      title: "Epytoma Ioannis de Monte Regio in Almagestum Ptolomei"
+      abstract: "Published posthumously, the work completed Georg von Peuerbach's concise, critical account of Ptolemaic astronomy and gave Renaissance astronomers a practical guide to planetary theory."
+    - year: 1533
+      title: "De triangulis omnimodis libri quinque"
+      abstract: "Published posthumously, the treatise systematized plane and spherical trigonometry and supplied methods central to astronomical calculation."
+
+copernicus:
+  name: "Nicolaus Copernicus"
+  summary: "A Polish astronomer and mathematician who developed a quantitative heliocentric model, placing Earth among the planets orbiting the Sun."
+  color: "#c44569"
+  photo: "images/copernicus.jpg"
+  cartoon: "images/cartoons/copernicus.png"
+  nationality: "Polish"
+  birth: "1473-02-19"
+  death: "1543-05-24"
+  academic_affiliations:
+    - institution: "Jagiellonian University"
+      association: "Student of liberal arts, mathematics and astronomy"
+    - institution: "University of Bologna"
+      association: "Student of canon law and astronomy"
+    - institution: "University of Padua"
+      association: "Student of medicine"
+      coat: "images/institutions/university-of-padua.jpg"
+    - institution: "University of Ferrara"
+      association: "Doctorate in canon law"
+  publications:
+    - year: 1543
+      title: "De revolutionibus orbium coelestium"
+      abstract: "Presented a mathematical heliocentric system in which Earth rotates daily and travels around the Sun as one of the planets."
+
+vesalius:
+  name: "Andreas Vesalius"
+  summary: "A Flemish physician and anatomist who made direct human dissection central to anatomical research and replaced many inherited Galenic claims with observed descriptions."
+  color: "#6a8e7f"
+  photo: "images/vesalius.jpg"
+  cartoon: "images/cartoons/vesalius.png"
+  nationality: "Flemish"
+  birth: "1514-12-31"
+  death: "1564-10-15"
+  academic_affiliations:
+    - institution: "University of Leuven"
+      association: "Student of arts and medicine"
+    - institution: "University of Paris"
+      association: "Medical student"
+      coat: "images/institutions/university-of-paris.png"
+    - institution: "University of Padua"
+      association: "Doctor of medicine and professor of surgery and anatomy"
+      coat: "images/institutions/university-of-padua.jpg"
+  publications:
+    - year: 1538
+      title: "Tabulae anatomicae sex"
+      abstract: "Six anatomical broadsheets combined concise text with detailed illustrations, previewing Vesalius's observational approach to human anatomy."
+    - year: 1543
+      title: "De humani corporis fabrica libri septem"
+      abstract: "Rebuilt the study of human anatomy around direct dissection, systematic description, and exceptionally detailed illustrations."
+
+tycho_brahe:
+  name: "Tycho Brahe"
+  summary: "A Danish astronomer whose exceptionally precise pre-telescopic observations transformed positional astronomy and supplied the data from which Kepler derived his planetary laws."
+  color: "#b07d2b"
+  photo: "images/tycho_brahe.jpg"
+  cartoon: "images/cartoons/tycho_brahe.png"
+  nationality: "Danish"
+  birth: "1546-12-14"
+  death: "1601-10-24"
+  academic_affiliations:
+    - institution: "University of Copenhagen"
+      association: "Student of philosophy, rhetoric and law"
+      coat: "images/institutions/university-of-copenhagen.png"
+    - institution: "Leipzig University"
+      association: "Student of law who independently pursued astronomy"
+      coat: "images/institutions/leipzig-university.png"
+  publications:
+    - year: 1573
+      title: "De nova et nullius ævi memoria prius visa stella"
+      abstract: "Recorded the new star of 1572 and used the absence of measurable parallax to place it beyond the Moon, challenging the doctrine of unchanging heavens."
+    - year: 1588
+      title: "De mundi aetherei recentioribus phaenomenis liber secundus"
+      abstract: "Reported observations of the comet of 1577, argued that it travelled beyond the Moon, and presented Tycho's geoheliocentric planetary system."
+
 galileo:
   name: "Galileo Galilei"
   color: "#d4a373"
