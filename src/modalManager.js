@@ -222,7 +222,7 @@ function createAcademicAffiliations(scientist) {
   return section;
 }
 
-function createPublicationList(scientist) {
+function createPublicationList(scientistId, scientist) {
   const section = document.createElement('section');
   section.className = 'detail-publications';
 
@@ -277,7 +277,14 @@ function createPublicationList(scientist) {
 
       button.append(year, content, arrow);
       button.addEventListener('click', () => {
-        showPublicationModal(scientist.name, publication.year, publication.title, publication.abstract, 'publication');
+        showPublicationModal(
+          scientist.name,
+          publication.year,
+          publication.title,
+          publication.abstract,
+          'publication',
+          [scientistId]
+        );
       });
       item.appendChild(button);
       list.appendChild(item);
@@ -366,7 +373,7 @@ export function showPublicationModal(
     if (type === 'discovery') {
       itemMetadata.push(['Discoverer', createScientistLinks(scientistIds, actorName)]);
     } else if (type === 'publication') {
-      itemMetadata.push(['Author', actorName]);
+      itemMetadata.push(['Author', createScientistLinks(scientistIds, actorName)]);
     }
     if (Array.isArray(attendeeIds) && attendeeIds.length) {
       itemMetadata.push(['Attendees', createScientistLinks(attendeeIds, '', 'timeline')]);
@@ -395,7 +402,7 @@ export function showScientistModal(scientistId) {
 
   const academicAffiliations = createAcademicAffiliations(scientist);
   const locateAction = createLocateAction(scientistId, scientist);
-  body.replaceChildren(...[academicAffiliations, summary, createPublicationList(scientist), locateAction].filter(Boolean));
+  body.replaceChildren(...[academicAffiliations, summary, createPublicationList(scientistId, scientist), locateAction].filter(Boolean));
   image.src = scientist.photo || 'images/default.png';
   image.alt = scientist.name ? `Portrait of ${scientist.name}` : 'Scientist portrait';
   media.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
