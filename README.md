@@ -80,7 +80,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Nine affiliation rows deliberately omit `coat` and display the neutral icon:
+Sixteen affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -91,6 +91,12 @@ Nine affiliation rows deliberately omit `coat` and display the neutral icon:
 - **University of Bologna** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
 - **University of Ferrara** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
 - **University of Leuven** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
+- **University of Jena** — no repository-compatible historical emblem was added for Leibniz's period of study; the neutral icon avoids substituting the modern university identity.
+- **University of Altdorf** — the university closed in 1809, and no distinct repository-compatible historical emblem was added for Leibniz's doctorate.
+- **Johns Hopkins University** — the Wheeler and Breit rows deliberately retain the neutral icon because no repository-compatible emblem is recorded for either affiliation.
+- **University of Texas at Austin** — the Wheeler row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
+- **New York University** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
+- **University of Wisconsin–Madison** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 
