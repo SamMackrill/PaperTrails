@@ -9,6 +9,10 @@ Public-domain source portraits added for the 1400–1600 expansion:
 - `vesalius.jpg` is a cropped and resized version of a public-domain portrait of Andreas Vesalius engraved by Cornelis van Dalen II after a design associated with Titian. [Source](https://commons.wikimedia.org/wiki/File:Andreas_Vesalius,_PA00128.jpg). `cartoons/vesalius.png` is an AI-assisted illustrated adaptation.
 - `brahe_tycho.jpg` is a cropped and resized version of a sixteenth-century portrait of Tycho Brahe from Frederiksborg Museum; the file is marked public domain. [Source](https://commons.wikimedia.org/wiki/File:Tycho_Brahe_2.jpg). `cartoons/brahe_tycho.png` is an AI-assisted illustrated adaptation.
 
+Additional public-domain source portraits:
+
+- `du_fay.jpg` is cropped from Émile Thomas's engraved portrait of Charles François de Cisternay du Fay in Louis Figuier's 1867 *Les Merveilles de la science*, using the high-resolution public-domain scan hosted by Wikimedia Commons. [High-resolution source and licence](https://commons.wikimedia.org/wiki/File:Figuier_-_Les_Merveilles_de_la_science,_1867_-_1891,_Tome_1.djvu). [Portrait metadata](https://commons.wikimedia.org/wiki/File:Charles_Fran%C3%A7ois_de_Cisternay_du_Fay.jpg). `cartoons/du_fay.png` is an AI-assisted illustrated adaptation.
+
 The following files retain Creative Commons terms from their source works:
 
 - `cavendish_henry.jpg` is a cropped and resized version of *Henry Cavendish. Aquatint by C. Rosenberg after W. Alexander*, supplied by the Wellcome Collection and licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). [Source](https://commons.wikimedia.org/wiki/File:Henry_Cavendish._Aquatint_by_C._Rosenberg_after_W._Alexander_Wellcome_V0001039.jpg). `cartoons/cavendish_henry.png` is an AI-assisted illustrated adaptation of that image.
