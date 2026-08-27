@@ -2134,3 +2134,112 @@ breit:
     - year: 1936
       title: "Capture of Slow Neutrons"
       abstract: "With Eugene Wigner, developed the resonance description of slow-neutron capture now known through the Breit–Wigner formula."
+
+lagrange:
+  name: "Joseph-Louis Lagrange"
+  summary: "An Italian-born French mathematician who recast mechanics in analytical form and made foundational advances in the calculus of variations, number theory, and celestial mechanics."
+  color: "#b5651d"
+  photo: "images/lagrange.jpg"
+  cartoon: "images/cartoons/lagrange.png"
+  nationality: "Italian/French"
+  birth: "1736-01-25"
+  death: "1813-04-10"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Founding professor of analysis"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+  publications:
+    - year: 1762
+      title: "Essai d'une nouvelle méthode pour déterminer les maxima et les minima des formules intégrales indéfinies"
+      abstract: "Introduced a systematic variational method for extremizing integral expressions, helping establish the calculus of variations."
+    - year: 1788
+      title: "Mécanique analytique"
+      abstract: "Recast statics and dynamics through generalized coordinates and variational principles, making mechanics a branch of mathematical analysis."
+    - year: 1797
+      title: "Théorie des fonctions analytiques, contenant les principes du calcul différentiel"
+      abstract: "Attempted to ground differential calculus algebraically through power-series expansions and developed a formal calculus of functions."
+
+leibniz:
+  name: "Gottfried Wilhelm Leibniz"
+  summary: "A German polymath who independently developed differential and integral calculus, devised enduring mathematical notation, and advanced binary arithmetic and mathematical logic."
+  color: "#5b6f8a"
+  photo: "images/leibniz.jpg"
+  cartoon: "images/cartoons/leibniz.png"
+  nationality: "German"
+  birth: "1646-07-01"
+  death: "1716-11-14"
+  academic_affiliations:
+    - institution: "Leipzig University"
+      association: "Student of philosophy and law"
+      coat: "images/institutions/leipzig-university.png"
+    - institution: "University of Jena"
+      association: "Student of mathematics"
+    - institution: "University of Altdorf"
+      association: "Doctorate in law"
+  publications:
+    - year: 1684
+      title: "Nova methodus pro maximis et minimis, itemque tangentibus, quae nec fractas nec irrationales quantitates moratur, et singulare pro illis calculi genus"
+      abstract: "Gave the first published account of Leibniz's differential calculus, including rules for products, quotients, powers, tangents, maxima, and minima."
+    - year: 1686
+      title: "De geometria recondita et analysi indivisibilium atque infinitorum"
+      abstract: "Presented integral notation and connected summation with differentiation, including an early published form of the fundamental theorem of calculus."
+    - year: 1703
+      title: "Explication de l'arithmétique binaire, qui se sert des seuls caractères 0 et 1"
+      abstract: "Set out binary positional arithmetic using only zero and one and explored its mathematical structure and applications."
+
+poisson:
+  name: "Siméon Denis Poisson"
+  summary: "A French mathematician and physicist whose analytical methods shaped mechanics, potential theory, electromagnetism, and probability."
+  color: "#7a5195"
+  photo: "images/poisson.jpg"
+  cartoon: "images/cartoons/poisson.png"
+  nationality: "French"
+  birth: "1781-06-21"
+  death: "1840-04-25"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Student and professor"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+  publications:
+    - year: 1811
+      title: "Traité de mécanique"
+      abstract: "Systematized analytical mechanics across statics, dynamics, rigid bodies, and fluids, extending methods developed by Lagrange and Laplace."
+    - year: 1813
+      title: "Remarques sur une équation qui se présente dans la théorie des attractions des sphéroïdes"
+      abstract: "Corrected the source-free potential equation inside matter by introducing the density term in the relation now called Poisson's equation."
+    - year: 1837
+      title: "Recherches sur la probabilité des jugements en matière criminelle et en matière civile"
+      abstract: "Developed probability theory for large numbers and rare events and applied it to the reliability of judicial decisions."
+
+helmholtz:
+  name: "Hermann von Helmholtz"
+  summary: "A German physician and physicist who unified physiology with quantitative physics through work on energy conservation, perception, acoustics, optics, and fluid motion."
+  color: "#2a7f9e"
+  photo: "images/helmholtz.jpg"
+  cartoon: "images/cartoons/helmholtz.png"
+  nationality: "German"
+  birth: "1821-08-31"
+  death: "1894-09-08"
+  academic_affiliations:
+    - institution: "University of Königsberg"
+      association: "Professor of physiology and pathology"
+      coat: "images/institutions/university-of-konigsberg.png"
+    - institution: "University of Bonn"
+      association: "Professor of anatomy and physiology"
+      coat: "images/institutions/university-of-bonn.png"
+    - institution: "Heidelberg University"
+      association: "Professor of physiology"
+      coat: "images/institutions/heidelberg-university.png"
+    - institution: "Humboldt University of Berlin"
+      association: "Professor of physics"
+      coat: "images/institutions/humboldt-university-of-berlin.png"
+  publications:
+    - year: 1847
+      title: "Über die Erhaltung der Kraft"
+      abstract: "Formulated a general quantitative principle of energy conservation across mechanical, thermal, electrical, and biological processes."
+    - year: 1858
+      title: "Über Integrale der hydrodynamischen Gleichungen, welche den Wirbelbewegungen entsprechen"
+      abstract: "Established fundamental theorems governing vortex motion in ideal fluids and laid a foundation for modern vortex dynamics."
+    - year: 1863
+      title: "Die Lehre von den Tonempfindungen als physiologische Grundlage für die Theorie der Musik"
+      abstract: "Linked the physics of sound with auditory physiology to explain resonance, timbre, consonance, and musical perception."
