@@ -80,9 +80,10 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Eight affiliation rows deliberately omit `coat` and display the neutral icon:
+Nine affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
+- **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
 - **Royal Engineering School of Mézières** — archival sources document the school, but no distinct school emblem suitable for reuse was found. The later Corps royal du génie insignia is not substituted.
 - **Royal Institution** — its [copyright notice](https://www.rigb.org/copyright) says the institution's marks and logos may not be reproduced without prior permission.
 - **SISSA** — the school publishes an official logo and seal, but [requires the Director's authorization for external use](https://www2.sissa.it/media-and-press/researchers-and-sissa-staff).

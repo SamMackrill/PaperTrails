@@ -183,6 +183,26 @@ fatio:
       title: "Letter outlining kinetic theory of gravity"
       abstract: "Early theory explaining gravity via particle collisions/shadowing."
 
+du_fay:
+  name: "Charles François de Cisternay du Fay"
+  summary: "A French natural philosopher who broadened the experimental study of static electricity and distinguished the two kinds of charge he called vitreous and resinous."
+  color: "#6f4e7c"
+  photo: "images/du_fay.jpg"
+  cartoon: "images/cartoons/du_fay.png"
+  nationality: "French"
+  birth: "1698-09-14"
+  death: "1739-07-16"
+  academic_affiliations:
+    - institution: "Académie royale des sciences"
+      association: "Associate chemist, pensioner and twice director"
+  publications:
+    - year: 1733
+      title: "Second mémoire sur l’électricité : Quels sont les corps qui sont susceptibles d’électricité"
+      abstract: "Showed that a wide range of materials could acquire and transmit electricity when experimental handling and insulation were controlled."
+    - year: 1733
+      title: "Quatrième mémoire sur l’électricité : De l’attraction & répulsion des corps électriques"
+      abstract: "Distinguished vitreous and resinous electricity and stated that bodies bearing the same kind repel while bodies bearing different kinds attract."
+
 franklin:
   name: "Benjamin Franklin"
   color: "#005f73"
