@@ -105,6 +105,13 @@
   color: "#34495e"
   details: "The war of independence fought by the American colonies against Britain."
 
+- title: "Signing of the United States Constitution"
+  shortTitle: "U.S. Const."
+  startYear: 1787
+  endYear: 1787
+  color: "#3c6e71"
+  details: "On 17 September 1787, 39 delegates to the Constitutional Convention signed the proposed Constitution in Philadelphia, establishing a new framework for the United States government subject to ratification by the states."
+
 - title: "American Civil War"
   shortTitle: "ACW"
   startYear: 1861

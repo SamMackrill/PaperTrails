@@ -82,6 +82,13 @@
   particle: c
   color: "#ffcc00" # Golden Yellow
 
+- year: 1708
+  title: "Measurement of the Speed of Sound"
+  discoverer: "William Derham"
+  details: "Derham timed the delay between the visible flash and the report of distant gunfire from the tower of St Laurence Church in Upminster. Using surveyed distances, he obtained one of the earliest reasonably accurate measurements of the speed of sound in air."
+  particle: vₛ
+  color: "#52796f"
+
 - year: 1745
   title: "Invention of the Leyden Jar"
   discoverer: "Ewald Georg von Kleist"
@@ -89,6 +96,14 @@
   details: "Ewald Georg von Kleist invented the Leyden jar, the first capacitor, capable of storing electrical charge."
   particle: LJar
   color: "#8b0000" # Dark Red
+
+- year: 1758
+  title: "Return of Halley's Comet"
+  discoverer: "Johann Georg Palitzsch; return predicted by Edmond Halley"
+  theorist_ids: [newton]
+  details: "Palitzsch recovered the predicted comet on 25 December 1758; it reached perihelion in March 1759. Its return confirmed Halley's application of Newtonian gravitation to periodic cometary orbits."
+  particle: "☄"
+  color: "#6f4e7c"
 
 - year: 1848
   title: "Concept of Absolute Zero"
