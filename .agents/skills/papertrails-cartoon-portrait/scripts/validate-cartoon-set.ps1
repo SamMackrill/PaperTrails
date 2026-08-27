@@ -1,6 +1,6 @@
 param(
   [string]$DataPath = 'data/scientists.yaml',
-  [int]$ExpectedCount = 92
+  [int]$ExpectedCount = 93
 )
 
 $ErrorActionPreference = 'Stop'

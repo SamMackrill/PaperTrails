@@ -10,11 +10,15 @@ This direction is deliberately graphic. Paper Trails displays scientist nodes at
 
 ## Migration result
 
-The full live collection was regenerated on 2026-08-24. After rebasing onto `main`, all 92 scientist records in `data/scientists.yaml` have cartoon references: 87 unique non-default paths and five intentional references to the shared default, with no missing files. All now use The Wry Engraver style and pass the collection gate: present files, unique non-default paths, 1024×1024 PNG format, genuine alpha transparency, safe transparent corners, and sufficient opaque content.
+The full live collection was regenerated on 2026-08-24. With the subsequent addition of Charles François du Fay, all 93 scientist records in `data/scientists.yaml` have cartoon references: 88 unique non-default paths and five intentional references to the shared default, with no missing files. All now use The Wry Engraver style and pass the collection gate: present files, unique non-default paths, 1024×1024 PNG format, genuine alpha transparency, safe transparent corners, and sufficient opaque content.
 
-Every reference was also inspected in the actual 92 px colour and 42 px grayscale circular crops. The combined proof is [`cartoon-redraw-review/all-92-small-crops.png`](cartoon-redraw-review/all-92-small-crops.png); prompt records and three-way source/before/after reviews are retained in the batch logs and review sheets in the same directory. Wheeler and Breit, introduced by the new `main` base, are documented in [`cartoon-redraw-review/rebase-main-log.md`](cartoon-redraw-review/rebase-main-log.md).
+Every reference was also inspected in the actual 92 px colour and 42 px grayscale circular crops. The current combined proof is [`cartoon-redraw-review/all-93-small-crops.png`](cartoon-redraw-review/all-93-small-crops.png); prompt records and three-way source/before/after reviews are retained in the batch logs and review sheets in the same directory. Wheeler and Breit, introduced by the new `main` base, are documented in [`cartoon-redraw-review/rebase-main-log.md`](cartoon-redraw-review/rebase-main-log.md).
 
 Scientists without a trustworthy configured likeness use the shared neutral Wry Engraver question mark at `images/cartoons/default.png`. This avoids both invented faces and unsettling faceless human silhouettes. The current shared-default entries are Robert Hooke, George Green, Ewald Georg von Kleist, John Michell, and Steve K. Lamoreaux.
+
+## Duplicate cleanup follow-up
+
+On 2026-08-27, the five unused cartoon variants identified below were removed. Albert A. Michelson's configured source was changed from his naval-uniform photograph to the newer civilian portrait, and `cartoons/michelson.png` was redrawn and validated against that civilian likeness. Edward W. Morley's live source/cartoon pair was retained because it already used civilian dress and passed validation; only its redundant copies were removed. The case-only duplicate `deBroglie.jpg` source entry was also removed, retaining the configured lowercase `debroglie.jpg` path.
 
 ## Baseline inventory findings
 
@@ -42,9 +46,9 @@ These retain photographic or engraved modelling, fine hair and fabric texture, r
 
 `kleist` depicts apparatus rather than Ewald Georg von Kleist. It prevents person-first scanning and should be replaced with a recognisable bust; a very small Leyden-jar detail may be used as the secondary joke.
 
-### Unused files — review, then remove separately (4)
+### Unused files — resolved (5)
 
-`michelson_albert` and `morley_edward` are rendered duplicates of the live `michelson` and `morley` assets. `einstein_small` is a 256 px duplicate. `wheeler-pointing` is a stylistic and compositional outlier and is not referenced. They are not deleted by this audit so asset removal remains a deliberate, reviewable change.
+`michelson_albert` and `morley_edward` were rendered duplicates of the live `michelson` and `morley` assets. `einstein_small` was a 256 px duplicate. `wheeler-pointing` was a stylistic and compositional outlier, and `lamoreaux` was superseded by the shared neutral default because the application does not ship a trustworthy configured likeness. All five unreferenced variants were removed in the 2026-08-27 cleanup.
 
 ## Migration order used
 
@@ -52,8 +56,8 @@ These retain photographic or engraved modelling, fine hair and fabric texture, r
 2. Lock the prompt, house-style constraints, deterministic alpha finishing, and individual validator.
 3. Regenerate the remaining live collection in three mixed-era parallel batches.
 4. Review all three-way comparisons and UI-size crops; reject and redraw identity, palette, crop, or transparency failures.
-5. Run the full collection gate and save the combined UI-size proof; after rebasing and adding the shared default, this covers all 92 scientist references.
+5. Run the full collection gate and save the combined UI-size proof; the current proof covers all 93 scientist references.
 
-The four pre-existing unused files remain intentionally untouched; removing them is a separate cleanup decision.
+The pre-existing unused files were left untouched by the migration itself and removed in the 2026-08-27 cleanup documented above.
 
 Regenerate in small, mixed-era batches rather than chronologically. A batch containing different genders, ethnicities, clothing periods, facial hair, and source quality is a better test of whether the style is genuinely controlling rather than accidentally tuned to one kind of portrait.
