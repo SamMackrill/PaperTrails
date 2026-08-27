@@ -80,7 +80,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Sixteen affiliation rows deliberately omit `coat` and display the neutral icon:
+Fifteen affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
