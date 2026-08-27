@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add a PaperTrails Scientist"
+  short_description: "Research and add scientists to PaperTrails"
+  default_prompt: "Use $papertrails-add-scientist to research and add a named scientist with portrait, illustration, and landmark publications."
