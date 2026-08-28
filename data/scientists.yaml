@@ -1712,7 +1712,7 @@ michelson:
   name: "Albert A. Michelson"
   summary: "An American physicist who developed precision optical interferometry, performed the Michelson–Morley experiment, and became the first American Nobel laureate in a science."
   color: "#3a6ea5"
-  photo: "images/michelson.jpg"
+  photo: "images/michelson_albert.jpg"
   cartoon: "images/cartoons/michelson.png"
   nationality: "American"
   birth: "1852-12-19"

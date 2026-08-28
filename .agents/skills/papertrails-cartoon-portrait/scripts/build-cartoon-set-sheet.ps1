@@ -1,6 +1,6 @@
 param(
   [string]$DataPath = 'data/scientists.yaml',
-  [string]$OutputPath = 'docs/cartoon-redraw-review/all-92-small-crops.png',
+  [string]$OutputPath = 'docs/cartoon-redraw-review/all-93-small-crops.png',
   [int]$Columns = 10
 )
 

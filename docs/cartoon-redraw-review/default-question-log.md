@@ -16,4 +16,4 @@ Current references: Robert Hooke, George Green, Ewald Georg von Kleist, John Mic
 - Prohibited content: faces, eyes, bodies, hands, clothing, human silhouettes, extra punctuation, frames, discs, backgrounds, signatures, and watermarks.
 - Finishing: normalised to 1024×1024 while preserving genuine alpha; no background pixels required removal.
 - Validation: the symbol-specific validator path checks dimensions, alpha, transparent corners, transparency coverage, and opaque content while intentionally omitting the portrait-only central-clothing test.
-- UI proof: [`all-92-small-crops.png`](all-92-small-crops.png), shown at 92 px colour and 42 px grayscale circular crops.
+- Current UI proof: [`all-93-small-crops.png`](all-93-small-crops.png), shown at 92 px colour and 42 px grayscale circular crops.

@@ -259,8 +259,9 @@ This exception applies only to George Green and Ewald Georg von Kleist. It is no
 - Anchors: large rounded bald head with a narrow pale hair fringe; rectangular dark-rimmed glasses around blue-grey eyes; full rounded cheeks, compact nose, and tight-lipped half-smile.
 - Comic beat: the half-smile and barely tugged lapel suggest he has noticed a tiny force in apparently empty space.
 - Candidate: `tmp/cartoon-redraw/batch-3/lamoreaux-v2-validated.png`
-- Live: `images/cartoons/lamoreaux.png`
-- Result: PASS in staging and live. Retry: none; deterministic finishing applied, followed by removal of a tiny non-subject top-left edge artifact before the validator passed.
+- Migration candidate: `images/cartoons/lamoreaux.png` (removed in the 2026-08-27 duplicate cleanup).
+- Final live asset: shared neutral `images/cartoons/default.png`; the application does not ship the Yale identity photograph, so the generated likeness is not used without a trustworthy configured source.
+- Historical candidate result: PASS in staging and at its former live path. Retry: none; deterministic finishing applied, followed by removal of a tiny non-subject top-left edge artifact before the validator passed.
 
 ## Review sheets
 
