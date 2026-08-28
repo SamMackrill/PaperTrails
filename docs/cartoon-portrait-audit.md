@@ -23,7 +23,7 @@ On 2026-08-27, the five unused cartoon variants identified below were removed. A
 ## Baseline inventory findings
 
 - 93 PNG files are present in `images/cartoons/`.
-- 89 were referenced by `data/scientists.yaml` at the baseline audit; the rebased collection now contains 92 references, including five references to the shared default.
+- 89 were referenced by `data/scientists.yaml` at the baseline audit; the rebased collection now contains 93 references, including five references to the shared default.
 - 77 are 1024×1024; 13 are 1254×1254; one is 256×256; one is 1024×1073; one is 1024×1536.
 - All 93 files contain an alpha channel.
 - Five files are unused: `michelson_albert.png`, `morley_edward.png`, `einstein_small.png`, `wheeler-pointing.png`, and `lamoreaux.png`.
