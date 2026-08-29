@@ -3,8 +3,10 @@ export let discoveries = [];
 export let conferences = [];
 export let significantEvents = [];
 
+const DATA_VERSION = '17';
+
 async function loadYamlData(filePath) {
-  const response = await fetch(filePath);
+  const response = await fetch(`${filePath}?v=${DATA_VERSION}`, { cache: 'no-cache' });
   if (!response.ok) throw new Error(`Unable to load ${filePath} (${response.status})`);
   return jsyaml.load(await response.text());
 }

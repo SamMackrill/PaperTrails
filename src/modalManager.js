@@ -1,4 +1,4 @@
-import { scientists } from './dataLoader.js?v=16';
+import { scientists } from './dataLoader.js?v=17';
 
 let panel;
 let backdrop;
@@ -81,7 +81,8 @@ function createConferencePhoto(photo, conferenceTitle) {
   const photograph = document.createElement('img');
   photograph.src = photo.src;
   photograph.alt = photo.alt || `Attendees at ${conferenceTitle || 'the conference'}`;
-  photograph.loading = 'lazy';
+  photograph.loading = 'eager';
+  photograph.fetchPriority = 'high';
   photograph.decoding = 'async';
   photograph.addEventListener('error', () => figure.remove(), { once: true });
   figure.appendChild(photograph);
@@ -232,7 +233,7 @@ function createScientistGrid(scientistIds, headingText, countNoun) {
     portrait.src = scientist.cartoon || scientist.photo || 'images/default.png';
     portrait.alt = '';
     portrait.decoding = 'async';
-    portrait.loading = 'lazy';
+    portrait.loading = 'eager';
     portrait.addEventListener('error', () => {
       if (portrait.src.endsWith('/default.png')) {
         portrait.src = portrait.src;
