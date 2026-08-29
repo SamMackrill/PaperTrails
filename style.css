@@ -1032,18 +1032,18 @@ body.dark-mode .icon-sun {
   outline-offset: 3px;
 }
 
-.detail-location-link {
+.detail-map-link {
   color: var(--accent);
   font-weight: 650;
   text-decoration-color: color-mix(in srgb, var(--accent) 48%, transparent);
   text-underline-offset: 0.18em;
 }
 
-.detail-location-link:hover {
+.detail-map-link:hover {
   text-decoration-color: currentcolor;
 }
 
-.detail-location-link:focus-visible {
+.detail-map-link:focus-visible {
   border-radius: 3px;
   outline: 2px solid var(--accent);
   outline-offset: 3px;

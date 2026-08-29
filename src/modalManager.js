@@ -43,15 +43,33 @@ function renderMetadata(items) {
   });
 }
 
-function createMapLink(location) {
+function createExternalMapLink(href, text, ariaLabel) {
   const link = document.createElement('a');
-  link.className = 'detail-location-link';
-  link.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+  link.className = 'detail-map-link';
+  link.href = href;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
-  link.textContent = location;
-  link.setAttribute('aria-label', `View ${location} on Google Maps (opens in a new tab)`);
+  link.textContent = text;
+  link.setAttribute('aria-label', `${ariaLabel} (opens in a new tab)`);
   return link;
+}
+
+function createMapLink(location) {
+  return createExternalMapLink(
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`,
+    location,
+    `View ${location} on Google Maps`
+  );
+}
+
+function createHistoricalMapLink(historicalMap) {
+  if (!historicalMap?.url) return null;
+  const year = historicalMap.year ? ` (${historicalMap.year})` : '';
+  return createExternalMapLink(
+    historicalMap.url,
+    `View historical map${year}`,
+    `View historical map${year}`
+  );
 }
 
 function getFirstPublicationYear(scientist) {
@@ -439,7 +457,8 @@ export function showPublicationModal(
   scientistIds = [],
   attendeeIds = [],
   theoristIds = [],
-  location = ''
+  location = '',
+  historicalMap = null
 ) {
   if (!panel && !fetchElements()) return;
 
@@ -492,6 +511,10 @@ export function showPublicationModal(
     }
     if (type === 'conference' && location) {
       itemMetadata.push(['Location', createMapLink(location)]);
+    }
+    const historicalMapLink = type === 'conference' ? createHistoricalMapLink(historicalMap) : null;
+    if (historicalMapLink) {
+      itemMetadata.push(['Historical map', historicalMapLink]);
     }
     itemMetadata.push(['Year', String(itemYear || 'Not recorded')]);
     renderMetadata(itemMetadata);
