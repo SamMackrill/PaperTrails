@@ -43,6 +43,17 @@ function renderMetadata(items) {
   });
 }
 
+function createMapLink(location) {
+  const link = document.createElement('a');
+  link.className = 'detail-location-link';
+  link.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = location;
+  link.setAttribute('aria-label', `View ${location} on Google Maps (opens in a new tab)`);
+  return link;
+}
+
 function getFirstPublicationYear(scientist) {
   return [...(scientist.publications || [])]
     .filter((publication) => Number.isFinite(publication.year))
@@ -427,7 +438,8 @@ export function showPublicationModal(
   type = 'publication',
   scientistIds = [],
   attendeeIds = [],
-  theoristIds = []
+  theoristIds = [],
+  location = ''
 ) {
   if (!panel && !fetchElements()) return;
 
@@ -477,6 +489,9 @@ export function showPublicationModal(
     }
     if (type !== 'conference' && Array.isArray(attendeeIds) && attendeeIds.length) {
       itemMetadata.push(['Attendees', createScientistLinks(attendeeIds, '', 'timeline')]);
+    }
+    if (type === 'conference' && location) {
+      itemMetadata.push(['Location', createMapLink(location)]);
     }
     itemMetadata.push(['Year', String(itemYear || 'Not recorded')]);
     renderMetadata(itemMetadata);
