@@ -1,4 +1,4 @@
-import { scientists } from './dataLoader.js?v=16';
+import { scientists } from './dataLoader.js?v=17';
 
 let panel;
 let backdrop;
@@ -43,15 +43,74 @@ function renderMetadata(items) {
   });
 }
 
-function createMapLink(location) {
+function createExternalMapLink(href, text, ariaLabel) {
   const link = document.createElement('a');
-  link.className = 'detail-location-link';
-  link.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+  link.className = 'detail-map-link';
+  link.href = href;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
-  link.textContent = location;
-  link.setAttribute('aria-label', `View ${location} on Google Maps (opens in a new tab)`);
+  link.textContent = text;
+  link.setAttribute('aria-label', `${ariaLabel} (opens in a new tab)`);
   return link;
+}
+
+function createMapLink(location) {
+  return createExternalMapLink(
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`,
+    location,
+    `View ${location} on Google Maps`
+  );
+}
+
+function createHistoricalMapLink(historicalMap) {
+  if (!historicalMap?.url) return null;
+  const year = historicalMap.year ? ` (${historicalMap.year})` : '';
+  return createExternalMapLink(
+    historicalMap.url,
+    `View historical map${year}`,
+    `View historical map${year}`
+  );
+}
+
+function createConferencePhoto(photo, conferenceTitle) {
+  if (!photo?.src) return null;
+
+  const figure = document.createElement('figure');
+  figure.className = 'detail-conference-photo';
+
+  const photograph = document.createElement('img');
+  photograph.src = photo.src;
+  photograph.alt = photo.alt || `Attendees at ${conferenceTitle || 'the conference'}`;
+  photograph.loading = 'eager';
+  photograph.fetchPriority = 'high';
+  photograph.decoding = 'async';
+  photograph.addEventListener('error', () => figure.remove(), { once: true });
+  figure.appendChild(photograph);
+
+  if (photo.caption || photo.credit) {
+    const caption = document.createElement('figcaption');
+    if (photo.caption) {
+      const captionText = document.createElement('span');
+      captionText.textContent = photo.caption;
+      caption.appendChild(captionText);
+    }
+    if (photo.credit) {
+      const separator = photo.caption ? document.createTextNode(' ') : null;
+      const credit = photo.source ? document.createElement('a') : document.createElement('span');
+      credit.className = 'detail-conference-photo-credit';
+      credit.textContent = `Photo: ${photo.credit}`;
+      if (photo.source) {
+        credit.href = photo.source;
+        credit.target = '_blank';
+        credit.rel = 'noopener noreferrer';
+        credit.setAttribute('aria-label', 'View photograph source (opens in a new tab)');
+      }
+      caption.append(...[separator, credit].filter(Boolean));
+    }
+    figure.appendChild(caption);
+  }
+
+  return figure;
 }
 
 function getFirstPublicationYear(scientist) {
@@ -174,7 +233,7 @@ function createScientistGrid(scientistIds, headingText, countNoun) {
     portrait.src = scientist.cartoon || scientist.photo || 'images/default.png';
     portrait.alt = '';
     portrait.decoding = 'async';
-    portrait.loading = 'lazy';
+    portrait.loading = 'eager';
     portrait.addEventListener('error', () => {
       if (portrait.src.endsWith('/default.png')) {
         portrait.src = portrait.src;
@@ -439,7 +498,9 @@ export function showPublicationModal(
   scientistIds = [],
   attendeeIds = [],
   theoristIds = [],
-  location = ''
+  location = '',
+  historicalMap = null,
+  photo = null
 ) {
   if (!panel && !fetchElements()) return;
 
@@ -455,6 +516,8 @@ export function showPublicationModal(
   identity.hidden = true;
   identity.textContent = '';
   body.replaceChildren();
+  const conferencePhoto = type === 'conference' ? createConferencePhoto(photo, itemTitle) : null;
+  if (conferencePhoto) body.appendChild(conferencePhoto);
   const descriptionText = document.createElement('p');
   descriptionText.className = 'detail-copy';
   descriptionText.textContent = description || 'No further details are available.';
@@ -492,6 +555,10 @@ export function showPublicationModal(
     }
     if (type === 'conference' && location) {
       itemMetadata.push(['Location', createMapLink(location)]);
+    }
+    const historicalMapLink = type === 'conference' ? createHistoricalMapLink(historicalMap) : null;
+    if (historicalMapLink) {
+      itemMetadata.push(['Historical map', historicalMapLink]);
     }
     itemMetadata.push(['Year', String(itemYear || 'Not recorded')]);
     renderMetadata(itemMetadata);
