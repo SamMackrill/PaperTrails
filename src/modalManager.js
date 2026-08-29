@@ -72,6 +72,46 @@ function createHistoricalMapLink(historicalMap) {
   );
 }
 
+function createConferencePhoto(photo, conferenceTitle) {
+  if (!photo?.src) return null;
+
+  const figure = document.createElement('figure');
+  figure.className = 'detail-conference-photo';
+
+  const photograph = document.createElement('img');
+  photograph.src = photo.src;
+  photograph.alt = photo.alt || `Attendees at ${conferenceTitle || 'the conference'}`;
+  photograph.loading = 'lazy';
+  photograph.decoding = 'async';
+  photograph.addEventListener('error', () => figure.remove(), { once: true });
+  figure.appendChild(photograph);
+
+  if (photo.caption || photo.credit) {
+    const caption = document.createElement('figcaption');
+    if (photo.caption) {
+      const captionText = document.createElement('span');
+      captionText.textContent = photo.caption;
+      caption.appendChild(captionText);
+    }
+    if (photo.credit) {
+      const separator = photo.caption ? document.createTextNode(' ') : null;
+      const credit = photo.source ? document.createElement('a') : document.createElement('span');
+      credit.className = 'detail-conference-photo-credit';
+      credit.textContent = `Photo: ${photo.credit}`;
+      if (photo.source) {
+        credit.href = photo.source;
+        credit.target = '_blank';
+        credit.rel = 'noopener noreferrer';
+        credit.setAttribute('aria-label', 'View photograph source (opens in a new tab)');
+      }
+      caption.append(...[separator, credit].filter(Boolean));
+    }
+    figure.appendChild(caption);
+  }
+
+  return figure;
+}
+
 function getFirstPublicationYear(scientist) {
   return [...(scientist.publications || [])]
     .filter((publication) => Number.isFinite(publication.year))
@@ -458,7 +498,8 @@ export function showPublicationModal(
   attendeeIds = [],
   theoristIds = [],
   location = '',
-  historicalMap = null
+  historicalMap = null,
+  photo = null
 ) {
   if (!panel && !fetchElements()) return;
 
@@ -474,6 +515,8 @@ export function showPublicationModal(
   identity.hidden = true;
   identity.textContent = '';
   body.replaceChildren();
+  const conferencePhoto = type === 'conference' ? createConferencePhoto(photo, itemTitle) : null;
+  if (conferencePhoto) body.appendChild(conferencePhoto);
   const descriptionText = document.createElement('p');
   descriptionText.className = 'detail-copy';
   descriptionText.textContent = description || 'No further details are available.';

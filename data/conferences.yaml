@@ -14,6 +14,12 @@
   historical_map:
     year: 1910
     url: "https://www.oldmapsonline.org/en/maps/bc7b84f8-fd30-4cfd-af5f-0cd325d3da70"
+  photo:
+    src: "images/conferences/solvay-1911.jpg"
+    alt: "Twenty-four participants of the 1911 First Solvay Conference gathered around a meeting table at the Hôtel Métropole in Brussels."
+    caption: "Participants of the First Solvay Conference, 2 November 1911."
+    credit: "Benjamin Couprie"
+    source: "https://commons.wikimedia.org/wiki/File:1911_Solvay_conference.jpg"
   attendee_ids: [einstein, lorentz, nernst, planck, poincare, rutherford]
   details: "The first Solvay Conference, devoted to radiation and the quanta, brought leading physicists together to confront the conflict between classical physics and the emerging quantum ideas of Planck and Einstein."
   particle: Ⅰ
@@ -24,6 +30,12 @@
   historical_map:
     year: 1920
     url: "https://www.oldmapsonline.org/en/maps/87d29562-8c79-4d94-9e8a-ec9c0c12043c"
+  photo:
+    src: "images/conferences/solvay-1927.jpg"
+    alt: "Twenty-nine participants of the 1927 Fifth Solvay Conference posed in three rows outside the Institut de Physiologie in Brussels."
+    caption: "Participants of the Fifth Solvay Conference on Electrons and Photons, October 1927."
+    credit: "Benjamin Couprie, Institut International de Physique Solvay"
+    source: "https://commons.wikimedia.org/wiki/File:Solvay_conference_1927.jpg"
   attendee_ids: [bohr, compton, deBroglie, dirac, einstein, heisenberg, lorentz, pauli, planck, schrodinger]
   details: "The fifth Solvay International Conference on Electrons and Photons, where many of the world's most notable physicists met to discuss the newly formulated quantum theory. Key discussions on wave-particle duality and the uncertainty principle took place."
   particle: ⑤
@@ -34,6 +46,12 @@
   historical_map:
     year: 1930
     url: "https://www.oldmapsonline.org/en/maps/1f5dc998-8fe8-5db2-9381-3d878aab3c42"
+  photo:
+    src: "images/conferences/solvay-1933.jpg"
+    alt: "Fourteen physicists posed in three rows at the 1933 Seventh Solvay Conference, including Irène Joliot-Curie, Niels Bohr, Enrico Fermi, and Marie Curie."
+    caption: "A group of participants at the Seventh Solvay Conference on atomic nuclei, October 1933."
+    credit: "Benjamin Couprie / Science Service, Smithsonian Institution Archives"
+    source: "https://commons.wikimedia.org/wiki/File:Physicists_at_the_Seventh_Solvay_Physics_Conference,_Brussels,_Belgium,_October_1933_(4406390964).jpg"
   attendee_ids: [bohr, chadwick, deBroglie, dirac, heisenberg, pauli, rutherford, schrodinger]
   details: "Devoted to the structure and properties of atomic nuclei, the seventh Solvay Conference brought together the rapidly developing evidence for neutrons, positrons, nuclear transformations, and new models of the nucleus."
   particle: Ⅶ
@@ -44,6 +62,12 @@
   historical_map:
     year: 1947
     url: "https://pastmaps.com/map/greenport-suffolk-county-ny-usgs-topo-1947"
+  photo:
+    src: "images/conferences/shelter-island-1947.jpg"
+    alt: "Willis Lamb, Abraham Pais, John Wheeler, Richard Feynman, Herman Feshbach, and Julian Schwinger gathered around a table at the 1947 Shelter Island Conference."
+    caption: "Lamb, Pais, Wheeler, Feynman, Feshbach, and Schwinger during the conference, 2 June 1947."
+    credit: "AIP Emilio Segrè Visual Archives, gift of Abraham Pais"
+    source: "https://commons.wikimedia.org/wiki/File:Lamb_Pais_Wheeler_Feynman_Feshback_and_Schwinger_at_Shelter_Island_Conference.jpg"
   attendee_ids: [feynman, lamb]
   details: "A pivotal post-war meeting on quantum electrodynamics where Willis Lamb reported the Lamb shift. The discussions helped spur the calculations and renormalization methods that made modern QED a consistent predictive theory."
   particle: QED
