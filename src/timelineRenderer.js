@@ -2,6 +2,7 @@ import { config } from './config.js?v=14';
 import { scientists, discoveries, conferences, significantEvents } from './dataLoader.js?v=17';
 import { showPublicationModal, showScientistModal } from './modalManager.js?v=21';
 import { handleImageError } from './themeManager.js?v=14';
+import { renderTapestry } from './tapestryRenderer.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -436,7 +437,15 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   renderPublications(timeline, width, axisY, coordinates);
   renderScientists(timeline, svg, width, axisY, coordinates, scale);
   renderMilestones(timeline, svg, width, axisY, contextTop);
-  renderEvents(timeline, width, height, contextTop);
+  if (isLayerVisible('significantEventsToggle') && document.getElementById('tapestryToggle')?.getAttribute('aria-pressed') === 'true') {
+    renderTapestry(timeline, significantEvents, width, height, contextTop, scale, (button, event) => {
+      selectItem(button);
+      showPublicationModal('Historical context', event.startYear === event.endYear ? `${event.startYear}` : `${event.startYear}–${event.endYear}`,
+        event.title, event.details, 'event', [], event.attendee_ids);
+    });
+  } else {
+    renderEvents(timeline, width, height, contextTop);
+  }
   updateScalePresentation(timeline, scale);
   updateEventLabelPositions(timeline, timelineContainer);
 }
