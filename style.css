@@ -876,6 +876,7 @@ body.dark-mode .icon-sun {
 
 .timeline-tooltip {
   position: fixed;
+  white-space: pre-line;
   z-index: 900;
   max-width: min(280px, calc(100vw - 24px));
   padding: 7px 9px;
@@ -888,6 +889,76 @@ body.dark-mode .icon-sun {
   line-height: 1.35;
   pointer-events: none;
 }
+
+/* A single cloth ground joins the chronological embroidered scenes. */
+.tapestry-ribbon {
+  position: absolute;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #e2d1ac;
+  background-image: repeating-linear-gradient(0deg, #7252310c 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, #fff4d51c 0 1px, transparent 1px 3px);
+  border-block: 3px double #80563c;
+  box-shadow: inset 0 0 16px #76503135;
+}
+.tapestry-ribbon::before, .tapestry-ribbon::after {
+  content: '';
+  position: absolute;
+  inset: 1px 0 auto;
+  height: 7px;
+  background: repeating-linear-gradient(45deg, transparent 0 7px, #854635 7px 9px, transparent 9px 14px, #57654d 14px 16px);
+  pointer-events: none;
+}
+.tapestry-ribbon::after { top: auto; bottom: 1px; }
+.tapestry-scene {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #493721;
+  cursor: pointer;
+  z-index: 2;
+  overflow: visible;
+}
+.tapestry-art {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--tapestry-bleed));
+  width: calc(100% + var(--tapestry-bleed) * 2);
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(90deg, transparent, black calc(var(--tapestry-bleed) * 2), black calc(100% - var(--tapestry-bleed) * 2), transparent);
+}
+.tapestry-facet {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.tapestry-scene:hover, .tapestry-scene.is-selected {
+  box-shadow: inset 0 -2px #633725;
+}
+.tapestry-scene:focus-visible {
+  outline: 2px dashed #633725;
+  outline-offset: -3px;
+}
+.tapestry-thread {
+  position: absolute;
+  height: 4px;
+  border-bottom: 2px dashed var(--thread-color, #855334);
+  z-index: 3;
+}
+.tapestry-date-stitch {
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  border-left: 2px solid #623d29;
+  pointer-events: none;
+}
+.tapestry-thread.is-highlighted { border-bottom-style: solid; height: 5px; }
+.tapestry-fallback { font: 11px Georgia, serif; }
 
 .detail-backdrop {
   position: fixed;

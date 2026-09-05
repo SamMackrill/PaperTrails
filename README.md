@@ -11,6 +11,7 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
+- Optional Bayeux-style historical tapestry, with blended panoramas and additional narrative scenes revealed as you zoom
 - Clickable detail dialogs for scientists, publications, discoveries, conferences, and events
 - Hover highlighting that connects a scientist with their publications
 - Mouse, touch, and slider controls for panning and zooming
@@ -44,6 +45,9 @@ An internet connection is needed to load js-yaml from jsDelivr. The rest of the 
 - Click a portrait or marker to see more information.
 - Use the Illustrations, Context, Conferences, and Discoveries switches to change what is displayed.
 - Use the moon/sun button to switch themes.
+- Enable **Tapestry** in the toolbar (under view options on mobile) to replace context labels with a continuous illustrated ribbon. This preference is saved in your browser. **Context** still controls whether the entire historical layer is visible.
+- Tapestry scenes begin at the database's event start dates. Their picture windows extend to the next event's start; the stitched threads below show actual event durations, including overlaps. The panoramas fill those windows and blend into their neighbours. Zooming reveals additional narrative groups while keeping figures at a similar size. Hover different parts of a panorama for explanations of the depicted activities, or focus/select the event for accessible details. Drag the ribbon to pan.
+- The tapestry uses symbolic illustrations of all 21 current events, rather than depictions of additional dated incidents. Artwork provenance and the generation prompt are recorded in `images/tapestry/README.md`.
 
 ## Editing the content
 

@@ -19,6 +19,7 @@ let potentialDrag = false;
 let isDragging = false;
 let dragStartX = 0;
 let dragStartTranslateX = 0;
+let suppressTapestryClick = false;
 
 let isPinching = false;
 let initialPinchDistance = 0;
@@ -45,6 +46,7 @@ function clampTranslation() {
 
 function updateTransform() {
   if (!timeline || !timelineContainer) return;
+  hideTooltip();
   clampTranslation();
   timeline.style.transform = `translateX(${currentTranslateX}px)`;
   updateEventLabelPositions(timeline, timelineContainer);
@@ -66,6 +68,7 @@ function updateScientistImages(useIllustrations) {
 }
 
 function render() {
+  hideTooltip();
   renderTimeline(timelineContainer, timeline, currentScale);
   const useIllustrations = document.getElementById('cartoonToggle')?.getAttribute('aria-pressed') === 'true';
   updateScientistImages(useIllustrations);
@@ -149,6 +152,13 @@ function getPinchCenterX(touches) {
 }
 
 function setupPointerInteractions() {
+  timelineContainer.addEventListener('click', (event) => {
+    if (suppressTapestryClick && event.target.closest('.tapestry-scene')) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    suppressTapestryClick = false;
+  }, true);
   timelineContainer.addEventListener('wheel', (event) => {
     event.preventDefault();
     const rect = timelineContainer.getBoundingClientRect();
@@ -164,7 +174,8 @@ function setupPointerInteractions() {
   }, { passive: false });
 
   timelineContainer.addEventListener('mousedown', (event) => {
-    if (event.button !== 0 || event.target.closest('button')) return;
+    if (event.button !== 0 || (event.target.closest('button') && !event.target.closest('.tapestry-scene'))) return;
+    suppressTapestryClick = false;
     potentialDrag = true;
     dragStartX = event.clientX;
     dragStartTranslateX = currentTranslateX;
@@ -176,6 +187,7 @@ function setupPointerInteractions() {
     if (!isDragging && Math.abs(deltaX) < config.DRAG_THRESHOLD) return;
 
     isDragging = true;
+    suppressTapestryClick = true;
     timelineContainer.classList.add('is-dragging');
     currentTranslateX = dragStartTranslateX + deltaX;
     updateTransform();
@@ -193,7 +205,8 @@ function setupPointerInteractions() {
   timelineContainer.addEventListener('dragstart', (event) => event.preventDefault());
 
   timelineContainer.addEventListener('touchstart', (event) => {
-    if (event.target.closest('button')) return;
+    if (event.touches.length === 1 && event.target.closest('button') && !event.target.closest('.tapestry-scene')) return;
+    suppressTapestryClick = false;
 
     if (event.touches.length === 1) {
       potentialDrag = true;
@@ -203,6 +216,7 @@ function setupPointerInteractions() {
       event.preventDefault();
       potentialDrag = false;
       isPinching = true;
+      suppressTapestryClick = true;
       initialPinchDistance = getPinchDistance(event.touches);
       pinchStartScale = currentScale;
       pinchStartTranslateX = currentTranslateX;
@@ -229,6 +243,7 @@ function setupPointerInteractions() {
       if (!isDragging && Math.abs(deltaX) < config.DRAG_THRESHOLD) return;
       event.preventDefault();
       isDragging = true;
+      suppressTapestryClick = true;
       timelineContainer.classList.add('is-dragging');
       currentTranslateX = dragStartTranslateX + deltaX;
       updateTransform();
@@ -319,6 +334,12 @@ function setupControls() {
     updateScientistImages(useIllustrations);
   });
 
+  document.getElementById('tapestryToggle').addEventListener('click', (event) => {
+    const enabled = togglePressed(event.currentTarget);
+    try { localStorage.setItem('paperTrailsTapestry', String(enabled)); } catch { /* Storage can be disabled. */ }
+    render();
+  });
+
   const toolbar = document.querySelector('.timeline-toolbar');
   const optionsToggle = document.getElementById('options-toggle');
   optionsToggle.addEventListener('click', () => {
@@ -352,6 +373,9 @@ async function initializeApp() {
 
   document.getElementById('timeline-range').textContent = `${config.START_YEAR}–${config.END_YEAR}`;
   initializeTheme();
+  try {
+    document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(localStorage.getItem('paperTrailsTapestry') === 'true'));
+  } catch { /* Use the default text view when storage is unavailable. */ }
   setupModalEventListeners();
 
   try {

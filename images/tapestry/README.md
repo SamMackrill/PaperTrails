@@ -1,0 +1,20 @@
+# Historical tapestry artwork
+
+The current ribbon uses `early-panorama.png`, `revolutions-panorama.png`, and `modern-panorama.png`, generated with the built-in image generation tool. Each sheet has seven horizontal panoramas, with five distinct narrative groups per event. Together they illustrate the 21 events in `data/significantevents.yaml`. Dates and descriptions are read from that database at runtime. The images are artistic interpretations, not documentary reconstructions.
+
+`src/tapestryScenes.js` records measured strip boundaries, action-group boundaries and hover captions. At overview scale the first group provides a summary. As a window widens, more groups enter the composition; figure height changes only slightly. The panorama fills the complete event window, with overlapping edges and a shared linen ground to blend neighbouring pictures. Hover regions follow the artwork's actual crop and open the original event details.
+
+Event start markers and duration threads use the same year scale as the main timeline. Picture-window widths are not event durations. The extra groups depict symbolic facets of each event, not newly dated incidents. New unillustrated database events receive a readable fallback until artwork is added. The regression checks in `tools/tapestry.test.mjs` cover chronological continuity, duration overlaps, and the reveal of distinct narrative groups.
+
+The expanded artwork's full prompt set is in [panorama-prompts.md](panorama-prompts.md). `historical-scenes.png` is retained as the original style reference; its prompt follows.
+
+## Generation prompt
+
+Use case: historical-scene
+Asset type: production illustration atlas for a zoomable historical timeline.
+Create one landscape image divided into EXACTLY 7 columns and 3 rows of equal-sized rectangular illustration cells, read left to right, top to bottom. Each cell is a distinct scene rendered as Bayeux Tapestry embroidery: flat side-on figures, expressive gestures, dark stitched contours, muted madder red, indigo, ochre and sage wool on identical warm unbleached linen. Fine visible woven texture, charming detailed narrative tableaux. Fill each cell with its scene but keep important figures away from edges. No text, letters, numbers, labels, gutters, frames or decorative borders. Consistent background across every cell so they can be cropped and composed into a continuous ribbon. Historically appropriate clothing and objects for each period, all translated into medieval embroidery visual language. No gore.
+21 cells in exact order:
+Row 1: Renaissance scholars reading manuscripts beside painter and classical architecture; 1453 Ottoman siege of Constantinople with city walls and cannon; Columbian Exchange with Atlantic sailing ship maize horses and people on two shores; Protestant Reformation with printing press pamphlets and reformer; Little Ice Age with frozen river skaters snow village; Thirty Years War with seventeenth-century pikemen and ruined village; English Civil War with opposing Royalist and Parliamentarian soldiers.
+Row 2: European famine with failed grain harvest and hungry villagers; War of Spanish Succession with early eighteenth-century soldiers and disputed crown; Great Frost with frozen trees shivering villagers and ice; Seven Years War with eighteenth-century troops and sailing ships; American Revolution with colonial soldiers facing British redcoats; US Constitution signing with delegates quill and parchment in Philadelphia hall; French Revolution with crowds tricolour and Bastille.
+Row 3: Napoleon in bicorne beside troops and imperial eagle; Carrington Event with aurora over telegraph poles and operator; American Civil War with blue and grey soldiers and railway; World War I with trench soldiers and biplane; Great Depression with unemployed people in breadline and shuttered factory; World War II with aircraft tanks and ruined buildings; Cold War with opposing blocs divided by wall and space rockets.
+These are symbolic illustrations of the database events, not photographic reconstructions. All 21 scenes must be different and clearly legible. Output 7:3 landscape if possible.
