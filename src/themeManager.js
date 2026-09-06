@@ -25,6 +25,7 @@ export function applyTheme(theme) {
   const root = document.documentElement;
   const body = document.body;
   const themeName = isDark ? 'dark' : 'light';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', pageBackground);
   body.classList.toggle('dark-mode', isDark);
   root.dataset.theme = themeName;
   // `only` prevents browser auto-darkening (and keeps the app palette in

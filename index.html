@@ -4,20 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Explore scientific publications, discoveries, conferences, and their historical context from 1400 to today.">
-  <meta name="theme-color" content="#f3f5f8">
+  <meta name="theme-color">
   <meta name="darkreader-lock">
   <title>Paper Trails — Scientific History</title>
   <script>
     (() => {
-      let dark = false;
+      let saved;
       try {
-        const saved = localStorage.getItem('paperTrailsTheme');
-        dark = saved === 'dark' || (saved !== 'light' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+        saved = localStorage.getItem('paperTrailsTheme');
       } catch {
         // The app can still choose a theme after startup when storage is blocked.
       }
+      const dark = saved === 'dark' || (saved !== 'light' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
       const theme = dark ? 'dark' : 'light';
       const background = dark ? '#0b1220' : '#f3f5f8';
+      document.querySelector('meta[name="theme-color"]').content = background;
       document.documentElement.dataset.theme = theme;
       document.documentElement.style.colorScheme = dark ? 'only dark' : 'only light';
       document.documentElement.style.setProperty('--page-bg', background);
