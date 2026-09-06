@@ -1,6 +1,17 @@
 # Expanded panorama prompts
 
-Generated with the built-in image generation tool. The early sheet used `historical-scenes.png` as its style reference. The other two sheets used `early-panorama.png`. Original generated outputs were copied into this directory without modifying their pixels.
+Generated with the built-in image generation tool. The early sheet used `historical-scenes.png` as its style reference. The other two sheets used `early-panorama.png`. Original generated outputs were copied into this directory without modifying their pixels. The revised revolutions sheet incorporates the targeted correction documented below.
+
+## American Revolution correction
+
+Output: `revolutions-panorama-v2.png`. Built-in image generation edit of `revolutions-panorama.png`; only the corrected first group was composited into the original sheet (x=0–327, y=568–704), preserving every pixel elsewhere.
+
+Use case: precise-object-edit
+Asset type: existing Paper Trails historical tapestry atlas.
+Input image: edit target, 1586 by 992, seven horizontal strips.
+Primary request: Correct ONLY the far-left action group of the FIFTH strip (American Revolution), within x=0..327 and y=576..700 in the original image. It currently incorrectly shows colonial soldiers and British redcoats marching together. Redraw this small group with colonial soldiers in indigo coats on the LEFT facing RIGHT, and British soldiers in madder-red coats on the RIGHT facing LEFT, visibly opposing one another across a small clear gap. Keep both groups close to the center of this 327-pixel-wide scene so they read together in a narrow timeline crop. Show opposing muskets and clear side-on faces. Colonial flag behind the left group and British flag behind the right group, flags remain separate. No mixed ranks or shared marching direction. No gore.
+Style: Match the existing tiny flat Bayeux-style embroidered figures, dark stitched outlines, muted indigo/madder/ochre wool, fine warm linen texture, figure height and ground baseline exactly.
+Constraints: Preserve the entire canvas and all other groups and all other six rows unchanged. Preserve the original 1586:992 aspect ratio, layout, exact strip positions, colors, and textures. Do not add text, labels, borders, or extra scenes. The edit must occupy only the first action group of the fifth strip, with a seamless linen background.
 
 ## early-panorama.png
 

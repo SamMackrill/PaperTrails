@@ -1,6 +1,8 @@
 # Historical tapestry artwork
 
-The current ribbon uses `early-panorama.png`, `revolutions-panorama.png`, and `modern-panorama.png`, generated with the built-in image generation tool. Each sheet has seven horizontal panoramas, with five distinct narrative groups per event. Together they illustrate the 21 events in `data/significantevents.yaml`. Dates and descriptions are read from that database at runtime. The images are artistic interpretations, not documentary reconstructions.
+The current ribbon uses `early-panorama.png`, `revolutions-panorama-v2.png`, and `modern-panorama.png`, generated with the built-in image generation tool. Each sheet has seven horizontal panoramas, with five distinct narrative groups per event. Together they illustrate the 21 events in `data/significantevents.yaml`. Dates and descriptions are read from that database at runtime. The images are artistic interpretations, not documentary reconstructions.
+
+The revised revolutions sheet replaces only the American Revolution's first group with colonial troops facing British redcoats across a gap. The generated correction was cropped into the original atlas at x=0–327, y=568–704; all pixels outside that rectangle are preserved. The original `revolutions-panorama.png` remains as a source. The edit prompt is recorded in [panorama-prompts.md](panorama-prompts.md#american-revolution-correction).
 
 `src/tapestryScenes.js` records measured strip boundaries, action-group boundaries and hover captions. At overview scale the first group provides a summary. As a window widens, more groups enter the composition; figure height changes only slightly. The panorama fills the complete event window, with overlapping edges and a shared linen ground to blend neighbouring pictures. Hover regions follow the artwork's actual crop and open the original event details.
 

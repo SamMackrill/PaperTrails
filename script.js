@@ -2,7 +2,7 @@ import { config } from './src/config.js?v=14';
 import { initializeData } from './src/dataLoader.js?v=17';
 import { initializeTheme } from './src/themeManager.js?v=17';
 import { setupModalEventListeners } from './src/modalManager.js?v=21';
-import { clearTimelineSelection, renderTimeline, updateEventLabelPositions } from './src/timelineRenderer.js?v=20';
+import { clearTimelineSelection, renderTimeline, updateEventLabelPositions } from './src/timelineRenderer.js?v=21';
 
 let timelineContainer;
 let timeline;

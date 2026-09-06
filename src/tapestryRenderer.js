@@ -1,5 +1,5 @@
 import { config } from './config.js?v=14';
-import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=2';
+import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
