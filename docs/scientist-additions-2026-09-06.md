@@ -52,4 +52,16 @@ Stokes's aether model is presented as a historical proposal. Eötvös's 1922 wor
 - Decoded all 18 new assets. Photographs are square JPEGs with at least 512 pixels per side; cartoons are 1024×1024 RGBA PNGs with transparent corners and opaque subject content. All nine cartoons passed the repository validator and visual review over light and dark backgrounds, including 92 px and 42 px circular crops. Stokes and Meitner were regenerated to preserve white clothing during background removal.
 - Served the static application with Python and checked every new profile, academic row, publication marker and detail link, hover highlight, connection to the earliest publication, and locate-on-timeline control in the collaborative browser.
 - All nine photographic and illustrated timeline portraits decoded without fallback in both light and dark themes; matching academic emblems loaded. No failed HTTP resources or application/YAML errors were observed. The preview host logged two Electron preload/sandbox startup errors; these did not prevent the application or the checks from running.
-- Reviewed the focused YAML diff and new asset list; `git diff --check` passed. No application, discovery, conference, or historical-event data changed.
+- Reviewed the focused YAML diff and new asset list; `git diff --check` passed. No application, discovery, or historical-event data changed.
+
+## Conference attendance update
+
+The conference attendee links were then checked against archival and institutional records. Five existing records now include supported new attendees:
+
+- 1881 First International Electrical Congress: `eotvos`, who represented Hungary in Paris. [Eötvös memorial album](https://real-eod.mtak.hu/3799/1/001-176_tordelt1_ANGOL.pdf), pp. 22 and 115.
+- 1911 First Solvay Conference: `curie_marie`. [Nobel Prize account](https://www.nobelprize.org/prizes/themes/marie-and-pierre-curie-and-the-discovery-of-polonium-and-radium).
+- 1927 Fifth Solvay Conference: `curie_marie`. [Solvay Institutes historical account](https://solvayinstitutes.be/conference/30th-solvay-conference-on-physics/) and [participant photograph record](https://www.lorentz.leidenuniv.nl/history/Solvay/Solvay_1927.html).
+- 1933 Seventh Solvay Conference: `curie_marie`, `meitner`, and `fermi`. The [archival photograph identification](https://commons.wikimedia.org/wiki/File:Solvay1933Large.jpg) names all three among the participants.
+- 1947 Shelter Island Conference: `fermi`. The CERN historical account's participant list includes E. Fermi. [CERN conference history](https://cds.cern.ch/record/158939/files/CERN-CHS-17.pdf).
+
+No reliable attendance evidence was found for Lenz, Stokes, Becquerel, Lemaître, or Hubble in the six conference records currently modeled, so no unsupported links were added. The conference YAML remains valid and all attendee IDs resolve to scientist entries.

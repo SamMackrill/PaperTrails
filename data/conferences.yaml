@@ -4,7 +4,7 @@
   historical_map:
     year: 1880
     url: "https://www.parismuseescollections.paris.fr/en/node/639644"
-  attendee_ids: [hippolyte_fizeau, gustav_kirchhoff, mach, kelvin]
+  attendee_ids: [eotvos, hippolyte_fizeau, gustav_kirchhoff, mach, kelvin]
   details: "Held in Paris alongside the International Exposition of Electricity, the congress helped establish an internationally consistent system of practical electrical units, including the ohm, volt, ampere, coulomb, and farad."
   particle: Ω
 
@@ -20,7 +20,7 @@
     caption: "Participants of the First Solvay Conference, 2 November 1911."
     credit: "Benjamin Couprie"
     source: "https://commons.wikimedia.org/wiki/File:1911_Solvay_conference.jpg"
-  attendee_ids: [einstein, lorentz, nernst, planck, poincare, rutherford]
+  attendee_ids: [einstein, lorentz, nernst, planck, poincare, rutherford, curie_marie]
   details: "The first Solvay Conference, devoted to radiation and the quanta, brought leading physicists together to confront the conflict between classical physics and the emerging quantum ideas of Planck and Einstein."
   particle: Ⅰ
 
@@ -36,7 +36,7 @@
     caption: "Participants of the Fifth Solvay Conference on Electrons and Photons, October 1927."
     credit: "Benjamin Couprie, Institut International de Physique Solvay"
     source: "https://commons.wikimedia.org/wiki/File:Solvay_conference_1927.jpg"
-  attendee_ids: [bohr, compton, deBroglie, dirac, einstein, heisenberg, lorentz, pauli, planck, schrodinger]
+  attendee_ids: [bohr, compton, curie_marie, deBroglie, dirac, einstein, heisenberg, lorentz, pauli, planck, schrodinger]
   details: "The fifth Solvay International Conference on Electrons and Photons, where many of the world's most notable physicists met to discuss the newly formulated quantum theory. Key discussions on wave-particle duality and the uncertainty principle took place."
   particle: ⑤
 
@@ -52,7 +52,7 @@
     caption: "A group of participants at the Seventh Solvay Conference on atomic nuclei, October 1933."
     credit: "Benjamin Couprie / Science Service, Smithsonian Institution Archives"
     source: "https://commons.wikimedia.org/wiki/File:Physicists_at_the_Seventh_Solvay_Physics_Conference,_Brussels,_Belgium,_October_1933_(4406390964).jpg"
-  attendee_ids: [bohr, chadwick, deBroglie, dirac, heisenberg, pauli, rutherford, schrodinger]
+  attendee_ids: [bohr, chadwick, curie_marie, deBroglie, dirac, fermi, heisenberg, meitner, pauli, rutherford, schrodinger]
   details: "Devoted to the structure and properties of atomic nuclei, the seventh Solvay Conference brought together the rapidly developing evidence for neutrons, positrons, nuclear transformations, and new models of the nucleus."
   particle: Ⅶ
 
@@ -68,7 +68,7 @@
     caption: "Lamb, Pais, Wheeler, Feynman, Feshbach, and Schwinger during the conference, 2 June 1947."
     credit: "AIP Emilio Segrè Visual Archives, gift of Abraham Pais"
     source: "https://commons.wikimedia.org/wiki/File:Lamb_Pais_Wheeler_Feynman_Feshback_and_Schwinger_at_Shelter_Island_Conference.jpg"
-  attendee_ids: [feynman, lamb]
+  attendee_ids: [feynman, fermi, lamb]
   details: "A pivotal post-war meeting on quantum electrodynamics where Willis Lamb reported the Lamb shift. The discussions helped spur the calculations and renormalization methods that made modern QED a consistent predictive theory."
   particle: QED
 
