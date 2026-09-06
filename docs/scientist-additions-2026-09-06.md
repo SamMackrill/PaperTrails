@@ -1,0 +1,55 @@
+# Nine scientist additions — 6 September 2026
+
+Added Lenz, Stokes, Eötvös, Becquerel, Marie Curie, Meitner, Fermi, Lemaître, and Hubble, with 19 original publications. Alexander Friedmann was excluded as requested. The profiles and abstracts are original summaries; titles retain their original language. Each ID below has `images/<id>.jpg` and `images/cartoons/<id>.png` assets. Portrait creators, source pages, and public-domain status are recorded in [images/ATTRIBUTION.md](../images/ATTRIBUTION.md).
+
+## Biographical and academic sources
+
+| ID | Contribution and affiliations recorded | Sources |
+| --- | --- | --- |
+| `lenz` | Direction of induced currents and electrical heating; Dorpat/Tartu student, Saint Petersburg professor and rector | [Dictionary of Scientific Biography](https://www.encyclopedia.com/science/dictionaries-thesauruses-pictures-and-press-releases/lenz-emil-khristianovich-heinrich-fridrich-emil), [AIP](https://physicstoday.aip.org/news/heinrich-lenz), [National MagLab](https://nationalmaglab.org/magnet-academy/history-of-electricity-magnetism/pioneers/heinrich-friedrich-emil-lenz/) |
+| `stokes` | Optics, fluorescence, and fluid mechanics; Pembroke student, fellow, and master, Cambridge Lucasian professor | [University of St Andrews](https://mathshistory.st-andrews.ac.uk/Biographies/Stokes/), [Pembroke College](https://www.pem.cam.ac.uk/college/news/200th-anniversary-sir-george-gabriel-stokes) |
+| `eotvos` | Precision comparison of inertial and gravitational mass; Heidelberg doctorate, Budapest professor and rector | [University of St Andrews](https://mathshistory.st-andrews.ac.uk/Biographies/Eotvos/), [Hungarian Academy of Sciences](https://akademikus.mtak.hu/adatlap/eotvos-lorand/), [University of Washington torsion-balance history](https://www.npl.washington.edu/eotwash/torsion-balances) |
+| `becquerel` | Spontaneous uranium radiation; Polytechnique student and professor, Ponts et Chaussées engineering student | [Nobel biography](https://www.nobelprize.org/prizes/physics/1903/becquerel/biographical/?print=1), [École Polytechnique](https://www.polytechnique.edu/bibliotheque/actualites/becquerel-henri-x1872) |
+| `curie_marie` | Radioactivity, polonium, and radium; University of Paris student, doctorate, and professor | [Nobel biography](https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/biographical/?print=1), [NIST biography](https://www.nist.gov/pml/marie-curie-and-nbs-radium-standards/marie-curie-and-nbs-radium-standards-biographies/biography) |
+| `meitner` | Protactinium and interpretation of fission; Vienna doctorate and Berlin teaching appointments | [Swedish National Archives](https://sok.riksarkivet.se/sbl/presentation.aspx?id=9245), [University of Vienna biography and bibliography](https://lise.univie.ac.at/physikerinnen/historisch/lise-meitner.htm) |
+| `fermi` | Beta-decay theory, neutron activation, and controlled chain reaction; Pisa doctorate, Rome, Columbia, and Chicago professorships | [Nobel biography](https://www.nobelprize.org/prizes/physics/1938/fermi/biographical/), [Department of Energy](https://science.osti.gov/fermi/The-Life-of-Enrico-Fermi), [Columbia University](https://c250.columbia.edu/c250_celebrates/remarkable_columbians/enrico_fermi.html), [Istituto Superiore di Sanità archive](https://arch.iss.it/detail/IT-ISS-EACCPF0001-000143/fermi-enrico) |
+| `lemaitre` | Relativistic expansion and primeval-atom cosmology; Louvain doctorate and professorship, MIT doctorate | [UCLouvain biography](https://www.uclouvain.be/en/research-institutes/irmp/georges-lemaitre), [UCLouvain archives](https://archives.uclouvain.be/atom/index.php/lemaitre-georges) |
+| `hubble` | Extragalactic Cepheids and the distance–velocity relation; Chicago student and doctorate, Queen's College Oxford Rhodes Scholar | [Sonoma State University](https://phys-astro.sonoma.edu/brucemedalists/edwin-hubble), [National Academy of Sciences memoir](https://www.nasonline.org/wp-content/uploads/2024/06/hubble-edwin.pdf), [The Queen's College](https://www.queens.ox.ac.uk/blog/black-holes-and-spherical-cows/) |
+
+Lenz's dates use the Gregorian calendar: 24 February 1804 and 10 February 1865, corresponding to 12 February and 29 January Old Style in the DSB entry. This resolves the differing February birthday dates rather than mixing calendars. Meitner's 7 November birthday follows the Swedish National Archives biography; her Vienna doctorate was awarded in 1906.
+
+Seven new academic rows use neutral icons because no verified local emblem is recorded: Tartu, Saint Petersburg, Pembroke, Budapest, Sapienza, Catholic Louvain, and Queen's Oxford. Existing matching emblems are reused elsewhere. The total is now 23 neutral affiliation rows; the previous README count of 15 understated the previous dataset's 16 rows. The two Johns Hopkins affiliations count separately.
+
+## Publication records
+
+| Scientist | Year and selected work | Record or original text |
+| --- | --- | --- |
+| Lenz | 1834 — *Ueber die Bestimmung der Richtung der durch elektrodynamische Vertheilung erregten galvanischen Ströme* | [Wiley DOI record](https://doi.org/10.1002/andp.18341073103) |
+| Lenz | 1843 — *Ueber die Gesetze der Wärme-Entwickelung durch den Galvanischen Strom* | [Publisher DOI](https://doi.org/10.1002/andp.18431350603), [Crossref metadata](https://api.crossref.org/works/10.1002/andp.18431350603) |
+| Stokes | 1845 — *On the Aberration of Light* | [Publisher record](https://doi.org/10.1080/14786444508645215) |
+| Stokes | 1852 — *On the Change of Refrangibility of Light* | [Royal Society DOI](https://doi.org/10.1098/rstl.1852.0022), [CiNii bibliographic record](https://cir.nii.ac.jp/crid/1363107370790134400) |
+| Eötvös | 1890 — *Über die Anziehung der Erde auf verschiedene Substanzen* | [Hungarian Academy repository](https://real.mtak.hu/103836/) |
+| Eötvös | 1922 — *Beiträge zum Gesetze der Proportionalität von Trägheit und Gravität* | [Publisher record](https://doi.org/10.1002/andp.19223730903) |
+| Becquerel | 1896 — *Sur les radiations invisibles émises par les corps phosphorescents* | [Original text, 2 March](https://fr.wikisource.org/wiki/Sur_les_radiations_invisibles_émises_par_les_corps_phosphorescents) |
+| Becquerel | 1896 — *Sur les radiations invisibles émises par les sels d'uranium* | [CERN catalogue](https://cds.cern.ch/record/475481) |
+| Marie Curie | 1898 — *Sur une substance nouvelle radio-active, contenue dans la pechblende* | [Académie des sciences bibliography](https://www.academie-sciences.fr/pdf/dossiers/Curie/Curie_pubd1.htm), [Original paper](https://radiohemija.ffh.bg.ac.rs/dodatna_literatura/Otkrice_radioaktivnosti/M_Curie.pdf) |
+| Marie Curie | 1898 — *Sur une nouvelle substance fortement radio-active, contenue dans la pechblende* | [Original paper](https://radiohemija.ffh.bg.ac.rs/dodatna_literatura/Otkrice_radioaktivnosti/CR1898_p1215_1217.pdf) |
+| Marie Curie | 1903 — *Recherches sur les substances radioactives* | [BnF catalogue](https://pret.bnf.fr/resources/631f3af9ee368700016d001b), [Curie's Nobel lecture](https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/?print=1) |
+| Meitner | 1918 — *Die Muttersubstanz des Actiniums, ein neues radioaktives Element von langer Lebensdauer* | [University of Vienna bibliography, item 36](https://lise.univie.ac.at/physikerinnen/historisch/lise-meitner.htm) |
+| Meitner | 1939 — *Disintegration of Uranium by Neutrons: a New Type of Nuclear Reaction* | [Nature DOI](https://doi.org/10.1038/143239a0), [Original text](https://atomicarchive.com/resources/documents/beginnings/nature_meitner.html) |
+| Fermi | 1934 — *Tentativo di una teoria dei raggi β* | [Publisher DOI](https://doi.org/10.1007/BF02959820), [Crossref metadata](https://api.crossref.org/works/10.1007/BF02959820) |
+| Fermi | 1935 — *Artificial Radioactivity Produced by Neutron Bombardment—II* | [Royal Society DOI](https://doi.org/10.1098/rspa.1935.0080), [Crossref metadata](https://api.crossref.org/works/10.1098/rspa.1935.0080) |
+| Lemaître | 1927 — *Un univers homogène de masse constante et de rayon croissant, rendant compte de la vitesse radiale des nébuleuses extra-galactiques* | [UCLouvain original-paper record](https://archives.uclouvain.be/atom/index.php/un-univers-homogene-de-masse-constante-et-de-rayon-croissant-rendant-compte-de-la-vitesse-radiale-des-nebuleuses-extra-galactiques-2), [English translation](https://www.physics.umd.edu/grt/taj/675e/Lemaitre1927.pdf) |
+| Lemaître | 1931 — *The Beginning of the World from the Point of View of Quantum Theory* | [UCLouvain archive record](https://archives.uclouvain.be/atom/index.php/the-beginning-of-the-world-from-the-point-of-view-of-quantum-theory) |
+| Hubble | 1925 — *Cepheids in Spiral Nebulae* | [Huntington original manuscript and publication record](https://www.huntington.org/collections/lib-p15150coll7-4185) |
+| Hubble | 1929 — *A Relation between Distance and Radial Velocity among Extra-Galactic Nebulae* | [Original paper hosted by NASA](https://apod.nasa.gov/diamond_jubilee/d_1996/hub_1929.html) |
+
+Stokes's aether model is presented as a historical proposal. Eötvös's 1922 work is explicitly posthumous and credits Pekár and Fekete. The Curie papers identify their coauthors; Meitner's fission abstract separates Hahn and Strassmann's experimental results from Meitner and Frisch's interpretation. Fermi's 1934 entry is the full *Nuovo Cimento* theory, following a 1933 preliminary note; the 1935 neutron paper includes the slow-neutron findings made after the first 1934 report. Hubble's Cepheid announcement was made in 1924 but published in 1925, and the 1929 abstract credits Slipher's radial-velocity measurements.
+
+## Validation
+
+- Parsed YAML with duplicate-key rejection; confirmed exactly nine added IDs, 19 new publications, unique new colours, valid life dates, and existing asset paths. All 97 earlier scientist objects remain unchanged, giving 106 scientists in total.
+- Decoded all 18 new assets. Photographs are square JPEGs with at least 512 pixels per side; cartoons are 1024×1024 RGBA PNGs with transparent corners and opaque subject content. All nine cartoons passed the repository validator and visual review over light and dark backgrounds, including 92 px and 42 px circular crops. Stokes and Meitner were regenerated to preserve white clothing during background removal.
+- Served the static application with Python and checked every new profile, academic row, publication marker and detail link, hover highlight, connection to the earliest publication, and locate-on-timeline control in the collaborative browser.
+- All nine photographic and illustrated timeline portraits decoded without fallback in both light and dark themes; matching academic emblems loaded. No failed HTTP resources or application/YAML errors were observed. The preview host logged two Electron preload/sandbox startup errors; these did not prevent the application or the checks from running.
+- Reviewed the focused YAML diff and new asset list; `git diff --check` passed. No application, discovery, conference, or historical-event data changed.

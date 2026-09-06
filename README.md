@@ -84,7 +84,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Fifteen affiliation rows deliberately omit `coat` and display the neutral icon:
+Twenty-three affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -101,6 +101,12 @@ Fifteen affiliation rows deliberately omit `coat` and display the neutral icon:
 - **University of Texas at Austin** — the Wheeler row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **New York University** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **University of Wisconsin–Madison** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
+- **University of Tartu** and **Saint Petersburg State University** — the two Lenz affiliations use neutral icons because no verified local emblems are recorded for these additions.
+- **Pembroke College, Cambridge** — Stokes's college affiliation uses the neutral icon because no verified local emblem is recorded.
+- **University of Budapest** — Eötvös's affiliation uses the neutral icon because no verified local emblem is recorded for this historical institution.
+- **Sapienza University of Rome** — Fermi's affiliation uses the neutral icon because no verified local emblem is recorded.
+- **Catholic University of Louvain** — Lemaître's affiliation uses the neutral icon because no verified local emblem is recorded; the historical University of Leuven entry is a different institution.
+- **The Queen's College, Oxford** — Hubble's college affiliation uses the neutral icon because no verified local emblem is recorded.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 

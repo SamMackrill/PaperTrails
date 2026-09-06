@@ -2243,3 +2243,215 @@ helmholtz:
     - year: 1863
       title: "Die Lehre von den Tonempfindungen als physiologische Grundlage für die Theorie der Musik"
       abstract: "Linked the physics of sound with auditory physiology to explain resonance, timbre, consonance, and musical perception."
+
+lenz:
+  name: "Heinrich Friedrich Emil Lenz"
+  summary: "A Baltic German physicist in the Russian Empire who established the direction of induced electric currents and quantified heating by electric current."
+  color: "#367d83"
+  photo: "images/lenz.jpg"
+  cartoon: "images/cartoons/lenz.png"
+  nationality: "Baltic German/Russian"
+  birth: "1804-02-24"
+  death: "1865-02-10"
+  academic_affiliations:
+    - institution: "University of Tartu"
+      association: "Student at the university then known as Dorpat"
+    - institution: "Saint Petersburg State University"
+      association: "Professor of physics and rector"
+  publications:
+    - year: 1834
+      title: "Ueber die Bestimmung der Richtung der durch elektrodynamische Vertheilung erregten galvanischen Ströme"
+      abstract: "Formulated the rule that an induced current acts to oppose the change that produces it, now known as Lenz's law."
+    - year: 1843
+      title: "Ueber die Gesetze der Wärme-Entwickelung durch den Galvanischen Strom"
+      abstract: "Quantified electrical heating as proportional to resistance and the square of current, independently establishing the relation also associated with Joule."
+
+stokes:
+  name: "George Gabriel Stokes"
+  summary: "An Irish mathematician and physicist whose studies of light, fluorescence, and fluid motion connected optical experiments with mathematical physics."
+  color: "#8b6a45"
+  photo: "images/stokes.jpg"
+  cartoon: "images/cartoons/stokes.png"
+  nationality: "Irish"
+  birth: "1819-08-13"
+  death: "1903-02-01"
+  academic_affiliations:
+    - institution: "Pembroke College, Cambridge"
+      association: "Student, fellow, and master; Lucasian Professor of Mathematics at Cambridge"
+  publications:
+    - year: 1845
+      title: "On the Aberration of Light"
+      abstract: "Proposed an explanation of stellar aberration using a luminiferous aether carried along near Earth, an influential historical alternative to a stationary aether."
+    - year: 1852
+      title: "On the Change of Refrangibility of Light"
+      abstract: "Investigated fluorescence and the conversion of absorbed light into emitted light of longer wavelength, now associated with the Stokes shift."
+
+eotvos:
+  name: "Loránd Eötvös"
+  summary: "A Hungarian physicist whose torsion-balance experiments tested the equality of inertial and gravitational mass with unprecedented precision."
+  color: "#6d8350"
+  photo: "images/eotvos.jpg"
+  cartoon: "images/cartoons/eotvos.png"
+  nationality: "Hungarian"
+  birth: "1848-07-27"
+  death: "1919-04-08"
+  academic_affiliations:
+    - institution: "Heidelberg University"
+      association: "Student and doctorate in physics"
+      coat: "images/institutions/heidelberg-university.png"
+    - institution: "University of Budapest"
+      association: "Professor of physics and rector"
+  publications:
+    - year: 1890
+      title: "Über die Anziehung der Erde auf verschiedene Substanzen"
+      abstract: "Reported torsion-balance comparisons of different materials that closely constrained differences between their gravitational and inertial mass ratios."
+    - year: 1922
+      title: "Beiträge zum Gesetze der Proportionalität von Trägheit und Gravität"
+      abstract: "Published posthumously with Dezső Pekár and Jenő Fekete, this account presented refined torsion-balance tests of the proportionality of inertia and gravitation."
+
+becquerel:
+  name: "Henri Becquerel"
+  summary: "A French physicist who discovered spontaneous radiation from uranium, opening the experimental study of radioactivity."
+  color: "#b06d47"
+  photo: "images/becquerel.jpg"
+  cartoon: "images/cartoons/becquerel.png"
+  nationality: "French"
+  birth: "1852-12-15"
+  death: "1908-08-25"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Student and professor of physics"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "École des Ponts ParisTech"
+      association: "Engineering student at the École des Ponts et Chaussées"
+      coat: "images/institutions/ecole-des-ponts-paristech.png"
+  publications:
+    - year: 1896
+      title: "Sur les radiations invisibles émises par les corps phosphorescents"
+      abstract: "Reported that uranium salts exposed photographic plates even without prior illumination, providing decisive evidence for spontaneous radiation."
+    - year: 1896
+      title: "Sur les radiations invisibles émises par les sels d'uranium"
+      abstract: "Further characterized the penetrating radiation from uranium salts and distinguished its persistence from ordinary phosphorescence."
+
+curie_marie:
+  name: "Marie Curie"
+  summary: "A Polish-born French physicist and chemist who developed the study of radioactivity and co-discovered polonium and radium."
+  color: "#976294"
+  photo: "images/curie_marie.jpg"
+  cartoon: "images/cartoons/curie_marie.png"
+  nationality: "Polish/French"
+  birth: "1867-11-07"
+  death: "1934-07-04"
+  academic_affiliations:
+    - institution: "University of Paris"
+      association: "Student, doctorate in physics, and professor"
+      coat: "images/institutions/university-of-paris.png"
+  publications:
+    - year: 1898
+      title: "Sur une substance nouvelle radio-active, contenue dans la pechblende"
+      abstract: "With Pierre Curie, used the unusually strong radioactivity of a pitchblende fraction to identify the new element polonium."
+    - year: 1898
+      title: "Sur une nouvelle substance fortement radio-active, contenue dans la pechblende"
+      abstract: "With Pierre Curie and Gustave Bémont, reported evidence for radium through chemical separation, intense radioactivity, and a characteristic spectral line."
+    - year: 1903
+      title: "Recherches sur les substances radioactives"
+      abstract: "Brought together quantitative measurements and chemical investigations of radioactive substances in a doctoral thesis supporting radioactivity as an atomic property."
+
+meitner:
+  name: "Lise Meitner"
+  summary: "An Austrian-Swedish physicist who co-discovered long-lived protactinium and helped explain nuclear fission and its energy release."
+  color: "#438f79"
+  photo: "images/meitner.jpg"
+  cartoon: "images/cartoons/meitner.png"
+  nationality: "Austrian/Swedish"
+  birth: "1878-11-07"
+  death: "1968-10-27"
+  academic_affiliations:
+    - institution: "University of Vienna"
+      association: "Student and doctorate in physics"
+      coat: "images/institutions/university-of-vienna.png"
+    - institution: "Humboldt University of Berlin"
+      association: "Physics assistant, lecturer, and professor"
+      coat: "images/institutions/humboldt-university-of-berlin.png"
+  publications:
+    - year: 1918
+      title: "Die Muttersubstanz des Actiniums, ein neues radioaktives Element von langer Lebensdauer"
+      abstract: "With Otto Hahn, identified the long-lived protactinium isotope that decays into actinium, clarifying the actinium radioactive series."
+    - year: 1939
+      title: "Disintegration of Uranium by Neutrons: a New Type of Nuclear Reaction"
+      abstract: "With Otto Frisch, interpreted Hahn and Strassmann's results as splitting the uranium nucleus and explained the large energy release through the loss of mass."
+
+fermi:
+  name: "Enrico Fermi"
+  summary: "An Italian-American physicist who developed a theory of beta decay, pioneered neutron-induced radioactivity, and led the first controlled nuclear chain reaction."
+  color: "#4d78a6"
+  photo: "images/fermi.jpg"
+  cartoon: "images/cartoons/fermi.png"
+  nationality: "Italian/American"
+  birth: "1901-09-29"
+  death: "1954-11-28"
+  academic_affiliations:
+    - institution: "University of Pisa"
+      association: "Student and doctorate in physics"
+      coat: "images/institutions/university-of-pisa.jpg"
+    - institution: "Sapienza University of Rome"
+      association: "Professor of theoretical physics"
+    - institution: "Columbia University"
+      association: "Professor of physics"
+      coat: "images/institutions/columbia-university.png"
+    - institution: "University of Chicago"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-chicago.png"
+  publications:
+    - year: 1934
+      title: "Tentativo di una teoria dei raggi β"
+      abstract: "Developed a quantitative theory of beta decay incorporating Pauli's proposed neutrino and the creation of an electron and neutrino in a nuclear transition."
+    - year: 1935
+      title: "Artificial Radioactivity Produced by Neutron Bombardment—II"
+      abstract: "With the Rome research group, documented neutron-induced radioactivity and the strong enhancement of many activation reactions when neutrons are slowed."
+
+lemaitre:
+  name: "Georges Lemaître"
+  summary: "A Belgian physicist and priest who connected relativistic cosmic expansion with galaxy observations and proposed a primeval origin for the universe."
+  color: "#826cb1"
+  photo: "images/lemaitre.jpg"
+  cartoon: "images/cartoons/lemaitre.png"
+  nationality: "Belgian"
+  birth: "1894-07-17"
+  death: "1966-06-20"
+  academic_affiliations:
+    - institution: "Catholic University of Louvain"
+      association: "Student, doctorate in mathematics and physics, and professor"
+    - institution: "Massachusetts Institute of Technology"
+      association: "Doctorate in physics"
+      coat: "images/institutions/massachusetts-institute-of-technology.png"
+  publications:
+    - year: 1927
+      title: "Un univers homogène de masse constante et de rayon croissant, rendant compte de la vitesse radiale des nébuleuses extra-galactiques"
+      abstract: "Derived an expanding relativistic universe and used existing galaxy distances and radial velocities to estimate the proportionality between recession speed and distance."
+    - year: 1931
+      title: "The Beginning of the World from the Point of View of Quantum Theory"
+      abstract: "Proposed that the universe began in a single primordial quantum, developing the primeval-atom idea that helped shape later Big Bang cosmology."
+
+hubble:
+  name: "Edwin Hubble"
+  summary: "An American astronomer who established that spiral nebulae lie beyond the Milky Way and found an observational relation between galaxy distance and radial velocity."
+  color: "#a95e73"
+  photo: "images/hubble.jpg"
+  cartoon: "images/cartoons/hubble.png"
+  nationality: "American"
+  birth: "1889-11-20"
+  death: "1953-09-28"
+  academic_affiliations:
+    - institution: "University of Chicago"
+      association: "Student and doctorate in astronomy"
+      coat: "images/institutions/university-of-chicago.png"
+    - institution: "The Queen's College, Oxford"
+      association: "Rhodes Scholar and student of jurisprudence"
+  publications:
+    - year: 1925
+      title: "Cepheids in Spiral Nebulae"
+      abstract: "Used Cepheid variable stars to place the Andromeda and Triangulum nebulae beyond the Milky Way, establishing them as separate stellar systems."
+    - year: 1929
+      title: "A Relation between Distance and Radial Velocity among Extra-Galactic Nebulae"
+      abstract: "Combined galaxy distance estimates with existing radial velocities, largely measured by Vesto Slipher, to demonstrate an approximate increase of recession velocity with distance."
