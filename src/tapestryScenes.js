@@ -10,7 +10,7 @@ export const tapestryAtlases = [
     [696, 804, [0, 322, 555, 901, 1230, 1586]],
     [819, 957, [0, 311, 631, 915, 1227, 1586]]
   ] },
-  { file: 'images/tapestry/revolutions-panorama.png', width: 1586, height: 992, rows: [
+  { file: 'images/tapestry/revolutions-panorama-v2.png', width: 1586, height: 992, rows: [
     [0, 144, [0, 321, 562, 793, 1144, 1586]],
     [153, 286, [0, 349, 640, 914, 1267, 1586]],
     [298, 422, [0, 302, 629, 941, 1255, 1586]],
@@ -42,7 +42,7 @@ const entries = [
   ['War of the Spanish Succession', ['Soldiers and a disputed crown', 'Couriers and royal standards', 'Marching infantry', 'Cavalry and artillery', 'The campaign map and supplies']],
   ['Great Frost of 1709', ['Frozen trees and winter hardship', 'Boats trapped in ice', 'A snowbound village', 'Frozen fields', 'Shelter and shared food']],
   ["The Seven Years' War", ['Troops on campaign', 'Officers and maps', 'Field artillery', 'Warships at sea', 'An overseas coastal fort']],
-  ['American Revolution', ['Colonial soldiers and redcoats', 'Mustering and supplies', 'The countryside at war', 'Life in an encampment', 'Discussion of independence']],
+  ['American Revolution', ['Colonial soldiers facing British redcoats', 'Mustering and supplies', 'The countryside at war', 'Life in an encampment', 'Discussion of independence']],
   ['Signing of the United States Constitution', ['Delegates signing in Philadelphia', 'Discussion around the table', 'Quill, ink and parchment', 'Delegates awaiting their turn', 'The proposed document in the hall']],
   ['French Revolution', ['A crowd at the Bastille', 'Citizens in the streets', 'Debate in an assembly', 'Pamphlets changing hands', 'Tricolours in a public square']],
   ['Reign of Napoleon', ['Napoleon, the imperial eagle and a map table', 'Infantry and drummers', 'Cavalry and cannon', 'Imperial ceremony', 'Administration at a desk']],
