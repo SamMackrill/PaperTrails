@@ -27,7 +27,9 @@ export function applyTheme(theme) {
   const themeName = isDark ? 'dark' : 'light';
   body.classList.toggle('dark-mode', isDark);
   root.dataset.theme = themeName;
-  root.style.colorScheme = themeName;
+  // `only` prevents browser auto-darkening (and keeps the app palette in
+  // control when a hosted domain is covered by a dark-mode browser setting).
+  root.style.colorScheme = isDark ? 'only dark' : 'only light';
   // Keep the viewport background in sync as well as the app surface. This is
   // explicit because some static hosts cache the original body declaration.
   root.style.setProperty('--page-bg', pageBackground, 'important');

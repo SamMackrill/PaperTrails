@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light;
+  color-scheme: only light;
   --page-bg: #f3f5f8;
   --surface: #ffffff;
   --surface-raised: #ffffff;
@@ -36,7 +36,7 @@
 
 body.dark-mode,
 html[data-theme="dark"] body {
-  color-scheme: dark;
+  color-scheme: only dark;
   --page-bg: #0b1220;
   --surface: #111a2b;
   --surface-raised: #172235;
