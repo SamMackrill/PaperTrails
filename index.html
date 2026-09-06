@@ -4,9 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Explore scientific publications, discoveries, conferences, and their historical context from 1400 to today.">
+  <meta name="theme-color" content="#f3f5f8">
   <title>Paper Trails — Scientific History</title>
+  <script>
+    (() => {
+      let dark = false;
+      try {
+        const saved = localStorage.getItem('paperTrailsTheme');
+        dark = saved === 'dark' || (saved !== 'light' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+      } catch {
+        // The app can still choose a theme after startup when storage is blocked.
+      }
+      const theme = dark ? 'dark' : 'light';
+      const background = dark ? '#0b1220' : '#f3f5f8';
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+      document.documentElement.style.setProperty('--page-bg', background);
+      document.documentElement.style.setProperty('background-color', background);
+    })();
+  </script>
   <link rel="icon" href="images/icon.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=22">
 </head>
 <body>
   <header class="app-header">
@@ -150,6 +168,6 @@
   <div class="timeline-tooltip" id="timeline-tooltip" role="tooltip" hidden></div>
 
   <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
-  <script type="module" src="script.js?v=21"></script>
+  <script type="module" src="script.js?v=23"></script>
 </body>
 </html>
