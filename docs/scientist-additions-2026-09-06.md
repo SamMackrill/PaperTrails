@@ -48,11 +48,13 @@ Stokes's aether model is presented as a historical proposal. Eötvös's 1922 wor
 
 ## Validation
 
-- Parsed YAML with duplicate-key rejection; confirmed exactly nine added IDs, 19 new publications, unique new colours, valid life dates, and existing asset paths. All 97 earlier scientist objects remain unchanged, giving 106 scientists in total.
-- Decoded all 18 new assets. Photographs are square JPEGs with at least 512 pixels per side; cartoons are 1024×1024 RGBA PNGs with transparent corners and opaque subject content. All nine cartoons passed the repository validator and visual review over light and dark backgrounds, including 92 px and 42 px circular crops. Stokes and Meitner were regenerated to preserve white clothing during background removal.
-- Served the static application with Python and checked every new profile, academic row, publication marker and detail link, hover highlight, connection to the earliest publication, and locate-on-timeline control in the collaborative browser.
-- All nine photographic and illustrated timeline portraits decoded without fallback in both light and dark themes; matching academic emblems loaded. No failed HTTP resources or application/YAML errors were observed. The preview host logged two Electron preload/sandbox startup errors; these did not prevent the application or the checks from running.
-- Reviewed the focused YAML diff and new asset list; `git diff --check` passed. No application, discovery, or historical-event data changed.
+The source and artwork review for the additions was pre-PR validation on 6 September 2026. The reproducible checks below were repeated locally on 7 September 2026 after rebasing this branch onto `origin/main`; the earlier unlogged claims about portrait regeneration and exhaustive visual review are not repeated as current evidence.
+
+- YAML check (automated, 7 September 2026): parsed `data/scientists.yaml` with duplicate-key rejection and compared it with the pre-additions tree. The check confirmed nine added IDs, 19 new publications, unique new colours, valid life dates, existing asset paths, 97 unchanged earlier scientist objects, and 106 scientists total.
+- Asset check (automated, 7 September 2026): decoded the 18 new files and checked square JPEG photographs of at least 512 pixels per side, 1024×1024 RGBA cartoon PNGs, transparent corners, and non-transparent subject samples.
+- Browser check (manual, 7 September 2026): served the static application with Python's HTTP server and used the collaborative Chromium preview to confirm that the vendored parser loaded and the timeline rendered 29 scientist nodes/clusters, 199 publication markers, 26 discovery/conference markers, and 21 context items.
+- Resource check (manual, 7 September 2026): inspected the browser resource list and console after startup. The YAML files and vendored parser loaded from the same origin, no jsDelivr request was made, and no application/YAML error was reported.
+- Git diff check (automated, 7 September 2026): `git diff --check` passed, and the focused diff after the rebase contains no application, discovery, conference, or historical-event data changes.
 
 ## Conference attendance update
 

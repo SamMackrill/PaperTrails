@@ -32,7 +32,7 @@ python -m http.server 8000
 
 Then open <http://localhost:8000>.
 
-An internet connection is needed to load js-yaml from jsDelivr. The rest of the application is stored in this repository.
+The application code, data, and YAML parser are stored in this repository, so an internet connection is not required to load the timeline. External source and map links require connectivity when opened.
 
 ## Using the timeline
 
