@@ -5,6 +5,9 @@ export let significantEvents = [];
 
 const DATA_VERSION = '17';
 
+// The loader intentionally parses only repository-owned, same-origin YAML files.
+// Treat that static deployment boundary as trusted and immutable; this is not a
+// parser entry point for user-controlled or remote YAML.
 async function loadYamlData(filePath) {
   const response = await fetch(`${filePath}?v=${DATA_VERSION}`, { cache: 'no-cache' });
   if (!response.ok) throw new Error(`Unable to load ${filePath} (${response.status})`);
