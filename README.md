@@ -22,7 +22,7 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 
 ## Running locally
 
-There is no build step or package installation. The application uses native HTML, CSS, and JavaScript modules, with [js-yaml](https://github.com/nodeca/js-yaml) loaded from a CDN.
+There is no build step or package installation. The application uses native HTML, CSS, and JavaScript modules. The small [js-yaml](https://github.com/nodeca/js-yaml) runtime dependency is vendored under `vendor/` so the timeline does not depend on access to a third-party CDN.
 
 Because the application fetches YAML files at runtime, serve the repository over HTTP instead of opening `index.html` directly. For example, with Python 3:
 
