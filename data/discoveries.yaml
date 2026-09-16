@@ -100,7 +100,7 @@
 - year: 1758
   title: "Return of Halley's Comet"
   discoverer: "Johann Georg Palitzsch; return predicted by Edmond Halley"
-  theorist_ids: [newton]
+  theorist_ids: [newton, halley]
   details: "Palitzsch recovered the predicted comet on 25 December 1758; it reached perihelion in March 1759. Its return confirmed Halley's application of Newtonian gravitation to periodic cometary orbits."
   particle: "☄"
   color: "#6f4e7c"
@@ -153,3 +153,147 @@
   details: "Experimental verification of the Breit-Wheeler process, converting light into matter."
   particle: γγ
   color: "#2ecc71" # Emerald green
+
+- year: 1672
+  title: "Measuring the Scale of Earth's Orbit"
+  discoverer: "Giovanni Domenico Cassini and Jean Richer"
+  scientist_ids: [cassini, richer]
+  details: "Comparing observations of Mars from Paris and Cayenne during its 1672 opposition gave a parallax estimate of its distance. Combined with the relative planetary distances from Kepler's laws, this established a much improved Earth–Sun distance and hence the diameter of Earth's orbit, approximately twice that distance."
+  particle: AU
+  color: "#98603f"
+
+- year: 1728
+  title: "Stellar Aberration"
+  discoverer: "James Bradley, using observations begun with Samuel Molyneux"
+  scientist_ids: [bradley]
+  details: "Using observations begun with Samuel Molyneux, Bradley explained an annual change in apparent star positions by combining Earth's orbital velocity with the finite speed of light. Stellar aberration supplied evidence for Earth's orbital motion and a new way to estimate light's speed."
+  particle: "α"
+  color: "#51768c"
+
+- year: 1800
+  title: "Discovery of Infrared Radiation"
+  discoverer: "William Herschel"
+  scientist_ids: [herschel]
+  details: "Thermometers placed beyond the red end of a dispersed solar spectrum recorded heating from invisible radiation. Herschel's experiments extended the known spectrum beyond visible light."
+  particle: IR
+  color: "#ab7040"
+
+- year: 1820
+  title: "Electric Current Deflects a Compass"
+  discoverer: "Hans Christian Ørsted"
+  scientist_ids: [oersted]
+  details: "Ørsted observed a compass needle deflect beside a wire carrying electric current, demonstrating a connection between electricity and magnetism and prompting the development of electrodynamics."
+  particle: EM
+  color: "#3d8a83"
+
+- year: 1845
+  title: "Faraday Rotation"
+  discoverer: "Michael Faraday"
+  scientist_ids: [faraday]
+  details: "Faraday rotated the plane of polarization of light passing through glass in a magnetic field. This magneto-optical effect provided direct experimental evidence linking light and magnetism."
+  particle: "↻"
+  color: "#e76f51"
+
+- year: 1851
+  title: "Fizeau's Moving-Water Experiment"
+  discoverer: "Hippolyte Fizeau"
+  scientist_ids: [hippolyte_fizeau]
+  details: "An interference experiment measured how flowing water changes light propagation. Its result agreed with Fresnel's partial aether-drag coefficient; special relativity later explained the effect through velocity addition without requiring a material luminiferous aether."
+  particle: H₂O
+  color: "#457b9d"
+
+- year: 1887
+  title: "Generation and Detection of Electromagnetic Waves"
+  discoverer: "Heinrich Hertz"
+  scientist_ids: [hertz]
+  theorist_ids: [maxwell]
+  details: "In experiments of 1887–1888, Hertz generated and detected electromagnetic waves with spark apparatus and demonstrated wave properties including reflection and interference, confirming a central prediction of Maxwell's theory."
+  particle: RF
+  color: "#467d92"
+
+- year: 1900
+  title: "Planck's Energy Quanta"
+  discoverer: "Max Planck"
+  scientist_ids: [planck]
+  details: "To derive the black-body radiation spectrum, Planck treated oscillator energy exchange in elements proportional to frequency, E = hν. This introduced the quantum of action at the foundation of quantum theory."
+  particle: hν
+  color: "#8764a1"
+
+- year: 1905
+  title: "Light Quanta and the Photoelectric Effect"
+  discoverer: "Albert Einstein"
+  scientist_ids: [einstein]
+  details: "Einstein proposed localized light quanta with energy hν and used them to explain the photoelectric effect, including its dependence on light frequency. This was a theoretical explanation of an already observed effect."
+  particle: "γ"
+  color: "#b08b31"
+
+- year: 1911
+  title: "Planck's Zero-Point Energy Proposal"
+  discoverer: "Max Planck"
+  scientist_ids: [planck]
+  details: "Planck's second quantum theory introduced residual oscillator energy of hν/2 at zero temperature. Later quantum mechanics established zero-point energy as a property of systems such as the harmonic oscillator."
+  particle: "½hν"
+  color: "#7f70a1"
+
+- year: 1912
+  title: "Cepheid Period–Luminosity Relationship"
+  discoverer: "Henrietta Swan Leavitt"
+  scientist_ids: [leavitt]
+  details: "Leavitt established a relationship between pulsation periods and brightness for Cepheid variables in the Small Magellanic Cloud. Because the stars were at approximately the same distance, this relation made Cepheids usable as distance indicators once calibrated."
+  particle: CEP
+  color: "#99658c"
+
+- year: 1922
+  title: "Stern–Gerlach Experiment"
+  discoverer: "Otto Stern and Walther Gerlach"
+  details: "A beam of silver atoms split into discrete components in an inhomogeneous magnetic field. Initially interpreted as spatial quantization of atomic angular momentum, the result was later understood in terms of the unpaired electron's spin."
+  particle: "↑↓"
+  color: "#597b67"
+
+- year: 1947
+  title: "Measurement of the Lamb Shift"
+  discoverer: "Willis Lamb and Robert Retherford"
+  scientist_ids: [lamb]
+  details: "Lamb and Retherford used microwave spectroscopy to reveal a separation between hydrogen energy levels that Dirac's basic theory predicted to coincide. The measurement became a crucial test of radiative corrections in quantum electrodynamics."
+  particle: ΔE
+  color: "#487db0"
+
+- year: 1948
+  title: "Prediction of the Casimir Effect"
+  discoverer: "Hendrik Casimir"
+  scientist_ids: [casimir]
+  details: "Casimir predicted an attractive force between ideal parallel conducting plates from the change in electromagnetic zero-point energy imposed by their boundaries. The prediction connected quantum field fluctuations with a measurable mechanical force."
+  particle: ZPE
+  color: "#9b59b6"
+
+- year: 1959
+  title: "Prediction of the Aharonov–Bohm Effect"
+  discoverer: "Yakir Aharonov and David Bohm"
+  scientist_ids: [bohm]
+  details: "Aharonov and Bohm predicted a shift in quantum interference when charged particles encircle magnetic flux even though their paths lie in a region with no magnetic field. The effect exposed the significance of electromagnetic potentials in quantum theory."
+  particle: AB
+  color: "#637ead"
+
+- year: 1982
+  title: "Bell Test with Changing Analyzer Settings"
+  discoverer: "Alain Aspect, Jean Dalibard, and Gérard Roger"
+  theorist_ids: [bell]
+  details: "Measurements of entangled photons with rapidly changing analyzer settings violated a Bell inequality, supporting quantum predictions against local hidden-variable models. The experiment was a major advance, although it did not close every experimental loophole."
+  particle: BELL
+  color: "#a77a3d"
+
+- year: 1803
+  title: "Young's Interference and Double-Slit Experiment"
+  discoverer: "Thomas Young"
+  scientist_ids: [young]
+  details: "Building on his interference principle of 1801, Young described an optical experiment in 1803 in which sunlight passing on either side of a narrow card produced bright and dark fringes. This precursor of the modern double-slit arrangement demonstrated the superposition of light waves; the account was published in 1804."
+  particle: "Ⅱ"
+  color: "#4b8d9a"
+
+- year: 1925
+  title: "Miller's Ether-Drift Claim"
+  discoverer: "Dayton Clarence Miller"
+  scientist_ids: [miller]
+  details: "Miller reported a small non-null signal in Mount Wilson repetitions of the Michelson–Morley experiment and interpreted it as ether drift, challenging the earlier null result. A 1955 reanalysis attributed the apparent signal to statistical fluctuations and local temperature effects and found the data consistent with a null result; Miller's claim is not an established refutation of Michelson–Morley or special relativity."
+  particle: ETH
+  color: "#7d8750"

@@ -36,7 +36,7 @@
     caption: "Participants of the Fifth Solvay Conference on Electrons and Photons, October 1927."
     credit: "Benjamin Couprie, Institut International de Physique Solvay"
     source: "https://commons.wikimedia.org/wiki/File:Solvay_conference_1927.jpg"
-  attendee_ids: [bohr, compton, curie_marie, deBroglie, dirac, einstein, heisenberg, lorentz, pauli, planck, schrodinger]
+  attendee_ids: [bohr, born, compton, curie_marie, deBroglie, dirac, einstein, heisenberg, lorentz, pauli, planck, schrodinger]
   details: "The fifth Solvay International Conference on Electrons and Photons, where many of the world's most notable physicists met to discuss the newly formulated quantum theory. Key discussions on wave-particle duality and the uncertainty principle took place."
   particle: ⑤
 
@@ -68,7 +68,7 @@
     caption: "Lamb, Pais, Wheeler, Feynman, Feshbach, and Schwinger during the conference, 2 June 1947."
     credit: "AIP Emilio Segrè Visual Archives, gift of Abraham Pais"
     source: "https://commons.wikimedia.org/wiki/File:Lamb_Pais_Wheeler_Feynman_Feshback_and_Schwinger_at_Shelter_Island_Conference.jpg"
-  attendee_ids: [feynman, fermi, lamb]
+  attendee_ids: [bohm, feynman, fermi, lamb, schwinger]
   details: "A pivotal post-war meeting on quantum electrodynamics where Willis Lamb reported the Lamb shift. The discussions helped spur the calculations and renormalization methods that made modern QED a consistent predictive theory."
   particle: QED
 

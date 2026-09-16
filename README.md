@@ -84,7 +84,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Twenty-three affiliation rows deliberately omit `coat` and display the neutral icon:
+Thirty-three affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -92,12 +92,12 @@ Twenty-three affiliation rows deliberately omit `coat` and display the neutral i
 - **Royal Institution** — its [copyright notice](https://www.rigb.org/copyright) says the institution's marks and logos may not be reproduced without prior permission.
 - **SISSA** — the school publishes an official logo and seal, but [requires the Director's authorization for external use](https://www2.sissa.it/media-and-press/researchers-and-sissa-staff).
 - **Jagiellonian University** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
-- **University of Bologna** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
+- **University of Bologna** — the Copernicus and Cassini rows use the neutral icon because no repository-compatible historical or official emblem is recorded.
 - **University of Ferrara** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
 - **University of Leuven** — no repository-compatible historical or official emblem was added for this entry; the neutral icon avoids substituting later or unofficial artwork.
 - **University of Jena** — no repository-compatible historical emblem was added for Leibniz's period of study; the neutral icon avoids substituting the modern university identity.
 - **University of Altdorf** — the university closed in 1809, and no distinct repository-compatible historical emblem was added for Leibniz's doctorate.
-- **Johns Hopkins University** — the Wheeler and Breit rows deliberately retain the neutral icon because no repository-compatible emblem is recorded for either affiliation.
+- **Johns Hopkins University** — the Wheeler, Breit, and Hall rows use the neutral icon because no repository-compatible emblem is recorded.
 - **University of Texas at Austin** — the Wheeler row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **New York University** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **University of Wisconsin–Madison** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
@@ -106,7 +106,9 @@ Twenty-three affiliation rows deliberately omit `coat` and display the neutral i
 - **University of Budapest** — Eötvös's affiliation uses the neutral icon because no verified local emblem is recorded for this historical institution.
 - **Sapienza University of Rome** — Fermi's affiliation uses the neutral icon because no verified local emblem is recorded.
 - **Catholic University of Louvain** — Lemaître's affiliation uses the neutral icon because no verified local emblem is recorded; the historical University of Leuven entry is a different institution.
-- **The Queen's College, Oxford** — Hubble's college affiliation uses the neutral icon because no verified local emblem is recorded.
+- **The Queen's College, Oxford** — Hubble's and Halley's college affiliations use the neutral icon because no verified local emblem is recorded.
+- **Balliol College, Oxford**, **Radcliffe College**, **Kyoto University**, and **Birkbeck College, University of London** — the Bradley, Leavitt, Tomonaga, and Bohm rows use neutral icons because no verified local emblems are recorded.
+- **Imperial College London**, **University College London**, and **Union College** — Dingle's two affiliations and Steinmetz's teaching affiliation use neutral icons because no verified local emblems are recorded.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 
