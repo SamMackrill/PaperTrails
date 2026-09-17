@@ -1,5 +1,12 @@
 # Image attribution
 
+Portraits added for the Karlsruhe and periodic-table expansion:
+
+- `cannizzaro.jpg` is cropped from the portrait in *Zeitschrift für Physikalische Chemie*, volume 56 (1906), photographer unidentified, scanned by Armin Kübelbeck and cropped on Commons by FMSky. Public domain. [Source and rights](https://commons.wikimedia.org/wiki/File:Stanislao_Cannizzaro_01_(cropped).jpg). `cartoons/cannizzaro.png` is an AI-assisted illustrated adaptation.
+- `meyer.jpg` is cropped from Wilhelm Hornung's 11 January 1883 photograph of Lothar Meyer, supplied through LEO-BW; public domain. [Source and rights](https://commons.wikimedia.org/wiki/File:Lothar_Meyer_1883.jpg). `cartoons/meyer.png` is an AI-assisted illustrated adaptation.
+- `mendeleev.jpg` is cropped and resized from the circa-1900 portrait of Dmitri Mendeleev, photographer unidentified, supplied by the Science History Institute through DPLA; marked public domain. [Archive source](https://digital.sciencehistory.org/works/6682x411q). [Commons rights record](https://commons.wikimedia.org/wiki/File:Portrait_of_Dmitri_Mendeleev_(1834-1907)_-_DPLA_-_ae210f544ed4861e0ade236c6f2ca91e.jpg). `cartoons/mendeleev.png` is an AI-assisted illustrated adaptation.
+- `avogadro.jpg` is cropped from the historical engraved portrait of Amedeo Avogadro (before 1856), artist unidentified, restored/uploaded by Anton; Commons marks the historical image public domain. [Source and rights](https://commons.wikimedia.org/wiki/File:Amadeo_Avogadro.png). `cartoons/avogadro.png` is an AI-assisted illustrated adaptation.
+
 Most historical source portraits added to this directory are public-domain or CC0 works obtained through Wikimedia Commons. Their corresponding cartoon variants were generated from those source portraits and then cropped, resized, and given transparent backgrounds for Paper Trails.
 
 Public-domain source portraits added for the 1400–1600 expansion:

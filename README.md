@@ -84,7 +84,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Thirty-three affiliation rows deliberately omit `coat` and display the neutral icon:
+Thirty-eight affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -101,10 +101,11 @@ Thirty-three affiliation rows deliberately omit `coat` and display the neutral i
 - **University of Texas at Austin** — the Wheeler row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **New York University** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **University of Wisconsin–Madison** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
-- **University of Tartu** and **Saint Petersburg State University** — the two Lenz affiliations use neutral icons because no verified local emblems are recorded for these additions.
+- **University of Tartu** and **Saint Petersburg State University** — Lenz's two affiliations and Mendeleev's Saint Petersburg affiliation use neutral icons because no verified local emblems are recorded.
 - **Pembroke College, Cambridge** — Stokes's college affiliation uses the neutral icon because no verified local emblem is recorded.
 - **University of Budapest** — Eötvös's affiliation uses the neutral icon because no verified local emblem is recorded for this historical institution.
-- **Sapienza University of Rome** — Fermi's affiliation uses the neutral icon because no verified local emblem is recorded.
+- **Sapienza University of Rome** — Fermi's and Cannizzaro's affiliations use the neutral icon because no verified local emblem is recorded.
+- **University of Genoa**, **University of Palermo**, and **University of Turin** — Cannizzaro's Genoa and Palermo affiliations and Avogadro's Turin affiliation use neutral icons because no verified local emblems are recorded.
 - **Catholic University of Louvain** — Lemaître's affiliation uses the neutral icon because no verified local emblem is recorded; the historical University of Leuven entry is a different institution.
 - **The Queen's College, Oxford** — Hubble's and Halley's college affiliations use the neutral icon because no verified local emblem is recorded.
 - **Balliol College, Oxford**, **Radcliffe College**, **Kyoto University**, and **Birkbeck College, University of London** — the Bradley, Leavitt, Tomonaga, and Bohm rows use neutral icons because no verified local emblems are recorded.
@@ -113,6 +114,8 @@ Thirty-three affiliation rows deliberately omit `coat` and display the neutral i
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 
 Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and `color`. They can include `scientist_ids` for linked discoverers and `theorist_ids` for linked scientists whose theoretical prediction the event validates. Conference entries use `year`, `title`, `location`, `historical_map`, `details`, `particle`, and `attendee_ids`, containing scientist keys from `data/scientists.yaml`. `historical_map` contains `year` and `url` values for a period-appropriate archival map. A conference can also include a `photo` object with `src`, `alt`, `caption`, `credit`, and `source`; cards display it only when present and link the credit to its archival source. Conference detail cards link the location to Google Maps, link the period map separately, and list attendees with links to their timeline nodes. Historical event entries use `title`, `shortTitle`, `startYear`, `endYear`, `details`, and `color`, and can also use `attendee_ids`. `shortTitle` is the compact timeline label used when the full event title does not fit its duration band; use a familiar abbreviation where one exists, or a short recognisable name otherwise.
+
+Conferences can also use `theorist_ids` to link intellectual contributors separately from attendees, as with Avogadro at Karlsruhe. Historical-map year labels can preserve approximate dates such as "late 1850s".
 
 Place portrait files under `images/` and cartoon variants under `images/cartoons/`. For filenames containing both a surname and given name, use surname-first order—`surname_givenname.ext`—so related people sort and scan predictably. Keep surname particles together, and use a surname-only filename when it is already unambiguous. Missing scientist portraits fall back to a theme-appropriate default image.
 

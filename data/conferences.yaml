@@ -1,3 +1,14 @@
+- year: 1860
+  title: "Karlsruhe Congress"
+  location: "Ständehaus, Ritterstraße, Karlsruhe, Germany"
+  historical_map:
+    year: "late 1850s"
+    url: "https://digital.blb-karlsruhe.de/blbihd/content/pageview/401790"
+  attendee_ids: [cannizzaro, mendeleev, meyer]
+  theorist_ids: [avogadro]
+  details: "Held on 3–5 September 1860, the first international congress of chemists addressed conflicting ideas about atoms, molecules, atomic weights, and chemical notation. Cannizzaro advocated Avogadro's molecular hypothesis, and copies of his 1858 essay helped Mendeleev and Lothar Meyer develop consistent atomic weights for their later periodic classifications. Avogadro, who died in 1856, was an intellectual contributor rather than an attendee."
+  particle: "Ar"
+
 - year: 1881
   title: "First International Electrical Congress"
   location: "Palais du Trocadéro, Paris, France"
@@ -7,6 +18,16 @@
   attendee_ids: [eotvos, hippolyte_fizeau, gustav_kirchhoff, mach, kelvin]
   details: "Held in Paris alongside the International Exposition of Electricity, the congress helped establish an internationally consistent system of practical electrical units, including the ohm, volt, ampere, coulomb, and farad."
   particle: Ω
+
+- year: 1900
+  title: "International Congress of Physics"
+  location: "Paris, France"
+  historical_map:
+    year: 1900
+    url: "https://gallica.bnf.fr/ark:/12148/btv1b84422615/f1.item"
+  attendee_ids: [becquerel, curie_marie, poincare, thomson, kelvin, lorentz, birkeland, eotvos]
+  details: "Organized by the Société Française de Physique during the Paris Exposition Universelle on 6–10 August 1900, the congress brought physicists together across national and disciplinary boundaries. Alfred Cornu presided, with Lord Kelvin as honorary president. Reports surveyed metrology, optics, electromagnetism, thermodynamics, radioactivity, and radiation pressure at the turn of the century."
+  particle: "Φ"
 
 - year: 1911
   title: "First Solvay Conference"

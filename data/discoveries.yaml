@@ -202,6 +202,14 @@
   particle: H₂O
   color: "#457b9d"
 
+- year: 1869
+  title: "Periodic Table of Elements"
+  discoverer: "Dmitri Mendeleev and Julius Lothar Meyer"
+  scientist_ids: [mendeleev, meyer]
+  details: "Mendeleev and Meyer independently organized elements by atomic weight and recurring chemical properties. Mendeleev published his periodic system in 1869 and used its gaps to predict missing elements. Meyer had presented a partial classification in 1864; his expanded table and atomic-volume curve appeared in 1870, demonstrating periodic trends in physical properties."
+  particle: "PTE"
+  color: "#687b45"
+
 - year: 1887
   title: "Generation and Detection of Electromagnetic Waves"
   discoverer: "Heinrich Hertz"
