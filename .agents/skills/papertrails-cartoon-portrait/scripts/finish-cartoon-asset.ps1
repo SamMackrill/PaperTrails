@@ -3,7 +3,10 @@ param(
   [string]$InputPath,
 
   [Parameter(Mandatory = $true)]
-  [string]$OutputPath
+  [string]$OutputPath,
+
+  [ValidateRange(180, 255)]
+  [int]$BackgroundMinimum = 210
 )
 
 $ErrorActionPreference = 'Stop'
@@ -49,7 +52,7 @@ namespace PaperTrails
 {
     public static class CartoonAssetFinisher
     {
-        private static bool IsEdgeBackground(byte blue, byte green, byte red)
+        private static bool IsEdgeBackground(byte blue, byte green, byte red, int backgroundMinimum)
         {
             int minimum = Math.Min(red, Math.Min(green, blue));
             int maximum = Math.Max(red, Math.Max(green, blue));
@@ -57,10 +60,10 @@ namespace PaperTrails
             // Image-generation previews sometimes bake a very pale neutral
             // checkerboard into the RGB pixels. Only pixels connected to the
             // canvas edge are removed, so enclosed white details are retained.
-            return minimum >= 210 && (maximum - minimum) <= 32;
+            return minimum >= backgroundMinimum && (maximum - minimum) <= 32;
         }
 
-        public static int Finish(string inputPath, string outputPath)
+        public static int Finish(string inputPath, string outputPath, int backgroundMinimum)
         {
             using (var sourceFile = new Bitmap(inputPath))
             using (var source = new Bitmap(sourceFile.Width, sourceFile.Height, PixelFormat.Format32bppArgb))
@@ -90,7 +93,7 @@ namespace PaperTrails
                     if (background[index]) return;
 
                     int offset = (y * stride) + (x * 4);
-                    if (!IsEdgeBackground(pixels[offset], pixels[offset + 1], pixels[offset + 2])) return;
+                    if (!IsEdgeBackground(pixels[offset], pixels[offset + 1], pixels[offset + 2], backgroundMinimum)) return;
 
                     background[index] = true;
                     queue[queueEnd++] = index;
@@ -169,5 +172,5 @@ namespace PaperTrails
 '@
 }
 
-$removed = [PaperTrails.CartoonAssetFinisher]::Finish($resolvedInput, $resolvedOutput)
+$removed = [PaperTrails.CartoonAssetFinisher]::Finish($resolvedInput, $resolvedOutput, $BackgroundMinimum)
 Write-Output "Finished $resolvedOutput (removed $removed edge-connected background pixels)."

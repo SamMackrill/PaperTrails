@@ -2455,3 +2455,342 @@ hubble:
     - year: 1929
       title: "A Relation between Distance and Radial Velocity among Extra-Galactic Nebulae"
       abstract: "Combined galaxy distance estimates with existing radial velocities, largely measured by Vesto Slipher, to demonstrate an approximate increase of recession velocity with distance."
+
+cassini:
+  name: "Giovanni Domenico Cassini"
+  summary: "An Italian-French astronomer whose planetary observations revealed Saturnian moons and helped establish the scale of the Solar System."
+  color: "#98603F"
+  photo: "images/cassini.jpg"
+  cartoon: "images/cartoons/cassini.png"
+  nationality: "Italian-French"
+  birth: "1625-06-08"
+  death: "1712-09-14"
+  academic_affiliations:
+    - institution: "University of Bologna"
+      association: "Professor of mathematics and astronomy"
+  publications:
+    - year: 1673
+      title: "Découverte de deux nouvelles planètes autour de Saturne"
+      abstract: "Reported the discoveries of Iapetus and Rhea, extending the known satellite system of Saturn beyond Huygens's Titan."
+
+richer:
+  name: "Jean Richer"
+  summary: "A French observer, born around 1630, whose Cayenne measurements supported Cassini's estimate of the Solar System's scale and revealed geographic variation in pendulum rates."
+  color: "#65834F"
+  photo: "images/default.png"
+  cartoon: "images/cartoons/default.png"
+  nationality: "French"
+  birth: "1630"
+  death: "1696"
+  publications:
+    - year: 1679
+      title: "Observations astronomiques et physiques faites en l'isle de Caïenne"
+      abstract: "Presented the Cayenne observations of 1672–1673, including Mars positions used for solar parallax and a shorter seconds pendulum than in Paris."
+
+halley:
+  name: "Edmond Halley"
+  summary: "An English astronomer who predicted a comet's return, developed a Venus-transit method for measuring the Solar System, and mapped terrestrial magnetic variation."
+  color: "#A25564"
+  photo: "images/halley.jpg"
+  cartoon: "images/cartoons/halley.png"
+  nationality: "English"
+  birth: "1656-11-08"
+  death: "1742-01-25"
+  academic_affiliations:
+    - institution: "The Queen's College, Oxford"
+      association: "Student; later Savilian Professor of Geometry at Oxford"
+  publications:
+    - year: 1705
+      title: "Astronomiae cometicae synopsis"
+      abstract: "Compared cometary orbits using Newtonian gravitation and identified the apparitions of 1531, 1607, and 1682 as one comet whose return he predicted."
+    - year: 1716
+      title: "Methodus singularis quâ Solis parallaxis sive distantia à Terra, ope Veneris intra Solem conspiciendae, tuto determinari poterit"
+      abstract: "Proposed comparing transit durations of Venus from distant observing stations to determine solar parallax and the Earth–Sun distance."
+
+bradley:
+  name: "James Bradley"
+  summary: "An English astronomer whose discoveries of stellar aberration and nutation separated effects of Earth's motion from apparent changes in star positions."
+  color: "#51768C"
+  photo: "images/bradley.jpg"
+  cartoon: "images/cartoons/bradley.png"
+  nationality: "English"
+  birth: "1692"
+  death: "1762-07-13"
+  academic_affiliations:
+    - institution: "Balliol College, Oxford"
+      association: "Student; later Savilian Professor of Astronomy at Oxford"
+  publications:
+    - year: 1728
+      title: "A Letter from the Reverend Mr. James Bradley Savilian Professor of Astronomy at Oxford, and F. R. S. to Dr. Edmond Halley Astronom. Reg. &c. giving an Account of a new discovered Motion of the Fix'd Stars"
+      abstract: "Explained stellar aberration through Earth's orbital motion and the finite speed of light, using observations begun with Samuel Molyneux."
+    - year: 1748
+      title: "A Letter to the Right Honourable George Earl of Macclesfield concerning an Apparent Motion Observed in Some of the Fixed Stars"
+      abstract: "Established the nutation of Earth's axis from long-term stellar observations spanning a cycle of the Moon's orbital nodes."
+
+herschel:
+  name: "William Herschel"
+  summary: "A German-born British astronomer who discovered Uranus and infrared radiation and used large reflecting telescopes to survey stars and nebulae."
+  color: "#AB7040"
+  photo: "images/herschel.jpg"
+  cartoon: "images/cartoons/herschel.png"
+  nationality: "German-British"
+  birth: "1738-11-15"
+  death: "1822-08-25"
+  publications:
+    - year: 1781
+      title: "Account of a Comet"
+      abstract: "Reported a moving telescopic object initially interpreted as a comet that subsequent orbital studies established as the planet Uranus."
+    - year: 1800
+      title: "Experiments on the Refrangibility of the Invisible Rays of the Sun"
+      abstract: "Used thermometers beyond the visible red end of a prismatic solar spectrum to investigate the invisible radiation now called infrared."
+
+leavitt:
+  name: "Henrietta Swan Leavitt"
+  summary: "An American astronomer whose Cepheid period–luminosity relationship made variable stars a foundation for measuring distances to other galaxies."
+  color: "#99658C"
+  photo: "images/leavitt.jpg"
+  cartoon: "images/cartoons/leavitt.png"
+  nationality: "American"
+  birth: "1868-07-04"
+  death: "1921-12-12"
+  academic_affiliations:
+    - institution: "Radcliffe College"
+      association: "Student at its predecessor, the Society for the Collegiate Instruction of Women"
+    - institution: "Harvard University"
+      association: "Researcher at Harvard College Observatory"
+      coat: "images/institutions/harvard-university.png"
+  publications:
+    - year: 1908
+      title: "1777 Variables in the Magellanic Clouds"
+      abstract: "Catalogued variable stars in the Magellanic Clouds and noted that the brighter variables in her measured sample had longer periods."
+    - year: 1912
+      title: "Periods of 25 Variable Stars in the Small Magellanic Cloud"
+      abstract: "Established a clear relation between Cepheid periods and brightness in a report issued by Edward C. Pickering that explicitly credited Leavitt's analysis."
+
+hall:
+  name: "Edwin Herbert Hall"
+  summary: "An American physicist whose discovery of a transverse voltage in a current-carrying conductor placed in a magnetic field became a key probe of charge transport."
+  color: "#3D8A83"
+  photo: "images/hall.jpg"
+  cartoon: "images/cartoons/hall.png"
+  nationality: "American"
+  birth: "1855-11-07"
+  death: "1938-11-20"
+  academic_affiliations:
+    - institution: "Johns Hopkins University"
+      association: "Doctoral student; discovered the Hall effect while working with Henry Rowland"
+    - institution: "Harvard University"
+      association: "Professor of physics"
+      coat: "images/institutions/harvard-university.png"
+  publications:
+    - year: 1879
+      title: "On a New Action of the Magnet on Electric Currents"
+      abstract: "Reported a transverse potential difference across a current-carrying gold leaf in a magnetic field, the phenomenon now called the Hall effect."
+    - year: 1880
+      title: "On the New Action of Magnetism on a Permanent Electric Current"
+      abstract: "Extended the experimental investigation of the transverse electrical response to a magnetic field in conducting materials."
+
+born:
+  name: "Max Born"
+  summary: "A German-British physicist who helped formulate matrix mechanics and connected quantum wave amplitudes with probabilities of measurement outcomes."
+  color: "#7F70A1"
+  photo: "images/born.jpg"
+  cartoon: "images/cartoons/born.png"
+  nationality: "German-British"
+  birth: "1882-12-11"
+  death: "1970-01-05"
+  academic_affiliations:
+    - institution: "University of Göttingen"
+      association: "Doctorate and professor of theoretical physics"
+      coat: "images/institutions/university-of-gottingen.svg"
+    - institution: "University of Edinburgh"
+      association: "Tait Professor of Natural Philosophy"
+      coat: "images/institutions/university-of-edinburgh.jpg"
+  publications:
+    - year: 1925
+      title: "Zur Quantenmechanik"
+      abstract: "With Pascual Jordan, developed Heisenberg's quantum kinematics into a matrix formulation with noncommuting position and momentum variables."
+    - year: 1926
+      title: "Zur Quantenmechanik der Stoßvorgänge"
+      abstract: "Interpreted scattering wave amplitudes probabilistically, establishing the basis of the Born rule for quantum measurement outcomes."
+
+schwinger:
+  name: "Julian Schwinger"
+  summary: "An American theoretical physicist who developed renormalized quantum electrodynamics and precise predictions for radiative effects on electrons and atomic spectra."
+  color: "#487DB0"
+  photo: "images/schwinger.jpg"
+  cartoon: "images/cartoons/schwinger.png"
+  nationality: "American"
+  birth: "1918-02-12"
+  death: "1994-07-16"
+  academic_affiliations:
+    - institution: "Columbia University"
+      association: "Student and doctorate in physics"
+      coat: "images/institutions/columbia-university.png"
+    - institution: "Harvard University"
+      association: "Professor of physics"
+      coat: "images/institutions/harvard-university.png"
+  publications:
+    - year: 1948
+      title: "On Quantum-Electrodynamics and the Magnetic Moment of the Electron"
+      abstract: "Calculated the leading radiative correction to the electron's magnetic moment and related radiative effects to hydrogen's fine structure."
+    - year: 1948
+      title: "Quantum Electrodynamics. I. A Covariant Formulation"
+      abstract: "Presented a relativistically covariant formulation of quantum electrodynamics that supported systematic calculations of interactions between charged particles and radiation."
+
+tomonaga:
+  name: "Sin-Itiro Tomonaga"
+  summary: "A Japanese physicist who developed a relativistically invariant formulation of quantum field theory and helped make quantum electrodynamics predict finite measurable quantities."
+  color: "#B15C49"
+  photo: "images/tomonaga.jpg"
+  cartoon: "images/cartoons/tomonaga.png"
+  nationality: "Japanese"
+  birth: "1906-03-31"
+  death: "1979-07-08"
+  academic_affiliations:
+    - institution: "Kyoto University"
+      association: "Physics student and research assistant at Kyoto Imperial University"
+  publications:
+    - year: 1946
+      title: "On a Relativistically Invariant Formulation of the Quantum Theory of Wave Fields"
+      abstract: "Formulated quantum evolution on spacelike hypersurfaces, providing a relativistically invariant foundation for interacting quantum fields."
+    - year: 1948
+      title: "On Infinite Field Reactions in Quantum Field Theory"
+      abstract: "Described the treatment of divergent field reactions through renormalization to obtain finite predictions for observable electromagnetic effects."
+
+bohm:
+  name: "David Bohm"
+  summary: "An American-born British physicist who developed a deterministic interpretation of quantum mechanics and, with Yakir Aharonov, revealed the role of electromagnetic potentials in quantum interference."
+  color: "#637EAD"
+  photo: "images/bohm.jpg"
+  cartoon: "images/cartoons/bohm.png"
+  nationality: "American-British"
+  birth: "1917-12-20"
+  death: "1992-10-27"
+  academic_affiliations:
+    - institution: "University of California, Berkeley"
+      association: "Doctorate in physics under J. Robert Oppenheimer"
+      coat: "images/institutions/university-of-california-berkeley.png"
+    - institution: "Birkbeck College, University of London"
+      association: "Professor of theoretical physics"
+  publications:
+    - year: 1952
+      title: "A Suggested Interpretation of the Quantum Theory in Terms of 'Hidden' Variables. I"
+      abstract: "Developed a deterministic account in which particle positions evolve under the guidance of a wavefunction, reproducing standard quantum statistics in equilibrium."
+    - year: 1959
+      title: "Significance of Electromagnetic Potentials in the Quantum Theory"
+      abstract: "With Yakir Aharonov, predicted interference phase shifts associated with electromagnetic potentials even when particles travel through regions without the corresponding local fields."
+
+bell:
+  name: "John Stewart Bell"
+  summary: "A Northern Irish physicist whose theorem made the incompatibility between quantum correlations and local hidden-variable theories experimentally testable."
+  color: "#A77A3D"
+  photo: "images/bell.jpg"
+  cartoon: "images/cartoons/bell.png"
+  nationality: "Northern Irish"
+  birth: "1928-07-28"
+  death: "1990-10-01"
+  academic_affiliations:
+    - institution: "Queen's University Belfast"
+      association: "Student of experimental and mathematical physics"
+      coat: "images/institutions/queens-university-belfast.png"
+    - institution: "University of Birmingham"
+      association: "Doctorate in theoretical physics"
+      coat: "images/institutions/university-of-birmingham.png"
+  publications:
+    - year: 1964
+      title: "On the Einstein Podolsky Rosen Paradox"
+      abstract: "Derived a constraint on local hidden-variable correlations that conflicts with predictions of quantum mechanics for entangled systems."
+    - year: 1966
+      title: "On the Problem of Hidden Variables in Quantum Mechanics"
+      abstract: "Re-examined assumptions behind earlier impossibility proofs for hidden variables and clarified the importance of locality in quantum foundations."
+
+dingle:
+  name: "Herbert Dingle"
+  summary: "An English astrophysicist and historian of science who worked on spectroscopy and became known for a prolonged controversy over his objections to special relativity."
+  color: "#8A6B52"
+  photo: "images/dingle.jpg"
+  cartoon: "images/cartoons/dingle.png"
+  nationality: "English"
+  birth: "1890-08-02"
+  death: "1978-09-04"
+  academic_affiliations:
+    - institution: "Imperial College London"
+      association: "Physics student and Professor of Natural Philosophy"
+    - institution: "University College London"
+      association: "Professor of the History and Philosophy of Science"
+  publications:
+    - year: 1924
+      title: "Modern Astrophysics"
+      abstract: "Surveyed the physical interpretation of astronomical observations, including the use of spectroscopy to investigate stars."
+    - year: 1972
+      title: "Science at the Crossroads"
+      abstract: "Presented Dingle's objections to relativistic clock comparisons and his account of the ensuing dispute, claims that did not establish a contradiction in special relativity."
+
+miller:
+  name: "Dayton Clarence Miller"
+  summary: "An American physicist and acoustician who developed instruments for visualizing sound and reported controversial ether-drift measurements later reassessed as consistent with a null result."
+  color: "#7D8750"
+  photo: "images/miller.jpg"
+  cartoon: "images/cartoons/miller.png"
+  nationality: "American"
+  birth: "1866-03-13"
+  death: "1941-02-22"
+  academic_affiliations:
+    - institution: "Princeton University"
+      association: "Doctorate in astronomy"
+      coat: "images/institutions/princeton-university.png"
+    - institution: "Case Western Reserve University"
+      association: "Professor of physics at its predecessor, Case School of Applied Science"
+      coat: "images/institutions/case-western-reserve-university.png"
+  publications:
+    - year: 1916
+      title: "The Science of Musical Sounds"
+      abstract: "Explained the physical analysis of musical sounds and presented optical recordings of sound-wave forms obtained with the phonodeik."
+    - year: 1933
+      title: "The Ether-Drift Experiment and the Determination of the Absolute Motion of the Earth"
+      abstract: "Reported Miller's interferometer measurements and claimed an ether drift, a conclusion later challenged by analyses of statistical fluctuations and temperature effects."
+
+lodge:
+  name: "Oliver Joseph Lodge"
+  summary: "An English physicist who advanced radio-wave detection and electrical resonance while investigating and defending aether models of light and matter."
+  color: "#507F73"
+  photo: "images/lodge.jpg"
+  cartoon: "images/cartoons/lodge.png"
+  nationality: "English"
+  birth: "1851-06-12"
+  death: "1940-08-22"
+  academic_affiliations:
+    - institution: "University of Liverpool"
+      association: "Professor of physics at University College Liverpool"
+      coat: "images/institutions/university-of-liverpool.svg"
+    - institution: "University of Birmingham"
+      association: "First Principal"
+      coat: "images/institutions/university-of-birmingham.png"
+  publications:
+    - year: 1894
+      title: "The Work of Hertz and Some of His Successors"
+      abstract: "Described demonstrations of electromagnetic waves and their detection, including Lodge's improved coherer receiver."
+    - year: 1909
+      title: "The Ether of Space"
+      abstract: "Set out Lodge's physical arguments and experiments concerning a luminiferous aether, documenting a historical framework later displaced by relativistic physics."
+
+steinmetz:
+  name: "Charles Proteus Steinmetz"
+  summary: "A German-American electrical engineer whose work on magnetic hysteresis and alternating-current analysis made electric machines and power systems easier to calculate and design."
+  color: "#A65B78"
+  photo: "images/steinmetz.jpg"
+  cartoon: "images/cartoons/steinmetz.png"
+  nationality: "German-American"
+  birth: "1865-04-09"
+  death: "1923-10-26"
+  academic_affiliations:
+    - institution: "Union College"
+      association: "Professor of electrical engineering and applied physics"
+  publications:
+    - year: 1892
+      title: "On the Law of Hysteresis"
+      abstract: "Established an empirical relationship for magnetic hysteresis losses that helped engineers predict energy dissipation in iron cores."
+    - year: 1897
+      title: "Theory and Calculation of Alternating Current Phenomena"
+      abstract: "Systematized the analysis of alternating-current circuits and machines using complex quantities and practical calculation methods."
