@@ -45,6 +45,14 @@
   details: "The first Solvay Conference, devoted to radiation and the quanta, brought leading physicists together to confront the conflict between classical physics and the emerging quantum ideas of Planck and Einstein."
   particle: Ⅰ
 
+# Sources: https://library.ethz.ch/en/collections-and-archives/platforms/virtual-exhibitions/wolfgang-pauli-and-modern-physics/international-conferences-of-physicists.html
+- year: 1927
+  title: "Como Conference"
+  location: "Como, Italy"
+  attendee_ids: [bohr, born, fermi, heisenberg, pauli]
+  details: "The International Congress of Physicists, also known as the Volta Conference, was held from 11 to 20 September 1927 to mark the centenary of Alessandro Volta's death. At Como, Niels Bohr first publicly presented his principle of complementarity, explaining how wave and particle descriptions offer complementary accounts of quantum phenomena. The discussions preceded his further presentation at the Fifth Solvay Conference in October."
+  particle: V
+
 - year: 1927
   title: "Fifth Solvay International Conference"
   location: "Institut de Physiologie, Parc Léopold, Brussels, Belgium"

@@ -36,6 +36,7 @@ copernicus:
       association: "Student of liberal arts, mathematics and astronomy"
     - institution: "University of Bologna"
       association: "Student of canon law and astronomy"
+      coat: "images/institutions/university-of-bologna.png"
     - institution: "University of Padua"
       association: "Student of medicine"
       coat: "images/institutions/university-of-padua.jpg"
@@ -2089,6 +2090,7 @@ wheeler:
   academic_affiliations:
     - institution: "Johns Hopkins University"
       association: "Student and doctorate"
+      coat: "images/institutions/johns-hopkins-university.png"
     - institution: "Princeton University"
       association: "Professor of physics"
       coat: "images/institutions/princeton-university.png"
@@ -2117,6 +2119,7 @@ breit:
   academic_affiliations:
     - institution: "Johns Hopkins University"
       association: "Student and doctorate"
+      coat: "images/institutions/johns-hopkins-university.png"
     - institution: "New York University"
       association: "Professor of physics"
     - institution: "University of Wisconsin–Madison"
@@ -2256,8 +2259,10 @@ lenz:
   academic_affiliations:
     - institution: "University of Tartu"
       association: "Student at the university then known as Dorpat"
+      coat: "images/institutions/university-of-tartu.svg"
     - institution: "Saint Petersburg State University"
       association: "Professor of physics and rector"
+      coat: "images/institutions/saint-petersburg-state-university.png"
   publications:
     - year: 1834
       title: "Ueber die Bestimmung der Richtung der durch elektrodynamische Vertheilung erregten galvanischen Ströme"
@@ -2278,6 +2283,7 @@ stokes:
   academic_affiliations:
     - institution: "Pembroke College, Cambridge"
       association: "Student, fellow, and master; Lucasian Professor of Mathematics at Cambridge"
+      coat: "images/institutions/pembroke-college-cambridge.svg"
   publications:
     - year: 1845
       title: "On the Aberration of Light"
@@ -2301,6 +2307,7 @@ eotvos:
       coat: "images/institutions/heidelberg-university.png"
     - institution: "University of Budapest"
       association: "Professor of physics and rector"
+      coat: "images/institutions/university-of-budapest.png"
   publications:
     - year: 1890
       title: "Über die Anziehung der Erde auf verschiedene Substanzen"
@@ -2396,6 +2403,7 @@ fermi:
       coat: "images/institutions/university-of-pisa.jpg"
     - institution: "Sapienza University of Rome"
       association: "Professor of theoretical physics"
+      coat: "images/institutions/sapienza-university-of-rome.svg"
     - institution: "Columbia University"
       association: "Professor of physics"
       coat: "images/institutions/columbia-university.png"
@@ -2422,6 +2430,7 @@ lemaitre:
   academic_affiliations:
     - institution: "Catholic University of Louvain"
       association: "Student, doctorate in mathematics and physics, and professor"
+      coat: "images/institutions/catholic-university-of-louvain.png"
     - institution: "Massachusetts Institute of Technology"
       association: "Doctorate in physics"
       coat: "images/institutions/massachusetts-institute-of-technology.png"
@@ -2448,6 +2457,7 @@ hubble:
       coat: "images/institutions/university-of-chicago.png"
     - institution: "The Queen's College, Oxford"
       association: "Rhodes Scholar and student of jurisprudence"
+      coat: "images/institutions/queens-college-oxford.png"
   publications:
     - year: 1925
       title: "Cepheids in Spiral Nebulae"
@@ -2468,6 +2478,7 @@ cassini:
   academic_affiliations:
     - institution: "University of Bologna"
       association: "Professor of mathematics and astronomy"
+      coat: "images/institutions/university-of-bologna.png"
   publications:
     - year: 1673
       title: "Découverte de deux nouvelles planètes autour de Saturne"
@@ -2499,6 +2510,7 @@ halley:
   academic_affiliations:
     - institution: "The Queen's College, Oxford"
       association: "Student; later Savilian Professor of Geometry at Oxford"
+      coat: "images/institutions/queens-college-oxford.png"
   publications:
     - year: 1705
       title: "Astronomiae cometicae synopsis"
@@ -2519,6 +2531,7 @@ bradley:
   academic_affiliations:
     - institution: "Balliol College, Oxford"
       association: "Student; later Savilian Professor of Astronomy at Oxford"
+      coat: "images/institutions/balliol-college-oxford.svg"
   publications:
     - year: 1728
       title: "A Letter from the Reverend Mr. James Bradley Savilian Professor of Astronomy at Oxford, and F. R. S. to Dr. Edmond Halley Astronom. Reg. &c. giving an Account of a new discovered Motion of the Fix'd Stars"
@@ -2556,6 +2569,7 @@ leavitt:
   academic_affiliations:
     - institution: "Radcliffe College"
       association: "Student at its predecessor, the Society for the Collegiate Instruction of Women"
+      coat: "images/institutions/radcliffe-college.png"
     - institution: "Harvard University"
       association: "Researcher at Harvard College Observatory"
       coat: "images/institutions/harvard-university.png"
@@ -2579,6 +2593,7 @@ hall:
   academic_affiliations:
     - institution: "Johns Hopkins University"
       association: "Doctoral student; discovered the Hall effect while working with Henry Rowland"
+      coat: "images/institutions/johns-hopkins-university.png"
     - institution: "Harvard University"
       association: "Professor of physics"
       coat: "images/institutions/harvard-university.png"
@@ -2650,6 +2665,7 @@ tomonaga:
   academic_affiliations:
     - institution: "Kyoto University"
       association: "Physics student and research assistant at Kyoto Imperial University"
+      coat: "images/institutions/kyoto-university.svg"
   publications:
     - year: 1946
       title: "On a Relativistically Invariant Formulation of the Quantum Theory of Wave Fields"
@@ -2673,6 +2689,7 @@ bohm:
       coat: "images/institutions/university-of-california-berkeley.png"
     - institution: "Birkbeck College, University of London"
       association: "Professor of theoretical physics"
+      coat: "images/institutions/birkbeck-college-london.svg"
   publications:
     - year: 1952
       title: "A Suggested Interpretation of the Quantum Theory in Terms of 'Hidden' Variables. I"
@@ -2717,8 +2734,10 @@ dingle:
   academic_affiliations:
     - institution: "Imperial College London"
       association: "Physics student and Professor of Natural Philosophy"
+      coat: "images/institutions/imperial-college-london.svg"
     - institution: "University College London"
       association: "Professor of the History and Philosophy of Science"
+      coat: "images/institutions/university-college-london.png"
   publications:
     - year: 1924
       title: "Modern Astrophysics"
@@ -2791,6 +2810,7 @@ cannizzaro:
       association: "Professor of chemistry and rector"
     - institution: "Sapienza University of Rome"
       association: "Professor of chemistry"
+      coat: "images/institutions/sapienza-university-of-rome.svg"
   publications:
     - year: 1853
       title: "Ueber den der Benzoësäure entsprechenden Alkohol"
@@ -2814,6 +2834,7 @@ mendeleev:
       coat: "images/institutions/heidelberg-university.png"
     - institution: "Saint Petersburg State University"
       association: "Doctorate and professor of chemistry"
+      coat: "images/institutions/saint-petersburg-state-university.png"
   publications:
     - year: 1869
       title: "Ueber die Beziehungen der Eigenschaften zu den Atomgewichten der Elemente"
@@ -2878,6 +2899,7 @@ steinmetz:
   academic_affiliations:
     - institution: "Union College"
       association: "Professor of electrical engineering and applied physics"
+      coat: "images/institutions/union-college.svg"
   publications:
     - year: 1892
       title: "On the Law of Hysteresis"
