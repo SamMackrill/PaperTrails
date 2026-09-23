@@ -300,7 +300,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     clusterWidth
   });
 
-  items.forEach((item, itemIndex) => {
+  items.forEach((item) => {
     const levelProgress = levelCount === 1 ? 0 : item.level / (levelCount - 1);
     const centerY = bottom - (bottom - top) * levelProgress;
     const centerX = Math.max(item.width / 2, Math.min(width - item.width / 2, item.centerX));
@@ -313,7 +313,9 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
       const cluster = document.createElement('button');
       cluster.type = 'button';
       cluster.className = 'scientist-cluster';
-      cluster.dataset.itemKey = `cluster:${itemIndex}`;
+      // Keyed by its earliest member, so focus survives re-renders.
+      cluster.dataset.itemKey = `cluster:${members[0].id}`;
+      cluster.dataset.memberIds = members.map((member) => member.id).join(' ');
       cluster.dataset.tooltip = `${members.length} scientists, ${Math.min(...years)}–${Math.max(...years)} · ${names.join(', ')}`;
       const atMaximum = scale >= config.MAX_SCALE - 0.001;
       cluster.setAttribute('aria-label', `${members.length} scientists: ${names.join(', ')}. ${atMaximum ? 'Open the group.' : 'Zoom in to explore.'}`);

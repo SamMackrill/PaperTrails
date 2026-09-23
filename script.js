@@ -146,8 +146,16 @@ function focusScientist(scientistId, year) {
     peopleToggle.setAttribute('aria-pressed', 'true');
   }
 
-  focusYear(year);
-  const node = selectItemByKey(`scientist:${scientistId}`);
+  // People can share a group in crowded decades, so zoom in until they
+  // separate. At maximum zoom, the group containing them is focused.
+  let scale = Math.max(2.5, currentScale);
+  focusYear(year, scale);
+  const findGroup = () => timeline.querySelector(`.scientist-cluster[data-member-ids~="${CSS.escape(scientistId)}"]`);
+  while (!timeline.querySelector(`[data-item-key="${CSS.escape(`scientist:${scientistId}`)}"]`) && findGroup() && scale < config.MAX_SCALE) {
+    scale = Math.min(config.MAX_SCALE, scale * 2);
+    focusYear(year, scale);
+  }
+  const node = selectItemByKey(`scientist:${scientistId}`) || findGroup();
   node?.focus({ preventScroll: true });
 }
 
