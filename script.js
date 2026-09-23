@@ -1,8 +1,8 @@
 import { config } from './src/config.js?v=15';
 import { initializeData } from './src/dataLoader.js?v=17';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { setupModalEventListeners } from './src/modalManager.js?v=22';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=22';
+import { setupModalEventListeners } from './src/modalManager.js?v=23';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=23';
 import { scaleToSlider, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=1';
 import { updatePortraitStyle } from './src/portraits.js?v=1';
 
@@ -20,6 +20,7 @@ let currentTranslateX = 0;
 let resizeTimer;
 let hintTimer;
 let statusTimer;
+let renderFrame = 0;
 
 let potentialDrag = false;
 let isDragging = false;
@@ -86,6 +87,15 @@ function render() {
   }
 }
 
+// Continuous gestures can fire many times per frame; render at most once.
+function scheduleRender() {
+  if (renderFrame) return;
+  renderFrame = requestAnimationFrame(() => {
+    renderFrame = 0;
+    render();
+  });
+}
+
 function markHintSeen() {
   try { localStorage.setItem(HINT_STORAGE_KEY, 'true'); } catch { /* Storage can be disabled. */ }
 }
@@ -98,14 +108,18 @@ function hideInteractionHint(delay = 0) {
   }, delay);
 }
 
-function zoomAt(nextScale, originX = timelineContainer.clientWidth / 2) {
+function zoomAt(nextScale, originX = timelineContainer.clientWidth / 2, { deferred = false } = {}) {
   const newScale = clampScale(nextScale);
   if (Math.abs(newScale - currentScale) < 0.001) return;
 
   const ratio = newScale / currentScale;
   currentTranslateX = originX - (originX - currentTranslateX) * ratio;
   currentScale = newScale;
-  render();
+  if (deferred) {
+    scheduleRender();
+  } else {
+    render();
+  }
   hideInteractionHint();
 }
 
@@ -189,7 +203,7 @@ function setupPointerInteractions() {
       // Trackpad pinches send many small deltas and mouse wheels send a few
       // large ones, so zoom in proportion to the distance scrolled.
       const factor = Math.exp(-getWheelPixels(event, event.deltaY) * 0.0015);
-      zoomAt(currentScale * factor, event.clientX - rect.left);
+      zoomAt(currentScale * factor, event.clientX - rect.left, { deferred: true });
     } else {
       currentTranslateX -= getWheelPixels(event, event.deltaX || event.deltaY);
       updateTransform();
@@ -266,7 +280,7 @@ function setupPointerInteractions() {
       const ratio = nextScale / pinchStartScale;
       currentTranslateX = pinchOriginX - (pinchOriginX - pinchStartTranslateX) * ratio;
       currentScale = nextScale;
-      render();
+      scheduleRender();
       hideInteractionHint();
       return;
     }
@@ -501,7 +515,10 @@ async function initializeApp() {
   setupTooltips();
   setupResizeHandler();
   document.addEventListener('papertrails:detailsclosed', clearTimelineSelection);
-  document.addEventListener('papertrails:zoomcluster', (event) => focusYear(event.detail.year));
+  // Groups always zoom in further, never back out to the default detail level.
+  document.addEventListener('papertrails:zoomcluster', (event) => {
+    focusYear(event.detail.year, Math.max(2.5, currentScale * 2.5));
+  });
   document.addEventListener('papertrails:locatescientist', (event) => {
     focusScientist(event.detail.scientistId, event.detail.year);
   });
