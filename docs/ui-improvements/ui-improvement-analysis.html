@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper Trails — UI Improvement Analysis</title>
+<style>
+  /* This document uses the proposed archival palette (finding V1) so the direction can be judged in context. */
+  :root {
+    --page: #f3ede1; --surface: #fbf8f2; --ink: #2a241c; --ink-2: #5c5245; --ink-3: #6f6454;
+    --rule: #d9cfbe; --rule-strong: #c4b79f; --accent: #2f4a7a; --accent-soft: #e4e8f0;
+    --p0: #8e2f25; --p1: #8f5410; --p2: #3d6862; --p3: #6f6454;
+    --discovery: #6b3fa0; --conference: #8f5410; --context: #3d6862; --publication: #74573a;
+    --shadow: 0 1px 2px rgba(42, 36, 28, .06), 0 8px 24px rgba(42, 36, 28, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #14110d; --surface: #1d1914; --ink: #efe7d8; --ink-2: #c3b8a5; --ink-3: #a39781;
+      --rule: #3a3228; --rule-strong: #4d4235; --accent: #9db4e0; --accent-soft: #232a38;
+      --p0: #e08a7c; --p1: #e0a84e; --p2: #86b5ad; --p3: #a39781;
+      --discovery: #c3a2ef; --conference: #e0a84e; --context: #86b5ad; --publication: #c9ae8c;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--page); }
+  body {
+    margin: 0; color: var(--ink); font: 16px/1.6 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    background:
+      repeating-linear-gradient(0deg, color-mix(in srgb, var(--ink) 2.5%, transparent) 0 1px, transparent 1px 4px),
+      var(--page);
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 48px 28px 96px; }
+  h1, h2, h3 { line-height: 1.2; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(34px, 5vw, 50px); margin: 0 0 8px; }
+  h2 { font-size: 28px; margin: 64px 0 8px; padding-top: 18px; border-top: 3px double var(--rule-strong); }
+  h3 { font-size: 20px; margin: 0; }
+  p { margin: 0 0 14px; }
+  a { color: var(--accent); text-underline-offset: .18em; }
+  code { font: 13px/1.4 ui-monospace, "Cascadia Code", Consolas, monospace; background: color-mix(in srgb, var(--ink) 7%, transparent); padding: 1px 5px; border-radius: 4px; }
+  .sans, .tag, table, .toc, .chips, .meta, figcaption, dt, .kicker { font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif; }
+  .kicker { color: var(--ink-3); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+  .lede { font-size: 19px; color: var(--ink-2); max-width: 760px; }
+  .meta { color: var(--ink-3); font-size: 13px; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow); padding: 22px 24px; }
+  .grid { display: grid; gap: 16px; }
+  .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 28px 0; }
+  .stat b { display: block; font-size: 34px; line-height: 1; }
+  .stat span { font: 13px ui-sans-serif, system-ui, sans-serif; color: var(--ink-3); }
+  .two { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .toc { columns: 2 260px; font-size: 14px; padding-left: 18px; }
+  .toc li { margin-bottom: 4px; }
+  ul.clean { padding-left: 20px; margin: 0; }
+  ul.clean li { margin-bottom: 6px; }
+
+  .tag { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; border: 1px solid currentColor; }
+  .tag.P0 { color: var(--p0); } .tag.P1 { color: var(--p1); } .tag.P2 { color: var(--p2); } .tag.P3 { color: var(--p3); }
+  .tag.eff { color: var(--ink-2); border-style: dashed; }
+  .tag.qw { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
+
+  .finding { margin: 18px 0; scroll-margin-top: 16px; }
+  .finding header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 10px; margin-bottom: 12px; }
+  .finding header h3 { flex: 1 1 320px; }
+  .fid { font: 800 13px ui-sans-serif, system-ui, sans-serif; color: var(--ink-3); min-width: 30px; }
+  .finding dl { display: grid; grid-template-columns: 148px 1fr; gap: 8px 18px; margin: 0; }
+  .finding dt { font-size: 12px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; padding-top: 3px; }
+  .finding dd { margin: 0; }
+  .finding dd p:last-child { margin: 0; }
+  figure { margin: 4px 0 16px; }
+  figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
+  figure.small img { max-width: 520px; }
+  figcaption { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 18px 0; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+  tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
+  .chips button { font: 600 13px ui-sans-serif, system-ui, sans-serif; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+  .chips button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .chips .label { font-size: 12px; color: var(--ink-3); align-self: center; margin-right: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .table-scroll { overflow-x: auto; }
+  .table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .table-scroll table { min-width: 560px; }
+  .matrix { display: grid; grid-template-columns: 70px repeat(3, 1fr); gap: 6px; font: 13px ui-sans-serif, system-ui, sans-serif; }
+  .matrix > div { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px; min-height: 48px; }
+  .matrix .h { background: transparent; border: 0; font-weight: 800; color: var(--ink-3); display: flex; align-items: center; justify-content: center; min-height: 0; }
+  .matrix a { display: inline-block; margin: 2px 4px 2px 0; font-weight: 700; text-decoration: none; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; font: 12px ui-sans-serif, system-ui, sans-serif; }
+  .sw { border-radius: 8px; padding: 10px; border: 1px solid rgba(0,0,0,.08); min-height: 64px; }
+  .sw b { display: block; font-size: 12px; }
+  @media (max-width: 640px) {
+    .finding dl { grid-template-columns: 1fr; }
+    .finding dt { padding-top: 8px; }
+    .matrix { grid-template-columns: 44px repeat(3, 1fr); }
+  }
+  @media print {
+    /* Print in light ink whatever the screen's colour preference. */
+    :root {
+      --page: #fff; --surface: #fff; --ink: #2a241c; --ink-2: #5c5245; --ink-3: #6f6454;
+      --rule: #d9cfbe; --rule-strong: #c4b79f; --accent: #2f4a7a; --accent-soft: #e4e8f0;
+      --p0: #8e2f25; --p1: #8f5410; --p2: #3d6862; --p3: #6f6454;
+    }
+    body { background: #fff; color: var(--ink); }
+    .chips { display: none; }
+    .card { box-shadow: none; }
+    .finding { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Paper Trails · UI improvement analysis</div>
+  <h1>Where the timeline can get better</h1>
+  <p class="lede">A UI review of the Paper Trails timeline, built from a code read-through and screenshots at six viewport sizes in both themes, several zoom levels, every detail-panel type, and Tapestry and Illustrations modes. Priorities follow the decisions agreed in the question rounds below.</p>
+  <p class="meta">Reviewed 23 September 2026 · commit <code>9268b23</code> · Dataset: 125 scientists, 237 publications, 39 discoveries, 9 conferences, 21 historical events</p>
+</header>
+
+<div class="grid stats">
+  <div class="card stat"><b id="stat-total">–</b><span>findings</span></div>
+  <div class="card stat"><b id="stat-p0" style="color:var(--p0)">–</b><span>P0 · broken</span></div>
+  <div class="card stat"><b id="stat-p1" style="color:var(--p1)">–</b><span>P1 · high</span></div>
+  <div class="card stat"><b id="stat-qw" style="color:var(--accent)">–</b><span>quick wins (small effort, P0–P2)</span></div>
+</div>
+
+<nav class="card">
+  <div class="kicker">Contents</div>
+  <ol class="toc">
+    <li><a href="#decisions">Decisions that shaped this review</a></li>
+    <li><a href="#scales">How findings are rated</a></li>
+    <li><a href="#quickwins">Quick wins</a></li>
+    <li><a href="#matrix">Severity × effort matrix</a></li>
+    <li><a href="#working">What already works well</a></li>
+    <li><a href="#layout">Layout &amp; responsive bugs</a></li>
+    <li><a href="#timeline">Timeline readability &amp; density</a></li>
+    <li><a href="#navigation">Navigation &amp; wayfinding</a></li>
+    <li><a href="#panel">Details panel</a></li>
+    <li><a href="#connections">Connections &amp; research context</a></li>
+    <li><a href="#identity">Visual identity</a></li>
+    <li><a href="#tapestry">Tapestry as a showpiece</a></li>
+    <li><a href="#a11y">Accessibility</a></li>
+    <li><a href="#perf">Performance &amp; robustness</a></li>
+    <li><a href="#mobile">Mobile</a></li>
+    <li><a href="#deps">Dependencies between items</a></li>
+    <li><a href="#all">All findings (filterable table)</a></li>
+    <li><a href="#appendix">Appendix: method, contrast, content backlog</a></li>
+  </ol>
+</nav>
+
+<h2 id="decisions">Decisions that shaped this review</h2>
+<p>Your answers from the five question rounds set the priorities throughout the document.</p>
+<div class="grid two">
+  <div class="card">
+    <div class="kicker">Goals &amp; audience</div>
+    <ul class="clean">
+      <li><b>Audience:</b> researchers and enthusiasts, so information density and precision count.</li>
+      <li><b>Devices:</b> desktop-first; mobile has to stay usable.</li>
+      <li><b>Core job:</b> show the big picture to a first-time visitor.</li>
+      <li><b>Scope:</b> fixes plus moderate enhancements that fit the no-build architecture.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Timeline</div>
+    <ul class="clean">
+      <li>Offer an <b>optional density scale</b>; linear stays the default.</li>
+      <li>Replace number bubbles with <b>face stacks</b>.</li>
+      <li><b>New YAML fields are fine</b> (for example, notability).</li>
+      <li>Stack publications into a <b>mini-histogram</b>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Navigation</div>
+    <ul class="clean">
+      <li><b>Search everything</b>, grouped by type.</li>
+      <li>Deep links are a <b>nice-to-have</b>.</li>
+      <li>Evaluate a <b>minimap</b>, a <b>shortcuts dialog</b>, and <b>back/forward in details</b>.</li>
+      <li>Show relationships <b>on hover or selection only</b>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Look &amp; feel</div>
+    <ul class="clean">
+      <li>A <b>non-modal docked panel</b> on desktop.</li>
+      <li>Lean into a <b>paper / archival</b> identity.</li>
+      <li>Treat <b>Tapestry as a showpiece</b>.</li>
+      <li>Keep the <b>greyscale rest state</b> for portraits.</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="scales">How findings are rated</h2>
+<div class="grid two">
+  <div class="card sans">
+    <div class="kicker">Severity</div>
+    <p><span class="tag P0">P0</span> Broken: a visible defect or functional bug in common use.</p>
+    <p><span class="tag P1">P1</span> High: significantly undermines the big-picture goal, research use, or accessibility.</p>
+    <p><span class="tag P2">P2</span> Medium: noticeable friction or polish with a clear payoff.</p>
+    <p style="margin:0"><span class="tag P3">P3</span> Low: a refinement or nice-to-have.</p>
+  </div>
+  <div class="card sans">
+    <div class="kicker">Effort</div>
+    <p><span class="tag eff">S</span> Small: roughly half a day or less, localised change.</p>
+    <p><span class="tag eff">M</span> Medium: 1–3 days; touches several modules or needs design iteration.</p>
+    <p><span class="tag eff">L</span> Large: more than 3 days; new subsystem or cross-cutting refactor.</p>
+    <p style="margin:0"><span class="tag qw">Quick win</span> Small effort at P0–P2.</p>
+  </div>
+</div>
+<p class="meta">Code references use <code>file:line</code> against commit <code>9268b23</code>.</p>
+
+<h2 id="quickwins">Quick wins</h2>
+<p>Small changes that fix visible defects or remove friction. Doing all of them first would clear every P0 and most of the visual rough edges.</p>
+<div class="card"><div class="table-scroll" role="region" aria-label="Quick wins" tabindex="0"><table><thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Area</th></tr></thead><tbody id="qw-body"></tbody></table></div></div>
+
+<h2 id="matrix">Severity × effort matrix</h2>
+<p>Items higher up and further left have the best return.</p>
+<div class="matrix" id="matrix-grid">
+  <div class="h"></div><div class="h">S</div><div class="h">M</div><div class="h">L</div>
+</div>
+
+<h2 id="working">What already works well</h2>
+<div class="card">
+  <ul class="clean">
+    <li><b>The data model is clean and semantic.</b> Scientists, publications, discoveries (with <code>scientist_ids</code> and <code>theorist_ids</code>), conferences (with attendees and theorists) and events already hold the links a research-grade UI needs. Most of the recommendations below are presentation work, not data work.</li>
+    <li><b>Accessible names are thorough.</b> Every marker is a real <code>&lt;button&gt;</code> with a descriptive <code>aria-label</code>, the panel returns focus on close, and <code>prefers-reduced-motion</code> is respected.</li>
+    <li><b>The theme loads without a flash.</b> The inline script in <code>index.html</code> sets the theme before first paint, and <code>color-scheme: only</code> stops browsers auto-darkening the page.</li>
+    <li><b>Event labels follow the viewport.</b> <code>updateEventLabelPositions</code> keeps long-band titles in view while panning and falls back to <code>shortTitle</code>. Few timelines do this.</li>
+    <li><b>The conference panel is the strongest screen.</b> It has an attendee portrait grid, separate theorists, map and period-map links, and a credited archival photo. It's a good template for the other panel types.</li>
+    <li><b>The Tapestry artwork is distinctive</b> and gives the project a memorable identity. It deserves more prominence (see <a href="#tapestry">Tapestry</a>).</li>
+    <li><b>It works offline with no build step</b>, including a vendored YAML parser. Every recommendation here keeps to that constraint.</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="layout">Layout &amp; responsive bugs</h2>
+
+<article class="finding card" id="L1" data-p="P0" data-e="S" data-area="Layout">
+  <header><span class="fid">L1</span><h3>The toolbar overflows at tablet and small-laptop widths, and filter buttons cover Tapestry and Illustrations</h3></header>
+  <figure><img src="img/crop-toolbar-overlap.webp" alt="At 1024px wide, the Conferences and Context buttons sit on top of the Tapestry and Illustrations labels"><figcaption>1024 × 768: Tapestry and Illustrations are drawn underneath Conferences and Context.</figcaption></figure>
+  <figure><img src="img/crop-toolbar-landscape.webp" alt="At 844px landscape, the filter row runs off the right edge"><figcaption>844 × 390 (phone landscape): the filter row runs off-screen and Context is clipped.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd><p>Between the 768px mobile breakpoint and roughly 1,100–1,200px, the secondary toolbar's contents are wider than the space left over. <code>.toolbar-secondary</code> has <code>min-width: 0</code> and its buttons use <code>white-space: nowrap</code>, so everything overlaps instead of wrapping. The 980px breakpoint only reduces padding. I confirmed this at 1024px and 844px; 1280px and above are fine.</p></dd>
+    <dt>Why it matters</dt><dd>iPads, small laptops and split-screen browser windows all land in this range. Two controls become unreadable and partly unclickable.</dd>
+    <dt>Recommendation</dt><dd><p>Pick one:</p><ul class="clean"><li>Move the Options collapse breakpoint up to about 1180px, or use a container query on <code>.timeline-toolbar</code> so it collapses based on the space it actually has.</li><li>Or split into two rows: layers on one row, display modes (Tapestry, Illustrations) on the other.</li><li>Or make Tapestry and Illustrations icon-only below about 1280px, with the label in a tooltip.</li></ul><p>Add a regression screenshot at 1024px to the verification checklist in <code>ui-refresh-plan.md</code>.</p></dd>
+    <dt>Code</dt><dd><code>style.css:266</code> <code>style.css:1505</code> <code>index.html:95–129</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="L2" data-p="P1" data-e="S" data-area="Layout">
+  <header><span class="fid">L2</span><h3>Short historical events draw a vertical line through their own labels</h3></header>
+  <figure><img src="img/crop-event-strike.webp" alt="Labels such as 1453, Frost, Famine, CE and U.S. Const. have a thin vertical band drawn through the text"><figcaption>"1453", "Frost", "Famine", "CE" and "U.S. Const." are struck through by their own 2–10px bands.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>When an event lasts only a year or two, the band is a few pixels wide and the label is centred over it. The band's border and fill then run straight through the text, so it reads as struck through.</dd>
+    <dt>Why it matters</dt><dd>It looks like a rendering bug, and it affects about a third of the context events at the default zoom.</dd>
+    <dt>Recommendation</dt><dd>If a band is narrower than about 24px, draw it as a <b>pin</b>: a short tick or dot on the band row, with the label beside it in a chip that has a surface background and sits above the band. Wider bands keep the current behaviour. Put the label's background on <code>.event-title</code> so it covers any band lines underneath.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:345–373</code> (band creation) · <code>src/timelineRenderer.js:385</code> <code>updateEventLabelPositions</code> · <code>.event-band</code> / <code>.event-title</code> in <code>style.css</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="L3" data-p="P1" data-e="M" data-area="Layout">
+  <header><span class="fid">L3</span><h3>Context labels pile on top of each other when they run out of rows</h3></header>
+  <figure class="small"><img src="img/crop-mobile-events.webp" alt="On a phone, 30YW, ECW and WSS labels overlap into an unreadable cluster"><figcaption>390px wide: "30YW", "ECW" and "WSS" merge into one unreadable cluster. At 1024px, "U.S. Const." overlaps "AR".</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>Row assignment estimates label width as <code>title.length × 6.5 + 12</code>. When no row is free, it falls back to the last row regardless of collisions.</dd>
+    <dt>Why it matters</dt><dd>The context lane is how the timeline shows the big picture, and on narrower screens it becomes unreadable exactly where events are densest.</dd>
+    <dt>Recommendation</dt><dd>Measure labels properly with a shared canvas <code>measureText</code>, which is cheap and needs no DOM. Degrade in steps: full title, then <code>shortTitle</code>, then a pin with no label (still focusable, with a tooltip). Never place an item where it overlaps another. If rows are still exhausted, let the context lane grow into spare space (see L7).</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:336</code> (width estimate) · <code>src/timelineRenderer.js:342</code> (overlap fallback)</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="L4" data-p="P2" data-e="S" data-area="Layout">
+  <header><span class="fid">L4</span><h3>The "Discoveries + conferences" lane label wraps and leaves the "+" on its own line</h3></header>
+  <figure class="small"><img src="img/crop-lane-label.webp" alt="Lane label shows DISCOVERIES, then a lone plus sign, then CONFERENCES"><figcaption>The orphaned "+" makes the label look broken.</figcaption></figure>
+  <dl>
+    <dt>Recommendation</dt><dd>Rename it to "Milestones", which is short and covers both types (the legend already explains the shapes). If you keep two words, use "Discoveries &amp; conferences" with <code>text-wrap: balance</code>.</dd>
+    <dt>Code</dt><dd><code>index.html:137</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="L5" data-p="P2" data-e="S" data-area="Layout">
+  <header><span class="fid">L5</span><h3>Lane geometry is defined in three places that can drift apart</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The axis and context positions are hard-coded in JavaScript (<code>height × 0.42</code>, <code>× 0.69</code>). The lane labels use separate CSS percentages (20%, 42%, 53%, 79%), and the lane backgrounds use a third set of gradient stops (41.85%, 68.85%). Changing any of them misaligns the other two.</dd>
+    <dt>Recommendation</dt><dd>Compute lane boundaries once in <code>renderTimeline</code> and publish them as CSS custom properties (<code>--axis-y</code>, <code>--milestones-top</code>, <code>--context-top</code>) on <code>.timeline-frame</code>. Position labels and backgrounds from those variables. L7 and M3 depend on this.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:422–423</code> · <code>style.css:457–471</code> · <code>style.css:473–492</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="L6" data-p="P2" data-e="S" data-area="Layout">
+  <header><span class="fid">L6</span><h3>Year labels collide at the right-hand end, and connector lines cross them</h3></header>
+  <figure class="small"><img src="img/crop-year-collision.webp" alt="2000 and 2026 year labels run together as 20002026"><figcaption>1024px: "2000" and "2026" run together as "20002026". In the desktop overview, connector lines cross "1800" and "1900".</figcaption></figure>
+  <dl>
+    <dt>Recommendation</dt><dd>Skip the last regular tick label when it's within about 36px of the end label. Give <code>.year-label</code> a small background chip in the lane colour so connector lines pass behind it. You could also start the milestone connectors a few pixels below the label row.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js</code> <code>renderAxis</code> · <code>style.css:550–582</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="L7" data-p="P2" data-e="M" data-area="Layout">
+  <header><span class="fid">L7</span><h3>Lane heights are fixed and ignore content, leaving large empty areas</h3></header>
+  <div class="shots">
+    <figure><img src="img/overview-light.webp" alt="Overview with about 140px of empty space at the top of the People lane"><figcaption>Overview: the top third of the People lane is empty.</figcaption></figure>
+    <figure><img src="img/zoom-800.webp" alt="At 800 percent the Context lane is mostly empty"><figcaption>800%: the Context lane is mostly empty while the portraits above overlap.</figcaption></figure>
+  </div>
+  <dl>
+    <dt>Problem</dt><dd>Lanes are fixed fractions of the height (42% / 27% / 31%). At detail zoom, 20th-century portraits overlap while the context lane below has around 200px free. The Tapestry ribbon is capped at about 148–168px, which leaves more empty space under it.</dd>
+    <dt>Recommendation</dt><dd>After laying out each lane, measure how many rows it actually used and share out the spare height, with a minimum per lane. When Tapestry is on, let the ribbon fill the context lane.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:414–451</code> · <code>src/tapestryRenderer.js:76</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="timeline">Timeline readability &amp; density</h2>
+<p>The main goal is the big picture: showing how science accelerated and in what historical setting. At the default zoom the timeline currently looks like a scatter of numbers and diamonds. Most of the items in this section aim to make the overview readable at a glance.</p>
+
+<article class="finding card" id="T1" data-p="P1" data-e="M" data-area="Timeline">
+  <header><span class="fid">T1</span><h3>Replace anonymous number bubbles with face stacks</h3></header>
+  <figure><img src="img/crop-clusters.webp" alt="People lane at overview: nine portraits, then 21 blue bubbles showing only numbers"><figcaption>Default view: 21 of the 30 People items are bare numbers ("16", "11", "10"). After 1650 almost no faces are visible.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>At the overview zoom (scale below 1.5), people are grouped into fixed 14-year buckets however wide the screen is, and any group larger than one becomes a numbered circle. The overview hides the scientists, which are the product's main content.</dd>
+    <dt>Recommendation</dt><dd><ul class="clean"><li>Draw each cluster as a <b>face stack</b>: two or three overlapping greyscale portraits and a "+N" badge. Choose the faces by <code>notability</code> (T5), falling back to the most publications.</li><li>Keep the current tooltip listing all names, and keep click-to-zoom.</li><li>Group by <b>pixel distance</b> rather than a fixed year bucket, so wide screens split clusters and phones merge them (this also fixes M1).</li><li>At standard zoom, keep single portraits and show a name label for top-notability people (T6).</li></ul></dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:151–255</code> (<code>renderScientists</code>) · bucket size at <code>:165</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="T2" data-p="P2" data-e="M" data-area="Timeline">
+  <header><span class="fid">T2</span><h3>Stack publications into a mini-histogram along the axis</h3></header>
+  <figure><img src="img/crop-pub-overlap.webp" alt="Publication diamonds overlap into chevron shapes along the axis"><figcaption>At 800% zoom, diamonds still overlap into "&lt;&lt;&lt;" chevrons between 1880 and 1930.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>Only publications with the <i>same</i> year are nudged apart (7px each). Neighbouring years overlap, so all 237 markers sit on one line and the densest decades become an unreadable strip.</dd>
+    <dt>Recommendation</dt><dd>Bin publications by pixel column (one bin per marker width at the current zoom) and stack them upward from the axis. The stack height then works as a <b>histogram of scientific output</b>, a big-picture signal you get for free. Colour each marker with the scientist's colour on hover (as now). Cap stacks at about 6 with a "+N" cap marker that zooms in when clicked. The scientist connector lines should end at the specific stacked marker.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:103–149</code> · same-year offset at <code>:114</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="T3" data-p="P2" data-e="L" data-area="Timeline">
+  <header><span class="fid">T3</span><h3>Add an optional "even density" time scale</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>With a linear scale, 1400–1650 takes up 40% of the width but holds a handful of items, while 1850–1950 (about 60% of the content) gets 16%.</dd>
+    <dt>Recommendation</dt><dd><ul class="clean"><li>Add a toggle, <b>Even time / Even density</b>, next to Fit. Linear stays the default.</li><li>Density mode uses a piecewise-linear mapping: split the range into eras (for example by century, subdividing after 1800), weight each era by item count with a floor so quiet eras don't disappear, and normalise.</li><li><b>Make the distortion visible.</b> Shade alternate segments and label them ("1 cm ≈ 40 years" / "≈ 5 years"), or put axis break marks at segment joins. Researchers must never read positions as linear by mistake.</li><li>Do the plumbing first. All positioning should go through one <code>yearToX</code>/<code>xToYear</code> pair. At the moment <code>script.js</code> <code>focusYear</code> and <code>tapestryRenderer.js</code> <code>layoutTapestry</code> each re-implement the linear maths.</li></ul></dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:13</code> <code>yearToX</code> · <code>script.js:113</code> · <code>src/tapestryRenderer.js:44</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="T4" data-p="P2" data-e="M" data-area="Timeline">
+  <header><span class="fid">T4</span><h3>Milestone glyph text is too small to read</h3></header>
+  <figure><img src="img/crop-glyphs.webp" alt="Circular and diamond markers with tiny text such as EMI, PTE, ½hν"><figcaption>Glyphs such as "EMI", "PTE", "½hν" and "LJar" render at 8px inside 25px markers and are clipped at 22px.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>The <code>particle</code> glyphs carry meaning but can't be read at 8px, and longer ones are truncated by <code>max-width: 22px</code>.</dd>
+    <dt>Recommendation</dt><dd>At the overview tier, show plain shapes (circle for discoveries, diamond for conferences) with no text. At standard and detail tiers, grow the markers to 30–32px and the glyph text to 10–11px, and show a short title label beside the marker when there's room. Glyphs longer than three characters should become a label, not be squeezed in.</dd>
+    <dt>Code</dt><dd><code>style.css:701–756</code> · <code>src/timelineRenderer.js:295</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="T5" data-p="P2" data-e="S" data-area="Timeline">
+  <header><span class="fid">T5</span><h3>Add an optional <code>notability</code> field to scientists</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd><p>Add <code>notability: 1 | 2 | 3</code> (1 = most notable), defaulting to 2 when absent. It drives which faces appear in face stacks (T1), which names are labelled at standard zoom (T6), search ranking (N1), and which faces stay visible when space is tight on mobile. Document it in the README's scientist schema and in the <code>papertrails-add-scientist</code> skill.</p><p>The same approach works for discoveries and events if the overview ever needs to thin them out.</p></dd>
+    <dt>Code</dt><dd><code>data/scientists.yaml</code> · <code>README.md</code> "Editing the content" · <code>.agents/skills/papertrails-add-scientist/SKILL.md</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="T6" data-p="P1" data-e="M" data-area="Timeline">
+  <header><span class="fid">T6</span><h3>Scientists are never named on the canvas</h3></header>
+  <figure><img src="img/zoom-250.webp" alt="250 percent zoom with dozens of portraits and no names"><figcaption>250%: about 90 small greyscale faces and no names. Identifying anyone means hovering over each one.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>Researchers scan by name. At 42px, greyscale portraits of 19th-century men in beards are hard to tell apart, and names only appear in hover tooltips.</dd>
+    <dt>Recommendation</dt><dd>Add surname labels under portraits: top-notability people only at the standard tier, everyone at the detail tier. Use collision-aware placement: drop the label rather than overlap. With a greyscale rest state, a small surname label is the cheapest way to make the People lane readable.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:213–254</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="navigation">Navigation &amp; wayfinding</h2>
+
+<article class="finding card" id="N1" data-p="P1" data-e="M" data-area="Navigation">
+  <header><span class="fid">N1</span><h3>Add global search across every content type</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>There's no way to find Maxwell except by panning, zooming and hovering. For a researcher audience this is the biggest functional gap.</dd>
+    <dt>Recommendation</dt><dd><ul class="clean"><li>Put a search field in the header (the space is currently empty), opened with <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd>.</li><li>Index scientists, publications, discoveries, conferences and events from the already-loaded YAML. That's about 430 records, so a plain in-memory filter is enough.</li><li>Make matching <b>diacritic-insensitive</b> using <code>normalize('NFD')</code> and stripping combining marks, then transliterate letters that NFD leaves alone (ø→o, æ→ae, œ→oe, ß→ss, ł→l, đ→d, þ→th). Apply the same folding to indexed names and to queries. The data is full of names like Ørsted, Schrödinger, Rømer, Ampère and Poincaré, and searches for "Orsted" and "Romer" must find them.</li><li>Group results by type, with year and a small portrait or shape. Rank by exact prefix, then notability (T5).</li><li>Choosing a result animates to its year (N3), selects it and opens the docked panel (D1).</li><li>The combobox needs full ARIA (<code>role="combobox"</code>, <code>aria-activedescendant</code>, arrow keys, Esc).</li></ul></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N2" data-p="P1" data-e="M" data-area="Navigation">
+  <header><span class="fid">N2</span><h3>Add an overview minimap</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>Once you zoom in, nothing shows where you are in the 626-year range or where the dense areas are. The zoom percentage doesn't tell you what's on screen.</dd>
+    <dt>Recommendation</dt><dd>Add a thin strip (about 28px) between the toolbar and the frame, showing the whole range as a density sparkline of all items, coloured by type, with century ticks. Overlay a draggable viewport rectangle: drag it to pan, drag its edges or brush to zoom, and click elsewhere to jump. It gives first-time visitors the big picture at a glance and keeps them oriented while zoomed. It depends on the shared scale functions (T3).</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N3" data-p="P2" data-e="M" data-area="Navigation">
+  <header><span class="fid">N3</span><h3>Animate zoom and jump transitions</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>Clicking a cluster, "Locate on timeline", Fit, or the zoom buttons changes the view instantly, so users lose track of where they came from.</dd>
+    <dt>Recommendation</dt><dd>Tween <code>currentScale</code> and <code>currentTranslateX</code> over about 250–300ms with an ease-out curve. During the tween, apply a CSS <code>transform: scale()</code> to the existing DOM, and re-lay out once at the end (see R2). Skip the tween when <code>prefers-reduced-motion</code> is set.</dd>
+    <dt>Code</dt><dd><code>script.js:89–120</code> (<code>zoomAt</code>, <code>fitTimeline</code>, <code>focusYear</code>)</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N4" data-p="P2" data-e="S" data-area="Navigation">
+  <header><span class="fid">N4</span><h3>Make zoom logarithmic and show the visible range</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The slider maps linearly from 1× to 8×, so most of its travel is spent at high magnification, and at rest its thumb sits at the far left next to "100%". A percentage doesn't tell a researcher which years are on screen.</dd>
+    <dt>Recommendation</dt><dd>Map the slider logarithmically (<code>scale = MIN × (MAX/MIN)^t</code>). Replace or supplement the percentage with the visible range ("1848–1931"), which can also be the minimap's label. Consider raising <code>MAX_SCALE</code>: at 8× the 1920s are still crowded.</dd>
+    <dt>Code</dt><dd><code>script.js:30–37</code> · <code>src/config.js</code> <code>MAX_SCALE</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N5" data-p="P3" data-e="S" data-area="Navigation">
+  <header><span class="fid">N5</span><h3>The "Centre timeline" button looks like reload and often does nothing</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>Its circular-arrow icon reads as "refresh" or "reset", and at 1× zoom (the default) centring has no effect.</dd>
+    <dt>Recommendation</dt><dd>Remove it, since Fit and the minimap cover the need, or replace it with something that has a clear purpose, such as "Jump to year…".</dd>
+    <dt>Code</dt><dd><code>index.html:88</code> · <code>script.js:107</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N6" data-p="P2" data-e="S" data-area="Navigation">
+  <header><span class="fid">N6</span><h3>Replace the help toast with a keyboard and gesture shortcuts dialog</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The help button only re-shows a five-second toast, and it's hidden entirely below 430px. The keyboard controls (arrow keys, +/−, Home) aren't documented anywhere in the UI. The hint toast also reappears on every page load.</dd>
+    <dt>Recommendation</dt><dd>Show a small dialog listing mouse, trackpad, touch and keyboard controls (plus <kbd>/</kbd> for search and <kbd>?</kbd> to open the dialog). Show the first-run hint once and store its dismissal in <code>localStorage</code> alongside the theme.</dd>
+    <dt>Code</dt><dd><code>index.html:42</code> · <code>script.js:83–87</code> · <code>script.js:393</code> · <code>style.css:1708</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N7" data-p="P2" data-e="S" data-area="Navigation">
+  <header><span class="fid">N7</span><h3>Trackpad pinch zooms far too fast</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>Every Ctrl-wheel event applies a fixed ±20% step, whatever its <code>deltaY</code>. Trackpad pinches fire dozens of small events, so one gesture goes from 1× to 8× almost instantly.</dd>
+    <dt>Recommendation</dt><dd>Scale by magnitude: <code>factor = Math.exp(-deltaY × 0.0015)</code>, normalised for <code>deltaMode</code> (lines vs pixels). Mouse wheels still step comfortably and trackpads become smooth.</dd>
+    <dt>Code</dt><dd><code>script.js:167</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N8" data-p="P2" data-e="M" data-area="Navigation">
+  <header><span class="fid">N8</span><h3>Put the view and selection in the URL so they can be shared</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Encode the view in the hash, for example <code>#from=1850&amp;to=1950&amp;item=scientist:maxwell&amp;layers=-pubs</code>. Use <code>history.replaceState</code> for panning and zooming (debounced) and <code>pushState</code> for selections, so the browser's Back button steps through what you've opened (see N9). Restore the view on load. Researchers can then cite a view in notes or share it with students.</dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="panel">Details panel</h2>
+<div class="shots">
+  <figure><img src="img/panel-scientist.webp" alt="Scientist panel for Peter Guthrie Tait"><figcaption>Scientist panel: the summary repeats the first publication's abstract word for word (D3).</figcaption></figure>
+  <figure><img src="img/panel-discovery.webp" alt="Discovery panel for infrared radiation"><figcaption>Discovery panel: Herschel appears twice, as a link and as a portrait (D4).</figcaption></figure>
+  <figure><img src="img/panel-conference.webp" alt="Conference panel for the Karlsruhe Congress"><figcaption>Conference panel: the strongest template of the three.</figcaption></figure>
+</div>
+
+<article class="finding card" id="D1" data-p="P1" data-e="M" data-area="Panel">
+  <header><span class="fid">D1</span><h3>Dock the panel beside the timeline instead of making it modal</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The panel dims the timeline, blocks it with a backdrop and traps focus. To compare two scientists you have to close the panel, find the second one and reopen it, and the selected marker is hidden behind the backdrop.</dd>
+    <dt>Recommendation</dt><dd><ul class="clean"><li>On screens 1024px and wider, render the panel as a third grid column of <code>.timeline-frame</code> (about 400px) and re-lay out the timeline in the remaining width. There's no backdrop and no focus trap. Clicking another item swaps the panel's content.</li><li>Use <code>role="complementary"</code> with <code>aria-labelledby</code>. On open, move focus to the heading; Esc closes the panel and returns focus to the item.</li><li>Keep the current modal bottom sheet on mobile.</li><li>This needs C3 (selection surviving re-renders) done first.</li></ul></dd>
+    <dt>Code</dt><dd><code>src/modalManager.js:261</code> <code>openPanel</code> · <code>:624</code> backdrop · focus trap in <code>setupModalEventListeners</code> · <code>style.css:980</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D2" data-p="P1" data-e="M" data-area="Panel">
+  <header><span class="fid">D2</span><h3>The scientist panel leaves out the discoveries, conferences and events linked to that person</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The data already records who discovered what, whose theory a discovery confirmed, and who attended which conference. The scientist panel shows only affiliations, a summary and publications, so these links only work in one direction.</dd>
+    <dt>Recommendation</dt><dd>Build a reverse index once in <code>initializeData</code> (scientist id → discoveries, theories confirmed, conferences, events). Add compact sections: "Discoveries", "Predicted / confirmed by", "Attended". Each row opens the item in the panel and pushes a history entry (N9).</dd>
+    <dt>Code</dt><dd><code>src/dataLoader.js:33</code> · <code>src/modalManager.js:570</code> <code>showScientistModal</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="N9" data-p="P2" data-e="M" data-area="Panel">
+  <header><span class="fid">N9</span><h3>Add back and forward within the panel</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>From a conference you can open an attendee, then one of their publications, but there's no way back. Every hop replaces the content.</dd>
+    <dt>Recommendation</dt><dd>Keep a small navigation stack in <code>modalManager</code> and add a back chevron beside the close button, showing where it goes ("← Karlsruhe Congress"). If N8 is built, sync the stack with browser history so the Back button and <kbd>Alt</kbd>+<kbd>←</kbd> work too.</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D3" data-p="P2" data-e="S" data-area="Panel">
+  <header><span class="fid">D3</span><h3>A missing summary makes the panel repeat the first abstract</h3></header>
+  <dl>
+    <dt>Problem</dt><dd><b>60 of 125 scientists</b> have no <code>summary</code>. <code>getScientistSummary</code> falls back to the first publication's abstract, which then appears again in the publication list directly below.</dd>
+    <dt>Recommendation</dt><dd>In code: when the fallback is used, don't show a summary paragraph at all. In content: write the missing summaries (the list is in the <a href="#appendix">appendix</a>). This is an ideal task for the existing add-scientist skill.</dd>
+    <dt>Code</dt><dd><code>src/modalManager.js:307</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D4" data-p="P3" data-e="S" data-area="Panel">
+  <header><span class="fid">D4</span><h3>The discovery panel lists the discoverer twice</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Drop the "Discoverer" and "Theorists" metadata rows when the portrait grid is shown, and label each portrait with its role ("Discoverer", "Theorist") instead.</dd>
+    <dt>Code</dt><dd><code>src/modalManager.js:528</code> · <code>:546</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D5" data-p="P2" data-e="S" data-area="Panel">
+  <header><span class="fid">D5</span><h3>Portrait style in the panel ignores the Illustrations toggle</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The panel header always uses the photo. Attendee and scientist grids always prefer the cartoon. Neither checks the Illustrations setting, so one panel can mix both styles.</dd>
+    <dt>Recommendation</dt><dd>Add one helper, <code>getPortrait(scientist)</code>, that reads the toggle state and falls back sensibly, and use it everywhere.</dd>
+    <dt>Code</dt><dd><code>src/modalManager.js:588</code> · <code>:233</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D6" data-p="P3" data-e="S" data-area="Panel">
+  <header><span class="fid">D6</span><h3>"Locate on timeline" is the most prominent button even when it's redundant</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>If the panel was opened from the timeline, the person is already selected and on screen, so hide the button. Show it as a secondary (outline) button only when the panel was reached from search or another panel. With a docked panel (D1), locating can happen automatically.</dd>
+    <dt>Code</dt><dd><code>src/modalManager.js:462</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D7" data-p="P2" data-e="M" data-area="Panel">
+  <header><span class="fid">D7</span><h3>Add sources and citation support for researchers</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Add optional fields: a <code>links</code> list on scientists (Wikipedia, Wikidata, MacTutor) and <code>source</code> / <code>doi</code> on publications. In the panel, show them as a quiet "Sources" row, and add a "Copy citation" action on publication panels. The conference panel's archival-map links already follow this pattern.</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="D8" data-p="P2" data-e="S" data-area="Panel">
+  <header><span class="fid">D8</span><h3>Placeholder portraits look like broken images</h3></header>
+  <figure><img src="img/crop-unknown.webp" alt="Illustration mode shows large question-mark placeholders among the portraits"><figcaption>Illustrations mode shows "?" placeholders; photo mode shows a stamp reading "UNKNOWN".</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>Six scientists use the default image: Hooke, Green, Kleist, Michell, Lamoreaux and Richer. For Hooke and Green that's historically correct, since no authenticated portrait exists, but the "UNKNOWN" and "?" artwork reads as a loading failure.</dd>
+    <dt>Recommendation</dt><dd>Make "no portrait" a deliberate state: a monogram disc with the initials in the scientist's colour. In the panel, add a note such as "No authenticated portrait survives." This follows the project's existing care over provenance, as with the neutral institution icon.</dd>
+    <dt>Code</dt><dd><code>src/themeManager.js</code> <code>handleImageError</code> · <code>data/scientists.yaml</code> (six <code>images/default.png</code> entries)</dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="connections">Connections &amp; research context</h2>
+
+<article class="finding card" id="C1" data-p="P2" data-e="M" data-area="Connections">
+  <header><span class="fid">C1</span><h3>Show a scientist's relationships when they're hovered or selected</h3></header>
+  <figure><img src="img/hover-highlight.webp" alt="Hovering Fizeau highlights his portrait and his two publication diamonds only"><figcaption>Hovering Fizeau highlights his two publications, but not the discoveries, conferences or contemporaries he's linked to.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>Highlighting currently links a person only to their own publications. The richer data (discoveries confirming a theory, conference attendance) isn't shown on the canvas.</dd>
+    <dt>Recommendation</dt><dd>Keep the resting state calm, as agreed. On hover or selection, draw curved connectors from the person to their discoveries and conferences, and faint lines to people they attended a conference with. Dim everything else. The reverse should also work: hovering a conference lights up its attendees' portraits, and hovering a discovery lights up its discoverer and theorists. Reuse the reverse index from D2.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:36–54</code> (<code>highlightScientistGroup</code>)</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="C2" data-p="P2" data-e="S" data-area="Connections">
+  <header><span class="fid">C2</span><h3>Show a lifespan bar on hover and selection</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Portraits sit at the year of the first publication, so a scientist's lifetime is invisible. On hover or selection, draw a thin birth-to-death bar in the People lane behind the portrait, labelled at each end. It answers "who overlapped with whom" at a glance, a question the timeline is well placed to answer. The birth and death dates are already in the data.</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="C3" data-p="P1" data-e="S" data-area="Connections">
+  <header><span class="fid">C3</span><h3>Selection is lost whenever the timeline re-renders</h3></header>
+  <dl>
+    <dt>Problem</dt><dd><code>render()</code> calls <code>timeline.replaceChildren()</code>, which throws away the <code>is-selected</code> class. The modal currently hides this except when the window is resized, but once the panel is docked (D1), every zoom, filter toggle or resize will clear the highlight.</dd>
+    <dt>Recommendation</dt><dd>Keep <code>selectedItem = { type, id }</code> in app state and re-apply the class (and connectors, C1) at the end of <code>renderTimeline</code>. Give each marker a stable <code>data-item-id</code> so it can be found again.</dd>
+    <dt>Code</dt><dd><code>script.js:70</code> · <code>src/timelineRenderer.js:27–34</code>, <code>:424</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="identity">Visual identity</h2>
+
+<article class="finding card" id="V1" data-p="P2" data-e="M" data-area="Identity">
+  <header><span class="fid">V1</span><h3>Move from slate and blue to a paper-and-ink archival palette</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>The name, the serif headings, the portrait archive and the Tapestry all suggest an archive or museum. The chrome, though, is a generic slate-and-blue app palette, which clashes with the Tapestry's linen texture.</dd>
+    <dt>Recommendation</dt><dd>
+      <p>Swap the tokens in <code>:root</code> (the structure is already token-based, so this is mostly values). This document uses the proposed palette. Every text colour below passes WCAG AA (4.5:1) against both page and surface:</p>
+      <div class="swatches">
+        <div class="sw" style="background:#f3ede1;color:#2a241c"><b>Page</b>#f3ede1</div>
+        <div class="sw" style="background:#fbf8f2;color:#2a241c"><b>Surface</b>#fbf8f2</div>
+        <div class="sw" style="background:#2a241c;color:#fbf8f2"><b>Ink</b>#2a241c · 14.5:1</div>
+        <div class="sw" style="background:#5c5245;color:#fbf8f2"><b>Ink 2</b>#5c5245 · 7.2:1</div>
+        <div class="sw" style="background:#6f6454;color:#fbf8f2"><b>Ink 3</b>#6f6454 · 5.5:1</div>
+        <div class="sw" style="background:#2f4a7a;color:#fbf8f2"><b>Accent (indigo)</b>#2f4a7a · 8.3:1</div>
+        <div class="sw" style="background:#6b3fa0;color:#fbf8f2"><b>Discovery</b>#6b3fa0 · 7.0:1</div>
+        <div class="sw" style="background:#8f5410;color:#fbf8f2"><b>Conference (ochre)</b>#8f5410 · 5.8:1</div>
+        <div class="sw" style="background:#3d6862;color:#fbf8f2"><b>Context (verdigris)</b>#3d6862 · 5.9:1</div>
+        <div class="sw" style="background:#74573a;color:#fbf8f2"><b>Publication (sepia)</b>#74573a · 6.3:1</div>
+        <div class="sw" style="background:#14110d;color:#efe7d8"><b>Dark page</b>#14110d</div>
+        <div class="sw" style="background:#1d1914;color:#efe7d8"><b>Dark surface</b>#1d1914</div>
+      </div>
+      <ul class="clean" style="margin-top:12px">
+        <li>Dark text tokens: ink <code>#efe7d8</code>, ink-2 <code>#c3b8a5</code>, ink-3 <code>#a39781</code> (6.1:1), accent <code>#9db4e0</code>, discovery <code>#c3a2ef</code>, conference <code>#e0a84e</code>, context <code>#86b5ad</code>.</li>
+        <li>Add a subtle ruled-paper texture using only CSS gradients, as the Tapestry already does. No image requests.</li>
+        <li>Use <code>font-variant-numeric: oldstyle-nums</code> for year labels, and draw the axis as a ledger rule (a hairline with a double rule at centuries).</li>
+        <li>Keep portraits greyscale at rest, as agreed. Against warm paper, a slight sepia (<code>sepia(.15)</code>) blends better than pure grey.</li>
+      </ul>
+    </dd>
+    <dt>Code</dt><dd><code>style.css:1–69</code> · theme colours duplicated in the <code>index.html</code> inline script and <code>src/themeManager.js:24</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="V2" data-p="P1" data-e="S" data-area="Identity">
+  <header><span class="fid">V2</span><h3>"Off" toggles look disabled</h3></header>
+  <figure><img src="img/overview-dark.webp" alt="Toolbar where Tapestry and Illustrations appear greyed out"><figcaption>Tapestry and Illustrations at 58% opacity look unavailable rather than switched off.</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd><code>[aria-pressed="false"]</code> is styled with <code>opacity: .58</code>, the usual "disabled" styling. First-time visitors may never try Tapestry, which is meant to be the showpiece.</dd>
+    <dt>Recommendation</dt><dd>Keep text at full contrast in both states. For layer filters, show "on" with a filled legend symbol and tinted background, and "off" with an outlined symbol and no fill. Show Tapestry and Illustrations as <b>switches</b> (a small track and knob) so they read as display modes rather than layers. If Context is off, show Tapestry as genuinely disabled with an explanatory tooltip.</dd>
+    <dt>Code</dt><dd><code>style.css:353–361</code> · <code>index.html:120–128</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="V3" data-p="P3" data-e="S" data-area="Identity">
+  <header><span class="fid">V3</span><h3>Small inconsistencies in icons, fonts and the header</h3></header>
+  <dl>
+    <dt>Problem &amp; fix</dt><dd><ul class="clean"><li>The Tapestry toggle uses a Unicode "▧" while every other control uses an inline SVG. Draw an SVG (a woven or scroll motif).</li><li><code>Inter</code> is listed first in the font stack but isn't vendored, so the UI font depends on the operating system. Either vendor a font (keeping offline support) or put the intended system font first.</li><li>On phones the header subtitle is cut off before the date range ("Scientific ideas in historical context · …"). Show only "1400–2026" on small screens.</li><li>The desktop header has plenty of empty space, which suits the search field (N1).</li></ul></dd>
+    <dt>Code</dt><dd><code>index.html:121</code> · <code>style.css:91</code> · <code>style.css:1541–1547</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="tapestry">Tapestry as a showpiece</h2>
+<div class="shots">
+  <figure><img src="img/tapestry-overview.webp" alt="Tapestry ribbon across the full timeline"><figcaption>Overview: attractive, but with no captions you can't tell which event is which without hovering.</figcaption></figure>
+  <figure><img src="img/tapestry-zoom.webp" alt="Tapestry zoomed to the seventeenth century"><figcaption>250%: the scenes blend beautifully, but the duration threads at the bottom are hard to read.</figcaption></figure>
+</div>
+
+<article class="finding card" id="TP1" data-p="P1" data-e="M" data-area="Tapestry">
+  <header><span class="fid">TP1</span><h3>Add embroidered captions to the Tapestry</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>With Tapestry on, the context lane has no visible text. Events can only be identified by hovering or by reading the imagery.</dd>
+    <dt>Recommendation</dt><dd>Stitch captions into the ribbon's top border, in the spirit of the Bayeux Tapestry's Latin tituli: small caps in a serif, thread-coloured, on the linen strip, with the start year. Reuse the viewport-following logic from <code>updateEventLabelPositions</code> so the caption stays visible while a scene is partly off-screen. Use <code>shortTitle</code> at the overview tier and full titles when zoomed in.</dd>
+    <dt>Code</dt><dd><code>src/tapestryRenderer.js:65–126</code> · <code>style.css:901–969</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="TP2" data-p="P2" data-e="S" data-area="Tapestry">
+  <header><span class="fid">TP2</span><h3>Make Tapestry the default context view</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Once TP1 (captions) and R1 (smaller panoramas) are done, turn Tapestry on by default. The stored preference means returning users keep their choice. The labelled bands become the "compact" alternative. Rename the toggle's states (for example "Tapestry / Bands") so the alternative is clear.</dd>
+    <dt>Code</dt><dd><code>script.js:377</code> (initial toggle state)</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="TP3" data-p="P3" data-e="M" data-area="Tapestry">
+  <header><span class="fid">TP3</span><h3>Replace paragraph-length tooltips with an anchored caption card</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>Hovering a scene shows the full event description plus facet text in a 280px tooltip that follows each hotspot, and it flickers as you move across the facets.</dd>
+    <dt>Recommendation</dt><dd>Show a single caption card anchored above the ribbon at the hovered scene, with title and dates, "In the embroidery: …" for the current facet, and "Click for details". Update only the facet line as the pointer moves.</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="TP4" data-p="P3" data-e="S" data-area="Tapestry">
+  <header><span class="fid">TP4</span><h3>Make the duration threads readable</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Add a knot at each end of a thread, and a small end-year label when the thread is highlighted. Increase the lane spacing from 4px to 6px so overlapping threads can be told apart. Remove the two unused panoramas (<code>historical-scenes.png</code>, <code>revolutions-panorama.png</code>, 7.2 MB) from <code>images/tapestry/</code>.</dd>
+    <dt>Code</dt><dd><code>src/tapestryRenderer.js:104–112</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="a11y">Accessibility</h2>
+
+<article class="finding card" id="A1" data-p="P0" data-e="S" data-area="Accessibility">
+  <header><span class="fid">A1</span><h3>Tabbing to an off-screen item scrolls the canvas out of step with panning</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>Measured: focusing the last publication marker makes the browser scroll the <code>overflow: hidden</code> container natively (<code>scrollLeft</code> goes from 0 to 1040) while the app's <code>translateX</code> stays the same. From then on, dragging, zoom anchors and label positioning are all offset by 1,040px until the page is reloaded.</dd>
+    <dt>Recommendation</dt><dd>In a <code>focusin</code> handler on the container, reset <code>timelineContainer.scrollLeft = 0</code> and adjust <code>currentTranslateX</code> so the focused element is in view (with padding), then call <code>updateTransform()</code>. Guard against scrolling in a <code>scroll</code> listener as a fallback.</dd>
+    <dt>Code</dt><dd><code>script.js:312</code> (existing <code>focusin</code> only positions the tooltip)</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="A2" data-p="P1" data-e="M" data-area="Accessibility">
+  <header><span class="fid">A2</span><h3>There are over 330 tab stops, in non-chronological order</h3></header>
+  <figure class="small"><img src="img/crop-focus-ring.webp" alt="A faint focus square around a publication diamond"><figcaption>After the toolbar, Tab goes through publications grouped by scientist: 1496, 1533, 1543, 1538, 1543, 1573…</figcaption></figure>
+  <dl>
+    <dt>Problem</dt><dd>Every marker is a separate tab stop: 237 publications, then people, milestones and events. Publications are in DOM order grouped by author, so keyboard focus jumps backwards and forwards in time. Getting past the publications to a person takes more than 240 presses.</dd>
+    <dt>Recommendation</dt><dd>Use a <b>roving tabindex per lane</b>: Tab moves between lanes (People, Publications, Milestones, Context), and ← / → move chronologically within a lane (Home and End jump to the ends). Add a "Skip to search" link. Announce the lane and position ("Publications, 12 of 237"). Together with A1, this makes keyboard exploration practical.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:103–149</code> (render order) · keydown handler at <code>script.js:259</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="A3" data-p="P1" data-e="S" data-area="Accessibility">
+  <header><span class="fid">A3</span><h3>Tertiary text fails contrast, and it's used at 10–11px</h3></header>
+  <dl>
+    <dt>Problem</dt><dd><code>--text-tertiary</code> (<code>#94a3b8</code>) is <b>2.56:1</b> on white and <b>2.45:1</b> on the muted surface in light mode. In dark mode, <code>#718096</code> is 4.34:1. It's used for lane labels (10px), year labels (11px), metadata terms and affiliation notes, all small text that needs 4.5:1.</dd>
+    <dt>Recommendation</dt><dd>Light: darken to about <code>#6f7a8c</code> or adopt V1's ink-3 (<code>#6f6454</code>, 5.5:1). Dark: lighten to about <code>#8b98ab</code>. Separately, raise lane labels to at least 11px. See the <a href="#appendix">appendix</a> for measured ratios.</dd>
+    <dt>Code</dt><dd><code>style.css:11</code> · <code>style.css:48</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="A4" data-p="P2" data-e="S" data-area="Accessibility">
+  <header><span class="fid">A4</span><h3>The focus ring on timeline items is faint</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Replace the 3px, 30%-alpha outline with a 2px solid accent ring plus a 2px surface-coloured halo (<code>box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent)</code>). Round it to match each marker's shape.</dd>
+    <dt>Code</dt><dd><code>style.css:106–111</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="A5" data-p="P3" data-e="S" data-area="Accessibility">
+  <header><span class="fid">A5</span><h3>The timeline canvas has no role and view changes aren't announced</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Give <code>#timeline-container</code> <code>role="group"</code> with <code>aria-roledescription="timeline"</code> (an <code>aria-label</code> on a plain div isn't reliably announced). Announce the visible range through a debounced polite live region after panning or zooming ("Showing 1848 to 1931"), reusing N4's readout.</dd>
+    <dt>Code</dt><dd><code>index.html:140</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="perf">Performance &amp; robustness</h2>
+
+<article class="finding card" id="R1" data-p="P1" data-e="M" data-area="Performance">
+  <header><span class="fid">R1</span><h3>Full-size PNGs are served for 42px portraits and the Tapestry</h3></header>
+  <dl>
+    <dt>Problem</dt><dd><code>images/cartoons/</code> holds 121 PNGs totalling <b>166 MB</b> (about 1.4 MB each, up to 2 MB), shown at 42px. Turning on Illustrations while zoomed in starts dozens of megabytes of downloads. The three Tapestry panoramas in use are 3.6–4.3 MB PNGs each. Before Tapestry becomes the default (TP2), this has to change.</dd>
+    <dt>Recommendation</dt><dd>Add a <code>tools/</code> script (PowerShell or Node, in keeping with the repo's existing scripts) that generates <code>@128</code> and <code>@256</code> WebP thumbnails for photos and cartoons, plus WebP or AVIF panoramas. Keep the originals for the panel's large view. Use <code>srcset</code>/<code>sizes</code> on the portrait images. Expect roughly a 50–100× reduction for timeline portraits.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:225–233</code> · <code>src/tapestryScenes.js</code> atlas paths</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="R2" data-p="P2" data-e="M" data-area="Performance">
+  <header><span class="fid">R2</span><h3>Every zoom step rebuilds the whole DOM, including on every pinch move</h3></header>
+  <dl>
+    <dt>Problem</dt><dd><code>render()</code> clears the timeline and rebuilds several hundred elements (and re-attaches their listeners) on each zoom click, each wheel tick and <b>every <code>touchmove</code> of a pinch</b>. On phones this makes pinch-zoom stutter, and it's also why hover state and selection are lost (C3).</dd>
+    <dt>Recommendation</dt><dd>During continuous gestures, apply <code>transform: scale()</code> to the existing layer and do a full layout once on gesture end, or at most once per animation frame (<code>requestAnimationFrame</code> coalescing). Use event delegation on <code>#timeline</code> instead of per-marker listeners, which cuts the rebuild cost.</dd>
+    <dt>Code</dt><dd><code>script.js:70–76</code> · pinch handler in <code>script.js:227</code> (<code>touchmove</code>) · <code>src/timelineRenderer.js:424</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="R3" data-p="P1" data-e="S" data-area="Performance">
+  <header><span class="fid">R3</span><h3>There's no loading or error state</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>While the YAML loads, the frame is empty. If loading fails, for example because <code>index.html</code> was opened from <code>file://</code> (which the README warns about), the frame stays empty and the error only goes to the console.</dd>
+    <dt>Recommendation</dt><dd>Show a quiet skeleton or "Loading the archive…" state in the frame. On failure, show a visible message with the cause, a Retry button, and, when <code>location.protocol === 'file:'</code>, a one-line hint to run <code>python -m http.server</code>.</dd>
+    <dt>Code</dt><dd><code>script.js:367–397</code></dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="mobile">Mobile</h2>
+<p>The agreed bar is "desktop-first, mobile usable". These items fix the places where mobile currently isn't usable.</p>
+<div class="shots">
+  <figure><img src="img/mobile.webp" alt="Phone view with overlapping cluster bubbles"><figcaption>390 × 844: cluster bubbles overlap each other.</figcaption></figure>
+  <figure><img src="img/mobile-options.webp" alt="Phone view with options panel open pushing the timeline down"><figcaption>Options open: the timeline is pushed down about 240px.</figcaption></figure>
+  <figure><img src="img/mobile-sheet.webp" alt="Phone view with the scientist bottom sheet"><figcaption>The bottom sheet works well.</figcaption></figure>
+</div>
+
+<article class="finding card" id="M1" data-p="P1" data-e="M" data-area="Mobile">
+  <header><span class="fid">M1</span><h3>People clusters overlap on phones</h3></header>
+  <dl>
+    <dt>Problem</dt><dd>When every row is occupied, <code>renderScientists</code> falls back to the row that ends furthest left, even if the new item overlaps what's already there. On a 324px canvas this happens constantly.</dd>
+    <dt>Recommendation</dt><dd>This is solved by T1's pixel-distance grouping: a group can't overlap its neighbours by construction. As an interim fix, merge an item into the nearest existing cluster instead of placing it on top.</dd>
+    <dt>Code</dt><dd><code>src/timelineRenderer.js:186–189</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="M2" data-p="P2" data-e="S" data-area="Mobile">
+  <header><span class="fid">M2</span><h3>The options panel pushes the timeline down</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Show the options as an overlay sheet or popover anchored to the Options button, so the timeline doesn't move or re-render. Close it on outside tap or Esc.</dd>
+    <dt>Code</dt><dd><code>style.css:1573–1585</code> · <code>script.js:345</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="M3" data-p="P2" data-e="S" data-area="Mobile">
+  <header><span class="fid">M3</span><h3>The lane-label column uses 17% of a phone's width</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Below 768px, drop the 66px label column and show small lane labels inside each lane's top-left corner (pinned while panning, semi-transparent background). This depends on L5's shared lane variables.</dd>
+    <dt>Code</dt><dd><code>style.css:1614–1626</code></dd>
+  </dl>
+</article>
+
+<article class="finding card" id="M4" data-p="P2" data-e="S" data-area="Mobile">
+  <header><span class="fid">M4</span><h3>In phone landscape, the controls leave little room for the timeline</h3></header>
+  <figure><img src="img/mobile-landscape.webp" alt="Landscape phone view with 140px of header and toolbar and a squeezed timeline"><figcaption>844 × 390: the header and toolbar take about 120px, which leaves the timeline about 250px, and the toolbar overflows (L1).</figcaption></figure>
+  <dl>
+    <dt>Recommendation</dt><dd>Add a <code>(max-height: 500px)</code> media query that merges the header and toolbar into one 48px row (brand mark, zoom, Options, theme) and hides the subtitle.</dd>
+  </dl>
+</article>
+
+<article class="finding card" id="M5" data-p="P3" data-e="M" data-area="Mobile">
+  <header><span class="fid">M5</span><h3>Touch users get no preview before the full sheet opens</h3></header>
+  <dl>
+    <dt>Recommendation</dt><dd>Tooltips need hover, so on touch the first tap opens a 72%-height sheet. Add a <b>peek</b> state: a short sheet (about 96px) with the title, year and "Swipe up for details", which can be dragged to full height. It suits quick scanning on phones.</dd>
+  </dl>
+</article>
+
+<!-- ============================================================ -->
+<h2 id="deps">Dependencies between items</h2>
+<div class="card">
+  <ul class="clean">
+    <li><b>C3 (selection persists) → D1 (docked panel).</b> Without C3, docking will clear the selection on every zoom.</li>
+    <li><b>Shared <code>yearToX</code>/<code>xToYear</code> → T3 (density scale), N2 (minimap), N4 (visible range).</b> Consolidate the three copies of the scale maths first.</li>
+    <li><b>T5 (notability) → T1 (face stacks), T6 (name labels), N1 (search ranking).</b></li>
+    <li><b>D2 (reverse index) → C1 (relationship lines).</b> Both read the same person-to-item map.</li>
+    <li><b>L5 (lane variables) → L7 (adaptive lanes), M3 (inline lane labels).</b></li>
+    <li><b>R1 (image weights) and TP1 (captions) → TP2 (Tapestry by default).</b></li>
+    <li><b>R2 (incremental layout) makes N3 (animation) smooth.</b> N3 can ship first using a CSS-transform tween.</li>
+    <li><b>N8 (deep links) and N9 (panel history)</b> should share one history model if both are built.</li>
+  </ul>
+</div>
+
+<h2 id="all">All findings</h2>
+<div class="chips" id="filters">
+  <span class="label">Severity</span>
+  <button type="button" data-f="p" data-v="P0" aria-pressed="false">P0</button>
+  <button type="button" data-f="p" data-v="P1" aria-pressed="false">P1</button>
+  <button type="button" data-f="p" data-v="P2" aria-pressed="false">P2</button>
+  <button type="button" data-f="p" data-v="P3" aria-pressed="false">P3</button>
+  <span class="label" style="margin-left:12px">Effort</span>
+  <button type="button" data-f="e" data-v="S" aria-pressed="false">S</button>
+  <button type="button" data-f="e" data-v="M" aria-pressed="false">M</button>
+  <button type="button" data-f="e" data-v="L" aria-pressed="false">L</button>
+  <span class="label" style="margin-left:12px">Area</span>
+  <span id="area-chips" style="display:contents"></span>
+</div>
+<p class="meta" id="filter-status" role="status"></p>
+<div class="card" style="padding:8px 12px"><div class="table-scroll" role="region" aria-label="All findings" tabindex="0"><table><thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Effort</th><th>Area</th></tr></thead><tbody id="all-body"></tbody></table></div></div>
+
+<h2 id="appendix">Appendix</h2>
+<div class="grid two">
+  <div class="card">
+    <div class="kicker">Method</div>
+    <ul class="clean">
+      <li>Code read-through of <code>index.html</code>, <code>style.css</code>, <code>script.js</code> and every module in <code>src/</code>.</li>
+      <li>Automated captures with Playwright driving Edge at 1440×900 (light and dark), 1920×1080, 1024×768, 390×844 and 844×390 (touch emulation), at 100%, 250% and 800% zoom, with the scientist, discovery and conference panels open, with Tapestry and Illustrations on, on hover, and while tabbing with the keyboard.</li>
+      <li>Runtime probes: tab order, scroll and transform state after keyboard focus, data completeness (summaries, placeholder portraits), and asset sizes.</li>
+      <li>No console errors or warnings were logged during any capture.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Measured contrast (WCAG AA small text needs 4.5:1)</div>
+    <table>
+      <thead><tr><th>Pair</th><th>Ratio</th></tr></thead>
+      <tbody>
+        <tr><td><code>#94a3b8</code> tertiary on white</td><td style="color:var(--p0)"><b>2.56</b></td></tr>
+        <tr><td><code>#94a3b8</code> tertiary on <code>#f8fafc</code></td><td style="color:var(--p0)"><b>2.45</b></td></tr>
+        <tr><td><code>#64748b</code> secondary on context band <code>#dce7f0</code></td><td style="color:var(--p0)"><b>3.79</b></td></tr>
+        <tr><td><code>#718096</code> tertiary on dark surface</td><td style="color:var(--p1)"><b>4.34</b></td></tr>
+        <tr><td><code>#64748b</code> secondary on white</td><td>4.76</td></tr>
+        <tr><td><code>#b45309</code> conference on its soft fill</td><td>4.51</td></tr>
+      </tbody>
+    </table>
+    <p class="meta" style="margin-top:8px">Event-band titles use secondary text on the context fill (3.79:1), which also fails. It's included in A3's fix.</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <div class="kicker">Content backlog for D3: scientists without a <code>summary</code> (60)</div>
+  <p class="sans" style="font-size:14px;color:var(--ink-2)">galileo, huygens, fatio, franklin, euler, lesage, coulomb, volta, dalton, young, biot, ampere, gauss, oersted, fresnel, ohm, savart, faraday, neumann_franz, weber, tait, maxwell, van_der_waals, mach, heaviside, lorentz, thomson, planck, birkeland, rutherford, h_a_wilson, einstein, noether, bohr, schrodinger, raman, chadwick, compton, deBroglie, velikovsky, pauli, heisenberg, dirac, anderson, alfven, casimir, lamb, hoyle, sciama, dicke, arp, nernst, bose, hooke, eddington, hertz, descartes, poincare, kelvin, feynman</p>
+  <div class="kicker" style="margin-top:14px">Scientists using the placeholder portrait (D8)</div>
+  <p class="sans" style="font-size:14px;color:var(--ink-2);margin:0">hooke, george_green, kleist, john_michell, lamoreaux, richer</p>
+</div>
+
+</div>
+
+<script>
+  // Tables, matrix and counts are generated from the finding cards so they stay in sync.
+  const findings = [...document.querySelectorAll('.finding')].map((el) => ({
+    id: el.id, p: el.dataset.p, e: el.dataset.e, area: el.dataset.area,
+    title: el.querySelector('h3').textContent.trim(), el
+  }));
+  const tag = (cls, text) => `<span class="tag ${cls}">${text}</span>`;
+  const isQuickWin = (f) => f.e === 'S' && f.p !== 'P3';
+  const byPriority = (a, b) => a.p.localeCompare(b.p) || a.e.localeCompare(b.e, undefined, { sensitivity: 'base' });
+
+  findings.forEach((f) => {
+    const header = f.el.querySelector('header');
+    header.insertAdjacentHTML('beforeend', tag(f.p, f.p) + tag('eff', f.e) + (isQuickWin(f) ? tag('qw', 'Quick win') : ''));
+  });
+
+  document.getElementById('stat-total').textContent = findings.length;
+  document.getElementById('stat-p0').textContent = findings.filter((f) => f.p === 'P0').length;
+  document.getElementById('stat-p1').textContent = findings.filter((f) => f.p === 'P1').length;
+  document.getElementById('stat-qw').textContent = findings.filter(isQuickWin).length;
+
+  const row = (f, withEffort) => `<tr><td><a href="#${f.id}"><b>${f.id}</b></a></td><td>${f.title}</td><td>${tag(f.p, f.p)}</td>${withEffort ? `<td>${tag('eff', f.e)}</td>` : ''}<td>${f.area}</td></tr>`;
+  document.getElementById('qw-body').innerHTML = findings.filter(isQuickWin).sort(byPriority).map((f) => row(f, false)).join('');
+
+  const matrix = document.getElementById('matrix-grid');
+  ['P0', 'P1', 'P2', 'P3'].forEach((p) => {
+    matrix.insertAdjacentHTML('beforeend', `<div class="h">${tag(p, p)}</div>`);
+    ['S', 'M', 'L'].forEach((e) => {
+      const cell = findings.filter((f) => f.p === p && f.e === e).map((f) => `<a href="#${f.id}" title="${f.title.replace(/"/g, '&quot;')}">${f.id}</a>`).join('');
+      matrix.insertAdjacentHTML('beforeend', `<div>${cell}</div>`);
+    });
+  });
+
+  const areas = [...new Set(findings.map((f) => f.area))];
+  document.getElementById('area-chips').innerHTML = areas.map((a) => `<button type="button" data-f="area" data-v="${a}" aria-pressed="false">${a}</button>`).join('');
+  const active = { p: new Set(), e: new Set(), area: new Set() };
+  const renderAll = () => {
+    const pass = (f) => ['p', 'e', 'area'].every((k) => !active[k].size || active[k].has(f[k]));
+    const matches = findings.filter(pass).sort(byPriority);
+    document.getElementById('all-body').innerHTML = matches.map((f) => row(f, true)).join('')
+      || '<tr><td colspan="5">No findings match these filters.</td></tr>';
+    const filtered = Object.values(active).some((set) => set.size);
+    document.getElementById('filter-status').textContent = !matches.length
+      ? 'No findings match these filters.'
+      : `Showing ${matches.length} of ${findings.length} findings${filtered ? ' matching the selected filters' : ''}.`;
+  };
+  document.getElementById('filters').addEventListener('click', (event) => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const set = active[button.dataset.f];
+    set.has(button.dataset.v) ? set.delete(button.dataset.v) : set.add(button.dataset.v);
+    button.setAttribute('aria-pressed', String(set.has(button.dataset.v)));
+    renderAll();
+  });
+  renderAll();
+</script>
+</body>
+</html>

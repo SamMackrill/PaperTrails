@@ -1,19 +1,25 @@
-import { config } from './src/config.js?v=14';
+import { config } from './src/config.js?v=15';
 import { initializeData } from './src/dataLoader.js?v=17';
 import { initializeTheme } from './src/themeManager.js?v=17';
-import { setupModalEventListeners } from './src/modalManager.js?v=21';
-import { clearTimelineSelection, renderTimeline, updateEventLabelPositions } from './src/timelineRenderer.js?v=21';
+import { setupModalEventListeners } from './src/modalManager.js?v=22';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=22';
+import { scaleToSlider, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=1';
+import { updatePortraitStyle } from './src/portraits.js?v=1';
+
+const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 
 let timelineContainer;
 let timeline;
 let zoomLevelDisplay;
 let zoomSlider;
 let interactionHint;
+let timelineStatus;
 
 let currentScale = 1;
 let currentTranslateX = 0;
 let resizeTimer;
 let hintTimer;
+let statusTimer;
 
 let potentialDrag = false;
 let isDragging = false;
@@ -27,14 +33,6 @@ let pinchStartScale = 1;
 let pinchStartTranslateX = 0;
 let pinchOriginX = 0;
 
-function mapSliderToScale(value) {
-  return config.MIN_SCALE + (config.MAX_SCALE - config.MIN_SCALE) * (Number(value) / 100);
-}
-
-function mapScaleToSlider(scale) {
-  return Math.round(((scale - config.MIN_SCALE) / (config.MAX_SCALE - config.MIN_SCALE)) * 100);
-}
-
 function clampScale(scale) {
   return Math.max(config.MIN_SCALE, Math.min(config.MAX_SCALE, scale));
 }
@@ -44,46 +42,60 @@ function clampTranslation() {
   currentTranslateX = Math.max(minimumX, Math.min(0, currentTranslateX));
 }
 
+function getVisibleRange() {
+  const width = timeline.offsetWidth || 1;
+  const from = Math.max(config.START_YEAR, Math.floor(xToYear(-currentTranslateX, width)));
+  const to = Math.min(config.END_YEAR, Math.ceil(xToYear(timelineContainer.clientWidth - currentTranslateX, width)));
+  return { from, to };
+}
+
+function announceVisibleRange(from, to) {
+  clearTimeout(statusTimer);
+  statusTimer = window.setTimeout(() => {
+    if (timelineStatus) timelineStatus.textContent = `Showing ${from} to ${to}`;
+  }, 600);
+}
+
 function updateTransform() {
   if (!timeline || !timelineContainer) return;
   hideTooltip();
   clampTranslation();
   timeline.style.transform = `translateX(${currentTranslateX}px)`;
   updateEventLabelPositions(timeline, timelineContainer);
-  zoomLevelDisplay.textContent = `${Math.round(currentScale * 100)}%`;
-  zoomSlider.value = String(mapScaleToSlider(currentScale));
+  const { from, to } = getVisibleRange();
+  zoomLevelDisplay.textContent = `${from}–${to}`;
+  zoomSlider.value = String(scaleToSlider(currentScale));
+  zoomSlider.setAttribute('aria-valuetext', `${Math.round(currentScale * 100)}%, showing ${from} to ${to}`);
+  announceVisibleRange(from, to);
 }
 
-function updateScientistImages(useIllustrations) {
-  document.querySelectorAll('.scientist-photo').forEach((image) => {
-    const desiredSource = useIllustrations && image.dataset.cartoonPhoto
-      ? image.dataset.cartoonPhoto
-      : image.dataset.originalPhoto;
-
-    if (desiredSource && image.getAttribute('src') !== desiredSource) {
-      delete image.dataset.error;
-      image.src = desiredSource;
-    }
-  });
+function isPressed(id) {
+  return document.getElementById(id)?.getAttribute('aria-pressed') === 'true';
 }
 
 function render() {
   hideTooltip();
+  // Rendering replaces every timeline element, so keyboard focus is carried
+  // across by item key.
+  const focusedKey = timeline.contains(document.activeElement) ? document.activeElement.dataset.itemKey : null;
   renderTimeline(timelineContainer, timeline, currentScale);
-  const useIllustrations = document.getElementById('cartoonToggle')?.getAttribute('aria-pressed') === 'true';
-  updateScientistImages(useIllustrations);
+  updatePortraitStyle(isPressed('cartoonToggle'));
   updateTransform();
+  if (focusedKey) {
+    timeline.querySelector(`[data-item-key="${CSS.escape(focusedKey)}"]`)?.focus({ preventScroll: true });
+  }
+}
+
+function markHintSeen() {
+  try { localStorage.setItem(HINT_STORAGE_KEY, 'true'); } catch { /* Storage can be disabled. */ }
 }
 
 function hideInteractionHint(delay = 0) {
   clearTimeout(hintTimer);
-  hintTimer = window.setTimeout(() => interactionHint?.classList.add('is-hidden'), delay);
-}
-
-function showInteractionHint() {
-  clearTimeout(hintTimer);
-  interactionHint?.classList.remove('is-hidden');
-  hideInteractionHint(5000);
+  hintTimer = window.setTimeout(() => {
+    interactionHint?.classList.add('is-hidden');
+    markHintSeen();
+  }, delay);
 }
 
 function zoomAt(nextScale, originX = timelineContainer.clientWidth / 2) {
@@ -104,17 +116,10 @@ function fitTimeline() {
   hideInteractionHint();
 }
 
-function centreTimeline() {
-  currentTranslateX = (timelineContainer.clientWidth - timeline.offsetWidth) / 2;
-  updateTransform();
-  hideInteractionHint();
-}
-
 function focusYear(year, scale = 2.5) {
   currentScale = clampScale(scale);
   render();
-  const targetX = ((year - config.START_YEAR) / config.YEAR_SPAN) * timeline.offsetWidth;
-  currentTranslateX = timelineContainer.clientWidth / 2 - targetX;
+  currentTranslateX = timelineContainer.clientWidth / 2 - yearToX(year, timeline.offsetWidth);
   updateTransform();
   hideInteractionHint();
 }
@@ -128,12 +133,23 @@ function focusScientist(scientistId, year) {
   }
 
   focusYear(year);
-  const node = timeline.querySelector(`.scientist-node[data-scientist-id="${CSS.escape(scientistId)}"]`);
-  if (!node) return;
+  const node = selectItemByKey(`scientist:${scientistId}`);
+  node?.focus({ preventScroll: true });
+}
 
-  clearTimelineSelection();
-  node.classList.add('is-selected');
-  node.focus({ preventScroll: true });
+// Pans just enough to bring a keyboard-focused item into view.
+function revealElement(element) {
+  const containerRect = timelineContainer.getBoundingClientRect();
+  const rect = element.getBoundingClientRect();
+  const padding = Math.min(64, containerRect.width / 6);
+  if (rect.left < containerRect.left + padding) {
+    currentTranslateX += containerRect.left + padding - rect.left;
+  } else if (rect.right > containerRect.right - padding) {
+    currentTranslateX -= rect.right - (containerRect.right - padding);
+  } else {
+    return;
+  }
+  updateTransform();
 }
 
 function togglePressed(button) {
@@ -151,6 +167,12 @@ function getPinchCenterX(touches) {
   return (touches[0].clientX + touches[1].clientX) / 2 - rect.left;
 }
 
+function getWheelPixels(event, delta) {
+  if (event.deltaMode === 1) return delta * 16;
+  if (event.deltaMode === 2) return delta * timelineContainer.clientWidth;
+  return delta;
+}
+
 function setupPointerInteractions() {
   timelineContainer.addEventListener('click', (event) => {
     if (suppressTapestryClick && event.target.closest('.tapestry-scene')) {
@@ -164,14 +186,25 @@ function setupPointerInteractions() {
     const rect = timelineContainer.getBoundingClientRect();
 
     if (event.ctrlKey || event.metaKey) {
-      const factor = event.deltaY < 0 ? 1 + config.ZOOM_STEP : 1 - config.ZOOM_STEP;
+      // Trackpad pinches send many small deltas and mouse wheels send a few
+      // large ones, so zoom in proportion to the distance scrolled.
+      const factor = Math.exp(-getWheelPixels(event, event.deltaY) * 0.0015);
       zoomAt(currentScale * factor, event.clientX - rect.left);
     } else {
-      currentTranslateX -= event.deltaX || event.deltaY;
+      currentTranslateX -= getWheelPixels(event, event.deltaX || event.deltaY);
       updateTransform();
       hideInteractionHint();
     }
   }, { passive: false });
+
+  // Focusing an off-screen item makes the browser scroll this overflow-hidden
+  // container natively, which would put it out of step with the transform.
+  timelineContainer.addEventListener('scroll', () => {
+    if (timelineContainer.scrollLeft || timelineContainer.scrollTop) {
+      timelineContainer.scrollLeft = 0;
+      timelineContainer.scrollTop = 0;
+    }
+  });
 
   timelineContainer.addEventListener('mousedown', (event) => {
     if (event.button !== 0 || (event.target.closest('button') && !event.target.closest('.tapestry-scene'))) return;
@@ -309,45 +342,94 @@ function setupTooltips() {
     const target = event.target.closest('[data-tooltip]');
     if (target && !target.contains(event.relatedTarget)) hideTooltip();
   });
-  timeline.addEventListener('focusin', (event) => positionTooltip(event.target.closest('[data-tooltip]')));
+  timeline.addEventListener('focusin', (event) => {
+    timelineContainer.scrollLeft = 0;
+    revealElement(event.target);
+    positionTooltip(event.target.closest('[data-tooltip]'));
+  });
   timeline.addEventListener('focusout', hideTooltip);
+}
+
+function updateTapestryAvailability() {
+  const tapestryToggle = document.getElementById('tapestryToggle');
+  const contextVisible = isPressed('significantEventsToggle');
+  tapestryToggle.setAttribute('aria-disabled', String(!contextVisible));
+  tapestryToggle.title = contextVisible
+    ? 'Show historical context as a Bayeux-style tapestry. Zoom in for more detail; hover or select a scene to learn more.'
+    : 'Turn on Context to show the tapestry.';
+}
+
+function setupOptionsPopover() {
+  const toolbar = document.querySelector('.timeline-toolbar');
+  const optionsToggle = document.getElementById('options-toggle');
+  const setOpen = (isOpen) => {
+    toolbar.classList.toggle('is-open', isOpen);
+    optionsToggle.setAttribute('aria-expanded', String(isOpen));
+    optionsToggle.setAttribute('aria-label', isOpen ? 'Hide view options' : 'Show view options');
+  };
+
+  optionsToggle.addEventListener('click', () => setOpen(!toolbar.classList.contains('is-open')));
+  document.addEventListener('click', (event) => {
+    if (!toolbar.classList.contains('is-open')) return;
+    if (event.target.closest('#toolbar-secondary, #options-toggle')) return;
+    setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toolbar.classList.contains('is-open')) {
+      setOpen(false);
+      optionsToggle.focus();
+    }
+  });
+}
+
+function setupHelpDialog() {
+  const dialog = document.getElementById('help-dialog');
+  const open = () => {
+    if (!dialog.open) dialog.showModal();
+    hideInteractionHint();
+  };
+  document.getElementById('help-toggle').addEventListener('click', open);
+  dialog.addEventListener('click', (event) => {
+    // Clicks on the backdrop land on the dialog element itself.
+    if (event.target === dialog) dialog.close();
+  });
+  document.addEventListener('keydown', (event) => {
+    const typing = event.target.closest?.('input, textarea, select, [contenteditable="true"]');
+    if (event.key === '?' && !typing && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      open();
+    }
+  });
 }
 
 function setupControls() {
   document.getElementById('zoom-out').addEventListener('click', () => zoomAt(currentScale / 1.25));
   document.getElementById('zoom-in').addEventListener('click', () => zoomAt(currentScale * 1.25));
   document.getElementById('fit-view').addEventListener('click', fitTimeline);
-  document.getElementById('reset-view').addEventListener('click', centreTimeline);
-  document.getElementById('help-toggle').addEventListener('click', showInteractionHint);
 
-  zoomSlider.addEventListener('input', () => zoomAt(mapSliderToScale(zoomSlider.value)));
+  zoomSlider.addEventListener('input', () => zoomAt(sliderToScale(zoomSlider.value)));
 
   ['peopleToggle', 'publicationsToggle', 'discoveriesToggle', 'conferencesToggle', 'significantEventsToggle'].forEach((id) => {
     document.getElementById(id).addEventListener('click', (event) => {
       togglePressed(event.currentTarget);
+      updateTapestryAvailability();
       render();
     });
   });
 
   document.getElementById('cartoonToggle').addEventListener('click', (event) => {
-    const useIllustrations = togglePressed(event.currentTarget);
-    updateScientistImages(useIllustrations);
+    updatePortraitStyle(togglePressed(event.currentTarget));
   });
 
   document.getElementById('tapestryToggle').addEventListener('click', (event) => {
+    if (event.currentTarget.getAttribute('aria-disabled') === 'true') return;
     const enabled = togglePressed(event.currentTarget);
     try { localStorage.setItem('paperTrailsTapestry', String(enabled)); } catch { /* Storage can be disabled. */ }
     render();
   });
 
-  const toolbar = document.querySelector('.timeline-toolbar');
-  const optionsToggle = document.getElementById('options-toggle');
-  optionsToggle.addEventListener('click', () => {
-    const isOpen = toolbar.classList.toggle('is-open');
-    optionsToggle.setAttribute('aria-expanded', String(isOpen));
-    optionsToggle.setAttribute('aria-label', isOpen ? 'Hide view options' : 'Show view options');
-    window.setTimeout(render, 0);
-  });
+  setupOptionsPopover();
+  setupHelpDialog();
 }
 
 function setupResizeHandler() {
@@ -356,12 +438,34 @@ function setupResizeHandler() {
     resizeTimer = window.setTimeout(() => {
       const oldWidth = timeline.offsetWidth || 1;
       const centreRatio = (timelineContainer.clientWidth / 2 - currentTranslateX) / oldWidth;
-      renderTimeline(timelineContainer, timeline, currentScale);
-      updateScientistImages(document.getElementById('cartoonToggle').getAttribute('aria-pressed') === 'true');
+      render();
       currentTranslateX = timelineContainer.clientWidth / 2 - centreRatio * timeline.offsetWidth;
       updateTransform();
     }, config.RESIZE_DEBOUNCE_DELAY);
   });
+}
+
+function showLoadError(error) {
+  const status = document.getElementById('timeline-loading');
+  // The live role and a finished busy state must be in place before the
+  // message is inserted, or screen readers may not announce it.
+  timelineContainer.setAttribute('aria-busy', 'false');
+  status.setAttribute('role', 'alert');
+  status.classList.add('is-error');
+  status.replaceChildren();
+
+  const heading = document.createElement('strong');
+  heading.textContent = 'The timeline could not be loaded.';
+  const detail = document.createElement('span');
+  detail.textContent = location.protocol === 'file:'
+    ? 'Browsers block data files opened directly from disk. Serve this folder over HTTP, for example with: python -m http.server 8000'
+    : `Check your connection and try again.${error?.message ? ` (${error.message})` : ''}`;
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.className = 'text-button';
+  retry.textContent = 'Try again';
+  retry.addEventListener('click', () => location.reload());
+  status.append(heading, detail, retry);
 }
 
 async function initializeApp() {
@@ -370,30 +474,38 @@ async function initializeApp() {
   zoomLevelDisplay = document.querySelector('.zoom-level');
   zoomSlider = document.getElementById('zoom-slider');
   interactionHint = document.getElementById('interaction-hint');
+  timelineStatus = document.getElementById('timeline-status');
 
   document.getElementById('timeline-range').textContent = `${config.START_YEAR}–${config.END_YEAR}`;
   initializeTheme();
   try {
     document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(localStorage.getItem('paperTrailsTapestry') === 'true'));
+    if (localStorage.getItem(HINT_STORAGE_KEY) === 'true') interactionHint.classList.add('is-hidden');
   } catch { /* Use the default text view when storage is unavailable. */ }
   setupModalEventListeners();
 
   try {
     await initializeData();
-    render();
-    setupControls();
-    setupPointerInteractions();
-    setupTooltips();
-    setupResizeHandler();
-    document.addEventListener('papertrails:detailsclosed', clearTimelineSelection);
-    document.addEventListener('papertrails:zoomcluster', (event) => focusYear(event.detail.year));
-    document.addEventListener('papertrails:locatescientist', (event) => {
-      focusScientist(event.detail.scientistId, event.detail.year);
-    });
-    hideInteractionHint(6500);
   } catch (error) {
-    console.error('Paper Trails failed to initialize:', error);
+    console.error('Paper Trails failed to load its data:', error);
+    showLoadError(error);
+    return;
   }
+
+  document.getElementById('timeline-loading').hidden = true;
+  timelineContainer.setAttribute('aria-busy', 'false');
+  render();
+  setupControls();
+  updateTapestryAvailability();
+  setupPointerInteractions();
+  setupTooltips();
+  setupResizeHandler();
+  document.addEventListener('papertrails:detailsclosed', clearTimelineSelection);
+  document.addEventListener('papertrails:zoomcluster', (event) => focusYear(event.detail.year));
+  document.addEventListener('papertrails:locatescientist', (event) => {
+    focusScientist(event.detail.scientistId, event.detail.year);
+  });
+  if (!interactionHint.classList.contains('is-hidden')) hideInteractionHint(6500);
 }
 
 if (document.readyState === 'loading') {

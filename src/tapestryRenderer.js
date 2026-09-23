@@ -1,5 +1,6 @@
-import { config } from './config.js?v=14';
+import { config } from './config.js?v=15';
 import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=3';
+import { yearToX } from './timeScale.js?v=1';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -42,7 +43,7 @@ function renderPanorama(button, scene, sceneWidth, artHeight, scale, explanation
 }
 
 export function layoutTapestry(events, width) {
-  const x = (year) => (year - config.START_YEAR) / config.YEAR_SPAN * width;
+  const x = (year) => yearToX(year, width);
   const laneEnds = [];
   const items = events.filter((event) => Number.isFinite(event.startYear)
     && Number.isFinite(event.endYear) && event.endYear >= event.startYear
@@ -83,6 +84,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'tapestry-scene';
+    button.dataset.itemKey = `event:${events.indexOf(event)}`;
     button.dataset.tooltip = explanation;
     button.dataset.startYear = event.startYear;
     button.dataset.endYear = event.endYear;
