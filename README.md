@@ -14,10 +14,10 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Optional Bayeux-style historical tapestry, with blended panoramas and additional narrative scenes revealed as you zoom
 - Clickable detail dialogs for scientists, publications, discoveries, conferences, and events
 - Hover highlighting that connects a scientist with their publications
-- Mouse, touch, and slider controls for panning and zooming
-- Adjustable timeline height
-- Optional cartoon portraits
-- Toggles for discoveries, conferences, and historical events
+- Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
+- Optional cartoon portraits, and initials for people with no verified portrait
+- Toggles for people, publications, discoveries, conferences, and historical events
+- A controls dialog listing every mouse, keyboard, and touch shortcut
 - Light and dark themes, with the preference saved in the browser
 
 ## Running locally
@@ -36,16 +36,17 @@ The application code, data, and YAML parser are stored in this repository, so an
 
 ## Using the timeline
 
-- Click and drag an empty part of the timeline to pan.
-- Scroll to pan vertically, or hold Shift while scrolling to pan horizontally.
-- Hold Ctrl while scrolling to zoom around the pointer, or use the zoom slider.
+- Click and drag an empty part of the timeline to pan, or scroll.
+- Hold Ctrl while scrolling, or pinch on a trackpad, to zoom around the pointer. The zoom buttons and slider zoom around the centre, and the readout beside them shows the years in view.
 - On a touch device, drag with one finger and pinch with two fingers.
-- Use the vertical slider on the right to change the timeline height.
-- Click the reset button to restore the default zoom, position, and height.
+- With the timeline focused, use the arrow keys to pan, plus and minus to zoom, and Home to fit the whole timeline. Tabbing to an item brings it into view.
+- Click **Fit timeline** to show the full range again.
 - Click a portrait or marker to see more information.
-- Use the Illustrations, Context, Conferences, and Discoveries switches to change what is displayed.
+- Use the layer buttons (People, Publications, Discoveries, Conferences, and Context) to change what is displayed. On narrower screens they are under the view options button.
+- Press <kbd>?</kbd> or click the help button to see every control.
 - Use the moon/sun button to switch themes.
-- Enable **Tapestry** in the toolbar (under view options on mobile) to replace context labels with a continuous illustrated ribbon. This preference is saved in your browser. **Context** still controls whether the entire historical layer is visible.
+- Short historical events are drawn as pins with their label alongside; hover or focus any band for its full title and dates.
+- Turn on **Tapestry** to replace context labels with a continuous illustrated ribbon. This preference is saved in your browser. **Context** still controls whether the entire historical layer is visible.
 - Tapestry scenes begin at the database's event start dates. Their picture windows extend to the next event's start; the stitched threads below show actual event durations, including overlaps. The panoramas fill those windows and blend into their neighbours. Zooming reveals additional narrative groups while keeping figures at a similar size. Hover different parts of a panorama for explanations of the depicted activities, or focus/select the event for accessible details. Drag the ribbon to pan.
 - The tapestry uses symbolic illustrations of all 21 current events, rather than depictions of additional dated incidents. Artwork provenance and the generation prompt are recorded in `images/tapestry/README.md`.
 
@@ -107,11 +108,13 @@ Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and 
 
 Conferences can also use `theorist_ids` to link intellectual contributors separately from attendees, as with Avogadro at Karlsruhe. Historical-map year labels can preserve approximate dates such as "late 1850s".
 
-Place portrait files under `images/` and cartoon variants under `images/cartoons/`. For filenames containing both a surname and given name, use surname-first order—`surname_givenname.ext`—so related people sort and scan predictably. Keep surname particles together, and use a surname-only filename when it is already unambiguous. Missing scientist portraits fall back to a theme-appropriate default image.
+Place portrait files under `images/` and cartoon variants under `images/cartoons/`. For filenames containing both a surname and given name, use surname-first order—`surname_givenname.ext`—so related people sort and scan predictably. Keep surname particles together, and use a surname-only filename when it is already unambiguous. People without a verified portrait can keep `images/default.png`; the timeline and details panel show their initials instead, with a note in the panel. Images that fail to load fall back to the photograph, then to initials.
 
 Cartoon portraits follow the repo-local [Paper Trails cartoon portrait skill](.agents/skills/papertrails-cartoon-portrait/SKILL.md). It defines the recognisable caricature house style, prompt structure, crop constraints, and acceptance checks. See the [collection audit](docs/cartoon-portrait-audit.md) for the current migration priorities.
 
-The displayed date range and layout constants can be changed in `src/config.js`. The timeline starts at `START_YEAR` and automatically ends at the browser's current year.
+The displayed date range and layout constants can be changed in `src/config.js`. Every horizontal position is calculated by `src/timeScale.js`.
+
+Run the unit tests with `node --test tools/*.test.mjs`. The timeline starts at `START_YEAR` and automatically ends at the browser's current year.
 
 ## Project structure
 
@@ -124,7 +127,11 @@ The displayed date range and layout constants can be changed in `src/config.js`.
 |   |-- config.js              Date range and display settings
 |   |-- dataLoader.js          YAML loading
 |   |-- modalManager.js        Detail dialogs
-|   |-- themeManager.js        Theme selection and image fallbacks
+|   |-- portraits.js           Portrait selection and initials fallbacks
+|   |-- tapestryRenderer.js    Tapestry ribbon layout
+|   |-- tapestryScenes.js      Tapestry artwork atlas
+|   |-- themeManager.js        Theme selection
+|   |-- timeScale.js           Year-to-position and zoom slider scales
 |   `-- timelineRenderer.js    Timeline element rendering
 |-- data/                      Timeline content in YAML
 `-- images/                    Photographic and cartoon portraits

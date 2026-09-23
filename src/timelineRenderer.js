@@ -1,17 +1,22 @@
-import { config } from './config.js?v=14';
+import { config } from './config.js?v=15';
 import { scientists, discoveries, conferences, significantEvents } from './dataLoader.js?v=17';
-import { showPublicationModal, showScientistModal } from './modalManager.js?v=21';
-import { handleImageError } from './themeManager.js?v=17';
-import { renderTapestry } from './tapestryRenderer.js?v=3';
+import { showPublicationModal, showScientistModal } from './modalManager.js?v=22';
+import { renderTapestry } from './tapestryRenderer.js?v=4';
+import { yearToX } from './timeScale.js?v=1';
+import { createPortrait } from './portraits.js?v=1';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+const EVENT_LABEL_FONT = '650 11px';
+const EVENT_LABEL_PADDING = 12;
+const EVENT_PIN_GAP = 5;
+
+// Timeline items are rebuilt on every zoom, so selection is tracked by a stable
+// item key rather than by element.
+let selectedItemKey = null;
+let measureContext = null;
 
 function isLayerVisible(id) {
   return document.getElementById(id)?.getAttribute('aria-pressed') !== 'false';
-}
-
-function yearToX(year, width) {
-  return ((year - config.START_YEAR) / config.YEAR_SPAN) * width;
 }
 
 function createSvgLine(className, x1, y1, x2, y2) {
@@ -24,13 +29,33 @@ function createSvgLine(className, x1, y1, x2, y2) {
   return line;
 }
 
-function selectItem(element) {
-  document.querySelectorAll('.timeline .is-selected').forEach((item) => item.classList.remove('is-selected'));
-  element.classList.add('is-selected');
+function measureText(text, font) {
+  if (!measureContext) measureContext = document.createElement('canvas').getContext('2d');
+  measureContext.font = `${font} ${getComputedStyle(document.body).fontFamily}`;
+  return measureContext.measureText(text).width;
+}
+
+function applySelection(timeline) {
+  timeline.querySelectorAll('.is-selected').forEach((item) => item.classList.remove('is-selected'));
+  if (!selectedItemKey) return null;
+  const element = timeline.querySelector(`[data-item-key="${CSS.escape(selectedItemKey)}"]`);
+  element?.classList.add('is-selected');
+  return element;
+}
+
+export function selectItem(element) {
+  selectedItemKey = element?.dataset.itemKey || null;
+  applySelection(document.getElementById('timeline'));
+}
+
+export function selectItemByKey(itemKey) {
+  selectedItemKey = itemKey || null;
+  return applySelection(document.getElementById('timeline'));
 }
 
 export function clearTimelineSelection() {
-  document.querySelectorAll('.timeline .is-selected').forEach((item) => item.classList.remove('is-selected'));
+  selectedItemKey = null;
+  applySelection(document.getElementById('timeline'));
 }
 
 export function highlightScientistGroup(scientistId) {
@@ -59,6 +84,9 @@ function renderAxis(timeline, svg, width, height, axisY) {
   axis.style.top = `${axisY - 1}px`;
   timeline.appendChild(axis);
 
+  const endX = yearToX(config.END_YEAR, width);
+  const endLabelWidth = measureText(String(config.END_YEAR), '700 11px');
+
   const addYear = (year, isCurrent = false) => {
     const x = yearToX(year, width);
     const isCentury = year % 100 === 0;
@@ -76,17 +104,21 @@ function renderAxis(timeline, svg, width, height, axisY) {
     marker.style.top = `${axisY}px`;
     timeline.appendChild(marker);
 
+    if (isCentury) {
+      const gridLine = createSvgLine('century-grid', x, 0, x, height);
+      svg.appendChild(gridLine);
+    }
+
+    // The right-aligned end label would otherwise run into a nearby tick label.
+    const labelHalfWidth = measureText(String(year), '700 11px') / 2;
+    if (!isCurrent && year !== config.END_YEAR && x + labelHalfWidth + 8 > endX - endLabelWidth) return;
+
     const label = document.createElement('span');
     label.className = `year-label ${classes.join(' ')}`;
     label.style.left = `${x}px`;
     label.style.top = `${axisY + 18}px`;
     label.textContent = String(year);
     timeline.appendChild(label);
-
-    if (isCentury) {
-      const gridLine = createSvgLine('century-grid', x, 0, x, height);
-      svg.appendChild(gridLine);
-    }
   };
 
   const lastDecade = Math.floor(config.END_YEAR / 10) * 10;
@@ -105,10 +137,11 @@ function renderPublications(timeline, width, axisY, coordinates) {
   const offsetsByYear = new Map();
 
   Object.entries(scientists).forEach(([scientistId, scientist]) => {
-    [...(scientist.publications || [])]
-      .filter((publication) => Number.isFinite(publication.year))
-      .sort((a, b) => a.year - b.year)
-      .forEach((publication) => {
+    (scientist.publications || [])
+      .map((publication, index) => ({ publication, index }))
+      .filter(({ publication }) => Number.isFinite(publication.year))
+      .sort((a, b) => a.publication.year - b.publication.year)
+      .forEach(({ publication, index }) => {
         const offsetIndex = offsetsByYear.get(publication.year) || 0;
         offsetsByYear.set(publication.year, offsetIndex + 1);
         const x = Math.max(7, Math.min(width - 7, yearToX(publication.year, width) + offsetIndex * 7));
@@ -120,6 +153,7 @@ function renderPublications(timeline, width, axisY, coordinates) {
         marker.type = 'button';
         marker.className = 'publication';
         marker.dataset.scientistId = scientistId;
+        marker.dataset.itemKey = `publication:${scientistId}:${index}`;
         marker.dataset.tooltip = `${publication.title || 'Untitled publication'} · ${publication.year}`;
         marker.setAttribute('aria-label', `${publication.title || 'Untitled publication'}, by ${scientist.name || 'unknown author'}, ${publication.year}`);
         marker.style.left = `${x - 14}px`;
@@ -216,21 +250,15 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     node.type = 'button';
     node.className = 'scientist-node';
     node.dataset.scientistId = id;
+    node.dataset.itemKey = `scientist:${id}`;
     node.dataset.tooltip = `${scientist.name || 'Unknown scientist'} · first listed work ${firstPublication.year}`;
     node.setAttribute('aria-label', `${scientist.name || 'Unknown scientist'}, scientist details`);
     node.style.left = `${centerX - nodeSize / 2}px`;
     node.style.top = `${centerY - nodeSize / 2}px`;
     node.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
 
-    const photo = document.createElement('img');
-    photo.className = 'scientist-photo';
-    photo.alt = '';
-    photo.loading = 'lazy';
-    photo.draggable = false;
-    photo.dataset.originalPhoto = scientist.photo || 'images/default.png';
-    if (scientist.cartoon) photo.dataset.cartoonPhoto = scientist.cartoon;
-    photo.src = scientist.photo || 'images/default.png';
-    photo.addEventListener('error', () => handleImageError(photo));
+    const photo = createPortrait(scientist, 'scientist-photo');
+    if (photo instanceof HTMLImageElement) photo.loading = 'lazy';
     node.appendChild(photo);
 
     node.addEventListener('mouseenter', () => highlightScientistGroup(id));
@@ -239,7 +267,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     node.addEventListener('blur', () => unhighlightScientistGroup(id));
     node.addEventListener('click', () => {
       selectItem(node);
-      showScientistModal(id);
+      showScientistModal(id, { fromTimeline: true });
     });
     timeline.appendChild(node);
 
@@ -257,10 +285,10 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
 function renderMilestones(timeline, svg, width, axisY, contextTop) {
   const milestones = [
     ...(isLayerVisible('discoveriesToggle')
-      ? discoveries.map((item) => ({ item, type: 'discovery' }))
+      ? discoveries.map((item, index) => ({ item, index, type: 'discovery' }))
       : []),
     ...(isLayerVisible('conferencesToggle')
-      ? conferences.map((item) => ({ item, type: 'conference' }))
+      ? conferences.map((item, index) => ({ item, index, type: 'conference' }))
       : [])
   ];
   if (!milestones.length) return;
@@ -274,7 +302,7 @@ function renderMilestones(timeline, svg, width, axisY, contextTop) {
   milestones
     .filter(({ item }) => Number.isFinite(item.year))
     .sort((a, b) => a.item.year - b.item.year)
-    .forEach(({ item, type }) => {
+    .forEach(({ item, index, type }) => {
       const actualX = yearToX(item.year, width);
       let level = lastEndByLevel.findIndex((lastEnd) => actualX - markerSize / 2 > lastEnd + 10);
       if (level === -1) level = lastEndByLevel.indexOf(Math.min(...lastEndByLevel));
@@ -285,6 +313,7 @@ function renderMilestones(timeline, svg, width, axisY, contextTop) {
       const marker = document.createElement('button');
       marker.type = 'button';
       marker.className = `${type}-marker`;
+      marker.dataset.itemKey = `${type}:${index}`;
       const fallbackTitle = type === 'conference' ? 'Untitled conference' : 'Untitled discovery';
       marker.dataset.tooltip = `${item.title || fallbackTitle} · ${item.year}`;
       marker.setAttribute('aria-label', `${item.title || fallbackTitle}, ${item.year}`);
@@ -316,62 +345,106 @@ function renderMilestones(timeline, svg, width, axisY, contextTop) {
     });
 }
 
+// Chooses how an event band shows its title. Titles never cross a band's
+// edges: a band either contains its label, carries it alongside as a pin, or
+// relies on its tooltip.
+export function planEventLabel(bandWidth, fullWidth, shortWidth) {
+  if (fullWidth + EVENT_LABEL_PADDING <= bandWidth) return { mode: 'inside', useShort: false, extent: 0 };
+  if (shortWidth + EVENT_LABEL_PADDING <= bandWidth) return { mode: 'inside', useShort: true, extent: 0 };
+  return { mode: 'pin', useShort: true, extent: EVENT_PIN_GAP + shortWidth + EVENT_LABEL_PADDING };
+}
+
+export function findFreeLevel(occupiedLevels, start, end) {
+  return occupiedLevels.findIndex((intervals) => intervals.every((interval) => end <= interval.start || start >= interval.end));
+}
+
+// Assigns each event a row. Labels are dropped before rows are added, and
+// rows are added rather than letting bands overlap.
+export function layoutEventRows(items, comfortableRows) {
+  const occupiedLevels = [[]];
+  const placements = items.map((item) => {
+    let plan = item.plan;
+    let level = findFreeLevel(occupiedLevels, item.startX, item.startX + item.bandWidth + plan.extent + 4);
+    if (level === -1 && plan.mode === 'pin') {
+      if (occupiedLevels.length < comfortableRows) {
+        level = occupiedLevels.push([]) - 1;
+      } else {
+        // Without room for a pinned label, the band keeps only its tooltip.
+        plan = { mode: 'none', useShort: true, extent: 0 };
+        level = findFreeLevel(occupiedLevels, item.startX, item.startX + item.bandWidth + 4);
+      }
+    }
+    if (level === -1) level = occupiedLevels.push([]) - 1;
+    occupiedLevels[level].push({ start: item.startX, end: item.startX + item.bandWidth + plan.extent + 4 });
+    return { ...item, plan, level };
+  });
+  return { placements, rows: occupiedLevels.length };
+}
+
 function renderEvents(timeline, width, height, contextTop) {
   if (!isLayerVisible('significantEventsToggle')) return;
 
-  const bandHeight = 30;
-  const levelGap = 36;
-  const availableLevels = Math.max(1, Math.floor((height - contextTop - bandHeight) / levelGap) + 1);
-  const occupiedLevels = Array.from({ length: availableLevels }, () => []);
+  const laneTop = contextTop + 8;
+  const laneHeight = height - laneTop - 8;
+  const idealBandHeight = 30;
+  const idealGap = 36;
+  const comfortableRows = Math.max(1, Math.floor((laneHeight - idealBandHeight) / idealGap) + 1);
 
-  [...significantEvents]
-    .filter((event) => Number.isFinite(event.startYear) && Number.isFinite(event.endYear) && event.endYear >= event.startYear)
-    .sort((a, b) => a.startYear - b.startYear)
-    .forEach((event) => {
+  const items = significantEvents
+    .map((event, index) => ({ event, index }))
+    .filter(({ event }) => Number.isFinite(event.startYear) && Number.isFinite(event.endYear) && event.endYear >= event.startYear)
+    .sort((a, b) => a.event.startYear - b.event.startYear)
+    .map(({ event, index }) => {
       const startX = yearToX(event.startYear, width);
-      const endX = yearToX(event.endYear, width);
+      const bandWidth = Math.max(2, yearToX(event.endYear, width) - startX);
       const fullTitle = event.title || 'Historical event';
       const shortTitle = event.shortTitle || fullTitle;
-      const centreX = (startX + endX) / 2;
-      const fullTitleWidth = fullTitle.length * 6.5 + 12;
-      const shortTitleWidth = shortTitle.length * 6.5 + 12;
-      const minimumLabelWidth = Math.max(24, fullTitleWidth, shortTitleWidth);
-      const labelStartX = Math.max(0, Math.min(startX, centreX - minimumLabelWidth / 2));
-      const labelEndX = Math.min(width, Math.max(endX, centreX + minimumLabelWidth / 2));
-      let level = occupiedLevels.findIndex((intervals) => intervals.every((interval) => labelEndX <= interval.start || labelStartX >= interval.end));
-      if (level === -1) level = occupiedLevels.length - 1;
-      occupiedLevels[level].push({ start: labelStartX, end: labelEndX });
+      const plan = planEventLabel(bandWidth, measureText(fullTitle, EVENT_LABEL_FONT), measureText(shortTitle, EVENT_LABEL_FONT));
+      return { event, index, startX, bandWidth, fullTitle, shortTitle, plan };
+    });
 
-      const band = document.createElement('button');
-      band.type = 'button';
-      band.className = 'event-band';
-      band.dataset.fullTitle = fullTitle;
-      band.dataset.shortTitle = shortTitle;
-      band.dataset.tooltip = `${fullTitle} · ${event.startYear}–${event.endYear}`;
-      band.setAttribute('aria-label', `${fullTitle}, ${event.startYear} to ${event.endYear}`);
-      band.style.left = `${startX}px`;
-      band.style.top = `${contextTop + level * levelGap}px`;
-      band.style.width = `${Math.max(2, endX - startX)}px`;
-      band.style.height = `${bandHeight}px`;
+  const { placements, rows } = layoutEventRows(items, comfortableRows);
+  // Extra rows are squeezed into the lane rather than hidden below it.
+  const levelGap = rows > 1 ? Math.min(idealGap, (laneHeight - idealBandHeight * 0.6) / (rows - 1)) : idealGap;
+  const bandHeight = Math.max(12, Math.min(idealBandHeight, levelGap - 4));
 
+  placements.forEach(({ event, index, startX, bandWidth, fullTitle, shortTitle, plan, level }) => {
+    if (bandHeight < 20 && plan.mode !== 'none') plan = { ...plan, mode: plan.mode === 'inside' ? 'inside' : 'none' };
+    const band = document.createElement('button');
+    band.type = 'button';
+    band.className = `event-band label-${plan.mode}`;
+    band.dataset.itemKey = `event:${index}`;
+    band.dataset.fullTitle = fullTitle;
+    band.dataset.shortTitle = shortTitle;
+    band.dataset.tooltip = `${fullTitle} · ${event.startYear}–${event.endYear}`;
+    band.setAttribute('aria-label', `${fullTitle}, ${event.startYear} to ${event.endYear}`);
+    band.style.left = `${startX}px`;
+    band.style.top = `${laneTop + level * levelGap}px`;
+    band.style.width = `${bandWidth}px`;
+    band.style.height = `${bandHeight}px`;
+
+    if (plan.mode !== 'none') {
       const eventTitle = document.createElement('span');
       eventTitle.className = 'event-title';
-      eventTitle.textContent = fullTitle;
+      eventTitle.textContent = plan.useShort ? shortTitle : fullTitle;
+      eventTitle.setAttribute('aria-hidden', 'true');
+      if (plan.mode === 'pin') eventTitle.style.left = `${bandWidth + EVENT_PIN_GAP}px`;
       band.appendChild(eventTitle);
-      band.addEventListener('click', () => {
-        selectItem(band);
-        showPublicationModal(
-          'Historical context',
-          `${event.startYear}–${event.endYear}`,
-          event.title,
-          event.details,
-          'event',
-          [],
-          event.attendee_ids
-        );
-      });
-      timeline.appendChild(band);
+    }
+    band.addEventListener('click', () => {
+      selectItem(band);
+      showPublicationModal(
+        'Historical context',
+        `${event.startYear}–${event.endYear}`,
+        event.title,
+        event.details,
+        'event',
+        [],
+        event.attendee_ids
+      );
     });
+    timeline.appendChild(band);
+  });
 }
 
 export function updateScalePresentation(timeline, scale) {
@@ -382,12 +455,14 @@ export function updateScalePresentation(timeline, scale) {
   timeline.dataset.zoomTier = safeScale < 1.5 ? 'overview' : safeScale < 3 ? 'standard' : 'detail';
 }
 
+// Keeps titles of long bands visible while panning, without ever letting a
+// title escape the band that contains it.
 export function updateEventLabelPositions(timeline, timelineContainer) {
   if (!timeline || !timelineContainer) return;
 
   const viewportRect = timelineContainer.getBoundingClientRect();
 
-  timeline.querySelectorAll('.event-band').forEach((band) => {
+  timeline.querySelectorAll('.event-band.label-inside').forEach((band) => {
     const label = band.querySelector('.event-title');
     if (!label) return;
 
@@ -399,16 +474,22 @@ export function updateEventLabelPositions(timeline, timelineContainer) {
     if (label.hidden) return;
 
     label.textContent = band.dataset.fullTitle || 'Historical event';
-    const availableWidth = Math.max(0, Math.min(band.clientWidth, visibleWidth) - 12);
-    if (label.getBoundingClientRect().width > availableWidth) {
+    const fitWidth = Math.min(band.clientWidth, visibleWidth) - EVENT_LABEL_PADDING;
+    if (label.getBoundingClientRect().width > fitWidth || label.getBoundingClientRect().width > band.clientWidth - EVENT_LABEL_PADDING) {
       label.textContent = band.dataset.shortTitle || label.textContent;
     }
 
     const labelWidth = label.getBoundingClientRect().width;
     const centredLeft = visibleLeft + (visibleWidth - labelWidth) / 2;
-    const clampedLeft = Math.max(viewportRect.left + 4, Math.min(viewportRect.right - labelWidth - 4, centredLeft));
+    const minimumLeft = bandRect.left + EVENT_LABEL_PADDING / 2;
+    const maximumLeft = bandRect.right - labelWidth - EVENT_LABEL_PADDING / 2;
+    const clampedLeft = Math.max(minimumLeft, Math.min(maximumLeft, centredLeft));
     label.style.left = `${clampedLeft - bandRect.left}px`;
   });
+}
+
+export function getLaneGeometry(height) {
+  return { axisY: Math.round(height * 0.42), contextTop: Math.round(height * 0.69) };
 }
 
 export function renderTimeline(timelineContainer, timeline, scale = 1) {
@@ -419,11 +500,16 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   if (!containerWidth || !height) return;
 
   const width = Math.max(containerWidth, Math.round(containerWidth * Math.max(1, scale)));
-  const axisY = height * 0.42;
-  const contextTop = height * 0.69;
+  const { axisY, contextTop } = getLaneGeometry(height);
   timeline.replaceChildren();
   timeline.style.width = `${width}px`;
   timeline.style.height = `${height}px`;
+
+  // Lane labels and backgrounds are positioned from the same measurements.
+  const frame = timelineContainer.closest('.timeline-frame');
+  frame?.style.setProperty('--lane-height', `${height}px`);
+  frame?.style.setProperty('--axis-y', `${axisY}px`);
+  frame?.style.setProperty('--context-top', `${contextTop}px`);
 
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.classList.add('timeline-svg');
@@ -447,5 +533,6 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
     renderEvents(timeline, width, height, contextTop);
   }
   updateScalePresentation(timeline, scale);
+  applySelection(timeline);
   updateEventLabelPositions(timeline, timelineContainer);
 }

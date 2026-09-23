@@ -1,4 +1,5 @@
 import { scientists } from './dataLoader.js?v=17';
+import { createPortrait, getPortraitSource } from './portraits.js?v=1';
 
 let panel;
 let backdrop;
@@ -9,7 +10,7 @@ let identity;
 let metadata;
 let body;
 let media;
-let image;
+let portraitNote;
 let lastFocusedElement = null;
 let closeTimer = null;
 
@@ -23,9 +24,9 @@ function fetchElements() {
   metadata = document.getElementById('detail-metadata');
   body = document.getElementById('detail-body');
   media = document.getElementById('detail-media');
-  image = document.getElementById('detail-image');
+  portraitNote = document.getElementById('detail-portrait-note');
 
-  return Boolean(panel && backdrop && closeButton && eyebrow && title && identity && metadata && body && media && image);
+  return Boolean(panel && backdrop && closeButton && eyebrow && title && identity && metadata && body && media && portraitNote);
 }
 
 function renderMetadata(items) {
@@ -179,10 +180,13 @@ function getScientistSurname(scientist) {
     .pop();
 }
 
-function createScientistGrid(scientistIds, headingText, countNoun) {
+// People can be passed as ids or as { id, role } objects. The first role
+// given for a person wins, so callers list the primary role first.
+function createScientistGrid(people, headingText, countNoun) {
   const seenScientistIds = new Set();
-  const linkedScientists = (Array.isArray(scientistIds) ? scientistIds : [])
-    .map((scientistId) => [scientistId, scientists[scientistId]])
+  const linkedScientists = (Array.isArray(people) ? people : [])
+    .map((person) => (typeof person === 'string' ? { id: person } : person))
+    .map(({ id, role }) => [id, scientists[id], role])
     .filter(([scientistId, scientist]) => {
       if (!scientist || seenScientistIds.has(scientistId)) return false;
       seenScientistIds.add(scientistId);
@@ -221,34 +225,27 @@ function createScientistGrid(scientistIds, headingText, countNoun) {
 
   const list = document.createElement('ul');
   list.className = 'detail-person-grid';
-  linkedScientists.forEach(([scientistId, scientist]) => {
+  linkedScientists.forEach(([scientistId, scientist, role]) => {
     const item = document.createElement('li');
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'detail-person-link';
     button.setAttribute('aria-label', `Open scientist profile for ${scientist.name}`);
 
-    const portrait = document.createElement('img');
-    portrait.className = 'detail-person-portrait';
-    portrait.src = scientist.cartoon || scientist.photo || 'images/default.png';
-    portrait.alt = '';
-    portrait.decoding = 'async';
-    portrait.loading = 'eager';
-    portrait.addEventListener('error', () => {
-      if (portrait.src.endsWith('/default.png')) {
-        portrait.src = portrait.src;
-      } else if (scientist.photo && portrait.src !== scientist.photo) {
-        portrait.src = scientist.photo;
-      } else {
-        portrait.src = 'images/default.png';
-      }
-    });
+    const portrait = createPortrait(scientist, 'detail-person-portrait');
 
     const name = document.createElement('span');
     name.className = 'detail-person-name';
     name.textContent = scientist.name;
 
     button.append(portrait, name);
+    if (role) {
+      const roleLabel = document.createElement('span');
+      roleLabel.className = 'detail-person-role';
+      roleLabel.textContent = role;
+      button.appendChild(roleLabel);
+      button.setAttribute('aria-label', `Open scientist profile for ${scientist.name}, ${role.toLowerCase()}`);
+    }
     button.addEventListener('click', () => showScientistModal(scientistId));
     item.appendChild(button);
     list.appendChild(item);
@@ -304,11 +301,28 @@ function getIdentityLine(scientist) {
   return [scientist.nationality, lifespan, age !== null ? `aged ${age}` : null].filter(Boolean).join(' · ');
 }
 
+// Publication abstracts are listed separately, so they are not reused here.
 function getScientistSummary(scientist) {
-  return scientist.summary
-    || scientist.details
-    || scientist.publications?.find((publication) => publication.abstract)?.abstract
-    || 'No biographical summary is available yet.';
+  return scientist.summary || scientist.details || null;
+}
+
+// True when the free-text discoverer names people who are not linked
+// scientists, so the text still carries information the portraits do not.
+export function hasUnlinkedDiscoverers(discovererText, linkedNames) {
+  let remainder = String(discovererText || '');
+  if (/\bothers\b/i.test(remainder)) return true;
+  // Match word by word, because texts often shorten names ("Arno Penzias"
+  // for "Arno A. Penzias").
+  linkedNames.filter(Boolean).forEach((name) => {
+    name.replace(/[()]/g, ' ').split(/\s+/).filter((word) => word.replace(/\W/g, '').length > 2).forEach((word) => {
+      remainder = remainder.split(word).join(' ');
+    });
+  });
+  // Initials and joining words alone do not name anyone.
+  return remainder
+    .replace(/\b(and|with)\b/gi, ' ')
+    .split(/[\s,;&·()]+/)
+    .some((word) => word.replace(/[^\p{L}]/gu, '').length > 1);
 }
 
 function createAcademicPlaceholderCoat() {
@@ -526,12 +540,13 @@ export function showPublicationModal(
     ? createScientistGrid(attendeeIds, 'Attendees', 'attendee')
     : type === 'discovery'
       ? createScientistGrid([
-        ...(Array.isArray(scientistIds) ? scientistIds : []),
-        ...(Array.isArray(theoristIds) ? theoristIds : [])
+        ...(Array.isArray(scientistIds) ? scientistIds : []).map((id) => ({ id, role: 'Discoverer' })),
+        ...(Array.isArray(theoristIds) ? theoristIds : []).map((id) => ({ id, role: 'Theorist' }))
       ], 'Scientists', 'scientist')
       : null;
   if (peopleGrid) body.appendChild(peopleGrid);
   media.hidden = true;
+  portraitNote.hidden = true;
   metadata.hidden = false;
 
   if (type === 'event') {
@@ -543,11 +558,15 @@ export function showPublicationModal(
   } else {
     const itemMetadata = [];
     if (type === 'discovery') {
-      itemMetadata.push(['Discoverer', createScientistLinks(scientistIds, actorName)]);
+      // The portrait grid already names linked discoverers and theorists.
+      const linkedNames = (Array.isArray(scientistIds) ? scientistIds : []).map((id) => scientists[id]?.name);
+      if (!peopleGrid || hasUnlinkedDiscoverers(actorName, linkedNames)) {
+        itemMetadata.push(['Discoverer', actorName || 'Not recorded']);
+      }
     } else if (type === 'publication') {
       itemMetadata.push(['Author', createScientistLinks(scientistIds, actorName)]);
     }
-    if (Array.isArray(theoristIds) && theoristIds.length) {
+    if (type !== 'discovery' && Array.isArray(theoristIds) && theoristIds.length) {
       itemMetadata.push(['Theorists', createScientistLinks(theoristIds, '')]);
     }
     if (type !== 'conference' && Array.isArray(attendeeIds) && attendeeIds.length) {
@@ -567,7 +586,7 @@ export function showPublicationModal(
   openPanel();
 }
 
-export function showScientistModal(scientistId) {
+export function showScientistModal(scientistId, { fromTimeline = false } = {}) {
   const scientist = scientists[scientistId];
   if (!scientist || (!panel && !fetchElements())) return;
 
@@ -578,17 +597,27 @@ export function showScientistModal(scientistId) {
   metadata.replaceChildren();
   metadata.hidden = true;
 
-  const summary = document.createElement('p');
-  summary.className = 'detail-summary';
-  summary.textContent = getScientistSummary(scientist);
+  const summaryText = getScientistSummary(scientist);
+  let summary = null;
+  if (summaryText) {
+    summary = document.createElement('p');
+    summary.className = 'detail-summary';
+    summary.textContent = summaryText;
+  }
 
   const academicAffiliations = createAcademicAffiliations(scientist);
-  const locateAction = createLocateAction(scientistId, scientist);
+  // Items opened from the timeline are already selected and in view.
+  const locateAction = fromTimeline ? null : createLocateAction(scientistId, scientist);
   body.replaceChildren(...[academicAffiliations, summary, createPublicationList(scientistId, scientist), locateAction].filter(Boolean));
-  image.src = scientist.photo || 'images/default.png';
-  image.alt = scientist.name ? `Portrait of ${scientist.name}` : 'Scientist portrait';
+
+  const portrait = createPortrait(scientist, 'detail-portrait');
+  if (portrait instanceof HTMLImageElement) {
+    portrait.alt = scientist.name ? `Portrait of ${scientist.name}` : 'Scientist portrait';
+  }
+  media.replaceChildren(portrait);
   media.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
   media.hidden = false;
+  portraitNote.hidden = Boolean(getPortraitSource(scientist));
   openPanel();
 }
 
