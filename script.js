@@ -1,6 +1,6 @@
 import { config } from './src/config.js?v=15';
 import { initializeData } from './src/dataLoader.js?v=17';
-import { initializeTheme } from './src/themeManager.js?v=17';
+import { initializeTheme } from './src/themeManager.js?v=18';
 import { setupModalEventListeners } from './src/modalManager.js?v=22';
 import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=22';
 import { scaleToSlider, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=1';

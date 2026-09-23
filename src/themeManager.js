@@ -21,7 +21,7 @@ function saveTheme(theme) {
 
 export function applyTheme(theme) {
   const isDark = theme === 'dark';
-  const pageBackground = isDark ? '#0b1220' : '#f3f5f8';
+  const pageBackground = isDark ? '#14110d' : '#f3ede1';
   const root = document.documentElement;
   const body = document.body;
   const themeName = isDark ? 'dark' : 'light';
