@@ -1,10 +1,10 @@
 import { config } from './src/config.js?v=15';
-import { initializeData } from './src/dataLoader.js?v=17';
+import { initializeData } from './src/dataLoader.js?v=18';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { setupModalEventListeners } from './src/modalManager.js?v=23';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=23';
+import { setupModalEventListeners } from './src/modalManager.js?v=24';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=24';
 import { scaleToSlider, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=1';
-import { updatePortraitStyle } from './src/portraits.js?v=1';
+import { updatePortraitStyle } from './src/portraits.js?v=2';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 
@@ -159,11 +159,17 @@ function focusScientist(scientistId, year) {
   node?.focus({ preventScroll: true });
 }
 
-// Pans just enough to bring a keyboard-focused item into view.
-function revealElement(element) {
+// Pans just enough to bring an item into view. Items opened from the panel
+// are centred instead, since they may be far away.
+function revealElement(element, { centre = false } = {}) {
   const containerRect = timelineContainer.getBoundingClientRect();
   const rect = element.getBoundingClientRect();
   const padding = Math.min(64, containerRect.width / 6);
+  if (centre && (rect.right < containerRect.left + padding || rect.left > containerRect.right - padding)) {
+    currentTranslateX += containerRect.left + containerRect.width / 2 - (rect.left + rect.width / 2);
+    updateTransform();
+    return;
+  }
   if (rect.left < containerRect.left + padding) {
     currentTranslateX += containerRect.left + padding - rect.left;
   } else if (rect.right > containerRect.right - padding) {
@@ -454,17 +460,32 @@ function setupControls() {
   setupHelpDialog();
 }
 
+// Re-lays out whenever the canvas changes size, including when the details
+// panel docks beside it, keeping the same years centred.
 function setupResizeHandler() {
-  window.addEventListener('resize', () => {
+  let lastWidth = timelineContainer.clientWidth;
+  let lastHeight = timelineContainer.clientHeight;
+  let centreRatio = null;
+  const relayout = () => {
+    const ratio = centreRatio ?? 0.5;
+    centreRatio = null;
+    lastWidth = timelineContainer.clientWidth;
+    lastHeight = timelineContainer.clientHeight;
+    render();
+    currentTranslateX = timelineContainer.clientWidth / 2 - ratio * timeline.offsetWidth;
+    updateTransform();
+    const selected = timeline.querySelector('.is-selected');
+    if (selected) revealElement(selected);
+  };
+  new ResizeObserver(() => {
+    if (timelineContainer.clientWidth === lastWidth && timelineContainer.clientHeight === lastHeight) return;
+    // Remember the centre from the layout before the first size change.
+    if (centreRatio === null) {
+      centreRatio = (lastWidth / 2 - currentTranslateX) / (timeline.offsetWidth || 1);
+    }
     clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(() => {
-      const oldWidth = timeline.offsetWidth || 1;
-      const centreRatio = (timelineContainer.clientWidth / 2 - currentTranslateX) / oldWidth;
-      render();
-      currentTranslateX = timelineContainer.clientWidth / 2 - centreRatio * timeline.offsetWidth;
-      updateTransform();
-    }, config.RESIZE_DEBOUNCE_DELAY);
-  });
+    resizeTimer = window.setTimeout(relayout, 60);
+  }).observe(timelineContainer);
 }
 
 function showLoadError(error) {
@@ -523,6 +544,12 @@ async function initializeApp() {
   setupTooltips();
   setupResizeHandler();
   document.addEventListener('papertrails:detailsclosed', clearTimelineSelection);
+  // Items opened from inside the panel are selected and brought into view.
+  document.addEventListener('papertrails:itemopened', (event) => {
+    if (event.detail.fromTimeline) return;
+    const element = selectItemByKey(event.detail.key);
+    if (element) revealElement(element, { centre: true });
+  });
   // Groups always zoom in further, never back out to the default detail level.
   document.addEventListener('papertrails:zoomcluster', (event) => {
     focusYear(event.detail.year, Math.max(2.5, currentScale * 2.5));

@@ -12,8 +12,8 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
 - Optional Bayeux-style historical tapestry, with blended panoramas and additional narrative scenes revealed as you zoom
-- Clickable detail dialogs for scientists, publications, discoveries, conferences, and events
-- Hover highlighting that connects a scientist with their publications
+- A details panel for scientists, publications, discoveries, conferences, and events. On wide screens it docks beside the timeline, which stays usable; on phones it opens as a sheet. It links related items in both directions, keeps a Back history, and offers further reading and citations
+- Hovering or selecting an item draws its connections: a scientist's discoveries, conferences, and events, with their lifespan shown as a bar, or the people linked to a discovery or conference
 - Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
 - Optional cartoon portraits, and initials for people with no verified portrait
 - Toggles for people, publications, discoveries, conferences, and historical events
@@ -72,6 +72,9 @@ example_id:
   nationality: "English"
   birth: "1900-01-01"
   death: "1980-01-01"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Example_Scientist"
   academic_affiliations:
     - institution: "Example University"
       association: "Student and later professor"
@@ -80,7 +83,11 @@ example_id:
     - year: 1930
       title: "Example Paper"
       abstract: "A short description of the work."
+      doi: "10.1000/example"
+      source: "https://example.org/paper"
 ```
+
+`links` is an optional list of `label` and `url` pairs shown as further reading. Publications can optionally include a `doi` and a `source` URL, which the details panel links and includes in copied citations.
 
 `notability` is optional: `1` marks household names, `2` (the default) everyone else, and `3` people of mainly specialist interest. It decides whose faces represent a group, who is named on the timeline before zooming in fully, and search ranking.
 

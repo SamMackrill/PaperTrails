@@ -13,7 +13,8 @@ import {
   planLanes
 } from '../src/timelineLayout.js';
 import { getInitials, isPlaceholderImage } from '../src/portraits.js';
-import { hasUnlinkedDiscoverers } from '../src/modalManager.js';
+import { formatCitation, hasUnlinkedDiscoverers } from '../src/modalManager.js';
+import { buildScientistRelations } from '../src/dataLoader.js';
 
 test('year and x positions convert in both directions', () => {
   for (const width of [320, 1325, 21200]) {
@@ -130,4 +131,26 @@ test('lanes give context and milestones what they need within limits', () => {
   assert.ok(capped.axisY >= 700 * 0.29);
   const hidden = planLanes({ height: 700, milestonesNeed: 150, contextNeed: 0, contextVisible: false });
   assert.equal(hidden.contextTop, 700);
+});
+
+test('relations index discoveries, conferences, and events by scientist', () => {
+  const people = { ada: {}, bo: {} };
+  const relations = buildScientistRelations(
+    people,
+    [{ scientist_ids: ['ada'], theorist_ids: ['ada', 'bo', 'ghost'] }],
+    [{ attendee_ids: ['bo'], theorist_ids: ['ada'] }],
+    [{ attendee_ids: ['ada'] }]
+  );
+  assert.deepEqual(relations.get('ada'), {
+    discoveries: [{ index: 0, role: 'Discoverer' }],
+    conferences: [{ index: 0, role: 'Theorist' }],
+    events: [{ index: 0, role: 'Participant' }]
+  });
+  assert.deepEqual(relations.get('bo').discoveries, [{ index: 0, role: 'Theorist' }]);
+  assert.equal(relations.has('ghost'), false);
+});
+
+test('citations include the DOI when there is one', () => {
+  assert.equal(formatCitation('Emmy Noether', 1918, 'Invariante Variationsprobleme'), 'Emmy Noether (1918). Invariante Variationsprobleme.');
+  assert.equal(formatCitation('A', 1900, 'T', '10.1000/x'), 'A (1900). T. https://doi.org/10.1000/x');
 });
