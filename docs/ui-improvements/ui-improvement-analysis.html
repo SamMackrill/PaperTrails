@@ -81,6 +81,9 @@
   .chips button { font: 600 13px ui-sans-serif, system-ui, sans-serif; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
   .chips button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
   .chips .label { font-size: 12px; color: var(--ink-3); align-self: center; margin-right: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .table-scroll { overflow-x: auto; }
+  .table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .table-scroll table { min-width: 560px; }
   .matrix { display: grid; grid-template-columns: 70px repeat(3, 1fr); gap: 6px; font: 13px ui-sans-serif, system-ui, sans-serif; }
   .matrix > div { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px; min-height: 48px; }
   .matrix .h { background: transparent; border: 0; font-weight: 800; color: var(--ink-3); display: flex; align-items: center; justify-content: center; min-height: 0; }
@@ -93,7 +96,18 @@
     .finding dt { padding-top: 8px; }
     .matrix { grid-template-columns: 44px repeat(3, 1fr); }
   }
-  @media print { body { background: #fff; } .chips { display: none; } .card { box-shadow: none; } .finding { break-inside: avoid; } }
+  @media print {
+    /* Print in light ink whatever the screen's colour preference. */
+    :root {
+      --page: #fff; --surface: #fff; --ink: #2a241c; --ink-2: #5c5245; --ink-3: #6f6454;
+      --rule: #d9cfbe; --rule-strong: #c4b79f; --accent: #2f4a7a; --accent-soft: #e4e8f0;
+      --p0: #8e2f25; --p1: #8f5410; --p2: #3d6862; --p3: #6f6454;
+    }
+    body { background: #fff; color: var(--ink); }
+    .chips { display: none; }
+    .card { box-shadow: none; }
+    .finding { break-inside: avoid; }
+  }
 </style>
 </head>
 <body>
@@ -199,7 +213,7 @@
 
 <h2 id="quickwins">Quick wins</h2>
 <p>Small changes that fix visible defects or remove friction. Doing all of them first would clear every P0 and most of the visual rough edges.</p>
-<div class="card"><table><thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Area</th></tr></thead><tbody id="qw-body"></tbody></table></div>
+<div class="card"><div class="table-scroll" role="region" aria-label="Quick wins" tabindex="0"><table><thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Area</th></tr></thead><tbody id="qw-body"></tbody></table></div></div>
 
 <h2 id="matrix">Severity × effort matrix</h2>
 <p>Items higher up and further left have the best return.</p>
@@ -365,7 +379,7 @@
   <header><span class="fid">N1</span><h3>Add global search across every content type</h3></header>
   <dl>
     <dt>Problem</dt><dd>There's no way to find Maxwell except by panning, zooming and hovering. For a researcher audience this is the biggest functional gap.</dd>
-    <dt>Recommendation</dt><dd><ul class="clean"><li>Put a search field in the header (the space is currently empty), opened with <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd>.</li><li>Index scientists, publications, discoveries, conferences and events from the already-loaded YAML. That's about 430 records, so a plain in-memory filter is enough.</li><li>Make matching <b>diacritic-insensitive</b> using <code>normalize('NFD')</code> and stripping combining marks. The data is full of names like Ørsted, Schrödinger, Rømer, Ampère and Poincaré.</li><li>Group results by type, with year and a small portrait or shape. Rank by exact prefix, then notability (T5).</li><li>Choosing a result animates to its year (N3), selects it and opens the docked panel (D1).</li><li>The combobox needs full ARIA (<code>role="combobox"</code>, <code>aria-activedescendant</code>, arrow keys, Esc).</li></ul></dd>
+    <dt>Recommendation</dt><dd><ul class="clean"><li>Put a search field in the header (the space is currently empty), opened with <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd>.</li><li>Index scientists, publications, discoveries, conferences and events from the already-loaded YAML. That's about 430 records, so a plain in-memory filter is enough.</li><li>Make matching <b>diacritic-insensitive</b> using <code>normalize('NFD')</code> and stripping combining marks, then transliterate letters that NFD leaves alone (ø→o, æ→ae, œ→oe, ß→ss, ł→l, đ→d, þ→th). Apply the same folding to indexed names and to queries. The data is full of names like Ørsted, Schrödinger, Rømer, Ampère and Poincaré, and searches for "Orsted" and "Romer" must find them.</li><li>Group results by type, with year and a small portrait or shape. Rank by exact prefix, then notability (T5).</li><li>Choosing a result animates to its year (N3), selects it and opens the docked panel (D1).</li><li>The combobox needs full ARIA (<code>role="combobox"</code>, <code>aria-activedescendant</code>, arrow keys, Esc).</li></ul></dd>
   </dl>
 </article>
 
@@ -790,7 +804,8 @@
   <span class="label" style="margin-left:12px">Area</span>
   <span id="area-chips" style="display:contents"></span>
 </div>
-<div class="card" style="padding:8px 12px"><table><thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Effort</th><th>Area</th></tr></thead><tbody id="all-body"></tbody></table></div>
+<p class="meta" id="filter-status" role="status"></p>
+<div class="card" style="padding:8px 12px"><div class="table-scroll" role="region" aria-label="All findings" tabindex="0"><table><thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Effort</th><th>Area</th></tr></thead><tbody id="all-body"></tbody></table></div></div>
 
 <h2 id="appendix">Appendix</h2>
 <div class="grid two">
@@ -865,8 +880,13 @@
   const active = { p: new Set(), e: new Set(), area: new Set() };
   const renderAll = () => {
     const pass = (f) => ['p', 'e', 'area'].every((k) => !active[k].size || active[k].has(f[k]));
-    document.getElementById('all-body').innerHTML = findings.filter(pass).sort(byPriority).map((f) => row(f, true)).join('')
+    const matches = findings.filter(pass).sort(byPriority);
+    document.getElementById('all-body').innerHTML = matches.map((f) => row(f, true)).join('')
       || '<tr><td colspan="5">No findings match these filters.</td></tr>';
+    const filtered = Object.values(active).some((set) => set.size);
+    document.getElementById('filter-status').textContent = !matches.length
+      ? 'No findings match these filters.'
+      : `Showing ${matches.length} of ${findings.length} findings${filtered ? ' matching the selected filters' : ''}.`;
   };
   document.getElementById('filters').addEventListener('click', (event) => {
     const button = event.target.closest('button');

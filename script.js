@@ -447,6 +447,10 @@ function setupResizeHandler() {
 
 function showLoadError(error) {
   const status = document.getElementById('timeline-loading');
+  // The live role and a finished busy state must be in place before the
+  // message is inserted, or screen readers may not announce it.
+  timelineContainer.setAttribute('aria-busy', 'false');
+  status.setAttribute('role', 'alert');
   status.classList.add('is-error');
   status.replaceChildren();
 
@@ -462,7 +466,6 @@ function showLoadError(error) {
   retry.textContent = 'Try again';
   retry.addEventListener('click', () => location.reload());
   status.append(heading, detail, retry);
-  status.setAttribute('role', 'alert');
 }
 
 async function initializeApp() {

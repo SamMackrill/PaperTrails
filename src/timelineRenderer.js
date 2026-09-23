@@ -14,6 +14,7 @@ const EVENT_PIN_GAP = 5;
 // item key rather than by element.
 let selectedItemKey = null;
 let measureContext = null;
+let measureFontFamily = null;
 
 function isLayerVisible(id) {
   return document.getElementById(id)?.getAttribute('aria-pressed') !== 'false';
@@ -29,9 +30,13 @@ function createSvgLine(className, x1, y1, x2, y2) {
   return line;
 }
 
+// The font family is read once, because reading computed style between DOM
+// insertions can force a style recalculation on every call.
 function measureText(text, font) {
   if (!measureContext) measureContext = document.createElement('canvas').getContext('2d');
-  measureContext.font = `${font} ${getComputedStyle(document.body).fontFamily}`;
+  if (!measureFontFamily) measureFontFamily = getComputedStyle(document.body).fontFamily;
+  const fontString = `${font} ${measureFontFamily}`;
+  if (measureContext.font !== fontString) measureContext.font = fontString;
   return measureContext.measureText(text).width;
 }
 

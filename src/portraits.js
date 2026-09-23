@@ -51,11 +51,13 @@ export function createPortrait(scientist, className) {
   if (!isPlaceholderImage(scientist.photo)) image.dataset.originalPhoto = scientist.photo;
   if (!isPlaceholderImage(scientist.cartoon)) image.dataset.cartoonPhoto = scientist.cartoon;
   image.src = source;
+  // Try the other portrait once before falling back to initials.
+  const attempted = new Set([source]);
   image.addEventListener('error', () => {
-    const fallback = image.dataset.originalPhoto && !image.src.endsWith(image.dataset.originalPhoto)
-      ? image.dataset.originalPhoto
-      : null;
+    const fallback = [image.dataset.originalPhoto, image.dataset.cartoonPhoto]
+      .find((candidate) => candidate && !attempted.has(candidate));
     if (fallback) {
+      attempted.add(fallback);
       image.src = fallback;
     } else {
       image.replaceWith(createMonogram(scientist, className));
