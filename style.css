@@ -139,6 +139,7 @@ input:focus-visible,
 }
 
 .app-header {
+  position: relative;
   min-height: var(--header-height);
   padding: 10px 20px;
   border-bottom: 1px solid var(--border);
@@ -521,10 +522,12 @@ html[data-theme="dark"] .icon-sun {
   box-shadow: var(--shadow-sm);
   display: grid;
   grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-rows: 36px minmax(0, 1fr);
   --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
 }
 
 .lane-labels {
+  grid-row: 2;
   position: relative;
   border-right: 1px solid var(--border);
   background: var(--surface-muted);
@@ -562,6 +565,7 @@ html[data-theme="dark"] .icon-sun {
 }
 
 .timeline-container {
+  grid-row: 2;
   min-width: 0;
   min-height: 0;
   position: relative;
@@ -2024,6 +2028,225 @@ body.has-docked-panel .timeline-shell {
   overflow-wrap: anywhere;
 }
 
+/* Header search, shown as a combobox with grouped results. */
+.header-search {
+  position: relative;
+  flex: 1 1 360px;
+  max-width: 460px;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--text-tertiary);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+#search-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 40px 0 38px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+#search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+#search-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  background: var(--surface);
+}
+
+#search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.search-shortcut {
+  position: absolute;
+  right: 12px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+#search-input:focus + .search-shortcut {
+  display: none;
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 120;
+  max-height: min(70vh, 520px);
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-md);
+  list-style: none;
+}
+
+.search-group {
+  padding: 10px 10px 4px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+}
+
+.search-option {
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.search-option[aria-selected="true"],
+.search-option:hover {
+  background: var(--accent-soft);
+}
+
+.search-option-title {
+  color: var(--text-primary);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search-option-meta,
+.search-empty {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.search-empty {
+  padding: 12px 10px;
+}
+
+.search-toggle {
+  display: none;
+}
+
+/* Overview strip: the whole range with the current view outlined. */
+.minimap-corner {
+  grid-row: 1;
+  grid-column: 1;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-tertiary);
+  font-family: var(--serif);
+  font-size: 13px;
+  font-variant-caps: all-small-caps;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.minimap {
+  --minimap-ink: color-mix(in srgb, var(--publication) 60%, transparent);
+  --minimap-rule: var(--grid);
+  --minimap-label: var(--text-tertiary);
+
+  grid-row: 1;
+  grid-column: 2;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-muted);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.minimap canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.minimap-window {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  cursor: grab;
+}
+
+.minimap.is-dragging .minimap-window {
+  cursor: grabbing;
+}
+
+.minimap.is-full .minimap-window {
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: transparent;
+}
+
+.minimap-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+.minimap-handle[data-edge="left"] { left: -6px; }
+.minimap-handle[data-edge="right"] { right: -6px; }
+
+/* Density scale: alternate eras are shaded, each with a ruler. */
+.scale-segment {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.scale-segment.is-alternate {
+  background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+}
+
+.scale-ruler {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-tertiary);
+  font-family: var(--serif);
+  font-size: 11px;
+  font-variant-numeric: oldstyle-nums;
+  white-space: nowrap;
+}
+
+.scale-ruler-bar {
+  height: 5px;
+  border: 1px solid var(--text-tertiary);
+  border-top: 0;
+}
+
 @media (max-width: 1199px) {
   .options-button {
     display: inline-flex;
@@ -2151,6 +2374,32 @@ body.has-docked-panel .timeline-shell {
 
   .brand-tagline {
     display: none;
+  }
+
+  .search-toggle {
+    display: inline-flex;
+  }
+
+  /* On phones the search field covers the header while in use. */
+  .header-search {
+    display: none;
+  }
+
+  .app-header.is-searching .header-search {
+    position: absolute;
+    inset: 8px 12px;
+    z-index: 130;
+    max-width: none;
+    display: flex;
+  }
+
+  .timeline-frame {
+    grid-template-rows: 30px minmax(0, 1fr);
+  }
+
+  .minimap-corner {
+    padding: 0;
+    font-size: 0;
   }
 
   .timeline-shell {
