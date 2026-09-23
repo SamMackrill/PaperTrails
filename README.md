@@ -6,8 +6,8 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 
 ## Features
 
-- Scientist portraits linked to their first listed publication
-- Colour-coded publication markers with titles and abstracts
+- Scientist portraits linked to their first listed publication, with surname labels as you zoom in and face stacks for groups that are too close to show separately
+- Publication markers stacked by date, so their height doubles as a histogram of scientific output
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
@@ -66,6 +66,7 @@ example_id:
   name: "Example Scientist"
   summary: "A concise explanation of why this person and their work matter."
   color: "#336699"
+  notability: 2
   photo: "images/example.jpg"
   cartoon: "images/cartoons/example.png"
   nationality: "English"
@@ -80,6 +81,8 @@ example_id:
       title: "Example Paper"
       abstract: "A short description of the work."
 ```
+
+`notability` is optional: `1` marks household names, `2` (the default) everyone else, and `3` people of mainly specialist interest. It decides whose faces represent a group, who is named on the timeline before zooming in fully, and search ranking.
 
 `academic_affiliations` records university-level education, teaching, or research associations. Use a person's individual college for Oxford and Cambridge affiliations. Store verified institutional arms, seals, or official emblems under `images/institutions/`, record their source and licence in that directory's `ATTRIBUTION.md`, and reference the local asset with `coat`. Entries without a verified asset use a neutral academic-building icon; do not invent or approximate heraldry.
 

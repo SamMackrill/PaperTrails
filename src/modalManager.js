@@ -586,6 +586,22 @@ export function showPublicationModal(
   openPanel();
 }
 
+// Lists people who stay grouped even at the closest zoom.
+export function showGroupModal(scientistIds, fromYear, toYear) {
+  if (!panel && !fetchElements()) return;
+
+  eyebrow.textContent = 'Scientists';
+  title.textContent = fromYear === toYear ? `Scientists in ${fromYear}` : `Scientists, ${fromYear}–${toYear}`;
+  identity.textContent = 'These people are too close together in time to show separately.';
+  identity.hidden = false;
+  metadata.replaceChildren();
+  metadata.hidden = true;
+  media.hidden = true;
+  portraitNote.hidden = true;
+  body.replaceChildren(...[createScientistGrid(scientistIds, 'People', 'person')].filter(Boolean));
+  openPanel();
+}
+
 export function showScientistModal(scientistId, { fromTimeline = false } = {}) {
   const scientist = scientists[scientistId];
   if (!scientist || (!panel && !fetchElements())) return;

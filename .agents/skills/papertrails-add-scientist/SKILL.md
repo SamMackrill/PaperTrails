@@ -22,6 +22,7 @@ scientist_id:
   name: "Full Name"
   summary: "One concise sentence explaining why this scientist and their work matter."
   color: "#336699"
+  notability: 2
   photo: "images/scientist_id.jpg"
   cartoon: "images/cartoons/scientist_id.png"
   nationality: "British"
@@ -37,7 +38,7 @@ scientist_id:
       abstract: "One concise sentence explaining its scientific contribution."
 ```
 
-Follow the fields supported by the current repository. `summary` is the short profile text shown in the scientist detail panel and should identify the person's enduring scientific significance without duplicating publication abstracts. `academic_affiliations` records verified university-level education, teaching, or research associations; include only real academic associations, omit the array when none can be verified, and do not substitute unrelated employment, honorary membership, or a learned-society fellowship merely to fill the section. Do not add URLs, citations, awards, prose biographies, or unconsumed metadata to the YAML. Keep research sources in working notes and cite them in the final response.
+Follow the fields supported by the current repository. `summary` is the short profile text shown in the scientist detail panel and should identify the person's enduring scientific significance without duplicating publication abstracts. `notability` is optional and defaults to `2`. Use `1` only for household names whose faces should represent a crowded period, and `3` for people of mainly specialist interest. `academic_affiliations` records verified university-level education, teaching, or research associations; include only real academic associations, omit the array when none can be verified, and do not substitute unrelated employment, honorary membership, or a learned-society fellowship merely to fill the section. Do not add URLs, citations, awards, prose biographies, or unconsumed metadata to the YAML. Keep research sources in working notes and cite them in the final response.
 
 For each affiliation, verify the institution and relationship. Reuse an existing local `coat` only when it represents that institution. If a new emblem is appropriate, use an official or repository-compatible historical asset, store it under `images/institutions/`, and record its provenance and licence in `images/institutions/ATTRIBUTION.md`. When no compatible emblem can be verified, omit `coat` so the UI uses its neutral academic-building icon; update any exact neutral-affiliation list or count maintained in `README.md`.
 

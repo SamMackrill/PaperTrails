@@ -2,7 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { config } from '../src/config.js';
 import { scaleToSlider, sliderToScale, xToYear, yearToX } from '../src/timeScale.js';
-import { findFreeLevel, layoutEventRows, planEventLabel } from '../src/timelineRenderer.js';
+import {
+  binPublications,
+  findFreeLevel,
+  getTimelineLabel,
+  layoutEventRows,
+  layoutMilestoneRows,
+  layoutPeople,
+  planEventLabel,
+  planLanes
+} from '../src/timelineLayout.js';
 import { getInitials, isPlaceholderImage } from '../src/portraits.js';
 import { hasUnlinkedDiscoverers } from '../src/modalManager.js';
 
@@ -70,4 +79,55 @@ test('discoverer text is kept only when it names unlinked people', () => {
   assert.equal(hasUnlinkedDiscoverers('Arno Penzias and Robert Wilson', ['Arno A. Penzias', 'Robert Woodrow Wilson']), false);
   assert.equal(hasUnlinkedDiscoverers('Penzias, Wilson and Dicke', ['Arno A. Penzias']), true);
   assert.equal(hasUnlinkedDiscoverers('Geiger, Marsden and others', ['Ernest Rutherford']), true);
+});
+
+test('canvas labels use surnames with particles or titles', () => {
+  assert.equal(getTimelineLabel('Johannes Diderik van der Waals'), 'van der Waals');
+  assert.equal(getTimelineLabel('Louis de Broglie'), 'de Broglie');
+  assert.equal(getTimelineLabel('William Thomson (Lord Kelvin)'), 'Kelvin');
+  assert.equal(getTimelineLabel('Johann Müller Regiomontanus'), 'Regiomontanus');
+  assert.equal(getTimelineLabel('C. V. Raman'), 'Raman');
+});
+
+test('people join a nearby group instead of overlapping', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const entries = [0, 10, 20, 30, 40, 50, 300].map(person);
+  const placed = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth: (count) => 30 + (Math.min(3, count) - 1) * 18 + 10 });
+  const members = placed.flatMap((item) => item.members);
+  assert.equal(members.length, entries.length);
+  const byLevel = new Map();
+  placed.forEach((item) => {
+    const row = byLevel.get(item.level) || [];
+    row.forEach((other) => assert.ok(item.left > other.right || item.right < other.left, 'people overlap'));
+    row.push(item);
+    byLevel.set(item.level, row);
+  });
+  assert.ok(placed.some((item) => item.type === 'cluster'));
+  const grouped = layoutPeople(entries, { levelCount: 4, groupDistance: 45, clusterWidth: () => 76 });
+  assert.equal(grouped.find((item) => item.members.some((member) => member.x === 300)).members.length, 1);
+});
+
+test('publications stack into bins with a cap for the overflow', () => {
+  const items = [1, 2, 3, 4, 5, 6, 7].map((n) => ({ x: 100 + n / 10, year: 1900 + n }));
+  const { stacked, caps } = binPublications([...items, { x: 400, year: 1950 }], { binWidth: 11, maxStack: 5 });
+  assert.equal(stacked.filter((item) => item.x < 200).length, 5);
+  assert.deepEqual(stacked.filter((item) => item.x < 200).map((item) => item.stackIndex), [0, 1, 2, 3, 4]);
+  assert.equal(caps.length, 1);
+  assert.equal(caps[0].count, 2);
+});
+
+test('milestones use extra rows instead of overlapping', () => {
+  const { placements, rows } = layoutMilestoneRows([0, 5, 10, 60].map((x) => ({ x })), 30);
+  assert.equal(rows, 3);
+  assert.equal(placements[3].level, 0);
+});
+
+test('lanes give context and milestones what they need within limits', () => {
+  const lanes = planLanes({ height: 700, milestonesNeed: 150, contextNeed: 180 });
+  assert.equal(lanes.contextTop - lanes.axisY, 150);
+  assert.equal(700 - lanes.contextTop, 180);
+  const capped = planLanes({ height: 700, milestonesNeed: 900, contextNeed: 900 });
+  assert.ok(capped.axisY >= 700 * 0.29);
+  const hidden = planLanes({ height: 700, milestonesNeed: 150, contextNeed: 0, contextVisible: false });
+  assert.equal(hidden.contextTop, 700);
 });

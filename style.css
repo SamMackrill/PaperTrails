@@ -687,36 +687,71 @@ html[data-theme="dark"] .icon-sun {
   cursor: pointer;
 }
 
+/* Face stacks: the most notable faces in a group, with its size. */
 .scientist-cluster {
-  width: 40px;
-  height: 40px;
+  height: 30px;
   padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  z-index: 31;
+  transition: transform 140ms ease;
+}
+
+.cluster-faces {
+  display: flex;
+  align-items: center;
+}
+
+/* Qualified so it outranks the shared .scientist-photo sizing. */
+.cluster-faces .cluster-face {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
   border: 2px solid var(--surface);
   border-radius: 50%;
-  background: var(--accent-soft);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 38%, var(--border));
-  color: var(--accent);
-  display: grid;
-  place-items: center;
+  box-shadow: 0 0 0 1px var(--border-strong);
+  background: var(--surface-muted);
+  font-size: 11px;
+}
+
+.cluster-faces .cluster-face + .cluster-face {
+  margin-left: -12px;
+}
+
+.cluster-count {
+  position: absolute;
+  right: -2px;
+  bottom: -6px;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 5px;
+  border: 2px solid var(--surface);
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
   font-family: var(--serif);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
   font-variant-numeric: oldstyle-nums;
-  z-index: 31;
-  transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  line-height: 14px;
+  text-align: center;
 }
 
 .scientist-cluster:hover,
 .scientist-cluster:focus-visible {
-  background: var(--accent);
-  color: var(--on-accent);
-  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus-ring), var(--shadow-md);
   transform: translateY(-2px);
 }
 
+.scientist-cluster:hover .cluster-face,
+.scientist-cluster:focus-visible .cluster-face {
+  filter: none;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
 .publication {
-  width: 28px;
-  height: 28px;
+  width: 14px;
+  height: 14px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -727,8 +762,8 @@ html[data-theme="dark"] .icon-sun {
 
 .publication-mark {
   position: absolute;
-  inset: 7.5px;
-  border: 2px solid var(--surface);
+  inset: 2px;
+  border: 1.5px solid var(--surface);
   border-radius: 1px;
   background: var(--publication);
   box-shadow: 0 0 0 1px var(--border-strong);
@@ -760,9 +795,40 @@ html[data-theme="dark"] .icon-sun {
   box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
 }
 
+.publication-cap {
+  position: absolute;
+  padding: 0 3px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--publication);
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  transform: translateX(-50%);
+  z-index: 26;
+}
+
+.publication-cap.is-compact {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--publication);
+  font-size: 0;
+}
+
+.publication-cap:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 .scientist-node {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 2px solid var(--surface);
   border-radius: 50%;
@@ -847,12 +913,35 @@ html[data-theme="dark"] .icon-sun {
 
 .discovery-marker span,
 .conference-marker span {
-  max-width: 22px;
-  overflow: hidden;
-  font-size: 8px;
   font-weight: 800;
   line-height: 1;
   white-space: nowrap;
+}
+
+/* At the overview the glyphs are too small to read, so markers are plain. */
+.timeline[data-zoom-tier="overview"] .discovery-marker span,
+.timeline[data-zoom-tier="overview"] .conference-marker span {
+  display: none;
+}
+
+.scientist-name {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 50%;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--text-primary);
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.timeline-frame:not(.has-context) .context-label {
+  display: none;
 }
 
 .conference-marker span {
@@ -940,15 +1029,6 @@ html[data-theme="dark"] .icon-sun {
   opacity: 0.55;
 }
 
-.timeline[data-zoom-tier="overview"] .scientist-node,
-.timeline[data-zoom-tier="overview"] .discovery-marker,
-.timeline[data-zoom-tier="overview"] .conference-marker {
-  transform: scale(0.82);
-}
-
-.timeline[data-zoom-tier="overview"] .publication-mark {
-  transform: scale(0.86);
-}
 
 .scientist-link {
   stroke: var(--border-strong);
