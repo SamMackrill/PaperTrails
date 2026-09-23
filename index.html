@@ -26,9 +26,10 @@
     })();
   </script>
   <link rel="icon" href="images/icon.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=28">
+  <link rel="stylesheet" href="style.css?v=29">
 </head>
 <body>
+  <a class="skip-link" href="#search-input">Skip to search</a>
   <header class="app-header">
     <div class="brand">
       <img class="brand-mark" src="images/brand-mark.png" alt="" width="256" height="256" aria-hidden="true">
@@ -125,7 +126,7 @@
       <div class="toolbar-divider" aria-hidden="true"></div>
 
       <div class="display-modes" role="group" aria-label="Display modes">
-        <button class="filter-button mode-toggle" id="tapestryToggle" type="button" aria-pressed="false" title="Show historical context as a Bayeux-style tapestry. Zoom in for more detail; hover or select a scene to learn more.">
+        <button class="filter-button mode-toggle" id="tapestryToggle" type="button" aria-pressed="true" title="Show historical context as a Bayeux-style tapestry. Zoom in for more detail; hover or select a scene to learn more.">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"></rect><path d="M3 10h18M3 14h18M8 6v12M13 6v12M18 6v12"></path></svg>
           <span>Tapestry</span>
           <span class="switch" aria-hidden="true"></span>
@@ -163,7 +164,7 @@
         <span class="lane-label context-label">Context</span>
       </div>
       <div class="timeline-container" id="timeline-container" tabindex="0" role="group" aria-roledescription="timeline" aria-label="Scientific history timeline" aria-describedby="timeline-instructions" aria-busy="true">
-        <p class="sr-only" id="timeline-instructions">Use the arrow keys to pan, plus and minus to zoom, and Home to fit the whole timeline. Press question mark for all controls.</p>
+        <p class="sr-only" id="timeline-instructions">Use the arrow keys to pan, plus and minus to zoom, and Home to fit the whole timeline. Tab into a lane, then use the arrow keys to move between its items. Press question mark for all controls.</p>
         <p class="sr-only" id="timeline-status" aria-live="polite"></p>
         <div class="timeline" id="timeline"></div>
         <div class="timeline-loading" id="timeline-loading">
@@ -178,6 +179,7 @@
     </section>
 
     <aside class="detail-panel" id="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title" hidden>
+      <button class="detail-sheet-handle" id="detail-sheet-handle" type="button" aria-controls="detail-panel" aria-expanded="true" aria-label="Show less"></button>
       <button class="detail-back text-button" id="detail-back" type="button" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
         <span class="detail-back-label"></span>
@@ -226,10 +228,11 @@
       <section>
         <h3>Keyboard</h3>
         <dl>
-          <dt><kbd>Tab</kbd></dt><dd>Move between controls and timeline items</dd>
-          <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Pan the timeline</dd>
+          <dt><kbd>Tab</kbd></dt><dd>Move between controls and the timeline lanes</dd>
+          <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Previous or next item in a lane; pan when the canvas itself is focused</dd>
+          <dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>Nearest item in the lane above or below</dd>
           <dt><kbd>+</kbd> <kbd>−</kbd></dt><dd>Zoom in and out</dd>
-          <dt><kbd>Home</kbd></dt><dd>Fit the whole timeline</dd>
+          <dt><kbd>Home</kbd> <kbd>End</kbd></dt><dd>First or last item in a lane; Home fits the timeline from the canvas</dd>
           <dt><kbd>Enter</kbd></dt><dd>Open the focused item</dd>
           <dt><kbd>Esc</kbd></dt><dd>Close details or this dialog</dd>
           <dt><kbd>/</kbd> or <kbd>Ctrl</kbd> <kbd>K</kbd></dt><dd>Search the timeline</dd>
@@ -249,6 +252,6 @@
   </dialog>
 
   <script src="vendor/js-yaml.min.js?v=4.3.2"></script>
-  <script type="module" src="script.js?v=30"></script>
+  <script type="module" src="script.js?v=31"></script>
 </body>
 </html>

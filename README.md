@@ -11,7 +11,7 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
-- Optional Bayeux-style historical tapestry, with blended panoramas and additional narrative scenes revealed as you zoom
+- A Bayeux-style historical tapestry, shown by default, with captions stitched above each scene, blended panoramas, and additional narrative scenes revealed as you zoom
 - A details panel for scientists, publications, discoveries, conferences, and events. On wide screens it docks beside the timeline, which stays usable; on phones it opens as a sheet. It links related items in both directions, keeps a Back history, and offers further reading and citations
 - Hovering or selecting an item draws its connections: a scientist's discoveries, conferences, and events, with their lifespan shown as a bar, or the people linked to a discovery or conference
 - Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
@@ -43,7 +43,8 @@ The application code, data, and YAML parser are stored in this repository, so an
 - Click and drag an empty part of the timeline to pan, or scroll.
 - Hold Ctrl while scrolling, or pinch on a trackpad, to zoom around the pointer. The zoom buttons and slider zoom around the centre, and the readout beside them shows the years in view.
 - On a touch device, drag with one finger and pinch with two fingers.
-- With the timeline focused, use the arrow keys to pan, plus and minus to zoom, and Home to fit the whole timeline. Tabbing to an item brings it into view.
+- With the timeline focused, use the arrow keys to pan, plus and minus to zoom, and Home to fit the whole timeline. Each lane (people, publications, milestones, context) is one Tab stop: the arrow keys move through its items in date order, Up and Down move between lanes, and Home and End jump to its ends.
+- On a phone, tapping an item opens a short preview; tap its handle or scroll to see everything.
 - Click **Fit timeline** to show the full range again. Zoom and jump changes animate unless your system asks for reduced motion.
 - Press <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd> to search. Choosing a result zooms to it and opens its details.
 - Drag the window in the overview strip above the timeline to pan, drag its edges to zoom, or click elsewhere on the strip to jump.
@@ -54,7 +55,7 @@ The application code, data, and YAML parser are stored in this repository, so an
 - Press <kbd>?</kbd> or click the help button to see every control.
 - Use the moon/sun button to switch themes.
 - Short historical events are drawn as pins with their label alongside; hover or focus any band for its full title and dates.
-- Turn on **Tapestry** to replace context labels with a continuous illustrated ribbon. This preference is saved in your browser. **Context** still controls whether the entire historical layer is visible.
+- **Tapestry** is on by default; turn it off to show labelled context bands instead. Each scene's caption stays in view as you pan, and each thread's knots mark the event's start and end. This preference is saved in your browser. **Context** still controls whether the entire historical layer is visible.
 - Tapestry scenes begin at the database's event start dates. Their picture windows extend to the next event's start; the stitched threads below show actual event durations, including overlaps. The panoramas fill those windows and blend into their neighbours. Zooming reveals additional narrative groups while keeping figures at a similar size. Hover different parts of a panorama for explanations of the depicted activities, or focus/select the event for accessible details. Drag the ribbon to pan.
 - The tapestry uses symbolic illustrations of all 21 current events, rather than depictions of additional dated incidents. Artwork provenance and the generation prompt are recorded in `images/tapestry/README.md`.
 
@@ -126,7 +127,7 @@ Discovery entries use `year`, `title`, `discoverer`, `details`, `particle`, and 
 
 Conferences can also use `theorist_ids` to link intellectual contributors separately from attendees, as with Avogadro at Karlsruhe. Historical-map year labels can preserve approximate dates such as "late 1850s".
 
-Place portrait files under `images/` and cartoon variants under `images/cartoons/`. For filenames containing both a surname and given name, use surname-first order—`surname_givenname.ext`—so related people sort and scan predictably. Keep surname particles together, and use a surname-only filename when it is already unambiguous. People without a verified portrait can keep `images/default.png`; the timeline and details panel show their initials instead, with a note in the panel. Images that fail to load fall back to the photograph, then to initials.
+Place portrait files under `images/` and cartoon variants under `images/cartoons/`, then run `python tools/generate-thumbnails.py` (it needs Pillow). The timeline loads the small WebP thumbnails it writes to `images/thumbs/`, falling back to the originals, and the tapestry uses WebP copies of its panoramas. For filenames containing both a surname and given name, use surname-first order—`surname_givenname.ext`—so related people sort and scan predictably. Keep surname particles together, and use a surname-only filename when it is already unambiguous. People without a verified portrait can keep `images/default.png`; the timeline and details panel show their initials instead, with a note in the panel. Images that fail to load fall back to the photograph, then to initials.
 
 Cartoon portraits follow the repo-local [Paper Trails cartoon portrait skill](.agents/skills/papertrails-cartoon-portrait/SKILL.md). It defines the recognisable caricature house style, prompt structure, crop constraints, and acceptance checks. See the [collection audit](docs/cartoon-portrait-audit.md) for the current migration priorities.
 

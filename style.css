@@ -126,6 +126,27 @@ input:focus-visible,
   display: none !important;
 }
 
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2000;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.detail-sheet-handle {
+  display: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1224,12 +1245,42 @@ html[data-theme="dark"] .icon-sun {
   outline: 2px dashed #633725;
   outline-offset: -3px;
 }
+.tapestry-caption {
+  position: absolute;
+  top: 4px;
+  z-index: 4;
+  overflow: hidden;
+  color: #5b2e1e;
+  font: 700 12px/16px Georgia, "Times New Roman", serif;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 0 #f3e6c6;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .tapestry-thread {
   position: absolute;
   height: 4px;
   border-bottom: 2px dashed var(--thread-color, #855334);
   z-index: 3;
 }
+
+/* Knots mark where each event's thread starts and ends. */
+.tapestry-thread::before,
+.tapestry-thread::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--thread-color, #855334);
+}
+
+.tapestry-thread::before { left: -3px; }
+.tapestry-thread::after { right: -3px; }
 .tapestry-date-stitch {
   position: absolute;
   bottom: 0;
@@ -1238,6 +1289,20 @@ html[data-theme="dark"] .icon-sun {
   pointer-events: none;
 }
 .tapestry-thread.is-highlighted { border-bottom-style: solid; height: 5px; }
+
+.tapestry-thread.is-highlighted::after {
+  content: attr(data-end-year);
+  right: 0;
+  bottom: 4px;
+  width: auto;
+  height: auto;
+  padding: 0 3px;
+  border-radius: 3px;
+  background: #f3e6c6;
+  color: #5b2e1e;
+  font: 700 11px Georgia, serif;
+  transform: translateX(50%);
+}
 .tapestry-fallback { font: 11px Georgia, serif; }
 
 .detail-backdrop {
@@ -2450,16 +2515,33 @@ body.has-docked-panel .timeline-shell {
     transform: translateY(100%);
   }
 
-  .detail-panel::before {
+  .detail-sheet-handle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 96px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: block;
+    transform: translateX(-50%);
+  }
+
+  .detail-sheet-handle::before {
     content: "";
     position: absolute;
     top: 10px;
-    left: 50%;
+    left: 29px;
     width: 38px;
     height: 4px;
     border-radius: 999px;
     background: var(--border-strong);
-    transform: translateX(-50%);
+  }
+
+  .detail-panel.is-peek {
+    max-height: min(42dvh, 340px);
   }
 
   .detail-panel.is-open {
@@ -2527,5 +2609,41 @@ body.has-docked-panel .timeline-shell {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+
+/* Phones in landscape: compact chrome so the timeline keeps its height. */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --header-height: 44px;
+  }
+
+  .app-header {
+    padding: 4px 12px;
+  }
+
+  .brand-mark {
+    width: 28px;
+  }
+
+  .brand h1 {
+    font-size: 17px;
+  }
+
+  .brand p {
+    display: none;
+  }
+
+  .timeline-toolbar {
+    min-height: 40px;
+    padding: 3px 12px;
+  }
+
+  .timeline-shell {
+    padding: 6px 12px 8px;
+  }
+
+  .timeline-frame {
+    grid-template-rows: 24px minmax(0, 1fr);
   }
 }

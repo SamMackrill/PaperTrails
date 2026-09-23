@@ -1,13 +1,14 @@
 import { config } from './src/config.js?v=15';
 import { conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=18';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=24';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=25';
+import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=25';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=26';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
-import { updatePortraitStyle } from './src/portraits.js?v=2';
+import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=1';
 import { createMinimap } from './src/minimap.js?v=1';
 import { formatHash, parseHash } from './src/urlState.js?v=1';
+import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=1';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 const SCALE_STORAGE_KEY = 'paperTrailsScale';
@@ -169,6 +170,7 @@ function render() {
   // across by item key.
   const focusedKey = timeline.contains(document.activeElement) ? document.activeElement.dataset.itemKey : null;
   renderTimeline(timelineContainer, timeline, currentScale);
+  applyRovingTabindex(timeline, timelineContainer);
   renderedWidth = timelineContainer.clientWidth;
   renderedHeight = timelineContainer.clientHeight;
   updatePortraitStyle(isPressed('cartoonToggle'));
@@ -436,6 +438,8 @@ function setupPointerInteractions() {
   });
 
   timelineContainer.addEventListener('keydown', (event) => {
+    // On a timeline item, arrows move between items; on the canvas, they pan.
+    if (event.target !== timelineContainer && handleLaneKey(event, timeline)) return;
     const panStep = Math.max(60, timelineContainer.clientWidth * 0.12);
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
@@ -464,7 +468,9 @@ function positionTooltip(target) {
 
   tooltip.textContent = target.dataset.tooltip;
   tooltip.hidden = false;
-  const targetRect = target.getBoundingClientRect();
+  // Tapestry facets share one caption position above their scene.
+  const anchor = target.dataset.tooltipAnchor === 'scene' ? target.closest('.tapestry-scene') || target : target;
+  const targetRect = anchor.getBoundingClientRect();
   const tooltipRect = tooltip.getBoundingClientRect();
   let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2;
   let top = targetRect.top - tooltipRect.height - 9;
@@ -490,8 +496,11 @@ function setupTooltips() {
   });
   timeline.addEventListener('focusin', (event) => {
     timelineContainer.scrollLeft = 0;
+    rememberFocus(event.target);
     revealElement(event.target);
     positionTooltip(event.target.closest('[data-tooltip]'));
+    const position = describePosition(event.target, timeline);
+    if (position && timelineStatus) timelineStatus.textContent = position;
   });
   timeline.addEventListener('focusout', hideTooltip);
 }
@@ -815,7 +824,8 @@ async function initializeApp() {
   document.getElementById('timeline-range').textContent = `${config.START_YEAR}–${config.END_YEAR}`;
   initializeTheme();
   try {
-    document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(localStorage.getItem('paperTrailsTapestry') === 'true'));
+    // The tapestry is the default context view; readers can switch to bands.
+    document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(localStorage.getItem('paperTrailsTapestry') !== 'false'));
     if (localStorage.getItem(HINT_STORAGE_KEY) === 'true') interactionHint.classList.add('is-hidden');
   } catch { /* Use the default text view when storage is unavailable. */ }
   setupModalEventListeners();
