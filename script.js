@@ -438,6 +438,9 @@ function setupPointerInteractions() {
   });
 
   timelineContainer.addEventListener('keydown', (event) => {
+    // Modified keys belong to the browser and the details panel (Alt+Left is
+    // Back), not to lane movement or panning.
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
     // On a timeline item, arrows move between items; on the canvas, they pan.
     if (event.target !== timelineContainer && handleLaneKey(event, timeline)) return;
     const panStep = Math.max(60, timelineContainer.clientWidth * 0.12);

@@ -62,8 +62,11 @@ export function createPortrait(scientist, className) {
   if (photo) image.dataset.originalPhoto = thumbnailFor(photo);
   if (cartoon) image.dataset.cartoonPhoto = thumbnailFor(cartoon);
   image.src = thumbnailFor(source);
-  const attempted = new Set([image.src]);
+  // Attempts are tracked per load, so a new Illustrations choice can fall
+  // back to an original that worked before.
+  image.portraitAttempts = new Set([image.getAttribute('src')]);
   image.addEventListener('error', () => {
+    const attempted = image.portraitAttempts;
     const current = image.getAttribute('src');
     attempted.add(current);
     const preferred = current === image.dataset.cartoonPhoto || current === cartoon ? [cartoon, photo] : [photo, cartoon];
@@ -83,6 +86,9 @@ export function createPortrait(scientist, className) {
 export function updatePortraitStyle(useIllustrations = illustrationsEnabled()) {
   document.querySelectorAll('img[data-original-photo], img[data-cartoon-photo]').forEach((image) => {
     const desired = (useIllustrations && image.dataset.cartoonPhoto) || image.dataset.originalPhoto || image.dataset.cartoonPhoto;
-    if (desired && image.getAttribute('src') !== desired) image.src = desired;
+    if (desired && image.getAttribute('src') !== desired) {
+      image.portraitAttempts = new Set([desired]);
+      image.src = desired;
+    }
   });
 }

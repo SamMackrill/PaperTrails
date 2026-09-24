@@ -11,9 +11,15 @@ export const LANES = [
 // The item in each lane that keeps the Tab stop between renders.
 const activeKeys = new Map();
 
+// Date order: bands and tapestry scenes by where they start, markers by
+// their centre.
+function datePosition(element) {
+  return element.matches('.event-band, .tapestry-scene') ? element.offsetLeft : element.offsetLeft + element.offsetWidth / 2;
+}
+
 function laneItems(timeline, lane) {
   return [...timeline.querySelectorAll(lane.selector)]
-    .sort((a, b) => a.offsetLeft + a.offsetWidth / 2 - (b.offsetLeft + b.offsetWidth / 2) || a.offsetTop - b.offsetTop);
+    .sort((a, b) => datePosition(a) - datePosition(b) || a.offsetTop - b.offsetTop);
 }
 
 function laneOf(element) {
@@ -54,6 +60,7 @@ function nearestByX(items, x) {
 // Handles arrow, Home, and End keys on a focused timeline item. Returns the
 // newly focused element, or null if the key was not handled.
 export function handleLaneKey(event, timeline) {
+  if (event.altKey || event.ctrlKey || event.metaKey) return null;
   const current = event.target.closest?.('[data-item-key]');
   const laneIndex = current ? laneOf(current) : -1;
   if (laneIndex === -1) return null;
