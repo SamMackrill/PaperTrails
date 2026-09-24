@@ -30,10 +30,12 @@ export function rankForFaces(a, b) {
     || a.x - b.x;
 }
 
-// Places people in rows above the axis. When a row is full near an item, the
-// item joins the neighbouring group instead of overlapping it.
+// Places people in rows above the axis. Each person goes as close to their
+// date as possible: in any row, and shifted sideways by up to maxShift pixels
+// (their connector then runs diagonally to their first publication). Only
+// when no slot is close enough do they join the nearest group.
 // `entries` must be sorted by x and carry { x, width }.
-export function layoutPeople(entries, { levelCount, gap = 10, groupDistance = 0, clusterWidth }) {
+export function layoutPeople(entries, { levelCount, gap = 10, groupDistance = 0, clusterWidth, maxShift = 0, width = Infinity }) {
   const groups = [];
   entries.forEach((entry) => {
     const current = groups[groups.length - 1];
@@ -44,31 +46,69 @@ export function layoutPeople(entries, { levelCount, gap = 10, groupDistance = 0,
     }
   });
 
-  const rows = Array.from({ length: Math.max(1, levelCount) }, () => null);
+  const rows = Array.from({ length: Math.max(1, levelCount) }, () => []);
   const placed = [];
   const extentOf = (item) => (item.members.length > 1 ? clusterWidth(item.members.length) : item.members[0].width);
+  const fits = (row, left, right) => row.every((other) => right + gap <= other.left || left >= other.right + gap);
 
   groups.forEach((group) => {
-    const anchorX = group.members[0].x;
-    const width = extentOf(group);
-    const left = anchorX - width / 2;
-    let level = rows.findIndex((last) => !last || left > last.right + gap);
-    if (level === -1) {
-      // Join the item that frees up soonest, which is the nearest in time.
-      level = rows.reduce((best, last, index) => (last.right < rows[best].right ? index : best), 0);
-      const target = rows[level];
-      target.members.push(...group.members);
-      target.right = target.left + extentOf(target);
+    const ideal = group.members[0].x;
+    const itemWidth = extentOf(group);
+    const clampCentre = (centre) => Math.max(itemWidth / 2, Math.min(width - itemWidth / 2, centre));
+    let best = null;
+    rows.forEach((row, level) => {
+      // The ideal spot, or hard against either side of an existing item.
+      const candidates = [ideal, ...row.flatMap((other) => [other.right + gap + itemWidth / 2, other.left - gap - itemWidth / 2])];
+      candidates.forEach((candidate) => {
+        const centre = clampCentre(candidate);
+        const shift = Math.abs(centre - ideal);
+        if (shift > Math.max(maxShift, Math.abs(clampCentre(ideal) - ideal))) return;
+        if (!fits(row, centre - itemWidth / 2, centre + itemWidth / 2)) return;
+        // Small shifts win; among equal shifts, lower rows keep lines short.
+        const cost = shift + level * 0.5;
+        if (!best || cost < best.cost) best = { cost, level, centre };
+      });
+    });
+
+    if (best) {
+      const item = { members: [...group.members], level: best.level, left: best.centre - itemWidth / 2, right: best.centre + itemWidth / 2 };
+      rows[best.level].push(item);
+      placed.push(item);
       return;
     }
-    const item = { members: [...group.members], level, left, right: left + width };
-    rows[level] = item;
-    placed.push(item);
+    // Join the nearest group that still fits in its row once it grows,
+    // sliding it within the allowed shift if needed; failing that, the
+    // nearest group of all.
+    const grown = (item) => extentOf({ members: [...item.members, ...group.members] });
+    const byDistance = [...placed].sort((first, second) => (
+      Math.abs((first.left + first.right) / 2 - ideal) - Math.abs((second.left + second.right) / 2 - ideal)
+    ));
+    // Only groups near this person's date may take them; a distant group
+    // would leave them with no portrait near their period.
+    const centreOf = (item) => (item.left + item.right) / 2;
+    const nearby = byDistance.filter((item) => Math.abs(centreOf(item) - ideal) <= Math.max(maxShift, grown(item)) + itemWidth);
+    const placement = nearby.map((item) => {
+      const others = rows[item.level].filter((other) => other !== item);
+      const grownWidth = grown(item);
+      const anchor = (item.left + item.right) / 2;
+      const candidates = [anchor, ...others.flatMap((other) => [other.right + gap + grownWidth / 2, other.left - gap - grownWidth / 2])]
+        .map((centre) => Math.max(grownWidth / 2, Math.min(width - grownWidth / 2, centre)))
+        .filter((centre) => Math.abs(centre - anchor) <= Math.max(maxShift, grownWidth))
+        .sort((first, second) => Math.abs(first - anchor) - Math.abs(second - anchor));
+      const centre = candidates.find((candidate) => fits(others, candidate - grownWidth / 2, candidate + grownWidth / 2));
+      return centre === undefined ? null : { item, centre, grownWidth };
+    }).find(Boolean);
+    const target = placement?.item || byDistance[0];
+    const centre = placement?.centre ?? (target.left + target.right) / 2;
+    const grownWidth = placement?.grownWidth ?? grown(target);
+    target.members.push(...group.members);
+    target.left = centre - grownWidth / 2;
+    target.right = centre + grownWidth / 2;
   });
 
   return placed.map((item) => {
-    const width = extentOf(item);
-    return { ...item, type: item.members.length > 1 ? 'cluster' : 'person', centerX: item.left + width / 2, width };
+    const itemWidth = extentOf(item);
+    return { ...item, type: item.members.length > 1 ? 'cluster' : 'person', centerX: item.left + itemWidth / 2, width: itemWidth };
   });
 }
 

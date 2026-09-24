@@ -16,7 +16,7 @@ import {
   planEventLabel,
   planLanes,
   rankForFaces
-} from './timelineLayout.js?v=1';
+} from './timelineLayout.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const EVENT_LABEL_FONT = '650 11px';
@@ -424,10 +424,15 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
   // A lane too short for two rows uses one, so neighbours group rather than overlap.
   const levelCount = Math.max(1, Math.min(8, Math.floor((bottom - top) / rowPitch) + 1));
   const clusterWidth = (count) => FACE_SIZE + (Math.min(3, count) - 1) * FACE_STEP + 10;
+  // Beyond the overview, people may move sideways to find room, further as
+  // the zoom gives each year more space. Their connectors show where they
+  // belong.
   const items = layoutPeople(entries, {
     levelCount,
     gap: 8,
     groupDistance: tier === 'overview' ? 46 : 0,
+    maxShift: tier === 'overview' ? 0 : tier === 'standard' ? 90 : 150,
+    width,
     clusterWidth
   });
 

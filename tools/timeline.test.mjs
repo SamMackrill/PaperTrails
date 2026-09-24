@@ -223,3 +223,57 @@ test('the density scale is monotonic, invertible, and gives busy eras more room'
     setScaleMode('linear');
   }
 });
+
+test('people shift sideways to find room before they are grouped', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const entries = [100, 105, 110, 115, 120, 125].map(person);
+  const clusterWidth = (count) => 30 + (Math.min(3, count) - 1) * 18 + 10;
+  const shifted = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth, maxShift: 150, width: 1000 });
+  assert.equal(shifted.filter((item) => item.type === 'cluster').length, 0, 'everyone fits within the allowed shift');
+  const byLevel = new Map();
+  shifted.forEach((item) => {
+    const row = byLevel.get(item.level) || [];
+    row.forEach((other) => assert.ok(item.left >= other.right || item.right <= other.left, 'people overlap'));
+    row.push(item);
+    byLevel.set(item.level, row);
+    assert.ok(Math.abs(item.centerX - item.members[0].x) <= 150);
+  });
+  // With no allowed shift, the same people must group.
+  const pinned = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth, width: 1000 });
+  assert.ok(pinned.some((item) => item.type === 'cluster'));
+  // Items never leave the canvas.
+  const edge = layoutPeople([person(2), person(4)], { levelCount: 1, gap: 8, clusterWidth, maxShift: 150, width: 300 });
+  edge.forEach((item) => assert.ok(item.left >= 0 && item.right <= 300));
+});
+
+test('groups that grow do not overlap their neighbours', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const entries = [...Array(40)].map((_, i) => person(100 + i * 6));
+  const clusterWidth = (count) => 30 + (Math.min(3, count) - 1) * 18 + 10;
+  const items = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth, maxShift: 90, width: 600 });
+  assert.equal(items.reduce((sum, item) => sum + item.members.length, 0), entries.length);
+  const byLevel = new Map();
+  items.forEach((item) => {
+    const row = byLevel.get(item.level) || [];
+    row.forEach((other) => assert.ok(item.left >= other.right || item.right <= other.left, 'groups overlap'));
+    row.push(item);
+    byLevel.set(item.level, row);
+  });
+});
+
+test('a person blocked from growing a nearby group never joins a distant one', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const clusterWidth = (count) => 30 + (Math.min(3, count) - 1) * 18 + 10;
+  // A three-person group far to the left can grow without widening, and the
+  // person at 580 could grow, but both are too far from 695. The nearby
+  // portraits at 630 and 690 are hemmed in by each other and the canvas edge.
+  const entries = [100, 102, 104, 580, 630, 690, 695].map(person);
+  const items = layoutPeople(entries, { levelCount: 1, gap: 8, clusterWidth, maxShift: 20, width: 700 });
+  const holder = items.find((item) => item.members.some((member) => member.x === 695));
+  assert.ok(holder.members.some((member) => member.x === 690), 'falls back to the nearest group');
+  assert.ok(!holder.members.some((member) => member.x === 100 || member.x === 580), 'does not join a distant group');
+  // Where a nearby group can grow, the person joins it rather than overlapping.
+  const roomy = layoutPeople([100, 102, 104, 630, 690, 695].map(person), { levelCount: 1, gap: 8, clusterWidth, maxShift: 20, width: 700 });
+  const roomyHolder = roomy.find((item) => item.members.some((member) => member.x === 695));
+  assert.ok(Math.abs((roomyHolder.left + roomyHolder.right) / 2 - 695) < 110);
+});

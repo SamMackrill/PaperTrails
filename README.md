@@ -6,7 +6,7 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 
 ## Features
 
-- Scientist portraits linked to their first listed publication, with surname labels as you zoom in and face stacks for groups that are too close to show separately
+- Scientist portraits linked to their first listed publication. In crowded periods portraits move sideways to find room, joined to their publication by a diagonal line, and only group into face stacks when no nearby space is free. Surnames appear as you zoom in
 - Publication markers stacked by date, so their height doubles as a histogram of scientific output
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
