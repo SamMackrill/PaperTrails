@@ -1,9 +1,9 @@
 import { config } from './config.js?v=15';
-import { scientists, discoveries, conferences, significantEvents } from './dataLoader.js?v=17';
-import { showGroupModal, showPublicationModal, showScientistModal } from './modalManager.js?v=23';
+import { scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=18';
+import { groupKey, openItem } from './modalManager.js?v=24';
 import { renderTapestry } from './tapestryRenderer.js?v=4';
 import { yearToX } from './timeScale.js?v=1';
-import { createPortrait } from './portraits.js?v=1';
+import { createPortrait } from './portraits.js?v=2';
 import {
   EVENT_PIN_GAP,
   EVENT_LABEL_PADDING,
@@ -39,6 +39,9 @@ let measureFontFamily = null;
 // Activation handlers for the current render, looked up by item key from a
 // single delegated listener instead of one listener per marker.
 const itemActions = new Map();
+// The item under the pointer or keyboard focus, whose connections are shown
+// in place of the selected item's.
+let hoverKey = null;
 
 function isLayerVisible(id) {
   return document.getElementById(id)?.getAttribute('aria-pressed') !== 'false';
@@ -70,10 +73,108 @@ function getTier(scale) {
 
 function applySelection(timeline) {
   timeline.querySelectorAll('.is-selected').forEach((item) => item.classList.remove('is-selected'));
-  if (!selectedItemKey) return null;
-  const element = timeline.querySelector(`[data-item-key="${CSS.escape(selectedItemKey)}"]`);
+  const element = selectedItemKey ? findItemElement(timeline, selectedItemKey) : null;
   element?.classList.add('is-selected');
+  refreshRelations(timeline);
   return element;
+}
+
+// Finds the element for an item key. People hidden inside a face stack are
+// represented by their group.
+function findItemElement(timeline, key) {
+  const direct = timeline.querySelector(`[data-item-key="${CSS.escape(key)}"]`);
+  if (direct || !key.startsWith('scientist:')) return direct;
+  return timeline.querySelector(`.scientist-cluster[data-member-ids~="${CSS.escape(key.slice('scientist:'.length))}"]`);
+}
+
+function centreOf(element) {
+  return { x: element.offsetLeft + element.offsetWidth / 2, y: element.offsetTop + element.offsetHeight / 2 };
+}
+
+function parseYear(date) {
+  const year = Number.parseInt(String(date || '').slice(0, 4), 10);
+  return Number.isFinite(year) ? year : null;
+}
+
+// Shows a scientist's lifetime as a bar behind their portrait.
+function drawLifespan(timeline, scientistId) {
+  const scientist = scientists[scientistId];
+  const node = findItemElement(timeline, `scientist:${scientistId}`);
+  const birth = parseYear(scientist?.birth);
+  if (!node || birth === null) return;
+  const death = parseYear(scientist.death) ?? config.END_YEAR;
+  const width = parseFloat(timeline.style.width) || timeline.offsetWidth;
+  const left = yearToX(Math.max(config.START_YEAR, birth), width);
+  const right = yearToX(Math.min(config.END_YEAR, death), width);
+
+  const bar = document.createElement('div');
+  bar.className = 'lifespan';
+  bar.setAttribute('aria-hidden', 'true');
+  bar.style.left = `${left}px`;
+  bar.style.width = `${Math.max(2, right - left)}px`;
+  bar.style.top = `${centreOf(node).y}px`;
+  bar.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
+  const start = document.createElement('span');
+  start.className = 'lifespan-year lifespan-start';
+  start.textContent = String(birth);
+  const end = document.createElement('span');
+  end.className = 'lifespan-year lifespan-end';
+  end.textContent = scientist.death ? String(death) : 'living';
+  bar.append(start, end);
+  timeline.appendChild(bar);
+}
+
+// Draws the connections of the hovered item, or else the selected one, and
+// dims everything unrelated.
+function refreshRelations(timeline) {
+  if (!timeline) return;
+  timeline.querySelectorAll('.is-related, .is-related-source').forEach((element) => element.classList.remove('is-related', 'is-related-source'));
+  timeline.querySelectorAll('.scientist-link.highlight').forEach((line) => line.classList.remove('highlight'));
+  timeline.querySelector('.lifespan')?.remove();
+  const layer = timeline.querySelector('.relation-layer');
+  layer?.replaceChildren();
+
+  const key = hoverKey || selectedItemKey;
+  const source = key ? findItemElement(timeline, key) : null;
+  timeline.classList.toggle('has-relations', Boolean(source));
+  if (!source) return;
+  source.classList.add('is-related-source');
+
+  const sourceType = key.split(':')[0];
+  const timelineRect = timeline.getBoundingClientRect();
+  // Tapestry scenes sit inside the ribbon, so their offsets are not timeline
+  // coordinates; measure them from the page instead.
+  const pointOf = (element) => {
+    if (!element.closest('.tapestry-ribbon')) return centreOf(element);
+    const rect = element.getBoundingClientRect();
+    return { x: rect.left - timelineRect.left + rect.width / 2, y: rect.top - timelineRect.top + rect.height / 2 };
+  };
+  const from = pointOf(source);
+  getRelatedItems(key).forEach(({ key: relatedKey, line }) => {
+    const target = findItemElement(timeline, relatedKey);
+    if (!target || target === source) return;
+    target.classList.add('is-related');
+    if (!line || !layer) return;
+    let to = pointOf(target);
+    if (target.classList.contains('event-band') || target.classList.contains('tapestry-scene')) {
+      const band = target.getBoundingClientRect();
+      const bandLeft = band.left - timelineRect.left;
+      to = { x: Math.max(bandLeft, Math.min(bandLeft + band.width, from.x)), y: band.top - timelineRect.top + 4 };
+    }
+    const bend = Math.min(80, Math.abs(to.x - from.x) * 0.2);
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d', `M${from.x} ${from.y} Q${(from.x + to.x) / 2} ${(from.y + to.y) / 2 - bend} ${to.x} ${to.y}`);
+    const kind = sourceType === 'scientist' ? relatedKey.split(':')[0] : sourceType;
+    path.setAttribute('class', `relation-line relation-${kind}`);
+    layer.appendChild(path);
+  });
+
+  const scientistId = sourceType === 'scientist' ? key.slice('scientist:'.length)
+    : sourceType === 'publication' ? key.split(':')[1] : null;
+  if (scientistId) {
+    timeline.querySelector(`.scientist-link[data-scientist-id="${CSS.escape(scientistId)}"]`)?.classList.add('highlight');
+    if (sourceType === 'scientist') drawLifespan(timeline, scientistId);
+  }
 }
 
 export function selectItem(element) {
@@ -91,26 +192,6 @@ export function clearTimelineSelection() {
   applySelection(document.getElementById('timeline'));
 }
 
-export function highlightScientistGroup(scientistId) {
-  const timeline = document.getElementById('timeline');
-  if (!timeline) return;
-
-  timeline.classList.add('has-highlight');
-  timeline.querySelector(`.scientist-node[data-scientist-id="${scientistId}"]`)?.classList.add('highlight');
-  timeline.querySelector(`.scientist-link[data-scientist-id="${scientistId}"]`)?.classList.add('highlight');
-  timeline.querySelectorAll(`.publication[data-scientist-id="${scientistId}"]`).forEach((item) => item.classList.add('highlight'));
-}
-
-export function unhighlightScientistGroup(scientistId) {
-  const timeline = document.getElementById('timeline');
-  if (!timeline) return;
-
-  timeline.classList.remove('has-highlight');
-  timeline.querySelector(`.scientist-node[data-scientist-id="${scientistId}"]`)?.classList.remove('highlight');
-  timeline.querySelector(`.scientist-link[data-scientist-id="${scientistId}"]`)?.classList.remove('highlight');
-  timeline.querySelectorAll(`.publication[data-scientist-id="${scientistId}"]`).forEach((item) => item.classList.remove('highlight'));
-}
-
 function setupDelegatedEvents(timeline) {
   if (timeline.dataset.delegated) return;
   timeline.dataset.delegated = 'true';
@@ -121,14 +202,18 @@ function setupDelegatedEvents(timeline) {
     if (action) action(element);
   });
 
-  const highlightTarget = (event) => event.target.closest('.publication[data-scientist-id], .scientist-node[data-scientist-id]');
+  const relationTarget = (event) => event.target.closest?.('[data-item-key]:not(.publication-cap):not(.scientist-cluster)');
   const enter = (event) => {
-    const element = highlightTarget(event);
-    if (element && !element.contains(event.relatedTarget)) highlightScientistGroup(element.dataset.scientistId);
+    const element = relationTarget(event);
+    if (!element || element.contains(event.relatedTarget)) return;
+    hoverKey = element.dataset.itemKey;
+    refreshRelations(timeline);
   };
   const leave = (event) => {
-    const element = highlightTarget(event);
-    if (element && !element.contains(event.relatedTarget)) unhighlightScientistGroup(element.dataset.scientistId);
+    const element = relationTarget(event);
+    if (!element || element.contains(event.relatedTarget)) return;
+    hoverKey = null;
+    refreshRelations(timeline);
   };
   timeline.addEventListener('mouseover', enter);
   timeline.addEventListener('mouseout', leave);
@@ -231,7 +316,7 @@ function renderPublications(timeline, width, axisY, coordinates) {
     marker.appendChild(mark);
     itemActions.set(marker.dataset.itemKey, (element) => {
       selectItem(element);
-      showPublicationModal(scientist.name, publication.year, publication.title, publication.abstract, 'publication', [scientistId]);
+      openItem(element.dataset.itemKey, { fromTimeline: true });
     });
     timeline.appendChild(marker);
   });
@@ -331,7 +416,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
       cluster.appendChild(count);
       itemActions.set(cluster.dataset.itemKey, () => {
         if (atMaximum) {
-          showGroupModal(members.map((member) => member.id), Math.min(...years), Math.max(...years));
+          openItem(groupKey(members.map((member) => member.id), Math.min(...years), Math.max(...years)), { fromTimeline: true });
         } else {
           document.dispatchEvent(new CustomEvent('papertrails:zoomcluster', { detail: { year: meanYear } }));
         }
@@ -364,7 +449,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     }
     itemActions.set(node.dataset.itemKey, (element) => {
       selectItem(element);
-      showScientistModal(id, { fromTimeline: true });
+      openItem(element.dataset.itemKey, { fromTimeline: true });
     });
     timeline.appendChild(node);
 
@@ -440,19 +525,7 @@ function renderMilestones(timeline, svg, width, axisY, contextTop, scale) {
     marker.appendChild(symbol);
     itemActions.set(marker.dataset.itemKey, (element) => {
       selectItem(element);
-      showPublicationModal(
-        type === 'conference' ? 'Conference' : item.discoverer,
-        item.year,
-        item.title,
-        item.details,
-        type,
-        item.scientist_ids,
-        item.attendee_ids,
-        item.theorist_ids,
-        item.location,
-        item.historical_map,
-        item.photo
-      );
+      openItem(element.dataset.itemKey, { fromTimeline: true });
     });
     timeline.appendChild(marker);
 
@@ -518,7 +591,7 @@ function renderEvents(timeline, width, height, contextTop) {
     }
     itemActions.set(band.dataset.itemKey, (element) => {
       selectItem(element);
-      showPublicationModal('Historical context', `${event.startYear}–${event.endYear}`, event.title, event.details, 'event', [], event.attendee_ids);
+      openItem(element.dataset.itemKey, { fromTimeline: true });
     });
     timeline.appendChild(band);
   });
@@ -613,14 +686,18 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   renderScientists(timeline, svg, width, axisY, coordinates, scale);
   renderMilestones(timeline, svg, width, axisY, contextTop, scale);
   if (tapestry) {
-    renderTapestry(timeline, significantEvents, width, height, contextTop, scale, (button, event) => {
+    renderTapestry(timeline, significantEvents, width, height, contextTop, scale, (button) => {
       selectItem(button);
-      showPublicationModal('Historical context', event.startYear === event.endYear ? `${event.startYear}` : `${event.startYear}–${event.endYear}`,
-        event.title, event.details, 'event', [], event.attendee_ids);
+      openItem(button.dataset.itemKey, { fromTimeline: true });
     });
   } else if (contextVisible) {
     renderEvents(timeline, width, height, contextTop);
   }
+  // Connections are drawn last so they sit above the lane content in the SVG.
+  const relationLayer = document.createElementNS(SVG_NS, 'g');
+  relationLayer.classList.add('relation-layer');
+  svg.appendChild(relationLayer);
+  hoverKey = null;
   updateScalePresentation(timeline, scale);
   applySelection(timeline);
   updateEventLabelPositions(timeline, timelineContainer);

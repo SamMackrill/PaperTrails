@@ -7,6 +7,9 @@ regiomontanus:
   nationality: "German"
   birth: "1436-06-06"
   death: "1476-07-06"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Regiomontanus"
   academic_affiliations:
     - institution: "Leipzig University"
       association: "Student"
@@ -32,6 +35,9 @@ copernicus:
   nationality: "Polish"
   birth: "1473-02-19"
   death: "1543-05-24"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Nicolaus_Copernicus"
   academic_affiliations:
     - institution: "Jagiellonian University"
       association: "Student of liberal arts, mathematics and astronomy"
@@ -58,6 +64,9 @@ vesalius:
   nationality: "Flemish"
   birth: "1514-12-31"
   death: "1564-10-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Andreas_Vesalius"
   academic_affiliations:
     - institution: "University of Leuven"
       association: "Student of arts and medicine"
@@ -85,6 +94,9 @@ tycho_brahe:
   nationality: "Danish"
   birth: "1546-12-14"
   death: "1601-10-24"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Tycho_Brahe"
   academic_affiliations:
     - institution: "University of Copenhagen"
       association: "Student of philosophy, rhetoric and law"
@@ -102,6 +114,7 @@ tycho_brahe:
 
 galileo:
   name: "Galileo Galilei"
+  summary: "An Italian astronomer, physicist, and engineer whose telescopic discoveries and quantitative study of motion helped establish experiment and mathematics as the foundation of modern physics."
   notability: 1
   color: "#d4a373"
   photo: "images/galileo.jpg"
@@ -109,6 +122,9 @@ galileo:
   nationality: "Italian"
   birth: "1564-02-15"
   death: "1642-01-08"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Galileo_Galilei"
   academic_affiliations:
     - institution: "University of Pisa"
       association: "Medical student and professor of mathematics"
@@ -129,6 +145,7 @@ galileo:
 
 huygens:
   name: "Christiaan Huygens"
+  summary: "A Dutch mathematician, physicist, and astronomer who founded the wave theory of light, invented the pendulum clock, and advanced the mathematics of motion and probability."
   notability: 1
   color: "#4682b4"
   photo: "images/huygens.jpg"
@@ -136,6 +153,9 @@ huygens:
   nationality: "Dutch"
   birth: "1629-04-14"
   death: "1695-07-08"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Christiaan_Huygens"
   academic_affiliations:
     - institution: "Leiden University"
       association: "Student of mathematics and law"
@@ -161,6 +181,9 @@ newton:
   nationality: "English"
   birth: "1643-01-04"
   death: "1727-03-31"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Isaac_Newton"
   academic_affiliations:
     - institution: "Trinity College, Cambridge"
       association: "Student, fellow and Lucasian Professor"
@@ -175,12 +198,16 @@ newton:
 
 fatio:
   name: "Nicolas Fatio de Duillier"
+  summary: "A Swiss mathematician and natural philosopher, close to Newton, who proposed an early mechanical explanation of gravity based on streams of tiny particles."
   color: "#a44a3f"
   photo: "images/fatio.jpg"
   cartoon: "images/cartoons/fatio.png"
   nationality: "Swiss"
   birth: "1664-02-16"
   death: "1753-05-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Nicolas_Fatio_de_Duillier"
   academic_affiliations:
     - institution: "University of Geneva"
       association: "Student at the Academy of Geneva"
@@ -199,6 +226,9 @@ du_fay:
   nationality: "French"
   birth: "1698-09-14"
   death: "1739-07-16"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Charles_Fran%C3%A7ois_de_Cisternay_du_Fay"
   academic_affiliations:
     - institution: "Académie royale des sciences"
       association: "Associate chemist, pensioner and twice director"
@@ -212,6 +242,7 @@ du_fay:
 
 franklin:
   name: "Benjamin Franklin"
+  summary: "An American printer, statesman, and natural philosopher whose experiments and single-fluid theory helped make electricity a quantitative science."
   notability: 1
   color: "#005f73"
   photo: "images/franklin.jpg"
@@ -219,6 +250,9 @@ franklin:
   nationality: "American"
   birth: "1706-01-17"
   death: "1790-04-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Benjamin_Franklin"
   academic_affiliations:
     - institution: "University of Pennsylvania"
       association: "Founder and trustee of its predecessor college"
@@ -230,6 +264,7 @@ franklin:
 
 euler:
   name: "Leonhard Euler"
+  summary: "A Swiss mathematician whose prolific work shaped modern analysis, mechanics, number theory, and mathematical notation."
   notability: 1
   color: "#9b2226"
   photo: "images/euler.jpg"
@@ -237,6 +272,9 @@ euler:
   nationality: "Swiss"
   birth: "1707-04-15"
   death: "1783-09-18"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Leonhard_Euler"
   academic_affiliations:
     - institution: "University of Basel"
       association: "Student"
@@ -254,12 +292,16 @@ euler:
 
 lesage:
   name: "Georges-Louis Le Sage"
+  summary: "A Genevan physicist and teacher known for developing a kinetic theory of gravitation in which ultramundane corpuscles push bodies together."
   color: "#588157"
   photo: "images/lesage.jpg"
   cartoon: "images/cartoons/lesage.png"
   nationality: "Genevan (Swiss)"
   birth: "1724-06-13"
   death: "1803-11-09"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Georges-Louis_Le_Sage"
   academic_affiliations:
     - institution: "University of Geneva"
       association: "Student and professor of mathematics"
@@ -271,12 +313,16 @@ lesage:
 
 coulomb:
   name: "Charles-Augustin de Coulomb"
+  summary: "A French military engineer and physicist who established by precise torsion-balance measurements the inverse-square law of electric and magnetic force."
   color: "#023e8a"
   photo: "images/coulomb.jpg"
   cartoon: "images/cartoons/coulomb.png"
   nationality: "French"
   birth: "1736-06-14"
   death: "1806-08-23"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Charles-Augustin_de_Coulomb"
   academic_affiliations:
     - institution: "Royal Engineering School of Mézières"
       association: "Engineering student"
@@ -287,6 +333,7 @@ coulomb:
 
 volta:
   name: "Alessandro Volta"
+  summary: "An Italian physicist whose invention of the voltaic pile provided the first source of continuous electric current and opened the study of electrochemistry."
   notability: 1
   color: "#ff5733"
   photo: "images/volta.jpg"
@@ -294,6 +341,9 @@ volta:
   nationality: "Italian"
   birth: "1745-02-18"
   death: "1827-03-05"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Alessandro_Volta"
   academic_affiliations:
     - institution: "University of Pavia"
       association: "Professor of experimental physics"
@@ -305,6 +355,7 @@ volta:
 
 dalton:
   name: "John Dalton"
+  summary: "An English chemist and meteorologist who revived atomic theory in a quantitative form, relating chemical combination to the relative weights of atoms."
   notability: 1
   color: "#c70039"
   photo: "images/dalton.jpg"
@@ -312,6 +363,9 @@ dalton:
   nationality: "English"
   birth: "1766-09-06"
   death: "1844-07-27"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/John_Dalton"
   academic_affiliations:
     - institution: "Manchester Academy"
       association: "Tutor of mathematics and natural philosophy"
@@ -322,12 +376,16 @@ dalton:
 
 young:
   name: "Thomas Young"
+  summary: "An English polymath whose interference experiments supported the wave theory of light, and who also contributed to physiology, elasticity, and the decipherment of hieroglyphs."
   color: "#4cc9f0"
   photo: "images/young.jpg"
   cartoon: "images/cartoons/young.png"
   nationality: "English"
   birth: "1773-06-13"
   death: "1829-05-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Thomas_Young_(scientist)"
   academic_affiliations:
     - institution: "University of Edinburgh"
       association: "Medical student"
@@ -345,12 +403,16 @@ young:
 
 biot:
   name: "Jean-Baptiste Biot"
+  summary: "A French physicist and astronomer who, with Savart, quantified the magnetic field produced by electric currents and made pioneering studies of polarised light."
   color: "#00a6fb"
   photo: "images/biot.jpg"
   cartoon: "images/cartoons/biot.png"
   nationality: "French"
   birth: "1774-04-21"
   death: "1862-02-03"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Jean-Baptiste_Biot"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Student and professor"
@@ -365,12 +427,16 @@ biot:
 
 ampere:
   name: "André-Marie Ampère"
+  summary: "A French physicist and mathematician who founded electrodynamics by showing how electric currents exert forces on each other."
   color: "#fb5607"
   photo: "images/ampere.jpg"
   cartoon: "images/cartoons/ampere.png"
   nationality: "French"
   birth: "1775-01-20"
   death: "1836-06-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Andr%C3%A9-Marie_Amp%C3%A8re"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Professor of analysis and mechanics"
@@ -388,6 +454,7 @@ ampere:
 
 gauss:
   name: "Carl Friedrich Gauss"
+  summary: "A German mathematician and physicist whose work transformed number theory, geometry, statistics, astronomy, and the measurement of magnetism."
   notability: 1
   color: "#3498db"
   photo: "images/gauss.jpg"
@@ -395,6 +462,9 @@ gauss:
   nationality: "German"
   birth: "1777-04-30"
   death: "1855-02-23"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss"
   academic_affiliations:
     - institution: "University of Göttingen"
       association: "Student and professor"
@@ -409,12 +479,16 @@ gauss:
 
 oersted:
   name: "Hans Christian Ørsted"
+  summary: "A Danish physicist and chemist whose 1820 discovery that an electric current deflects a compass needle first linked electricity and magnetism."
   color: "#bc6c25"
   photo: "images/oersted.jpg"
   cartoon: "images/cartoons/oersted.png"
   nationality: "Danish"
   birth: "1777-08-14"
   death: "1851-03-09"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hans_Christian_%C3%98rsted"
   academic_affiliations:
     - institution: "University of Copenhagen"
       association: "Student and professor"
@@ -426,12 +500,16 @@ oersted:
 
 fresnel:
   name: "Augustin-Jean Fresnel"
+  summary: "A French engineer and physicist who established the transverse wave theory of light and designed the lighthouse lens that bears his name."
   color: "#7209b7"
   photo: "images/fresnel.jpg"
   cartoon: "images/cartoons/fresnel.png"
   nationality: "French"
   birth: "1788-05-10"
   death: "1827-07-14"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Augustin-Jean_Fresnel"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Engineering student"
@@ -446,12 +524,16 @@ fresnel:
 
 ohm:
   name: "Georg Simon Ohm"
+  summary: "A German physicist and teacher who established the proportional relationship between voltage, current, and resistance in electrical circuits."
   color: "#ff7f50"
   photo: "images/ohm.jpg"
   cartoon: "images/cartoons/ohm.png"
   nationality: "German"
   birth: "1789-03-16"
   death: "1854-07-06"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Georg_Ohm"
   academic_affiliations:
     - institution: "University of Erlangen–Nuremberg"
       association: "Student, doctorate and professor"
@@ -466,12 +548,16 @@ ohm:
 
 savart:
   name: "Félix Savart"
+  summary: "A French physicist who, with Biot, measured the magnetic field around a current-carrying wire and also made important studies of acoustics."
   color: "#5e60ce"
   photo: "images/savart.jpg"
   cartoon: "images/cartoons/savart.png"
   nationality: "French"
   birth: "1791-06-30"
   death: "1841-03-16"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/F%C3%A9lix_Savart"
   academic_affiliations:
     - institution: "Collège de France"
       association: "Professor of experimental physics"
@@ -483,6 +569,7 @@ savart:
 
 faraday:
   name: "Michael Faraday"
+  summary: "An English experimental scientist who discovered electromagnetic induction, established the laws of electrolysis, and introduced the concept of fields of force."
   notability: 1
   color: "#e76f51"
   photo: "images/faraday.jpg"
@@ -490,6 +577,9 @@ faraday:
   nationality: "English"
   birth: "1791-09-22"
   death: "1867-08-25"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Michael_Faraday"
   academic_affiliations:
     - institution: "Royal Institution"
       association: "Researcher and Fullerian Professor of Chemistry"
@@ -503,12 +593,16 @@ faraday:
 
 neumann_franz:
   name: "Franz Ernst Neumann"
+  summary: "A German physicist and mathematician who gave electromagnetic induction a mathematical form and helped found theoretical physics teaching in Germany."
   color: "#6a994e" # Brighter green
   photo: "images/neumann_franz.jpg"
   cartoon: "images/cartoons/neumann.png"
   nationality: "German (Prussian)"
   birth: "1798-09-11"
   death: "1895-05-23"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Franz_Ernst_Neumann"
   academic_affiliations:
     - institution: "University of Königsberg"
       association: "Student and professor"
@@ -520,12 +614,16 @@ neumann_franz:
 
 weber:
   name: "Wilhelm Weber"
+  summary: "A German physicist who devised absolute units and precise instruments for electrical measurement and developed an influential theory of electrodynamics."
   color: "#f4a261"
   photo: "images/weber.jpg"
   cartoon: "images/cartoons/weber.png"
   nationality: "German"
   birth: "1804-10-24"
   death: "1891-06-23"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Wilhelm_Eduard_Weber"
   academic_affiliations:
     - institution: "Martin Luther University Halle-Wittenberg"
       association: "Student and lecturer"
@@ -546,12 +644,16 @@ weber:
 
 tait:
   name: "Peter Guthrie Tait"
+  summary: "A Scottish mathematical physicist who, with Kelvin, systematised classical mechanics and who began the mathematical classification of knots."
   color: "#8a2be2"
   photo: "images/tait.jpg"
   cartoon: "images/cartoons/tait.png"
   nationality: "Scottish"
   birth: "1831-04-28"
   death: "1901-07-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Peter_Guthrie_Tait"
   academic_affiliations:
     - institution: "Peterhouse, Cambridge"
       association: "Student and fellow"
@@ -569,6 +671,7 @@ tait:
 
 maxwell:
   name: "James Clerk Maxwell"
+  summary: "A Scottish physicist who unified electricity, magnetism, and light in a single field theory and helped found statistical mechanics."
   notability: 1
   color: "#2a9d8f"
   photo: "images/maxwell.jpg"
@@ -576,6 +679,9 @@ maxwell:
   nationality: "Scottish"
   birth: "1831-06-13"
   death: "1879-11-05"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/James_Clerk_Maxwell"
   academic_affiliations:
     - institution: "University of Edinburgh"
       association: "Student"
@@ -596,12 +702,16 @@ maxwell:
 
 van_der_waals:
   name: "Johannes Diderik van der Waals"
+  summary: "A Dutch physicist whose equation of state for real gases explained the continuity between gas and liquid and introduced intermolecular forces into physics."
   color: "#2a9d8f"
   photo: "images/van_der_waals.jpg"
   cartoon: "images/cartoons/vanderwaals.png"
   nationality: "Dutch"
   birth: "1837-11-23"
   death: "1923-03-08"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Johannes_Diderik_van_der_Waals"
   academic_affiliations:
     - institution: "Leiden University"
       association: "Student, doctorate and professor"
@@ -613,12 +723,16 @@ van_der_waals:
 
 mach:
   name: "Ernst Mach"
+  summary: "An Austrian physicist and philosopher whose critique of absolute space and time influenced relativity, and whose studies of supersonic flow gave the Mach number its name."
   color: "#b5838d"
   photo: "images/mach.jpg"
   cartoon: "images/cartoons/mach.png"
   nationality: "Austrian/Czech"
   birth: "1838-02-18"
   death: "1916-02-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Ernst_Mach"
   academic_affiliations:
     - institution: "University of Vienna"
       association: "Doctorate and lecturer"
@@ -639,12 +753,16 @@ mach:
 
 heaviside:
   name: "Oliver Heaviside"
+  summary: "An English self-taught physicist and engineer who recast Maxwell's equations into their modern vector form and advanced the theory of telegraph transmission."
   color: "#e9c46a"
   photo: "images/heaviside.jpg"
   cartoon: "images/cartoons/heaviside.png"
   nationality: "English"
   birth: "1850-05-18"
   death: "1925-02-03"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Oliver_Heaviside"
   academic_affiliations:
     - institution: "University of Göttingen"
       association: "Honorary doctorate"
@@ -659,12 +777,16 @@ heaviside:
 
 lorentz:
   name: "Hendrik Lorentz"
+  summary: "A Dutch physicist whose electron theory and transformation equations bridged classical electromagnetism and Einstein's special relativity."
   color: "#fca311"
   photo: "images/lorentz.jpg"
   cartoon: "images/cartoons/lorentz.png"
   nationality: "Dutch"
   birth: "1853-07-18"
   death: "1928-02-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hendrik_Lorentz"
   academic_affiliations:
     - institution: "Leiden University"
       association: "Student, doctorate and professor"
@@ -679,12 +801,16 @@ lorentz:
 
 thomson:
   name: "J.J. Thomson"
+  summary: "An English physicist who identified the electron as a subatomic particle and led research on the conduction of electricity through gases."
   color: "#900c3f"
   photo: "images/thomson.jpg"
   cartoon: "images/cartoons/thomson.png"
   nationality: "English"
   birth: "1856-12-18"
   death: "1940-08-30"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/J._J._Thomson"
   academic_affiliations:
     - institution: "University of Manchester"
       association: "Student at Owens College"
@@ -699,6 +825,7 @@ thomson:
 
 planck:
   name: "Max Planck"
+  summary: "A German theoretical physicist whose introduction of energy quanta to explain black-body radiation founded quantum theory."
   notability: 1
   color: "#457b9d" # Kept as is
   photo: "images/planck.jpg"
@@ -706,6 +833,9 @@ planck:
   nationality: "German"
   birth: "1858-04-23"
   death: "1947-10-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Max_Planck"
   academic_affiliations:
     - institution: "Ludwig Maximilian University of Munich"
       association: "Student and professor"
@@ -723,12 +853,16 @@ planck:
 
 birkeland:
   name: "Kristian Birkeland"
+  summary: "A Norwegian physicist whose polar expeditions and laboratory experiments proposed that electric currents from space drive the aurora."
   color: "#6a994e"
   photo: "images/birkeland.jpg"
   cartoon: "images/cartoons/birkeland.png"
   nationality: "Norwegian"
   birth: "1867-12-13"
   death: "1917-06-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Kristian_Birkeland"
   academic_affiliations:
     - institution: "University of Oslo"
       association: "Student, doctorate and professor"
@@ -740,6 +874,7 @@ birkeland:
 
 rutherford:
   name: "Ernest Rutherford"
+  summary: "A New Zealand-born physicist who discovered the atomic nucleus, explained radioactive decay, and achieved the first artificial nuclear transmutation."
   notability: 1
   color: "#c1121f"
   photo: "images/rutherford.jpg"
@@ -747,6 +882,9 @@ rutherford:
   nationality: "New Zealander"
   birth: "1871-08-30"
   death: "1937-10-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Ernest_Rutherford"
   academic_affiliations:
     - institution: "University of Canterbury"
       association: "Student and research worker"
@@ -770,12 +908,16 @@ rutherford:
 
 h_a_wilson:
   name: "Harold Albert Wilson"
+  summary: "An English-born physicist, working mainly in Canada and the United States, known for experiments on electrons and ions and for speculative electromagnetic theories of gravitation."
   color: "#6c757d"
   photo: "images/wilson.jpg"
   cartoon: "images/cartoons/wilson.png"
   nationality: "English"
   birth: "1874-12-01"
   death: "1964-10-13"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Harold_Albert_Wilson"
   academic_affiliations:
     - institution: "University of Manchester"
       association: "Student and professor"
@@ -793,6 +935,7 @@ h_a_wilson:
 
 einstein:
   name: "Albert Einstein"
+  summary: "A German-born theoretical physicist whose theories of special and general relativity reshaped ideas of space, time, and gravity, and who helped found quantum theory."
   notability: 1
   color: "#457b9d" # Lighter blue (same as Planck)
   photo: "images/einstein.jpg"
@@ -800,6 +943,9 @@ einstein:
   nationality: "German/American"
   birth: "1879-03-14"
   death: "1955-04-18"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Albert_Einstein"
   academic_affiliations:
     - institution: "ETH Zurich"
       association: "Student and professor"
@@ -826,6 +972,7 @@ einstein:
 
 noether:
   name: "Emmy Noether"
+  summary: "A German mathematician who founded much of modern abstract algebra and proved that conservation laws follow from symmetries of physical systems."
   notability: 1
   color: "#9d4edd"
   photo: "images/noether.jpg"
@@ -833,6 +980,9 @@ noether:
   nationality: "German"
   birth: "1882-03-23"
   death: "1935-04-14"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Emmy_Noether"
   academic_affiliations:
     - institution: "University of Erlangen–Nuremberg"
       association: "Student, doctorate and lecturer"
@@ -850,6 +1000,7 @@ noether:
 
 bohr:
   name: "Niels Bohr"
+  summary: "A Danish physicist who introduced quantised electron orbits into the atom and led the development of the Copenhagen interpretation of quantum mechanics."
   notability: 1
   color: "#ff006e"
   photo: "images/bohr.jpg"
@@ -857,6 +1008,9 @@ bohr:
   nationality: "Danish"
   birth: "1885-10-07"
   death: "1962-11-18"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Niels_Bohr"
   academic_affiliations:
     - institution: "University of Copenhagen"
       association: "Student, doctorate and professor"
@@ -874,6 +1028,7 @@ bohr:
 
 schrodinger:
   name: "Erwin Schrödinger"
+  summary: "An Austrian physicist who formulated wave mechanics and whose famous cat thought experiment highlighted puzzles in the interpretation of quantum theory."
   notability: 1
   color: "#2ec4b6"
   photo: "images/schrodinger.jpg"
@@ -881,6 +1036,9 @@ schrodinger:
   nationality: "Austrian"
   birth: "1887-08-12"
   death: "1961-01-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger"
   academic_affiliations:
     - institution: "University of Vienna"
       association: "Student, doctorate and professor"
@@ -904,12 +1062,16 @@ schrodinger:
 
 raman:
   name: "C. V. Raman"
+  summary: "An Indian physicist who discovered the inelastic scattering of light by molecules, now called the Raman effect, a basis of modern spectroscopy."
   color: "#118ab2"
   photo: "images/raman.jpg"
   cartoon: "images/cartoons/raman.png"
   nationality: "Indian"
   birth: "1888-11-07"
   death: "1970-11-21"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/C._V._Raman"
   academic_affiliations:
     - institution: "Presidency University, Chennai"
       association: "Student"
@@ -927,12 +1089,16 @@ raman:
 
 chadwick:
   name: "James Chadwick"
+  summary: "An English physicist whose discovery of the neutron transformed understanding of the atomic nucleus and opened the way to nuclear fission."
   color: "#ef476f"
   photo: "images/chadwick.jpg"
   cartoon: "images/cartoons/chadwick.png"
   nationality: "English"
   birth: "1891-10-20"
   death: "1974-07-24"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/James_Chadwick"
   academic_affiliations:
     - institution: "University of Manchester"
       association: "Student and researcher"
@@ -950,12 +1116,16 @@ chadwick:
 
 compton:
   name: "Arthur Compton"
+  summary: "An American physicist whose measurements of X-ray scattering by electrons confirmed that light carries momentum in discrete quanta."
   color: "#ff9f1c"
   photo: "images/compton.jpg"
   cartoon: "images/cartoons/compton.png"
   nationality: "American"
   birth: "1892-09-10"
   death: "1962-03-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Arthur_Compton"
   academic_affiliations:
     - institution: "College of Wooster"
       association: "Student and professor"
@@ -976,12 +1146,16 @@ compton:
 
 deBroglie:
   name: "Louis de Broglie"
+  summary: "A French physicist who proposed that matter has wave properties, a central idea in the development of quantum mechanics."
   color: "#ffc300"
   photo: "images/debroglie.jpg"
   cartoon: "images/cartoons/debroglie.png"
   nationality: "French"
   birth: "1892-08-15"
   death: "1987-03-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Louis_de_Broglie"
   academic_affiliations:
     - institution: "University of Paris"
       association: "Student, doctorate and professor"
@@ -993,12 +1167,16 @@ deBroglie:
 
 velikovsky:
   name: "Immanuel Velikovsky"
+  summary: "A Russian-born psychiatrist and writer whose catastrophist reinterpretations of ancient history and planetary astronomy were widely read but rejected by scientists."
   color: "#ff6f61"
   photo: "images/velikovsky.jpg"
   cartoon: "images/cartoons/velikovsky.png"
   nationality: "Russian/American"
   birth: "1895-06-10"
   death: "1979-11-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Immanuel_Velikovsky"
   academic_affiliations:
     - institution: "Moscow State University"
       association: "Medical degree"
@@ -1010,12 +1188,16 @@ velikovsky:
 
 pauli:
   name: "Wolfgang Pauli"
+  summary: "An Austrian-born theoretical physicist who formulated the exclusion principle and predicted the neutrino to preserve energy conservation in beta decay."
   color: "#8338ec"
   photo: "images/pauli.jpg"
   cartoon: "images/cartoons/pauli.png"
   nationality: "Austrian"
   birth: "1900-04-25"
   death: "1958-12-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Wolfgang_Pauli"
   academic_affiliations:
     - institution: "Ludwig Maximilian University of Munich"
       association: "Student and doctorate"
@@ -1039,6 +1221,7 @@ pauli:
 
 heisenberg:
   name: "Werner Heisenberg"
+  summary: "A German theoretical physicist who created matrix mechanics and formulated the uncertainty principle, key foundations of quantum mechanics."
   notability: 1
   color: "#8338ec"
   photo: "images/heisenberg.jpg"
@@ -1046,6 +1229,9 @@ heisenberg:
   nationality: "German"
   birth: "1901-12-05"
   death: "1976-02-01"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Werner_Heisenberg"
   academic_affiliations:
     - institution: "Ludwig Maximilian University of Munich"
       association: "Student, doctorate and professor"
@@ -1066,6 +1252,7 @@ heisenberg:
 
 dirac:
   name: "Paul Dirac"
+  summary: "An English theoretical physicist who combined quantum mechanics with special relativity, predicting antimatter and helping found quantum field theory."
   notability: 1
   color: "#007f5f"
   photo: "images/dirac.jpg"
@@ -1073,6 +1260,9 @@ dirac:
   nationality: "English"
   birth: "1902-08-08"
   death: "1984-10-20"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Paul_Dirac"
   academic_affiliations:
     - institution: "University of Bristol"
       association: "Engineering and mathematics student"
@@ -1090,12 +1280,16 @@ dirac:
 
 anderson:
   name: "Carl David Anderson"
+  summary: "An American physicist who discovered the positron, the first known antiparticle, and co-discovered the muon in cosmic rays."
   color: "#06d6a0"
   photo: "images/anderson.jpg"
   cartoon: "images/cartoons/anderson.png"
   nationality: "American"
   birth: "1905-09-03"
   death: "1991-01-11"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Carl_David_Anderson"
   academic_affiliations:
     - institution: "California Institute of Technology"
       association: "Student, doctorate and professor"
@@ -1107,12 +1301,16 @@ anderson:
 
 alfven:
   name: "Hannes Alfvén"
+  summary: "A Swedish physicist who founded magnetohydrodynamics, the study of electrically conducting fluids that underlies much of plasma physics and astrophysics."
   color: "#ffbe0b"
   photo: "images/alfven.jpg"
   cartoon: "images/cartoons/alfven.png"
   nationality: "Swedish"
   birth: "1908-05-30"
   death: "1995-04-02"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hannes_Alfv%C3%A9n"
   academic_affiliations:
     - institution: "Uppsala University"
       association: "Student and doctorate"
@@ -1133,12 +1331,16 @@ alfven:
 
 casimir:
   name: "Hendrik Casimir"
+  summary: "A Dutch physicist who predicted the attraction between uncharged conducting plates caused by quantum vacuum fluctuations, now called the Casimir effect."
   color: "#3a86ff"
   photo: "images/casimir.jpg"
   cartoon: "images/cartoons/casimir.png"
   nationality: "Dutch"
   birth: "1909-07-15"
   death: "2000-05-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hendrik_Casimir"
   academic_affiliations:
     - institution: "Leiden University"
       association: "Student, doctorate and professor"
@@ -1153,12 +1355,16 @@ casimir:
 
 lamb:
   name: "Willis Lamb"
+  summary: "An American physicist whose precise measurement of a small shift in hydrogen's energy levels spurred the development of modern quantum electrodynamics."
   color: "#8338ec"
   photo: "images/lamb.jpg"
   cartoon: "images/cartoons/lamb.png"
   nationality: "American"
   birth: "1913-07-12"
   death: "2008-05-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Willis_Lamb"
   academic_affiliations:
     - institution: "University of California, Berkeley"
       association: "Doctorate"
@@ -1179,12 +1385,16 @@ lamb:
 
 hoyle:
   name: "Fred Hoyle"
+  summary: "An English astrophysicist who explained how elements are forged inside stars and was a leading advocate of steady-state cosmology."
   color: "#ff6b6b" # Reddish
   photo: "images/hoyle.jpg"
   cartoon: "images/cartoons/hoyle.png"
   nationality: "English"
   birth: "1915-06-24"
   death: "2001-08-20"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Fred_Hoyle"
   academic_affiliations:
     - institution: "Emmanuel College, Cambridge"
       association: "Student"
@@ -1202,12 +1412,16 @@ hoyle:
 
 sciama:
   name: "Dennis W. Sciama"
+  summary: "A British physicist and cosmologist who explored the origin of inertia in the spirit of Mach's principle and mentored a generation of leading cosmologists."
   color: "#6a0dad" # Purple
   photo: "images/sciama.jpg"
   cartoon: "images/cartoons/sciama.png"
   nationality: "English"
   birth: "1926-11-18"
   death: "1999-12-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Dennis_W._Sciama"
   academic_affiliations:
     - institution: "Trinity College, Cambridge"
       association: "Student and doctorate"
@@ -1230,12 +1444,16 @@ sciama:
 
 dicke:
   name: "Robert H. Dicke"
+  summary: "An American physicist who made precise tests of gravitation, developed key radio instruments, and predicted the cosmic microwave background shortly before its discovery."
   color: "#8d99ae"
   photo: "images/dicke.jpg"
   cartoon: "images/cartoons/dicke.png"
   nationality: "American"
   birth: "1916-05-06"
   death: "1997-03-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Robert_H._Dicke"
   academic_affiliations:
     - institution: "University of Rochester"
       association: "Student"
@@ -1256,12 +1474,16 @@ dicke:
 
 arp:
   name: "Halton Arp"
+  summary: "An American astronomer who catalogued peculiar galaxies and argued, against the mainstream consensus, that many redshifts do not simply measure cosmic distance."
   color: "#fb8500"
   photo: "images/arp.jpg"
   cartoon: "images/cartoons/arp.png"
   nationality: "American"
   birth: "1927-03-21"
   death: "2013-12-28"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Halton_Arp"
   academic_affiliations:
     - institution: "Harvard University"
       association: "Student"
@@ -1279,12 +1501,16 @@ arp:
 
 nernst:
   name: "Walther Hermann Nernst"
+  summary: "A German physical chemist who formulated the third law of thermodynamics and helped found electrochemistry as a quantitative science."
   color: "#008080"
   photo: "images/nernst.jpg"
   cartoon: "images/cartoons/nernst.png"
   nationality: "German"
   birth: "1864-06-25"
   death: "1941-11-18"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Walther_Nernst"
   academic_affiliations:
     - institution: "University of Zurich"
       association: "Student"
@@ -1308,12 +1534,16 @@ nernst:
 
 bose:
   name: "Satyendra Nath Bose"
+  summary: "An Indian physicist whose statistical derivation of Planck's law led to Bose-Einstein statistics; particles that obey it are called bosons in his honour."
   color: "#800080"
   photo: "images/bose.jpg"
   cartoon: "images/cartoons/bose.png"
   nationality: "Indian"
   birth: "1894-01-01"
   death: "1974-02-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Satyendra_Nath_Bose"
   academic_affiliations:
     - institution: "University of Calcutta"
       association: "Student and professor"
@@ -1328,6 +1558,7 @@ bose:
 
 hooke:
   name: "Robert Hooke"
+  summary: "An English experimental natural philosopher who formulated the law of elasticity, pioneered microscopy, and argued for an inverse-square law of gravitation."
   notability: 1
   color: "#aabbcc"
   photo: "images/default.png"
@@ -1335,6 +1566,9 @@ hooke:
   nationality: "English"
   birth: "1635-07-18"
   death: "1703-03-03"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Robert_Hooke"
   academic_affiliations:
     - institution: "Wadham College, Oxford"
       association: "Student"
@@ -1355,12 +1589,16 @@ hooke:
 
 eddington:
   name: "Arthur Stanley Eddington"
+  summary: "An English astrophysicist who explained the internal structure of stars and led one of the 1919 eclipse expeditions that tested Einstein's general relativity."
   color: "#ca6702"
   photo: "images/eddington.jpg"
   cartoon: "images/cartoons/eddington.png"
   nationality: "English"
   birth: "1882-12-28"
   death: "1944-11-22"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Arthur_Eddington"
   academic_affiliations:
     - institution: "University of Manchester"
       association: "Student at Owens College"
@@ -1381,12 +1619,16 @@ eddington:
 
 hertz:
   name: "Heinrich Rudolf Hertz"
+  summary: "A German physicist who proved experimentally that electromagnetic waves exist, confirming Maxwell's theory and laying the groundwork for radio."
   color: "#4361ee"
   photo: "images/hertz.jpg"
   cartoon: "images/cartoons/hertz.png"
   nationality: "German"
   birth: "1857-02-22"
   death: "1894-01-01"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Heinrich_Hertz"
   academic_affiliations:
     - institution: "Ludwig Maximilian University of Munich"
       association: "Student"
@@ -1413,6 +1655,7 @@ hertz:
 
 descartes:
   name: "René Descartes"
+  summary: "A French philosopher and mathematician who founded analytic geometry and proposed a mechanical view of nature that shaped early modern science."
   notability: 1
   color: "#b56576"
   photo: "images/descartes.jpg"
@@ -1420,6 +1663,9 @@ descartes:
   nationality: "French"
   birth: "1596-03-31"
   death: "1650-02-11"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes"
   academic_affiliations:
     - institution: "University of Poitiers"
       association: "Bachelor and licentiate in law"
@@ -1434,12 +1680,16 @@ descartes:
 
 poincare:
   name: "Henri Poincaré"
+  summary: "A French mathematician and physicist whose work on celestial mechanics founded chaos theory and topology, and who anticipated key ideas of special relativity."
   color: "#43aa8b"
   photo: "images/poincare.jpg"
   cartoon: "images/cartoons/poincare.png"
   nationality: "French"
   birth: "1854-04-29"
   death: "1912-07-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Henri_Poincar%C3%A9"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Student and professor"
@@ -1463,6 +1713,7 @@ poincare:
 
 kelvin:
   name: "William Thomson (Lord Kelvin)"
+  summary: "A Belfast-born British mathematical physicist who defined the absolute temperature scale, helped formulate thermodynamics, and advanced transatlantic telegraphy."
   notability: 1
   color: "#5f0f40"
   photo: "images/kelvin.jpg"
@@ -1470,6 +1721,9 @@ kelvin:
   nationality: "Irish"
   birth: "1824-06-26"
   death: "1907-12-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Lord_Kelvin"
   academic_affiliations:
     - institution: "University of Glasgow"
       association: "Student and professor of natural philosophy"
@@ -1490,6 +1744,7 @@ kelvin:
 
 feynman:
   name: "Richard Feynman"
+  summary: "An American theoretical physicist who reformulated quantum electrodynamics using path integrals and the diagrams that bear his name."
   notability: 1
   color: "#9b5de5"
   photo: "images/feynman.jpg"
@@ -1497,6 +1752,9 @@ feynman:
   nationality: "American"
   birth: "1918-05-11"
   death: "1988-02-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Richard_Feynman"
   academic_affiliations:
     - institution: "Massachusetts Institute of Technology"
       association: "Student"
@@ -1531,6 +1789,9 @@ kepler:
   nationality: "German"
   birth: "1571-12-27"
   death: "1630-11-15"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Johannes_Kepler"
   academic_affiliations:
     - institution: "University of Tübingen"
       association: "Student"
@@ -1558,6 +1819,9 @@ william_gilbert:
   nationality: "English"
   birth: "1544"
   death: "1603-11-30"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/William_Gilbert_(physicist)"
   academic_affiliations:
     - institution: "St John's College, Cambridge"
       association: "Student and fellow"
@@ -1576,6 +1840,9 @@ henry_cavendish:
   nationality: "English"
   birth: "1731-10-10"
   death: "1810-02-24"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Henry_Cavendish"
   academic_affiliations:
     - institution: "Peterhouse, Cambridge"
       association: "Student"
@@ -1597,6 +1864,9 @@ george_green:
   nationality: "English"
   birth: "1793-07-14"
   death: "1841-05-31"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/George_Green_(mathematician)"
   academic_affiliations:
     - institution: "Gonville & Caius College, Cambridge"
       association: "Student and fellow"
@@ -1615,6 +1885,9 @@ joseph_henry:
   nationality: "American"
   birth: "1797-12-17"
   death: "1878-05-13"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Joseph_Henry"
   academic_affiliations:
     - institution: "Princeton University"
       association: "Professor of natural philosophy"
@@ -1636,6 +1909,9 @@ gustav_kirchhoff:
   nationality: "German"
   birth: "1824-03-12"
   death: "1887-10-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Gustav_Kirchhoff"
   academic_affiliations:
     - institution: "University of Königsberg"
       association: "Student and doctorate"
@@ -1663,6 +1939,9 @@ joseph_fraunhofer:
   nationality: "Bavarian"
   birth: "1787-03-06"
   death: "1826-06-07"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Joseph_von_Fraunhofer"
   academic_affiliations:
     - institution: "University of Erlangen–Nuremberg"
       association: "Honorary doctorate"
@@ -1684,6 +1963,9 @@ hippolyte_fizeau:
   nationality: "French"
   birth: "1819-09-23"
   death: "1896-09-18"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hippolyte_Fizeau"
   academic_affiliations:
     - institution: "University of Paris"
       association: "Medical student"
@@ -1705,6 +1987,9 @@ roemer:
   nationality: "Danish"
   birth: "1644-09-25"
   death: "1710-09-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Ole_R%C3%B8mer"
   academic_affiliations:
     - institution: "University of Copenhagen"
       association: "Student and professor of astronomy"
@@ -1723,6 +2008,9 @@ kleist:
   nationality: "Prussian"
   birth: "1700-06-10"
   death: "1748-12-11"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Ewald_Georg_von_Kleist"
   academic_affiliations:
     - institution: "Leipzig University"
       association: "Student"
@@ -1744,6 +2032,9 @@ michelson:
   nationality: "American"
   birth: "1852-12-19"
   death: "1931-05-09"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Albert_A._Michelson"
   academic_affiliations:
     - institution: "United States Naval Academy"
       association: "Student and instructor"
@@ -1774,6 +2065,9 @@ morley:
   nationality: "American"
   birth: "1838-01-29"
   death: "1923-02-24"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Edward_W._Morley"
   academic_affiliations:
     - institution: "Williams College"
       association: "Student"
@@ -1804,6 +2098,9 @@ george_fitzgerald:
   nationality: "Irish"
   birth: "1851-08-03"
   death: "1901-02-22"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/George_Francis_FitzGerald"
   academic_affiliations:
     - institution: "Trinity College Dublin"
       association: "Student, fellow and professor"
@@ -1825,6 +2122,9 @@ joseph_larmor:
   nationality: "Irish"
   birth: "1857-07-11"
   death: "1942-05-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Joseph_Larmor"
   academic_affiliations:
     - institution: "St John's College, Cambridge"
       association: "Student and fellow"
@@ -1849,6 +2149,9 @@ hermann_minkowski:
   nationality: "German"
   birth: "1864-06-22"
   death: "1909-01-12"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hermann_Minkowski"
   academic_affiliations:
     - institution: "University of Königsberg"
       association: "Student and doctorate"
@@ -1876,6 +2179,9 @@ karl_schwarzschild:
   nationality: "German"
   birth: "1873-10-09"
   death: "1916-05-11"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Karl_Schwarzschild"
   academic_affiliations:
     - institution: "University of Strasbourg"
       association: "Doctorate"
@@ -1900,6 +2206,9 @@ pierre_laplace:
   nationality: "French"
   birth: "1749-03-23"
   death: "1827-03-05"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Pierre-Simon_Laplace"
   academic_affiliations:
     - institution: "University of Caen Normandy"
       association: "Student"
@@ -1924,6 +2233,9 @@ john_poynting:
   nationality: "English"
   birth: "1852-09-09"
   death: "1914-03-30"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/John_Henry_Poynting"
   academic_affiliations:
     - institution: "University of Manchester"
       association: "Student and lecturer at Owens College"
@@ -1951,6 +2263,9 @@ pieter_zeeman:
   nationality: "Dutch"
   birth: "1865-05-25"
   death: "1943-10-09"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Pieter_Zeeman"
   academic_affiliations:
     - institution: "Leiden University"
       association: "Student and doctorate"
@@ -1975,6 +2290,9 @@ etienne_malus:
   nationality: "French"
   birth: "1775-07-23"
   death: "1812-02-24"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/%C3%89tienne-Louis_Malus"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Engineering student"
@@ -1996,6 +2314,9 @@ john_michell:
   nationality: "English"
   birth: "1724"
   death: "1793-04-21"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/John_Michell"
   academic_affiliations:
     - institution: "Queens' College, Cambridge"
       association: "Student, fellow and lecturer"
@@ -2017,6 +2338,9 @@ carl_brans:
   nationality: "American"
   birth: "1935-12-13"
   death: "2026-02-26"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Carl_H._Brans"
   academic_affiliations:
     - institution: "Loyola University New Orleans"
       association: "Student and professor"
@@ -2041,6 +2365,9 @@ lamoreaux:
   nationality: "American"
   birth: ""
   death: ""
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Steve_Lamoreaux"
   academic_affiliations:
     - institution: "Stanford University"
       association: "Doctorate"
@@ -2065,6 +2392,9 @@ penzias:
   nationality: "American"
   birth: "1933-04-26"
   death: "2024-01-22"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Arno_Allan_Penzias"
   academic_affiliations:
     - institution: "City College of New York"
       association: "Student"
@@ -2089,6 +2419,9 @@ wilson_robert:
   nationality: "American"
   birth: "1936-01-10"
   death: ""
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Robert_Woodrow_Wilson"
   academic_affiliations:
     - institution: "Rice University"
       association: "Student"
@@ -2113,6 +2446,9 @@ wheeler:
   nationality: "American"
   birth: "1911-07-09"
   death: "2008-04-13"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/John_Archibald_Wheeler"
   academic_affiliations:
     - institution: "Johns Hopkins University"
       association: "Student and doctorate"
@@ -2142,6 +2478,9 @@ breit:
   nationality: "American"
   birth: "1899-07-14"
   death: "1981-09-11"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Gregory_Breit"
   academic_affiliations:
     - institution: "Johns Hopkins University"
       association: "Student and doctorate"
@@ -2173,6 +2512,9 @@ lagrange:
   nationality: "Italian/French"
   birth: "1736-01-25"
   death: "1813-04-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Joseph-Louis_Lagrange"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Founding professor of analysis"
@@ -2198,6 +2540,9 @@ leibniz:
   nationality: "German"
   birth: "1646-07-01"
   death: "1716-11-14"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz"
   academic_affiliations:
     - institution: "Leipzig University"
       association: "Student of philosophy and law"
@@ -2226,6 +2571,9 @@ poisson:
   nationality: "French"
   birth: "1781-06-21"
   death: "1840-04-25"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Sim%C3%A9on_Denis_Poisson"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Student and professor"
@@ -2250,6 +2598,9 @@ helmholtz:
   nationality: "German"
   birth: "1821-08-31"
   death: "1894-09-08"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Hermann_von_Helmholtz"
   academic_affiliations:
     - institution: "University of Königsberg"
       association: "Professor of physiology and pathology"
@@ -2283,6 +2634,9 @@ lenz:
   nationality: "Baltic German/Russian"
   birth: "1804-02-24"
   death: "1865-02-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Emil_Lenz"
   academic_affiliations:
     - institution: "University of Tartu"
       association: "Student at the university then known as Dorpat"
@@ -2307,6 +2661,9 @@ stokes:
   nationality: "Irish"
   birth: "1819-08-13"
   death: "1903-02-01"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Sir_George_Stokes%2C_1st_Baronet"
   academic_affiliations:
     - institution: "Pembroke College, Cambridge"
       association: "Student, fellow, and master; Lucasian Professor of Mathematics at Cambridge"
@@ -2328,6 +2685,9 @@ eotvos:
   nationality: "Hungarian"
   birth: "1848-07-27"
   death: "1919-04-08"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Lor%C3%A1nd_E%C3%B6tv%C3%B6s"
   academic_affiliations:
     - institution: "Heidelberg University"
       association: "Student and doctorate in physics"
@@ -2352,6 +2712,9 @@ becquerel:
   nationality: "French"
   birth: "1852-12-15"
   death: "1908-08-25"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Henri_Becquerel"
   academic_affiliations:
     - institution: "École Polytechnique"
       association: "Student and professor of physics"
@@ -2377,6 +2740,9 @@ curie_marie:
   nationality: "Polish/French"
   birth: "1867-11-07"
   death: "1934-07-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Marie_Curie"
   academic_affiliations:
     - institution: "University of Paris"
       association: "Student, doctorate in physics, and professor"
@@ -2402,6 +2768,9 @@ meitner:
   nationality: "Austrian/Swedish"
   birth: "1878-11-07"
   death: "1968-10-27"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Lise_Meitner"
   academic_affiliations:
     - institution: "University of Vienna"
       association: "Student and doctorate in physics"
@@ -2427,6 +2796,9 @@ fermi:
   nationality: "Italian/American"
   birth: "1901-09-29"
   death: "1954-11-28"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Enrico_Fermi"
   academic_affiliations:
     - institution: "University of Pisa"
       association: "Student and doctorate in physics"
@@ -2457,6 +2829,9 @@ lemaitre:
   nationality: "Belgian"
   birth: "1894-07-17"
   death: "1966-06-20"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Georges_Lema%C3%AEtre"
   academic_affiliations:
     - institution: "Catholic University of Louvain"
       association: "Student, doctorate in mathematics and physics, and professor"
@@ -2482,6 +2857,9 @@ hubble:
   nationality: "American"
   birth: "1889-11-20"
   death: "1953-09-28"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Edwin_Hubble"
   academic_affiliations:
     - institution: "University of Chicago"
       association: "Student and doctorate in astronomy"
@@ -2506,6 +2884,9 @@ cassini:
   nationality: "Italian-French"
   birth: "1625-06-08"
   death: "1712-09-14"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Giovanni_Domenico_Cassini"
   academic_affiliations:
     - institution: "University of Bologna"
       association: "Professor of mathematics and astronomy"
@@ -2524,6 +2905,9 @@ richer:
   nationality: "French"
   birth: "1630"
   death: "1696"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Jean_Richer"
   publications:
     - year: 1679
       title: "Observations astronomiques et physiques faites en l'isle de Caïenne"
@@ -2539,6 +2923,9 @@ halley:
   nationality: "English"
   birth: "1656-11-08"
   death: "1742-01-25"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Edmond_Halley"
   academic_affiliations:
     - institution: "The Queen's College, Oxford"
       association: "Student; later Savilian Professor of Geometry at Oxford"
@@ -2560,6 +2947,9 @@ bradley:
   nationality: "English"
   birth: "1692"
   death: "1762-07-13"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/James_Bradley"
   academic_affiliations:
     - institution: "Balliol College, Oxford"
       association: "Student; later Savilian Professor of Astronomy at Oxford"
@@ -2582,6 +2972,9 @@ herschel:
   nationality: "German-British"
   birth: "1738-11-15"
   death: "1822-08-25"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/William_Herschel"
   publications:
     - year: 1781
       title: "Account of a Comet"
@@ -2599,6 +2992,9 @@ leavitt:
   nationality: "American"
   birth: "1868-07-04"
   death: "1921-12-12"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Henrietta_Swan_Leavitt"
   academic_affiliations:
     - institution: "Radcliffe College"
       association: "Student at its predecessor, the Society for the Collegiate Instruction of Women"
@@ -2623,6 +3019,9 @@ hall:
   nationality: "American"
   birth: "1855-11-07"
   death: "1938-11-20"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Edwin_Hall"
   academic_affiliations:
     - institution: "Johns Hopkins University"
       association: "Doctoral student; discovered the Hall effect while working with Henry Rowland"
@@ -2647,6 +3046,9 @@ born:
   nationality: "German-British"
   birth: "1882-12-11"
   death: "1970-01-05"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Max_Born"
   academic_affiliations:
     - institution: "University of Göttingen"
       association: "Doctorate and professor of theoretical physics"
@@ -2671,6 +3073,9 @@ schwinger:
   nationality: "American"
   birth: "1918-02-12"
   death: "1994-07-16"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Julian_Schwinger"
   academic_affiliations:
     - institution: "Columbia University"
       association: "Student and doctorate in physics"
@@ -2695,6 +3100,9 @@ tomonaga:
   nationality: "Japanese"
   birth: "1906-03-31"
   death: "1979-07-08"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Shin'ichir%C5%8D_Tomonaga"
   academic_affiliations:
     - institution: "Kyoto University"
       association: "Physics student and research assistant at Kyoto Imperial University"
@@ -2716,6 +3124,9 @@ bohm:
   nationality: "American-British"
   birth: "1917-12-20"
   death: "1992-10-27"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/David_Bohm"
   academic_affiliations:
     - institution: "University of California, Berkeley"
       association: "Doctorate in physics under J. Robert Oppenheimer"
@@ -2740,6 +3151,9 @@ bell:
   nationality: "Northern Irish"
   birth: "1928-07-28"
   death: "1990-10-01"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/John_Stewart_Bell"
   academic_affiliations:
     - institution: "Queen's University Belfast"
       association: "Student of experimental and mathematical physics"
@@ -2764,6 +3178,9 @@ dingle:
   nationality: "English"
   birth: "1890-08-02"
   death: "1978-09-04"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Herbert_Dingle"
   academic_affiliations:
     - institution: "Imperial College London"
       association: "Physics student and Professor of Natural Philosophy"
@@ -2788,6 +3205,9 @@ miller:
   nationality: "American"
   birth: "1866-03-13"
   death: "1941-02-22"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Dayton_Miller"
   academic_affiliations:
     - institution: "Princeton University"
       association: "Doctorate in astronomy"
@@ -2812,6 +3232,9 @@ lodge:
   nationality: "English"
   birth: "1851-06-12"
   death: "1940-08-22"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Oliver_Lodge"
   academic_affiliations:
     - institution: "University of Liverpool"
       association: "Professor of physics at University College Liverpool"
@@ -2836,6 +3259,9 @@ cannizzaro:
   nationality: "Italian"
   birth: "1826-07-13"
   death: "1910-05-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Stanislao_Cannizzaro"
   academic_affiliations:
     - institution: "University of Genoa"
       association: "Professor of chemistry"
@@ -2862,6 +3288,9 @@ mendeleev:
   nationality: "Russian"
   birth: "1834-02-08"
   death: "1907-02-02"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Dmitri_Mendeleev"
   academic_affiliations:
     - institution: "Heidelberg University"
       association: "Visiting researcher"
@@ -2886,6 +3315,9 @@ meyer:
   nationality: "German"
   birth: "1830-08-19"
   death: "1895-04-11"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Lothar_Meyer"
   academic_affiliations:
     - institution: "Heidelberg University"
       association: "Student of chemistry under Robert Bunsen"
@@ -2910,6 +3342,9 @@ avogadro:
   nationality: "Italian"
   birth: "1776-08-09"
   death: "1856-07-09"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Amedeo_Avogadro"
   academic_affiliations:
     - institution: "University of Turin"
       association: "Professor of mathematical physics"
@@ -2930,6 +3365,9 @@ steinmetz:
   nationality: "German-American"
   birth: "1865-04-09"
   death: "1923-10-26"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Charles_Proteus_Steinmetz"
   academic_affiliations:
     - institution: "Union College"
       association: "Professor of electrical engineering and applied physics"
