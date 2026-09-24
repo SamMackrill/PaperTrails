@@ -1,9 +1,9 @@
 import { config } from './config.js?v=15';
 import { scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=18';
-import { groupKey, openItem } from './modalManager.js?v=24';
-import { renderTapestry } from './tapestryRenderer.js?v=5';
+import { groupKey, openItem } from './modalManager.js?v=25';
+import { renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=6';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
-import { createPortrait } from './portraits.js?v=2';
+import { createPortrait } from './portraits.js?v=3';
 import {
   EVENT_PIN_GAP,
   EVENT_LABEL_PADDING,
@@ -29,7 +29,7 @@ const PUBLICATION_PITCH = 8;
 const PUBLICATION_MAX_STACK = 5;
 const MILESTONE_FIRST_OFFSET = 60;
 const MILESTONE_GAP = 42;
-const TAPESTRY_LANE_HEIGHT = 200;
+const TAPESTRY_LANE_HEIGHT = 176;
 
 // Timeline items are rebuilt on every zoom, so selection is tracked by a stable
 // item key rather than by element.
@@ -418,10 +418,11 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     .sort((a, b) => a.x - b.x);
 
   const anyLabels = entries.some((entry) => entry.label);
-  const rowPitch = anyLabels ? 56 : 45;
+  const rowPitch = anyLabels ? 52 : 44;
   const top = 30;
   const bottom = Math.max(top, axisY - PUBLICATION_MAX_STACK * PUBLICATION_PITCH - 34 - (anyLabels ? 12 : 0));
-  const levelCount = Math.max(2, Math.min(8, Math.floor((bottom - top) / rowPitch) + 1));
+  // A lane too short for two rows uses one, so neighbours group rather than overlap.
+  const levelCount = Math.max(1, Math.min(8, Math.floor((bottom - top) / rowPitch) + 1));
   const clusterWidth = (count) => FACE_SIZE + (Math.min(3, count) - 1) * FACE_STEP + 10;
   const items = layoutPeople(entries, {
     levelCount,
@@ -654,6 +655,7 @@ export function updateScalePresentation(timeline, scale) {
 // title escape the band that contains it.
 export function updateEventLabelPositions(timeline, timelineContainer) {
   if (!timeline || !timelineContainer) return;
+  updateTapestryCaptions(timeline, timelineContainer);
 
   const viewportRect = timelineContainer.getBoundingClientRect();
 
@@ -728,8 +730,12 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   const coordinates = {};
   renderScaleSegments(timeline, width, height);
   renderAxis(timeline, svg, width, height, axisY, scale);
-  renderPublications(timeline, width, axisY, coordinates);
+  // Publications are laid out first because portraits link to them, but are
+  // added after the people so the lanes tab in top-to-bottom order.
+  const publications = document.createDocumentFragment();
+  renderPublications(publications, width, axisY, coordinates);
   renderScientists(timeline, svg, width, axisY, coordinates, scale);
+  timeline.appendChild(publications);
   renderMilestones(timeline, svg, width, axisY, contextTop, scale);
   if (tapestry) {
     renderTapestry(timeline, significantEvents, width, height, contextTop, scale, (button) => {

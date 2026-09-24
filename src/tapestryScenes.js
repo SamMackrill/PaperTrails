@@ -1,7 +1,7 @@
 // Each panorama contains five symbolic facets of a database event. These are
 // descriptive illustration captions, not separately dated historical events.
 export const tapestryAtlases = [
-  { file: 'images/tapestry/early-panorama.png', width: 1586, height: 992, rows: [
+  { file: 'images/tapestry/early-panorama.webp', width: 1586, height: 992, rows: [
     [0, 156, [0, 356, 670, 910, 1174, 1586]],
     [161, 291, [0, 304, 566, 956, 1254, 1586]],
     [299, 417, [0, 310, 594, 960, 1260, 1586]],
@@ -10,7 +10,7 @@ export const tapestryAtlases = [
     [696, 804, [0, 322, 555, 901, 1230, 1586]],
     [819, 957, [0, 311, 631, 915, 1227, 1586]]
   ] },
-  { file: 'images/tapestry/revolutions-panorama-v2.png', width: 1586, height: 992, rows: [
+  { file: 'images/tapestry/revolutions-panorama-v2.webp', width: 1586, height: 992, rows: [
     [0, 144, [0, 321, 562, 793, 1144, 1586]],
     [153, 286, [0, 349, 640, 914, 1267, 1586]],
     [298, 422, [0, 302, 629, 941, 1255, 1586]],
@@ -19,7 +19,7 @@ export const tapestryAtlases = [
     [711, 826, [0, 365, 640, 947, 1259, 1586]],
     [841, 979, [0, 350, 646, 1003, 1220, 1586]]
   ] },
-  { file: 'images/tapestry/modern-panorama.png', width: 1586, height: 992, rows: [
+  { file: 'images/tapestry/modern-panorama.webp', width: 1586, height: 992, rows: [
     [0, 167, [0, 397, 689, 998, 1281, 1586]],
     [178, 303, [0, 389, 584, 944, 1114, 1586]],
     [315, 440, [0, 377, 565, 962, 1221, 1586]],

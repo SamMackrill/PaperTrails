@@ -1,10 +1,13 @@
 import { config } from './config.js?v=15';
-import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=3';
+import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=4';
 import { yearToX } from './timeScale.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+// The strip along the top of the ribbon where captions are stitched.
+const CAPTION_HEIGHT = 20;
+const THREAD_SPACING = 6;
 
-function renderPanorama(button, scene, sceneWidth, artHeight, scale, explanation) {
+function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
   const bleed = Math.min(18, sceneWidth / 4);
   const crop = getPanoramaCrop(scene, sceneWidth + bleed * 2, artHeight, scale);
   button.dataset.facetCount = crop.facets.length;
@@ -34,12 +37,16 @@ function renderPanorama(button, scene, sceneWidth, artHeight, scale, explanation
     hotspot.className = 'tapestry-facet';
     hotspot.style.left = `${left}px`;
     hotspot.style.width = `${right - left}px`;
-    hotspot.dataset.tooltip = `${explanation}\nIn the embroidery: ${facet}.`;
+    // A short caption anchored to the scene, not a paragraph that follows
+    // each facet around.
+    hotspot.dataset.tooltip = `${heading}\nIn the embroidery: ${facet}.\nSelect for details.`;
+    hotspot.dataset.tooltipAnchor = 'scene';
     hotspot.setAttribute('aria-hidden', 'true');
     button.appendChild(hotspot);
   });
-  button.dataset.tooltip = `${explanation}\nIn the embroidery: ${crop.facets.join('; ')}.`;
-  button.setAttribute('aria-label', button.dataset.tooltip);
+  button.dataset.tooltip = `${heading}\nIn the embroidery: ${crop.facets.join('; ')}.`;
+  button.dataset.tooltipAnchor = 'scene';
+  return crop.facets;
 }
 
 export function layoutTapestry(events, width) {
@@ -72,31 +79,42 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   ribbon.style.width = `${width}px`;
   const { items, lanes } = layoutTapestry(events, width);
   const availableHeight = height - top - 12;
-  // Extra horizontal room goes to new narrative groups, with little change
-  // in figure size, instead of simply magnifying the same image.
-  const ribbonHeight = Math.min(availableHeight, 148 + Math.min(20, (scale - 1) * 5));
+  // The ribbon fills its lane. Extra horizontal room goes to new narrative
+  // groups rather than simply magnifying the same image.
+  const ribbonHeight = Math.max(60, Math.min(availableHeight, 260));
   ribbon.style.height = `${ribbonHeight}px`;
-  const artHeight = Math.max(24, ribbonHeight - 22 - lanes * 4);
+  const artHeight = Math.max(24, ribbonHeight - CAPTION_HEIGHT - 14 - lanes * THREAD_SPACING);
 
   items.forEach(({ event, anchor, end, left, lane, sceneWidth }) => {
     const date = event.startYear === event.endYear ? `${event.startYear}` : `${event.startYear}–${event.endYear}`;
-    const explanation = `${event.title} · ${date}. ${event.details || ''}`;
+    const heading = `${event.title} · ${date}`;
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'tapestry-scene';
     button.dataset.itemKey = `event:${events.indexOf(event)}`;
-    button.dataset.tooltip = explanation;
+    button.dataset.tooltip = heading;
     button.dataset.startYear = event.startYear;
     button.dataset.endYear = event.endYear;
-    button.setAttribute('aria-label', explanation);
     button.style.left = `${left}px`;
-    button.style.top = '10px';
+    button.style.top = `${CAPTION_HEIGHT + 4}px`;
     button.style.width = `${sceneWidth}px`;
     button.style.height = `${artHeight}px`;
     const scene = tapestryScenes.get(event.title);
-    if (scene) {
-      renderPanorama(button, scene, sceneWidth, artHeight, scale, explanation);
-    } else {
+    const facets = scene ? renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) : [];
+    button.setAttribute('aria-label', `${heading}. ${event.details || ''}${facets.length ? ` In the embroidery: ${facets.join('; ')}.` : ''}`);
+    // Captions are stitched into the linen above each scene, in the manner
+    // of the Bayeux Tapestry's inscriptions.
+    const caption = document.createElement('span');
+    caption.className = 'tapestry-caption';
+    caption.textContent = `${scale < 1.5 ? (event.shortTitle || event.title) : event.title} · ${event.startYear}`;
+    caption.dataset.sceneLeft = String(left);
+    caption.dataset.sceneWidth = String(sceneWidth);
+    caption.style.left = `${left + 4}px`;
+    caption.style.maxWidth = `${Math.max(0, sceneWidth - 8)}px`;
+    caption.setAttribute('aria-hidden', 'true');
+    // Scenes too narrow for a legible caption rely on their tooltip.
+    if (sceneWidth >= 52) ribbon.appendChild(caption);
+    if (!scene) {
       // Future database entries remain discoverable even before art is commissioned.
       const fallback = document.createElement('span');
       fallback.className = 'tapestry-fallback';
@@ -106,8 +124,9 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     const thread = document.createElement('span');
     thread.className = 'tapestry-thread';
     thread.style.left = `${anchor}px`;
-    thread.style.top = `${12 + artHeight + lane * 4}px`;
-    thread.dataset.tooltip = explanation;
+    thread.style.top = `${CAPTION_HEIGHT + 8 + artHeight + lane * THREAD_SPACING}px`;
+    thread.dataset.tooltip = heading;
+    thread.dataset.endYear = String(event.endYear);
     thread.style.setProperty('--thread-color', ['#854635', '#425c61', '#626539', '#694c67'][lane % 4]);
     thread.style.width = `${Math.max(2, end - anchor)}px`;
     thread.setAttribute('aria-hidden', 'true');
@@ -125,4 +144,20 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     ribbon.appendChild(button);
   });
   timeline.appendChild(ribbon);
+}
+
+// Keeps each caption inside the visible part of its scene while panning.
+export function updateTapestryCaptions(timeline, timelineContainer) {
+  const ribbon = timeline.querySelector('.tapestry-ribbon');
+  if (!ribbon) return;
+  const viewport = timelineContainer.getBoundingClientRect();
+  const ribbonLeft = ribbon.getBoundingClientRect().left;
+  ribbon.querySelectorAll('.tapestry-caption').forEach((caption) => {
+    const sceneLeft = Number(caption.dataset.sceneLeft);
+    const sceneRight = sceneLeft + Number(caption.dataset.sceneWidth);
+    const visibleLeft = Math.max(sceneLeft, viewport.left - ribbonLeft);
+    const captionWidth = caption.offsetWidth;
+    const left = Math.min(visibleLeft + 4, sceneRight - captionWidth - 4);
+    caption.style.left = `${Math.max(sceneLeft + 4, left)}px`;
+  });
 }

@@ -1,5 +1,5 @@
 import { conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=18';
-import { createPortrait, getPortraitSource } from './portraits.js?v=2';
+import { createPortrait, getPortraitSource } from './portraits.js?v=3';
 
 // Wide screens dock the panel beside the timeline so both stay usable.
 // Narrow screens show it as a modal bottom sheet.
@@ -16,6 +16,7 @@ let metadata;
 let body;
 let media;
 let portraitNote;
+let sheetHandle;
 let lastFocusedElement = null;
 let closeTimer = null;
 // Items visited in this panel session, most recent last.
@@ -34,8 +35,9 @@ function fetchElements() {
   body = document.getElementById('detail-body');
   media = document.getElementById('detail-media');
   portraitNote = document.getElementById('detail-portrait-note');
+  sheetHandle = document.getElementById('detail-sheet-handle');
 
-  return Boolean(panel && backdrop && closeButton && backButton && eyebrow && title && identity && metadata && body && media && portraitNote);
+  return Boolean(panel && backdrop && closeButton && backButton && eyebrow && title && identity && metadata && body && media && portraitNote && sheetHandle);
 }
 
 export function isPanelDocked() {
@@ -797,7 +799,7 @@ export function openItem(key, { fromTimeline = false, fromHistory = false } = {}
   current = { key, title: title.textContent };
   updateBackButton();
   panel.scrollTop = 0;
-  openPanel({ refocus: wasOpen });
+  openPanel({ refocus: wasOpen, peek: fromTimeline });
   document.dispatchEvent(new CustomEvent('papertrails:itemopened', { detail: { key, fromTimeline } }));
   return true;
 }
@@ -808,7 +810,13 @@ export function goBack() {
   openItem(previous.key, { fromHistory: true });
 }
 
-function openPanel({ refocus = false } = {}) {
+function setPeek(peek) {
+  panel.classList.toggle('is-peek', peek);
+  sheetHandle.setAttribute('aria-expanded', String(!peek));
+  sheetHandle.setAttribute('aria-label', peek ? 'Show all details' : 'Show less');
+}
+
+function openPanel({ refocus = false, peek = false } = {}) {
   if (!panel || !backdrop) return;
 
   if (closeTimer) {
@@ -830,6 +838,9 @@ function openPanel({ refocus = false } = {}) {
   }
   panel.hidden = false;
   backdrop.hidden = docked;
+  // On phones, items tapped on the timeline open as a short peek so the
+  // reader can scan without losing the timeline; the handle expands it.
+  if (opening) setPeek(!docked && peek);
   if (opening) {
     document.body.classList.toggle('has-docked-panel', docked);
     document.dispatchEvent(new CustomEvent('papertrails:panellayout'));
@@ -881,6 +892,10 @@ export function setupModalEventListeners() {
 
   closeButton.addEventListener('click', () => closeModal());
   backButton.addEventListener('click', goBack);
+  sheetHandle.addEventListener('click', () => setPeek(!panel.classList.contains('is-peek')));
+  panel.addEventListener('scroll', () => {
+    if (panel.scrollTop > 0 && panel.classList.contains('is-peek')) setPeek(false);
+  });
   backdrop.addEventListener('click', () => closeModal());
   window.addEventListener('keydown', (event) => {
     if (panel.hidden || document.querySelector('dialog[open]')) return;
