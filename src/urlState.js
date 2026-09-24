@@ -1,5 +1,8 @@
 // Shareable view state kept in the URL hash, for example
-// #from=1850&to=1950&item=scientist:maxwell&hide=publications,conferences&scale=density
+// #from=1850&to=1950&item=scientist:maxwell&hide=publications,conferences&scale=density&tapestry=1
+//
+// scale and tapestry are null when absent, so a bare URL can fall back to the
+// reader's saved preferences.
 
 export const LAYER_NAMES = ['people', 'publications', 'discoveries', 'conferences', 'context'];
 
@@ -14,12 +17,12 @@ export function parseHash(hash) {
     to: Number.isFinite(to) && params.has('to') ? to : null,
     item: item && /^(scientist|publication|discovery|conference|event):[\w:-]+$/.test(item) ? item : null,
     hidden,
-    density: params.get('scale') === 'density',
+    scale: ['density', 'linear'].includes(params.get('scale')) ? params.get('scale') : null,
     tapestry: params.has('tapestry') ? params.get('tapestry') === '1' : null
   };
 }
 
-export function formatHash({ from, to, item, hidden = [], density = false, tapestry = null }) {
+export function formatHash({ from, to, item, hidden = [], scale = null, tapestry = null }) {
   const params = new URLSearchParams();
   if (Number.isFinite(from) && Number.isFinite(to)) {
     params.set('from', String(Math.round(from)));
@@ -27,7 +30,9 @@ export function formatHash({ from, to, item, hidden = [], density = false, tapes
   }
   if (item) params.set('item', item);
   if (hidden.length) params.set('hide', hidden.join(','));
-  if (density) params.set('scale', 'density');
+  // Display modes are recorded explicitly, so a shared link opens the way
+  // the sender saw it rather than with the recipient's preferences.
+  if (scale) params.set('scale', scale);
   if (tapestry !== null) params.set('tapestry', tapestry ? '1' : '0');
   // Keep separators readable in shared links.
   const text = params.toString().replace(/%2C/g, ',').replace(/%3A/g, ':');

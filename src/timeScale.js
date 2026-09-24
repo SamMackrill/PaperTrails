@@ -17,7 +17,10 @@ export function buildDensityBreakpoints(years, start = config.START_YEAR, end = 
   const edges = [start, ...ERA_BOUNDARIES.filter((year) => year > start && year < end), end];
   const counts = edges.slice(1).map(() => 0);
   years.filter(Number.isFinite).forEach((year) => {
-    const index = edges.findIndex((edge, i) => i > 0 && year <= edge) - 1;
+    // Buckets are half-open, so a boundary year counts in the era that
+    // starts there, where yearToX draws it. The last bucket includes the end.
+    const last = edges.length - 1;
+    const index = edges.findIndex((edge, i) => i > 0 && (year < edge || (i === last && year <= edge))) - 1;
     if (index >= 0) counts[index] += 1;
   });
   const totalYears = end - start;

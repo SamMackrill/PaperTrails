@@ -295,7 +295,10 @@ function renderAxis(timeline, svg, width, height, axisY, scale) {
     const labelWidth = measureText(String(year), '700 12px');
     if (!isCurrent && year !== config.END_YEAR && x + labelWidth / 2 + 8 > endX - endLabelWidth) return;
     const labelLeft = year === config.START_YEAR ? x : isCurrent || year === config.END_YEAR ? x - labelWidth : x - labelWidth / 2;
-    if (!isCentury && !isCurrent && labelLeft < lastLabelRight + 10) return;
+    // Only the start and end labels are exempt, so compressed centuries
+    // cannot overlap either.
+    const pinned = isCurrent || year === config.START_YEAR || year === config.END_YEAR;
+    if (!pinned && labelLeft < lastLabelRight + 10) return;
     lastLabelRight = labelLeft + labelWidth;
 
     const label = document.createElement('span');

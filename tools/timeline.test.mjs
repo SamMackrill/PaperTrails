@@ -189,17 +189,23 @@ test('search folds diacritics and letters that do not decompose', () => {
 });
 
 test('view state round-trips through the URL hash', () => {
-  const state = { from: 1850, to: 1950, item: 'scientist:maxwell', hidden: ['publications'], density: true, tapestry: true };
+  const state = { from: 1850, to: 1950, item: 'scientist:maxwell', hidden: ['publications'], scale: 'density', tapestry: true };
   const hash = formatHash(state);
   assert.equal(hash, '#from=1850&to=1950&item=scientist:maxwell&hide=publications&scale=density&tapestry=1');
   assert.deepEqual(parseHash(hash), state);
-  assert.deepEqual(parseHash('#item=javascript:alert(1)&hide=nonsense'), { from: null, to: null, item: null, hidden: [], density: false, tapestry: null });
+  assert.deepEqual(parseHash('#item=javascript:alert(1)&hide=nonsense&scale=wobbly'), { from: null, to: null, item: null, hidden: [], scale: null, tapestry: null });
   assert.equal(formatHash({}), '');
+  // Even time is recorded explicitly, so it overrides a recipient's preference.
+  assert.equal(parseHash(formatHash({ scale: 'linear', tapestry: false })).scale, 'linear');
 });
 
 test('the density scale is monotonic, invertible, and gives busy eras more room', () => {
   const years = [...Array(200)].map((_, i) => 1900 + (i % 50)).concat([1450, 1550]);
   const breakpoints = buildDensityBreakpoints(years);
+  // Items dated on a boundary widen the era that starts there.
+  const boundary = buildDensityBreakpoints(Array(50).fill(1900));
+  const share = (from, to) => boundary.find(([y]) => y === to)[1] - boundary.find(([y]) => y === from)[1];
+  assert.ok(share(1900, 1925) > share(1875, 1900));
   for (let i = 1; i < breakpoints.length; i += 1) assert.ok(breakpoints[i][1] > breakpoints[i - 1][1]);
   setScaleMode('density', years);
   try {

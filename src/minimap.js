@@ -71,7 +71,8 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
   };
 
   element.addEventListener('pointerdown', (event) => {
-    if (event.button !== 0) return;
+    // A second finger cannot take over a drag already in progress.
+    if (event.button !== 0 || drag) return;
     event.preventDefault();
     const fraction = fractionAt(event);
     const handle = event.target.closest('.minimap-handle');
@@ -84,12 +85,13 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
       drag = { mode: 'pan', offset: windowWidth / 2 };
       onPan(fraction - windowWidth / 2);
     }
+    drag.pointerId = event.pointerId;
     element.setPointerCapture(event.pointerId);
     element.classList.add('is-dragging');
   });
 
   element.addEventListener('pointermove', (event) => {
-    if (!drag) return;
+    if (!drag || event.pointerId !== drag.pointerId) return;
     const fraction = fractionAt(event);
     const minimumWidth = 1 / config.MAX_SCALE;
     if (drag.mode === 'pan') {
@@ -101,7 +103,8 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
     }
   });
 
-  const endDrag = () => {
+  const endDrag = (event) => {
+    if (!drag || event.pointerId !== drag.pointerId) return;
     drag = null;
     element.classList.remove('is-dragging');
   };
@@ -110,7 +113,9 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
 
   element.addEventListener('wheel', (event) => {
     event.preventDefault();
-    onZoom(Math.exp(-event.deltaY * 0.0015), fractionAt(event));
+    // Line and page deltas are converted to pixels, as for the timeline.
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1;
+    onZoom(Math.exp(-event.deltaY * unit * 0.0015), fractionAt(event));
   }, { passive: false });
 
   return { draw, setWindow };

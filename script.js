@@ -268,7 +268,8 @@ function focusScientist(scientistId, year) {
 function getItemYear(key) {
   const [type, id, extra] = key.split(':');
   if (type === 'scientist') {
-    return Math.min(...(scientists[id]?.publications || []).map((publication) => publication.year).filter(Number.isFinite));
+    const years = (scientists[id]?.publications || []).map((publication) => publication.year).filter(Number.isFinite);
+    return years.length ? Math.min(...years) : null;
   }
   if (type === 'publication') return scientists[id]?.publications?.[Number(extra)]?.year;
   if (type === 'discovery') return discoveries[Number(id)]?.year;
@@ -684,7 +685,8 @@ function scheduleUrlUpdate({ push = false } = {}) {
       to: whole ? null : to,
       item: currentItemKey,
       hidden: getHiddenLayers(),
-      density: getScaleMode() === 'density'
+      scale: getScaleMode(),
+      tapestry: isPressed('tapestryToggle')
     });
     const url = `${location.pathname}${location.search}${hash}`;
     if (url === `${location.pathname}${location.search}${location.hash}`) return;
@@ -701,18 +703,28 @@ function scheduleUrlUpdate({ push = false } = {}) {
   }
 }
 
-function applyUrlLayers(state) {
+// Each history entry replaces the whole view. Only a bare URL on first load
+// keeps the reader's saved scale preference.
+function applyUrlLayers(state, { initial = false } = {}) {
   Object.entries(LAYER_TOGGLES).forEach(([name, id]) => {
     document.getElementById(id).setAttribute('aria-pressed', String(!state.hidden.includes(name)));
   });
   if (state.tapestry !== null) document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(state.tapestry));
-  setScaleMode(state.density ? 'density' : getScaleMode(), dataYears);
+  setScaleMode(state.scale ?? (initial ? getScaleMode() : 'linear'), dataYears);
   document.getElementById('densityToggle').setAttribute('aria-pressed', String(getScaleMode() === 'density'));
   updateTapestryAvailability();
 }
 
-function applyUrlView(state) {
-  if (state.from === null || state.to === null || state.to <= state.from) return;
+function applyUrlView(state, { initial = false } = {}) {
+  if (state.from === null || state.to === null || state.to <= state.from) {
+    // An entry without a range shows the whole timeline.
+    if (!initial) {
+      currentScale = 1;
+      currentTranslateX = 0;
+      render();
+    }
+    return;
+  }
   const fromFraction = yearToX(state.from, 1);
   const toFraction = yearToX(state.to, 1);
   currentScale = clampScale(1 / Math.max(1 / config.MAX_SCALE, toFraction - fromFraction));
@@ -724,7 +736,7 @@ function applyUrlView(state) {
 function applyUrlState({ initial = false } = {}) {
   const state = parseHash(location.hash);
   restoringUrl = true;
-  if (initial || state.hidden.length || state.density !== (getScaleMode() === 'density')) applyUrlLayers(state);
+  applyUrlLayers(state, { initial });
   // The panel opens before the view is applied, so the view is fitted to the
   // canvas width that remains beside a docked panel.
   if (state.item && state.item !== currentItemKey) {
@@ -735,7 +747,7 @@ function applyUrlState({ initial = false } = {}) {
     closeModal({ restoreFocus: false });
   }
   render();
-  applyUrlView(state);
+  applyUrlView(state, { initial });
   if (state.item) {
     const element = selectItemByKey(state.item);
     if (element && state.from === null) revealElement(element, { centre: true });
