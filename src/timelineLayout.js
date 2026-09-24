@@ -83,7 +83,11 @@ export function layoutPeople(entries, { levelCount, gap = 10, groupDistance = 0,
     const byDistance = [...placed].sort((first, second) => (
       Math.abs((first.left + first.right) / 2 - ideal) - Math.abs((second.left + second.right) / 2 - ideal)
     ));
-    const placement = byDistance.map((item) => {
+    // Only groups near this person's date may take them; a distant group
+    // would leave them with no portrait near their period.
+    const centreOf = (item) => (item.left + item.right) / 2;
+    const nearby = byDistance.filter((item) => Math.abs(centreOf(item) - ideal) <= Math.max(maxShift, grown(item)) + itemWidth);
+    const placement = nearby.map((item) => {
       const others = rows[item.level].filter((other) => other !== item);
       const grownWidth = grown(item);
       const anchor = (item.left + item.right) / 2;
