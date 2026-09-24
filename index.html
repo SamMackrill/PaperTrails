@@ -26,7 +26,7 @@
     })();
   </script>
   <link rel="icon" href="images/icon.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=27">
+  <link rel="stylesheet" href="style.css?v=28">
 </head>
 <body>
   <header class="app-header">
@@ -38,7 +38,17 @@
       </div>
     </div>
 
+    <div class="header-search" role="search">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg>
+      <input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="Search people, publications, discoveries, conferences, and events" placeholder="Search people, works, events…">
+      <kbd class="search-shortcut" aria-hidden="true">/</kbd>
+      <ul class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></ul>
+    </div>
+
     <div class="header-actions">
+      <button class="icon-button search-toggle" id="search-toggle" type="button" aria-label="Search the timeline" title="Search (/)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg>
+      </button>
       <button class="icon-button" id="help-toggle" type="button" aria-label="Keyboard and mouse controls" aria-haspopup="dialog" title="Controls (?)">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="12" r="9"></circle>
@@ -121,6 +131,12 @@
           <span class="switch" aria-hidden="true"></span>
         </button>
 
+        <button class="filter-button mode-toggle" id="densityToggle" type="button" aria-pressed="false" title="Give busy eras more room and quiet ones less. Shaded bands and rulers show how much each era is stretched.">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18M5 18V9M9 18V6M12 18V4M14 18V4M16 18V5M19 18V10"></path></svg>
+          <span>Even density</span>
+          <span class="switch" aria-hidden="true"></span>
+        </button>
+
         <button class="filter-button mode-toggle" id="cartoonToggle" type="button" aria-pressed="false" title="Show illustrated portraits instead of photographs">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"></circle><path d="M6.5 20a5.5 5.5 0 0 1 11 0M5 5l2-2M19 5l-2-2"></path></svg>
           <span>Illustrations</span>
@@ -132,6 +148,14 @@
 
   <main class="timeline-shell">
     <section class="timeline-frame" aria-label="Interactive scientific history timeline">
+      <div class="minimap-corner" aria-hidden="true">Overview</div>
+      <div class="minimap" id="minimap" aria-hidden="true">
+        <canvas></canvas>
+        <div class="minimap-window">
+          <span class="minimap-handle" data-edge="left"></span>
+          <span class="minimap-handle" data-edge="right"></span>
+        </div>
+      </div>
       <div class="lane-labels" aria-hidden="true">
         <span class="lane-label people-label">People</span>
         <span class="lane-label publications-label">Publications</span>
@@ -195,7 +219,8 @@
           <dt>Scroll</dt><dd>Pan through time</dd>
           <dt><kbd>Ctrl</kbd> + scroll, or pinch</dt><dd>Zoom around the pointer</dd>
           <dt>Click a marker</dt><dd>Open its details</dd>
-          <dt>Click a numbered group</dt><dd>Zoom in to the people it contains</dd>
+          <dt>Click a group of faces</dt><dd>Zoom in to the people it contains</dd>
+          <dt>Drag the overview strip</dt><dd>Pan; drag its edges to zoom</dd>
         </dl>
       </section>
       <section>
@@ -207,6 +232,8 @@
           <dt><kbd>Home</kbd></dt><dd>Fit the whole timeline</dd>
           <dt><kbd>Enter</kbd></dt><dd>Open the focused item</dd>
           <dt><kbd>Esc</kbd></dt><dd>Close details or this dialog</dd>
+          <dt><kbd>/</kbd> or <kbd>Ctrl</kbd> <kbd>K</kbd></dt><dd>Search the timeline</dd>
+          <dt><kbd>Alt</kbd> <kbd>←</kbd></dt><dd>Back to the previous item in the details panel</dd>
           <dt><kbd>?</kbd></dt><dd>Show these controls</dd>
         </dl>
       </section>
@@ -222,6 +249,6 @@
   </dialog>
 
   <script src="vendor/js-yaml.min.js?v=4.3.2"></script>
-  <script type="module" src="script.js?v=29"></script>
+  <script type="module" src="script.js?v=30"></script>
 </body>
 </html>

@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { config } from '../src/config.js';
-import { scaleToSlider, sliderToScale, xToYear, yearToX } from '../src/timeScale.js';
+import { buildDensityBreakpoints, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from '../src/timeScale.js';
+import { buildSearchIndex, foldText, searchIndex } from '../src/search.js';
+import { formatHash, parseHash } from '../src/urlState.js';
 import {
   binPublications,
   findFreeLevel,
@@ -162,4 +164,62 @@ test('only well-formed HTTPS source links are used', async () => {
   assert.equal(parseHttpsUrl('javascript:alert(1)'), null);
   assert.equal(parseHttpsUrl('not a url'), null);
   assert.equal(parseHttpsUrl(undefined), null);
+});
+
+test('search folds diacritics and letters that do not decompose', () => {
+  assert.equal(foldText('Ørsted'), 'orsted');
+  assert.equal(foldText('Rømer'), 'romer');
+  assert.equal(foldText('Schrödinger'), 'schrodinger');
+  assert.equal(foldText('Ampère'), 'ampere');
+  const index = buildSearchIndex({
+    scientists: {
+      oersted: { name: 'Hans Christian Ørsted', publications: [{ year: 1820, title: 'Experimenta circa effectum' }] },
+      roemer: { name: 'Ole Rømer', notability: 2, publications: [] },
+      newton: { name: 'Isaac Newton', notability: 1, publications: [{ year: 1687, title: 'Principia' }] }
+    },
+    discoveries: [{ year: 1676, title: 'Finite speed of light', discoverer: 'Ole Rømer' }],
+    conferences: [],
+    significantEvents: [{ startYear: 1618, endYear: 1648, title: "Thirty Years' War" }]
+  });
+  assert.equal(searchIndex(index, 'orsted')[0].results[0].key, 'scientist:oersted');
+  const romer = searchIndex(index, 'Romer');
+  assert.deepEqual(romer.map((group) => group.type), ['scientist', 'discovery']);
+  assert.equal(searchIndex(index, 'principia')[0].results[0].key, 'publication:newton:0');
+  assert.deepEqual(searchIndex(index, '   '), []);
+});
+
+test('view state round-trips through the URL hash', () => {
+  const state = { from: 1850, to: 1950, item: 'scientist:maxwell', hidden: ['publications'], scale: 'density', tapestry: true };
+  const hash = formatHash(state);
+  assert.equal(hash, '#from=1850&to=1950&item=scientist:maxwell&hide=publications&scale=density&tapestry=1');
+  assert.deepEqual(parseHash(hash), state);
+  assert.deepEqual(parseHash('#item=javascript:alert(1)&hide=nonsense&scale=wobbly'), { from: null, to: null, item: null, hidden: [], scale: null, tapestry: null });
+  assert.equal(formatHash({}), '');
+  // Even time is recorded explicitly, so it overrides a recipient's preference.
+  assert.equal(parseHash(formatHash({ scale: 'linear', tapestry: false })).scale, 'linear');
+});
+
+test('the density scale is monotonic, invertible, and gives busy eras more room', () => {
+  const years = [...Array(200)].map((_, i) => 1900 + (i % 50)).concat([1450, 1550]);
+  const breakpoints = buildDensityBreakpoints(years);
+  // Items dated on a boundary widen the era that starts there.
+  const boundary = buildDensityBreakpoints(Array(50).fill(1900));
+  const share = (from, to) => boundary.find(([y]) => y === to)[1] - boundary.find(([y]) => y === from)[1];
+  assert.ok(share(1900, 1925) > share(1875, 1900));
+  for (let i = 1; i < breakpoints.length; i += 1) assert.ok(breakpoints[i][1] > breakpoints[i - 1][1]);
+  setScaleMode('density', years);
+  try {
+    let previous = -1;
+    for (let year = config.START_YEAR; year <= config.END_YEAR; year += 7) {
+      const x = yearToX(year, 1000);
+      assert.ok(x > previous);
+      previous = x;
+      assert.ok(Math.abs(xToYear(x, 1000) - year) < 1e-6);
+    }
+    const busy = yearToX(1950, 1000) - yearToX(1900, 1000);
+    const quiet = yearToX(1500, 1000) - yearToX(1450, 1000);
+    assert.ok(busy > quiet * 3);
+  } finally {
+    setScaleMode('linear');
+  }
 });

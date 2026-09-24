@@ -1,6 +1,6 @@
 import { config } from './config.js?v=15';
 import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=3';
-import { yearToX } from './timeScale.js?v=1';
+import { yearToX } from './timeScale.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 

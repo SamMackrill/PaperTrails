@@ -17,6 +17,10 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
 - Optional cartoon portraits, and initials for people with no verified portrait
 - Toggles for people, publications, discoveries, conferences, and historical events
+- Search across scientists, publications, discoveries, conferences, and events, ignoring accents (so "Orsted" finds Ørsted)
+- An overview strip showing where the view sits in the whole range
+- An optional "even density" time scale that gives busy eras more room, with shaded bands and rulers showing the compression
+- Shareable links: the address bar records the years in view, the open item, hidden layers, and the time scale
 - A controls dialog listing every mouse, keyboard, and touch shortcut
 - Light and dark themes, with the preference saved in the browser
 
@@ -40,7 +44,11 @@ The application code, data, and YAML parser are stored in this repository, so an
 - Hold Ctrl while scrolling, or pinch on a trackpad, to zoom around the pointer. The zoom buttons and slider zoom around the centre, and the readout beside them shows the years in view.
 - On a touch device, drag with one finger and pinch with two fingers.
 - With the timeline focused, use the arrow keys to pan, plus and minus to zoom, and Home to fit the whole timeline. Tabbing to an item brings it into view.
-- Click **Fit timeline** to show the full range again.
+- Click **Fit timeline** to show the full range again. Zoom and jump changes animate unless your system asks for reduced motion.
+- Press <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd> to search. Choosing a result zooms to it and opens its details.
+- Drag the window in the overview strip above the timeline to pan, drag its edges to zoom, or click elsewhere on the strip to jump.
+- Turn on **Even density** to stretch busy eras and compress quiet ones. Each shaded era carries a ruler showing how many years its width represents.
+- Copy the address bar to share the current view. Browser Back and Forward step through the items you open.
 - Click a portrait or marker to see more information.
 - Use the layer buttons (People, Publications, Discoveries, Conferences, and Context) to change what is displayed. On narrower screens they are under the view options button.
 - Press <kbd>?</kbd> or click the help button to see every control.
@@ -135,14 +143,18 @@ Run the unit tests with `node --test tools/*.test.mjs`. The timeline starts at `
 |-- script.js                  Application startup and pan/zoom interactions
 |-- src/
 |   |-- config.js              Date range and display settings
-|   |-- dataLoader.js          YAML loading
-|   |-- modalManager.js        Detail dialogs
+|   |-- dataLoader.js          YAML loading and reverse relationships
+|   |-- minimap.js             Overview strip
+|   |-- modalManager.js        Details panel, history, and citations
 |   |-- portraits.js           Portrait selection and initials fallbacks
+|   |-- search.js              Search index and combobox
 |   |-- tapestryRenderer.js    Tapestry ribbon layout
 |   |-- tapestryScenes.js      Tapestry artwork atlas
 |   |-- themeManager.js        Theme selection
-|   |-- timeScale.js           Year-to-position and zoom slider scales
-|   `-- timelineRenderer.js    Timeline element rendering
+|   |-- timelineLayout.js      Pure layout rules for people, publications, and lanes
+|   |-- timeScale.js           Even-time and even-density scales, and the zoom slider
+|   |-- timelineRenderer.js    Timeline element rendering
+|   `-- urlState.js            Shareable view state in the URL
 |-- data/                      Timeline content in YAML
 `-- images/                    Photographic and cartoon portraits
 ```

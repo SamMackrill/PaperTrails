@@ -1,8 +1,8 @@
 import { config } from './config.js?v=15';
 import { scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=18';
 import { groupKey, openItem } from './modalManager.js?v=24';
-import { renderTapestry } from './tapestryRenderer.js?v=4';
-import { yearToX } from './timeScale.js?v=1';
+import { renderTapestry } from './tapestryRenderer.js?v=5';
+import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=2';
 import {
   EVENT_PIN_GAP,
@@ -221,7 +221,39 @@ function setupDelegatedEvents(timeline) {
   timeline.addEventListener('focusout', leave);
 }
 
-function renderAxis(timeline, svg, width, height, axisY) {
+// In the density scale, alternate eras are shaded and each carries a small
+// ruler, so compressed and stretched time is never mistaken for even time.
+function renderScaleSegments(timeline, width, height) {
+  const segments = getScaleSegments();
+  const niceSpans = [1, 2, 5, 10, 20, 25, 50, 100, 200];
+  segments.forEach((segment, index) => {
+    const left = segment.start * width;
+    const segmentWidth = (segment.end - segment.start) * width;
+    if (segmentWidth < 2) return;
+    const band = document.createElement('div');
+    band.className = `scale-segment${index % 2 ? ' is-alternate' : ''}`;
+    band.style.left = `${left}px`;
+    band.style.width = `${segmentWidth}px`;
+    band.style.height = `${height}px`;
+    band.setAttribute('aria-hidden', 'true');
+
+    const pixelsPerYear = segmentWidth / (segment.to - segment.from);
+    const span = niceSpans.find((years) => years * pixelsPerYear >= 24) || niceSpans[niceSpans.length - 1];
+    const rulerWidth = span * pixelsPerYear;
+    if (rulerWidth <= segmentWidth - 8 && rulerWidth <= 120) {
+      const ruler = document.createElement('span');
+      ruler.className = 'scale-ruler';
+      const bar = document.createElement('span');
+      bar.className = 'scale-ruler-bar';
+      bar.style.width = `${rulerWidth}px`;
+      ruler.append(bar, document.createTextNode(`${span} yr${span === 1 ? '' : 's'}`));
+      band.appendChild(ruler);
+    }
+    timeline.appendChild(band);
+  });
+}
+
+function renderAxis(timeline, svg, width, height, axisY, scale) {
   const axis = document.createElement('div');
   axis.className = 'timeline-axis-line';
   axis.style.top = `${axisY - 1}px`;
@@ -229,6 +261,10 @@ function renderAxis(timeline, svg, width, height, axisY) {
 
   const endX = yearToX(config.END_YEAR, width);
   const endLabelWidth = measureText(String(config.END_YEAR), '700 12px');
+  const tier = getTier(scale);
+  // Labels are spaced by measured width, because the density scale can
+  // squeeze some decades closer together than others.
+  let lastLabelRight = -Infinity;
 
   const addYear = (year, isCurrent = false) => {
     const x = yearToX(year, width);
@@ -252,9 +288,18 @@ function renderAxis(timeline, svg, width, height, axisY) {
       svg.appendChild(gridLine);
     }
 
+    const shownAtTier = isCentury || isCurrent || year === config.START_YEAR
+      || tier === 'detail' || (tier === 'standard' && isHalfCentury);
+    if (!shownAtTier) return;
     // The right-aligned end label would otherwise run into a nearby tick label.
-    const labelHalfWidth = measureText(String(year), '700 12px') / 2;
-    if (!isCurrent && year !== config.END_YEAR && x + labelHalfWidth + 8 > endX - endLabelWidth) return;
+    const labelWidth = measureText(String(year), '700 12px');
+    if (!isCurrent && year !== config.END_YEAR && x + labelWidth / 2 + 8 > endX - endLabelWidth) return;
+    const labelLeft = year === config.START_YEAR ? x : isCurrent || year === config.END_YEAR ? x - labelWidth : x - labelWidth / 2;
+    // Only the start and end labels are exempt, so compressed centuries
+    // cannot overlap either.
+    const pinned = isCurrent || year === config.START_YEAR || year === config.END_YEAR;
+    if (!pinned && labelLeft < lastLabelRight + 10) return;
+    lastLabelRight = labelLeft + labelWidth;
 
     const label = document.createElement('span');
     label.className = `year-label ${classes.join(' ')}`;
@@ -681,7 +726,8 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   timeline.appendChild(svg);
 
   const coordinates = {};
-  renderAxis(timeline, svg, width, height, axisY);
+  renderScaleSegments(timeline, width, height);
+  renderAxis(timeline, svg, width, height, axisY, scale);
   renderPublications(timeline, width, axisY, coordinates);
   renderScientists(timeline, svg, width, axisY, coordinates, scale);
   renderMilestones(timeline, svg, width, axisY, contextTop, scale);
