@@ -277,3 +277,12 @@ test('a person blocked from growing a nearby group never joins a distant one', (
   const roomyHolder = roomy.find((item) => item.members.some((member) => member.x === 695));
   assert.ok(Math.abs((roomyHolder.left + roomyHolder.right) / 2 - 695) < 110);
 });
+
+test('groups at the canvas edge stay on the canvas', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const clusterWidth = (count) => 30 + (Math.min(3, count) - 1) * 18 + 10;
+  for (const xs of [[630, 690, 695], [630, 690, 695, 698, 699], [580, 630, 690, 695, 698]]) {
+    const items = layoutPeople(xs.map(person), { levelCount: 1, gap: 8, clusterWidth, maxShift: 20, width: 700 });
+    items.forEach((item) => assert.ok(item.left >= 0 && item.right <= 700, `${xs}: ${item.left}–${item.right} leaves the canvas`));
+  }
+});

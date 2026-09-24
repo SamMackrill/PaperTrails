@@ -56,13 +56,20 @@ export function layoutPeople(entries, { levelCount, gap = 10, groupDistance = 0,
     const itemWidth = extentOf(group);
     const clampCentre = (centre) => Math.max(itemWidth / 2, Math.min(width - itemWidth / 2, centre));
     let best = null;
-    rows.forEach((row, level) => {
+    const allowedShift = Math.max(maxShift, Math.abs(clampCentre(ideal) - ideal));
+    // Only portraits within reach of the allowed shift can offer a slot or
+    // block one, so the rest of each row is skipped. This runs on every
+    // frame of a zoom animation.
+    const reachLeft = ideal - allowedShift - itemWidth / 2 - gap;
+    const reachRight = ideal + allowedShift + itemWidth / 2 + gap;
+    rows.forEach((fullRow, level) => {
+      const row = fullRow.filter((other) => other.right >= reachLeft && other.left <= reachRight);
       // The ideal spot, or hard against either side of an existing item.
       const candidates = [ideal, ...row.flatMap((other) => [other.right + gap + itemWidth / 2, other.left - gap - itemWidth / 2])];
       candidates.forEach((candidate) => {
         const centre = clampCentre(candidate);
         const shift = Math.abs(centre - ideal);
-        if (shift > Math.max(maxShift, Math.abs(clampCentre(ideal) - ideal))) return;
+        if (shift > allowedShift) return;
         if (!fits(row, centre - itemWidth / 2, centre + itemWidth / 2)) return;
         // Small shifts win; among equal shifts, lower rows keep lines short.
         const cost = shift + level * 0.5;
@@ -99,8 +106,11 @@ export function layoutPeople(entries, { levelCount, gap = 10, groupDistance = 0,
       return centre === undefined ? null : { item, centre, grownWidth };
     }).find(Boolean);
     const target = placement?.item || byDistance[0];
-    const centre = placement?.centre ?? (target.left + target.right) / 2;
     const grownWidth = placement?.grownWidth ?? grown(target);
+    // The last resort still keeps the grown group on the canvas, where the
+    // renderer would otherwise push it back over its neighbour.
+    const centre = placement?.centre
+      ?? Math.max(grownWidth / 2, Math.min(width - grownWidth / 2, (target.left + target.right) / 2));
     target.members.push(...group.members);
     target.left = centre - grownWidth / 2;
     target.right = centre + grownWidth / 2;
