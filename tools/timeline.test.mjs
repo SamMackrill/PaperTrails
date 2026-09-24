@@ -223,3 +223,40 @@ test('the density scale is monotonic, invertible, and gives busy eras more room'
     setScaleMode('linear');
   }
 });
+
+test('people shift sideways to find room before they are grouped', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const entries = [100, 105, 110, 115, 120, 125].map(person);
+  const clusterWidth = (count) => 30 + (Math.min(3, count) - 1) * 18 + 10;
+  const shifted = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth, maxShift: 150, width: 1000 });
+  assert.equal(shifted.filter((item) => item.type === 'cluster').length, 0, 'everyone fits within the allowed shift');
+  const byLevel = new Map();
+  shifted.forEach((item) => {
+    const row = byLevel.get(item.level) || [];
+    row.forEach((other) => assert.ok(item.left >= other.right || item.right <= other.left, 'people overlap'));
+    row.push(item);
+    byLevel.set(item.level, row);
+    assert.ok(Math.abs(item.centerX - item.members[0].x) <= 150);
+  });
+  // With no allowed shift, the same people must group.
+  const pinned = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth, width: 1000 });
+  assert.ok(pinned.some((item) => item.type === 'cluster'));
+  // Items never leave the canvas.
+  const edge = layoutPeople([person(2), person(4)], { levelCount: 1, gap: 8, clusterWidth, maxShift: 150, width: 300 });
+  edge.forEach((item) => assert.ok(item.left >= 0 && item.right <= 300));
+});
+
+test('groups that grow do not overlap their neighbours', () => {
+  const person = (x) => ({ x, width: 40, scientist: { name: String(x) } });
+  const entries = [...Array(40)].map((_, i) => person(100 + i * 6));
+  const clusterWidth = (count) => 30 + (Math.min(3, count) - 1) * 18 + 10;
+  const items = layoutPeople(entries, { levelCount: 2, gap: 8, clusterWidth, maxShift: 90, width: 600 });
+  assert.equal(items.reduce((sum, item) => sum + item.members.length, 0), entries.length);
+  const byLevel = new Map();
+  items.forEach((item) => {
+    const row = byLevel.get(item.level) || [];
+    row.forEach((other) => assert.ok(item.left >= other.right || item.right <= other.left, 'groups overlap'));
+    row.push(item);
+    byLevel.set(item.level, row);
+  });
+});
