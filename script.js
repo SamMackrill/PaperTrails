@@ -404,6 +404,7 @@ function setupOptionsPopover() {
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && toolbar.classList.contains('is-open')) {
+      event.preventDefault();
       setOpen(false);
       optionsToggle.focus();
     }

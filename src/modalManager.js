@@ -352,8 +352,20 @@ function createRelationLists(scientistId) {
   ].filter(Boolean);
 }
 
+// Only well-formed HTTPS links from the data become live links.
+export function parseHttpsUrl(value) {
+  try {
+    const url = new URL(String(value || ''));
+    return url.protocol === 'https:' ? url : null;
+  } catch {
+    return null;
+  }
+}
+
 function createSources(links) {
-  const valid = (Array.isArray(links) ? links : []).filter((link) => /^https:\/\//.test(link?.url || ''));
+  const valid = (Array.isArray(links) ? links : [])
+    .map((link) => ({ ...link, parsed: parseHttpsUrl(link?.url) }))
+    .filter((link) => link.parsed);
   if (!valid.length) return null;
   const section = document.createElement('section');
   section.className = 'detail-sources';
@@ -362,8 +374,8 @@ function createSources(links) {
   list.className = 'detail-source-list';
   valid.forEach((link) => {
     const item = document.createElement('li');
-    const label = link.label || new URL(link.url).hostname;
-    item.appendChild(createExternalLink(link.url, label, label, 'detail-source-link'));
+    const label = link.label || link.parsed.hostname;
+    item.appendChild(createExternalLink(link.parsed.href, label, label, 'detail-source-link'));
     list.appendChild(item);
   });
   section.appendChild(list);
@@ -630,8 +642,9 @@ function renderPublication(scientistId, index) {
   if (publication.doi) {
     extraMetadata.push(['DOI', createExternalLink(`https://doi.org/${publication.doi}`, publication.doi, `DOI ${publication.doi}`)]);
   }
-  if (publication.source) {
-    extraMetadata.push(['Source', createExternalLink(publication.source, new URL(publication.source).hostname, 'View the publication source')]);
+  const source = parseHttpsUrl(publication.source);
+  if (source) {
+    extraMetadata.push(['Source', createExternalLink(source.href, source.hostname, 'View the publication source')]);
   }
   renderTimelineItem({
     type: 'publication',
@@ -872,6 +885,9 @@ export function setupModalEventListeners() {
   window.addEventListener('keydown', (event) => {
     if (panel.hidden || document.querySelector('dialog[open]')) return;
     if (event.key === 'Escape') {
+      // The docked panel shares the page with other controls, so it only
+      // takes Escape presses that no other control has already handled.
+      if (event.defaultPrevented) return;
       closeModal();
       return;
     }

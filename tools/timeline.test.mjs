@@ -154,3 +154,12 @@ test('citations include the DOI when there is one', () => {
   assert.equal(formatCitation('Emmy Noether', 1918, 'Invariante Variationsprobleme'), 'Emmy Noether (1918). Invariante Variationsprobleme.');
   assert.equal(formatCitation('A', 1900, 'T', '10.1000/x'), 'A (1900). T. https://doi.org/10.1000/x');
 });
+
+test('only well-formed HTTPS source links are used', async () => {
+  const { parseHttpsUrl } = await import('../src/modalManager.js');
+  assert.equal(parseHttpsUrl('https://doi.org/10.1000/x').hostname, 'doi.org');
+  assert.equal(parseHttpsUrl('http://example.org'), null);
+  assert.equal(parseHttpsUrl('javascript:alert(1)'), null);
+  assert.equal(parseHttpsUrl('not a url'), null);
+  assert.equal(parseHttpsUrl(undefined), null);
+});

@@ -141,16 +141,23 @@ function refreshRelations(timeline) {
   source.classList.add('is-related-source');
 
   const sourceType = key.split(':')[0];
-  const from = centreOf(source);
+  const timelineRect = timeline.getBoundingClientRect();
+  // Tapestry scenes sit inside the ribbon, so their offsets are not timeline
+  // coordinates; measure them from the page instead.
+  const pointOf = (element) => {
+    if (!element.closest('.tapestry-ribbon')) return centreOf(element);
+    const rect = element.getBoundingClientRect();
+    return { x: rect.left - timelineRect.left + rect.width / 2, y: rect.top - timelineRect.top + rect.height / 2 };
+  };
+  const from = pointOf(source);
   getRelatedItems(key).forEach(({ key: relatedKey, line }) => {
     const target = findItemElement(timeline, relatedKey);
     if (!target || target === source) return;
     target.classList.add('is-related');
     if (!line || !layer) return;
-    let to = centreOf(target);
+    let to = pointOf(target);
     if (target.classList.contains('event-band') || target.classList.contains('tapestry-scene')) {
       const band = target.getBoundingClientRect();
-      const timelineRect = timeline.getBoundingClientRect();
       const bandLeft = band.left - timelineRect.left;
       to = { x: Math.max(bandLeft, Math.min(bandLeft + band.width, from.x)), y: band.top - timelineRect.top + 4 };
     }
