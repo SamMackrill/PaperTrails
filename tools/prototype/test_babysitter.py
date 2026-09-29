@@ -6,7 +6,7 @@ b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
 
 class ReviewQueueTests(unittest.TestCase):
     def setUp(self):
-        self.entry = {'number': 53, 'branch': 'ui-pass2/a', 'base': b.PROTOTYPE, 'status': 'reviewing', 'request': {'head': 'abc', 'base': 'def', 'at': 1000, 'marker': 'unique', 'diff': 'patch'}}
+        self.entry = {'number': 53, 'branch': 'ui-pass2/a', 'base': b.PROTOTYPE, 'worktree': '/unused-test-worktree', 'status': 'reviewing', 'request': {'head': 'abc', 'base': 'def', 'at': 1000, 'marker': 'unique', 'diff': 'patch'}}
         self.pr = {'head': {'sha': 'abc', 'ref': 'ui-pass2/a'}, 'base': {'sha': 'def', 'ref': b.PROTOTYPE}}
         self.review = {'user': {'login': b.BOT}, 'commit_id': 'abc', 'submitted_at': '1970-01-01T00:20:00Z', 'id': 123, 'body': '**Actionable comments posted: 0**'}
 
