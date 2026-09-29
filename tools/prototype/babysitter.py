@@ -364,14 +364,20 @@ def tick(state):
                 continue
             request_review(state, entry, pr)
             break
-    if state.get('implementationReady') and all(e['status'] == 'merged' for e in state['prs']) and not state.get('published'):
+    primary = [e for e in state['prs'] if not e.get('remedial')]
+    if state.get('implementationReady') and len(primary) >= 8 and all(e['status'] == 'merged' for e in primary):
+        prototype_head = api(f'commits/{PROTOTYPE}')['sha']
+        if state.get('deployment', {}).get('commit') == prototype_head:
+            state['queueComplete'] = all(e['status'] == 'merged' for e in state['prs']); save(state)
+            return state
         publisher = ROOT / 'publish_prototype.py'
         if not publisher.exists():
             raise RuntimeError('Publisher is not installed')
         subprocess.run([sys.executable, str(publisher)], check=True, timeout=1800)
         state = json.loads(STATE.read_text(encoding='utf-8'))
-        state['published'] = True; save(state)
-        log('Prototype published; review queue complete')
+        state['published'] = True
+        state['queueComplete'] = all(e['status'] == 'merged' for e in state['prs']); save(state)
+        log('Prototype published; remaining remedials stay in the gated queue' if not state['queueComplete'] else 'Prototype published; review queue complete')
     return state
 
 if __name__ == '__main__':
@@ -391,11 +397,11 @@ if __name__ == '__main__':
     while True:
         try:
             state = json.loads(STATE.read_text(encoding='utf-8'))
-            if state.get('stop') or state.get('published') or state.get('automationStopped'):
+            if state.get('stop') or state.get('queueComplete') or state.get('automationStopped'):
                 break
             state = tick(state)
             failures = 0
-            if state.get('published'):
+            if state.get('queueComplete'):
                 break
             if hashlib.sha256(Path(__file__).read_bytes()).hexdigest() != source_hash:
                 log('Validated runner source updated; restart resumes the persisted queue')

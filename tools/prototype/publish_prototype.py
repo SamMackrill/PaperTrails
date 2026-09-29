@@ -20,6 +20,10 @@ def allowed(path):
             (parts[0] == 'data' and extension == '.yaml') or
             (parts[0] == 'images' and extension in ('.png', '.jpg', '.jpeg', '.webp', '.svg', '.ico', '.gif')))
 
+def delivery_ready(state):
+    primary = [entry for entry in state['prs'] if not entry.get('remedial')]
+    return bool(state.get('implementationReady') and len(primary) >= 8 and all(e['status'] == 'merged' for e in primary))
+
 def command(worktree, *args):
     return subprocess.check_output(['git', '-C', str(worktree), *args], text=True, encoding='utf-8').strip()
 
@@ -65,8 +69,8 @@ def atomic(path, value):
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--dry-run', action='store_true'); args = parser.parse_args()
     state = json.loads((ROOT/'state.json').read_text(encoding='utf-8'))
-    if not args.dry_run and (not state.get('implementationReady') or len(state['prs']) < 8 or any(e['status'] != 'merged' for e in state['prs'])):
-        raise RuntimeError('The complete registered stack must land on the prototype branch before publication')
+    if not args.dry_run and not delivery_ready(state):
+        raise RuntimeError('The complete primary stack must land on the prototype branch before publication')
     worktree = Path(state['worktreeRoot'])/'integration'
     if command(worktree, 'branch', '--show-current') != PROTOTYPE or command(worktree, 'status', '--porcelain'):
         raise RuntimeError('Integration worktree is not a clean prototype checkout')

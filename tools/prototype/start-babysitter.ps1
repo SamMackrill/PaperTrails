@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $resolvedRun = [System.IO.Path]::GetFullPath($RunDirectory)
 $statePath = Join-Path $resolvedRun 'state.json'
 $runState = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
-if ($runState.published -or $runState.stop -or $runState.automationStopped) { exit 0 }
+if ($runState.queueComplete -or $runState.stop -or $runState.automationStopped) { exit 0 }
 $implementation = Join-Path $runState.worktreeRoot '08-prototype-validation'
 $head = (& git -C $implementation rev-parse HEAD).Trim()
 $registered = $runState.prs | Where-Object { $_.worktree -eq $implementation }
