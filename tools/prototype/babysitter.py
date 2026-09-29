@@ -115,9 +115,19 @@ def reconcile_review(state, entry, pr):
     entry['status'] = 'reviewed'
     log(f"Actual review completed #{entry['number']} at {request['head'][:8]}")
 
+def review_body_finding(review):
+    body = review.get('body') or ''
+    if not re.search(r'<summary>[^<]*(?:Outside diff range|Out.of.diff|Nitpick)[^<]*\(\s*[1-9]\d*\s*\)', body, re.I):
+        return None
+    return {'id': -review['id'], 'body': body, 'reviewId': review['id'], 'reviewBody': True, 'user': review['user']}
+
 def process_findings(state, entry):
     comments = pages(f"pulls/{entry['number']}/comments")
     findings = [c for c in comments if c['user']['login'] == BOT and not c.get('in_reply_to_id')]
+    review = next((r for r in pages(f"pulls/{entry['number']}/reviews") if r['id'] == entry['reviewed']['reviewId']), None)
+    extra = review_body_finding(review) if review else None
+    if extra:
+        findings.append(extra)
     seen = entry.setdefault('seen', {})
     pending = [c for c in findings if seen.get(str(c['id'])) != hashlib.sha256(c['body'].encode()).hexdigest()]
     if not pending:
@@ -169,11 +179,12 @@ For each supplied comment return a JSON object with dispositions: [{{id: number,
         if disposition['disposition'] == 'needs-info':
             entry['status'] = 'needs-info'
         marker = f"papertrails-disposition-{disposition['id']}"
-        existing = pages(f"pulls/{entry['number']}/comments")
-        if not any(marker in c['body'] for c in existing):
-            api(f"pulls/{entry['number']}/comments/{disposition['id']}/replies", {'body': disposition['reply'] + f'\n\n<!-- {marker} -->'})
-        entry.setdefault('ledger', []).append(disposition)
         c = next(c for c in pending if c['id'] == disposition['id'])
+        existing = pages(f"issues/{entry['number']}/comments" if c.get('reviewBody') else f"pulls/{entry['number']}/comments")
+        if not any(marker in c['body'] for c in existing):
+            endpoint = f"issues/{entry['number']}/comments" if c.get('reviewBody') else f"pulls/{entry['number']}/comments/{disposition['id']}/replies"
+            api(endpoint, {'body': disposition['reply'] + f'\n\n<!-- {marker} -->'})
+        entry.setdefault('ledger', []).append(disposition)
         seen[str(c['id'])] = hashlib.sha256(c['body'].encode()).hexdigest()
         save(state)
     reconcile_fix(state, entry)

@@ -28,6 +28,10 @@ class ReviewQueueTests(unittest.TestCase):
         with patch.object(b, 'pages', side_effect=[[], [chat]]), patch.object(b.time, 'time', return_value=1400):
             b.reconcile_review({}, self.entry, self.pr)
         self.assertEqual(self.entry['status'], 'reviewing')
+        self.assertIsNone(b.review_body_finding(self.review))
+        extra = b.review_body_finding({**self.review, 'body': '<summary>🧹 Nitpick comments (2)</summary>important content'})
+        self.assertEqual(extra['id'], -123)
+        self.assertTrue(extra['reviewBody'])
 
     def test_actual_head_review_and_stale_head(self):
         with patch.object(b, 'pages', side_effect=[[], [self.review]]):
