@@ -56,7 +56,7 @@ try {
     const timer = setTimeout(() => { pending.delete(id); reject(new Error(`CDP timeout: ${method}`)); }, 30000);
     pending.set(id, { resolve, reject, timer }); socket.send(JSON.stringify({ id, method, params }));
   });
-  await send('Runtime.enable'); await send('Page.enable');
+  await send('Runtime.enable'); await send('Page.enable'); await send('Network.enable');
   const evaluate = async expression => {
     const result = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
     if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails));
@@ -72,6 +72,11 @@ try {
   const viewport = async (width, height) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 1024 }); await delay(150); };
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };
   await viewport(1440, 900);
+  await send('Network.setBlockedURLs', { urls: ['*landscape-b-*.png'] });
+  await navigate('/?fallback=1');
+  await until('document.querySelectorAll("[data-art-fallback=original]").length===21');
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-interval-label").length'), 21);
+  await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
   await evaluate('document.querySelector("#trail-select").value="understanding-charge";document.querySelector("#trail-select").dispatchEvent(new Event("change"));');
