@@ -1,6 +1,6 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=15';
-import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=4';
+import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=pass2-03';
 import { yearToX } from './timeScale.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -9,7 +9,7 @@ const CAPTION_HEIGHT = 20;
 const THREAD_SPACING = 22;
 
 function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
-  const bleed = Math.min(18, sceneWidth / 4);
+  const bleed = Math.min(36, sceneWidth / 3);
   const crop = getPanoramaCrop(scene, sceneWidth + bleed * 2, artHeight, scale);
   button.dataset.facetCount = crop.facets.length;
   button.style.setProperty('--tapestry-bleed', `${bleed}px`);
@@ -23,6 +23,14 @@ function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
   image.setAttribute('href', crop.atlas.file);
   image.setAttribute('width', crop.atlas.width);
   image.setAttribute('height', crop.atlas.height);
+  image.addEventListener('error', () => {
+    const fallback = getPanoramaCrop(scene, sceneWidth + bleed * 2, artHeight, scale, true);
+    art.setAttribute('viewBox', `0 ${fallback.y} ${fallback.width} ${fallback.height}`);
+    image.setAttribute('href', fallback.atlas.file);
+    image.setAttribute('width', fallback.atlas.width);
+    image.setAttribute('height', fallback.atlas.height);
+    button.dataset.artFallback = 'original';
+  }, { once: true });
   art.appendChild(image);
   button.appendChild(art);
 
