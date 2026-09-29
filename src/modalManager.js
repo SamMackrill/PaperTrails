@@ -378,6 +378,7 @@ function createSources(links) {
     const item = document.createElement('li');
     const label = link.label || link.parsed.hostname;
     item.appendChild(createExternalLink(link.parsed.href, label, label, 'detail-source-link'));
+    if (link.locator) { const locator = document.createElement('p'); locator.textContent = link.locator; locator.className = 'source-locator'; item.append(locator); }
     list.appendChild(item);
   });
   section.appendChild(list);
@@ -641,6 +642,7 @@ function renderPublication(scientistId, index) {
   const publication = scientist?.publications?.[index];
   if (!publication) return false;
   const extraMetadata = [];
+  if (publication.dateNote) extraMetadata.push(['Date qualification', publication.dateNote]);
   if (publication.doi) {
     extraMetadata.push(['DOI', createExternalLink(`https://doi.org/${publication.doi}`, publication.doi, `DOI ${publication.doi}`)]);
   }
@@ -656,7 +658,7 @@ function renderPublication(scientistId, index) {
     description: publication.abstract,
     scientistIds: [scientistId],
     extraMetadata,
-    extraBody: [createCitationAction(formatCitation(scientist.name, publication.year, publication.title, publication.doi))]
+    extraBody: [createSources(publication.sources), createCitationAction(formatCitation(scientist.name, publication.year, publication.title, publication.doi))]
   });
   return true;
 }
@@ -671,7 +673,9 @@ function renderDiscovery(index) {
     itemTitle: item.title,
     description: item.details,
     scientistIds: item.scientist_ids,
-    theoristIds: item.theorist_ids
+    theoristIds: item.theorist_ids,
+    extraMetadata: item.dateNote ? [['Date qualification', item.dateNote]] : [],
+    extraBody: [createSources(item.sources)]
   });
   return true;
 }

@@ -1,6 +1,7 @@
+import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.js?v=pass2-06b';
 import { config } from './config.js?v=15';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
-import { groupKey, openItem } from './modalManager.js?v=pass2-01';
+import { groupKey, openItem } from './modalManager.js?v=pass2-06b';
 import { layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-03';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=3';
@@ -324,7 +325,7 @@ function renderPublications(timeline, width, axisY, coordinates) {
   const items = [];
   Object.entries(scientists).forEach(([scientistId, scientist]) => {
     (scientist.publications || []).forEach((publication, index) => {
-      if (!Number.isFinite(publication.year)) return;
+      if (!Number.isFinite(publication.year) || !trailIncludes(getItemKey('publication', index, scientistId))) return;
       items.push({
         scientistId,
         scientist,
@@ -402,7 +403,9 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
 
   const tier = getTier(scale);
   const showLabel = (scientist) => tier === 'detail' || (tier === 'standard' && getNotability(scientist) === 1);
+  const allowedScientists = trailScientistIds(resolveItem);
   const entries = Object.entries(scientists)
+    .filter(([id]) => !allowedScientists || allowedScientists.has(id))
     .map(([id, scientist]) => ({ id, scientist, firstPublication: getFirstPublication(scientist) }))
     .filter((entry) => entry.firstPublication)
     .map((entry) => {
@@ -520,7 +523,7 @@ function getMilestoneItems(width) {
     ...(isLayerVisible('discoveriesToggle') ? discoveries.map((item, index) => ({ item, index, type: 'discovery' })) : []),
     ...(isLayerVisible('conferencesToggle') ? conferences.map((item, index) => ({ item, index, type: 'conference' })) : [])
   ]
-    .filter(({ item }) => Number.isFinite(item.year))
+    .filter(({ item, index, type }) => Number.isFinite(item.year) && trailIncludes(getItemKey(type, index)))
     .map((entry) => ({ ...entry, x: yearToX(entry.item.year, width) }))
     .sort((a, b) => a.x - b.x);
 }

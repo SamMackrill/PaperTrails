@@ -1,13 +1,15 @@
+import { setupTrails } from './src/trailController.js?v=pass2-06b';
+import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06b';
 import { config } from './src/config.js?v=15';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-01';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-02';
+import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-06b';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
 import { createMinimap } from './src/minimap.js?v=1';
-import { formatHash, parseHash } from './src/urlState.js?v=1';
+import { formatHash, parseHash } from './src/urlState.js?v=pass2-06b';
 import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=1';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
@@ -27,6 +29,7 @@ const TYPE_LAYERS = {
   event: 'context'
 };
 
+let trailUI;
 let timelineContainer;
 let timeline;
 let zoomLevelDisplay;
@@ -170,6 +173,8 @@ function render() {
   // across by item key.
   const focusedKey = timeline.contains(document.activeElement) ? document.activeElement.dataset.itemKey : null;
   renderTimeline(timelineContainer, timeline, currentScale);
+  const axisY = Number.parseFloat(timelineContainer.closest('.timeline-frame').style.getPropertyValue('--axis-y'));
+  trailUI?.renderRoute(timeline, timeline.offsetWidth, axisY);
   applyRovingTabindex(timeline, timelineContainer);
   renderedWidth = timelineContainer.clientWidth;
   renderedHeight = timelineContainer.clientHeight;
@@ -250,6 +255,7 @@ function findItemOnTimeline(key) {
 // stands in for them.
 async function revealItem(key, year) {
   if (!key || !Number.isFinite(year)) return null;
+  if (getActiveTrail() && !getActiveTrail().stops.some(stop => stop.item === key)) { trailUI.restore({}); render(); }
   ensureLayerVisible(key);
   let scale = Math.max(2.5, currentScale);
   await focusYear(year, scale);
@@ -693,6 +699,7 @@ function scheduleUrlUpdate({ push = false } = {}) {
       from: whole ? null : from,
       to: whole ? null : to,
       item: currentItemKey,
+      ...getTrailState(),
       hidden: getHiddenLayers(),
       scale: getScaleMode(),
       tapestry: isPressed('tapestryToggle')
@@ -745,6 +752,7 @@ function applyUrlView(state, { initial = false } = {}) {
 function applyUrlState({ initial = false } = {}) {
   const state = parseHash(location.hash);
   restoringUrl = true;
+  trailUI?.restore({ ...state, explain: state.explain && !state.item });
   applyUrlLayers(state, { initial });
   // The panel opens before the view is applied, so the view is fitted to the
   // canvas width that remains beside a docked panel.
@@ -848,6 +856,24 @@ async function initializeApp() {
       document.getElementById('densityToggle').setAttribute('aria-pressed', 'true');
     }
   } catch { /* Use even time when storage is unavailable. */ }
+  trailUI = setupTrails({
+    openRecord(key) { openItem(key); },
+    change(action) {
+      if (getTrailState().explain) closeModal({ restoreFocus: false });
+      render();
+      const trail = getActiveTrail();
+      if (action === 'overview' && trail) {
+        const years = trail.stops.map(stop => getItemYear(stop.item));
+        applyUrlView({ from: Math.min(...years) - 20, to: Math.max(...years) + 20 });
+      } else if (action === 'stop' && trail) {
+        const stop = trail.stops.find(s => s.id === getTrailState().stop);
+        animateView(Math.max(3.2, currentScale), yearToX(getItemYear(stop.item), 1), 0);
+      } else if (action === 'archive') {
+        fitTimeline();
+      }
+      scheduleUrlUpdate({ push: true });
+    }
+  });
   render();
   setupMinimap();
   applyUrlState({ initial: true });
@@ -865,6 +891,7 @@ async function initializeApp() {
   window.addEventListener('popstate', () => applyUrlState());
   // Items opened from inside the panel are selected and brought into view.
   document.addEventListener('papertrails:itemopened', (event) => {
+    trailUI?.hidePanel();
     if (!restoringUrl && event.detail.key !== currentItemKey && !event.detail.key.startsWith('group:')) {
       currentItemKey = event.detail.key;
       scheduleUrlUpdate({ push: true });
