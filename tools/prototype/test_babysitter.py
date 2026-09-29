@@ -60,10 +60,23 @@ class ReviewQueueTests(unittest.TestCase):
 
     def test_persist_request_intent_before_failed_post(self):
         state = {'prs': [self.entry]}
-        with tempfile.TemporaryDirectory() as directory, patch.object(b, 'STATE', Path(directory)/'state.json'), patch.object(b.time, 'time', return_value=1000), patch.object(b, 'diff_hash', return_value='patch'), patch.object(b, 'api', side_effect=RuntimeError('network')):
+        with tempfile.TemporaryDirectory() as directory, patch.object(b, 'STATE', Path(directory)/'state.json'), patch.object(b.time, 'time', return_value=1000), patch.object(b, 'diff_hash', return_value='patch'), patch.object(b, 'git', return_value='def'), patch.object(b.subprocess, 'run'), patch.object(b, 'api', side_effect=RuntimeError('network')):
             with self.assertRaises(RuntimeError): b.request_review(state, self.entry, self.pr)
             self.assertIn('requesting', b.STATE.read_text())
         self.assertEqual(state['nextEligible'], 4660)
+
+    def test_zero_findings_require_completed_command_and_matching_run_scope(self):
+        result = {'id': 20, 'user': {'login': b.BOT}, 'updated_at': '1970-01-01T00:20:00Z',
+          'body': '<!-- recent_review_start --> No actionable comments were generated in the recent review. **Run ID**: `run-id` Reviewing files between def and abc'}
+        finished = {'id': 21, 'user': {'login': b.BOT}, 'updated_at': '1970-01-01T00:20:01Z',
+          'body': 'CodeRabbit review command invocation: v2:unique Full review finished.'}
+        self.assertIsNone(b.zero_finding_run([result], self.entry['request']))
+        self.assertIsNone(b.zero_finding_run([result, {**finished, 'body': 'Full review triggered.'}], self.entry['request']))
+        self.assertIsNone(b.zero_finding_run([{**result, 'body': result['body'].replace('abc', 'stale')}, finished], self.entry['request']))
+        with patch.object(b, 'pages', side_effect=[[result, finished], []]):
+            b.reconcile_review({}, self.entry, self.pr)
+        self.assertEqual(self.entry['reviewed']['kind'], 'completed-zero-finding-run')
+        self.assertEqual(self.entry['reviewed']['completionCommentId'], 21)
 
     def test_pagination_collects_all_comments(self):
         with patch.object(b, 'api', side_effect=[[{'id': n} for n in range(100)], [{'id': 101}]]):

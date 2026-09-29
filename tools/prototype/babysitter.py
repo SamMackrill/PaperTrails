@@ -63,11 +63,36 @@ def native_green(head):
 def eligible(state, now, active):
     return now >= state.get('nextEligible', 0) and not active
 
+def zero_finding_run(comments, request):
+    # CodeRabbit posts no GitHub review object when a full pass finds nothing.
+    # Require its completed command AND recent result with the exact code range.
+    completed = [c for c in comments if c['user']['login'] == BOT and
+        datetime.datetime.fromisoformat(c['updated_at'].replace('Z', '+00:00')).timestamp() >= request['at'] and
+        'CodeRabbit review command invocation:' in c['body'] and 'Full review finished.' in c['body']]
+    if not completed:
+        return None
+    for c in comments:
+        body = c['body']
+        if c['user']['login'] != BOT or datetime.datetime.fromisoformat(c['updated_at'].replace('Z', '+00:00')).timestamp() < request['at']:
+            continue
+        if '<!-- recent_review_start -->' not in body or 'No actionable comments were generated in the recent review.' not in body:
+            continue
+        starts = {request['base'], request.get('comparisonBase', request['base'])}
+        if not any(f"between {base} and {request['head']}" in body for base in starts):
+            continue
+        run = re.search(r'\*\*Run ID\*\*:\s*`([^`]+)`', body)
+        if run:
+            return {'reviewId': None, 'kind': 'completed-zero-finding-run', 'summaryCommentId': c['id'],
+                    'completionCommentId': completed[-1]['id'], 'runId': run.group(1)}
+    return None
+
 def request_review(state, entry, pr):
+    subprocess.run(['git', '-C', entry['worktree'], 'fetch', 'origin', entry['branch'], pr['base']['ref']], check=True, timeout=90)
     now = time.time()
     marker = f"papertrails-review-{entry['number']}-{pr['head']['sha'][:12]}-{int(now)}"
     entry['request'] = {'head': pr['head']['sha'], 'base': pr['base']['sha'], 'at': now,
                         'marker': marker, 'diff': diff_hash(entry, pr['base']['sha'], pr['head']['sha'])}
+    entry['request']['comparisonBase'] = git(entry, 'merge-base', pr['base']['sha'], pr['head']['sha'])
     entry['status'] = 'requesting'
     state['lastAdmission'] = now
     state['nextEligible'] = now + HOUR
@@ -93,7 +118,7 @@ def reconcile_review(state, entry, pr):
             return
     relevant = [c for c in comments if c['user']['login'] == BOT and
                 datetime.datetime.fromisoformat(c['updated_at'].replace('Z', '+00:00')).timestamp() >= request['at']]
-    if any('rate limit exceeded' in c['body'].lower() for c in relevant):
+    if any(re.search(r'review\s+rate\s+limited|rate\s+limit(?:ing)?\s+(?:exceeded|reached)|too\s+many\s+(?:requests|reviews)', c['body'], re.I) for c in relevant):
         delays = [int(m.group(1)) * 60 for c in relevant for m in re.finditer(r'wait\s+(\d+)\s+minutes', c['body'], re.I)]
         state['nextEligible'] = max(state['nextEligible'], time.time() + max(delays or [HOUR]))
         entry['status'] = 'queued'; entry.pop('request', None)
@@ -103,7 +128,8 @@ def reconcile_review(state, entry, pr):
     completed = [r for r in reviews if r['user']['login'] == BOT and r['commit_id'] == request['head'] and
                  r['submitted_at'] and datetime.datetime.fromisoformat(r['submitted_at'].replace('Z', '+00:00')).timestamp() >= request['at'] and
                  re.search(r'Actionable comments posted:\s*\d+|No actionable comments', r.get('body') or '', re.I)]
-    if not completed:
+    zero = zero_finding_run(comments, request) if not completed else None
+    if not completed and not zero:
         if time.time() - request['at'] > 2700:
             entry['status'] = 'review-unavailable'
             log(f"No actual code review for #{entry['number']}; requires investigation")
@@ -111,7 +137,7 @@ def reconcile_review(state, entry, pr):
     if pr['head']['sha'] != request['head'] or pr['base']['sha'] != request['base']:
         entry['status'] = 'queued'; entry.pop('request', None)
         return
-    entry['reviewed'] = {**request, 'reviewId': completed[-1]['id']}
+    entry['reviewed'] = {**request, **(zero or {'reviewId': completed[-1]['id'], 'kind': 'github-code-review'})}
     entry['status'] = 'reviewed'
     log(f"Actual review completed #{entry['number']} at {request['head'][:8]}")
 
@@ -125,6 +151,8 @@ def process_findings(state, entry):
     comments = pages(f"pulls/{entry['number']}/comments")
     findings = [c for c in comments if c['user']['login'] == BOT and not c.get('in_reply_to_id')]
     review = next((r for r in pages(f"pulls/{entry['number']}/reviews") if r['id'] == entry['reviewed']['reviewId']), None)
+    if not review and entry['reviewed'].get('summaryCommentId'):
+        review = next((c for c in pages(f"issues/{entry['number']}/comments") if c['id'] == entry['reviewed']['summaryCommentId']), None)
     extra = review_body_finding(review) if review else None
     if extra:
         findings.append(extra)
