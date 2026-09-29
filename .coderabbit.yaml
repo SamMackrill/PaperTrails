@@ -1,0 +1,10 @@
+# Prototype branch only. The local babysitter admits explicit reviews hourly.
+reviews:
+  auto_review:
+    enabled: false
+    auto_incremental_review: false
+    labels: []
+    description_keyword: ''
+  path_filters:
+    - '!docs/ui-improvements/ui-improvement-analysis-second-pass.html'
+    - '!docs/ui-improvements/panorama-studies/**'

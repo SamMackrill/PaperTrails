@@ -1,7 +1,7 @@
 import { config } from './config.js?v=15';
-import { scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=18';
-import { groupKey, openItem } from './modalManager.js?v=25';
-import { renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=6';
+import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-01';
+import { groupKey, openItem } from './modalManager.js?v=pass2-01';
+import { renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-01';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=3';
 import {
@@ -170,7 +170,7 @@ function refreshRelations(timeline) {
   });
 
   const scientistId = sourceType === 'scientist' ? key.slice('scientist:'.length)
-    : sourceType === 'publication' ? key.split(':')[1] : null;
+    : sourceType === 'publication' ? resolveItem(key)?.scientistId : null;
   if (scientistId) {
     timeline.querySelector(`.scientist-link[data-scientist-id="${CSS.escape(scientistId)}"]`)?.classList.add('highlight');
     if (sourceType === 'scientist') drawLifespan(timeline, scientistId);
@@ -183,7 +183,7 @@ export function selectItem(element) {
 }
 
 export function selectItemByKey(itemKey) {
-  selectedItemKey = itemKey || null;
+  selectedItemKey = resolveItem(itemKey)?.key || itemKey || null;
   return applySelection(document.getElementById('timeline'));
 }
 
@@ -350,7 +350,7 @@ function renderPublications(timeline, width, axisY, coordinates) {
     marker.type = 'button';
     marker.className = 'publication';
     marker.dataset.scientistId = scientistId;
-    marker.dataset.itemKey = `publication:${scientistId}:${index}`;
+    marker.dataset.itemKey = getItemKey('publication', index, scientistId);
     marker.dataset.tooltip = `${publication.title || 'Untitled publication'} · ${scientist.name || 'Unknown author'} · ${publication.year}`;
     marker.setAttribute('aria-label', `${publication.title || 'Untitled publication'}, by ${scientist.name || 'unknown author'}, ${publication.year}`);
     marker.style.left = `${binX - 7}px`;
@@ -557,7 +557,7 @@ function renderMilestones(timeline, svg, width, axisY, contextTop, scale) {
     const marker = document.createElement('button');
     marker.type = 'button';
     marker.className = `${type}-marker`;
-    marker.dataset.itemKey = `${type}:${index}`;
+    marker.dataset.itemKey = getItemKey(type, index);
     const fallbackTitle = type === 'conference' ? 'Untitled conference' : 'Untitled discovery';
     marker.dataset.tooltip = `${item.title || fallbackTitle} · ${item.year}`;
     marker.setAttribute('aria-label', `${item.title || fallbackTitle}, ${item.year}`);
@@ -622,7 +622,7 @@ function renderEvents(timeline, width, height, contextTop) {
     const band = document.createElement('button');
     band.type = 'button';
     band.className = `event-band label-${plan.mode}`;
-    band.dataset.itemKey = `event:${index}`;
+    band.dataset.itemKey = getItemKey('event', index);
     band.dataset.fullTitle = fullTitle;
     band.dataset.shortTitle = shortTitle;
     band.dataset.tooltip = `${fullTitle} · ${event.startYear}–${event.endYear}`;

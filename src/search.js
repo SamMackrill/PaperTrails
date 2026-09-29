@@ -1,3 +1,4 @@
+import { recordKey } from './itemIdentity.js';
 // Search across every item on the timeline. Matching ignores case and
 // diacritics, and transliterates letters that Unicode decomposition leaves
 // alone, so "Orsted" finds Ørsted and "Romer" finds Rømer.
@@ -31,19 +32,19 @@ export function buildSearchIndex({ scientists, discoveries, conferences, signifi
     });
     (scientist.publications || []).forEach((publication, index) => {
       entries.push({
-        key: `publication:${id}:${index}`, type: 'publication', title: publication.title, detail: scientist.name,
+        key: recordKey('publication', publication, `publication:${id}:${index}`), type: 'publication', title: publication.title, detail: scientist.name,
         year: publication.year, notability: Number(scientist.notability) || 2
       });
     });
   });
   discoveries.forEach((item, index) => entries.push({
-    key: `discovery:${index}`, type: 'discovery', title: item.title, detail: item.discoverer || '', year: item.year, notability: 2
+    key: recordKey('discovery', item, `discovery:${index}`), type: 'discovery', title: item.title, detail: item.discoverer || '', year: item.year, notability: 2
   }));
   conferences.forEach((item, index) => entries.push({
-    key: `conference:${index}`, type: 'conference', title: item.title, detail: item.location || '', year: item.year, notability: 2
+    key: recordKey('conference', item, `conference:${index}`), type: 'conference', title: item.title, detail: item.location || '', year: item.year, notability: 2
   }));
   significantEvents.forEach((item, index) => entries.push({
-    key: `event:${index}`, type: 'event', title: item.title, detail: item.shortTitle || '', year: item.startYear, notability: 2
+    key: recordKey('event', item, `event:${index}`), type: 'event', title: item.title, detail: item.shortTitle || '', year: item.startYear, notability: 2
   }));
   entries.forEach((entry) => {
     entry.foldedTitle = foldText(entry.title);
