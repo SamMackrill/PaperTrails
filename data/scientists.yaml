@@ -18,10 +18,14 @@ regiomontanus:
       association: "Student, master and member of the arts faculty"
       coat: "images/institutions/university-of-vienna.png"
   publications:
-    - year: 1496
+    - id: regiomontanus-work-00
+      legacyKey: publication:regiomontanus:0
+      year: 1496
       title: "Epytoma Ioannis de Monte Regio in Almagestum Ptolomei"
       abstract: "Published posthumously, the work completed Georg von Peuerbach's concise, critical account of Ptolemaic astronomy and gave Renaissance astronomers a practical guide to planetary theory."
-    - year: 1533
+    - id: regiomontanus-work-01
+      legacyKey: publication:regiomontanus:1
+      year: 1533
       title: "De triangulis omnimodis libri quinque"
       abstract: "Published posthumously, the treatise systematized plane and spherical trigonometry and supplied methods central to astronomical calculation."
 
@@ -50,7 +54,9 @@ copernicus:
     - institution: "University of Ferrara"
       association: "Doctorate in canon law"
   publications:
-    - year: 1543
+    - id: copernicus-work-00
+      legacyKey: publication:copernicus:0
+      year: 1543
       title: "De revolutionibus orbium coelestium"
       abstract: "Presented a mathematical heliocentric system in which Earth rotates daily and travels around the Sun as one of the planets."
 
@@ -77,10 +83,14 @@ vesalius:
       association: "Doctor of medicine and professor of surgery and anatomy"
       coat: "images/institutions/university-of-padua.jpg"
   publications:
-    - year: 1538
+    - id: vesalius-work-00
+      legacyKey: publication:vesalius:0
+      year: 1538
       title: "Tabulae anatomicae sex"
       abstract: "Six anatomical broadsheets combined concise text with detailed illustrations, previewing Vesalius's observational approach to human anatomy."
-    - year: 1543
+    - id: vesalius-work-01
+      legacyKey: publication:vesalius:1
+      year: 1543
       title: "De humani corporis fabrica libri septem"
       abstract: "Rebuilt the study of human anatomy around direct dissection, systematic description, and exceptionally detailed illustrations."
 
@@ -105,10 +115,14 @@ tycho_brahe:
       association: "Student of law who independently pursued astronomy"
       coat: "images/institutions/leipzig-university.png"
   publications:
-    - year: 1573
+    - id: tycho_brahe-work-00
+      legacyKey: publication:tycho_brahe:0
+      year: 1573
       title: "De nova et nullius ævi memoria prius visa stella"
       abstract: "Recorded the new star of 1572 and used the absence of measurable parallax to place it beyond the Moon, challenging the doctrine of unchanging heavens."
-    - year: 1588
+    - id: tycho_brahe-work-01
+      legacyKey: publication:tycho_brahe:1
+      year: 1588
       title: "De mundi aetherei recentioribus phaenomenis liber secundus"
       abstract: "Reported observations of the comet of 1577, argued that it travelled beyond the Moon, and presented Tycho's geoheliocentric planetary system."
 
@@ -133,13 +147,19 @@ galileo:
       association: "Professor of mathematics"
       coat: "images/institutions/university-of-padua.jpg"
   publications:
-    - year: 1610
+    - id: galileo-work-00
+      legacyKey: publication:galileo:0
+      year: 1610
       title: "Sidereus Nuncius (Starry Messenger)"
       abstract: "Reported telescopic observations of the Moon's surface, Jupiter's moons, and stars invisible to the naked eye."
-    - year: 1632
+    - id: galileo-work-01
+      legacyKey: publication:galileo:1
+      year: 1632
       title: "Dialogue Concerning the Two Chief World Systems"
       abstract: "Compared the Copernican (heliocentric) and Ptolemaic (geocentric) models of the universe."
-    - year: 1638
+    - id: galileo-work-02
+      legacyKey: publication:galileo:2
+      year: 1638
       title: "Discourses and Mathematical Demonstrations Relating to Two New Sciences"
       abstract: "Summarized work on kinematics (motion) and the strength of materials."
 
@@ -161,13 +181,19 @@ huygens:
       association: "Student of mathematics and law"
       coat: "images/institutions/leiden-university.png"
   publications:
-    - year: 1656
+    - id: huygens-work-00
+      legacyKey: publication:huygens:0
+      year: 1656
       title: "De Saturni Luna Observatio Nova"
       abstract: "Discovery of Titan, Saturn's largest moon, and accurate description of Saturn's rings."
-    - year: 1673
+    - id: huygens-work-01
+      legacyKey: publication:huygens:1
+      year: 1673
       title: "Horologium Oscillatorium"
       abstract: "Presented the theory of the pendulum clock and derived the formula for centrifugal force."
-    - year: 1690
+    - id: huygens-work-02
+      legacyKey: publication:huygens:2
+      year: 1690
       title: "Traité de la Lumière"
       abstract: "Developed the wave theory of light, proposing Huygens' principle."
 
@@ -189,10 +215,14 @@ newton:
       association: "Student, fellow and Lucasian Professor"
       coat: "images/institutions/trinity-college-cambridge.png"
   publications:
-    - year: 1687
+    - id: newton-work-00
+      legacyKey: publication:newton:0
+      year: 1687
       title: "Philosophiæ Naturalis Principia Mathematica"
       abstract: "Presented laws of motion and universal gravitation."
-    - year: 1704
+    - id: newton-work-01
+      legacyKey: publication:newton:1
+      year: 1704
       title: "Opticks"
       abstract: "Detailed experiments and theories on light, color, and diffraction."
 
@@ -213,7 +243,9 @@ fatio:
       association: "Student at the Academy of Geneva"
       coat: "images/institutions/university-of-geneva.svg"
   publications:
-    - year: 1690
+    - id: fatio-work-00
+      legacyKey: publication:fatio:0
+      year: 1690
       title: "Letter outlining kinetic theory of gravity"
       abstract: "Early theory explaining gravity via particle collisions/shadowing."
 
@@ -233,10 +265,14 @@ du_fay:
     - institution: "Académie royale des sciences"
       association: "Associate chemist, pensioner and twice director"
   publications:
-    - year: 1733
+    - id: du_fay-work-00
+      legacyKey: publication:du_fay:0
+      year: 1733
       title: "Second mémoire sur l’électricité : Quels sont les corps qui sont susceptibles d’électricité"
       abstract: "Showed that a wide range of materials could acquire and transmit electricity when experimental handling and insulation were controlled."
-    - year: 1733
+    - id: du_fay-work-01
+      legacyKey: publication:du_fay:1
+      year: 1733
       title: "Quatrième mémoire sur l’électricité : De l’attraction & répulsion des corps électriques"
       abstract: "Distinguished vitreous and resinous electricity and stated that bodies bearing the same kind repel while bodies bearing different kinds attract."
 
@@ -258,7 +294,9 @@ franklin:
       association: "Founder and trustee of its predecessor college"
       coat: "images/institutions/university-of-pennsylvania.svg"
   publications:
-    - year: 1751
+    - id: franklin-work-00
+      legacyKey: publication:franklin:0
+      year: 1751
       title: "Experiments and Observations on Electricity"
       abstract: "Detailed experiments on electricity, including the kite experiment (1752) proving lightning's electrical nature."
 
@@ -280,13 +318,19 @@ euler:
       association: "Student"
       coat: "images/institutions/university-of-basel.png"
   publications:
-    - year: 1736
+    - id: euler-work-00
+      legacyKey: publication:euler:0
+      year: 1736
       title: "Mechanica sive motus scientia analytice exposita"
       abstract: "Formulated precise equations for rigid-body rotation (Euler's rotation equations)."
-    - year: 1746
+    - id: euler-work-01
+      legacyKey: publication:euler:1
+      year: 1746
       title: "Nova theoria lucis et colorum"
       abstract: "Advanced the wave theory of light, proposing light propagates as waves through the ether."
-    - year: 1748
+    - id: euler-work-02
+      legacyKey: publication:euler:2
+      year: 1748
       title: "Introductio in analysin infinitorum"
       abstract: "Laid the foundations of mathematical analysis, introducing concepts like Euler's formula and identity."
 
@@ -307,7 +351,9 @@ lesage:
       association: "Student and professor of mathematics"
       coat: "images/institutions/university-of-geneva.svg"
   publications:
-    - year: 1784
+    - id: lesage-work-00
+      legacyKey: publication:lesage:0
+      year: 1784
       title: "Lucrèce Newtonien"
       abstract: "Proposed Le Sage's theory of gravitation based on ultra-mundane corpuscles."
 
@@ -327,7 +373,9 @@ coulomb:
     - institution: "Royal Engineering School of Mézières"
       association: "Engineering student"
   publications:
-    - year: 1785
+    - id: coulomb-work-00
+      legacyKey: publication:coulomb:0
+      year: 1785
       title: "Premier mémoire sur l'électricité et le magnétisme"
       abstract: "Established Coulomb's law."
 
@@ -349,7 +397,9 @@ volta:
       association: "Professor of experimental physics"
       coat: "images/institutions/university-of-pavia.png"
   publications:
-    - year: 1800
+    - id: volta-work-00
+      legacyKey: publication:volta:0
+      year: 1800
       title: "On the Electricity Excited by the Mere Contact of Conducting Substances of Different Kinds"
       abstract: "Invented the voltaic pile, the first electrical battery."
 
@@ -370,7 +420,9 @@ dalton:
     - institution: "Manchester Academy"
       association: "Tutor of mathematics and natural philosophy"
   publications:
-    - year: 1803
+    - id: dalton-work-00
+      legacyKey: publication:dalton:0
+      year: 1803
       title: "A New System of Chemical Philosophy"
       abstract: "Proposed atomic theory and law of multiple proportions."
 
@@ -397,7 +449,9 @@ young:
       association: "Fellow-commoner"
       coat: "images/institutions/emmanuel-college-cambridge.png"
   publications:
-    - year: 1803
+    - id: young-work-00
+      legacyKey: publication:young:0
+      year: 1803
       title: "Experiments and Calculations Relative to Physical Optics"
       abstract: "Demonstrated the wave nature of light through the double-slit experiment."
 
@@ -421,7 +475,9 @@ biot:
       association: "Professor of physics"
       coat: "images/institutions/college-de-france.png"
   publications:
-    - year: 1820
+    - id: biot-work-00
+      legacyKey: publication:biot:0
+      year: 1820
       title: "Note sur le magnétisme de la pile de Volta"
       abstract: "With Savart, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)."
 
@@ -445,10 +501,14 @@ ampere:
       association: "Professor of experimental physics"
       coat: "images/institutions/college-de-france.png"
   publications:
-    - year: 1820
+    - id: ampere-work-00
+      legacyKey: publication:ampere:0
+      year: 1820
       title: "Mémoire sur l'action mutuelle..."
       abstract: "Ampère's force law."
-    - year: 1826
+    - id: ampere-work-01
+      legacyKey: publication:ampere:1
+      year: 1826
       title: "Mémoire sur la théorie mathématique..."
       abstract: "Ampère's circuital law."
 
@@ -473,7 +533,9 @@ gauss:
       association: "Doctorate"
       coat: "images/institutions/university-of-helmstedt.png"
   publications:
-    - year: 1801
+    - id: gauss-work-00
+      legacyKey: publication:gauss:0
+      year: 1801
       title: "Disquisitiones Arithmeticae"
       abstract: "A groundbreaking work in number theory, introducing concepts like modular arithmetic and quadratic reciprocity."
 
@@ -494,7 +556,9 @@ oersted:
       association: "Student and professor"
       coat: "images/institutions/university-of-copenhagen.png"
   publications:
-    - year: 1820
+    - id: oersted-work-00
+      legacyKey: publication:oersted:0
+      year: 1820
       title: "Experimenta circa effectum conflictus electrici in acum magneticam"
       abstract: "Discovered that electric currents create magnetic fields (electromagnetism)."
 
@@ -518,7 +582,9 @@ fresnel:
       association: "Engineering student"
       coat: "images/institutions/ecole-des-ponts-paristech.png"
   publications:
-    - year: 1819
+    - id: fresnel-work-00
+      legacyKey: publication:fresnel:0
+      year: 1819
       title: "Mémoire sur la diffraction de la lumière"
       abstract: "Developed the wave theory of light, explaining diffraction and interference phenomena."
 
@@ -542,7 +608,9 @@ ohm:
       association: "Professor of physics"
       coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
   publications:
-    - year: 1827
+    - id: ohm-work-00
+      legacyKey: publication:ohm:0
+      year: 1827
       title: "Die galvanische Kette, mathematisch bearbeitet"
       abstract: "Formulated Ohm's law, describing the relationship between voltage, current, and resistance."
 
@@ -563,7 +631,9 @@ savart:
       association: "Professor of experimental physics"
       coat: "images/institutions/college-de-france.png"
   publications:
-    - year: 1820
+    - id: savart-work-00
+      legacyKey: publication:savart:0
+      year: 1820
       title: "Note sur le magnétisme de la pile de Volta"
       abstract: "With Biot, experimentally determined the magnetic field from a current-carrying wire (Biot-Savart law)."
 
@@ -584,10 +654,14 @@ faraday:
     - institution: "Royal Institution"
       association: "Researcher and Fullerian Professor of Chemistry"
   publications:
-    - year: 1831
+    - id: faraday-work-00
+      legacyKey: publication:faraday:0
+      year: 1831
       title: "Experimental Researches in Electricity (Series I)"
       abstract: "Discovered electromagnetic induction."
-    - year: 1846
+    - id: faraday-work-01
+      legacyKey: publication:faraday:1
+      year: 1846
       title: "Experimental Researches in Electricity (Series XIX)"
       abstract: "Described diamagnetism and proposed lines of force."
 
@@ -608,7 +682,9 @@ neumann_franz:
       association: "Student and professor"
       coat: "images/institutions/university-of-konigsberg.png"
   publications:
-    - year: 1845
+    - id: neumann_franz-work-00
+      legacyKey: publication:neumann_franz:0
+      year: 1845
       title: "Die mathematischen Gesetze der inducirten elektrischen Ströme"
       abstract: "Developed the mathematical theory of electromagnetic induction (Neumann's formula)."
 
@@ -635,10 +711,14 @@ weber:
       association: "Professor of physics"
       coat: "images/institutions/leipzig-university.png"
   publications:
-    - year: 1846
+    - id: weber-work-00
+      legacyKey: publication:weber:0
+      year: 1846
       title: "Elektrodynamische Massbestimmungen"
       abstract: "Work on the electrodynamics of moving charges."
-    - year: 1856
+    - id: weber-work-01
+      legacyKey: publication:weber:1
+      year: 1856
       title: "On the Measurement of Electric Resistance"
       abstract: "Contributed to establishing absolute electrical units."
 
@@ -662,10 +742,14 @@ tait:
       association: "Professor of natural philosophy"
       coat: "images/institutions/university-of-edinburgh.jpg"
   publications:
-    - year: 1867
+    - id: tait-work-00
+      legacyKey: publication:tait:0
+      year: 1867
       title: "Treatise on Natural Philosophy"
       abstract: "Co-authored with Lord Kelvin, foundational work in classical mechanics."
-    - year: 1877
+    - id: tait-work-01
+      legacyKey: publication:tait:1
+      year: 1877
       title: "On Knots"
       abstract: "Pioneered the mathematical theory of knots, linking it to physics."
 
@@ -693,10 +777,14 @@ maxwell:
       association: "Professor of natural philosophy"
       coat: "images/institutions/kings-college-london.png"
   publications:
-    - year: 1861
+    - id: maxwell-work-00
+      legacyKey: publication:maxwell:0
+      year: 1861
       title: "On Physical Lines of Force"
       abstract: "Introduced displacement current."
-    - year: 1873
+    - id: maxwell-work-01
+      legacyKey: publication:maxwell:1
+      year: 1873
       title: "A Treatise on Electricity and Magnetism"
       abstract: "Unified electricity, magnetism, and light."
 
@@ -717,7 +805,9 @@ van_der_waals:
       association: "Student, doctorate and professor"
       coat: "images/institutions/leiden-university.png"
   publications:
-    - year: 1873
+    - id: van_der_waals-work-00
+      legacyKey: publication:van_der_waals:0
+      year: 1873
       title: "On the Continuity of the Gaseous and Liquid States"
       abstract: "Introduced the van der Waals equation of state."
 
@@ -744,10 +834,14 @@ mach:
       association: "Professor of experimental physics"
       coat: "images/institutions/charles-university.png"
   publications:
-    - year: 1883
+    - id: mach-work-00
+      legacyKey: publication:mach:0
+      year: 1883
       title: "Die Mechanik in ihrer Entwickelung historisch-kritisch dargestellt (The Science of Mechanics)"
       abstract: "Critiqued Newtonian mechanics and influenced Einstein; introduced Mach's principle."
-    - year: 1886
+    - id: mach-work-01
+      legacyKey: publication:mach:1
+      year: 1886
       title: "Beiträge zur Analyse der Empfindungen (Analysis of Sensations)"
       abstract: "Explored the relationship between physics and psychophysics, influencing philosophy of science."
 
@@ -768,10 +862,14 @@ heaviside:
       association: "Honorary doctorate"
       coat: "images/institutions/university-of-gottingen.svg"
   publications:
-    - year: 1885
+    - id: heaviside-work-00
+      legacyKey: publication:heaviside:0
+      year: 1885
       title: "Electromagnetic Induction and its Propagation"
       abstract: "Reformulated Maxwell's equations."
-    - year: 1902
+    - id: heaviside-work-01
+      legacyKey: publication:heaviside:1
+      year: 1902
       title: "Theory of the Electric Telegraph"
       abstract: "Predicted the Kennelly–Heaviside layer."
 
@@ -792,10 +890,14 @@ lorentz:
       association: "Student, doctorate and professor"
       coat: "images/institutions/leiden-university.png"
   publications:
-    - year: 1892
+    - id: lorentz-work-00
+      legacyKey: publication:lorentz:0
+      year: 1892
       title: "La Théorie électromagnétique de Maxwell..."
       abstract: "Developed Lorentz transformation equations."
-    - year: 1904
+    - id: lorentz-work-01
+      legacyKey: publication:lorentz:1
+      year: 1904
       title: "Electromagnetic phenomena..."
       abstract: "Refined transformations used in special relativity."
 
@@ -819,7 +921,9 @@ thomson:
       association: "Student, fellow, professor and master"
       coat: "images/institutions/trinity-college-cambridge.png"
   publications:
-    - year: 1897
+    - id: thomson-work-00
+      legacyKey: publication:thomson:0
+      year: 1897
       title: "Cathode Rays"
       abstract: "Discovered the electron and proposed the plum pudding model of the atom."
 
@@ -847,7 +951,9 @@ planck:
       association: "Professor of theoretical physics"
       coat: "images/institutions/kiel-university.webp"
   publications:
-    - year: 1900
+    - id: planck-work-00
+      legacyKey: publication:planck:0
+      year: 1900
       title: "Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum"
       abstract: "Introduced quantized energy (Planck's constant)."
 
@@ -868,7 +974,9 @@ birkeland:
       association: "Student, doctorate and professor"
       coat: "images/institutions/university-of-oslo.png"
   publications:
-    - year: 1908
+    - id: birkeland-work-00
+      legacyKey: publication:birkeland:0
+      year: 1908
       title: "The Norwegian Aurora Polaris Expedition"
       abstract: "Explained the aurora borealis as caused by charged particles from the Sun."
 
@@ -899,10 +1007,14 @@ rutherford:
       association: "Professor of physics"
       coat: "images/institutions/university-of-manchester.png"
   publications:
-    - year: 1911
+    - id: rutherford-work-00
+      legacyKey: publication:rutherford:0
+      year: 1911
       title: "The Scattering of α and β Particles by Matter and the Structure of the Atom"
       abstract: "Proposed the nuclear model of the atom."
-    - year: 1919
+    - id: rutherford-work-01
+      legacyKey: publication:rutherford:1
+      year: 1919
       title: "Collision of α Particles with Light Atoms"
       abstract: "Discovered the proton."
 
@@ -929,7 +1041,9 @@ h_a_wilson:
       association: "Professor of physics"
       coat: "images/institutions/rice-university.png"
   publications:
-    - year: 1921
+    - id: h_a_wilson-work-00
+      legacyKey: publication:h_a_wilson:0
+      year: 1921
       title: "An electromagnetic theory of gravitation"
       abstract: "Proposed a theory linking electromagnetism and gravitation."
 
@@ -960,13 +1074,19 @@ einstein:
       association: "Professor"
       coat: "images/institutions/institute-for-advanced-study.png"
   publications:
-    - year: 1905
+    - id: einstein-work-00
+      legacyKey: publication:einstein:0
+      year: 1905
       title: "Zur Elektrodynamik bewegter Körper"
       abstract: "Introduced special relativity."
-    - year: 1905
+    - id: einstein-work-01
+      legacyKey: publication:einstein:1
+      year: 1905
       title: "Über einen die Erzeugung..."
       abstract: "Explained the photoelectric effect."
-    - year: 1915
+    - id: einstein-work-02
+      legacyKey: publication:einstein:2
+      year: 1915
       title: "Die Feldgleichungen der Gravitation"
       abstract: "Presented general relativity."
 
@@ -994,7 +1114,9 @@ noether:
       association: "Visiting professor"
       coat: "images/institutions/bryn-mawr-college.png"
   publications:
-    - year: 1918
+    - id: noether-work-00
+      legacyKey: publication:noether:0
+      year: 1918
       title: "Invariante Variationsprobleme"
       abstract: "Established Noether's theorem, linking symmetries in physics to conservation laws."
 
@@ -1019,10 +1141,14 @@ bohr:
       association: "Postdoctoral researcher"
       coat: "images/institutions/university-of-manchester.png"
   publications:
-    - year: 1913
+    - id: bohr-work-00
+      legacyKey: publication:bohr:0
+      year: 1913
       title: "On the Constitution of Atoms and Molecules"
       abstract: "Introduced the Bohr model of the atom."
-    - year: 1927
+    - id: bohr-work-01
+      legacyKey: publication:bohr:1
+      year: 1927
       title: "The Quantum Postulate..."
       abstract: "Developed the principle of complementarity."
 
@@ -1053,10 +1179,14 @@ schrodinger:
       association: "Professor of physics"
       coat: "images/institutions/university-of-graz.jpg"
   publications:
-    - year: 1926
+    - id: schrodinger-work-00
+      legacyKey: publication:schrodinger:0
+      year: 1926
       title: "Quantisierung als Eigenwertproblem"
       abstract: "Developed wave mechanics and the Schrödinger equation."
-    - year: 1935
+    - id: schrodinger-work-01
+      legacyKey: publication:schrodinger:1
+      year: 1935
       title: "Die gegenwärtige Situation in der Quantenmechanik"
       abstract: "Introduced Schrödinger's cat thought experiment."
 
@@ -1083,7 +1213,9 @@ raman:
       association: "Director and professor of physics"
       coat: "images/institutions/indian-institute-of-science.png"
   publications:
-    - year: 1928
+    - id: raman-work-00
+      legacyKey: publication:raman:0
+      year: 1928
       title: "A New Radiation"
       abstract: "Discovered the Raman effect, inelastic scattering of photons."
 
@@ -1110,7 +1242,9 @@ chadwick:
       association: "Professor of physics"
       coat: "images/institutions/university-of-liverpool.svg"
   publications:
-    - year: 1932
+    - id: chadwick-work-00
+      legacyKey: publication:chadwick:0
+      year: 1932
       title: "Possible Existence of a Neutron"
       abstract: "Discovered the neutron."
 
@@ -1140,7 +1274,9 @@ compton:
       association: "Professor"
       coat: "images/institutions/university-of-chicago.png"
   publications:
-    - year: 1923
+    - id: compton-work-00
+      legacyKey: publication:compton:0
+      year: 1923
       title: "A Quantum Theory of the Scattering of X-rays by Light Elements"
       abstract: "Discovered the Compton effect, demonstrating particle-like behavior of photons."
 
@@ -1161,7 +1297,9 @@ deBroglie:
       association: "Student, doctorate and professor"
       coat: "images/institutions/university-of-paris.png"
   publications:
-    - year: 1924
+    - id: deBroglie-work-00
+      legacyKey: publication:deBroglie:0
+      year: 1924
       title: "Recherches sur la théorie des quanta"
       abstract: "Proposed wave nature of electrons."
 
@@ -1182,7 +1320,9 @@ velikovsky:
       association: "Medical degree"
       coat: "images/institutions/moscow-state-university.jpg"
   publications:
-    - year: 1950
+    - id: velikovsky-work-00
+      legacyKey: publication:velikovsky:0
+      year: 1950
       title: "Worlds in Collision"
       abstract: "Proposed theories about planetary catastrophes."
 
@@ -1212,10 +1352,14 @@ pauli:
       association: "Professor of theoretical physics"
       coat: "images/institutions/eth-zurich.png"
   publications:
-    - year: 1925
+    - id: pauli-work-00
+      legacyKey: publication:pauli:0
+      year: 1925
       title: "Über den Zusammenhang des Abschlusses..."
       abstract: "Pauli exclusion principle."
-    - year: 1930
+    - id: pauli-work-01
+      legacyKey: publication:pauli:1
+      year: 1930
       title: "Open Letter on Beta Decay"
       abstract: "Proposed the neutrino."
 
@@ -1243,10 +1387,14 @@ heisenberg:
       association: "Professor of theoretical physics"
       coat: "images/institutions/leipzig-university.png"
   publications:
-    - year: 1925
+    - id: heisenberg-work-00
+      legacyKey: publication:heisenberg:0
+      year: 1925
       title: "Über quantentheoretische Umdeutung..."
       abstract: "Formulated matrix mechanics."
-    - year: 1927
+    - id: heisenberg-work-01
+      legacyKey: publication:heisenberg:1
+      year: 1927
       title: "Über den anschaulichen Inhalt..."
       abstract: "Introduced the uncertainty principle."
 
@@ -1271,10 +1419,14 @@ dirac:
       association: "Student, fellow and Lucasian Professor"
       coat: "images/institutions/st-johns-college-cambridge.png"
   publications:
-    - year: 1928
+    - id: dirac-work-00
+      legacyKey: publication:dirac:0
+      year: 1928
       title: "The Quantum Theory of the Electron"
       abstract: "Introduced the Dirac equation, predicted antimatter."
-    - year: 1937
+    - id: dirac-work-01
+      legacyKey: publication:dirac:1
+      year: 1937
       title: "The Cosmological Constants"
       abstract: "Proposed the Large Number Hypothesis, suggesting a relationship between fundamental constants and the age of the universe."
 
@@ -1295,7 +1447,9 @@ anderson:
       association: "Student, doctorate and professor"
       coat: "images/institutions/california-institute-of-technology.png"
   publications:
-    - year: 1932
+    - id: anderson-work-00
+      legacyKey: publication:anderson:0
+      year: 1932
       title: "The Apparent Existence of Easily Deflectable Positives"
       abstract: "Discovered the positron."
 
@@ -1322,10 +1476,14 @@ alfven:
       association: "Professor"
       coat: "images/institutions/university-of-california-san-diego.png"
   publications:
-    - year: 1942
+    - id: alfven-work-00
+      legacyKey: publication:alfven:0
+      year: 1942
       title: "Existence of Electromagnetic-Hydrodynamic Waves"
       abstract: "Discovered Alfvén waves in magnetohydrodynamics."
-    - year: 1981
+    - id: alfven-work-01
+      legacyKey: publication:alfven:1
+      year: 1981
       title: "Cosmic Plasma"
       abstract: "Discussed the behavior of plasma in cosmic environments, laying the foundation for modern plasma physics."
 
@@ -1349,7 +1507,9 @@ casimir:
       association: "Research assistant"
       coat: "images/institutions/eth-zurich.png"
   publications:
-    - year: 1948
+    - id: casimir-work-00
+      legacyKey: publication:casimir:0
+      year: 1948
       title: "On the attraction between two perfectly conducting plates"
       abstract: "Predicted the Casimir effect."
 
@@ -1379,7 +1539,9 @@ lamb:
       association: "Professor of physics"
       coat: "images/institutions/stanford-university.png"
   publications:
-    - year: 1947
+    - id: lamb-work-00
+      legacyKey: publication:lamb:0
+      year: 1947
       title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
       abstract: "Discovered the Lamb shift in hydrogen spectra."
 
@@ -1403,10 +1565,14 @@ hoyle:
       association: "Fellow and lecturer"
       coat: "images/institutions/st-johns-college-cambridge.png"
   publications:
-    - year: 1948
+    - id: hoyle-work-00
+      legacyKey: publication:hoyle:0
+      year: 1948
       title: "A New Model for the Expanding Universe"
       abstract: "Co-developed the Steady State theory of the universe as an alternative to the Big Bang."
-    - year: 1957
+    - id: hoyle-work-01
+      legacyKey: publication:hoyle:1
+      year: 1957
       title: "Synthesis of the Elements in Stars"
       abstract: "Co-authored the influential B²FH paper explaining how elements heavier than helium are synthesized in stars (stellar nucleosynthesis)."
 
@@ -1432,13 +1598,19 @@ sciama:
     - institution: "SISSA"
       association: "Professor"
   publications:
-    - year: 1953
+    - id: sciama-work-00
+      legacyKey: publication:sciama:0
+      year: 1953
       title: "On the Origin of Inertia"
       abstract: "Proposed a theory linking inertia to the gravitational influence of distant matter in the universe, based on Mach's principle."
-    - year: 1969
+    - id: sciama-work-01
+      legacyKey: publication:sciama:1
+      year: 1969
       title: "The Physical Foundations of General Relativity"
       abstract: "A concise introduction to the conceptual basis of general relativity."
-    - year: 1971
+    - id: sciama-work-02
+      legacyKey: publication:sciama:2
+      year: 1971
       title: "Modern Cosmology"
       abstract: "Influential textbook summarizing the state of cosmology and exploring topics like the cosmic microwave background and black holes."
 
@@ -1465,10 +1637,14 @@ dicke:
       association: "Professor of physics"
       coat: "images/institutions/princeton-university.png"
   publications:
-    - year: 1965
+    - id: dicke-work-00
+      legacyKey: publication:dicke:0
+      year: 1965
       title: "Cosmic Black-Body Radiation"
       abstract: "Predicted the cosmic microwave background (CMB)."
-    - year: 1957
+    - id: dicke-work-01
+      legacyKey: publication:dicke:1
+      year: 1957
       title: "Gravitation without a principle of equivalence"
       abstract: "Explored alternative theories of gravitation, questioning the principle of equivalence."
 
@@ -1492,10 +1668,14 @@ arp:
       association: "Doctorate and research staff"
       coat: "images/institutions/california-institute-of-technology.png"
   publications:
-    - year: 1966
+    - id: arp-work-00
+      legacyKey: publication:arp:0
+      year: 1966
       title: "Atlas of Peculiar Galaxies"
       abstract: "Cataloged unusual galaxy structures."
-    - year: 1990
+    - id: arp-work-01
+      legacyKey: publication:arp:1
+      year: 1990
       title: "Seeing Red"
       abstract: "Discussed redshift anomalies and their implications for cosmology."
 
@@ -1525,10 +1705,14 @@ nernst:
       association: "Professor of physical chemistry"
       coat: "images/institutions/humboldt-university-of-berlin.png"
   publications:
-    - year: 1906
+    - id: nernst-work-00
+      legacyKey: publication:nernst:0
+      year: 1906
       title: "The New Heat Theorem"
       abstract: "Formulated the Third Law of Thermodynamics."
-    - year: 1889
+    - id: nernst-work-01
+      legacyKey: publication:nernst:1
+      year: 1889
       title: "Die elektromotorische Wirksamkeit der Jonen"
       abstract: "Studied the electromotive force of ions."
 
@@ -1552,7 +1736,9 @@ bose:
       association: "Professor and head of physics"
       coat: "images/institutions/university-of-dhaka.png"
   publications:
-    - year: 1924
+    - id: bose-work-00
+      legacyKey: publication:bose:0
+      year: 1924
       title: "Planck's Law and the Hypothesis of Light Quanta"
       abstract: "Derived Planck's black-body radiation law."
 
@@ -1577,13 +1763,19 @@ hooke:
       association: "Professor of geometry"
       coat: "images/institutions/gresham-college.gif"
   publications:
-    - year: 1665
+    - id: hooke-work-00
+      legacyKey: publication:hooke:0
+      year: 1665
       title: "Micrographia"
       abstract: "Detailed microscopic and telescopic observations, coined the term 'cell', and discussed various natural phenomena."
-    - year: 1678 # Hooke's Law first described in 1660, published in this work
+    - id: hooke-work-01
+      legacyKey: publication:hooke:1
+      year: 1678 # Hooke's Law first described in 1660, published in this work
       title: "Lectures de Potentia Restitutiva, or, Of Spring Explaining the Power of Springing Bodies"
       abstract: "Presented Hooke's Law of elasticity."
-    - year: 1674 # Gresham lecture
+    - id: hooke-work-02
+      legacyKey: publication:hooke:2
+      year: 1674 # Gresham lecture
       title: "An Attempt to Prove the Motion of the Earth by Observations"
       abstract: "Discussed gravitation and planetary motion, proposing an attractive principle."
 
@@ -1607,13 +1799,19 @@ eddington:
       association: "Student, fellow and professor of astronomy"
       coat: "images/institutions/trinity-college-cambridge.png"
   publications:
-    - year: 1916
+    - id: eddington-work-00
+      legacyKey: publication:eddington:0
+      year: 1916
       title: "On the Radiative Equilibrium of the Stars"
       abstract: "Developed a theory of radiative stellar interiors that related a star's mass, luminosity, density, and temperature."
-    - year: 1920
+    - id: eddington-work-01
+      legacyKey: publication:eddington:1
+      year: 1920
       title: "A Determination of the Deflection of Light by the Sun's Gravitational Field, from Observations Made at the Total Eclipse of May 29, 1919"
       abstract: "Co-authored the eclipse-expedition analysis that found the Sun's gravitational deflection of starlight consistent with general relativity."
-    - year: 1926
+    - id: eddington-work-02
+      legacyKey: publication:eddington:2
+      year: 1926
       title: "The Internal Constitution of the Stars"
       abstract: "Synthesized the physics of stellar structure, including radiative equilibrium and the mass–luminosity relation, into a foundational account of theoretical astrophysics."
 
@@ -1643,13 +1841,19 @@ hertz:
       association: "Professor of physics"
       coat: "images/institutions/university-of-bonn.png"
   publications:
-    - year: 1887
+    - id: hertz-work-00
+      legacyKey: publication:hertz:0
+      year: 1887
       title: "Ueber sehr schnelle electrische Schwingungen"
       abstract: "Developed a spark-gap oscillator and resonant detector that made very rapid electrical oscillations experimentally observable."
-    - year: 1888
+    - id: hertz-work-01
+      legacyKey: publication:hertz:1
+      year: 1888
       title: "Ueber electrodynamische Wellen im Luftraume und deren Reflexion"
       abstract: "Demonstrated the wave-like propagation and reflection of electromagnetic disturbances in air and measured their wavelength directly."
-    - year: 1889
+    - id: hertz-work-02
+      legacyKey: publication:hertz:2
+      year: 1889
       title: "Ueber Strahlen electrischer Kraft"
       abstract: "Showed that electric waves could be reflected, refracted, and polarized like light, strengthening Maxwell's electromagnetic theory of light."
 
@@ -1671,10 +1875,14 @@ descartes:
       association: "Bachelor and licentiate in law"
       coat: "images/institutions/university-of-poitiers.svg"
   publications:
-    - year: 1637
+    - id: descartes-work-00
+      legacyKey: publication:descartes:0
+      year: 1637
       title: "Discours de la méthode, plus La Dioptrique, Les Météores et La Géométrie"
       abstract: "Presented a general method of inquiry alongside scientific essays that applied mathematics to optics, meteorology, and geometry, helping establish analytic geometry."
-    - year: 1644
+    - id: descartes-work-01
+      legacyKey: publication:descartes:1
+      year: 1644
       title: "Principia philosophiæ"
       abstract: "Systematized a mechanistic account of nature in terms of matter and motion, including laws of motion and a vortex-based cosmology."
 
@@ -1701,13 +1909,19 @@ poincare:
       association: "Professor of mathematical physics"
       coat: "images/institutions/university-of-paris.png"
   publications:
-    - year: 1890
+    - id: poincare-work-00
+      legacyKey: publication:poincare:0
+      year: 1890
       title: "Sur le problème des trois corps et les équations de la dynamique"
       abstract: "Developed qualitative methods for the three-body problem, revealing homoclinic behavior and the complex dynamics later associated with deterministic chaos."
-    - year: 1895
+    - id: poincare-work-01
+      legacyKey: publication:poincare:1
+      year: 1895
       title: "Analysis situs"
       abstract: "Established foundational methods of algebraic topology by studying manifolds with invariants including homology, the fundamental group, and Betti numbers."
-    - year: 1906
+    - id: poincare-work-02
+      legacyKey: publication:poincare:2
+      year: 1906
       title: "Sur la dynamique de l’électron"
       abstract: "Extended Lorentz-covariant electron dynamics and articulated the relativity principle using transformations that form the Lorentz group."
 
@@ -1732,13 +1946,19 @@ kelvin:
       association: "Student and fellow"
       coat: "images/institutions/peterhouse-cambridge.png"
   publications:
-    - year: 1848
+    - id: kelvin-work-00
+      legacyKey: publication:kelvin:0
+      year: 1848
       title: "On an Absolute Thermometric Scale"
       abstract: "Proposed a temperature scale independent of the properties of any particular substance and located absolute zero near −273 degrees Celsius."
-    - year: 1851
+    - id: kelvin-work-01
+      legacyKey: publication:kelvin:1
+      year: 1851
       title: "On the Dynamical Theory of Heat"
       abstract: "Reconciled Carnot's heat-engine theory with Joule's mechanical equivalent of heat and stated a foundational form of the second law of thermodynamics."
-    - year: 1852
+    - id: kelvin-work-02
+      legacyKey: publication:kelvin:2
+      year: 1852
       title: "On a Universal Tendency in Nature to the Dissipation of Mechanical Energy"
       abstract: "Described the irreversible degradation of mechanical energy into less useful forms, establishing energy dissipation as a universal tendency."
 
@@ -1769,13 +1989,19 @@ feynman:
       association: "Professor of theoretical physics"
       coat: "images/institutions/california-institute-of-technology.png"
   publications:
-    - year: 1948
+    - id: feynman-work-00
+      legacyKey: publication:feynman:0
+      year: 1948
       title: "Space-Time Approach to Non-Relativistic Quantum Mechanics"
       abstract: "Formulated quantum mechanics as a sum over possible paths through spacetime, establishing the path-integral approach to quantum theory."
-    - year: 1949
+    - id: feynman-work-01
+      legacyKey: publication:feynman:1
+      year: 1949
       title: "Space-Time Approach to Quantum Electrodynamics"
       abstract: "Developed a practical spacetime method for calculating electron–photon interactions, laying the foundation for Feynman diagrams and renormalized quantum electrodynamics."
-    - year: 1969
+    - id: feynman-work-02
+      legacyKey: publication:feynman:2
+      year: 1969
       title: "Very High-Energy Collisions of Hadrons"
       abstract: "Introduced the parton picture of high-energy hadron collisions, helping reveal the point-like constituents later identified with quarks and gluons."
 
@@ -1800,13 +2026,19 @@ kepler:
       association: "District mathematician and teacher"
       coat: "images/institutions/university-of-graz.jpg"
   publications:
-    - year: 1604
+    - id: kepler-work-00
+      legacyKey: publication:kepler:0
+      year: 1604
       title: "Ad Vitellionem paralipomena, quibus astronomiae pars optica traditur"
       abstract: "Developed a geometrical theory of vision and explained how the eye forms an inverted image on the retina."
-    - year: 1609
+    - id: kepler-work-01
+      legacyKey: publication:kepler:1
+      year: 1609
       title: "Astronomia Nova"
       abstract: "Established that Mars follows an elliptical orbit and that a planet sweeps out equal areas in equal times."
-    - year: 1619
+    - id: kepler-work-02
+      legacyKey: publication:kepler:2
+      year: 1619
       title: "Harmonices Mundi"
       abstract: "Published the third law of planetary motion, relating orbital periods to the sizes of planetary orbits."
 
@@ -1827,7 +2059,9 @@ william_gilbert:
       association: "Student and fellow"
       coat: "images/institutions/st-johns-college-cambridge.png"
   publications:
-    - year: 1600
+    - id: william_gilbert-work-00
+      legacyKey: publication:william_gilbert:0
+      year: 1600
       title: "De Magnete, Magneticisque Corporibus, et de Magno Magnete Tellure"
       abstract: "Reported systematic experiments on magnets and proposed that the Earth is itself magnetic."
 
@@ -1848,10 +2082,14 @@ henry_cavendish:
       association: "Student"
       coat: "images/institutions/peterhouse-cambridge.png"
   publications:
-    - year: 1771
+    - id: henry_cavendish-work-00
+      legacyKey: publication:henry_cavendish:0
+      year: 1771
       title: "An Attempt to Explain Some of the Principal Phænomena of Electricity, by Means of an Elastic Fluid"
       abstract: "Presented a mathematical one-fluid account of electrical attraction, repulsion, induction, and capacitance."
-    - year: 1798
+    - id: henry_cavendish-work-01
+      legacyKey: publication:henry_cavendish:1
+      year: 1798
       title: "Experiments to Determine the Density of the Earth"
       abstract: "Used a torsion balance devised by John Michell to measure the attraction between laboratory masses and determine Earth's mean density."
 
@@ -1872,7 +2110,9 @@ george_green:
       association: "Student and fellow"
       coat: "images/institutions/gonville-and-caius-college-cambridge.png"
   publications:
-    - year: 1828
+    - id: george_green-work-00
+      legacyKey: publication:george_green:0
+      year: 1828
       title: "An Essay on the Application of Mathematical Analysis to the Theories of Electricity and Magnetism"
       abstract: "Introduced Green's theorem, Green's functions, and the potential methods that unified many electrostatic and gravitational calculations."
 
@@ -1893,10 +2133,14 @@ joseph_henry:
       association: "Professor of natural philosophy"
       coat: "images/institutions/princeton-university.png"
   publications:
-    - year: 1831
+    - id: joseph_henry-work-00
+      legacyKey: publication:joseph_henry:0
+      year: 1831
       title: "On a Reciprocating Motion Produced by Magnetic Attraction and Repulsion"
       abstract: "Described an early electromagnetic motor whose rocking motion was driven by alternating magnetic attraction and repulsion."
-    - year: 1832
+    - id: joseph_henry-work-01
+      legacyKey: publication:joseph_henry:1
+      year: 1832
       title: "On the Production of Currents and Sparks of Electricity from Magnetism"
       abstract: "Reported electromagnetic induction experiments and phenomena that led to his discovery of self-induction."
 
@@ -1923,10 +2167,14 @@ gustav_kirchhoff:
       association: "Professor of theoretical physics"
       coat: "images/institutions/humboldt-university-of-berlin.png"
   publications:
-    - year: 1845
+    - id: gustav_kirchhoff-work-00
+      legacyKey: publication:gustav_kirchhoff:0
+      year: 1845
       title: "Ueber den Durchgang eines elektrischen Stromes durch eine Ebene, insbesondere durch eine kreisförmige"
       abstract: "Introduced the junction and loop rules now known as Kirchhoff's circuit laws."
-    - year: 1860
+    - id: gustav_kirchhoff-work-01
+      legacyKey: publication:gustav_kirchhoff:1
+      year: 1860
       title: "Ueber das Verhältniss zwischen dem Emissionsvermögen und dem Absorptionsvermögen der Körper für Wärme und Licht"
       abstract: "Established the equality of emissive and absorptive power at thermal equilibrium, a foundation of black-body radiation theory."
 
@@ -1947,10 +2195,14 @@ joseph_fraunhofer:
       association: "Honorary doctorate"
       coat: "images/institutions/university-of-erlangen-nuremberg.png"
   publications:
-    - year: 1817
+    - id: joseph_fraunhofer-work-00
+      legacyKey: publication:joseph_fraunhofer:0
+      year: 1817
       title: "Bestimmung des Brechungs- und Farbenzerstreuungs-Vermögens verschiedener Glasarten"
       abstract: "Mapped hundreds of dark absorption lines in the solar spectrum and used them as fixed references for measuring optical dispersion."
-    - year: 1821
+    - id: joseph_fraunhofer-work-01
+      legacyKey: publication:joseph_fraunhofer:1
+      year: 1821
       title: "Neue Modification des Lichtes durch gegenseitige Einwirkung und Beugung der Strahlen"
       abstract: "Reported quantitative diffraction experiments with finely ruled gratings and related wavelength to diffraction angle."
 
@@ -1971,10 +2223,14 @@ hippolyte_fizeau:
       association: "Medical student"
       coat: "images/institutions/university-of-paris.png"
   publications:
-    - year: 1849
+    - id: hippolyte_fizeau-work-00
+      legacyKey: publication:hippolyte_fizeau:0
+      year: 1849
       title: "Sur une expérience relative à la vitesse de propagation de la lumière"
       abstract: "Measured the speed of light over a terrestrial path using a rapidly rotating toothed wheel."
-    - year: 1851
+    - id: hippolyte_fizeau-work-01
+      legacyKey: publication:hippolyte_fizeau:1
+      year: 1851
       title: "Sur les hypothèses relatives à l'éther lumineux"
       abstract: "Measured the speed of light in moving water, producing the partial-drag result later explained by relativistic velocity addition."
 
@@ -1995,7 +2251,9 @@ roemer:
       association: "Student and professor of astronomy"
       coat: "images/institutions/university-of-copenhagen.png"
   publications:
-    - year: 1676
+    - id: roemer-work-00
+      legacyKey: publication:roemer:0
+      year: 1676
       title: "Démonstration touchant le mouvement de la lumière trouvé par M. Römer de l’Académie royale des Sciences"
       abstract: "Used systematic variations in the observed eclipse times of Io to show that light takes a measurable time to cross space."
 
@@ -2019,7 +2277,9 @@ kleist:
       association: "Student"
       coat: "images/institutions/leiden-university.png"
   publications:
-    - year: 1745
+    - id: kleist-work-00
+      legacyKey: publication:kleist:0
+      year: 1745
       title: "Letter describing the electrical storage jar"
       abstract: "Reported that electricity could be accumulated in a glass vessel and released as a powerful shock, documenting the Kleistian jar."
 
@@ -2046,13 +2306,19 @@ michelson:
       association: "Professor and head of physics"
       coat: "images/institutions/university-of-chicago.png"
   publications:
-    - year: 1881
+    - id: michelson-work-00
+      legacyKey: publication:michelson:0
+      year: 1881
       title: "The Relative Motion of the Earth and the Luminiferous Ether"
       abstract: "Reported the first interferometric search for the expected effect of Earth's motion through a stationary luminiferous ether."
-    - year: 1887
+    - id: michelson-work-01
+      legacyKey: publication:michelson:1
+      year: 1887
       title: "On the Relative Motion of the Earth and the Luminiferous Ether"
       abstract: "With Edward W. Morley, carried out the landmark high-precision ether-drift experiment that produced a null result."
-    - year: 1921
+    - id: michelson-work-02
+      legacyKey: publication:michelson:2
+      year: 1921
       title: "Measurement of the Diameter of α Orionis with the Interferometer"
       abstract: "Used a stellar interferometer to make the first direct measurement of the angular diameter of a star, Betelgeuse."
 
@@ -2079,13 +2345,19 @@ morley:
       association: "Professor of chemistry"
       coat: "images/institutions/case-western-reserve-university.png"
   publications:
-    - year: 1887
+    - id: morley-work-00
+      legacyKey: publication:morley:0
+      year: 1887
       title: "On the Relative Motion of the Earth and the Luminiferous Ether"
       abstract: "With Albert A. Michelson, performed a precise interferometric search for Earth's motion through the proposed luminiferous ether."
-    - year: 1895
+    - id: morley-work-01
+      legacyKey: publication:morley:1
+      year: 1895
       title: "On the Densities of Oxygen and Hydrogen and on the Ratio of Their Atomic Weights"
       abstract: "Reported exacting measurements of gas densities and the oxygen-to-hydrogen atomic-weight ratio."
-    - year: 1905
+    - id: morley-work-02
+      legacyKey: publication:morley:2
+      year: 1905
       title: "Report of an Experiment to Detect the FitzGerald–Lorentz Effect"
       abstract: "With Dayton Miller, conducted a larger interferometer test for directional changes associated with motion through the ether."
 
@@ -2106,10 +2378,14 @@ george_fitzgerald:
       association: "Student, fellow and professor"
       coat: "images/institutions/trinity-college-dublin.png"
   publications:
-    - year: 1883
+    - id: george_fitzgerald-work-00
+      legacyKey: publication:george_fitzgerald:0
+      year: 1883
       title: "On the Energy Lost by Radiation from Alternating Electric Currents"
       abstract: "Showed theoretically that rapidly oscillating electrical currents should radiate electromagnetic energy."
-    - year: 1889
+    - id: george_fitzgerald-work-01
+      legacyKey: publication:george_fitzgerald:1
+      year: 1889
       title: "The Ether and the Earth's Atmosphere"
       abstract: "Suggested that motion through the ether might contract material bodies along their direction of travel."
 
@@ -2133,10 +2409,14 @@ joseph_larmor:
       association: "Professor of natural philosophy"
       coat: "images/institutions/queens-university-belfast.png"
   publications:
-    - year: 1897
+    - id: joseph_larmor-work-00
+      legacyKey: publication:joseph_larmor:0
+      year: 1897
       title: "A Dynamical Theory of the Electric and Luminiferous Medium. Part III. Relations with Material Media"
       abstract: "Developed transformations and an electron model for matter interacting with the electromagnetic aether."
-    - year: 1900
+    - id: joseph_larmor-work-01
+      legacyKey: publication:joseph_larmor:1
+      year: 1900
       title: "Aether and Matter"
       abstract: "Synthesized an electromagnetic account of matter, radiation, and motion through the aether."
 
@@ -2163,10 +2443,14 @@ hermann_minkowski:
       association: "Professor"
       coat: "images/institutions/university-of-gottingen.svg"
   publications:
-    - year: 1908
+    - id: hermann_minkowski-work-00
+      legacyKey: publication:hermann_minkowski:0
+      year: 1908
       title: "Die Grundgleichungen für die elektromagnetischen Vorgänge in bewegten Körpern"
       abstract: "Expressed the electrodynamics of moving bodies in a four-dimensional mathematical form."
-    - year: 1909
+    - id: hermann_minkowski-work-01
+      legacyKey: publication:hermann_minkowski:1
+      year: 1909
       title: "Raum und Zeit"
       abstract: "Presented space and time as aspects of a single four-dimensional spacetime geometry."
 
@@ -2190,10 +2474,14 @@ karl_schwarzschild:
       association: "Professor and observatory director"
       coat: "images/institutions/university-of-gottingen.svg"
   publications:
-    - year: 1916
+    - id: karl_schwarzschild-work-00
+      legacyKey: publication:karl_schwarzschild:0
+      year: 1916
       title: "Über das Gravitationsfeld eines Massenpunktes nach der Einsteinschen Theorie"
       abstract: "Derived the exact vacuum solution describing spacetime outside a static spherical mass."
-    - year: 1916
+    - id: karl_schwarzschild-work-01
+      legacyKey: publication:karl_schwarzschild:1
+      year: 1916
       title: "Über das Gravitationsfeld einer Kugel aus inkompressibler Flüssigkeit"
       abstract: "Derived an interior solution for a sphere of uniform-density fluid in general relativity."
 
@@ -2217,10 +2505,14 @@ pierre_laplace:
       association: "Professor"
       coat: "images/institutions/ecole-normale-superieure.png"
   publications:
-    - year: 1796
+    - id: pierre_laplace-work-00
+      legacyKey: publication:pierre_laplace:0
+      year: 1796
       title: "Exposition du système du monde"
       abstract: "Presented a comprehensive account of astronomy and proposed a nebular hypothesis for the formation of the Solar System."
-    - year: 1799
+    - id: pierre_laplace-work-01
+      legacyKey: publication:pierre_laplace:1
+      year: 1799
       title: "Traité de mécanique céleste, Volume I"
       abstract: "Began a five-volume mathematical synthesis of Newtonian gravitation and planetary dynamics."
 
@@ -2247,10 +2539,14 @@ john_poynting:
       association: "Professor of physics"
       coat: "images/institutions/university-of-birmingham.png"
   publications:
-    - year: 1884
+    - id: john_poynting-work-00
+      legacyKey: publication:john_poynting:0
+      year: 1884
       title: "On the Transfer of Energy in the Electromagnetic Field"
       abstract: "Derived the energy-flux vector now bearing his name and described electromagnetic energy as flowing through the surrounding field."
-    - year: 1903
+    - id: john_poynting-work-01
+      legacyKey: publication:john_poynting:1
+      year: 1903
       title: "Radiation in the Solar System: Its Effect on Temperature and Its Pressure on Small Bodies"
       abstract: "Analyzed radiation pressure and the orbital drag on small particles later called the Poynting–Robertson effect."
 
@@ -2274,10 +2570,14 @@ pieter_zeeman:
       association: "Professor of physics"
       coat: "images/institutions/university-of-amsterdam.png"
   publications:
-    - year: 1896
+    - id: pieter_zeeman-work-00
+      legacyKey: publication:pieter_zeeman:0
+      year: 1896
       title: "Over den invloed eener magnetisatie op den aard van het door een stof uitgezonden licht"
       abstract: "Reported the splitting and polarization of spectral lines when a light source was placed in a strong magnetic field."
-    - year: 1913
+    - id: pieter_zeeman-work-01
+      legacyKey: publication:pieter_zeeman:1
+      year: 1913
       title: "Researches in Magneto-Optics"
       abstract: "Collected and extended experimental studies of how magnetic fields alter the emission and propagation of light."
 
@@ -2298,10 +2598,14 @@ etienne_malus:
       association: "Engineering student"
       coat: "images/institutions/ecole-polytechnique.jpg"
   publications:
-    - year: 1809
+    - id: etienne_malus-work-00
+      legacyKey: publication:etienne_malus:0
+      year: 1809
       title: "Sur une propriété de la lumière réfléchie"
       abstract: "Announced the discovery that ordinary reflection can polarize light and investigated the angular dependence of the effect."
-    - year: 1810
+    - id: etienne_malus-work-01
+      legacyKey: publication:etienne_malus:1
+      year: 1810
       title: "Théorie de la double réfraction de la lumière dans les substances cristallisées"
       abstract: "Developed a mathematical theory of double refraction and polarization in crystals."
 
@@ -2322,10 +2626,14 @@ john_michell:
       association: "Student, fellow and lecturer"
       coat: "images/institutions/queens-college-cambridge.png"
   publications:
-    - year: 1750
+    - id: john_michell-work-00
+      legacyKey: publication:john_michell:0
+      year: 1750
       title: "A Treatise of Artificial Magnets"
       abstract: "Described methods for making strong artificial magnets and gave an early quantitative account of magnetic forces."
-    - year: 1784
+    - id: john_michell-work-01
+      legacyKey: publication:john_michell:1
+      year: 1784
       title: "On the Means of Discovering the Distance, Magnitude, &c. of the Fixed Stars"
       abstract: "Proposed that sufficiently massive stars could prevent their own light from escaping and might be detected through the motions of companion stars."
 
@@ -2349,10 +2657,14 @@ carl_brans:
       association: "Doctorate"
       coat: "images/institutions/princeton-university.png"
   publications:
-    - year: 1961
+    - id: carl_brans-work-00
+      legacyKey: publication:carl_brans:0
+      year: 1961
       title: "Mach's Principle and a Relativistic Theory of Gravitation"
       abstract: "With Robert Dicke, formulated a scalar–tensor theory in which gravitational coupling varies with a dynamical field."
-    - year: 1962
+    - id: carl_brans-work-01
+      legacyKey: publication:carl_brans:1
+      year: 1962
       title: "Mach's Principle and a Relativistic Theory of Gravitation. II"
       abstract: "Extended the scalar–tensor framework and examined further solutions and physical consequences of the theory."
 
@@ -2376,10 +2688,14 @@ lamoreaux:
       association: "Professor of physics"
       coat: "images/institutions/yale-university.png"
   publications:
-    - year: 1997
+    - id: lamoreaux-work-00
+      legacyKey: publication:lamoreaux:0
+      year: 1997
       title: "Demonstration of the Casimir Force in the 0.6 to 6 µm Range"
       abstract: "Reported the first high-accuracy measurement of the Casimir force over micrometre-scale separations."
-    - year: 2011
+    - id: lamoreaux-work-01
+      legacyKey: publication:lamoreaux:1
+      year: 2011
       title: "Observation of the Thermal Casimir Force"
       abstract: "Measured the temperature-dependent contribution to the Casimir force in a precision experiment."
 
@@ -2403,10 +2719,14 @@ penzias:
       association: "Doctorate"
       coat: "images/institutions/columbia-university.png"
   publications:
-    - year: 1965
+    - id: penzias-work-00
+      legacyKey: publication:penzias:0
+      year: 1965
       title: "A Measurement of Excess Antenna Temperature at 4080 Mc/s"
       abstract: "With Robert Woodrow Wilson, reported the persistent microwave noise recognized as the cosmic microwave background."
-    - year: 1970
+    - id: penzias-work-01
+      legacyKey: publication:penzias:1
+      year: 1970
       title: "Carbon Monoxide in the Orion Nebula"
       abstract: "With Robert Woodrow Wilson and Keith B. Jefferts, reported the first detection of interstellar carbon monoxide."
 
@@ -2430,10 +2750,14 @@ wilson_robert:
       association: "Doctorate"
       coat: "images/institutions/california-institute-of-technology.png"
   publications:
-    - year: 1965
+    - id: wilson_robert-work-00
+      legacyKey: publication:wilson_robert:0
+      year: 1965
       title: "A Measurement of Excess Antenna Temperature at 4080 Mc/s"
       abstract: "With Arno Penzias, reported the unexplained microwave signal recognized as relic radiation from the early universe."
-    - year: 1970
+    - id: wilson_robert-work-01
+      legacyKey: publication:wilson_robert:1
+      year: 1970
       title: "Carbon Monoxide in the Orion Nebula"
       abstract: "With Keith B. Jefferts and Arno Penzias, reported the first detection of carbon monoxide in interstellar space."
 
@@ -2459,13 +2783,19 @@ wheeler:
     - institution: "University of Texas at Austin"
       association: "Director of the Center for Theoretical Physics"
   publications:
-    - year: 1934
+    - id: wheeler-work-00
+      legacyKey: publication:wheeler:0
+      year: 1934
       title: "Collision of Two Light Quanta"
       abstract: "With Gregory Breit, calculated how the collision of two photons can produce an electron–positron pair."
-    - year: 1939
+    - id: wheeler-work-01
+      legacyKey: publication:wheeler:1
+      year: 1939
       title: "The Mechanism of Nuclear Fission"
       abstract: "With Niels Bohr, used the liquid-drop model to explain the mechanism and energy dependence of nuclear fission."
-    - year: 1955
+    - id: wheeler-work-02
+      legacyKey: publication:wheeler:2
+      year: 1955
       title: "Geons"
       abstract: "Introduced self-gravitating configurations made entirely of field energy and named them geons."
 
@@ -2493,13 +2823,19 @@ breit:
       association: "Professor of physics"
       coat: "images/institutions/yale-university.png"
   publications:
-    - year: 1929
+    - id: breit-work-00
+      legacyKey: publication:breit:0
+      year: 1929
       title: "The Effect of Retardation on the Interaction of Two Electrons"
       abstract: "Derived a relativistic correction to the interaction of two electrons, leading to the two-particle equation now associated with Breit."
-    - year: 1934
+    - id: breit-work-01
+      legacyKey: publication:breit:1
+      year: 1934
       title: "Collision of Two Light Quanta"
       abstract: "With John Archibald Wheeler, calculated electron–positron pair production from the collision of two photons."
-    - year: 1936
+    - id: breit-work-02
+      legacyKey: publication:breit:2
+      year: 1936
       title: "Capture of Slow Neutrons"
       abstract: "With Eugene Wigner, developed the resonance description of slow-neutron capture now known through the Breit–Wigner formula."
 
@@ -2520,13 +2856,19 @@ lagrange:
       association: "Founding professor of analysis"
       coat: "images/institutions/ecole-polytechnique.jpg"
   publications:
-    - year: 1762
+    - id: lagrange-work-00
+      legacyKey: publication:lagrange:0
+      year: 1762
       title: "Essai d'une nouvelle méthode pour déterminer les maxima et les minima des formules intégrales indéfinies"
       abstract: "Introduced a systematic variational method for extremizing integral expressions, helping establish the calculus of variations."
-    - year: 1788
+    - id: lagrange-work-01
+      legacyKey: publication:lagrange:1
+      year: 1788
       title: "Mécanique analytique"
       abstract: "Recast statics and dynamics through generalized coordinates and variational principles, making mechanics a branch of mathematical analysis."
-    - year: 1797
+    - id: lagrange-work-02
+      legacyKey: publication:lagrange:2
+      year: 1797
       title: "Théorie des fonctions analytiques, contenant les principes du calcul différentiel"
       abstract: "Attempted to ground differential calculus algebraically through power-series expansions and developed a formal calculus of functions."
 
@@ -2552,13 +2894,19 @@ leibniz:
     - institution: "University of Altdorf"
       association: "Doctorate in law"
   publications:
-    - year: 1684
+    - id: leibniz-work-00
+      legacyKey: publication:leibniz:0
+      year: 1684
       title: "Nova methodus pro maximis et minimis, itemque tangentibus, quae nec fractas nec irrationales quantitates moratur, et singulare pro illis calculi genus"
       abstract: "Gave the first published account of Leibniz's differential calculus, including rules for products, quotients, powers, tangents, maxima, and minima."
-    - year: 1686
+    - id: leibniz-work-01
+      legacyKey: publication:leibniz:1
+      year: 1686
       title: "De geometria recondita et analysi indivisibilium atque infinitorum"
       abstract: "Presented integral notation and connected summation with differentiation, including an early published form of the fundamental theorem of calculus."
-    - year: 1703
+    - id: leibniz-work-02
+      legacyKey: publication:leibniz:2
+      year: 1703
       title: "Explication de l'arithmétique binaire, qui se sert des seuls caractères 0 et 1"
       abstract: "Set out binary positional arithmetic using only zero and one and explored its mathematical structure and applications."
 
@@ -2579,13 +2927,19 @@ poisson:
       association: "Student and professor"
       coat: "images/institutions/ecole-polytechnique.jpg"
   publications:
-    - year: 1811
+    - id: poisson-work-00
+      legacyKey: publication:poisson:0
+      year: 1811
       title: "Traité de mécanique"
       abstract: "Systematized analytical mechanics across statics, dynamics, rigid bodies, and fluids, extending methods developed by Lagrange and Laplace."
-    - year: 1813
+    - id: poisson-work-01
+      legacyKey: publication:poisson:1
+      year: 1813
       title: "Remarques sur une équation qui se présente dans la théorie des attractions des sphéroïdes"
       abstract: "Corrected the source-free potential equation inside matter by introducing the density term in the relation now called Poisson's equation."
-    - year: 1837
+    - id: poisson-work-02
+      legacyKey: publication:poisson:2
+      year: 1837
       title: "Recherches sur la probabilité des jugements en matière criminelle et en matière civile"
       abstract: "Developed probability theory for large numbers and rare events and applied it to the reliability of judicial decisions."
 
@@ -2615,13 +2969,19 @@ helmholtz:
       association: "Professor of physics"
       coat: "images/institutions/humboldt-university-of-berlin.png"
   publications:
-    - year: 1847
+    - id: helmholtz-work-00
+      legacyKey: publication:helmholtz:0
+      year: 1847
       title: "Über die Erhaltung der Kraft"
       abstract: "Formulated a general quantitative principle of energy conservation across mechanical, thermal, electrical, and biological processes."
-    - year: 1858
+    - id: helmholtz-work-01
+      legacyKey: publication:helmholtz:1
+      year: 1858
       title: "Über Integrale der hydrodynamischen Gleichungen, welche den Wirbelbewegungen entsprechen"
       abstract: "Established fundamental theorems governing vortex motion in ideal fluids and laid a foundation for modern vortex dynamics."
-    - year: 1863
+    - id: helmholtz-work-02
+      legacyKey: publication:helmholtz:2
+      year: 1863
       title: "Die Lehre von den Tonempfindungen als physiologische Grundlage für die Theorie der Musik"
       abstract: "Linked the physics of sound with auditory physiology to explain resonance, timbre, consonance, and musical perception."
 
@@ -2645,10 +3005,14 @@ lenz:
       association: "Professor of physics and rector"
       coat: "images/institutions/saint-petersburg-state-university.png"
   publications:
-    - year: 1834
+    - id: lenz-work-00
+      legacyKey: publication:lenz:0
+      year: 1834
       title: "Ueber die Bestimmung der Richtung der durch elektrodynamische Vertheilung erregten galvanischen Ströme"
       abstract: "Formulated the rule that an induced current acts to oppose the change that produces it, now known as Lenz's law."
-    - year: 1843
+    - id: lenz-work-01
+      legacyKey: publication:lenz:1
+      year: 1843
       title: "Ueber die Gesetze der Wärme-Entwickelung durch den Galvanischen Strom"
       abstract: "Quantified electrical heating as proportional to resistance and the square of current, independently establishing the relation also associated with Joule."
 
@@ -2669,10 +3033,14 @@ stokes:
       association: "Student, fellow, and master; Lucasian Professor of Mathematics at Cambridge"
       coat: "images/institutions/pembroke-college-cambridge.svg"
   publications:
-    - year: 1845
+    - id: stokes-work-00
+      legacyKey: publication:stokes:0
+      year: 1845
       title: "On the Aberration of Light"
       abstract: "Proposed an explanation of stellar aberration using a luminiferous aether carried along near Earth, an influential historical alternative to a stationary aether."
-    - year: 1852
+    - id: stokes-work-01
+      legacyKey: publication:stokes:1
+      year: 1852
       title: "On the Change of Refrangibility of Light"
       abstract: "Investigated fluorescence and the conversion of absorbed light into emitted light of longer wavelength, now associated with the Stokes shift."
 
@@ -2696,10 +3064,14 @@ eotvos:
       association: "Professor of physics and rector"
       coat: "images/institutions/university-of-budapest.png"
   publications:
-    - year: 1890
+    - id: eotvos-work-00
+      legacyKey: publication:eotvos:0
+      year: 1890
       title: "Über die Anziehung der Erde auf verschiedene Substanzen"
       abstract: "Reported torsion-balance comparisons of different materials that closely constrained differences between their gravitational and inertial mass ratios."
-    - year: 1922
+    - id: eotvos-work-01
+      legacyKey: publication:eotvos:1
+      year: 1922
       title: "Beiträge zum Gesetze der Proportionalität von Trägheit und Gravität"
       abstract: "Published posthumously with Dezső Pekár and Jenő Fekete, this account presented refined torsion-balance tests of the proportionality of inertia and gravitation."
 
@@ -2723,10 +3095,14 @@ becquerel:
       association: "Engineering student at the École des Ponts et Chaussées"
       coat: "images/institutions/ecole-des-ponts-paristech.png"
   publications:
-    - year: 1896
+    - id: becquerel-work-00
+      legacyKey: publication:becquerel:0
+      year: 1896
       title: "Sur les radiations invisibles émises par les corps phosphorescents"
       abstract: "Reported that uranium salts exposed photographic plates even without prior illumination, providing decisive evidence for spontaneous radiation."
-    - year: 1896
+    - id: becquerel-work-01
+      legacyKey: publication:becquerel:1
+      year: 1896
       title: "Sur les radiations invisibles émises par les sels d'uranium"
       abstract: "Further characterized the penetrating radiation from uranium salts and distinguished its persistence from ordinary phosphorescence."
 
@@ -2748,13 +3124,19 @@ curie_marie:
       association: "Student, doctorate in physics, and professor"
       coat: "images/institutions/university-of-paris.png"
   publications:
-    - year: 1898
+    - id: curie_marie-work-00
+      legacyKey: publication:curie_marie:0
+      year: 1898
       title: "Sur une substance nouvelle radio-active, contenue dans la pechblende"
       abstract: "With Pierre Curie, used the unusually strong radioactivity of a pitchblende fraction to identify the new element polonium."
-    - year: 1898
+    - id: curie_marie-work-01
+      legacyKey: publication:curie_marie:1
+      year: 1898
       title: "Sur une nouvelle substance fortement radio-active, contenue dans la pechblende"
       abstract: "With Pierre Curie and Gustave Bémont, reported evidence for radium through chemical separation, intense radioactivity, and a characteristic spectral line."
-    - year: 1903
+    - id: curie_marie-work-02
+      legacyKey: publication:curie_marie:2
+      year: 1903
       title: "Recherches sur les substances radioactives"
       abstract: "Brought together quantitative measurements and chemical investigations of radioactive substances in a doctoral thesis supporting radioactivity as an atomic property."
 
@@ -2779,10 +3161,14 @@ meitner:
       association: "Physics assistant, lecturer, and professor"
       coat: "images/institutions/humboldt-university-of-berlin.png"
   publications:
-    - year: 1918
+    - id: meitner-work-00
+      legacyKey: publication:meitner:0
+      year: 1918
       title: "Die Muttersubstanz des Actiniums, ein neues radioaktives Element von langer Lebensdauer"
       abstract: "With Otto Hahn, identified the long-lived protactinium isotope that decays into actinium, clarifying the actinium radioactive series."
-    - year: 1939
+    - id: meitner-work-01
+      legacyKey: publication:meitner:1
+      year: 1939
       title: "Disintegration of Uranium by Neutrons: a New Type of Nuclear Reaction"
       abstract: "With Otto Frisch, interpreted Hahn and Strassmann's results as splitting the uranium nucleus and explained the large energy release through the loss of mass."
 
@@ -2813,10 +3199,14 @@ fermi:
       association: "Professor of physics"
       coat: "images/institutions/university-of-chicago.png"
   publications:
-    - year: 1934
+    - id: fermi-work-00
+      legacyKey: publication:fermi:0
+      year: 1934
       title: "Tentativo di una teoria dei raggi β"
       abstract: "Developed a quantitative theory of beta decay incorporating Pauli's proposed neutrino and the creation of an electron and neutrino in a nuclear transition."
-    - year: 1935
+    - id: fermi-work-01
+      legacyKey: publication:fermi:1
+      year: 1935
       title: "Artificial Radioactivity Produced by Neutron Bombardment—II"
       abstract: "With the Rome research group, documented neutron-induced radioactivity and the strong enhancement of many activation reactions when neutrons are slowed."
 
@@ -2840,10 +3230,14 @@ lemaitre:
       association: "Doctorate in physics"
       coat: "images/institutions/massachusetts-institute-of-technology.png"
   publications:
-    - year: 1927
+    - id: lemaitre-work-00
+      legacyKey: publication:lemaitre:0
+      year: 1927
       title: "Un univers homogène de masse constante et de rayon croissant, rendant compte de la vitesse radiale des nébuleuses extra-galactiques"
       abstract: "Derived an expanding relativistic universe and used existing galaxy distances and radial velocities to estimate the proportionality between recession speed and distance."
-    - year: 1931
+    - id: lemaitre-work-01
+      legacyKey: publication:lemaitre:1
+      year: 1931
       title: "The Beginning of the World from the Point of View of Quantum Theory"
       abstract: "Proposed that the universe began in a single primordial quantum, developing the primeval-atom idea that helped shape later Big Bang cosmology."
 
@@ -2868,10 +3262,14 @@ hubble:
       association: "Rhodes Scholar and student of jurisprudence"
       coat: "images/institutions/queens-college-oxford.png"
   publications:
-    - year: 1925
+    - id: hubble-work-00
+      legacyKey: publication:hubble:0
+      year: 1925
       title: "Cepheids in Spiral Nebulae"
       abstract: "Used Cepheid variable stars to place the Andromeda and Triangulum nebulae beyond the Milky Way, establishing them as separate stellar systems."
-    - year: 1929
+    - id: hubble-work-01
+      legacyKey: publication:hubble:1
+      year: 1929
       title: "A Relation between Distance and Radial Velocity among Extra-Galactic Nebulae"
       abstract: "Combined galaxy distance estimates with existing radial velocities, largely measured by Vesto Slipher, to demonstrate an approximate increase of recession velocity with distance."
 
@@ -2892,7 +3290,9 @@ cassini:
       association: "Professor of mathematics and astronomy"
       coat: "images/institutions/university-of-bologna.png"
   publications:
-    - year: 1673
+    - id: cassini-work-00
+      legacyKey: publication:cassini:0
+      year: 1673
       title: "Découverte de deux nouvelles planètes autour de Saturne"
       abstract: "Reported the discoveries of Iapetus and Rhea, extending the known satellite system of Saturn beyond Huygens's Titan."
 
@@ -2909,7 +3309,9 @@ richer:
     - label: "Wikipedia"
       url: "https://en.wikipedia.org/wiki/Jean_Richer"
   publications:
-    - year: 1679
+    - id: richer-work-00
+      legacyKey: publication:richer:0
+      year: 1679
       title: "Observations astronomiques et physiques faites en l'isle de Caïenne"
       abstract: "Presented the Cayenne observations of 1672–1673, including Mars positions used for solar parallax and a shorter seconds pendulum than in Paris."
 
@@ -2931,10 +3333,14 @@ halley:
       association: "Student; later Savilian Professor of Geometry at Oxford"
       coat: "images/institutions/queens-college-oxford.png"
   publications:
-    - year: 1705
+    - id: halley-work-00
+      legacyKey: publication:halley:0
+      year: 1705
       title: "Astronomiae cometicae synopsis"
       abstract: "Compared cometary orbits using Newtonian gravitation and identified the apparitions of 1531, 1607, and 1682 as one comet whose return he predicted."
-    - year: 1716
+    - id: halley-work-01
+      legacyKey: publication:halley:1
+      year: 1716
       title: "Methodus singularis quâ Solis parallaxis sive distantia à Terra, ope Veneris intra Solem conspiciendae, tuto determinari poterit"
       abstract: "Proposed comparing transit durations of Venus from distant observing stations to determine solar parallax and the Earth–Sun distance."
 
@@ -2955,10 +3361,14 @@ bradley:
       association: "Student; later Savilian Professor of Astronomy at Oxford"
       coat: "images/institutions/balliol-college-oxford.svg"
   publications:
-    - year: 1728
+    - id: bradley-work-00
+      legacyKey: publication:bradley:0
+      year: 1728
       title: "A Letter from the Reverend Mr. James Bradley Savilian Professor of Astronomy at Oxford, and F. R. S. to Dr. Edmond Halley Astronom. Reg. &c. giving an Account of a new discovered Motion of the Fix'd Stars"
       abstract: "Explained stellar aberration through Earth's orbital motion and the finite speed of light, using observations begun with Samuel Molyneux."
-    - year: 1748
+    - id: bradley-work-01
+      legacyKey: publication:bradley:1
+      year: 1748
       title: "A Letter to the Right Honourable George Earl of Macclesfield concerning an Apparent Motion Observed in Some of the Fixed Stars"
       abstract: "Established the nutation of Earth's axis from long-term stellar observations spanning a cycle of the Moon's orbital nodes."
 
@@ -2976,10 +3386,14 @@ herschel:
     - label: "Wikipedia"
       url: "https://en.wikipedia.org/wiki/William_Herschel"
   publications:
-    - year: 1781
+    - id: herschel-work-00
+      legacyKey: publication:herschel:0
+      year: 1781
       title: "Account of a Comet"
       abstract: "Reported a moving telescopic object initially interpreted as a comet that subsequent orbital studies established as the planet Uranus."
-    - year: 1800
+    - id: herschel-work-01
+      legacyKey: publication:herschel:1
+      year: 1800
       title: "Experiments on the Refrangibility of the Invisible Rays of the Sun"
       abstract: "Used thermometers beyond the visible red end of a prismatic solar spectrum to investigate the invisible radiation now called infrared."
 
@@ -3003,10 +3417,14 @@ leavitt:
       association: "Researcher at Harvard College Observatory"
       coat: "images/institutions/harvard-university.png"
   publications:
-    - year: 1908
+    - id: leavitt-work-00
+      legacyKey: publication:leavitt:0
+      year: 1908
       title: "1777 Variables in the Magellanic Clouds"
       abstract: "Catalogued variable stars in the Magellanic Clouds and noted that the brighter variables in her measured sample had longer periods."
-    - year: 1912
+    - id: leavitt-work-01
+      legacyKey: publication:leavitt:1
+      year: 1912
       title: "Periods of 25 Variable Stars in the Small Magellanic Cloud"
       abstract: "Established a clear relation between Cepheid periods and brightness in a report issued by Edward C. Pickering that explicitly credited Leavitt's analysis."
 
@@ -3030,10 +3448,14 @@ hall:
       association: "Professor of physics"
       coat: "images/institutions/harvard-university.png"
   publications:
-    - year: 1879
+    - id: hall-work-00
+      legacyKey: publication:hall:0
+      year: 1879
       title: "On a New Action of the Magnet on Electric Currents"
       abstract: "Reported a transverse potential difference across a current-carrying gold leaf in a magnetic field, the phenomenon now called the Hall effect."
-    - year: 1880
+    - id: hall-work-01
+      legacyKey: publication:hall:1
+      year: 1880
       title: "On the New Action of Magnetism on a Permanent Electric Current"
       abstract: "Extended the experimental investigation of the transverse electrical response to a magnetic field in conducting materials."
 
@@ -3057,10 +3479,14 @@ born:
       association: "Tait Professor of Natural Philosophy"
       coat: "images/institutions/university-of-edinburgh.jpg"
   publications:
-    - year: 1925
+    - id: born-work-00
+      legacyKey: publication:born:0
+      year: 1925
       title: "Zur Quantenmechanik"
       abstract: "With Pascual Jordan, developed Heisenberg's quantum kinematics into a matrix formulation with noncommuting position and momentum variables."
-    - year: 1926
+    - id: born-work-01
+      legacyKey: publication:born:1
+      year: 1926
       title: "Zur Quantenmechanik der Stoßvorgänge"
       abstract: "Interpreted scattering wave amplitudes probabilistically, establishing the basis of the Born rule for quantum measurement outcomes."
 
@@ -3084,10 +3510,14 @@ schwinger:
       association: "Professor of physics"
       coat: "images/institutions/harvard-university.png"
   publications:
-    - year: 1948
+    - id: schwinger-work-00
+      legacyKey: publication:schwinger:0
+      year: 1948
       title: "On Quantum-Electrodynamics and the Magnetic Moment of the Electron"
       abstract: "Calculated the leading radiative correction to the electron's magnetic moment and related radiative effects to hydrogen's fine structure."
-    - year: 1948
+    - id: schwinger-work-01
+      legacyKey: publication:schwinger:1
+      year: 1948
       title: "Quantum Electrodynamics. I. A Covariant Formulation"
       abstract: "Presented a relativistically covariant formulation of quantum electrodynamics that supported systematic calculations of interactions between charged particles and radiation."
 
@@ -3108,10 +3538,14 @@ tomonaga:
       association: "Physics student and research assistant at Kyoto Imperial University"
       coat: "images/institutions/kyoto-university.svg"
   publications:
-    - year: 1946
+    - id: tomonaga-work-00
+      legacyKey: publication:tomonaga:0
+      year: 1946
       title: "On a Relativistically Invariant Formulation of the Quantum Theory of Wave Fields"
       abstract: "Formulated quantum evolution on spacelike hypersurfaces, providing a relativistically invariant foundation for interacting quantum fields."
-    - year: 1948
+    - id: tomonaga-work-01
+      legacyKey: publication:tomonaga:1
+      year: 1948
       title: "On Infinite Field Reactions in Quantum Field Theory"
       abstract: "Described the treatment of divergent field reactions through renormalization to obtain finite predictions for observable electromagnetic effects."
 
@@ -3135,10 +3569,14 @@ bohm:
       association: "Professor of theoretical physics"
       coat: "images/institutions/birkbeck-college-london.svg"
   publications:
-    - year: 1952
+    - id: bohm-work-00
+      legacyKey: publication:bohm:0
+      year: 1952
       title: "A Suggested Interpretation of the Quantum Theory in Terms of 'Hidden' Variables. I"
       abstract: "Developed a deterministic account in which particle positions evolve under the guidance of a wavefunction, reproducing standard quantum statistics in equilibrium."
-    - year: 1959
+    - id: bohm-work-01
+      legacyKey: publication:bohm:1
+      year: 1959
       title: "Significance of Electromagnetic Potentials in the Quantum Theory"
       abstract: "With Yakir Aharonov, predicted interference phase shifts associated with electromagnetic potentials even when particles travel through regions without the corresponding local fields."
 
@@ -3162,10 +3600,14 @@ bell:
       association: "Doctorate in theoretical physics"
       coat: "images/institutions/university-of-birmingham.png"
   publications:
-    - year: 1964
+    - id: bell-work-00
+      legacyKey: publication:bell:0
+      year: 1964
       title: "On the Einstein Podolsky Rosen Paradox"
       abstract: "Derived a constraint on local hidden-variable correlations that conflicts with predictions of quantum mechanics for entangled systems."
-    - year: 1966
+    - id: bell-work-01
+      legacyKey: publication:bell:1
+      year: 1966
       title: "On the Problem of Hidden Variables in Quantum Mechanics"
       abstract: "Re-examined assumptions behind earlier impossibility proofs for hidden variables and clarified the importance of locality in quantum foundations."
 
@@ -3189,10 +3631,14 @@ dingle:
       association: "Professor of the History and Philosophy of Science"
       coat: "images/institutions/university-college-london.png"
   publications:
-    - year: 1924
+    - id: dingle-work-00
+      legacyKey: publication:dingle:0
+      year: 1924
       title: "Modern Astrophysics"
       abstract: "Surveyed the physical interpretation of astronomical observations, including the use of spectroscopy to investigate stars."
-    - year: 1972
+    - id: dingle-work-01
+      legacyKey: publication:dingle:1
+      year: 1972
       title: "Science at the Crossroads"
       abstract: "Presented Dingle's objections to relativistic clock comparisons and his account of the ensuing dispute, claims that did not establish a contradiction in special relativity."
 
@@ -3216,10 +3662,14 @@ miller:
       association: "Professor of physics at its predecessor, Case School of Applied Science"
       coat: "images/institutions/case-western-reserve-university.png"
   publications:
-    - year: 1916
+    - id: miller-work-00
+      legacyKey: publication:miller:0
+      year: 1916
       title: "The Science of Musical Sounds"
       abstract: "Explained the physical analysis of musical sounds and presented optical recordings of sound-wave forms obtained with the phonodeik."
-    - year: 1933
+    - id: miller-work-01
+      legacyKey: publication:miller:1
+      year: 1933
       title: "The Ether-Drift Experiment and the Determination of the Absolute Motion of the Earth"
       abstract: "Reported Miller's interferometer measurements and claimed an ether drift, a conclusion later challenged by analyses of statistical fluctuations and temperature effects."
 
@@ -3243,10 +3693,14 @@ lodge:
       association: "First Principal"
       coat: "images/institutions/university-of-birmingham.png"
   publications:
-    - year: 1894
+    - id: lodge-work-00
+      legacyKey: publication:lodge:0
+      year: 1894
       title: "The Work of Hertz and Some of His Successors"
       abstract: "Described demonstrations of electromagnetic waves and their detection, including Lodge's improved coherer receiver."
-    - year: 1909
+    - id: lodge-work-01
+      legacyKey: publication:lodge:1
+      year: 1909
       title: "The Ether of Space"
       abstract: "Set out Lodge's physical arguments and experiments concerning a luminiferous aether, documenting a historical framework later displaced by relativistic physics."
 
@@ -3271,10 +3725,14 @@ cannizzaro:
       association: "Professor of chemistry"
       coat: "images/institutions/sapienza-university-of-rome.svg"
   publications:
-    - year: 1853
+    - id: cannizzaro-work-00
+      legacyKey: publication:cannizzaro:0
+      year: 1853
       title: "Ueber den der Benzoësäure entsprechenden Alkohol"
       abstract: "Reported the formation of benzyl alcohol and benzoate from benzaldehyde in alkali, establishing the transformation now called the Cannizzaro reaction."
-    - year: 1858
+    - id: cannizzaro-work-01
+      legacyKey: publication:cannizzaro:1
+      year: 1858
       title: "Sunto di un corso di filosofia chimica fatto nella R. Università di Genova"
       abstract: "Used Avogadro's hypothesis and chemical evidence to distinguish atomic from molecular weights and establish a consistent method for determining them."
 
@@ -3299,10 +3757,14 @@ mendeleev:
       association: "Doctorate and professor of chemistry"
       coat: "images/institutions/saint-petersburg-state-university.png"
   publications:
-    - year: 1869
+    - id: mendeleev-work-00
+      legacyKey: publication:mendeleev:0
+      year: 1869
       title: "Ueber die Beziehungen der Eigenschaften zu den Atomgewichten der Elemente"
       abstract: "Presented the periodic relationship between elemental properties and atomic weights, arranging the known elements and leaving places for undiscovered ones."
-    - year: 1889
+    - id: mendeleev-work-01
+      legacyKey: publication:mendeleev:1
+      year: 1889
       title: "The Periodic Law of the Chemical Elements"
       abstract: "Reviewed the periodic law and its successful predictions in the Faraday Lecture, assessing the discoveries and atomic-weight corrections that supported it."
 
@@ -3326,10 +3788,14 @@ meyer:
       association: "Professor of chemistry"
       coat: "images/institutions/university-of-tubingen.svg"
   publications:
-    - year: 1864
+    - id: meyer-work-00
+      legacyKey: publication:meyer:0
+      year: 1864
       title: "Die modernen Theorien der Chemie und ihre Bedeutung für die chemische Statik"
       abstract: "Grouped 28 elements by atomic weight and valence into families with related properties, providing an early periodic classification."
-    - year: 1870
+    - id: meyer-work-01
+      legacyKey: publication:meyer:1
+      year: 1870
       title: "Die Natur der chemischen Elemente als Function ihrer Atomgewichte"
       abstract: "Presented an expanded periodic classification and an atomic-volume curve that demonstrated repeating physical properties as atomic weight increased."
 
@@ -3349,10 +3815,14 @@ avogadro:
     - institution: "University of Turin"
       association: "Professor of mathematical physics"
   publications:
-    - year: 1811
+    - id: avogadro-work-00
+      legacyKey: publication:avogadro:0
+      year: 1811
       title: "Essai d'une manière de déterminer les masses relatives des molécules élémentaires des corps, et les proportions selon lesquelles elles entrent dans ces combinaisons"
       abstract: "Proposed that equal volumes of gases at the same temperature and pressure contain equal numbers of molecules, reconciling combining volumes with molecular composition."
-    - year: 1814
+    - id: avogadro-work-01
+      legacyKey: publication:avogadro:1
+      year: 1814
       title: "Mémoire sur les masses relatives des molécules des corps simples, ou densités présumées de leurs gaz, et sur la constitution de quelques-uns de leurs composés"
       abstract: "Extended the molecular hypothesis to estimate relative molecular masses and interpret the composition of additional substances from gas densities and combining proportions."
 
@@ -3373,9 +3843,13 @@ steinmetz:
       association: "Professor of electrical engineering and applied physics"
       coat: "images/institutions/union-college.svg"
   publications:
-    - year: 1892
+    - id: steinmetz-work-00
+      legacyKey: publication:steinmetz:0
+      year: 1892
       title: "On the Law of Hysteresis"
       abstract: "Established an empirical relationship for magnetic hysteresis losses that helped engineers predict energy dissipation in iron cores."
-    - year: 1897
+    - id: steinmetz-work-01
+      legacyKey: publication:steinmetz:1
+      year: 1897
       title: "Theory and Calculation of Alternating Current Phenomena"
       abstract: "Systematized the analysis of alternating-current circuits and machines using complex quantities and practical calculation methods."

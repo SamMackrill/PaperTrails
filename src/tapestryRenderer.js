@@ -1,3 +1,4 @@
+import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=15';
 import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=4';
 import { yearToX } from './timeScale.js?v=2';
@@ -91,7 +92,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'tapestry-scene';
-    button.dataset.itemKey = `event:${events.indexOf(event)}`;
+    button.dataset.itemKey = recordKey('event', event, `event:${events.indexOf(event)}`);
     button.dataset.tooltip = heading;
     button.dataset.startYear = event.startYear;
     button.dataset.endYear = event.endYear;

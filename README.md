@@ -163,3 +163,9 @@ Run the unit tests with `node --test tools/*.test.mjs`. The timeline starts at `
 ## License
 
 This project is released into the public domain under [The Unlicense](LICENSE). Third-party images retain the terms listed in [the portrait attribution file](images/ATTRIBUTION.md), [conference-photo attribution file](images/conferences/ATTRIBUTION.md), and [institutional-emblem attribution file](images/institutions/ATTRIBUTION.md).
+
+## Prototype record identities
+
+Prototype records carry persisted `id` values and frozen `legacyKey` aliases. New links use IDs; old positional links resolve through those aliases. IDs are assigned once, independent of title edits or data order. Never renumber IDs or recompute legacy aliases when inserting/reordering records. New records need an unused ID and normally no legacy alias. Scientist keys retain their existing identity.
+
+This work targets `prototype/ui-pass2` only. See `docs/ui-improvements/ui-improvement-analysis-second-pass.html` for the approved prototype plan.

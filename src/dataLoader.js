@@ -1,3 +1,4 @@
+import { buildItemIndex } from './itemIdentity.js';
 export let scientists = {};
 export let discoveries = [];
 export let conferences = [];
@@ -5,7 +6,11 @@ export let significantEvents = [];
 // Scientist id -> the discoveries, conferences, and events that name them.
 export let scientistRelations = new Map();
 
-const DATA_VERSION = '18';
+const DATA_VERSION = 'pass2-01';
+let itemIndex = buildItemIndex({});
+export const getItemKey = (type, index, scientistId = null) => itemIndex.at(type === 'publication' ? `publication:${scientistId}:${index}` : `${type}:${index}`);
+export const resolveItem = (key) => itemIndex.resolve(key);
+
 
 // The loader intentionally parses only repository-owned, same-origin YAML files.
 // Treat that static deployment boundary as trusted and immutable; this is not a
@@ -62,23 +67,26 @@ export function buildScientistRelations(scientistData, discoveryData, conference
 // The items directly connected to a timeline item, as item keys. `line` marks
 // the connections worth drawing; publications are highlighted instead.
 export function getRelatedItems(key) {
-  const [type, id, extra] = String(key || '').split(':');
+  const record = resolveItem(key);
+  if (!record) return [];
+  const { type, index: position, scientistId } = record;
+  const id = scientistId || position;
   const scientistEntries = (list) => ids(list).filter((scientistId) => scientists[scientistId])
     .map((scientistId) => ({ key: `scientist:${scientistId}`, line: true }));
   const publicationsOf = (scientistId) => ids(scientists[scientistId]?.publications)
-    .map((_, index) => ({ key: `publication:${scientistId}:${index}`, line: false }));
+    .map((_, index) => ({ key: getItemKey('publication', index, scientistId), line: false }));
 
   if (type === 'scientist') {
     const relations = scientistRelations.get(id) || { discoveries: [], conferences: [], events: [] };
     return [
       ...publicationsOf(id),
-      ...relations.discoveries.map(({ index }) => ({ key: `discovery:${index}`, line: true })),
-      ...relations.conferences.map(({ index }) => ({ key: `conference:${index}`, line: true })),
-      ...relations.events.map(({ index }) => ({ key: `event:${index}`, line: true }))
+      ...relations.discoveries.map(({ index }) => ({ key: getItemKey('discovery', index), line: true })),
+      ...relations.conferences.map(({ index }) => ({ key: getItemKey('conference', index), line: true })),
+      ...relations.events.map(({ index }) => ({ key: getItemKey('event', index), line: true }))
     ];
   }
   if (type === 'publication') {
-    return [{ key: `scientist:${id}`, line: false }, ...publicationsOf(id).filter((entry) => entry.key !== `publication:${id}:${extra}`)];
+    return [{ key: `scientist:${id}`, line: false }, ...publicationsOf(id).filter((entry) => entry.key !== record.key)];
   }
   if (type === 'discovery') {
     const discovery = discoveries[Number(id)];
@@ -101,5 +109,6 @@ export async function initializeData() {
     loadConferencesData(),
     loadSignificantEventsData()
   ]);
+  itemIndex = buildItemIndex({ scientists, discoveries, conferences, significantEvents });
   scientistRelations = buildScientistRelations(scientists, discoveries, conferences, significantEvents);
 }

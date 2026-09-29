@@ -1,4 +1,4 @@
-import { conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=18';
+import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-01';
 import { createPortrait, getPortraitSource } from './portraits.js?v=3';
 
 // Wide screens dock the panel beside the timeline so both stay usable.
@@ -314,7 +314,7 @@ function createPublicationList(scientistId, scientist) {
     .map((publication, index) => ({ publication, index }))
     .sort((a, b) => (a.publication.year || 0) - (b.publication.year || 0))
     .map(({ publication, index }) => ({
-      key: `publication:${scientistId}:${index}`,
+      key: getItemKey('publication', index, scientistId),
       year: publication.year,
       title: publication.title || 'Untitled publication',
       note: publication.abstract
@@ -338,14 +338,14 @@ function createRelationLists(scientistId) {
   if (!relations) return [];
   const byYear = (a, b) => (a.year || 0) - (b.year || 0);
   const discoveryRows = relations.discoveries.map(({ index, role }) => ({
-    key: `discovery:${index}`, year: discoveries[index]?.year, title: discoveries[index]?.title || 'Untitled discovery', role
+    key: getItemKey('discovery', index), year: discoveries[index]?.year, title: discoveries[index]?.title || 'Untitled discovery', role
   })).sort(byYear);
   const conferenceRows = relations.conferences.map(({ index, role }) => ({
-    key: `conference:${index}`, year: conferences[index]?.year, title: conferences[index]?.title || 'Untitled conference', role
+    key: getItemKey('conference', index), year: conferences[index]?.year, title: conferences[index]?.title || 'Untitled conference', role
   })).sort(byYear);
   const eventRows = relations.events.map(({ index }) => {
     const event = significantEvents[index];
-    return { key: `event:${index}`, year: event?.startYear, title: event?.title || 'Historical event' };
+    return { key: getItemKey('event', index), year: event?.startYear, title: event?.title || 'Historical event' };
   }).sort(byYear);
   return [
     createItemList('detail-relations', 'Discoveries', 'discovery', discoveryRows),
@@ -762,7 +762,11 @@ function renderScientist(scientistId, fromTimeline) {
 }
 
 function renderKey(key, fromTimeline) {
-  const [type, id, extra] = String(key).split(':');
+  const record = resolveItem(key);
+  if (!record && !String(key).startsWith('group:')) return false;
+  const type = record?.type || 'group';
+  const id = record?.scientistId || record?.index;
+  const extra = record?.index;
   if (type === 'scientist') return renderScientist(id, fromTimeline);
   if (type === 'publication') return renderPublication(id, Number(extra));
   if (type === 'discovery') return renderDiscovery(Number(id));
@@ -791,6 +795,7 @@ function updateBackButton() {
 // the reader can step back through what they have explored.
 export function openItem(key, { fromTimeline = false, fromHistory = false } = {}) {
   if (!panel && !fetchElements()) return false;
+  key = resolveItem(key)?.key || key;
   const wasOpen = !panel.hidden && !closeTimer;
   if (!renderKey(key, fromTimeline)) return false;
 

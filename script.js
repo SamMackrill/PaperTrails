@@ -1,11 +1,11 @@
 import { config } from './src/config.js?v=15';
-import { conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=18';
+import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-01';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=25';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=27';
+import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-01';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-01';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
-import { buildSearchIndex, setupSearch } from './src/search.js?v=1';
+import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
 import { createMinimap } from './src/minimap.js?v=1';
 import { formatHash, parseHash } from './src/urlState.js?v=1';
 import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=1';
@@ -268,16 +268,13 @@ function focusScientist(scientistId, year) {
 }
 
 function getItemYear(key) {
-  const [type, id, extra] = key.split(':');
-  if (type === 'scientist') {
-    const years = (scientists[id]?.publications || []).map((publication) => publication.year).filter(Number.isFinite);
+  const record = resolveItem(key);
+  if (!record) return null;
+  if (record.type === 'scientist') {
+    const years = (record.item.publications || []).map(publication => publication.year).filter(Number.isFinite);
     return years.length ? Math.min(...years) : null;
   }
-  if (type === 'publication') return scientists[id]?.publications?.[Number(extra)]?.year;
-  if (type === 'discovery') return discoveries[Number(id)]?.year;
-  if (type === 'conference') return conferences[Number(id)]?.year;
-  if (type === 'event') return significantEvents[Number(id)]?.startYear;
-  return null;
+  return record.item.year ?? record.item.startYear;
 }
 
 // Pans just enough to bring an item into view. Items opened from the panel

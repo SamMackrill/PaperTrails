@@ -1,60 +1,78 @@
-- title: "The Renaissance"
+- id: event-00
+  legacyKey: event:0
+  title: "The Renaissance"
   shortTitle: "Renaissance"
   startYear: 1400
   endYear: 1600
   color: "#9c6644"
   details: "A broad period of renewed engagement with classical learning, artistic experimentation, humanism, and increasingly rapid circulation of texts in Europe."
 
-- title: "Fall of Constantinople"
+- id: event-01
+  legacyKey: event:1
+  title: "Fall of Constantinople"
   shortTitle: "1453"
   startYear: 1453
   endYear: 1453
   color: "#6c757d"
   details: "Ottoman forces under Mehmed II captured the Byzantine capital, ending the Byzantine Empire and reshaping politics and trade in the eastern Mediterranean."
 
-- title: "Early Columbian Exchange"
+- id: event-02
+  legacyKey: event:2
+  title: "Early Columbian Exchange"
   shortTitle: "Exchange"
   startYear: 1492
   endYear: 1600
   color: "#52796f"
   details: "The early phase of large-scale movement of people, crops, animals, technologies, and diseases among the Americas, Europe, and Africa, with transformative and catastrophic effects."
 
-- title: "Protestant Reformation"
+- id: event-03
+  legacyKey: event:3
+  title: "Protestant Reformation"
   shortTitle: "Reformation"
   startYear: 1517
   endYear: 1648
   color: "#7f5539"
   details: "Religious and political reform movements fractured western Christendom, were amplified by print, and reshaped European institutions and conflicts."
 
-- title: "The Little Ice Age"
+- id: event-04
+  legacyKey: event:4
+  title: "The Little Ice Age"
   shortTitle: "LIA"
   startYear: 1600
   endYear: 1850
   color: "#aec6cf" # Light blue-gray
   details: "A period of regional cooling, particularly pronounced in the North Atlantic region."
 
-- title: "Thirty Years' War"
+- id: event-05
+  legacyKey: event:5
+  title: "Thirty Years' War"
   shortTitle: "30YW"
   startYear: 1618
   endYear: 1648
   color: "#34495e"
   details: "A major conflict primarily fought in Central Europe, involving most of the European powers."
 
-- title: "English Civil War"
+- id: event-06
+  legacyKey: event:6
+  title: "English Civil War"
   shortTitle: "ECW"
   startYear: 1642
   endYear: 1651
   color: "#34495e"
   details: "A series of civil wars and political machinations between Parliamentarians and Royalists."
 
-- title: "Major European Famine"
+- id: event-07
+  legacyKey: event:7
+  title: "Major European Famine"
   shortTitle: "Famine"
   startYear: 1693
   endYear: 1697
   color: "#8b4513" # SaddleBrown
   details: "Widespread famine across Europe, particularly severe in France, Finland, and Scotland, caused by cold and wet weather."
 
-- title: "World War I"
+- id: event-08
+  legacyKey: event:8
+  title: "World War I"
   shortTitle: "WW1"
   startYear: 1914
   endYear: 1918
@@ -62,7 +80,9 @@
   shape: square
   color: "#34495e"
 
-- title: "World War II"
+- id: event-09
+  legacyKey: event:9
+  title: "World War II"
   shortTitle: "WW2"
   startYear: 1939
   endYear: 1945
@@ -70,77 +90,99 @@
   shape: square
   color: "#34495e"
 
-- title: "War of the Spanish Succession"
+- id: event-10
+  legacyKey: event:10
+  title: "War of the Spanish Succession"
   shortTitle: "WSS"
   startYear: 1701
   endYear: 1714
   color: "#34495e"
   details: "A major European conflict triggered by the death of the last Habsburg king of Spain."
 
-- title: "Great Frost of 1709"
+- id: event-11
+  legacyKey: event:11
+  title: "Great Frost of 1709"
   shortTitle: "Frost"
   startYear: 1708
   endYear: 1709
   color: "#34495e"
   details: "An exceptionally cold winter in Europe, causing widespread famine and hardship."
 
-- title: "The Seven Years' War"
+- id: event-12
+  legacyKey: event:12
+  title: "The Seven Years' War"
   shortTitle: "7YW"
   startYear: 1756
   endYear: 1763
   color: "#34495e"
   details: "A global conflict fought between 1756 and 1763, involving most of the great powers of the time."
 
-- title: "French Revolution"
+- id: event-13
+  legacyKey: event:13
+  title: "French Revolution"
   shortTitle: "FR"
   startYear: 1789
   endYear: 1799
   color: "#34495e"
   details: "A period of radical social and political change in France."
 
-- title: "American Revolution"
+- id: event-14
+  legacyKey: event:14
+  title: "American Revolution"
   shortTitle: "AR"
   startYear: 1775
   endYear: 1783
   color: "#34495e"
   details: "The war of independence fought by the American colonies against Britain."
 
-- title: "Signing of the United States Constitution"
+- id: event-15
+  legacyKey: event:15
+  title: "Signing of the United States Constitution"
   shortTitle: "U.S. Const."
   startYear: 1787
   endYear: 1787
   color: "#3c6e71"
   details: "On 17 September 1787, 39 delegates to the Constitutional Convention signed the proposed Constitution in Philadelphia, establishing a new framework for the United States government subject to ratification by the states."
 
-- title: "American Civil War"
+- id: event-16
+  legacyKey: event:16
+  title: "American Civil War"
   shortTitle: "ACW"
   startYear: 1861
   endYear: 1865
   color: "#34495e"
   details: "A civil war in the United States between the Union and the Confederacy."
 
-- title: "Cold War"
+- id: event-17
+  legacyKey: event:17
+  title: "Cold War"
   shortTitle: "CW"
   startYear: 1947
   endYear: 1991
   color: "#34495e"
   details: "A period of geopolitical tension between the West and the Soviet Union."
 
-- title: "Reign of Napoleon"
+- id: event-18
+  legacyKey: event:18
+  title: "Reign of Napoleon"
   shortTitle: "Nap."
   startYear: 1804
   endYear: 1815
   color: "#34495e"
   details: "The period during which Napoleon Bonaparte ruled as Emperor of France."
 
-- title: "Great Depression"
+- id: event-19
+  legacyKey: event:19
+  title: "Great Depression"
   shortTitle: "GD"
   startYear: 1929
   endYear: 1939
   color: "#34495e"
   details: "A severe worldwide economic depression that took place during the 1930s."
 
-- title: "Carrington Event"
+- id: event-20
+  legacyKey: event:20
+  title: "Carrington Event"
   shortTitle: "CE"
   startYear: 1859
   endYear: 1859

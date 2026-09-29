@@ -1,4 +1,6 @@
-- year: 1860
+- id: conference-00
+  legacyKey: conference:0
+  year: 1860
   title: "Karlsruhe Congress"
   location: "Ständehaus, Ritterstraße, Karlsruhe, Germany"
   historical_map:
@@ -9,7 +11,9 @@
   details: "Held on 3–5 September 1860, the first international congress of chemists addressed conflicting ideas about atoms, molecules, atomic weights, and chemical notation. Cannizzaro advocated Avogadro's molecular hypothesis, and copies of his 1858 essay helped Mendeleev and Lothar Meyer develop consistent atomic weights for their later periodic classifications. Avogadro, who died in 1856, was an intellectual contributor rather than an attendee."
   particle: "Ar"
 
-- year: 1881
+- id: conference-01
+  legacyKey: conference:1
+  year: 1881
   title: "First International Electrical Congress"
   location: "Palais du Trocadéro, Paris, France"
   historical_map:
@@ -19,7 +23,9 @@
   details: "Held in Paris alongside the International Exposition of Electricity, the congress helped establish an internationally consistent system of practical electrical units, including the ohm, volt, ampere, coulomb, and farad."
   particle: Ω
 
-- year: 1900
+- id: conference-02
+  legacyKey: conference:2
+  year: 1900
   title: "International Congress of Physics"
   location: "Paris, France"
   historical_map:
@@ -29,7 +35,9 @@
   details: "Organized by the Société Française de Physique during the Paris Exposition Universelle on 6–12 August 1900, the congress brought physicists together across national and disciplinary boundaries. Alfred Cornu presided, with Lord Kelvin as honorary president. Reports surveyed metrology, optics, electromagnetism, thermodynamics, radioactivity, and radiation pressure at the turn of the century."
   particle: "Φ"
 
-- year: 1911
+- id: conference-03
+  legacyKey: conference:3
+  year: 1911
   title: "First Solvay Conference"
   location: "Hôtel Métropole, Brussels, Belgium"
   historical_map:
@@ -46,14 +54,18 @@
   particle: Ⅰ
 
 # Sources: https://library.ethz.ch/en/collections-and-archives/platforms/virtual-exhibitions/wolfgang-pauli-and-modern-physics/international-conferences-of-physicists.html
-- year: 1927
+- id: conference-04
+  legacyKey: conference:4
+  year: 1927
   title: "Como Conference"
   location: "Como, Italy"
   attendee_ids: [bohr, born, fermi, heisenberg, pauli]
   details: "The International Congress of Physicists, also known as the Volta Conference, was held from 11 to 20 September 1927 to mark the centenary of Alessandro Volta's death. At Como, Niels Bohr first publicly presented his principle of complementarity, explaining how wave and particle descriptions offer complementary accounts of quantum phenomena. The discussions preceded his further presentation at the Fifth Solvay Conference in October."
   particle: V
 
-- year: 1927
+- id: conference-05
+  legacyKey: conference:5
+  year: 1927
   title: "Fifth Solvay International Conference"
   location: "Institut de Physiologie, Parc Léopold, Brussels, Belgium"
   historical_map:
@@ -69,7 +81,9 @@
   details: "The fifth Solvay International Conference on Electrons and Photons, where many of the world's most notable physicists met to discuss the newly formulated quantum theory. Key discussions on wave-particle duality and the uncertainty principle took place."
   particle: ⑤
 
-- year: 1933
+- id: conference-06
+  legacyKey: conference:6
+  year: 1933
   title: "Seventh Solvay Conference"
   location: "Physics Laboratory, Université libre de Bruxelles, Brussels, Belgium"
   historical_map:
@@ -85,7 +99,9 @@
   details: "Devoted to the structure and properties of atomic nuclei, the seventh Solvay Conference brought together the rapidly developing evidence for neutrons, positrons, nuclear transformations, and new models of the nucleus."
   particle: Ⅶ
 
-- year: 1947
+- id: conference-07
+  legacyKey: conference:7
+  year: 1947
   title: "Shelter Island Conference"
   location: "Ram's Head Inn, Shelter Island, New York, USA"
   historical_map:
@@ -101,7 +117,9 @@
   details: "A pivotal post-war meeting on quantum electrodynamics where Willis Lamb reported the Lamb shift. The discussions helped spur the calculations and renormalization methods that made modern QED a consistent predictive theory."
   particle: QED
 
-- year: 1957
+- id: conference-08
+  legacyKey: conference:8
+  year: 1957
   title: "Chapel Hill Conference on Gravitation"
   location: "University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA"
   historical_map:
