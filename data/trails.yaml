@@ -1,2 +1,124 @@
-# Ordered editorial routes. Route order does not itself assert influence.
-[]
+# Curated sources and explicit relationship kinds; IDs must remain stable.
+- id: understanding-charge
+  title: Understanding charge
+  question: How did charge become a signed quantity, a source of fields and a measurable unit?
+  scope: Eight selected landmarks in electromagnetism and light, 1751–1913. An interpretive route, not
+    a complete history; a dated paper marks publication unless qualified.
+  stops:
+  - id: signs
+    item: publication:franklin-work-00
+    label: Two signs, one accounting
+    claim: Franklin described positive and negative electrification as excess and deficiency in an electrical
+      quantity, using charged-bottle experiments to argue for a balance.
+    significance: Charge becomes something to account for, rather than a catalogue of curious attractions.
+      His single-fluid explanation is historical; the signs survive without requiring a literal fluid.
+    sources:
+    - label: Franklin · Experiments and Observations (1751)
+      url: https://en.wikisource.org/wiki/Experiments_and_Observations_on_Electricity
+      locator: Letter II, 11 July 1747; Further Experiments and Observations, numbered observations 1–2
+        on the charged bottle
+  - id: force
+    item: publication:coulomb-work-00
+    label: Charge has a measurable force
+    claim: Coulomb used a torsion balance to measure electrical repulsion and reported an inverse-square
+      dependence on separation.
+    significance: The question shifts from how bodies become electrified to how their electrical state
+      produces a force. This is a force law, not a measurement of an elementary charge.
+    dateNote: Academy year 1785; the volume was printed in 1788.
+    sources:
+    - label: Coulomb · Premier mémoire (academy year 1785)
+      url: https://www.academie-sciences.fr/pdf/dossiers/Coulomb/Coulomb_pdf/Mem1785_p569.pdf
+      locator: Mémoires, academy year 1785, pp. 569–577; inverse-square conclusion, pp. 574–577
+    - label: Académie des sciences · Coulomb bibliography
+      url: https://www.academie-sciences.fr/pdf/dossiers/Coulomb/Coulomb_pubd1.htm
+      locator: 'Premier mémoire sur l’électricité et le magnétisme: academy year 1785, publication 1788'
+    relation: signs-to-force
+  - id: induction
+    item: publication:faraday-work-00
+    label: Changing magnetism drives current
+    claim: Faraday reported transient currents when magnetic conditions changed, including experiments
+      with coils and magnets.
+    significance: Electricity and magnetism become experimentally connected. Induction concerns the motion
+      of charge in a circuit; it does not imply that a magnetic field creates net charge.
+    dateNote: Experiments and presentation in 1831; journal publication in 1832.
+    sources:
+    - label: Faraday · Experimental Researches, First Series
+      url: https://doi.org/10.1098/rstl.1832.0006
+      locator: 'Philosophical Transactions 122 (1832), pp. 125–162, §§1–16: induction of electric currents'
+    relation: force-to-induction
+  - id: light
+    item: publication:faraday-work-01
+    label: Light responds to magnetism
+    claim: Faraday found that a magnetic field along the path of polarized light through certain materials
+      rotates its plane of polarization.
+    significance: Light enters the electromagnetic investigation. The result links optical and magnetic
+      phenomena, but does not by itself establish that light is an electromagnetic wave.
+    dateNote: Experiment and presentation in 1845; journal publication in 1846.
+    sources:
+    - label: Faraday · Experimental Researches, Nineteenth Series
+      url: https://doi.org/10.1098/rstl.1846.0001
+      locator: 'Philosophical Transactions 136 (1846), pp. 1–20, §§2146–2165: magnetization of light'
+    relation: induction-to-light
+  - id: field
+    item: publication:maxwell-work-01
+    label: Fields carry the explanation
+    claim: Maxwell expressed electric and magnetic phenomena mathematically and argued that their waves
+      travel at the speed of light.
+    significance: Charge and current become sources within a field account that can connect electricity,
+      magnetism and light. Maxwell explicitly credits Faraday’s research as a corpus, not this one selected
+      paper alone.
+    sources:
+    - label: Maxwell · Treatise, Preface (1873)
+      url: https://en.wikisource.org/wiki/A_Treatise_on_Electricity_and_Magnetism/Preface
+      locator: 'Preface, paragraphs beginning “One reason of this” and “As I proceeded”: reading and mathematical
+        expression of Faraday’s Experimental Researches'
+    - label: Maxwell · Treatise, Volume II
+      url: https://en.wikisource.org/wiki/A_Treatise_on_Electricity_and_Magnetism/Volume_2
+      locator: 'Part IV, Chapter XX: Electromagnetic Theory of Light, especially §§781–783'
+    relation: faraday-to-maxwell
+  - id: waves
+    item: publication:hertz-work-01
+    label: A prediction meets an experiment
+    claim: Hertz produced electrical oscillations and observed waves in air with reflection and standing-wave
+      behaviour.
+    significance: Electromagnetic propagation gains an experimental test. These waves concern fields travelling
+      through space; they do not show that cathode rays are also waves.
+    sources:
+    - label: Hertz · Electrodynamic waves in air (1888)
+      url: https://doi.org/10.1002/andp.18882700802
+      locator: 'Annalen der Physik 270 (1888), pp. 609–623: waves in air and reflection'
+    - label: Hertz · Electric Waves, author’s collected papers
+      url: https://archive.org/details/electricwavesbe00hertgoog
+      locator: 'English translation first published 1893: author’s Introduction, pp. 1–28; Chapter VIII,
+        pp. 124–134 (1888 paper); distinguish author’s text from Kelvin’s foreword'
+    relation: maxwell-to-hertz
+  - id: carrier
+    item: publication:thomson-work-00
+    label: Who carries negative charge?
+    claim: Thomson combined electric and magnetic deflection with measurements of mass divided by charge
+      to argue that cathode rays are negatively charged particles smaller than atoms.
+    significance: A charge carrier becomes experimentally identifiable. The measured ratio does not separately
+      determine its mass and charge; the paper predates Thomson’s 1904 atomic model.
+    sources:
+    - label: Thomson · Cathode Rays (1897)
+      url: https://en.wikisource.org/wiki/Cathode_Rays
+      locator: 'Philosophical Magazine 44 (1897), pp. 293–316: opening competing explanations; “the ratio
+        of the mass … to the charge”; concluding corpuscular interpretation'
+    relation: waves-to-carriers
+  - id: unit
+    item: discovery:millikan-oil-drops
+    label: Measuring a unit of charge
+    claim: Millikan’s oil-drop measurements found charges in integer multiples of a common unit and estimated
+      that elementary charge.
+    significance: Charge now has a measured unit as well as a sign, force law and carrier. This is a historical
+      measurement with experimental assumptions, not the modern exact SI value.
+    dateNote: 1913 publication; the oil-drop programme began earlier.
+    sources:
+    - label: Millikan · Elementary Electrical Charge (1913)
+      url: https://doi.org/10.1103/PhysRev.2.109
+      locator: Physical Review 2 (1 August 1913), pp. 109–143; §1 and oil-drop charge measurements
+    - label: Millikan · original paper facsimile, AIP
+      url: https://history.aip.org/exhibits/gap/PDF/millikan.pdf
+      locator: Original 1913 paper, p. 109 and tables of observed charge multiples; historical measurement,
+        not today’s exact SI definition
+    relation: ratio-to-unit

@@ -383,3 +383,23 @@
   details: "Miller reported a small non-null signal in Mount Wilson repetitions of the Michelson–Morley experiment and interpreted it as ether drift, challenging the earlier null result. A 1955 reanalysis attributed the apparent signal to statistical fluctuations and local temperature effects and found the data consistent with a null result; Miller's claim is not an established refutation of Michelson–Morley or special relativity."
   particle: ETH
   color: "#7d8750"
+
+- id: millikan-oil-drops
+  legacyKey: discovery:39
+  year: 1913
+  title: Measuring the elementary electrical charge
+  discoverer: Robert A. Millikan
+  details: Millikan’s oil-drop measurements found charges in integer multiples of a common unit and estimated
+    that elementary charge. Charge now has a measured unit as well as a sign, force law and carrier. This
+    is a historical measurement with experimental assumptions, not the modern exact SI value.
+  particle: e
+  color: '#74573a'
+  dateNote: 1913 publication; the oil-drop programme began earlier.
+  sources:
+  - label: Millikan · Elementary Electrical Charge (1913)
+    url: https://doi.org/10.1103/PhysRev.2.109
+    locator: Physical Review 2 (1 August 1913), pp. 109–143; §1 and oil-drop charge measurements
+  - label: Millikan · original paper facsimile, AIP
+    url: https://history.aip.org/exhibits/gap/PDF/millikan.pdf
+    locator: Original 1913 paper, p. 109 and tables of observed charge multiples; historical measurement,
+      not today’s exact SI definition
