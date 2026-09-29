@@ -1,4 +1,4 @@
-import { setupTrails } from './src/trailController.js?v=pass2-06c';
+import { setupTrails } from './src/trailController.js?v=pass2-07b';
 import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
 import { config } from './src/config.js?v=15';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
