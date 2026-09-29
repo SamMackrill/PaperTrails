@@ -80,6 +80,8 @@ try {
   const visited = await evaluate(`(()=>{let seen=[];for(let i=0;i<8;i++){seen.push({progress:document.querySelector('#trail-progress').textContent,title:document.querySelector('#trail-content h2').textContent,stop:document.querySelector('[aria-current=step]').dataset.trailStop});document.querySelector('#trail-next').click();}return seen})()`);
   assert.deepEqual(visited.map(s => s.stop), ['signs', 'force', 'induction', 'light', 'field', 'waves', 'carrier', 'unit']);
   assert.ok(await evaluate('document.querySelector("#trail-next").disabled'));
+  await evaluate('document.querySelector("#fit-view").click()');
+  assert.ok(await evaluate(`(()=>{const view=document.querySelector('#timeline-container').getBoundingClientRect();return [...document.querySelectorAll('[data-trail-stop]')].every(node=>{const r=node.getBoundingClientRect();return r.left>=view.left-1 && r.right<=view.right+1 && r.top>=view.top-1})})()`));
   await evaluate('document.querySelector(".trail-evidence").open=true;document.querySelector("#trail-close").click()');
   assert.ok(await evaluate('document.querySelector("#trail-panel").hidden && document.querySelectorAll("[data-trail-stop]").length===8'));
   await evaluate('document.querySelector("#trail-explain").click();document.querySelector("#trail-overview").click();document.querySelector("#mode-toggle").click()');

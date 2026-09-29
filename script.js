@@ -232,7 +232,13 @@ function zoomAt(nextScale, originX = timelineContainer.clientWidth / 2, { deferr
 }
 
 function fitTimeline() {
-  animateView(1, 0.5);
+  const trail = getActiveTrail();
+  if (trail) {
+    const years = trail.stops.map(stop => getItemYear(stop.item));
+    applyUrlView({ from: Math.min(...years) - 20, to: Math.max(...years) + 20 });
+  } else {
+    animateView(1, 0.5);
+  }
   hideInteractionHint();
 }
 
@@ -867,8 +873,7 @@ async function initializeApp() {
       render();
       const trail = getActiveTrail();
       if (action === 'overview' && trail) {
-        const years = trail.stops.map(stop => getItemYear(stop.item));
-        applyUrlView({ from: Math.min(...years) - 20, to: Math.max(...years) + 20 });
+        fitTimeline();
       } else if (action === 'stop' && trail) {
         const stop = trail.stops.find(s => s.id === getTrailState().stop);
         animateView(Math.max(3.2, currentScale), yearToX(getItemYear(stop.item), 1), 0);
