@@ -1297,8 +1297,8 @@ deBroglie:
       association: "Student, doctorate and professor"
       coat: "images/institutions/university-of-paris.png"
   publications:
-    - id: compton-work-01
-      legacyKey: publication:compton:1
+    - id: deBroglie-work-00
+      legacyKey: publication:deBroglie:0
       year: 1924
       title: "Recherches sur la théorie des quanta"
       abstract: "Proposed wave nature of electrons."

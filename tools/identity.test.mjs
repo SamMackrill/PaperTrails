@@ -38,3 +38,13 @@ test('duplicate identities and aliases fail before links can point at another re
   assert.throws(() => buildItemIndex({ discoveries: [{ id: 'x' }, { id: 'x' }] }), /Duplicate record/);
   assert.throws(() => buildItemIndex({ discoveries: [{ id: 'x', legacyKey: 'discovery:0' }, { id: 'y', legacyKey: 'discovery:0' }] }), /Duplicate legacy/);
 });
+
+test('mixed-case scientist keys retain their own publication aliases', () => {
+  const index = buildItemIndex(data);
+  assert.equal(index.resolve('publication:deBroglie:0').scientistId, 'deBroglie');
+  assert.equal(index.resolve('publication:deBroglie:0').item.title, data.scientists.deBroglie.publications[0].title);
+  for (const record of index.records.values()) {
+    if (record.type === 'publication') assert.ok(record.item.legacyKey.startsWith(`publication:${record.scientistId}:`));
+  }
+  assert.throws(() => buildItemIndex({ scientists: { deBroglie: { publications: [{ id: 'bad', legacyKey: 'publication:compton:1' }] } } }), /another record/);
+});

@@ -18,6 +18,8 @@ export function buildItemIndex({ scientists = {}, discoveries = [], conferences 
     current.set(currentKey, key);
     const alias = item.legacyKey || (item.id ? null : currentKey);
     if (alias) {
+      const prefix = type === 'publication' ? `publication:${scientistId}:` : `${type}:`;
+      if (!alias.startsWith(prefix)) throw new Error(`Legacy key belongs to another record type or scientist: ${alias}`);
       if (aliases.has(alias)) throw new Error(`Duplicate legacy key: ${alias}`);
       aliases.set(alias, key);
     }
