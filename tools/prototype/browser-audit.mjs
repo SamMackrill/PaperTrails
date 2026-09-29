@@ -82,6 +82,14 @@ try {
   await evaluate('document.querySelector("#trail-select").value="understanding-charge";document.querySelector("#trail-select").dispatchEvent(new Event("change"));');
   assert.equal(await evaluate('document.querySelectorAll("[data-trail-stop]").length'), 8);
   await screenshot('trail-dark.png');
+  await evaluate('document.querySelector("#trail-next").focus()');
+  await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', text: '\r', unmodifiedText: '\r', windowsVirtualKeyCode: 13 });
+  await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+  assert.equal(await evaluate('document.querySelector("#trail-progress").textContent'), '2 / 8');
+  const target = await evaluate(`(()=>{const r=document.querySelector('[data-trail-stop=signs]').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+  await send('Input.dispatchMouseEvent', { type: 'mousePressed', ...target, button: 'left', clickCount: 1 });
+  await send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...target, button: 'left', clickCount: 1 });
+  assert.equal(await evaluate('document.querySelector("#trail-progress").textContent'), '1 / 8');
   const visited = await evaluate(`(()=>{let seen=[];for(let i=0;i<8;i++){seen.push({progress:document.querySelector('#trail-progress').textContent,title:document.querySelector('#trail-content h2').textContent,stop:document.querySelector('[aria-current=step]').dataset.trailStop});document.querySelector('#trail-next').click();}return seen})()`);
   assert.deepEqual(visited.map(s => s.stop), ['signs', 'force', 'induction', 'light', 'field', 'waves', 'carrier', 'unit']);
   assert.ok(await evaluate('document.querySelector("#trail-next").disabled'));
