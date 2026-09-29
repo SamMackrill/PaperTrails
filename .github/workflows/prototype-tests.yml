@@ -16,3 +16,4 @@ jobs:
           node-version: '24'
           package-manager-cache: false
       - run: node --test tools/*.test.mjs
+      - run: python3 -m unittest discover -s tools/prototype -p 'test_*.py'

@@ -399,7 +399,8 @@ function createFaceStack(members) {
 }
 
 function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
-  if (!isLayerVisible('peopleToggle')) return;
+  // Route cards already name their authors; portraits would sit behind them.
+  if (!isLayerVisible('peopleToggle') || getActiveTrail()) return;
 
   const tier = getTier(scale);
   const showLabel = (scientist) => tier === 'detail' || (tier === 'standard' && getNotability(scientist) === 1);

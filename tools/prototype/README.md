@@ -1,0 +1,25 @@
+# Prototype operations
+
+The application remains static and has no build. These operator tools are **never published** with it. Source: `prototype/ui-pass2`; stack: `ui-pass2/01-stable-ids` through `ui-pass2/08-prototype-validation`. Never merge this experiment to main or update production.
+
+`babysitter.py` polls every two minutes with one process lease. It records intent before posting a manually triggered CodeRabbit full review and conservatively waits **61 minutes** between shared admissions. Only an actual bot review tied to the requested current head/base counts; a summary or green bot check does not. API conversations are paginated and edited comments are hashed. Duplicate requests/replies use persisted markers.
+
+The worker is an authenticated local `codex exec` process with structured output, scoped to the owning prototype worktree. It checks each finding against code, implements clear fixes, runs tests, commits and pushes. The scheduler checks the disposition, replies, restacks dependent unmerged layers with resumable checkpoints, and requeues changed comparisons. A waiver requires a real remedial PR on a separate `ui-pass2/remedial-*` branch and worktree. The scheduler validates and registers it for review. Data integrity, evidence, broken links, unsafe rendering, checks and destination isolation cannot be waived. Remedials also land only on the prototype branch. The first automatic publication waits for all registered PRs, including remedials; an explicit change to this policy would be required for a partial publication.
+
+Merges use ancestry-preserving merge commits with `--match-head-commit`. When the previous layer lands, the child retargets to the prototype branch. An identical patch comparison can retain its reviewed provenance; changed comparisons requeue. Repository protections remain in force; there is no admin bypass.
+
+Run state belongs outside the repository. Set `PAPERTRAILS_RUN_DIR` to the dedicated run directory. Its atomic `state.json` records the branch/worktree map, validated heads, review head/base/patch hashes, comment IDs/dispositions, gate timestamps, restack intents and deployment metadata. Control messages are immutable JSON files under `control/`: `add-pr` with `entry`, `update-pr` with `number`/`fields`, or `implementation-ready`. Do not edit state while a worker holds the lease. Secrets and presigned upload URLs remain in the external directory and credentials store.
+
+On this implementation machine, the run directory is the sibling `PaperTrails-worktrees/ui-pass2/run`. `start-babysitter.ps1 -RunDirectory <path>` refreshes the operator scripts only from the clean validated final worktree, then starts Python hidden. A periodic Task Scheduler launch can resume the queue after process termination or sleep; the lease prevents overlap. Source updates cause a running watcher to exit at a safe boundary so the next launch loads them. The machine must be awake and GitHub, Codex and here.now authentication must remain available. Review or API capability failures are recorded, not presented as completion. Three successive errors stop the automation with `automationStopped: true`; investigate `last-error.txt`, correct the issue and clear that field while the worker is stopped before restarting.
+
+`publish_prototype.py` fetches and fast-forwards a clean integration checkout, checks that main still equals the recorded baseline, pins the prototype commit and creates an allowlisted runtime artifact. It excludes docs, Git metadata, operator code, credentials and run state. Native/Python/browser checks run again against that source and packaged artifact. Only then does it create a **new** permanent authenticated here.now Site, upload and finalize. It checks returned persistence and live entry points/assets/commit metadata. Later updates are restricted to that new slug with `baseVersionId` protection. Pending deployment intent is persisted; a different pending commit or unexpected live version stops safely. No automatic paid upgrade is permitted. An expired presigned URL requires inspecting the pending version and refreshing upload URLs using here.now's documented endpoint, rather than creating an unrelated Site.
+
+Validation:
+
+```powershell
+node --test tools/*.test.mjs
+python -m unittest discover -s tools/prototype -p 'test_*.py'
+node tools/prototype/browser-audit.mjs
+```
+
+The optional browser audit uses a locally installed Chromium browser and native CDP, with no npm dependency. `PAPERTRAILS_BROWSER` overrides the executable; `PAPERTRAILS_AUDIT_DIR` chooses the external artifact directory. It checks all eight stops, sources, shared and legacy links, both themes, a phone layout, error-free startup and the printable view; it saves screenshots, a PDF and a result manifest. Temporary browser profiles are intentionally retained for inspection. Native and Python tests run in the prototype-scoped GitHub workflow. `publish_prototype.py --dry-run` packages the current final validated worktree without calling here.now; it does not publish or imply review completion.
