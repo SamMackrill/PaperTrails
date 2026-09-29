@@ -101,7 +101,8 @@ def reconcile_review(state, entry, pr):
         return
     reviews = pages(f"pulls/{entry['number']}/reviews")
     completed = [r for r in reviews if r['user']['login'] == BOT and r['commit_id'] == request['head'] and
-                 r['submitted_at'] and datetime.datetime.fromisoformat(r['submitted_at'].replace('Z', '+00:00')).timestamp() >= request['at']]
+                 r['submitted_at'] and datetime.datetime.fromisoformat(r['submitted_at'].replace('Z', '+00:00')).timestamp() >= request['at'] and
+                 re.search(r'Actionable comments posted:\s*\d+|No actionable comments', r.get('body') or '', re.I)]
     if not completed:
         if time.time() - request['at'] > 2700:
             entry['status'] = 'review-unavailable'

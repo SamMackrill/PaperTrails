@@ -8,7 +8,7 @@ class ReviewQueueTests(unittest.TestCase):
     def setUp(self):
         self.entry = {'number': 53, 'branch': 'ui-pass2/a', 'base': b.PROTOTYPE, 'status': 'reviewing', 'request': {'head': 'abc', 'base': 'def', 'at': 1000, 'marker': 'unique', 'diff': 'patch'}}
         self.pr = {'head': {'sha': 'abc', 'ref': 'ui-pass2/a'}, 'base': {'sha': 'def', 'ref': b.PROTOTYPE}}
-        self.review = {'user': {'login': b.BOT}, 'commit_id': 'abc', 'submitted_at': '1970-01-01T00:20:00Z', 'id': 123}
+        self.review = {'user': {'login': b.BOT}, 'commit_id': 'abc', 'submitted_at': '1970-01-01T00:20:00Z', 'id': 123, 'body': '**Actionable comments posted: 0**'}
 
     def test_shared_hour_and_active_review(self):
         state = {'nextEligible': 4660}
@@ -22,6 +22,12 @@ class ReviewQueueTests(unittest.TestCase):
         self.assertEqual(self.entry['status'], 'reviewing')
         with patch.object(b, 'api', return_value={'check_runs': [{'name': 'CodeRabbit', 'status': 'completed', 'conclusion': 'success'}]}):
             self.assertFalse(b.native_green('abc'))
+
+    def test_inline_bot_chat_empty_review_is_not_code_review(self):
+        chat = {**self.review, 'body': ''}
+        with patch.object(b, 'pages', side_effect=[[], [chat]]), patch.object(b.time, 'time', return_value=1400):
+            b.reconcile_review({}, self.entry, self.pr)
+        self.assertEqual(self.entry['status'], 'reviewing')
 
     def test_actual_head_review_and_stale_head(self):
         with patch.object(b, 'pages', side_effect=[[], [self.review]]):
