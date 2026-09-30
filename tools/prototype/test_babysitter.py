@@ -85,11 +85,20 @@ class ReviewQueueTests(unittest.TestCase):
     def test_rate_limit_does_not_record_review(self):
         message = {'user': {'login': b.BOT}, 'updated_at': '1970-01-01T00:20:00Z', 'body': 'Rate limit exceeded. Please wait 80 minutes.'}
         state = {'nextEligible': 4660}
-        with patch.object(b, 'pages', return_value=[message]), patch.object(b.time, 'time', return_value=1400):
+        with patch.object(b, 'pages', side_effect=[[message], []]), patch.object(b.time, 'time', return_value=1400):
             b.reconcile_review(state, self.entry, self.pr)
         self.assertEqual(state['nextEligible'], 6200)
         self.assertEqual(self.entry['status'], 'queued')
         self.assertNotIn('reviewed', self.entry)
+
+    def test_completed_review_wins_over_stale_rate_limit_text(self):
+        message = {'user': {'login': b.BOT}, 'updated_at': '1970-01-01T00:20:00Z', 'body': 'Rate limit exceeded. Please wait 80 minutes.'}
+        state = {'nextEligible': 4660}
+        with patch.object(b, 'pages', side_effect=[[message], [self.review]]), patch.object(b.time, 'time', return_value=1400):
+            b.reconcile_review(state, self.entry, self.pr)
+        self.assertEqual(self.entry['status'], 'reviewed')
+        self.assertEqual(self.entry['reviewed']['reviewId'], 123)
+        self.assertEqual(state['nextEligible'], 4660)
 
     def test_lost_response_recovers_marker_without_duplicate_post(self):
         self.entry['status'] = 'requesting'

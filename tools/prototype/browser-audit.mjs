@@ -63,8 +63,16 @@ try {
     return result.result.value;
   };
   const until = async expression => {
-    for (let i = 0; i < 150; i++) { if (await evaluate(expression)) return; await delay(100); }
-    throw new Error(`Page readiness failed: ${expression}`);
+    let lastError;
+    for (let i = 0; i < 150; i++) {
+      try {
+        if (await evaluate(expression)) return;
+      } catch (error) {
+        lastError = error;
+      }
+      await delay(100);
+    }
+    throw new Error(`Page readiness failed: ${expression}${lastError ? ` (${lastError.message})` : ''}`);
   };
   const navigate = async (path, ready = 'document.querySelector("#timeline-loading")?.hidden') => {
     await evaluate('window.__auditStale = true');

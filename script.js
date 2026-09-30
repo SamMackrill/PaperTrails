@@ -235,6 +235,8 @@ function fitTimeline() {
   const trail = getActiveTrail();
   if (trail) {
     const years = trail.stops.map(stop => getItemYear(stop.item));
+    cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
     applyUrlView({ from: Math.min(...years) - 20, to: Math.max(...years) + 20 });
   } else {
     animateView(1, 0.5);

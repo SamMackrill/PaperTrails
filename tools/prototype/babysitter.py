@@ -118,18 +118,18 @@ def reconcile_review(state, entry, pr):
             return
     relevant = [c for c in comments if c['user']['login'] == BOT and
                 datetime.datetime.fromisoformat(c['updated_at'].replace('Z', '+00:00')).timestamp() >= request['at']]
-    if any(re.search(r'review\s+rate\s+limited|rate\s+limit(?:ing)?\s+(?:exceeded|reached)|too\s+many\s+(?:requests|reviews)', c['body'], re.I) for c in relevant):
-        delays = [int(m.group(1)) * 60 for c in relevant for m in re.finditer(r'wait\s+(\d+)\s+minutes', c['body'], re.I)]
-        state['nextEligible'] = max(state['nextEligible'], time.time() + max(delays or [HOUR]))
-        entry['status'] = 'queued'; entry.pop('request', None)
-        log(f"Rate limited #{entry['number']}; no review recorded")
-        return
     reviews = pages(f"pulls/{entry['number']}/reviews")
     completed = [r for r in reviews if r['user']['login'] == BOT and r['commit_id'] == request['head'] and
                  r['submitted_at'] and datetime.datetime.fromisoformat(r['submitted_at'].replace('Z', '+00:00')).timestamp() >= request['at'] and
                  (re.search(r'Actionable comments posted:\s*\d+|No actionable comments', r.get('body') or '', re.I) or review_body_finding(r))]
     zero = zero_finding_run(comments, request) if not completed else None
     if not completed and not zero:
+        if any(re.search(r'review\s+rate\s+limited|rate\s+limit(?:ing)?\s+(?:exceeded|reached)|too\s+many\s+(?:requests|reviews)', c['body'], re.I) for c in relevant):
+            delays = [int(m.group(1)) * 60 for c in relevant for m in re.finditer(r'wait\s+(\d+)\s+minutes', c['body'], re.I)]
+            state['nextEligible'] = max(state['nextEligible'], time.time() + max(delays or [HOUR]))
+            entry['status'] = 'queued'; entry.pop('request', None)
+            log(f"Rate limited #{entry['number']}; no review recorded")
+            return
         if time.time() - request['at'] > 2700:
             entry['status'] = 'review-unavailable'
             log(f"No actual code review for #{entry['number']}; requires investigation")
