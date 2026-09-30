@@ -1,16 +1,17 @@
 import { setupTrails } from './src/trailController.js?v=pass2-07b';
 import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
-import { config } from './src/config.js?v=15';
+import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-folds';
-import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-continuous';
+import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
-import { createMinimap } from './src/minimap.js?v=1';
+import { createMinimap } from './src/minimap.js?v=pass2-continuous';
 import { formatHash, parseHash } from './src/urlState.js?v=pass2-06b';
-import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=1';
+import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-continuous';
+import { zoomProgress } from './src/zoomLayout.js?v=pass2-continuous';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 const SCALE_STORAGE_KEY = 'paperTrailsScale';
@@ -101,6 +102,8 @@ function updateTransform() {
   zoomLevelDisplay.textContent = `${from}–${to}`;
   if (document.activeElement !== zoomSlider) zoomSlider.value = String(scaleToSlider(currentScale));
   zoomSlider.setAttribute('aria-valuetext', `${Math.round(currentScale * 100)}%, showing ${from} to ${to}`);
+  document.getElementById('pan-earlier').disabled = currentTranslateX >= -0.5;
+  document.getElementById('pan-later').disabled = currentTranslateX <= timelineContainer.clientWidth - timeline.offsetWidth + 0.5;
   announceVisibleRange(from, to);
   minimap?.setWindow(-currentTranslateX / (timeline.offsetWidth || 1), timelineContainer.clientWidth / (timeline.offsetWidth || 1));
   scheduleUrlUpdate();
@@ -113,31 +116,36 @@ function prefersReducedMotion() {
 // Moves to a scale with the given fraction of the timeline centred. The
 // scale changes geometrically and the centre linearly, which reads as a
 // smooth zoom rather than a jump.
-function animateView(targetScale, targetFraction, duration = 280) {
+function animateView(targetScale, targetFraction, duration = 420) {
   cancelAnimationFrame(animationFrame);
   const endScale = clampScale(targetScale);
   const containerWidth = timelineContainer.clientWidth;
   const startScale = currentScale;
   const startFraction = (containerWidth / 2 - currentTranslateX) / (timeline.offsetWidth || 1);
-  const apply = (scale, fraction) => {
+  const apply = (scale, fraction, motion = false) => {
     currentScale = scale;
-    render();
-    currentTranslateX = containerWidth / 2 - fraction * timeline.offsetWidth;
-    updateTransform();
+    const width = Math.max(containerWidth, Math.round(containerWidth * scale));
+    currentTranslateX = containerWidth / 2 - fraction * width;
+    if (motion) {
+      renderTimelineMotion(timelineContainer, timeline, currentScale);
+      updateTransform();
+    } else render();
   };
   if (prefersReducedMotion() || duration <= 0) {
     apply(endScale, targetFraction);
     return Promise.resolve();
   }
   return new Promise((resolve) => {
-    const startTime = performance.now();
+    let startTime;
     const step = (now) => {
-      const progress = Math.min(1, (now - startTime) / duration);
-      const eased = 1 - (1 - progress) ** 3;
-      apply(startScale * (endScale / startScale) ** eased, startFraction + (targetFraction - startFraction) * eased);
+      startTime ??= now;
+      const progress = Math.max(0, Math.min(1, (now - startTime) / duration));
+      const eased = zoomProgress(now - startTime, duration);
+      apply(startScale * (endScale / startScale) ** eased, startFraction + (targetFraction - startFraction) * eased, progress < 1);
       if (progress < 1) {
         animationFrame = requestAnimationFrame(step);
       } else {
+        animationFrame = 0;
         resolve();
       }
     };
@@ -147,6 +155,7 @@ function animateView(targetScale, targetFraction, duration = 280) {
 
 function animatePan(targetTranslateX, duration = 280) {
   cancelAnimationFrame(animationFrame);
+  if (timeline.dataset.zoomMotion) render();
   const start = currentTranslateX;
   if (prefersReducedMotion()) {
     currentTranslateX = targetTranslateX;
@@ -155,10 +164,11 @@ function animatePan(targetTranslateX, duration = 280) {
   }
   const startTime = performance.now();
   const step = (now) => {
-    const progress = Math.min(1, (now - startTime) / duration);
+    const progress = Math.max(0, Math.min(1, (now - startTime) / duration));
     currentTranslateX = start + (targetTranslateX - start) * (1 - (1 - progress) ** 3);
     updateTransform();
     if (progress < 1) animationFrame = requestAnimationFrame(step);
+    else animationFrame = 0;
   };
   animationFrame = requestAnimationFrame(step);
 }
@@ -175,6 +185,14 @@ function render() {
   const focusedKey = focusedElement?.dataset.itemKey;
   const focusedTrailStop = focusedElement?.dataset.trailStop;
   renderTimeline(timelineContainer, timeline, currentScale);
+  // A resized viewport or changed time scale can alter the unfolding limit.
+  // Keep the same centre when the new limit is below the current scale.
+  if (currentScale > config.MAX_SCALE) {
+    const fraction = (timelineContainer.clientWidth / 2 - currentTranslateX) / timeline.offsetWidth;
+    currentScale = config.MAX_SCALE;
+    currentTranslateX = timelineContainer.clientWidth / 2 - fraction * Math.round(timelineContainer.clientWidth * currentScale);
+    renderTimeline(timelineContainer, timeline, currentScale);
+  }
   const axisY = Number.parseFloat(timelineContainer.closest('.timeline-frame').style.getPropertyValue('--axis-y'));
   trailUI?.renderRoute(timeline, timeline.offsetWidth, axisY);
   applyRovingTabindex(timeline, timelineContainer);
@@ -221,6 +239,8 @@ function zoomAt(nextScale, originX = timelineContainer.clientWidth / 2, { deferr
     hideInteractionHint();
     return;
   }
+  cancelAnimationFrame(animationFrame);
+  animationFrame = 0;
   currentTranslateX = originX - (originX - currentTranslateX) * ratio;
   currentScale = newScale;
   if (deferred) {
@@ -301,6 +321,11 @@ function revealElement(element, { centre = false } = {}) {
   const containerRect = timelineContainer.getBoundingClientRect();
   const rect = element.getBoundingClientRect();
   const padding = Math.min(64, containerRect.width / 6);
+  if (element.matches('.tapestry-scene') && (rect.left < containerRect.left || rect.right > containerRect.right)) {
+    const year = Number(element.dataset.startYear);
+    animatePan(containerRect.width / 2 - yearToX(year, timeline.offsetWidth));
+    return;
+  }
   if (centre && (rect.right < containerRect.left + padding || rect.left > containerRect.right - padding)) {
     animatePan(currentTranslateX + containerRect.left + containerRect.width / 2 - (rect.left + rect.width / 2));
     return;
@@ -354,8 +379,12 @@ function setupPointerInteractions() {
       const factor = Math.exp(-getWheelPixels(event, event.deltaY) * 0.0015);
       zoomAt(currentScale * factor, event.clientX - rect.left, { deferred: true });
     } else {
+      const wasAnimating = Boolean(animationFrame);
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
       currentTranslateX -= getWheelPixels(event, event.deltaX || event.deltaY);
-      updateTransform();
+      if (wasAnimating) render();
+      else updateTransform();
       hideInteractionHint();
     }
   }, { passive: false });
@@ -371,6 +400,11 @@ function setupPointerInteractions() {
 
   timelineContainer.addEventListener('mousedown', (event) => {
     if (event.button !== 0 || (event.target.closest('button') && !event.target.closest('.tapestry-scene'))) return;
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      render();
+    }
     suppressTapestryClick = false;
     potentialDrag = true;
     dragStartX = event.clientX;
@@ -402,6 +436,9 @@ function setupPointerInteractions() {
 
   timelineContainer.addEventListener('touchstart', (event) => {
     if (event.touches.length === 1 && event.target.closest('button') && !event.target.closest('.tapestry-scene')) return;
+    cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+    if (timeline.dataset.zoomMotion) render();
     suppressTapestryClick = false;
 
     if (event.touches.length === 1) {
@@ -461,10 +498,16 @@ function setupPointerInteractions() {
     const panStep = Math.max(60, timelineContainer.clientWidth * 0.12);
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      if (timeline.dataset.zoomMotion) render();
       currentTranslateX += panStep;
       updateTransform();
     } else if (event.key === 'ArrowRight') {
       event.preventDefault();
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      if (timeline.dataset.zoomMotion) render();
       currentTranslateX -= panStep;
       updateTransform();
     } else if (event.key === '+' || event.key === '=') {
@@ -580,6 +623,8 @@ function setupControls() {
   document.getElementById('zoom-out').addEventListener('click', () => zoomAt(currentScale / 1.4, undefined, { animate: true }));
   document.getElementById('zoom-in').addEventListener('click', () => zoomAt(currentScale * 1.4, undefined, { animate: true }));
   document.getElementById('fit-view').addEventListener('click', fitTimeline);
+  document.getElementById('pan-earlier').addEventListener('click', () => animatePan(currentTranslateX + timelineContainer.clientWidth * 0.8));
+  document.getElementById('pan-later').addEventListener('click', () => animatePan(currentTranslateX - timelineContainer.clientWidth * 0.8));
 
   zoomSlider.addEventListener('input', () => zoomAt(sliderToScale(zoomSlider.value), undefined, { animate: true }));
 
@@ -635,6 +680,9 @@ function collectDataYears() {
 function setupMinimap() {
   const element = document.getElementById('minimap');
   const setLeft = (left) => {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+    if (timeline.dataset.zoomMotion) render();
     const width = timeline.offsetWidth || 1;
     currentTranslateX = -Math.max(0, left) * width;
     updateTransform();
@@ -645,6 +693,8 @@ function setupMinimap() {
     getYears: () => dataYears,
     onPan: setLeft,
     onResize: (left, right) => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
       currentScale = clampScale(1 / Math.max(1 / config.MAX_SCALE, right - left));
       scheduleRender();
       requestAnimationFrame(() => setLeft(left));
@@ -744,6 +794,8 @@ function applyUrlLayers(state, { initial = false } = {}) {
 }
 
 function applyUrlView(state, { initial = false } = {}) {
+  cancelAnimationFrame(animationFrame);
+  animationFrame = 0;
   if (state.from === null || state.to === null || state.to <= state.from) {
     // An entry without a range shows the whole timeline.
     if (!initial) {

@@ -82,7 +82,7 @@ export function getPanoramaStrip(scene, original = false) {
 }
 
 // Retained for callers that need a static overview crop. Interactive cloth uses
-// the complete strip at every scale; detail is hidden by folds, never swapped in.
+// a fixed curated piece of this strip; zoom opens folds without swapping crops.
 export function getPanoramaCrop(scene, sceneWidth, artHeight, scale, original = false) {
   const strip = getPanoramaStrip(scene, original);
   const { atlas, y, height: cropHeight, edges } = strip;

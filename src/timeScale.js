@@ -1,4 +1,4 @@
-import { config } from './config.js?v=15';
+import { config } from './config.js?v=16';
 
 // Every horizontal position on the timeline is derived from these functions,
 // so the alternative "even density" scale only changes this module.

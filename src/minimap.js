@@ -1,5 +1,5 @@
-import { config } from './config.js?v=15';
-import { yearToX } from './timeScale.js?v=2';
+import { config } from './config.js?v=16';
+import { yearToX } from './timeScale.js?v=3';
 
 const BIN_WIDTH = 3;
 
@@ -63,6 +63,7 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
     windowElement.style.left = `${windowLeft * 100}%`;
     windowElement.style.width = `${windowWidth * 100}%`;
     element.classList.toggle('is-full', windowWidth > 0.995);
+    element.classList.toggle('is-narrow', windowWidth * element.clientWidth < 24);
   }
 
   const fractionAt = (event) => {
@@ -76,7 +77,7 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
     event.preventDefault();
     const fraction = fractionAt(event);
     const handle = event.target.closest('.minimap-handle');
-    if (handle) {
+    if (handle && !element.classList.contains('is-narrow')) {
       drag = { mode: handle.dataset.edge, left: windowLeft, right: windowLeft + windowWidth };
     } else if (event.target.closest('.minimap-window')) {
       drag = { mode: 'pan', offset: fraction - windowLeft };
@@ -115,7 +116,9 @@ export function createMinimap({ element, getYears, onPan, onResize, onZoom }) {
     event.preventDefault();
     // Line and page deltas are converted to pixels, as for the timeline.
     const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1;
-    onZoom(Math.exp(-event.deltaY * unit * 0.0015), fractionAt(event));
+    if (event.deltaX && !event.ctrlKey && !event.metaKey) {
+      onPan(windowLeft + event.deltaX * unit / element.clientWidth * windowWidth);
+    } else onZoom(Math.exp(-event.deltaY * unit * 0.0015), fractionAt(event));
   }, { passive: false });
 
   return { draw, setWindow };
