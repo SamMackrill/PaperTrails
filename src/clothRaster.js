@@ -45,6 +45,11 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
     return { ...entry, strip, image: strip ? await loadImage(strip.atlas.file) : null };
   }));
   if (!isCurrent()) return null;
+  // Installing a texture without a scene image would hide the SVG fallback
+  // for that scene. Keep the complete source material visible instead.
+  if (paintings.some(({ strip, image }) => strip && !image)) {
+    throw new Error('Cloth panorama could not be loaded');
+  }
   const chunkWidth = width / CHUNKS;
   const urls = [];
   try {
