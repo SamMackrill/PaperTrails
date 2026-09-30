@@ -82,6 +82,40 @@ class ReviewQueueTests(unittest.TestCase):
         self.assertNotIn('request', self.entry)
         self.assertNotIn('reviewed', self.entry)
 
+    def test_update_pr_reopens_needs_info_only_with_resolution_context(self):
+        self.entry['status'] = 'needs-info'
+        self.entry['seen'] = {'77': 'prior-hash', '88': 'keep'}
+        self.entry['ledger'] = [
+            {'id': 77, 'disposition': 'needs-info'},
+            {'id': 88, 'disposition': 'fixed'},
+        ]
+        state = {'prs': [self.entry], 'nextEligible': 99999, 'implementationReady': False}
+        control = {'type': 'update-pr', 'number': self.entry['number'],
+                   'fields': {'needsInfoResolution': 'Verified source record is now available.'}}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            control_dir = root / 'control'; control_dir.mkdir()
+            (control_dir / 'update.json').write_text(__import__('json').dumps(control), encoding='utf-8')
+            with patch.object(b, 'ROOT', root), patch.object(b, 'save'), patch.object(b, 'api', return_value={**self.pr, 'state': 'open'}), patch.object(b.time, 'time', return_value=5000):
+                b.tick(state)
+        self.assertEqual(self.entry['status'], 'queued')
+        self.assertNotIn('77', self.entry['seen'])
+        self.assertEqual(self.entry['seen']['88'], 'keep')
+        self.assertEqual(self.entry['needsInfoResolution'], control['fields']['needsInfoResolution'])
+
+    def test_update_pr_does_not_clear_needs_info_without_resolution_context(self):
+        self.entry['status'] = 'needs-info'
+        state = {'prs': [self.entry], 'nextEligible': 99999, 'implementationReady': False}
+        control = {'type': 'update-pr', 'number': self.entry['number'], 'fields': {}}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            control_dir = root / 'control'; control_dir.mkdir()
+            (control_dir / 'update.json').write_text(__import__('json').dumps(control), encoding='utf-8')
+            with patch.object(b, 'ROOT', root), patch.object(b, 'save'):
+                with self.assertRaisesRegex(RuntimeError, 'needsInfoResolution'):
+                    b.tick(state)
+        self.assertEqual(self.entry['status'], 'needs-info')
+
     def test_rate_limit_does_not_record_review(self):
         message = {'user': {'login': b.BOT}, 'created_at': '1970-01-01T00:20:00Z', 'updated_at': '1970-01-01T00:20:00Z', 'body': 'Rate limit exceeded. Please wait 80 minutes.'}
         state = {'nextEligible': 4660}
