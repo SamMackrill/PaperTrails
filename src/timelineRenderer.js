@@ -2,9 +2,10 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=15';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-06b';
-import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-folds';
+import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-smooth';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=3';
+import { projectZoomBox } from './zoomLayout.js?v=pass2-smooth';
 import {
   EVENT_PIN_GAP,
   EVENT_LABEL_PADDING,
@@ -43,6 +44,45 @@ const itemActions = new Map();
 // The item under the pointer or keyboard focus, whose connections are shown
 // in place of the selected item's.
 let hoverKey = null;
+const motionLayouts = new WeakMap();
+
+// Keep scientific records connected during motion. Only their horizontal
+// coordinates change; labels and portraits retain their normal proportions.
+// The full density layout is recomputed once at the end of an animated zoom.
+export function renderTimelineMotion(container, timeline, scale) {
+  timeline.dataset.zoomMotion = 'true';
+  let layout = motionLayouts.get(timeline);
+  if (!layout) {
+    const positioned = [...timeline.children].filter(node => !node.matches('.tapestry-ribbon, .timeline-svg, .trail-route'));
+    positioned.push(...timeline.querySelectorAll('.trail-route > *'));
+    layout = { width: timeline.offsetWidth, boxes: positioned.map(node => {
+      const stretch = node.matches('.scale-segment, .event-band, .lifespan, .trail-route-line');
+      const centered = node.matches('.scientist-node, .scientist-cluster, .publication, .discovery-marker, .conference-marker, .trail-route-stop');
+      const width = node.offsetWidth;
+      return { node, left: parseFloat(node.style.left) || 0, width, stretch, anchor: centered ? width / 2 : 0 };
+    }), svg: timeline.querySelector('.timeline-svg') };
+    motionLayouts.set(timeline, layout);
+  }
+  const width = Math.max(container.clientWidth, Math.round(container.clientWidth * scale));
+  const ratio = width / layout.width;
+  timeline.style.width = `${width}px`;
+  layout.boxes.forEach(box => {
+    const pose = projectZoomBox(box, ratio);
+    box.node.style.left = `${pose.left}px`;
+    if (box.stretch) box.node.style.width = `${pose.width}px`;
+  });
+  if (layout.svg) {
+    layout.svg.style.transformOrigin = '0 0';
+    layout.svg.style.transform = `scaleX(${ratio})`;
+  }
+  if (timeline.querySelector('.tapestry-ribbon')) {
+    const top = parseFloat(container.closest('.timeline-frame').style.getPropertyValue('--context-top'));
+    renderTapestry(timeline, significantEvents, width, container.clientHeight, top, scale, button => {
+      selectItem(button);
+      openItem(button.dataset.itemKey, { fromTimeline: true });
+    });
+  }
+}
 
 function isLayerVisible(id) {
   return document.getElementById(id)?.getAttribute('aria-pressed') !== 'false';
@@ -129,6 +169,7 @@ function drawLifespan(timeline, scientistId) {
 // dims everything unrelated.
 function refreshRelations(timeline) {
   if (!timeline) return;
+  if (timeline.dataset.zoomMotion) return;
   timeline.querySelectorAll('.is-related, .is-related-source').forEach((element) => element.classList.remove('is-related', 'is-related-source'));
   timeline.querySelectorAll('.scientist-link.highlight').forEach((line) => line.classList.remove('highlight'));
   timeline.querySelector('.lifespan')?.remove();
@@ -704,6 +745,8 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   const containerWidth = timelineContainer.clientWidth;
   const height = timelineContainer.clientHeight;
   if (!containerWidth || !height) return;
+  delete timeline.dataset.zoomMotion;
+  motionLayouts.delete(timeline);
 
   const width = Math.max(containerWidth, Math.round(containerWidth * Math.max(1, scale)));
   const contextVisible = isLayerVisible('significantEventsToggle');
@@ -766,5 +809,4 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   hoverKey = null;
   updateScalePresentation(timeline, scale);
   applySelection(timeline);
-  updateEventLabelPositions(timeline, timelineContainer);
 }

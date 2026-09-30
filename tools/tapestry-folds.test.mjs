@@ -50,3 +50,10 @@ test('opening the full cloth flattens every crease without losing source boundar
     assert.equal(pose.panels.at(-1).sourceX + pose.panels.at(-1).sourceWidth, strip.width);
   }
 });
+
+test('crease shading approaches flat cloth without a last-pixel flash', () => {
+  const strip = getPanoramaStrip(tapestryScenes.get('The Renaissance'));
+  const flatWidth = strip.width * 120 / strip.height;
+  const almostFlat = layoutCloth(strip, flatWidth - 0.1, 120);
+  assert.ok(almostFlat.panels.every(panel => panel.shade < 0.001));
+});

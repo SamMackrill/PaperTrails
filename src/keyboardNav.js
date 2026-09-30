@@ -30,14 +30,18 @@ function laneOf(element) {
 // exists, otherwise the first item in view.
 export function applyRovingTabindex(timeline, timelineContainer) {
   const viewport = timelineContainer.getBoundingClientRect();
-  LANES.forEach((lane, laneIndex) => {
+  // Measure all lanes before changing tabindex: focus selectors can invalidate
+  // style, and interleaving them with geometry reads makes zoom frames stall.
+  const lanes = LANES.map((lane, laneIndex) => {
     const items = laneItems(timeline, lane);
-    items.forEach((item) => item.setAttribute('tabindex', '-1'));
     const remembered = activeKeys.get(laneIndex);
     const active = items.find((item) => item.dataset.itemKey === remembered)
       || items.find((item) => item.getBoundingClientRect().right > viewport.left)
       || items[0];
-    active?.setAttribute('tabindex', '0');
+    return { items, active };
+  });
+  lanes.forEach(({ items, active }) => {
+    items.forEach((item) => item.setAttribute('tabindex', item === active ? '0' : '-1'));
   });
 }
 

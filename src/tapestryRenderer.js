@@ -1,7 +1,7 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=15';
 import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-folds';
-import { layoutCloth } from './tapestryFolds.js?v=pass2-folds';
+import { layoutCloth } from './tapestryFolds.js?v=pass2-smooth';
 import { yearToX } from './timeScale.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -33,7 +33,7 @@ function clothFace(model, className) {
 }
 
 function updateFace(part, strip, x, width, displayedWidth, left) {
-  part.face.style.left = `${left}px`;
+  part.face.style.transform = `translateX(${left}px)`;
   part.face.style.width = `${displayedWidth}px`;
   const viewBox = `${x} ${strip.y} ${width} ${strip.height}`;
   if (part.art.getAttribute('viewBox') !== viewBox) part.art.setAttribute('viewBox', viewBox);
@@ -57,7 +57,7 @@ function updatePanorama(model) {
   pose.panels.forEach((panel, index) => {
     const part = model.panels[index];
     updateFace(part, strip, panel.sourceX, panel.sourceWidth, panel.width, panel.left);
-    part.face.style.transform = `translateZ(${panel.depth}px) rotateY(${panel.angle}deg)`;
+    part.face.style.transform = `translateX(${panel.left}px) translateZ(${panel.depth}px) rotateY(${panel.angle}deg)`;
     part.face.style.setProperty('--fold-shade', String(panel.shade));
   });
   strip.facets.forEach((facet, index) => {
@@ -235,12 +235,15 @@ export function updateTapestryCaptions(timeline, timelineContainer) {
   if (!ribbon) return;
   const viewport = timelineContainer.getBoundingClientRect();
   const ribbonLeft = ribbon.getBoundingClientRect().left;
-  ribbon.querySelectorAll('.tapestry-caption').forEach((caption) => {
+  // Read every caption before moving any of them. A read after each write
+  // otherwise forces a fresh layout of all SVG cloth faces for each caption.
+  const positions = [...ribbon.querySelectorAll('.tapestry-caption')].map((caption) => {
     const sceneLeft = Number(caption.dataset.sceneLeft);
     const sceneRight = sceneLeft + Number(caption.dataset.sceneWidth);
     const visibleLeft = Math.max(sceneLeft, viewport.left - ribbonLeft);
     const captionWidth = caption.offsetWidth;
     const left = Math.min(visibleLeft + 4, sceneRight - captionWidth - 4);
-    caption.style.left = `${Math.max(sceneLeft + 4, left)}px`;
+    return { caption, left: Math.max(sceneLeft + 4, left) };
   });
+  positions.forEach(({ caption, left }) => { caption.style.left = `${left}px`; });
 }

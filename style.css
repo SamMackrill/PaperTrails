@@ -1213,6 +1213,8 @@ html[data-theme="dark"] .icon-sun {
   transform-style: preserve-3d;
 }
 .tapestry-cloth-face {
+  left: 0;
+  will-change: transform;
   position: absolute;
   top: 0;
   height: 100%;

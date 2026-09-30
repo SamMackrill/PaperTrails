@@ -27,7 +27,9 @@ export function layoutCloth(strip, width, height) {
       panels.push({ facet: index + 1, side, left: left + side * projectedHalf,
         width: half, sourceX: strip.edges[index + 1] + side * sourceHalf,
         sourceWidth: sourceHalf, angle: (side ? -1 : 1) * angle * 180 / Math.PI,
-        depth: side ? -depth : 0, shade: Math.sin(angle) });
+        // Squared depth fades gently at contact with flat cloth. A linear
+        // sine has an unbounded slope there and makes the crease flash away.
+        depth: side ? -depth : 0, shade: Math.sin(angle) ** 2 });
     }
     left += displayed;
   });
