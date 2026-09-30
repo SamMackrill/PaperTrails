@@ -298,7 +298,14 @@ franklin:
       legacyKey: publication:franklin:0
       year: 1751
       title: "Experiments and Observations on Electricity"
-      abstract: "Detailed experiments on electricity, including the kite experiment (1752) proving lightning's electrical nature."
+
+      abstract: Collected letters and experiments on electrification, positive and negative signs, charged bottles,
+        and a single-fluid account of electricity. This 1751 edition predates the 1752 kite experiment.
+      sources:
+      - label: Franklin · Experiments and Observations (1751)
+        url: https://en.wikisource.org/wiki/Experiments_and_Observations_on_Electricity
+        locator: Letter II, 11 July 1747; Further Experiments and Observations, numbered observations 1–2 on
+          the charged bottle
 
 euler:
   name: "Leonhard Euler"
@@ -378,6 +385,14 @@ coulomb:
       year: 1785
       title: "Premier mémoire sur l'électricité et le magnétisme"
       abstract: "Established Coulomb's law."
+      dateNote: Academy year 1785; the volume was printed in 1788.
+      sources:
+      - label: Coulomb · Premier mémoire (academy year 1785)
+        url: https://www.academie-sciences.fr/pdf/dossiers/Coulomb/Coulomb_pdf/Mem1785_p569.pdf
+        locator: Mémoires, academy year 1785, pp. 569–577; inverse-square conclusion, pp. 574–577
+      - label: Académie des sciences · Coulomb bibliography
+        url: https://www.academie-sciences.fr/pdf/dossiers/Coulomb/Coulomb_pubd1.htm
+        locator: 'Premier mémoire sur l’électricité et le magnétisme: academy year 1785, publication 1788'
 
 volta:
   name: "Alessandro Volta"
@@ -656,14 +671,27 @@ faraday:
   publications:
     - id: faraday-work-00
       legacyKey: publication:faraday:0
-      year: 1831
       title: "Experimental Researches in Electricity (Series I)"
       abstract: "Discovered electromagnetic induction."
+      year: 1832
+      dateNote: Experiments and presentation in 1831; journal publication in 1832.
+      sources:
+      - label: Faraday · Experimental Researches, First Series
+        url: https://doi.org/10.1098/rstl.1832.0006
+        locator: 'Philosophical Transactions 122 (1832), pp. 125–162, §§1–16: induction of electric currents'
+
     - id: faraday-work-01
       legacyKey: publication:faraday:1
       year: 1846
       title: "Experimental Researches in Electricity (Series XIX)"
-      abstract: "Described diamagnetism and proposed lines of force."
+
+      abstract: Reported the rotation of the plane of polarized light in certain materials under a magnetic
+        field, experimentally connecting magnetism and optical phenomena.
+      dateNote: Experiment and presentation in 1845; journal publication in 1846.
+      sources:
+      - label: Faraday · Experimental Researches, Nineteenth Series
+        url: https://doi.org/10.1098/rstl.1846.0001
+        locator: 'Philosophical Transactions 136 (1846), pp. 1–20, §§2146–2165: magnetization of light'
 
 neumann_franz:
   name: "Franz Ernst Neumann"
@@ -787,6 +815,14 @@ maxwell:
       year: 1873
       title: "A Treatise on Electricity and Magnetism"
       abstract: "Unified electricity, magnetism, and light."
+      sources:
+      - label: Maxwell · Treatise, Preface (1873)
+        url: https://en.wikisource.org/wiki/A_Treatise_on_Electricity_and_Magnetism/Preface
+        locator: 'Preface, paragraphs beginning “One reason of this” and “As I proceeded”: reading and mathematical
+          expression of Faraday’s Experimental Researches'
+      - label: Maxwell · Treatise, Volume II
+        url: https://en.wikisource.org/wiki/A_Treatise_on_Electricity_and_Magnetism/Part_IV/Chapter_XX
+        locator: 'Part IV, Chapter XX: Electromagnetic Theory of Light, especially §§781–783'
 
 van_der_waals:
   name: "Johannes Diderik van der Waals"
@@ -925,7 +961,15 @@ thomson:
       legacyKey: publication:thomson:0
       year: 1897
       title: "Cathode Rays"
-      abstract: "Discovered the electron and proposed the plum pudding model of the atom."
+
+      abstract: Electric and magnetic deflection and mass-to-charge measurements supported a corpuscular explanation
+        of cathode rays as negatively charged particles much smaller than atoms. This paper predates the 1904
+        plum-pudding model.
+      sources:
+      - label: Thomson · Cathode Rays (1897)
+        url: https://en.wikisource.org/wiki/Cathode_Rays
+        locator: 'Philosophical Magazine 44 (1897), pp. 293–316: opening competing explanations; “the ratio
+          of the mass … to the charge”; concluding corpuscular interpretation'
 
 planck:
   name: "Max Planck"
@@ -1851,6 +1895,15 @@ hertz:
       year: 1888
       title: "Ueber electrodynamische Wellen im Luftraume und deren Reflexion"
       abstract: "Demonstrated the wave-like propagation and reflection of electromagnetic disturbances in air and measured their wavelength directly."
+      sources:
+      - label: Hertz · Electrodynamic waves in air (1888)
+        url: https://doi.org/10.1002/andp.18882700802
+        locator: 'Annalen der Physik 270 (1888), pp. 609–623: waves in air and reflection'
+      - label: Hertz · Electric Waves, author’s collected papers
+        url: https://archive.org/details/electricwavesbe00hertgoog
+        locator: 'English translation first published 1893: author’s Introduction, pp. 1–28; Chapter VIII, pp.
+          124–134 (1888 paper); distinguish author’s text from Kelvin’s foreword'
+
     - id: hertz-work-02
       legacyKey: publication:hertz:2
       year: 1889

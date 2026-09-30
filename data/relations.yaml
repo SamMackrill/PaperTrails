@@ -1,2 +1,98 @@
-# Typed, sourced relationships between stable item keys.
-[]
+# Curated sources and explicit relationship kinds; IDs must remain stable.
+- id: signs-to-force
+  kind: conceptual-bridge
+  from: publication:franklin-work-00
+  to: publication:coulomb-work-00
+  claim: The trail moves from an accounting of electrification to a measured force law. This is an editorial
+    comparison, not a claim that Coulomb cited this edition of Franklin.
+  sources:
+  - label: Franklin · Experiments and Observations (1751)
+    url: https://en.wikisource.org/wiki/Experiments_and_Observations_on_Electricity
+    locator: Letter II, 11 July 1747; Further Experiments and Observations, numbered observations 1–2
+      on the charged bottle
+  - &id001
+    label: Coulomb · Premier mémoire (academy year 1785)
+    url: https://www.academie-sciences.fr/pdf/dossiers/Coulomb/Coulomb_pdf/Mem1785_p569.pdf
+    locator: Mémoires, academy year 1785, pp. 569–577; inverse-square conclusion, pp. 574–577
+- id: force-to-induction
+  kind: conceptual-bridge
+  from: publication:coulomb-work-00
+  to: publication:faraday-work-00
+  claim: We compare electrical force between bodies with induced current in a circuit. The sources establish
+    the two results; chronological succession is not evidence of direct influence.
+  sources:
+  - *id001
+  - &id002
+    label: Faraday · Experimental Researches, First Series
+    url: https://doi.org/10.1098/rstl.1832.0006
+    locator: 'Philosophical Transactions 122 (1832), pp. 125–162, §§1–16: induction of electric currents'
+- id: induction-to-light
+  kind: conceptual-bridge
+  from: publication:faraday-work-00
+  to: publication:faraday-work-01
+  claim: Two stages of Faraday’s programme connect electricity to magnetism and then magnetism to light.
+    This bridge does not assert that the nineteenth series cites the first.
+  sources:
+  - *id002
+  - &id003
+    label: Faraday · Experimental Researches, Nineteenth Series
+    url: https://doi.org/10.1098/rstl.1846.0001
+    locator: 'Philosophical Transactions 136 (1846), pp. 1–20, §§2146–2165: magnetization of light'
+- id: faraday-to-maxwell
+  kind: influence
+  from: publication:faraday-work-01
+  to: publication:maxwell-work-01
+  claim: Maxwell’s preface explicitly credits his study of Faraday’s Experimental Researches and describes
+    translating its ideas mathematically. This selected nineteenth-series paper stands for part of that
+    corpus; the evidence does not isolate it as the sole influence.
+  sources:
+  - label: Maxwell · Treatise, Preface (1873)
+    url: https://en.wikisource.org/wiki/A_Treatise_on_Electricity_and_Magnetism/Preface
+    locator: 'Preface, paragraphs beginning “One reason of this” and “As I proceeded”: reading and mathematical
+      expression of Faraday’s Experimental Researches'
+  - *id003
+- id: maxwell-to-hertz
+  kind: prediction-test
+  from: publication:maxwell-work-01
+  to: publication:hertz-work-01
+  claim: Hertz frames his investigations in relation to Maxwell’s theory. His waves-in-air and reflection
+    experiments test electromagnetic propagation; they are not a replication of a single apparatus from
+    the Treatise.
+  sources:
+  - label: Maxwell · Treatise, Volume II
+    url: https://en.wikisource.org/wiki/A_Treatise_on_Electricity_and_Magnetism/Part_IV/Chapter_XX
+    locator: 'Part IV, Chapter XX: Electromagnetic Theory of Light, especially §§781–783'
+  - &id004
+    label: Hertz · Electrodynamic waves in air (1888)
+    url: https://doi.org/10.1002/andp.18882700802
+    locator: 'Annalen der Physik 270 (1888), pp. 609–623: waves in air and reflection'
+  - label: Hertz · Electric Waves, author’s collected papers
+    url: https://archive.org/details/electricwavesbe00hertgoog
+    locator: 'English translation first published 1893: author’s Introduction, pp. 1–28; Chapter VIII,
+      pp. 124–134 (1888 paper); distinguish author’s text from Kelvin’s foreword'
+- id: waves-to-carriers
+  kind: conceptual-bridge
+  from: publication:hertz-work-01
+  to: publication:thomson-work-00
+  claim: Electromagnetic waves and cathode-ray carriers answer different questions. Thomson’s opening
+    contrasts an ether-process explanation with negatively charged matter; the trail invites comparison
+    without equating cathode rays and light.
+  sources:
+  - *id004
+  - &id005
+    label: Thomson · Cathode Rays (1897)
+    url: https://en.wikisource.org/wiki/Cathode_Rays
+    locator: 'Philosophical Magazine 44 (1897), pp. 293–316: opening competing explanations; “the ratio
+      of the mass … to the charge”; concluding corpuscular interpretation'
+- id: ratio-to-unit
+  kind: conceptual-bridge
+  from: publication:thomson-work-00
+  to: discovery:millikan-oil-drops
+  claim: Thomson determines a mass-to-charge ratio; Millikan measures a charge unit. Combining these kinds
+    of measurement distinguishes a carrier’s charge from its mass. This is an explanatory connection,
+    not an asserted citation of the 1897 paper.
+  sources:
+  - *id005
+  - label: Millikan · Elementary Electrical Charge (1913)
+    url: https://doi.org/10.1103/PhysRev.2.109
+    locator: Physical Review 2 (1 August 1913), pp. 109–143; §1 and oil-drop charge measurements
