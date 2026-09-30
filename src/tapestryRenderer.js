@@ -1,8 +1,8 @@
 import { recordKey } from './itemIdentity.js';
-import { config } from './config.js?v=15';
+import { config } from './config.js?v=16';
 import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-folds';
-import { layoutCloth, unfoldZoomLimit, clothPanOffset } from './tapestryFolds.js?v=pass2-natural';
-import { yearToX } from './timeScale.js?v=2';
+import { layoutCloth, curateClothStrip, clothPanOffset } from './tapestryFolds.js?v=pass2-practical';
+import { yearToX } from './timeScale.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 // The strip along the top of the ribbon where captions are stitched.
@@ -46,9 +46,10 @@ function updateFace(part, strip, x, width, displayedWidth, left) {
 }
 
 function updatePanorama(model) {
-  const { button, scene, sceneWidth, artHeight, heading } = model;
+  const { button, scene, sceneWidth, maximumWidth, artHeight, heading } = model;
   const bleed = Math.min(36, sceneWidth / 3);
-  const strip = getPanoramaStrip(scene, model.original);
+  const strip = curateClothStrip(getPanoramaStrip(scene, model.original), maximumWidth, artHeight);
+  model.facets = strip.facets;
   const pose = layoutCloth(strip, sceneWidth + bleed * 2, artHeight);
   model.pose = pose;
   model.cloth.style.width = `${pose.width}px`;
@@ -56,6 +57,7 @@ function updatePanorama(model) {
   button.dataset.facetCount = strip.facets.length;
   button.dataset.foldOpen = pose.openness.toFixed(4);
   updateFace(model.overview, strip, 0, strip.edges[1], pose.overviewWidth, 0);
+  model.panels.forEach((part, index) => { part.face.hidden = index >= pose.panels.length; });
   pose.panels.forEach((panel, index) => {
     const part = model.panels[index];
     updateFace(part, strip, panel.sourceX, panel.sourceWidth, panel.width, panel.left);
@@ -72,7 +74,7 @@ function updatePanorama(model) {
   button.dataset.tooltip = `${heading}\nIn the embroidery: ${strip.facets.join('; ')}.\nZoom in to unfold the cloth.`;
 }
 
-function renderPanorama(button, scene, sceneWidth, artHeight, heading) {
+function renderPanorama(button, scene, sceneWidth, maximumWidth, artHeight, heading) {
   let model = panoramas.get(button);
   if (!model) {
     const cloth = document.createElement('span');
@@ -95,9 +97,9 @@ function renderPanorama(button, scene, sceneWidth, artHeight, heading) {
     button.dataset.tooltipAnchor = 'scene';
     panoramas.set(button, model);
   }
-  Object.assign(model, { scene, sceneWidth, artHeight, heading });
+  Object.assign(model, { scene, sceneWidth, maximumWidth, artHeight, heading });
   updatePanorama(model);
-  return scene.facets;
+  return model.facets;
 }
 
 function sceneEntry(event, onSelect) {
@@ -167,14 +169,8 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const overviewLanes = layoutTapestry(events, timeline.parentElement?.clientWidth || width,
     TAPESTRY_ANNOTATION_WIDTH).lanes;
   const artHeight = Math.max(24, ribbonHeight - CAPTION_HEIGHT - 14 - Math.max(lanes, overviewLanes) * THREAD_SPACING);
-  const sources = items.flatMap(({ event }, index) => {
-    const scene = tapestryScenes.get(event.title);
-    if (!scene) return [];
-    const nextYear = items[index + 1]?.event.startYear ?? config.END_YEAR;
-    const fraction = yearToX(nextYear, 1) - yearToX(event.startYear, 1);
-    return [false, true].map(original => ({ strip: getPanoramaStrip(scene, original), fraction }));
-  });
-  config.MAX_SCALE = unfoldZoomLimit(sources, viewportWidth, artHeight);
+  const maximumWidths = new Map(layoutTapestry(events, Math.round(viewportWidth * config.MAX_SCALE)).items
+    .map(({ event, sceneWidth }) => [event, sceneWidth + Math.min(36, sceneWidth / 3) * 2]));
   ribbon.dataset.zoomLimit = String(config.MAX_SCALE);
 
   items.forEach(({ event, anchor, end, left, lane, sceneWidth }) => {
@@ -195,7 +191,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     button.style.width = `${sceneWidth}px`;
     button.style.height = `${artHeight}px`;
     const scene = tapestryScenes.get(event.title);
-    const facets = scene ? renderPanorama(button, scene, sceneWidth, artHeight, heading) : [];
+    const facets = scene ? renderPanorama(button, scene, sceneWidth, maximumWidths.get(event), artHeight, heading) : [];
     button.setAttribute('aria-label', `${heading}. ${event.details || ''}${facets.length ? ` In the embroidery: ${facets.join('; ')}.` : ''}`);
     // Captions are stitched into the linen above each scene, in the manner
     // of the Bayeux Tapestry's inscriptions.
@@ -242,6 +238,7 @@ function positionCloth(model, offset) {
   model.cloth.style.left = `${offset}px`;
   model.hotspots.forEach((hotspot, index) => {
     const area = model.pose.facets[index];
+    if (!area) { hotspot.hidden = true; return; }
     const left = Math.max(0, area.left + offset);
     const right = Math.min(model.sceneWidth, area.left + area.width + offset);
     hotspot.hidden = right - left < 12;

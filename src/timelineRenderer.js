@@ -1,11 +1,11 @@
 import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.js?v=pass2-06c';
-import { config } from './config.js?v=15';
+import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-06b';
-import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-natural';
-import { getScaleSegments, yearToX } from './timeScale.js?v=2';
+import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-practical';
+import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
-import { projectZoomBox } from './zoomLayout.js?v=pass2-natural';
+import { projectZoomBox } from './zoomLayout.js?v=pass2-practical';
 import {
   EVENT_PIN_GAP,
   EVENT_LABEL_PADDING,

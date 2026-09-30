@@ -1,17 +1,17 @@
 import { setupTrails } from './src/trailController.js?v=pass2-07b';
 import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
-import { config } from './src/config.js?v=15';
+import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-natural';
-import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-practical';
+import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
-import { createMinimap } from './src/minimap.js?v=1';
+import { createMinimap } from './src/minimap.js?v=pass2-practical';
 import { formatHash, parseHash } from './src/urlState.js?v=pass2-06b';
-import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-natural';
-import { zoomProgress } from './src/zoomLayout.js?v=pass2-natural';
+import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-practical';
+import { zoomProgress } from './src/zoomLayout.js?v=pass2-practical';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 const SCALE_STORAGE_KEY = 'paperTrailsScale';
@@ -102,6 +102,8 @@ function updateTransform() {
   zoomLevelDisplay.textContent = `${from}–${to}`;
   if (document.activeElement !== zoomSlider) zoomSlider.value = String(scaleToSlider(currentScale));
   zoomSlider.setAttribute('aria-valuetext', `${Math.round(currentScale * 100)}%, showing ${from} to ${to}`);
+  document.getElementById('pan-earlier').disabled = currentTranslateX >= -0.5;
+  document.getElementById('pan-later').disabled = currentTranslateX <= timelineContainer.clientWidth - timeline.offsetWidth + 0.5;
   announceVisibleRange(from, to);
   minimap?.setWindow(-currentTranslateX / (timeline.offsetWidth || 1), timelineContainer.clientWidth / (timeline.offsetWidth || 1));
   scheduleUrlUpdate();
@@ -616,6 +618,8 @@ function setupControls() {
   document.getElementById('zoom-out').addEventListener('click', () => zoomAt(currentScale / 1.4, undefined, { animate: true }));
   document.getElementById('zoom-in').addEventListener('click', () => zoomAt(currentScale * 1.4, undefined, { animate: true }));
   document.getElementById('fit-view').addEventListener('click', fitTimeline);
+  document.getElementById('pan-earlier').addEventListener('click', () => animatePan(currentTranslateX + timelineContainer.clientWidth * 0.8));
+  document.getElementById('pan-later').addEventListener('click', () => animatePan(currentTranslateX - timelineContainer.clientWidth * 0.8));
 
   zoomSlider.addEventListener('input', () => zoomAt(sliderToScale(zoomSlider.value), undefined, { animate: true }));
 

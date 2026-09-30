@@ -7,12 +7,14 @@ export function layoutCloth(strip, width, height) {
   const materialWidths = strip.edges.slice(1).map((edge, i) =>
     (edge - strip.edges[i]) * materialScale);
   const foldCount = materialWidths.length - 1;
-  const closedWidth = foldCount ? Math.min(4, available * 0.12 / foldCount) : 0;
+  const closedWidth = foldCount ? Math.min(4, available * 0.12 / foldCount,
+    ...materialWidths.slice(1).map(width => width * 0.12)) : 0;
   const overviewWidth = Math.min(materialWidths[0], available - foldCount * closedWidth);
   const detailMaterial = materialWidths.slice(1).reduce((sum, value) => sum + value, 0);
   const detailSpace = available - overviewWidth;
-  const openness = detailMaterial ? Math.min(1, Math.max(0,
+  const opening = detailMaterial ? Math.min(1, Math.max(0,
     (detailSpace - foldCount * closedWidth) / (detailMaterial - foldCount * closedWidth))) : 1;
+  const openness = opening >= 1 - 1e-12 ? 1 : opening;
   const facets = [{ left: 0, width: overviewWidth }];
   const panels = [];
   let left = overviewWidth;
@@ -38,13 +40,14 @@ export function layoutCloth(strip, width, height) {
   return { width: available, overviewWidth, materialScale, openness, facets, panels };
 }
 
-// Give the narrowest dated scene enough horizontal room for its undistorted
-// source. A power-of-two endpoint stays stable through small layout changes.
-export function unfoldZoomLimit(scenes, viewportWidth, height, minimum = 16) {
-  const required = scenes.reduce((maximum, { strip, fraction }) => fraction > 0
-    ? Math.max(maximum, strip.width * height / strip.height / (viewportWidth * fraction))
-    : maximum, minimum);
-  return 2 ** Math.ceil(Math.log2(required));
+// Curate a shorter piece of the source cloth against the scene's useful zoom
+// budget. Keep this crop fixed throughout zoom, rather than demanding a larger
+// time scale to fit every symbolic facet of every historical event.
+export function curateClothStrip(strip, maximumWidth, height, maximumFacets = 3) {
+  const count = Math.max(1, Math.min(strip.facets.length, maximumFacets));
+  const width = Math.min(strip.edges[count], Math.max(0.01, maximumWidth) * strip.height / height);
+  const edges = [...strip.edges.filter(edge => edge < width - 1e-9), width];
+  return { ...strip, width, edges, facets: strip.facets.slice(0, edges.length - 1) };
 }
 
 export function clothPanOffset(clothWidth, sceneWidth, viewportWidth, viewportLeft) {

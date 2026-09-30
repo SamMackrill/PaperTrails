@@ -308,6 +308,8 @@ html[data-theme="dark"] .icon-sun {
   gap: 4px;
 }
 
+.view-actions .icon-button:disabled { opacity: .35; cursor: default; }
+
 .zoom-level {
   min-width: 78px;
   color: var(--text-secondary);
@@ -2284,6 +2286,20 @@ body.has-docked-panel .timeline-shell {
 
 .minimap-handle[data-edge="left"] { left: -6px; }
 .minimap-handle[data-edge="right"] { right: -6px; }
+
+/* Preserve the exact date window, but give a narrow window room to be grabbed.
+   Overlapping resize handles must not steal its pan gesture. */
+.minimap.is-narrow .minimap-handle { display: none; }
+.minimap.is-narrow .minimap-window::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 24px;
+  transform: translateX(-50%);
+}
+.tapestry-cloth-face[hidden] { display: none; }
 
 /* Density scale: alternate eras are shaded, each with a ruler. */
 .scale-segment {

@@ -1,6 +1,6 @@
 import { resolveItem, researchIndex, scientists, trails } from './dataLoader.js?v=pass2-04';
 import { RELATION_LABELS } from './researchModel.js?v=pass2-04';
-import { yearToX } from './timeScale.js?v=2';
+import { yearToX } from './timeScale.js?v=3';
 import { element, stopContent } from './trailContent.js?v=pass2-06b';
 import { getActiveTrail, getTrailState, layoutTrailLabels, setTrailState, trailRouteRailY } from './trailState.js?v=pass2-06c';
 
