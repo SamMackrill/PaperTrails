@@ -2,7 +2,7 @@ import { resolveItem, researchIndex, scientists, trails } from './dataLoader.js?
 import { RELATION_LABELS } from './researchModel.js?v=pass2-04';
 import { yearToX } from './timeScale.js?v=2';
 import { element, stopContent } from './trailContent.js?v=pass2-06b';
-import { getActiveTrail, getTrailState, layoutTrailLabels, setTrailState } from './trailState.js?v=pass2-06b';
+import { getActiveTrail, getTrailState, layoutTrailLabels, setTrailState, trailRouteRailY } from './trailState.js?v=pass2-06c';
 
 export function setupTrails({ change, openRecord }) {
   const bar = document.getElementById('trail-bar');
@@ -72,7 +72,7 @@ export function setupTrails({ change, openRecord }) {
     renderRoute(timeline, width, axisY) {
       const trail = getActiveTrail(); if (!trail) return;
       const points = layoutTrailLabels(trail.stops.map((stop, index) => ({ stop, index, x: yearToX(resolveItem(stop.item).item.year, width) })), width);
-      const railY = Math.max(135, axisY - 52);
+      const railY = trailRouteRailY(axisY, Math.max(...points.map(point => point.row)));
       const layer = element('div', null, 'trail-route');
       layer.setAttribute('role', 'group'); layer.setAttribute('aria-label', `${trail.title}: dated route`);
       const rail = element('div', null, 'trail-route-line');

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getTrailState, setTrailState, trailIncludes, layoutTrailLabels } from '../src/trailState.js';
+import { getTrailState, setTrailState, trailIncludes, layoutTrailLabels, trailRouteRailY } from '../src/trailState.js';
 import { parseHash, formatHash } from '../src/urlState.js';
 
 test('route identity, panel state and ordered step survive sharing and clearing', () => {
@@ -23,4 +23,9 @@ test('crowded trail labels never shift dated anchors or overlap in one row', () 
     const preceding = labels.slice(0, labels.indexOf(label)).filter(l => l.row === label.row).at(-1);
     if (preceding) assert.ok(preceding.left + 144 + 8 <= label.left);
   }
+});
+test('route rail leaves room for the highest trail-label row', () => {
+  const railY = trailRouteRailY(135, 2);
+  assert.equal(railY, 192);
+  assert.ok(railY - 64 - 2 * 64 >= 0);
 });

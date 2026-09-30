@@ -25,3 +25,9 @@ export function layoutTrailLabels(points, width, labelWidth = 144) {
     return { ...point, left, row };
   });
 }
+
+// Route labels rise in 64px rows above their dated rail. Keep every assigned
+// row inside the timeline when a narrow view needs additional rows.
+export function trailRouteRailY(axisY, highestRow) {
+  return Math.max(135, axisY - 52, 64 + highestRow * 64);
+}

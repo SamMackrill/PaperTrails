@@ -1,4 +1,4 @@
-import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.js?v=pass2-06b';
+import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.js?v=pass2-06c';
 import { config } from './config.js?v=15';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-06b';

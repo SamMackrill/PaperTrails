@@ -1,10 +1,10 @@
-import { setupTrails } from './src/trailController.js?v=pass2-06b';
-import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06b';
+import { setupTrails } from './src/trailController.js?v=pass2-06c';
+import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
 import { config } from './src/config.js?v=15';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-06b';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-06c';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
@@ -170,8 +170,10 @@ function isPressed(id) {
 function render() {
   hideTooltip();
   // Rendering replaces every timeline element, so keyboard focus is carried
-  // across by item key.
-  const focusedKey = timeline.contains(document.activeElement) ? document.activeElement.dataset.itemKey : null;
+  // across by its stable item or trail-stop key.
+  const focusedElement = timeline.contains(document.activeElement) ? document.activeElement : null;
+  const focusedKey = focusedElement?.dataset.itemKey;
+  const focusedTrailStop = focusedElement?.dataset.trailStop;
   renderTimeline(timelineContainer, timeline, currentScale);
   const axisY = Number.parseFloat(timelineContainer.closest('.timeline-frame').style.getPropertyValue('--axis-y'));
   trailUI?.renderRoute(timeline, timeline.offsetWidth, axisY);
@@ -182,6 +184,8 @@ function render() {
   updateTransform();
   if (focusedKey) {
     timeline.querySelector(`[data-item-key="${CSS.escape(focusedKey)}"]`)?.focus({ preventScroll: true });
+  } else if (focusedTrailStop) {
+    timeline.querySelector(`[data-trail-stop="${CSS.escape(focusedTrailStop)}"]`)?.focus({ preventScroll: true });
   }
 }
 
