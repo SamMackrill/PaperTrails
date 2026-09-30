@@ -1,4 +1,5 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-woven';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-box-folds';
+import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-box-folds';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
@@ -23,19 +24,8 @@ function tileRow(context, image, source, origin, from, to, top, height) {
   }
 }
 
-function knot(context, x, y, color) {
-  context.strokeStyle = color;
-  context.lineWidth = 1.2;
-  context.beginPath();
-  context.moveTo(x - 3, y);
-  context.quadraticCurveTo(x, y - 4, x + 3, y);
-  context.quadraticCurveTo(x, y + 4, x - 3, y);
-  context.moveTo(x, y - 2); context.lineTo(x, y + 2);
-  context.stroke();
-}
-
-// Paint once into eight modest-size textures. Their boundaries coincide with
-// face boundaries, so no face ever changes its material or image while zooming.
+// Paint once into eight modest-size textures. Native-size face backgrounds
+// can span chunk boundaries without changing their material during zoom.
 // A single 60,000px canvas would exceed common browser canvas dimension limits.
 export async function rasterizeCloth(entries, width, height, artTop, artHeight, isCurrent = () => true) {
   const interlude = await loadImage(INTERLUDE.file);
@@ -67,14 +57,14 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
       layer.width = chunkWidth; layer.height = height;
       const ink = layer.getContext('2d');
       ink.translate(-left, 0);
-      for (const { anchor, end, sceneWidth, lane, strip, image } of paintings) {
+      for (const { anchor, sceneWidth, strip, image } of paintings) {
         const pictureEnd = anchor + sceneWidth;
         if (strip && image && pictureEnd > left && anchor < right) {
           ink.clearRect(left, 0, chunkWidth, height);
           ink.save();
           ink.beginPath(); ink.rect(anchor, artTop, sceneWidth, artHeight); ink.clip();
           const firstFacetWidth = strip.edges[1] * artHeight / strip.height;
-          const origin = anchor - Math.max(0, (firstFacetWidth - sceneWidth) / 2);
+          const origin = anchor - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, sceneWidth)) / 2);
           tileRow(ink, image, strip, origin, Math.max(left, anchor), Math.min(right, pictureEnd), artTop, artHeight);
           // A fixed short join exposes the landscape underneath, never blank
           // space or content extending beyond the recorded event footprint.
@@ -87,21 +77,6 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
           ink.restore();
           context.drawImage(layer, left, 0);
         }
-        const color = ['#854635', '#425c61', '#626539', '#694c67'][lane % 4];
-        const y = 2 + lane * 5;
-        if (end > left && anchor < right) {
-          context.save();
-          context.beginPath(); context.rect(anchor, y, end - anchor, 4); context.clip();
-          context.strokeStyle = color; context.lineWidth = 1.5;
-          context.beginPath();
-          for (let x = Math.floor(Math.max(left, anchor) / 8) * 8; x < Math.min(right, end) + 8; x += 8) {
-            context.moveTo(x - 4, y + 4); context.lineTo(x + 4, y); context.lineTo(x + 12, y + 4);
-            context.moveTo(x - 4, y); context.lineTo(x + 4, y + 4); context.lineTo(x + 12, y);
-          }
-          context.stroke(); context.restore();
-        }
-        if (anchor >= left - 3 && anchor <= right + 3) knot(context, anchor, y + 2, color);
-        if (end !== anchor && end >= left - 3 && end <= right + 3) knot(context, end, y + 2, color);
       }
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
       if (!blob) throw new Error('Cloth texture could not be painted');

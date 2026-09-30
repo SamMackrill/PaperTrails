@@ -1,8 +1,8 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-woven';
-import { layoutPleats, projectClothX, PLEAT_COUNT, PLEAT_FACES } from './clothPleats.js?v=pass2-woven';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-woven';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-box-folds';
+import { layoutPleats, projectClothX, clothCells, SUMMARY_WIDTH } from './clothPleats.js?v=pass2-box-folds';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-box-folds';
 import { yearToX } from './timeScale.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -70,29 +70,71 @@ function makeModel(ribbon) {
   material.appendChild(interlude);
   const artLayer = svg('g');
   const braidLayer = svg('g');
-  material.append(artLayer, braidLayer);
+  material.append(artLayer);
+  const annotations = svg('svg', { class: 'tapestry-braids', 'aria-hidden': 'true' });
+  annotations.appendChild(braidLayer);
   defs.appendChild(material);
   definitions.appendChild(defs);
   const weave = document.createElement('div');
   weave.className = 'tapestry-weave tapestry-cloth';
   weave.setAttribute('aria-hidden', 'true');
-  const faces = Array.from({ length: PLEAT_COUNT * PLEAT_FACES }, (_, i) => {
-    const face = document.createElement('span');
-    face.className = 'tapestry-cloth-face';
-    const phase = i % PLEAT_FACES;
-    const shadeAt = step => .68 * ((1 - Math.cos(2 * Math.PI * step / PLEAT_FACES)) / 2) ** 2;
-    face.style.setProperty('--crease-left', String(shadeAt(phase)));
-    face.style.setProperty('--crease-right', String(shadeAt(phase + 1)));
-    const art = svg('svg', { preserveAspectRatio: 'none' });
-    art.appendChild(svg('use', { href: `#${id}` }));
-    face.appendChild(art);
-    weave.appendChild(face);
-    return { face, art };
-  });
-  ribbon.append(definitions, weave);
-  const model = { id, defs, background, interlude, landscape, landscapeCrop, artLayer, braidLayer, weave, faces, entries: new Map(), entrySerial: 0 };
+  ribbon.append(definitions, weave, annotations);
+  const model = { id, defs, background, interlude, landscape, landscapeCrop, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), entrySerial: 0 };
   models.set(ribbon, model);
   return model;
+}
+
+function retainFaces(model, pose, clothHeight) {
+  pose.cells.forEach((panel, i) => {
+    let cell = model.cells[i];
+    if (!cell) {
+      cell = document.createElement('span');
+      cell.className = 'tapestry-fold-cell';
+      model.weave.appendChild(cell);
+      model.cells[i] = cell;
+    }
+    cell.style.left = `${panel.left}px`;
+    cell.style.width = `${panel.width}px`;
+    cell.style.height = `${clothHeight}px`;
+    cell.style.setProperty('--fold-shade', String(1 - pose.ratio));
+  });
+  while (model.cells.length > pose.cells.length) model.cells.pop().remove();
+  pose.faces.forEach((panel, i) => {
+    let nodes = model.faces[i];
+    if (!nodes) {
+      const face = document.createElement('span');
+      face.className = 'tapestry-cloth-face';
+      const art = svg('svg', { preserveAspectRatio: 'none' });
+      art.appendChild(svg('use', { href: `#${model.id}` }));
+      face.appendChild(art);
+      model.faces[i] = nodes = { face, art };
+    }
+    const { face, art } = nodes;
+    if (face.parentElement !== model.cells[panel.cellIndex]) model.cells[panel.cellIndex].appendChild(face);
+    face.dataset.summary = String(panel.summary);
+    face.dataset.exposedWidth = String(panel.exposedWidth);
+    face.style.width = `${panel.sourceWidth}px`;
+    face.style.height = `${clothHeight}px`;
+    face.style.transform = `translateX(${panel.left}px)`;
+    face.style.zIndex = String(panel.order);
+    face.style.setProperty('--fold-shade', String(panel.shade));
+    attribute(art, 'viewBox', `${panel.sourceX} 0 ${panel.sourceWidth} ${clothHeight}`);
+  });
+  while (model.faces.length > pose.faces.length) model.faces.pop().face.remove();
+}
+
+function installTexture(model, texture, clothHeight) {
+  model.faces.forEach(({ face, art }, index) => {
+    const { sourceX, sourceWidth } = model.pose.faces[index];
+    const first = Math.floor(sourceX / texture.chunkWidth);
+    const last = Math.min(texture.urls.length - 1, Math.ceil((sourceX + sourceWidth) / texture.chunkWidth) - 1);
+    const chunks = Array.from({ length: last - first + 1 }, (_, i) => first + i);
+    face.style.backgroundImage = chunks.map(i => `url("${texture.urls[i]}")`).join(',');
+    face.style.backgroundSize = `${texture.chunkWidth}px ${clothHeight}px`;
+    face.style.backgroundPosition = chunks.map(i => `${i * texture.chunkWidth - sourceX}px 0px`).join(',');
+    face.style.backgroundRepeat = 'no-repeat';
+    art.style.display = 'none';
+  });
 }
 
 function makeEntry(model, key) {
@@ -158,7 +200,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const ribbon = timeline.querySelector('.tapestry-ribbon') || document.createElement('div');
   ribbon.className = 'tapestry-ribbon';
   ribbon.setAttribute('role', 'group');
-  ribbon.setAttribute('aria-label', 'Historical tapestry. Soft pleats open as you zoom; all cloth is flat at maximum zoom. Woven braids show recorded period spans. Knots mark single-year events, whose illustrated vignettes occupy at most one year.');
+  ribbon.setAttribute('aria-label', 'Historical tapestry. Flat scene summaries stay exposed; folded detail is concealed underneath until the cloth opens. All cloth is flat at maximum zoom. Woven braids show recorded period spans. Knots mark single-year events, whose illustrated vignettes occupy at most one year.');
   const model = models.get(ribbon) || makeModel(ribbon);
   model.redraw = () => renderTapestry(timeline, events, width, height, top, scale, onSelect);
   const viewportWidth = timeline.parentElement?.clientWidth || width / Math.max(1, scale);
@@ -167,9 +209,11 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const headerHeight = 4 + lanes * BRAID_PITCH + CAPTION_HEIGHT;
   const artHeight = Math.max(24, Math.min(ART_HEIGHT, height - top - headerHeight - 14));
   const clothHeight = headerHeight + artHeight;
-  const pose = layoutPleats(materialWidth, width);
+  const pose = layoutPleats(materialWidth, width, clothCells(materialWidth, items));
   model.pose = pose;
+  retainFaces(model, pose, clothHeight);
   model.headerHeight = headerHeight;
+  model.weave.style.setProperty('--cloth-art-top', `${headerHeight}px`);
   ribbon.dataset.zoomLimit = String(config.MAX_SCALE);
   ribbon.dataset.foldOpen = pose.openness.toFixed(4);
   ribbon.dataset.materialWidth = String(materialWidth);
@@ -178,6 +222,8 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   ribbon.style.height = `${clothHeight + 6}px`;
   model.weave.style.width = `${width}px`;
   model.weave.style.height = `${clothHeight}px`;
+  attribute(model.annotations, 'width', width);
+  attribute(model.annotations, 'height', headerHeight);
   attribute(model.background, 'width', materialWidth);
   attribute(model.background, 'height', clothHeight);
   attribute(model.interlude, 'width', materialWidth);
@@ -217,7 +263,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
       const strip = getPanoramaStrip(scene, entry.original);
       const tileWidth = strip.width * artHeight / strip.height;
       const firstFacetWidth = strip.edges[1] * artHeight / strip.height;
-      pattern.setAttribute('x', anchor - Math.max(0, (firstFacetWidth - sceneWidth) / 2));
+      pattern.setAttribute('x', anchor - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, sceneWidth)) / 2));
       pattern.setAttribute('y', headerHeight);
       pattern.setAttribute('width', tileWidth);
       pattern.setAttribute('height', artHeight);
@@ -247,16 +293,16 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
       thread.dataset.startYear = String(event.startYear);
       thread.dataset.endYear = String(event.endYear);
       thread.classList.toggle('is-point', event.startYear === event.endYear);
-      span.setAttribute('x', anchor);
       span.setAttribute('y', 2 + lane * BRAID_PITCH);
-      span.setAttribute('width', end - anchor);
-      startKnot.setAttribute('transform', `translate(${anchor} ${4 + lane * BRAID_PITCH})`);
-      endKnot.setAttribute('transform', `translate(${end} ${4 + lane * BRAID_PITCH})`);
       startKnot.setAttribute('stroke', color);
       endKnot.setAttribute('stroke', color);
       endKnot.style.display = end === anchor ? 'none' : '';
       entry.materialKey = materialKey;
     }
+    attribute(span, 'x', left);
+    attribute(span, 'width', (end - anchor) * pose.ratio);
+    attribute(startKnot, 'transform', `translate(${left} ${4 + lane * BRAID_PITCH})`);
+    attribute(endKnot, 'transform', `translate(${end * pose.ratio} ${4 + lane * BRAID_PITCH})`);
     entry.heading = heading;
     // Retain nodes and source crops during zoom and pan.
     if (!button.isConnected) ribbon.append(button, caption);
@@ -277,14 +323,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
         texture.urls.forEach(url => URL.revokeObjectURL(url));
         return;
       }
-      model.faces.forEach(({ face, art }, index) => {
-        const sourceX = model.pose.faces[index].sourceX;
-        const chunk = Math.min(texture.urls.length - 1, Math.floor(sourceX / texture.chunkWidth));
-        face.style.backgroundImage = `url("${texture.urls[chunk]}")`;
-        face.style.backgroundSize = `${texture.chunkWidth}px ${clothHeight}px`;
-        face.style.backgroundPosition = `${-(sourceX - chunk * texture.chunkWidth)}px 0px`;
-        art.style.display = 'none';
-      });
+      installTexture(model, texture, clothHeight);
       model.texture?.urls.forEach(url => URL.revokeObjectURL(url));
       model.texture = texture;
       ribbon.dataset.artReady = 'true';
@@ -296,17 +335,6 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
       }
     });
   }
-  model.faces.forEach(({ face, art }, i) => {
-    const panel = pose.faces[i];
-    const faceWidth = `${panel.sourceWidth}px`, faceHeight = `${clothHeight}px`;
-    if (face.style.width !== faceWidth) face.style.width = faceWidth;
-    if (face.style.height !== faceHeight) face.style.height = faceHeight;
-    face.style.transform = `translateX(${panel.left}px) translateZ(${panel.depth}px) rotateY(${panel.angle}deg)`;
-    face.style.setProperty('--fold-shade', String(pose.faces[1].shade));
-    face.classList.toggle('is-return-face', panel.angle < 0);
-    const viewBox = `${panel.sourceX} 0 ${panel.sourceWidth} ${clothHeight}`;
-    if (art.getAttribute('viewBox') !== viewBox) art.setAttribute('viewBox', viewBox);
-  });
   if (ribbon.parentElement !== timeline) timeline.appendChild(ribbon);
   // The motion caller settles its camera immediately after projecting items.
   // Measuring now would lay out and rasterise an intermediate camera twice.
@@ -324,11 +352,11 @@ export function updateTapestryCaptions(timeline, timelineContainer) {
   const visibleRight = viewport.right - ribbonLeft;
   const model = models.get(ribbon);
   if (model) {
-    const overscan = model.pose.width / PLEAT_COUNT;
-    model.faces.forEach(({ face }, index) => {
-      const panel = model.pose.faces[index];
+    const overscan = timelineContainer.clientWidth;
+    model.cells.forEach((cell, index) => {
+      const panel = model.pose.cells[index];
       const hidden = panel.left + panel.width < visibleLeft - overscan || panel.left > visibleRight + overscan;
-      if (face.hidden !== hidden) face.hidden = hidden;
+      if (cell.hidden !== hidden) cell.hidden = hidden;
     });
   }
   const captions = [...ribbon.querySelectorAll('.tapestry-caption')];

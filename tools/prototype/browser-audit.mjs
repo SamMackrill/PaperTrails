@@ -93,12 +93,13 @@ try {
   if (await evaluate('Boolean(document.querySelector(".tapestry-weave"))')) {
     await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady==="true" || document.querySelector(".tapestry-ribbon")?.dataset.artReady==="fallback"');
     await evaluate(`window.__auditClothFaces=[...document.querySelectorAll('.tapestry-cloth-face')];window.__auditDates=[...document.querySelectorAll('.tapestry-thread')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditArtHeight=document.querySelector('.tapestry-scene').clientHeight;window.__auditSourceBoxes=[...document.querySelectorAll('.tapestry-definitions svg[viewBox],.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox'));`);
-    assert.equal(await evaluate('window.__auditClothFaces.length'), 512);
+    assert.ok(await evaluate('window.__auditClothFaces.length > 21'));
+    assert.ok(await evaluate(`window.__auditClothFaces.every(e=>{const m=new DOMMatrixReadOnly(getComputedStyle(e).transform);return m.a===1&&m.d===1})`));
     await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
     const previousZoom = await evaluate('document.querySelector("#zoom-slider").value');
     await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
     assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`));
-    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => Number(face.style.getPropertyValue('--fold-shade') || 0) === 0 && face.style.transform.includes('rotateY(0deg)'))`));
+    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => {const m=new DOMMatrixReadOnly(getComputedStyle(face).transform);return Number(face.style.getPropertyValue('--fold-shade') || 0)===0 && m.a===1 && m.d===1 && Math.abs(Number(face.dataset.exposedWidth)-parseFloat(face.style.width))<.001})`));
     assert.ok(await evaluate('window.__auditClothFaces.every(e=>e.isConnected)'));
     assert.equal(await evaluate('document.querySelector(".tapestry-scene").clientHeight'), await evaluate('window.__auditArtHeight'));
     assert.ok(await evaluate('JSON.stringify(window.__auditDates)===JSON.stringify([...document.querySelectorAll(".tapestry-thread")].map(e=>[e.dataset.startYear,e.dataset.endYear]))'));

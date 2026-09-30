@@ -1200,6 +1200,10 @@ html[data-theme="dark"] .icon-sun {
   mix-blend-mode: normal;
 }
 .tapestry-weave { position: absolute; top: 0; left: 0; transform-style: preserve-3d; pointer-events: none; }
+.tapestry-fold-cell { position: absolute; top: 0; overflow: hidden; isolation: isolate; }
+.tapestry-fold-cell[hidden] { display: none; }
+.tapestry-fold-cell::after { content: ''; position: absolute; top: var(--cloth-art-top, 40px); bottom: 0; right: 0; width: min(6px, 8%); z-index: 8; pointer-events: none; background: linear-gradient(90deg, transparent, #fff1c870 45%, #4a301b85); opacity: var(--fold-shade, 0); }
+.tapestry-braids { position: absolute; top: 0; left: 0; z-index: 4; overflow: visible; pointer-events: none; }
 .tapestry-cloth-face {
   left: 0;
   will-change: transform;
@@ -1217,14 +1221,17 @@ html[data-theme="dark"] .icon-sun {
   height: 100%;
   overflow: hidden;
 }
-/* The return face meets the first at the recessed hinge. Shading follows the
-   actual fold angle and vanishes on flat cloth; the embroidery stays upright. */
+/* A narrow turned cloth edge defines the fold. The flat illustrated face is
+   never tinted or squeezed; its fixed source is concealed by the next layer. */
 .tapestry-cloth-face::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: var(--cloth-art-top, 40px) 0 0 auto;
+  width: 12px;
   pointer-events: none;
-  background: linear-gradient(90deg, rgb(50 32 19 / var(--crease-left)), rgb(50 32 19 / var(--crease-right)));
+  background: linear-gradient(90deg, transparent 0%, #fff4cf38 42%, #fff4cf90 65%, #67432440 82%, #382312b0 100%);
+  border-radius: 0 5px 5px 0;
+  box-shadow: 5px 0 7px #35221380;
   opacity: var(--fold-shade, 0);
 }
 .tapestry-scene:hover, .tapestry-scene.is-selected {
