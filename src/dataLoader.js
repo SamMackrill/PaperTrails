@@ -1,3 +1,4 @@
+import { buildResearchIndex } from './researchModel.js';
 import { buildItemIndex } from './itemIdentity.js';
 export let scientists = {};
 export let discoveries = [];
@@ -5,8 +6,11 @@ export let conferences = [];
 export let significantEvents = [];
 // Scientist id -> the discoveries, conferences, and events that name them.
 export let scientistRelations = new Map();
+export let relations = [];
+export let trails = [];
+export let researchIndex = buildResearchIndex([], [], buildItemIndex({}));
 
-const DATA_VERSION = 'pass2-01';
+const DATA_VERSION = 'pass2-04';
 let itemIndex = buildItemIndex({});
 export const getItemKey = (type, index, scientistId = null) => itemIndex.at(type === 'publication' ? `publication:${scientistId}:${index}` : `${type}:${index}`);
 export const resolveItem = (key) => itemIndex.resolve(key);
@@ -111,4 +115,6 @@ export async function initializeData() {
   ]);
   itemIndex = buildItemIndex({ scientists, discoveries, conferences, significantEvents });
   scientistRelations = buildScientistRelations(scientists, discoveries, conferences, significantEvents);
+  [relations, trails] = await Promise.all([loadYamlData('data/relations.yaml'), loadYamlData('data/trails.yaml')]);
+  researchIndex = buildResearchIndex(relations, trails, itemIndex);
 }

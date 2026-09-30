@@ -1,5 +1,5 @@
 import { config } from './config.js?v=15';
-import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-01';
+import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-01';
 import { layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-03';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';

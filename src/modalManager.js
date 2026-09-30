@@ -1,4 +1,4 @@
-import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-01';
+import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-04';
 import { createPortrait, getPortraitSource } from './portraits.js?v=3';
 
 // Wide screens dock the panel beside the timeline so both stay usable.
