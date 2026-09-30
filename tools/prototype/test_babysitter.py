@@ -129,6 +129,15 @@ class ReviewQueueTests(unittest.TestCase):
         self.assertEqual(check_output.call_args_list[0].kwargs['timeout'], 120)
         self.assertEqual(check_output.call_args_list[1].kwargs['timeout'], 120)
 
+    def test_unpushed_fix_cannot_restack_descendants(self):
+        self.entry['reviewed'] = {**self.entry['request'], 'reviewId': 123}
+        state = {'prs': [self.entry]}
+        remote = {**self.pr, 'head': {'sha': 'remote-head', 'ref': 'ui-pass2/a'}}
+        with patch.object(b, 'git', side_effect=['local-head', '']), patch.object(b, 'api', return_value=remote), patch.object(b, 'run_native') as native:
+            with self.assertRaisesRegex(RuntimeError, 'not pushed'):
+                b.reconcile_fix(state, self.entry)
+        native.assert_not_called()
+
     def test_merge_never_falls_back_to_main_or_changed_head(self):
         self.pr['base']['ref'] = 'main'
         with patch.object(b.subprocess, 'run') as run:

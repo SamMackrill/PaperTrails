@@ -248,6 +248,9 @@ def reconcile_fix(state, entry):
     if git(entry, 'status', '--porcelain'):
         raise RuntimeError('Agent left uncommitted work')
     if head != entry['reviewed']['head']:
+        remote_head = api(f"pulls/{entry['number']}")['head']['sha']
+        if remote_head != head:
+            raise RuntimeError(f"Fix for #{entry['number']} is not pushed; refusing to restack descendants")
         run_native(entry)
         old_head = entry['reviewed']['head']
         # Restack only after the primary implementation is complete and worktrees are idle.
