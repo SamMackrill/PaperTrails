@@ -89,6 +89,21 @@ try {
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
+  // The cloth extension keeps real scene/image nodes across zoom. Emulate the
+  // browser's motion preference to verify its immediate, accessible state too.
+  if (await evaluate('Boolean(document.querySelector(".tapestry-cloth"))')) {
+    await evaluate(`window.__auditClothFaces=[...document.querySelectorAll('.tapestry-cloth-face')];window.__auditDates=[...document.querySelectorAll('.tapestry-thread')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditArtHeight=document.querySelector('.tapestry-scene').clientHeight;`);
+    assert.equal(await evaluate('window.__auditClothFaces.length'), 189);
+    await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+    await evaluate(`document.querySelector('#zoom-in').click();document.querySelector('#zoom-in').click();`);
+    assert.ok(await evaluate('window.__auditClothFaces.every(e=>e.isConnected)'));
+    assert.equal(await evaluate('document.querySelector(".tapestry-scene").clientHeight'), await evaluate('window.__auditArtHeight'));
+    assert.ok(await evaluate('JSON.stringify(window.__auditDates)===JSON.stringify([...document.querySelectorAll(".tapestry-thread")].map(e=>[e.dataset.startYear,e.dataset.endYear]))'));
+    const open = await evaluate('Number(document.querySelector(".tapestry-scene").dataset.foldOpen)');
+    await evaluate('document.querySelector("#zoom-out").click();document.querySelector("#zoom-out").click()');
+    assert.ok(await evaluate('Number(document.querySelector(".tapestry-scene").dataset.foldOpen)') <= open);
+    await send('Emulation.setEmulatedMedia', { features: [] });
+  }
   await evaluate('document.querySelector("#trail-select").value="understanding-charge";document.querySelector("#trail-select").dispatchEvent(new Event("change"));');
   assert.equal(await evaluate('document.querySelectorAll("[data-trail-stop]").length'), 8);
   assert.ok(await evaluate('document.querySelectorAll(".scientist-node, .scientist-cluster").length > 0'));

@@ -1,6 +1,7 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=15';
-import { tapestryScenes, getPanoramaCrop } from './tapestryScenes.js?v=pass2-03';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-folds';
+import { layoutCloth } from './tapestryFolds.js?v=pass2-folds';
 import { yearToX } from './timeScale.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -9,54 +10,121 @@ const CAPTION_HEIGHT = 20;
 export const THREAD_SPACING = 22;
 export const TAPESTRY_ANNOTATION_WIDTH = 72;
 
-function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
-  const bleed = Math.min(36, sceneWidth / 3);
-  const crop = getPanoramaCrop(scene, sceneWidth + bleed * 2, artHeight, scale);
-  button.dataset.facetCount = crop.facets.length;
-  button.style.setProperty('--tapestry-bleed', `${bleed}px`);
+const panoramas = new WeakMap();
+const ribbonEntries = new WeakMap();
 
+function clothFace(model, className) {
+  const face = document.createElement('span');
+  face.className = `tapestry-cloth-face ${className}`;
   const art = document.createElementNS(SVG_NS, 'svg');
-  art.classList.add('tapestry-art');
-  art.setAttribute('viewBox', `0 ${crop.y} ${crop.width} ${crop.height}`);
-  art.setAttribute('preserveAspectRatio', crop.facets.length === 1 ? 'xMidYMid slice' : 'xMinYMid slice');
+  art.setAttribute('preserveAspectRatio', 'xMidYMid slice');
   art.setAttribute('aria-hidden', 'true');
   const image = document.createElementNS(SVG_NS, 'image');
-  image.setAttribute('href', crop.atlas.file);
-  image.setAttribute('width', crop.atlas.width);
-  image.setAttribute('height', crop.atlas.height);
   image.addEventListener('error', () => {
-    const fallback = getPanoramaCrop(scene, sceneWidth + bleed * 2, artHeight, scale, true);
-    art.setAttribute('viewBox', `0 ${fallback.y} ${fallback.width} ${fallback.height}`);
-    image.setAttribute('href', fallback.atlas.file);
-    image.setAttribute('width', fallback.atlas.width);
-    image.setAttribute('height', fallback.atlas.height);
-    button.dataset.artFallback = 'original';
-  }, { once: true });
-  art.appendChild(image);
-  button.appendChild(art);
-
-  // Only the invisible hover regions divide the panorama into facets. All
-  // facets open the same database event, with its original dates and details.
-  const drawingScale = Math.max((sceneWidth + bleed * 2) / crop.width, artHeight / crop.height);
-  const drawingOffset = crop.facets.length === 1 ? (sceneWidth + bleed * 2 - crop.width * drawingScale) / 2 - bleed : -bleed;
-  crop.facets.forEach((facet, index) => {
-    const left = Math.max(0, crop.edges[index] * drawingScale + drawingOffset);
-    const right = Math.min(sceneWidth, crop.edges[index + 1] * drawingScale + drawingOffset);
-    if (right <= left) return;
-    const hotspot = document.createElement('span');
-    hotspot.className = 'tapestry-facet';
-    hotspot.style.left = `${left}px`;
-    hotspot.style.width = `${right - left}px`;
-    // A short caption anchored to the scene, not a paragraph that follows
-    // each facet around.
-    hotspot.dataset.tooltip = `${heading}\nIn the embroidery: ${facet}.\nSelect for details.`;
-    hotspot.dataset.tooltipAnchor = 'scene';
-    hotspot.setAttribute('aria-hidden', 'true');
-    button.appendChild(hotspot);
+    if (model.original) return;
+    model.original = true;
+    model.button.dataset.artFallback = 'original';
+    updatePanorama(model);
   });
-  button.dataset.tooltip = `${heading}\nIn the embroidery: ${crop.facets.join('; ')}.`;
-  button.dataset.tooltipAnchor = 'scene';
-  return crop.facets;
+  art.appendChild(image);
+  face.appendChild(art);
+  model.cloth.appendChild(face);
+  return { face, art, image };
+}
+
+function updateFace(part, strip, x, width, displayedWidth, left) {
+  part.face.style.left = `${left}px`;
+  part.face.style.width = `${displayedWidth}px`;
+  const viewBox = `${x} ${strip.y} ${width} ${strip.height}`;
+  if (part.art.getAttribute('viewBox') !== viewBox) part.art.setAttribute('viewBox', viewBox);
+  // Setting the same source repeatedly can restart a pending SVG image load.
+  if (part.image.getAttribute('href') !== strip.atlas.file) {
+    part.image.setAttribute('href', strip.atlas.file);
+    part.image.setAttribute('width', strip.atlas.width);
+    part.image.setAttribute('height', strip.atlas.height);
+  }
+}
+
+function updatePanorama(model) {
+  const { button, scene, sceneWidth, artHeight, heading } = model;
+  const bleed = Math.min(36, sceneWidth / 3);
+  const strip = getPanoramaStrip(scene, model.original);
+  const pose = layoutCloth(strip, sceneWidth + bleed * 2, artHeight);
+  button.style.setProperty('--tapestry-bleed', `${bleed}px`);
+  button.dataset.facetCount = strip.facets.length;
+  button.dataset.foldOpen = pose.openness.toFixed(4);
+  updateFace(model.overview, strip, 0, strip.edges[1], pose.overviewWidth, 0);
+  pose.panels.forEach((panel, index) => {
+    const part = model.panels[index];
+    updateFace(part, strip, panel.sourceX, panel.sourceWidth, panel.width, panel.left);
+    part.face.style.transform = `translateZ(${panel.depth}px) rotateY(${panel.angle}deg)`;
+    part.face.style.setProperty('--fold-shade', String(panel.shade));
+  });
+  strip.facets.forEach((facet, index) => {
+    const hotspot = model.hotspots[index];
+    const area = pose.facets[index];
+    const left = Math.max(0, area.left - bleed);
+    const right = Math.min(sceneWidth, area.left + area.width - bleed);
+    hotspot.hidden = right - left < 12;
+    hotspot.style.left = `${left}px`;
+    hotspot.style.width = `${Math.max(0, right - left)}px`;
+    hotspot.dataset.tooltip = `${heading}\nIn the embroidery: ${facet}.\nSelect for details.`;
+  });
+  button.dataset.tooltip = `${heading}\nIn the embroidery: ${strip.facets.join('; ')}.\nZoom in to unfold the cloth.`;
+}
+
+function renderPanorama(button, scene, sceneWidth, artHeight, heading) {
+  let model = panoramas.get(button);
+  if (!model) {
+    const cloth = document.createElement('span');
+    cloth.className = 'tapestry-art tapestry-cloth';
+    cloth.setAttribute('aria-hidden', 'true');
+    model = { button, cloth, scene, original: false, panels: [], hotspots: [] };
+    model.overview = clothFace(model, 'tapestry-overview-face');
+    for (let i = 0; i < (scene.facets.length - 1) * 2; i++) {
+      model.panels.push(clothFace(model, i % 2 ? 'is-return-face' : 'is-front-face'));
+    }
+    button.insertBefore(cloth, button.querySelector('.tapestry-date-stitch'));
+    scene.facets.forEach(() => {
+      const hotspot = document.createElement('span');
+      hotspot.className = 'tapestry-facet';
+      hotspot.dataset.tooltipAnchor = 'scene';
+      hotspot.setAttribute('aria-hidden', 'true');
+      model.hotspots.push(hotspot);
+      button.appendChild(hotspot);
+    });
+    button.dataset.tooltipAnchor = 'scene';
+    panoramas.set(button, model);
+  }
+  Object.assign(model, { scene, sceneWidth, artHeight, heading });
+  updatePanorama(model);
+  return scene.facets;
+}
+
+function sceneEntry(event, onSelect) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'tapestry-scene';
+  const caption = document.createElement('span');
+  caption.className = 'tapestry-caption';
+  caption.setAttribute('aria-hidden', 'true');
+  const thread = document.createElement('span');
+  thread.className = 'tapestry-thread';
+  thread.setAttribute('aria-hidden', 'true');
+  const intervalLabel = document.createElement('span');
+  intervalLabel.className = 'tapestry-interval-label';
+  thread.appendChild(intervalLabel);
+  const stitch = document.createElement('span');
+  stitch.className = 'tapestry-date-stitch';
+  stitch.setAttribute('aria-hidden', 'true');
+  button.appendChild(stitch);
+  const entry = { button, caption, thread, intervalLabel, stitch, event, onSelect };
+  button.addEventListener('pointerenter', () => thread.classList.add('is-highlighted'));
+  button.addEventListener('pointerleave', () => thread.classList.remove('is-highlighted'));
+  button.addEventListener('focus', () => thread.classList.add('is-highlighted'));
+  button.addEventListener('blur', () => thread.classList.remove('is-highlighted'));
+  button.addEventListener('click', () => entry.onSelect(button, entry.event));
+  return entry;
 }
 
 export function layoutTapestry(events, width, annotationWidth = 0) {
@@ -81,27 +149,35 @@ export function layoutTapestry(events, width, annotationWidth = 0) {
 }
 
 export function renderTapestry(timeline, events, width, height, top, scale, onSelect) {
-  const ribbon = document.createElement('div');
+  const ribbon = timeline.querySelector('.tapestry-ribbon') || document.createElement('div');
   ribbon.className = 'tapestry-ribbon';
+  const previous = ribbonEntries.get(ribbon) || new Map();
+  const next = new Map();
+  const nodes = [];
   ribbon.setAttribute('role', 'group');
-  ribbon.setAttribute('aria-label', 'Historical tapestry. Pictures form a continuous illustration, not event durations. Dated lines below show the recorded start and end of each event; diamonds mark single-year events.');
+  ribbon.setAttribute('aria-label', 'Historical tapestry. Zoom opens and closes folds of the same illustrated cloth. Pictures form a continuous illustration, not event durations. Dated lines below show the recorded start and end of each event; diamonds mark single-year events.');
   ribbon.style.top = `${top + 5}px`;
   ribbon.style.width = `${width}px`;
   const { items, lanes } = layoutTapestry(events, width, TAPESTRY_ANNOTATION_WIDTH);
   const availableHeight = height - top - 12;
-  // The ribbon fills its lane. Extra horizontal room goes to new narrative
-  // groups rather than simply magnifying the same image.
+  // Reserve the overview annotation lanes throughout zoom: changing the number
+  // of date rows must not suddenly change figure scale or the angle of a pleat.
   const ribbonHeight = Math.max(60, Math.min(availableHeight, 300));
   ribbon.style.height = `${ribbonHeight}px`;
-  const artHeight = Math.max(24, ribbonHeight - CAPTION_HEIGHT - 14 - lanes * THREAD_SPACING);
+  const overviewLanes = layoutTapestry(events, timeline.parentElement?.clientWidth || width,
+    TAPESTRY_ANNOTATION_WIDTH).lanes;
+  const artHeight = Math.max(24, ribbonHeight - CAPTION_HEIGHT - 14 - Math.max(lanes, overviewLanes) * THREAD_SPACING);
 
   items.forEach(({ event, anchor, end, left, lane, sceneWidth }) => {
     const date = event.startYear === event.endYear ? `${event.startYear}` : `${event.startYear}–${event.endYear}`;
     const heading = `${event.title} · ${date}`;
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'tapestry-scene';
-    button.dataset.itemKey = recordKey('event', event, `event:${events.indexOf(event)}`);
+    const key = recordKey('event', event, `event:${events.indexOf(event)}`);
+    const entry = previous.get(key) || sceneEntry(event, onSelect);
+    entry.event = event;
+    entry.onSelect = onSelect;
+    const { button, caption, thread, intervalLabel, stitch } = entry;
+    next.set(key, entry);
+    button.dataset.itemKey = key;
     button.dataset.tooltip = heading;
     button.dataset.startYear = event.startYear;
     button.dataset.endYear = event.endYear;
@@ -110,35 +186,28 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     button.style.width = `${sceneWidth}px`;
     button.style.height = `${artHeight}px`;
     const scene = tapestryScenes.get(event.title);
-    const facets = scene ? renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) : [];
+    const facets = scene ? renderPanorama(button, scene, sceneWidth, artHeight, heading) : [];
     button.setAttribute('aria-label', `${heading}. ${event.details || ''}${facets.length ? ` In the embroidery: ${facets.join('; ')}.` : ''}`);
     // Captions are stitched into the linen above each scene, in the manner
     // of the Bayeux Tapestry's inscriptions.
-    const caption = document.createElement('span');
-    caption.className = 'tapestry-caption';
     caption.textContent = `${scale < 1.5 ? (event.shortTitle || event.title) : event.title} · ${date}`;
     caption.dataset.sceneLeft = String(left);
     caption.dataset.sceneWidth = String(sceneWidth);
     caption.style.left = `${left + 4}px`;
     caption.style.maxWidth = `${Math.max(0, sceneWidth - 8)}px`;
-    caption.setAttribute('aria-hidden', 'true');
     // Scenes too narrow for a legible caption rely on their tooltip.
-    if (sceneWidth >= 52) ribbon.appendChild(caption);
-    if (!scene) {
+    caption.hidden = sceneWidth < 52;
+    nodes.push(caption);
+    if (!scene && !button.querySelector('.tapestry-fallback')) {
       // Future database entries remain discoverable even before art is commissioned.
       const fallback = document.createElement('span');
       fallback.className = 'tapestry-fallback';
       fallback.textContent = event.shortTitle || event.title;
       button.appendChild(fallback);
     }
-    const thread = document.createElement('span');
-    thread.className = 'tapestry-thread';
     thread.classList.toggle('is-point', event.startYear === event.endYear);
     thread.dataset.startYear = String(event.startYear);
-    const intervalLabel = document.createElement('span');
-    intervalLabel.className = 'tapestry-interval-label';
     intervalLabel.textContent = date;
-    thread.appendChild(intervalLabel);
     thread.style.left = `${anchor}px`;
     thread.style.top = `${CAPTION_HEIGHT + 8 + artHeight + lane * THREAD_SPACING}px`;
     thread.dataset.tooltip = heading;
@@ -146,19 +215,17 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     thread.style.setProperty('--thread-color', ['#854635', '#425c61', '#626539', '#694c67'][lane % 4]);
     thread.style.width = `${Math.max(2, end - anchor)}px`;
     thread.setAttribute('aria-hidden', 'true');
-    ribbon.appendChild(thread);
-    button.addEventListener('pointerenter', () => thread.classList.add('is-highlighted'));
-    button.addEventListener('pointerleave', () => thread.classList.remove('is-highlighted'));
-    button.addEventListener('focus', () => thread.classList.add('is-highlighted'));
-    button.addEventListener('blur', () => thread.classList.remove('is-highlighted'));
-    const stitch = document.createElement('span');
-    stitch.className = 'tapestry-date-stitch';
     stitch.style.left = `${anchor - left}px`;
-    stitch.setAttribute('aria-hidden', 'true');
-    button.appendChild(stitch);
-    button.addEventListener('click', () => onSelect(button, event));
-    ribbon.appendChild(button);
+    nodes.push(thread, button);
   });
+  // Leave existing face nodes connected during zoom. No atlas replacement,
+  // image reload or threshold-based reveal is needed to unfold the cloth.
+  const keep = new Set(nodes);
+  for (const child of [...ribbon.children]) if (!keep.has(child)) child.remove();
+  nodes.forEach((node, index) => {
+    if (ribbon.children[index] !== node) ribbon.insertBefore(node, ribbon.children[index] || null);
+  });
+  ribbonEntries.set(ribbon, next);
   timeline.appendChild(ribbon);
 }
 
