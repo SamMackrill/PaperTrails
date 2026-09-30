@@ -1,5 +1,7 @@
 # Cloth-fold extension
 
+This records the earlier PR62/63 concertina design and its checks. Its symbolic scene widths and per-event folds are superseded by PR64; see [Woven periods and soft cloth pleats](woven-periods.md) for the current chronological material, top braids, neutral landscape, rounded pleats and validation.
+
 The tapestry keeps its continuous illustrated cloth while zoom opens and closes concertina folds. An exposed overview face introduces each event; four additional illustration regions have paired hinges. All selected source material is present at every zoom, with no zoom-tier image swaps or mirrored regions.
 
 The design retains the archive's existing ink, linen, type and illustrations. Crease shading follows the fold angle, becomes neutral on flat cloth, and uses the existing brown/linen palette. The timeline, date rails and captions remain precise annotations around the fabric.

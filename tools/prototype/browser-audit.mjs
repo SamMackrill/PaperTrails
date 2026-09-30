@@ -85,48 +85,33 @@ try {
   await send('Network.setBlockedURLs', { urls: ['*landscape-b-*.png'] });
   await navigate('/?fallback=1');
   await until('document.querySelectorAll("[data-art-fallback=original]").length===21');
-  assert.equal(await evaluate('document.querySelectorAll(".tapestry-interval-label").length'), 21);
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread").length'), 21);
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
-  // The cloth extension keeps real scene/image nodes across zoom. Emulate the
-  // browser's motion preference to verify its immediate, accessible state too.
-  if (await evaluate('Boolean(document.querySelector(".tapestry-cloth"))')) {
-    await evaluate(`window.__auditClothFaces=[...document.querySelectorAll('.tapestry-cloth-face')];window.__auditDates=[...document.querySelectorAll('.tapestry-thread')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditArtHeight=document.querySelector('.tapestry-scene').clientHeight;window.__auditSourceBoxes=[...document.querySelectorAll('.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox'));`);
-    assert.equal(await evaluate('window.__auditClothFaces.length'), 189);
+  // One fixed chronological material is pleated without moving or swapping art.
+  if (await evaluate('Boolean(document.querySelector(".tapestry-weave"))')) {
+    await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady==="true" || document.querySelector(".tapestry-ribbon")?.dataset.artReady==="fallback"');
+    await evaluate(`window.__auditClothFaces=[...document.querySelectorAll('.tapestry-cloth-face')];window.__auditDates=[...document.querySelectorAll('.tapestry-thread')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditArtHeight=document.querySelector('.tapestry-scene').clientHeight;window.__auditSourceBoxes=[...document.querySelectorAll('.tapestry-definitions svg[viewBox],.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox'));`);
+    assert.equal(await evaluate('window.__auditClothFaces.length'), 512);
     await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
-    await evaluate(`document.querySelector('#zoom-in').click();document.querySelector('#zoom-in').click();`);
+    const previousZoom = await evaluate('document.querySelector("#zoom-slider").value');
+    await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
+    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`));
+    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => Number(face.style.getPropertyValue('--fold-shade') || 0) === 0 && face.style.transform.includes('rotateY(0deg)'))`));
     assert.ok(await evaluate('window.__auditClothFaces.every(e=>e.isConnected)'));
     assert.equal(await evaluate('document.querySelector(".tapestry-scene").clientHeight'), await evaluate('window.__auditArtHeight'));
     assert.ok(await evaluate('JSON.stringify(window.__auditDates)===JSON.stringify([...document.querySelectorAll(".tapestry-thread")].map(e=>[e.dataset.startYear,e.dataset.endYear]))'));
-    const open = await evaluate('Number(document.querySelector(".tapestry-scene").dataset.foldOpen)');
-    await evaluate('document.querySelector("#zoom-out").click();document.querySelector("#zoom-out").click()');
-    assert.ok(await evaluate('Number(document.querySelector(".tapestry-scene").dataset.foldOpen)') <= open);
-    // Curated cloth fits a useful zoom range without squeezing source artwork.
-    if (await evaluate(`Boolean(document.querySelector('.tapestry-ribbon').dataset.zoomLimit)`)) {
-      const previousZoom = await evaluate('document.querySelector("#zoom-slider").value');
-      assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face svg')].every(svg => svg.getAttribute('preserveAspectRatio') === 'xMidYMid slice')`));
-      await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
-      assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`));
-      assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => Number(face.style.getPropertyValue('--fold-shade') || 0) === 0)`));
-      assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face:not([hidden]) image')].every(image => {const matrix=image.getCTM(); return Math.abs(matrix.a-matrix.d)<1e-7;})`));
-      if (await evaluate(`Boolean(document.querySelector('#pan-later'))`)) {
-        assert.equal(await evaluate(`document.querySelector('.tapestry-ribbon').dataset.zoomLimit`), '32');
-        const connected = await evaluate(`Boolean(document.querySelector('.tapestry-weave'))`);
-        if (connected) {
-          assert.ok(await evaluate(`JSON.stringify(window.__auditSourceBoxes)===JSON.stringify([...document.querySelectorAll('.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox')))`));
-          assert.ok(await evaluate(`(()=>{const scenes=[...document.querySelectorAll('.tapestry-scene')];return scenes.every((scene,index)=>!index||Math.abs(scene.getBoundingClientRect().left-scenes[index-1].getBoundingClientRect().right)<.25)})()`));
-          await evaluate(`window.__auditFixedCloth=[...document.querySelectorAll('.tapestry-scene')].map(e=>[e.style.left,e.style.width,e.querySelector('.tapestry-cloth').style.left]);`);
-        }
-        const from = await evaluate(`document.querySelector('.zoom-level').textContent`);
-        await evaluate(`document.querySelector('#pan-later').click()`);
-        assert.notEqual(await evaluate(`document.querySelector('.zoom-level').textContent`), from);
-        assert.equal(await evaluate(`document.querySelector('#zoom-slider').value`), '1000');
-        if (connected) assert.ok(await evaluate(`JSON.stringify(window.__auditFixedCloth)===JSON.stringify([...document.querySelectorAll('.tapestry-scene')].map(e=>[e.style.left,e.style.width,e.querySelector('.tapestry-cloth').style.left]))`));
-        await evaluate(`document.querySelector('#pan-earlier').click()`);
-      }
-      await evaluate(`document.querySelector('#zoom-slider').value=${JSON.stringify(previousZoom)};document.querySelector('#zoom-slider').dispatchEvent(new Event('input',{bubbles:true}));`);
-    }
+    assert.ok(await evaluate(`JSON.stringify(window.__auditSourceBoxes)===JSON.stringify([...document.querySelectorAll('.tapestry-definitions svg[viewBox],.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox')))`));
+    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-definitions image')].every(image=>{const m=image.getCTM();return Math.abs(m.a-m.d)<1e-7})`));
+    assert.ok(await evaluate(`(()=>{const a=document.querySelector('[data-item-key="event:event-20"]'),b=document.querySelector('[data-item-key="event:event-16"]');return Math.abs(b.getBoundingClientRect().width/a.getBoundingClientRect().width-4)<.01})()`));
+    assert.equal(await evaluate(`document.querySelector('.tapestry-ribbon').dataset.zoomLimit`), '32');
+    await evaluate(`window.__auditFixedCloth=[...document.querySelectorAll('.tapestry-scene')].map(e=>[e.style.left,e.style.width]);`);
+    const from = await evaluate(`document.querySelector('.zoom-level').textContent`);
+    await evaluate(`document.querySelector('#pan-later').click()`);
+    assert.notEqual(await evaluate(`document.querySelector('.zoom-level').textContent`), from);
+    assert.ok(await evaluate(`JSON.stringify(window.__auditFixedCloth)===JSON.stringify([...document.querySelectorAll('.tapestry-scene')].map(e=>[e.style.left,e.style.width]))`));
+    await evaluate(`document.querySelector('#pan-earlier').click();document.querySelector('#zoom-slider').value=${JSON.stringify(previousZoom)};document.querySelector('#zoom-slider').dispatchEvent(new Event('input',{bubbles:true}));`);
     await send('Emulation.setEmulatedMedia', { features: [] });
   }
   await evaluate('document.querySelector("#trail-select").value="understanding-charge";document.querySelector("#trail-select").dispatchEvent(new Event("change"));');

@@ -1194,29 +1194,12 @@ html[data-theme="dark"] .icon-sun {
   z-index: 2;
   overflow: visible;
 }
-.tapestry-art {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: calc(-1 * var(--tapestry-bleed));
-  width: calc(100% + var(--tapestry-bleed) * 2);
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  mix-blend-mode: multiply;
-  mask-image: linear-gradient(90deg, transparent, black calc(var(--tapestry-bleed) * 2), black calc(100% - var(--tapestry-bleed) * 2), transparent);
-}
-.tapestry-facet {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-}
 .tapestry-cloth {
   transform-style: preserve-3d;
   mask-image: none;
   mix-blend-mode: normal;
 }
-.tapestry-weave { position: absolute; top: 0; left: 0; }
+.tapestry-weave { position: absolute; top: 0; left: 0; transform-style: preserve-3d; pointer-events: none; }
 .tapestry-cloth-face {
   left: 0;
   will-change: transform;
@@ -1237,17 +1220,13 @@ html[data-theme="dark"] .icon-sun {
 /* The return face meets the first at the recessed hinge. Shading follows the
    actual fold angle and vanishes on flat cloth; the embroidery stays upright. */
 .tapestry-cloth-face::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, #fff2cc12, #362411a3);
+  background: linear-gradient(90deg, rgb(50 32 19 / var(--crease-left)), rgb(50 32 19 / var(--crease-right)));
   opacity: var(--fold-shade, 0);
 }
-.tapestry-cloth-face.is-return-face::after {
-  background: linear-gradient(90deg, #362411a3, #fff2cc35 45%, #fff2cc12);
-}
-.tapestry-overview-face::after { display: none; }
 .tapestry-scene:hover, .tapestry-scene.is-selected {
   box-shadow: inset 0 -2px #633725;
 }
@@ -1270,50 +1249,8 @@ html[data-theme="dark"] .icon-sun {
   pointer-events: none;
 }
 
-.tapestry-thread {
-  position: absolute;
-  height: 4px;
-  border-bottom: 2px dashed var(--thread-color, #855334);
-  z-index: 3;
-}
-
-/* Knots mark where each event's thread starts and ends. */
-.tapestry-thread::before,
-.tapestry-thread::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--thread-color, #855334);
-}
-
-.tapestry-thread::before { left: -3px; }
-.tapestry-thread::after { right: -3px; }
-.tapestry-date-stitch {
-  position: absolute;
-  bottom: 0;
-  height: 6px;
-  border-left: 2px solid #623d29;
-  pointer-events: none;
-}
-.tapestry-thread.is-highlighted { border-bottom-style: solid; height: 5px; }
-
-.tapestry-thread.is-highlighted::after {
-  content: attr(data-end-year);
-  right: 0;
-  bottom: 4px;
-  width: auto;
-  height: auto;
-  padding: 0 3px;
-  border-radius: 3px;
-  background: #f3e6c6;
-  color: #5b2e1e;
-  font: 700 11px Georgia, serif;
-  transform: translateX(50%);
-}
-.tapestry-fallback { font: 11px Georgia, serif; }
+.tapestry-definitions { position: absolute; width: 0; height: 0; pointer-events: none; }
+.tapestry-thread.is-highlighted { filter: drop-shadow(0 0 1px #493721); }
 
 .detail-backdrop {
   position: fixed;
@@ -2668,18 +2605,14 @@ body.has-docked-panel .timeline-shell {
   }
 }
 
-/* The artwork stays continuous; these lines alone encode historical duration. */
-.tapestry-thread { height: 3px; border-bottom: 2px solid var(--thread-color); z-index: 3; }
-.tapestry-interval-label { position: absolute; top: 4px; left: 0; font: 600 10px/1.2 var(--font-body, system-ui); color: var(--text-primary); background: var(--page-bg); padding: 1px 2px; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.tapestry-thread.is-point::before { width: 7px; height: 7px; border-radius: 0; transform: rotate(45deg); top: -3px; }
-.tapestry-thread.is-point::after { display: none; }
-.tapestry-date-stitch { border-left: 1px dashed #5d4b36; height: 100%; opacity: .65; top: 0; }
 .tapestry-caption { font-size: 11px; }
+.tapestry-caption:not([hidden]) { display: flex; gap: 3px; align-items: baseline; }
+.tapestry-caption-title { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tapestry-caption-date { flex: 0 0 auto; font-size: 10px; font-variant-numeric: tabular-nums; }
 .context-guide { margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
 
 /* A shared linen ground and soft scene edges connect the landscape strips. */
 .tapestry-ribbon { background-color: #dfcda5; }
-.tapestry-art { mix-blend-mode: multiply; }
 
 /* Curated research routes: a precise ink line above the historical tapestry. */
 .trail-bar { display: flex; align-items: center; gap: 16px; padding: 10px 24px; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
