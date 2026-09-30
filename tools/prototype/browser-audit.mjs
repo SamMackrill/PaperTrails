@@ -102,12 +102,14 @@ try {
     const open = await evaluate('Number(document.querySelector(".tapestry-scene").dataset.foldOpen)');
     await evaluate('document.querySelector("#zoom-out").click();document.querySelector("#zoom-out").click()');
     assert.ok(await evaluate('Number(document.querySelector(".tapestry-scene").dataset.foldOpen)') <= open);
-    // The full-unfold correction fits every source to its reachable width.
-    if (await evaluate(`document.querySelector('.tapestry-cloth-face svg').getAttribute('preserveAspectRatio') === 'none'`)) {
+    // The natural-width correction extends zoom instead of squeezing source artwork.
+    if (await evaluate(`Boolean(document.querySelector('.tapestry-ribbon').dataset.zoomLimit)`)) {
       const previousZoom = await evaluate('document.querySelector("#zoom-slider").value');
+      assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face svg')].every(svg => svg.getAttribute('preserveAspectRatio') === 'xMidYMid slice')`));
       await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
       assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`));
       assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => Number(face.style.getPropertyValue('--fold-shade') || 0) === 0)`));
+      assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face image')].every(image => {const matrix=image.getCTM(); return Math.abs(matrix.a-matrix.d)<1e-7;})`));
       await evaluate(`document.querySelector('#zoom-slider').value=${JSON.stringify(previousZoom)};document.querySelector('#zoom-slider').dispatchEvent(new Event('input',{bubbles:true}));`);
     }
     await send('Emulation.setEmulatedMedia', { features: [] });

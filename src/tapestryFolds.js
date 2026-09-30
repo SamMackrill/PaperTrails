@@ -1,13 +1,9 @@
 // An exposed overview followed by concertina folds of the same illustrated cloth.
-// Orthographic projection keeps the cloth's endpoints exactly on the timeline.
-export function layoutCloth(strip, width, height, maximumWidth = Infinity) {
-  const available = Math.max(0.01, width);
-  // A short dated scene has a limited width even at maximum timeline zoom.
-  // Fit its material to that budget up front so every pleat can lie flat,
-  // without a last-frame override or changing figure height during zoom.
-  const naturalScale = Math.min(height / strip.height,
-    Math.max(0.01, maximumWidth) / strip.width);
-  const materialScale = Math.max(naturalScale, available / strip.width);
+// Orthographic projection unfolds a fixed length of illustrated material.
+export function layoutCloth(strip, width, height) {
+  const naturalScale = height / strip.height;
+  const materialScale = naturalScale;
+  const available = Math.min(Math.max(0.01, width), strip.width * materialScale);
   const materialWidths = strip.edges.slice(1).map((edge, i) =>
     (edge - strip.edges[i]) * materialScale);
   const foldCount = materialWidths.length - 1;
@@ -39,5 +35,21 @@ export function layoutCloth(strip, width, height, maximumWidth = Infinity) {
     }
     left += displayed;
   });
-  return { overviewWidth, materialScale, openness, facets, panels };
+  return { width: available, overviewWidth, materialScale, openness, facets, panels };
+}
+
+// Give the narrowest dated scene enough horizontal room for its undistorted
+// source. A power-of-two endpoint stays stable through small layout changes.
+export function unfoldZoomLimit(scenes, viewportWidth, height, minimum = 16) {
+  const required = scenes.reduce((maximum, { strip, fraction }) => fraction > 0
+    ? Math.max(maximum, strip.width * height / strip.height / (viewportWidth * fraction))
+    : maximum, minimum);
+  return 2 ** Math.ceil(Math.log2(required));
+}
+
+export function clothPanOffset(clothWidth, sceneWidth, viewportWidth, viewportLeft) {
+  const room = sceneWidth - clothWidth;
+  if (room <= 0 || sceneWidth <= viewportWidth) return room / 2;
+  const progress = Math.max(0, Math.min(1, viewportLeft / (sceneWidth - viewportWidth)));
+  return room * progress;
 }

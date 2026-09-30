@@ -4,14 +4,14 @@ import { config } from './src/config.js?v=15';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-flat';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-natural';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
 import { createMinimap } from './src/minimap.js?v=1';
 import { formatHash, parseHash } from './src/urlState.js?v=pass2-06b';
-import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-flat';
-import { zoomProgress } from './src/zoomLayout.js?v=pass2-flat';
+import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-natural';
+import { zoomProgress } from './src/zoomLayout.js?v=pass2-natural';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 const SCALE_STORAGE_KEY = 'paperTrailsScale';
@@ -183,6 +183,14 @@ function render() {
   const focusedKey = focusedElement?.dataset.itemKey;
   const focusedTrailStop = focusedElement?.dataset.trailStop;
   renderTimeline(timelineContainer, timeline, currentScale);
+  // A resized viewport or changed time scale can alter the unfolding limit.
+  // Keep the same centre when the new limit is below the current scale.
+  if (currentScale > config.MAX_SCALE) {
+    const fraction = (timelineContainer.clientWidth / 2 - currentTranslateX) / timeline.offsetWidth;
+    currentScale = config.MAX_SCALE;
+    currentTranslateX = timelineContainer.clientWidth / 2 - fraction * Math.round(timelineContainer.clientWidth * currentScale);
+    renderTimeline(timelineContainer, timeline, currentScale);
+  }
   const axisY = Number.parseFloat(timelineContainer.closest('.timeline-frame').style.getPropertyValue('--axis-y'));
   trailUI?.renderRoute(timeline, timeline.offsetWidth, axisY);
   applyRovingTabindex(timeline, timelineContainer);
