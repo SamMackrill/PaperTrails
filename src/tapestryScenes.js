@@ -1,6 +1,6 @@
 // Each panorama contains five symbolic facets of a database event. These are
 // descriptive illustration captions, not separately dated historical events.
-export const tapestryAtlases = [
+export const originalTapestryAtlases = [
   { file: 'images/tapestry/early-panorama.webp', width: 1586, height: 992, rows: [
     [0, 156, [0, 356, 670, 910, 1174, 1586]],
     [161, 291, [0, 304, 566, 956, 1254, 1586]],
@@ -30,6 +30,17 @@ export const tapestryAtlases = [
   ] }
 ];
 
+// Landscape B: measured strip boundaries, original generated PNGs unchanged.
+export const tapestryAtlases = [
+  { file: 'images/tapestry/landscape-b-early.png', width: 1855, height: 848,
+    bounds: [[0,128],[131,261],[265,390],[393,506],[509,618],[621,726],[730,848]] },
+  { file: 'images/tapestry/landscape-b-revolutions.png', width: 1774, height: 887,
+    bounds: [[0,122],[124,251],[254,386],[389,516],[519,647],[651,757],[761,887]] },
+  { file: 'images/tapestry/landscape-b-modern.png', width: 2172, height: 724,
+    bounds: [[0,123],[126,240],[242,358],[361,473],[475,589],[591,658],[659,724]] }
+].map(atlas => ({ ...atlas, rows: atlas.bounds.map(([top, bottom]) =>
+  [top, bottom, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)]) }));
+
 const entries = [
   ['The Renaissance', ['Scholars and manuscripts', 'Humanist discussion', 'An artist at work', 'Classical sculpture', 'Books circulating among readers']],
   ['Fall of Constantinople', ['Cannon before the city walls', 'The Ottoman gun crews', 'Defenders and Byzantine towers', 'Ships on the Bosphorus', 'The captured city and its trade']],
@@ -58,8 +69,8 @@ export const tapestryScenes = new Map(entries.map(([title, facets], index) => [t
   atlas: Math.floor(index / 7), row: index % 7, facets
 }]));
 
-export function getPanoramaCrop(scene, sceneWidth, artHeight, scale) {
-  const atlas = tapestryAtlases[scene.atlas];
+export function getPanoramaCrop(scene, sceneWidth, artHeight, scale, original = false) {
+  const atlas = (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
   // panoramas do not divide into a mathematically exact grid.

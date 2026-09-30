@@ -2623,3 +2623,8 @@ body.has-docked-panel .timeline-shell {
 .tapestry-date-stitch { border-left: 1px dashed #5d4b36; height: 100%; opacity: .65; top: 0; }
 .tapestry-caption { font-size: 11px; }
 .context-guide { margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
+
+/* A shared linen ground and soft scene edges connect the landscape strips. */
+.tapestry-ribbon { background-color: #dfcda5; }
+.tapestry-art { mix-blend-mode: multiply; }
+.tapestry-scene { background: transparent; }
