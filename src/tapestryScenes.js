@@ -69,7 +69,7 @@ export const tapestryScenes = new Map(entries.map(([title, facets], index) => [t
   atlas: Math.floor(index / 7), row: index % 7, facets
 }]));
 
-export function getPanoramaCrop(scene, sceneWidth, artHeight, scale, original = false) {
+export function getPanoramaStrip(scene, original = false) {
   const atlas = (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
@@ -77,12 +77,21 @@ export function getPanoramaCrop(scene, sceneWidth, artHeight, scale, original = 
   const [top, bottom, edges] = atlas.rows?.[scene.row] ?? [scene.row * rowHeight + rowHeight * 0.04,
     (scene.row + 1) * rowHeight - rowHeight * 0.04, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)];
   const cropHeight = bottom - top;
+  return { atlas, y: top, width: edges.at(-1), height: cropHeight,
+    facets: scene.facets, edges };
+}
+
+// Retained for callers that need a static overview crop. Interactive cloth uses
+// the complete strip at every scale; detail is hidden by folds, never swapped in.
+export function getPanoramaCrop(scene, sceneWidth, artHeight, scale, original = false) {
+  const strip = getPanoramaStrip(scene, original);
+  const { atlas, y, height: cropHeight, edges } = strip;
   const zoomLimit = scale < 1.5 ? 1 : scale < 3 ? 3 : scene.facets.length;
   let count = 1;
   while (count < zoomLimit && artHeight * edges[count] / cropHeight < sceneWidth) count++;
   return {
     atlas,
-    y: top,
+    y,
     width: edges[count],
     height: cropHeight,
     facets: scene.facets.slice(0, count),

@@ -4,7 +4,7 @@ import { config } from './src/config.js?v=15';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
-import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-context-constants';
+import { clearTimelineSelection, renderTimeline, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-folds';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=2';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
@@ -99,7 +99,7 @@ function updateTransform() {
   updateEventLabelPositions(timeline, timelineContainer);
   const { from, to } = getVisibleRange();
   zoomLevelDisplay.textContent = `${from}–${to}`;
-  zoomSlider.value = String(scaleToSlider(currentScale));
+  if (document.activeElement !== zoomSlider) zoomSlider.value = String(scaleToSlider(currentScale));
   zoomSlider.setAttribute('aria-valuetext', `${Math.round(currentScale * 100)}%, showing ${from} to ${to}`);
   announceVisibleRange(from, to);
   minimap?.setWindow(-currentTranslateX / (timeline.offsetWidth || 1), timelineContainer.clientWidth / (timeline.offsetWidth || 1));
@@ -528,7 +528,7 @@ function updateTapestryAvailability() {
   const contextVisible = isPressed('significantEventsToggle');
   tapestryToggle.setAttribute('aria-disabled', String(!contextVisible));
   tapestryToggle.title = contextVisible
-    ? 'Show historical context as a Bayeux-style tapestry. Zoom in for more detail; hover or select a scene to learn more.'
+    ? 'Show historical context as a Bayeux-style tapestry. Zoom in to unfold the cloth; zoom out to fold it again. Hover or select a scene to learn more.'
     : 'Turn on Context to show the tapestry.';
 }
 
@@ -581,7 +581,7 @@ function setupControls() {
   document.getElementById('zoom-in').addEventListener('click', () => zoomAt(currentScale * 1.4, undefined, { animate: true }));
   document.getElementById('fit-view').addEventListener('click', fitTimeline);
 
-  zoomSlider.addEventListener('input', () => zoomAt(sliderToScale(zoomSlider.value)));
+  zoomSlider.addEventListener('input', () => zoomAt(sliderToScale(zoomSlider.value), undefined, { animate: true }));
 
   ['peopleToggle', 'publicationsToggle', 'discoveriesToggle', 'conferencesToggle', 'significantEventsToggle'].forEach((id) => {
     document.getElementById(id).addEventListener('click', (event) => {

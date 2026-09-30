@@ -2,7 +2,7 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=15';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-06b';
-import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-context-constants';
+import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-folds';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=3';
 import {
@@ -719,7 +719,8 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
 
   setupDelegatedEvents(timeline);
   itemActions.clear();
-  timeline.replaceChildren();
+  const retainedCloth = tapestry ? timeline.querySelector('.tapestry-ribbon') : null;
+  for (const child of [...timeline.childNodes]) if (child !== retainedCloth) child.remove();
   timeline.style.width = `${width}px`;
   timeline.style.height = `${height}px`;
 

@@ -1209,6 +1209,38 @@ html[data-theme="dark"] .icon-sun {
   top: 0;
   bottom: 0;
 }
+.tapestry-cloth {
+  transform-style: preserve-3d;
+}
+.tapestry-cloth-face {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  background: #dfcda5;
+}
+.tapestry-cloth-face svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+/* The return face meets the first at the recessed hinge. Shading follows the
+   actual fold angle and vanishes on flat cloth; the embroidery stays upright. */
+.tapestry-cloth-face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #fff2cc12, #362411a3);
+  opacity: var(--fold-shade, 0);
+}
+.tapestry-cloth-face.is-return-face::after {
+  background: linear-gradient(90deg, #362411a3, #fff2cc35 45%, #fff2cc12);
+}
+.tapestry-overview-face::after { display: none; }
 .tapestry-scene:hover, .tapestry-scene.is-selected {
   box-shadow: inset 0 -2px #633725;
 }
