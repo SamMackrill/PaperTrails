@@ -902,7 +902,14 @@ async function initializeApp() {
     }
     if (event.detail.fromTimeline) return;
     const element = selectItemByKey(event.detail.key);
-    if (element) revealElement(element, { centre: true });
+    if (element) {
+      revealElement(element, { centre: true });
+    } else {
+      // Panel links may lead outside the active route, whose filter omits the
+      // destination from this render. Reveal it clears that incompatible route
+      // before selecting and centring the record.
+      void revealItem(event.detail.key, getItemYear(event.detail.key));
+    }
   });
   // Groups always zoom in further, never back out to the default detail level.
   document.addEventListener('papertrails:zoomcluster', (event) => {
