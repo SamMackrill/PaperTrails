@@ -1213,7 +1213,10 @@ html[data-theme="dark"] .icon-sun {
 }
 .tapestry-cloth {
   transform-style: preserve-3d;
+  mask-image: none;
+  mix-blend-mode: normal;
 }
+.tapestry-weave { position: absolute; top: 0; left: 0; }
 .tapestry-cloth-face {
   left: 0;
   will-change: transform;

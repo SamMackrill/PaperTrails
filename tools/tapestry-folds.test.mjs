@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { layoutCloth, curateClothStrip, clothPanOffset } from '../src/tapestryFolds.js';
+import { layoutCloth, selectClothStrip, layoutWeaveCloth, mapClothX, clothCameraLeft } from '../src/tapestryFolds.js';
 import { getPanoramaStrip, tapestryScenes } from '../src/tapestryScenes.js';
 
 test('folds conserve the material within their projected width and keep all detail in source order', () => {
@@ -58,74 +58,72 @@ test('crease shading approaches flat cloth without a last-pixel flash', () => {
   assert.ok(almostFlat.panels.every(panel => panel.shade < 0.001));
 });
 
-test('curated cloth fully unfolds at the practical zoom limit without squeezing artwork', () => {
-  for (const viewportWidth of [250, 390, 1286, 1900]) for (const height of [24, 94, 220]) {
+test('all scenes retain an exposed summary and attached folds across the useful zoom range', () => {
+  for (const viewport of [250, 390, 1286, 1900]) for (const height of [24, 94, 220]) {
     for (const scene of tapestryScenes.values()) for (const original of [false, true]) {
       const source = getPanoramaStrip(scene, original);
-      for (const fraction of [2 / 626, 10 / 626, 80 / 626]) {
-        const maximumWidth = viewportWidth * 32 * fraction;
-        const strip = curateClothStrip(source, maximumWidth, height);
-        assert.equal(strip.atlas, source.atlas);
-        assert.ok(strip.facets.length <= 3);
-        assert.ok(strip.width < source.width, 'use less cloth instead of extending the time scale');
-        const flat = layoutCloth(strip, maximumWidth, height);
-        assert.equal(flat.materialScale, height / source.height);
-        assert.equal(flat.openness, 1);
-        assert.ok(flat.panels.every(panel => panel.angle === 0 && panel.depth === 0 && panel.shade === 0));
-        assert.ok(flat.width <= maximumWidth + 1e-8);
-        assert.equal(flat.panels.length, (strip.facets.length - 1) * 2);
+      const strip = selectClothStrip(source);
+      assert.equal(strip.facets.length, 3);
+      assert.deepEqual(strip.edges, source.edges.slice(0, 4));
+      const summary = layoutWeaveCloth(strip, viewport / 21, height, 1, 32);
+      assert.ok(Math.abs(summary.width - viewport / 21) < 1e-8);
+      assert.equal(summary.openness, 0);
+      for (const scale of [1.4, 4, 16, 32]) {
+        const pose = layoutWeaveCloth(strip, viewport / 21, height, scale, 32);
+        assert.equal(pose.overviewWidth, summary.overviewWidth, 'the summary never slides or grows');
+        assert.equal(pose.panels.length, 4, 'no scene loses its attached detail');
+        assert.ok(Math.abs(pose.facets.at(-1).left + pose.facets.at(-1).width - pose.width) < 1e-8);
+        pose.panels.forEach(panel => assert.ok(Math.abs(panel.width / panel.sourceWidth - height / source.height) < 1e-10));
+        if (scale === 32) {
+          assert.equal(pose.openness, 1);
+          assert.ok(pose.panels.every(panel => panel.angle === 0 && panel.depth === 0 && panel.shade === 0));
+        } else assert.ok(pose.panels.every(panel => Math.abs(panel.angle) > 0 && panel.shade > 0));
       }
     }
   }
 });
 
-test('curation stays fixed through zoom and retains the original source order', () => {
-  for (const scene of tapestryScenes.values()) {
-    const source = getPanoramaStrip(scene);
-    const strip = curateClothStrip(source, 650, 94);
-    const snapshot = structuredClone(strip);
-    for (const width of [20, 100, 200, 400, 650]) layoutCloth(strip, width, 94);
-    assert.deepEqual(strip, snapshot);
-    assert.deepEqual(strip.facets, source.facets.slice(0, strip.facets.length));
-    assert.equal(strip.edges[0], 0);
-    assert.equal(strip.edges.at(-1), strip.width);
-  }
-});
-
-test('a crop near a source boundary never produces an oversized closed pleat', () => {
-  const source = getPanoramaStrip(tapestryScenes.get('The Renaissance'));
-  for (const extra of [-1e-9, 0, 1e-9, 0.001, 1, 4]) {
-    const width = source.edges[1] * 94 / source.height + extra;
-    const strip = curateClothStrip(source, width, 94);
-    for (const available of [width / 16, width / 2, width]) {
-      const pose = layoutCloth(strip, available, 94);
-      assert.ok(pose.panels.every(panel => Number.isFinite(panel.angle) && panel.angle >= -90 && panel.angle <= 90));
-      assert.ok(Math.abs(pose.facets.at(-1).left + pose.facets.at(-1).width - pose.width) < 1e-8);
+test('the connected strip fills the overview and unfolds continuously and reversibly', () => {
+  const strips = [...tapestryScenes.values()].map(scene => selectClothStrip(getPanoramaStrip(scene)));
+  const scales = Array.from({ length: 1001 }, (_, i) => 32 ** (i / 1000));
+  const layout = scale => {
+    let left = 0;
+    return strips.map(strip => {
+      const pose = layoutWeaveCloth(strip, 1286 / strips.length, 94, scale, 32);
+      const scene = { left, pose };
+      left += pose.width;
+      return scene;
+    });
+  };
+  const forward = scales.map(layout);
+  assert.deepEqual(forward, scales.toReversed().map(layout).reverse());
+  assert.ok(Math.abs(forward[0].at(-1).left + forward[0].at(-1).pose.width - 1286) < 1e-8);
+  for (let i = 0; i < forward.length; i++) for (let j = 0; j < strips.length; j++) {
+    const scene = forward[i][j];
+    if (j) assert.equal(scene.left, forward[i][j - 1].left + forward[i][j - 1].pose.width);
+    if (i) {
+      const previous = forward[i - 1][j];
+      assert.ok(scene.pose.width >= previous.pose.width);
+      assert.ok(scene.pose.openness - previous.pose.openness < 0.002);
     }
   }
 });
 
-test('flat cloth keeps its natural size when the dated interval expands further', () => {
-  for (const scene of tapestryScenes.values()) {
-    const strip = getPanoramaStrip(scene);
-    const natural = strip.width * (94 / strip.height);
-    const flat = layoutCloth(strip, natural, 94);
-    const larger = layoutCloth(strip, natural * 100, 94);
-    assert.deepEqual(flat, larger);
-    larger.panels.forEach(panel => assert.ok(Math.abs(panel.width / panel.sourceWidth - 94 / strip.height) < 1e-10));
+test('one camera follows chronological anchors and keeps the viewport covered from end to end', () => {
+  const width = 1286, timeWidth = width * 32;
+  const scenes = [0, 53 / 626, 92 / 626, 308 / 626, 547 / 626].map((fraction, i) => ({ anchor: fraction * timeWidth, left: i * 800 }));
+  const clothWidth = 4000;
+  scenes.forEach(scene => assert.ok(Math.abs(mapClothX(scene.anchor, scenes, timeWidth, clothWidth) - scene.left) < 1e-8));
+  let previous = -Infinity;
+  for (let i = 0; i <= 2000; i++) {
+    const left = (timeWidth - width) * i / 2000;
+    const mapped = mapClothX(left + width / 2, scenes, timeWidth, clothWidth);
+    assert.ok(mapped >= previous, 'the camera never reverses as time moves forward');
+    const camera = clothCameraLeft(mapped, clothWidth, width);
+    assert.ok(camera <= 0 && camera + clothWidth >= width, 'no blank margin at either edge');
+    previous = mapped;
   }
-});
-
-test('panning traverses a flat illustration without resizing it or losing either edge', () => {
-  const sceneWidth = 20000, viewportWidth = 1200;
-  for (const clothWidth of [600, 1600, 3000]) {
-    const positions = [0, 0.25, 0.5, 0.75, 1].map(progress => {
-      const viewportLeft = progress * (sceneWidth - viewportWidth);
-      return clothPanOffset(clothWidth, sceneWidth, viewportWidth, viewportLeft) - viewportLeft;
-    });
-    assert.equal(positions[0], 0);
-    assert.equal(positions.at(-1) + clothWidth, viewportWidth);
-    if (clothWidth < viewportWidth) assert.ok(positions.every(left => left >= 0 && left + clothWidth <= viewportWidth));
-    else assert.ok(positions.every(left => left <= 0 && left + clothWidth >= viewportWidth));
-  }
+  assert.equal(clothCameraLeft(0, clothWidth, width), 0);
+  assert.equal(clothCameraLeft(clothWidth, clothWidth, width), width - clothWidth);
+  assert.equal(clothCameraLeft(width / 2, width, width), 0);
 });

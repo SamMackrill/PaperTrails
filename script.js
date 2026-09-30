@@ -4,14 +4,14 @@ import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-04';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-06b';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-practical';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-continuous';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
-import { createMinimap } from './src/minimap.js?v=pass2-practical';
+import { createMinimap } from './src/minimap.js?v=pass2-continuous';
 import { formatHash, parseHash } from './src/urlState.js?v=pass2-06b';
-import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-practical';
-import { zoomProgress } from './src/zoomLayout.js?v=pass2-practical';
+import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-continuous';
+import { zoomProgress } from './src/zoomLayout.js?v=pass2-continuous';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 const SCALE_STORAGE_KEY = 'paperTrailsScale';
@@ -321,6 +321,11 @@ function revealElement(element, { centre = false } = {}) {
   const containerRect = timelineContainer.getBoundingClientRect();
   const rect = element.getBoundingClientRect();
   const padding = Math.min(64, containerRect.width / 6);
+  if (element.matches('.tapestry-scene') && (rect.left < containerRect.left || rect.right > containerRect.right)) {
+    const year = Number(element.dataset.startYear);
+    animatePan(containerRect.width / 2 - yearToX(year, timeline.offsetWidth));
+    return;
+  }
   if (centre && (rect.right < containerRect.left + padding || rect.left > containerRect.right - padding)) {
     animatePan(currentTranslateX + containerRect.left + containerRect.width / 2 - (rect.left + rect.width / 2));
     return;
