@@ -116,6 +116,9 @@ def reconcile_review(state, entry, pr):
             # Lost responses are reconciled before retry; keep the consumed slot.
             entry['status'] = 'queued'; entry.pop('request', None)
             return
+    if pr['head']['sha'] != request['head'] or pr['base']['sha'] != request['base']:
+        entry['status'] = 'queued'; entry.pop('request', None)
+        return
     relevant = [c for c in comments if c['user']['login'] == BOT and
                 datetime.datetime.fromisoformat(c['updated_at'].replace('Z', '+00:00')).timestamp() >= request['at']]
     reviews = pages(f"pulls/{entry['number']}/reviews")
@@ -124,8 +127,10 @@ def reconcile_review(state, entry, pr):
                  (re.search(r'Actionable comments posted:\s*\d+|No actionable comments', r.get('body') or '', re.I) or review_body_finding(r))]
     zero = zero_finding_run(comments, request) if not completed else None
     if not completed and not zero:
-        if any(re.search(r'review\s+rate\s+limited|rate\s+limit(?:ing)?\s+(?:exceeded|reached)|too\s+many\s+(?:requests|reviews)', c['body'], re.I) for c in relevant):
-            delays = [int(m.group(1)) * 60 for c in relevant for m in re.finditer(r'wait\s+(\d+)\s+minutes', c['body'], re.I)]
+        rate_limited = [c for c in relevant if datetime.datetime.fromisoformat(
+            c.get('created_at', c['updated_at']).replace('Z', '+00:00')).timestamp() >= request['at']]
+        if any(re.search(r'review\s+rate\s+limited|rate\s+limit(?:ing)?\s+(?:exceeded|reached)|too\s+many\s+(?:requests|reviews)', c['body'], re.I) for c in rate_limited):
+            delays = [int(m.group(1)) * 60 for c in rate_limited for m in re.finditer(r'wait\s+(\d+)\s+minutes', c['body'], re.I)]
             state['nextEligible'] = max(state['nextEligible'], time.time() + max(delays or [HOUR]))
             entry['status'] = 'queued'; entry.pop('request', None)
             log(f"Rate limited #{entry['number']}; no review recorded")
@@ -133,9 +138,6 @@ def reconcile_review(state, entry, pr):
         if time.time() - request['at'] > 2700:
             entry['status'] = 'review-unavailable'
             log(f"No actual code review for #{entry['number']}; requires investigation")
-        return
-    if pr['head']['sha'] != request['head'] or pr['base']['sha'] != request['base']:
-        entry['status'] = 'queued'; entry.pop('request', None)
         return
     entry['reviewed'] = {**request, **(zero or {'reviewId': completed[-1]['id'], 'kind': 'github-code-review'})}
     entry['status'] = 'reviewed'
