@@ -25,7 +25,7 @@ def delivery_ready(state):
     return bool(state.get('implementationReady') and len(primary) >= 8 and all(e['status'] == 'merged' for e in primary))
 
 def command(worktree, *args):
-    return subprocess.check_output(['git', '-C', str(worktree), *args], text=True, encoding='utf-8').strip()
+    return subprocess.check_output(['git', '-C', str(worktree), *args], text=True, encoding='utf-8', timeout=120).strip()
 
 def package(worktree, commit, destination):
     paths = command(worktree, 'ls-tree', '-r', '--name-only', commit).splitlines()
@@ -81,7 +81,8 @@ def main():
     commit = command(worktree, 'rev-parse', 'HEAD')
     if args.dry_run:
         # Dry runs can package the final implementation worktree to validate the manifest.
-        candidate = Path(state['prs'][-1]['worktree']); commit = command(candidate, 'rev-parse', 'HEAD'); worktree = candidate
+        primary = [entry for entry in state['prs'] if not entry.get('remedial')]
+        candidate = Path(primary[-1]['worktree']); commit = command(candidate, 'rev-parse', 'HEAD'); worktree = candidate
     destination = ROOT/'deployments'/commit; destination.mkdir(parents=True, exist_ok=True)
     manifest = package(worktree, commit, destination)
     atomic(ROOT/'deployment-manifest.json', {'commit': commit, 'files': manifest})

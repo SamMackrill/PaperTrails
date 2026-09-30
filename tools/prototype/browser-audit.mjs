@@ -67,7 +67,9 @@ try {
     throw new Error(`Page readiness failed: ${expression}`);
   };
   const navigate = async (path, ready = 'document.querySelector("#timeline-loading")?.hidden') => {
-    await send('Page.navigate', { url: origin + path }); await delay(100); await until(ready);
+    await evaluate('window.__auditStale = true');
+    await send('Page.navigate', { url: origin + path });
+    await until(`!window.__auditStale && document.readyState !== 'loading' && (${ready})`);
   };
   const viewport = async (width, height) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 1024 }); await delay(150); };
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };

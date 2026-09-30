@@ -323,6 +323,8 @@ def tick(state):
             entry = next(e for e in state['prs'] if e['number'] == command['number'])
             entry.update(command['fields'])
             entry.pop('request', None); entry.pop('reviewed', None)
+            if entry.get('status') in ('requesting', 'reviewing', 'review-unavailable', 'reviewed'):
+                entry['status'] = 'queued'
         elif command['type'] == 'implementation-ready':
             if len(state['prs']) < 8:
                 raise RuntimeError('Cannot finish before the complete stack is registered')
