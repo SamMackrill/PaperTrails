@@ -2627,4 +2627,50 @@ body.has-docked-panel .timeline-shell {
 /* A shared linen ground and soft scene edges connect the landscape strips. */
 .tapestry-ribbon { background-color: #dfcda5; }
 .tapestry-art { mix-blend-mode: multiply; }
+
+/* Curated research routes: a precise ink line above the historical tapestry. */
+.trail-bar { display: flex; align-items: center; gap: 16px; padding: 10px 24px; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+.trail-bar[hidden], .trail-panel[hidden] { display: none; }
+.trail-bar-label { font-size: 10px; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; color: var(--context); }
+.trail-bar select { font: 600 14px Georgia, serif; max-width: 230px; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 5px; padding: 6px 26px 6px 10px; }
+.trail-step-controls { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.trail-step-controls output { font-size: 11px; color: var(--text-secondary); min-width: 48px; text-align: center; }
+.trail-bar .text-button { font-size: 12px; white-space: nowrap; }
+.trail-bar button:disabled { opacity: .35; cursor: default; }
+body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min(390px, 31vw); }
+.trail-panel { min-height: 0; overflow-y: auto; padding: 20px 25px 28px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); }
+.trail-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+.trail-panel-head > span, .trail-kicker { font-size: 9px; font-weight: 700; letter-spacing: .1em; color: var(--context); line-height: 1.8; }
+.trail-question { margin: 0 0 26px; font: italic 17px/1.5 Georgia, serif; color: var(--text-secondary); }
+.trail-panel h2 { font: 24px/1.22 Georgia, serif; margin: 10px 0 25px; overflow-wrap: anywhere; }
+.trail-panel h3 { font: 19px/1.3 Georgia, serif; margin-bottom: 10px; }
+.trail-panel h4 { margin: 22px 0 8px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--context); }
+.trail-stop-content > p, .trail-evidence p { font-size: 13px; line-height: 1.7; }
+.trail-claim { color: var(--text-primary); }
+.trail-date-note { padding: 10px 12px; border-left: 2px solid var(--context); background: var(--context-soft); }
+.trail-evidence { margin: 24px 0; border-top: 1px dashed var(--border-strong); padding-top: 15px; }
+.trail-evidence summary { cursor: pointer; color: var(--accent); font-size: 12px; font-weight: 650; }
+.trail-sources { padding-left: 20px; font-size: 12px; }
+.trail-sources li { margin: 18px 0; }
+.trail-sources a { color: var(--accent); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.source-locator { margin: 7px 0; font-size: 11px; line-height: 1.6; color: var(--text-secondary); }
+.trail-route { position: absolute; inset: 0; pointer-events: none; z-index: 8; }
+.trail-route-line { position: absolute; height: 2px; background: var(--context); }
+.trail-route-anchor { position: absolute; width: 8px; height: 8px; background: var(--context); border: 2px solid var(--surface); border-radius: 50%; transform: translate(-50%, -40%); }
+.trail-route-stitch { position: absolute; border-left: 1px dashed var(--context); }
+.trail-route-stop { pointer-events: auto; position: absolute; display: grid; text-align: left; width: 144px; height: 56px; padding: 5px 8px; border: 1px solid var(--border-strong); border-radius: 4px; background: var(--surface); color: var(--text-primary); box-shadow: var(--shadow-sm); cursor: pointer; }
+.trail-route-stop b { font-size: 10px; color: var(--context); }
+.trail-route-stop span { font: 12px/1.2 Georgia, serif; }
+.trail-route-stop[aria-current="step"] { border-color: var(--context); background: var(--context-soft); box-shadow: 0 0 0 1px var(--context); }
+.has-active-trail .scientist-node, .has-active-trail .scientist-cluster, .has-active-trail .scientist-link { opacity: .28; }
+.has-active-trail .lane-label.people-label { font-size: 0; }
+.has-active-trail .lane-label.people-label::after { content: 'Idea trail'; font-size: 10px; }
+@media (max-width: 1023px) {
+  .trail-bar { flex-wrap: wrap; gap: 8px 14px; padding: 8px 16px; }
+  .trail-bar-label { display: none; }
+  .trail-step-controls { margin-right: 0; }
+  body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr); }
+  .trail-panel { position: absolute; z-index: 30; left: 10px; right: 10px; bottom: 8px; max-height: 48dvh; box-shadow: var(--shadow-lg); }
+  .trail-route-stop { font-size: 11px; }
+}
 .tapestry-scene { background: transparent; }
