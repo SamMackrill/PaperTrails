@@ -12,7 +12,7 @@ The renderer retains keyed scene buttons, SVG image nodes and their artwork fall
 
 ## Validation
 
-- 44 native application tests and 20 operator/artifact tests pass.
+- 44 native application tests and 21 operator/artifact tests pass.
 - Fold tests cover all 21 scenes with both current and fallback artwork, 2–8000px widths, conserved endpoints, continuous and reversible projection, upright source order, shared hinge positions and flat cloth.
 - T3 collaborative-browser checks verify 189 retained face nodes, 21 preserved date ranges, stable figure height through repeated zoom, both themes, the original-art error path, immediate reduced-motion geometry, all eight charge-route steps, 27 printable references and no document overflow at 390px.
 - The HTML plan embeds an actual short browser recording. Deployment audit checks face retention, dates, height and reduced-motion folding when the extension is present.
