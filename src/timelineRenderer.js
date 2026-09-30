@@ -399,7 +399,9 @@ function createFaceStack(members) {
 }
 
 function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
+  // Route cards already name their authors; portraits would sit behind them.
   if (!isLayerVisible('peopleToggle')) return;
+  const suppressPortraits = Boolean(getActiveTrail());
 
   const tier = getTier(scale);
   const showLabel = (scientist) => tier === 'detail' || (tier === 'standard' && getNotability(scientist) === 1);
@@ -462,7 +464,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
       cluster.style.left = `${centerX - clusterPixelWidth / 2}px`;
       cluster.style.top = `${centerY - FACE_SIZE / 2}px`;
       cluster.style.width = `${clusterPixelWidth}px`;
-      cluster.appendChild(createFaceStack(members));
+      if (!suppressPortraits) cluster.appendChild(createFaceStack(members));
       const count = document.createElement('span');
       count.className = 'cluster-count';
       count.textContent = String(members.length);
@@ -491,9 +493,11 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     node.style.top = `${centerY - PERSON_SIZE / 2}px`;
     node.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
 
-    const photo = createPortrait(scientist, 'scientist-photo');
-    if (photo instanceof HTMLImageElement) photo.loading = 'lazy';
-    node.appendChild(photo);
+    if (!suppressPortraits) {
+      const photo = createPortrait(scientist, 'scientist-photo');
+      if (photo instanceof HTMLImageElement) photo.loading = 'lazy';
+      node.appendChild(photo);
+    }
     if (label) {
       const nameLabel = document.createElement('span');
       nameLabel.className = 'scientist-name';
