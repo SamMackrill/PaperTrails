@@ -1,7 +1,7 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=15';
 import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-folds';
-import { layoutCloth } from './tapestryFolds.js?v=pass2-smooth';
+import { layoutCloth } from './tapestryFolds.js?v=pass2-flat';
 import { yearToX } from './timeScale.js?v=2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -17,7 +17,9 @@ function clothFace(model, className) {
   const face = document.createElement('span');
   face.className = `tapestry-cloth-face ${className}`;
   const art = document.createElementNS(SVG_NS, 'svg');
-  art.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+  // A short scene fits the entire source horizontally at maximum zoom.
+  // Cropping to the figure height would silently hide detail after flattening.
+  art.setAttribute('preserveAspectRatio', 'none');
   art.setAttribute('aria-hidden', 'true');
   const image = document.createElementNS(SVG_NS, 'image');
   image.addEventListener('error', () => {
@@ -46,10 +48,12 @@ function updateFace(part, strip, x, width, displayedWidth, left) {
 }
 
 function updatePanorama(model) {
-  const { button, scene, sceneWidth, artHeight, heading } = model;
+  const { button, scene, sceneWidth, maximumSceneWidth, artHeight, heading } = model;
   const bleed = Math.min(36, sceneWidth / 3);
   const strip = getPanoramaStrip(scene, model.original);
-  const pose = layoutCloth(strip, sceneWidth + bleed * 2, artHeight);
+  const maximumBleed = Math.min(36, maximumSceneWidth / 3);
+  const pose = layoutCloth(strip, sceneWidth + bleed * 2, artHeight,
+    maximumSceneWidth + maximumBleed * 2);
   button.style.setProperty('--tapestry-bleed', `${bleed}px`);
   button.dataset.facetCount = strip.facets.length;
   button.dataset.foldOpen = pose.openness.toFixed(4);
@@ -73,7 +77,7 @@ function updatePanorama(model) {
   button.dataset.tooltip = `${heading}\nIn the embroidery: ${strip.facets.join('; ')}.\nZoom in to unfold the cloth.`;
 }
 
-function renderPanorama(button, scene, sceneWidth, artHeight, heading) {
+function renderPanorama(button, scene, sceneWidth, maximumSceneWidth, artHeight, heading) {
   let model = panoramas.get(button);
   if (!model) {
     const cloth = document.createElement('span');
@@ -96,7 +100,7 @@ function renderPanorama(button, scene, sceneWidth, artHeight, heading) {
     button.dataset.tooltipAnchor = 'scene';
     panoramas.set(button, model);
   }
-  Object.assign(model, { scene, sceneWidth, artHeight, heading });
+  Object.assign(model, { scene, sceneWidth, maximumSceneWidth, artHeight, heading });
   updatePanorama(model);
   return scene.facets;
 }
@@ -159,6 +163,10 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   ribbon.style.top = `${top + 5}px`;
   ribbon.style.width = `${width}px`;
   const { items, lanes } = layoutTapestry(events, width, TAPESTRY_ANNOTATION_WIDTH);
+  const viewportWidth = timeline.parentElement?.clientWidth || width / Math.max(1, scale);
+  const maximumTimelineWidth = Math.round(viewportWidth * config.MAX_SCALE);
+  const maximumScenes = new Map(layoutTapestry(events, maximumTimelineWidth).items
+    .map(item => [item.event, item.sceneWidth]));
   const availableHeight = height - top - 12;
   // Reserve the overview annotation lanes throughout zoom: changing the number
   // of date rows must not suddenly change figure scale or the angle of a pleat.
@@ -186,7 +194,8 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     button.style.width = `${sceneWidth}px`;
     button.style.height = `${artHeight}px`;
     const scene = tapestryScenes.get(event.title);
-    const facets = scene ? renderPanorama(button, scene, sceneWidth, artHeight, heading) : [];
+    const facets = scene ? renderPanorama(button, scene, sceneWidth,
+      maximumScenes.get(event), artHeight, heading) : [];
     button.setAttribute('aria-label', `${heading}. ${event.details || ''}${facets.length ? ` In the embroidery: ${facets.join('; ')}.` : ''}`);
     // Captions are stitched into the linen above each scene, in the manner
     // of the Bayeux Tapestry's inscriptions.

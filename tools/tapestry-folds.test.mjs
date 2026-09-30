@@ -57,3 +57,21 @@ test('crease shading approaches flat cloth without a last-pixel flash', () => {
   const almostFlat = layoutCloth(strip, flatWidth - 0.1, 120);
   assert.ok(almostFlat.panels.every(panel => panel.shade < 0.001));
 });
+
+test('every source fits flat at its maximum reachable width, including tiny scenes', () => {
+  for (const original of [false, true]) for (const scene of tapestryScenes.values()) {
+    const strip = getPanoramaStrip(scene, original);
+    for (const maximumWidth of [2, 66, 138, 625, 1000, 8000]) {
+      const flat = layoutCloth(strip, maximumWidth, 94, maximumWidth);
+      assert.ok(Math.abs(flat.openness - 1) < 1e-10);
+      assert.ok(flat.panels.every(panel => Math.abs(panel.angle) < 1e-5
+        && Math.abs(panel.depth) < 1e-5 && panel.shade < 1e-10));
+      assert.ok(Math.abs(flat.facets.at(-1).left + flat.facets.at(-1).width - maximumWidth) < 1e-8);
+      const widths = Array.from({ length: 101 }, (_, i) => maximumWidth * (0.1 + i * 0.009));
+      const poses = widths.map(width => layoutCloth(strip, width, 94, maximumWidth));
+      assert.deepEqual(poses, widths.toReversed().map(width => layoutCloth(strip, width, 94, maximumWidth)).reverse());
+      assert.ok(poses.every((pose, i) => !i || pose.openness >= poses[i - 1].openness - 1e-10));
+      assert.ok(poses.at(-1).panels.every(panel => panel.shade < 1e-10));
+    }
+  }
+});

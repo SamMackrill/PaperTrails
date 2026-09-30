@@ -12,7 +12,7 @@ The renderer retains keyed scene buttons, SVG image nodes and their artwork fall
 
 ## Validation
 
-- 44 native application tests and 21 operator/artifact tests pass.
+- 45 native application tests and 21 operator/artifact tests pass.
 - Fold tests cover all 21 scenes with both current and fallback artwork, 2–8000px widths, conserved endpoints, continuous and reversible projection, upright source order, shared hinge positions and flat cloth.
 - T3 collaborative-browser checks verify 189 retained face nodes, 21 preserved date ranges, stable figure height through repeated zoom, both themes, the original-art error path, immediate reduced-motion geometry, all eight charge-route steps, 27 printable references and no document overflow at 390px.
 - The HTML plan embeds an actual short browser recording. Deployment audit checks face retention, dates, height and reduced-motion folding when the extension is present.
@@ -23,3 +23,5 @@ The renderer retains keyed scene buttons, SVG image nodes and their artwork fall
 Use its own `ui-pass2/09-cloth-folds` branch/worktree. It extends the existing stack above `ui-pass2/remedial-context-constants`. Register it as a required primary layer so the initial prototype publication waits for this feature. CodeRabbit remains manually admitted by the shared 61-minute queue. Merge only to `prototype/ui-pass2`; publish to the new here.now site after the registered primary layers pass and merge. Main and the production site are untouched.
 
 The user-reported jumpiness correction is [PR #63](https://github.com/SamMackrill/PaperTrails/pull/63), on `ui-pass2/10-smooth-cloth` in a separate worktree above #62. Register this as a required tenth primary layer so initial publication includes the fix. It shares the same manual review gate and prototype-only merge policy.
+
+The same queued PR also fixes the maximum-zoom endpoint: each strip's material width is capped by its scene's actual reachable width at `config.MAX_SCALE`, including edge bleed. This budget follows the viewport and the current timeline scale mode. Short scenes fit the full artwork horizontally while keeping figure height fixed; SVG faces use `preserveAspectRatio="none"` so flattened panels show their whole source instead of cropping it. All folds reach zero angle, depth and shading at maximum zoom, then refold reversibly. Tests cover all 21 sources and both artwork sets at 2–8000px maximum budgets. T3 checks verify all 21 flat scenes in linear and density modes, fallback artwork, unchanged dates and retained faces, and a 390px viewport without overflow.

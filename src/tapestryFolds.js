@@ -1,8 +1,13 @@
 // An exposed overview followed by concertina folds of the same illustrated cloth.
 // Orthographic projection keeps the cloth's endpoints exactly on the timeline.
-export function layoutCloth(strip, width, height) {
+export function layoutCloth(strip, width, height, maximumWidth = Infinity) {
   const available = Math.max(0.01, width);
-  const materialScale = Math.max(height / strip.height, available / strip.width);
+  // A short dated scene has a limited width even at maximum timeline zoom.
+  // Fit its material to that budget up front so every pleat can lie flat,
+  // without a last-frame override or changing figure height during zoom.
+  const naturalScale = Math.min(height / strip.height,
+    Math.max(0.01, maximumWidth) / strip.width);
+  const materialScale = Math.max(naturalScale, available / strip.width);
   const materialWidths = strip.edges.slice(1).map((edge, i) =>
     (edge - strip.edges[i]) * materialScale);
   const foldCount = materialWidths.length - 1;
@@ -16,7 +21,8 @@ export function layoutCloth(strip, width, height) {
   const panels = [];
   let left = overviewWidth;
   materialWidths.slice(1).forEach((materialWidth, index) => {
-    const displayed = closedWidth + (materialWidth - closedWidth) * openness;
+    const displayed = openness >= 1 - 1e-12 ? materialWidth
+      : closedWidth + (materialWidth - closedWidth) * openness;
     const half = materialWidth / 2;
     const projectedHalf = displayed / 2;
     const angle = Math.acos(Math.min(1, projectedHalf / half));
