@@ -26,7 +26,9 @@ export function setupTrails({ change, openRecord }) {
     select.value = state.trail || '';
     back.disabled = !trail || index <= 0;
     next.disabled = !trail || index >= trail.stops.length - 1;
-    [explainButton, overview, archive].forEach(button => { button.hidden = !trail; });
+    const printLink = document.getElementById('trail-print');
+    [explainButton, overview, archive, printLink].forEach(button => { button.hidden = !trail; });
+    printLink.href = trail ? `print-trail.html?trail=${encodeURIComponent(trail.id)}` : './';
     progress.textContent = trail ? `${index + 1} / ${trail.stops.length}` : 'Choose an idea trail';
     panel.hidden = !state.explain;
     explainButton.setAttribute('aria-expanded', String(state.explain));
