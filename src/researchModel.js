@@ -24,11 +24,18 @@ export function buildResearchIndex(relations, trails, items) {
   const relationById = new Map();
   const trailById = new Map();
   const byItem = new Map();
+  // `records` also contains positional fallback keys while older content is
+  // migrated. Those keys are safe for display aliases, but not for persisted
+  // research links: reordering the source list could otherwise retarget one.
+  const hasStableItemKey = (key) => {
+    const record = items.records.get(key);
+    return Boolean(record && (record.type === 'scientist' || record.item?.id));
+  };
   for (const relation of relations) {
     if (!idPattern.test(relation.id || '') || relationById.has(relation.id)) throw new Error('Invalid or duplicate relation ID');
     if (!Object.hasOwn(RELATION_LABELS, relation.kind)) throw new Error(`${relation.id}: unknown relation kind`);
     for (const endpoint of [relation.from, relation.to]) {
-      if (!items.records.has(endpoint)) throw new Error(`${relation.id}: endpoint must be a stable item ID`);
+      if (!hasStableItemKey(endpoint)) throw new Error(`${relation.id}: endpoint must be a stable item ID`);
     }
     if (!nonempty(relation.claim)) throw new Error(`${relation.id}: claim is required`);
     validateSources(relation.sources, relation.id);
@@ -47,7 +54,7 @@ export function buildResearchIndex(relations, trails, items) {
     trail.stops.forEach((stop, index) => {
       if (!idPattern.test(stop.id || '') || stopIds.has(stop.id)) throw new Error(`${trail.id}: invalid or duplicate stop ID`);
       stopIds.add(stop.id);
-      if (!items.records.has(stop.item)) throw new Error(`${stop.id}: stop must reference a stable item ID`);
+      if (!hasStableItemKey(stop.item)) throw new Error(`${stop.id}: stop must reference a stable item ID`);
       if (!nonempty(stop.claim) || !nonempty(stop.significance)) throw new Error(`${stop.id}: claim and significance required`);
       validateSources(stop.sources, stop.id);
       if (stop.relation) {
