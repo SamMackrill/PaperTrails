@@ -83,6 +83,8 @@ try {
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
   await evaluate('document.querySelector("#trail-select").value="understanding-charge";document.querySelector("#trail-select").dispatchEvent(new Event("change"));');
   assert.equal(await evaluate('document.querySelectorAll("[data-trail-stop]").length'), 8);
+  assert.ok(await evaluate('document.querySelectorAll(".scientist-node, .scientist-cluster").length > 0'));
+  assert.equal(await evaluate('document.querySelectorAll(".scientist-photo").length'), 0);
   await screenshot('trail-dark.png');
   await evaluate('document.querySelector("#trail-next").focus()');
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', text: '\r', unmodifiedText: '\r', windowsVirtualKeyCode: 13 });

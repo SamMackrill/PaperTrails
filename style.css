@@ -2654,7 +2654,7 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
 .trail-sources li { margin: 18px 0; }
 .trail-sources a { color: var(--accent); text-underline-offset: 3px; overflow-wrap: anywhere; }
 .source-locator { margin: 7px 0; font-size: 11px; line-height: 1.6; color: var(--text-secondary); }
-.trail-route { position: absolute; inset: 0; pointer-events: none; z-index: 8; }
+.trail-route { position: absolute; inset: 0; pointer-events: none; z-index: 40; }
 .trail-route-line { position: absolute; height: 2px; background: var(--context); }
 .trail-route-anchor { position: absolute; width: 8px; height: 8px; background: var(--context); border: 2px solid var(--surface); border-radius: 50%; transform: translate(-50%, -40%); }
 .trail-route-stitch { position: absolute; border-left: 1px dashed var(--context); }

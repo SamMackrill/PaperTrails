@@ -49,10 +49,10 @@ def pages(path):
     raise RuntimeError('Pagination exceeded safe bound; do not assume a partial conversation is complete')
 
 def git(entry, *args):
-    return subprocess.check_output(['git', '-C', entry['worktree'], *args], text=True, encoding='utf-8').strip()
+    return subprocess.check_output(['git', '-C', entry['worktree'], *args], text=True, encoding='utf-8', timeout=120).strip()
 
 def diff_hash(entry, base, head):
-    result = subprocess.check_output(['git', '-C', entry['worktree'], 'diff', f'{base}...{head}'])
+    result = subprocess.check_output(['git', '-C', entry['worktree'], 'diff', f'{base}...{head}'], timeout=120)
     return hashlib.sha256(result).hexdigest()
 
 def native_green(head):

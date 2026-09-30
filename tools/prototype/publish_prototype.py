@@ -31,7 +31,7 @@ def package(worktree, commit, destination):
     paths = command(worktree, 'ls-tree', '-r', '--name-only', commit).splitlines()
     manifest = []
     for path in filter(allowed, paths):
-        contents = subprocess.check_output(['git', '-C', str(worktree), 'show', f'{commit}:{path}'])
+        contents = subprocess.check_output(['git', '-C', str(worktree), 'show', f'{commit}:{path}'], timeout=120)
         target = destination / path; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(contents)
         manifest.append({'path': path, 'size': len(contents), 'contentType': mimetypes.guess_type(path)[0] or 'application/octet-stream', 'hash': hashlib.sha256(contents).hexdigest()})
     if not {'index.html', 'print-trail.html', 'data/trails.yaml', 'data/relations.yaml'}.issubset({m['path'] for m in manifest}):

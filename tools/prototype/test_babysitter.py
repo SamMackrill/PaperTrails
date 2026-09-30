@@ -122,6 +122,13 @@ class ReviewQueueTests(unittest.TestCase):
         with patch.object(b, 'api', side_effect=[[{'id': n} for n in range(100)], [{'id': 101}]]):
             self.assertEqual(len(b.pages('comments')), 101)
 
+    def test_local_git_commands_have_a_bounded_runtime(self):
+        with patch.object(b.subprocess, 'check_output', side_effect=['head\n', b'patch']) as check_output:
+            self.assertEqual(b.git(self.entry, 'rev-parse', 'HEAD'), 'head')
+            b.diff_hash(self.entry, 'base', 'head')
+        self.assertEqual(check_output.call_args_list[0].kwargs['timeout'], 120)
+        self.assertEqual(check_output.call_args_list[1].kwargs['timeout'], 120)
+
     def test_merge_never_falls_back_to_main_or_changed_head(self):
         self.pr['base']['ref'] = 'main'
         with patch.object(b.subprocess, 'run') as run:
