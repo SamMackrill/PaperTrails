@@ -2,7 +2,7 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=15';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-06b';
-import { layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-03';
+import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-context-constants';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=3';
 import {
@@ -608,7 +608,7 @@ function getEventItems(width) {
 }
 
 function measureContextNeed(width, tapestry) {
-  if (tapestry) return Math.max(TAPESTRY_LANE_HEIGHT, 100 + layoutTapestry(significantEvents, width, 72).lanes * 22);
+  if (tapestry) return Math.max(TAPESTRY_LANE_HEIGHT, 100 + layoutTapestry(significantEvents, width, TAPESTRY_ANNOTATION_WIDTH).lanes * THREAD_SPACING);
   const { rows } = layoutEventRows(getEventItems(width), Infinity);
   return 16 + 30 + (rows - 1) * 36 + 8;
 }

@@ -6,7 +6,8 @@ import { yearToX } from './timeScale.js?v=2';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 // The strip along the top of the ribbon where captions are stitched.
 const CAPTION_HEIGHT = 20;
-const THREAD_SPACING = 22;
+export const THREAD_SPACING = 22;
+export const TAPESTRY_ANNOTATION_WIDTH = 72;
 
 function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
   const bleed = Math.min(36, sceneWidth / 3);
@@ -86,7 +87,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   ribbon.setAttribute('aria-label', 'Historical tapestry. Pictures form a continuous illustration, not event durations. Dated lines below show the recorded start and end of each event; diamonds mark single-year events.');
   ribbon.style.top = `${top + 5}px`;
   ribbon.style.width = `${width}px`;
-  const { items, lanes } = layoutTapestry(events, width, 72);
+  const { items, lanes } = layoutTapestry(events, width, TAPESTRY_ANNOTATION_WIDTH);
   const availableHeight = height - top - 12;
   // The ribbon fills its lane. Extra horizontal room goes to new narrative
   // groups rather than simply magnifying the same image.
