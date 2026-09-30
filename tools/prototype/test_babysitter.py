@@ -42,6 +42,33 @@ class ReviewQueueTests(unittest.TestCase):
             b.reconcile_review({}, self.entry, self.pr)
         self.assertEqual(self.entry['status'], 'queued')
 
+    def test_nitpick_only_review_is_a_completed_review_with_findings(self):
+        review = {**self.review, 'body': '<summary>Nitpick comments (1)</summary>Extract duplicated constants'}
+        self.entry['status'] = 'review-unavailable'
+        with patch.object(b, 'pages', side_effect=[[], [review]]):
+            b.reconcile_review({}, self.entry, self.pr)
+        self.assertEqual(self.entry['status'], 'reviewed')
+        self.assertEqual(self.entry['reviewed']['reviewId'], 123)
+        self.assertIsNotNone(b.review_body_finding(review))
+
+    def test_delayed_completion_is_reconciled_after_timeout(self):
+        self.entry['status'] = 'review-unavailable'
+        state = {'prs': [self.entry], 'nextEligible': 99999, 'implementationReady': False}
+        with tempfile.TemporaryDirectory() as directory, patch.object(b, 'ROOT', Path(directory)), patch.object(b, 'save'), patch.object(b, 'api', return_value={**self.pr, 'state': 'open'}), patch.object(b, 'pages', side_effect=[[], [self.review]]), patch.object(b.time, 'time', return_value=5000):
+            b.tick(state)
+        self.assertEqual(self.entry['status'], 'reviewed')
+
+    def test_pushed_fix_preserves_restacking_provenance(self):
+        self.entry['status'] = 'reviewed'
+        self.entry['reviewed'] = {**self.entry['request'], 'reviewId': 123}
+        self.entry['ledger'] = [{'disposition': 'fixed', 'commit': 'fixed'}]
+        state = {'prs': [self.entry], 'nextEligible': 99999, 'implementationReady': False}
+        pr = {**self.pr, 'head': {'sha': 'fixed', 'ref': 'ui-pass2/a'}, 'state': 'open'}
+        with tempfile.TemporaryDirectory() as directory, patch.object(b, 'ROOT', Path(directory)), patch.object(b, 'save'), patch.object(b, 'api', return_value=pr), patch.object(b, 'git', return_value='fixed'), patch.object(b, 'reconcile_fix') as reconcile, patch.object(b.time, 'time', return_value=5000):
+            b.tick(state)
+        reconcile.assert_called_once_with(state, self.entry)
+        self.assertEqual(self.entry['reviewed']['head'], 'abc')
+
     def test_rate_limit_does_not_record_review(self):
         message = {'user': {'login': b.BOT}, 'updated_at': '1970-01-01T00:20:00Z', 'body': 'Rate limit exceeded. Please wait 80 minutes.'}
         state = {'nextEligible': 4660}

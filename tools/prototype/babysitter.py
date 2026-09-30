@@ -127,7 +127,7 @@ def reconcile_review(state, entry, pr):
     reviews = pages(f"pulls/{entry['number']}/reviews")
     completed = [r for r in reviews if r['user']['login'] == BOT and r['commit_id'] == request['head'] and
                  r['submitted_at'] and datetime.datetime.fromisoformat(r['submitted_at'].replace('Z', '+00:00')).timestamp() >= request['at'] and
-                 re.search(r'Actionable comments posted:\s*\d+|No actionable comments', r.get('body') or '', re.I)]
+                 (re.search(r'Actionable comments posted:\s*\d+|No actionable comments', r.get('body') or '', re.I) or review_body_finding(r))]
     zero = zero_finding_run(comments, request) if not completed else None
     if not completed and not zero:
         if time.time() - request['at'] > 2700:
@@ -344,8 +344,16 @@ def tick(state):
         if pr['head']['ref'] != entry['branch'] or not (pr['base']['ref'] == PROTOTYPE or pr['base']['ref'].startswith('ui-pass2/')):
             raise RuntimeError('PR branch escaped the prototype namespace')
         if entry['status'] == 'reviewed' and pr['head']['sha'] != entry['reviewed']['head']:
-            entry['status'] = 'queued'; entry.pop('request', None); entry.pop('reviewed', None)
-        if entry['status'] in ['requesting', 'reviewing']:
+            # A pushed worker fix can precede an interrupted descendant restack.
+            # Preserve its review provenance so the recorded operation can resume.
+            fixed_head = any(d.get('disposition') == 'fixed' and d.get('commit') == pr['head']['sha']
+                             for d in entry.get('ledger', []))
+            if fixed_head and git(entry, 'rev-parse', 'HEAD') == pr['head']['sha']:
+                reconcile_fix(state, entry)
+                save(state)
+            else:
+                entry['status'] = 'queued'; entry.pop('request', None); entry.pop('reviewed', None)
+        if entry['status'] in ['requesting', 'reviewing', 'review-unavailable']:
             reconcile_review(state, entry, pr)
         if state.get('implementationReady') and entry['status'] == 'reviewed':
             process_findings(state, entry)
