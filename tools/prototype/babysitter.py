@@ -207,9 +207,7 @@ For each supplied comment return a JSON object with dispositions: [{{id: number,
         if disposition['disposition'] == 'waived':
             register_remedial(state, entry, disposition['remedialPr'])
         if disposition['disposition'] == 'fixed':
-            if not disposition.get('commit'):
-                raise RuntimeError('Fix has no verifiable commit')
-            subprocess.run(['git', '-C', entry['worktree'], 'merge-base', '--is-ancestor', disposition['commit'], 'HEAD'], check=True, timeout=30)
+            require_new_fix_commit(entry, disposition.get('commit'))
         if disposition['disposition'] == 'needs-info':
             entry['status'] = 'needs-info'
         marker = f"papertrails-disposition-{disposition['id']}"
@@ -224,6 +222,22 @@ For each supplied comment return a JSON object with dispositions: [{{id: number,
     if not any(d['disposition'] == 'needs-info' for d in dispositions):
         entry.pop('needsInfoResolution', None)
     reconcile_fix(state, entry)
+
+def require_new_fix_commit(entry, commit):
+    """Ensure a worker's claimed fix is on this head and postdates its review."""
+    if not isinstance(commit, str) or not re.fullmatch(r'[0-9a-fA-F]{40}(?:[0-9a-fA-F]{24})?', commit):
+        raise RuntimeError('Fix must cite a full Git object ID')
+    command = ['git', '-C', entry['worktree'], 'merge-base', '--is-ancestor', commit, 'HEAD']
+    if subprocess.run(command, timeout=30).returncode != 0:
+        raise RuntimeError('Fix commit is not an ancestor of the current head')
+    prior = subprocess.run(
+        ['git', '-C', entry['worktree'], 'merge-base', '--is-ancestor', commit, entry['reviewed']['head']],
+        timeout=30,
+    )
+    if prior.returncode == 0:
+        raise RuntimeError('Fix commit predates the reviewed head')
+    if prior.returncode != 1:
+        raise RuntimeError('Fix commit ancestry could not be verified')
 
 def register_remedial(state, owner, url):
     match = re.fullmatch(r'https://github.com/SamMackrill/PaperTrails/pull/(\d+)', url or '')

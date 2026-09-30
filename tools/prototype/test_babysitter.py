@@ -187,6 +187,35 @@ class ReviewQueueTests(unittest.TestCase):
                 b.reconcile_fix(state, self.entry)
         native.assert_not_called()
 
+    def test_fix_commit_must_postdate_the_reviewed_head(self):
+        entry = {**self.entry, 'reviewed': {'head': 'b' * 40}}
+        commit = 'a' * 40
+        with patch.object(b.subprocess, 'run', side_effect=[
+            type('Result', (), {'returncode': 0})(),
+            type('Result', (), {'returncode': 1})(),
+        ]):
+            b.require_new_fix_commit(entry, commit)
+        with patch.object(b.subprocess, 'run', side_effect=[
+            type('Result', (), {'returncode': 0})(),
+            type('Result', (), {'returncode': 0})(),
+        ]):
+            with self.assertRaisesRegex(RuntimeError, 'predates'):
+                b.require_new_fix_commit(entry, commit)
+        with patch.object(b.subprocess, 'run') as run:
+            with self.assertRaisesRegex(RuntimeError, 'full Git object ID'):
+                b.require_new_fix_commit(entry, '--bad')
+        run.assert_not_called()
+
+    def test_fix_commit_ancestry_errors_are_not_treated_as_new(self):
+        entry = {**self.entry, 'reviewed': {'head': 'b' * 40}}
+        commit = 'a' * 40
+        with patch.object(b.subprocess, 'run', side_effect=[
+            type('Result', (), {'returncode': 0})(),
+            type('Result', (), {'returncode': 2})(),
+        ]):
+            with self.assertRaisesRegex(RuntimeError, 'could not be verified'):
+                b.require_new_fix_commit(entry, commit)
+
     def test_merge_never_falls_back_to_main_or_changed_head(self):
         self.pr['base']['ref'] = 'main'
         with patch.object(b.subprocess, 'run') as run:
