@@ -68,3 +68,13 @@ test('maximum zoom exposes the complete unscaled material with no fold edge', ()
     assert.equal(face.shade, 0);
   }
 });
+
+test('zero material width produces a finite empty layout', () => {
+  const pose = layoutPleats(0, 0);
+  assert.equal(pose.ratio, 1);
+  assert.equal(pose.width, 0);
+  assert.deepEqual(pose.cells, []);
+  assert.deepEqual(pose.faces, []);
+  assert.ok(Object.values(pose).flat(Infinity).every(value =>
+    typeof value !== 'number' || Number.isFinite(value)));
+});

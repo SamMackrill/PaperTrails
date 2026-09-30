@@ -18,7 +18,9 @@ export function clothCells(materialWidth, intervals = []) {
 }
 
 export function layoutPleats(materialWidth, projectedWidth, cells = clothCells(materialWidth)) {
-  const ratio = Math.max(1 / 32, Math.min(1, projectedWidth / materialWidth));
+  const ratio = materialWidth > 0
+    ? Math.max(1 / 32, Math.min(1, projectedWidth / materialWidth))
+    : 1;
   const faces = [];
   const projectedCells = cells.map((cell, cellIndex) => {
     const width = cell.sourceWidth * ratio;
