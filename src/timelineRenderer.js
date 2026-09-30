@@ -1,7 +1,7 @@
 import { config } from './config.js?v=15';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-01';
 import { groupKey, openItem } from './modalManager.js?v=pass2-01';
-import { renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-01';
+import { layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-02';
 import { getScaleSegments, yearToX } from './timeScale.js?v=2';
 import { createPortrait } from './portraits.js?v=3';
 import {
@@ -29,7 +29,7 @@ const PUBLICATION_PITCH = 8;
 const PUBLICATION_MAX_STACK = 5;
 const MILESTONE_FIRST_OFFSET = 60;
 const MILESTONE_GAP = 42;
-const TAPESTRY_LANE_HEIGHT = 176;
+const TAPESTRY_LANE_HEIGHT = 250;
 
 // Timeline items are rebuilt on every zoom, so selection is tracked by a stable
 // item key rather than by element.
@@ -592,15 +592,16 @@ function getEventItems(width) {
     .map(({ event, index }) => {
       const startX = yearToX(event.startYear, width);
       const bandWidth = Math.max(2, yearToX(event.endYear, width) - startX);
-      const fullTitle = event.title || 'Historical event';
-      const shortTitle = event.shortTitle || fullTitle;
+      const date = event.startYear === event.endYear ? `${event.startYear}` : `${event.startYear}–${event.endYear}`;
+      const fullTitle = `${event.title || 'Historical event'} · ${date}`;
+      const shortTitle = `${event.shortTitle || event.title || 'Event'} · ${date}`;
       const plan = planEventLabel(bandWidth, measureText(fullTitle, EVENT_LABEL_FONT), measureText(shortTitle, EVENT_LABEL_FONT));
       return { event, index, startX, bandWidth, fullTitle, shortTitle, plan };
     });
 }
 
 function measureContextNeed(width, tapestry) {
-  if (tapestry) return TAPESTRY_LANE_HEIGHT;
+  if (tapestry) return Math.max(TAPESTRY_LANE_HEIGHT, 100 + layoutTapestry(significantEvents, width, 72).lanes * 22);
   const { rows } = layoutEventRows(getEventItems(width), Infinity);
   return 16 + 30 + (rows - 1) * 36 + 8;
 }

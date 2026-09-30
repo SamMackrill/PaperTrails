@@ -55,3 +55,11 @@ test('invalid and out-of-range events cannot corrupt the layout', () => {
   assert.equal(items[0].anchor, 0);
   assert.equal(items[0].sceneWidth, 1000);
 });
+
+test('date annotation lanes leave room without altering true intervals or picture boundaries', () => {
+  const events = [{ startYear: 1800, endYear: 1801 }, { startYear: 1802, endYear: 1802 }, { startYear: 1803, endYear: 1850 }];
+  const original = layoutTapestry(events, 1000);
+  const labelled = layoutTapestry(events, 1000, 72);
+  assert.equal(labelled.lanes, 3);
+  assert.deepEqual(labelled.items.map(({ anchor, end, left, sceneWidth }) => ({ anchor, end, left, sceneWidth })), original.items.map(({ anchor, end, left, sceneWidth }) => ({ anchor, end, left, sceneWidth })));
+});

@@ -6,7 +6,7 @@ import { yearToX } from './timeScale.js?v=2';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 // The strip along the top of the ribbon where captions are stitched.
 const CAPTION_HEIGHT = 20;
-const THREAD_SPACING = 6;
+const THREAD_SPACING = 22;
 
 function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
   const bleed = Math.min(18, sceneWidth / 4);
@@ -50,7 +50,7 @@ function renderPanorama(button, scene, sceneWidth, artHeight, scale, heading) {
   return crop.facets;
 }
 
-export function layoutTapestry(events, width) {
+export function layoutTapestry(events, width, annotationWidth = 0) {
   const x = (year) => yearToX(year, width);
   const laneEnds = [];
   const items = events.filter((event) => Number.isFinite(event.startYear)
@@ -65,7 +65,7 @@ export function layoutTapestry(events, width) {
       const sceneWidth = Math.max(2, Math.min(width, x(nextStart)) - left);
       let lane = laneEnds.findIndex((right) => right <= anchor);
       if (lane < 0) lane = laneEnds.length;
-      laneEnds[lane] = Math.max(anchor + 2, end);
+      laneEnds[lane] = Math.max(anchor + 2, end, Math.min(width, anchor + annotationWidth));
       return { event, anchor, end, left, lane, sceneWidth };
     });
   return { items, lanes: Math.max(1, laneEnds.length) };
@@ -75,14 +75,14 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const ribbon = document.createElement('div');
   ribbon.className = 'tapestry-ribbon';
   ribbon.setAttribute('role', 'group');
-  ribbon.setAttribute('aria-label', 'Historical tapestry. Scenes mark event beginnings; stitched threads show their durations. Zoom in to reveal additional narrative scenes, and hover to explore their details.');
+  ribbon.setAttribute('aria-label', 'Historical tapestry. Pictures form a continuous illustration, not event durations. Dated lines below show the recorded start and end of each event; diamonds mark single-year events.');
   ribbon.style.top = `${top + 5}px`;
   ribbon.style.width = `${width}px`;
-  const { items, lanes } = layoutTapestry(events, width);
+  const { items, lanes } = layoutTapestry(events, width, 72);
   const availableHeight = height - top - 12;
   // The ribbon fills its lane. Extra horizontal room goes to new narrative
   // groups rather than simply magnifying the same image.
-  const ribbonHeight = Math.max(60, Math.min(availableHeight, 260));
+  const ribbonHeight = Math.max(60, Math.min(availableHeight, 300));
   ribbon.style.height = `${ribbonHeight}px`;
   const artHeight = Math.max(24, ribbonHeight - CAPTION_HEIGHT - 14 - lanes * THREAD_SPACING);
 
@@ -107,7 +107,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     // of the Bayeux Tapestry's inscriptions.
     const caption = document.createElement('span');
     caption.className = 'tapestry-caption';
-    caption.textContent = `${scale < 1.5 ? (event.shortTitle || event.title) : event.title} · ${event.startYear}`;
+    caption.textContent = `${scale < 1.5 ? (event.shortTitle || event.title) : event.title} · ${date}`;
     caption.dataset.sceneLeft = String(left);
     caption.dataset.sceneWidth = String(sceneWidth);
     caption.style.left = `${left + 4}px`;
@@ -124,6 +124,12 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     }
     const thread = document.createElement('span');
     thread.className = 'tapestry-thread';
+    thread.classList.toggle('is-point', event.startYear === event.endYear);
+    thread.dataset.startYear = String(event.startYear);
+    const intervalLabel = document.createElement('span');
+    intervalLabel.className = 'tapestry-interval-label';
+    intervalLabel.textContent = date;
+    thread.appendChild(intervalLabel);
     thread.style.left = `${anchor}px`;
     thread.style.top = `${CAPTION_HEIGHT + 8 + artHeight + lane * THREAD_SPACING}px`;
     thread.dataset.tooltip = heading;

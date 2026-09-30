@@ -2614,3 +2614,12 @@ body.has-docked-panel .timeline-shell {
     grid-template-rows: 24px minmax(0, 1fr);
   }
 }
+
+/* The artwork stays continuous; these lines alone encode historical duration. */
+.tapestry-thread { height: 3px; border-bottom: 2px solid var(--thread-color); z-index: 3; }
+.tapestry-interval-label { position: absolute; top: 4px; left: 0; font: 600 10px/1.2 var(--font-body, system-ui); color: var(--text-primary); background: var(--page-bg); padding: 1px 2px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tapestry-thread.is-point::before { width: 7px; height: 7px; border-radius: 0; transform: rotate(45deg); top: -3px; }
+.tapestry-thread.is-point::after { display: none; }
+.tapestry-date-stitch { border-left: 1px dashed #5d4b36; height: 100%; opacity: .65; top: 0; }
+.tapestry-caption { font-size: 11px; }
+.context-guide { margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
