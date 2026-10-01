@@ -120,15 +120,26 @@ tapestryScenes.get('The Little Ice Age').continuationSources = winterEras.map(([
   return { startYear,endYear,scene };
 });
 
+// Failed custom art retries against neutral, era-independent countryside.
+// Never substitute a legacy event with unrelated costumes or historical claims.
+const quietFallbackAtlas = { file: 'images/tapestry/landscape-b-quiet-chapters.png', width: 1774, height: 887,
+  rows: [[0,144], [148,291], [295,438], [442,586], [591,735], [741,887]]
+    .map(([top,bottom]) => [top,bottom,Array.from({ length: 6 }, (_,i) => i * 1774 / 5)]) };
+for (const scene of tapestryScenes.values()) if (scene.customAtlas) {
+  scene.fallbackAtlas = quietFallbackAtlas;
+  scene.fallbackRow = scene.row % quietFallbackAtlas.rows.length;
+}
+
 export function getPanoramaStrip(scene, original = false) {
   const atlas = original && scene.fallbackAtlas
     ? scene.fallbackAtlas
     : scene.customAtlas || (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
+  const row = original && scene.fallbackAtlas ? scene.fallbackRow ?? scene.row : scene.row;
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
   // panoramas do not divide into a mathematically exact grid.
-  const [top, bottom, edges] = atlas.rows?.[scene.row] ?? [scene.row * rowHeight + rowHeight * 0.04,
-    (scene.row + 1) * rowHeight - rowHeight * 0.04, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)];
+  const [top, bottom, edges] = atlas.rows?.[row] ?? [row * rowHeight + rowHeight * 0.04,
+    (row + 1) * rowHeight - rowHeight * 0.04, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)];
   const cropHeight = bottom - top;
   const [first, last] = scene.facetRange || [0, edges.length - 1];
   const x = edges[first];

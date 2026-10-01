@@ -1,4 +1,4 @@
-import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-continuations-eras';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-continuations-era-fallback';
 
 const imageLoads = new Map();
 const CHUNKS = 8;

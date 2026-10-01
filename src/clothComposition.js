@@ -1,4 +1,4 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-continuations-eras';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-continuations-era-fallback';
 import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -29,7 +29,7 @@ export function composePictures(entries, artHeight, materialWidth = null) {
       const right = Math.min(stop, origin + nativeWidth);
       pictures.push({ key: `${event.id || event.title}/${chapter.id}`, event, chapter,
         anchor: start, end: stop, left: start, right, sceneWidth: right - start,
-        origin, nativeWidth, strip, materialWidth, priority: event.startYear });
+        origin, nativeWidth, strip, original, materialWidth, priority: event.startYear });
     }
   }
   // Match caption and hit-target precedence: later-starting events lie above
@@ -76,7 +76,7 @@ function datedPictures(picture, artHeight) {
     if (endYear <= startYear) return [];
     const source = choice.scene ? tapestryScenes.get(choice.scene) : scene;
     if (!source) return [];
-    const strip = choice.scene ? getPanoramaStrip(source) : picture.strip;
+    const strip = choice.scene ? getPanoramaStrip(source, picture.original) : picture.strip;
     const anchor = Math.max(picture.anchor, position(startYear));
     const end = Math.min(picture.end, position(endYear));
     const nativeWidth = strip.width * artHeight / strip.height;

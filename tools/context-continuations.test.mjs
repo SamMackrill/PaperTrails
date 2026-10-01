@@ -6,7 +6,7 @@ import { composePictures, contextWindows, continuePictures } from '../src/clothC
 import { layoutTapestry } from '../src/tapestryRenderer.js';
 import { setScaleMode, yearToX } from '../src/timeScale.js?v=3';
 import { clothCells, layoutPleats } from '../src/clothPleats.js';
-import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-continuations-eras';
+import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-continuations-era-fallback';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const events = yaml.load(readFileSync(new URL('../data/significantevents.yaml', import.meta.url), 'utf8'));
 const width = 40960, artHeight = 128;
@@ -59,6 +59,10 @@ test('Victorian gaps use only the nineteenth-century winter source and stop by 1
     assert.ok(p.anchor >= yearToX(p.artStartYear, width));
     assert.ok(p.right <= yearToX(p.artEndYear, width));
   }
+  const failed = items.map(entry => ({ ...entry, original: true }));
+  const fallback = continuePictures(composePictures(failed, artHeight, width), failed, artHeight);
+  assert.ok(fallback.every(p => p.strip.atlas.file === 'images/tapestry/landscape-b-quiet-chapters.png'),
+    'missing era artwork uses neutral scenery, never another era or unrelated event');
 });
 
 test('an unapproved scene is never relocated into later gaps', () => {
