@@ -1,4 +1,5 @@
-import { layoutStory } from './storyLayout.js?v=pass2-story-v2';
+import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
+import { layoutStory } from './storyLayout.js?v=pass2-labels-v5';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
@@ -6,17 +7,18 @@ import { recordKey } from './itemIdentity.js';
 const models = new WeakMap();
 const images = new Map();
 const motifTextures = new WeakMap();
+let captionMeasure;
 const BORDER = { file: 'images/tapestry/bayeux-revolutions.webp', width: 1774, height: 26 };
 const BORDER_HEIGHT = 17;
 const CAPTION_HEIGHT = 24;
 
-function load(file) {
+export function loadStoryImage(file) {
   if (!images.has(file)) images.set(file, new Promise(resolve => {
     const image = new Image();
     image.onload = () => resolve(image);
     image.onerror = () => {
       // Retry the very same approved drawing, with no unrelated substitute.
-      if (file.endsWith('.webp')) load(file.replace('.webp', '.png')).then(resolve);
+      if (file.endsWith('.webp')) loadStoryImage(file.replace('.webp', '.png')).then(resolve);
       else resolve(null);
     };
     image.src = file;
@@ -124,7 +126,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
     button.setAttribute('aria-label', `${event.title} · ${contextDate(event)}. ${event.details || ''}`);
     const first = Math.min(record.anchor, ...record.subjects.map(subject => subject.left));
     const last = Math.max(record.anchor + 12, ...record.subjects.map(subject => subject.left + subject.width));
-    button.style.cssText = `left:${first}px;width:${last - first}px;top:${BORDER_HEIGHT + CAPTION_HEIGHT}px;height:${model.layout.height || model.height - 2 * BORDER_HEIGHT - CAPTION_HEIGHT}px;pointer-events:none;z-index:${Math.max(0, ...record.subjects.map(subject => subject.priority)) + 1}`;
+    button.style.cssText = `left:${first}px;width:${last - first}px;top:${BORDER_HEIGHT + CAPTION_HEIGHT}px;height:${model.height - 2 * BORDER_HEIGHT - CAPTION_HEIGHT}px;pointer-events:none;z-index:${Math.max(0, ...record.subjects.map(subject => subject.priority)) + 1}`;
     // One accessible event can own several visible action groups. Hit areas
     // follow those groups, so long periods cannot cover unrelated scenes.
     for (const subject of record.subjects) {
@@ -147,7 +149,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   model.loading = missing.length > 0;
   if (missing.length) {
     const generation = ++model.generation;
-    Promise.all(missing.map(async file => [file, await load(file)])).then(loaded => {
+    Promise.all(missing.map(async file => [file, await loadStoryImage(file)])).then(loaded => {
       if (model.disposed || generation !== model.generation) return;
       loaded.forEach(([file, image]) => model.loaded.set(file, image));
       model.loading = false; updateStory(ribbon, ribbon.parentElement?.parentElement);
@@ -162,17 +164,24 @@ export function updateStory(ribbon, container) {
   paint(model, container);
   const view = container.getBoundingClientRect();
   const left = Math.max(0, view.left - ribbon.getBoundingClientRect().left);
-  const occupied = [];
-  for (const { caption, record } of [...model.records].reverse()) {
-    const x = Math.max(left + 4, record.anchor + 4);
-    const textWidth = caption.textContent.length * 7;
-    const visible = x + textWidth < left + container.clientWidth - 4
-      && record.end >= left && record.anchor < left + container.clientWidth
-      && !occupied.some(([a, b]) => x < b + 8 && x + textWidth > a - 8);
-    caption.hidden = !visible; caption.style.left = `${x}px`;
-    caption.style.maxWidth = `${textWidth + 8}px`;
-    if (visible) occupied.push([x, x + textWidth]);
+  if (!model.records.length) return;
+  captionMeasure ||= document.createElement('canvas').getContext('2d');
+  const style = getComputedStyle(model.records[0].caption);
+  captionMeasure.font = style.font;
+  const spacing = parseFloat(style.letterSpacing) || 0;
+  const placements = layoutContextLabels(model.records.map(({ caption, record }) => ({
+    caption,
+    start: Math.min(record.anchor, ...record.subjects.map(s => s.left)),
+    end: Math.max(record.end, ...record.subjects.map(s => s.left + s.width)),
+    width: captionMeasure.measureText(caption.textContent).width + caption.textContent.length * spacing + 4,
+    priority: Math.max(0, ...record.subjects.map(s => s.priority))
+  })), left, left + container.clientWidth, 1);
+  const shown = new Set(placements.map(p => p.caption));
+  model.records.forEach(({ caption }) => { caption.hidden = !shown.has(caption); });
+  for (const { caption, left: x, width } of placements) {
+    caption.style.left = `${x}px`; caption.style.maxWidth = `${width}px`;
   }
+
 }
 
 export function disposeStory(ribbon) {

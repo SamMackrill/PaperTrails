@@ -4,7 +4,7 @@
 // Display modes are null when absent, so a bare URL can use saved preferences.
 // The legacy tapestry=0/1 flag remains readable for existing shared links.
 
-import { isContextMode } from './contextMode.js?v=pass2-context-styles-v1';
+import { isContextMode } from './contextMode.js?v=pass2-labels-v5';
 
 export const LAYER_NAMES = ['people', 'publications', 'discoveries', 'conferences', 'context'];
 

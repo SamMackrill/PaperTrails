@@ -30,6 +30,12 @@ export function updateContextModeButton(button, mode, contextVisible = true) {
   const label = mode[0].toUpperCase() + mode.slice(1);
   const next = nextContextMode(mode);
   const nextLabel = next[0].toUpperCase() + next.slice(1);
+  const guide = button.ownerDocument?.querySelector('.context-guide');
+  if (guide) guide.textContent = {
+    bars: 'Recorded event dates and durations · select an event for details',
+    landscape: 'Names and dates follow woven braids · knots mark single-year events · zoom for illustrated detail',
+    tapestry: 'A continuous embroidered story · zoom for more detail · select a scene for English names and dates'
+  }[mode];
   button.dataset.contextMode = mode;
   button.querySelector('[data-context-label]').textContent = label;
   button.querySelectorAll('[data-context-icon]').forEach(icon => { icon.toggleAttribute('hidden', icon.dataset.contextIcon !== mode); });

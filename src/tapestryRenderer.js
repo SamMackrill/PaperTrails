@@ -1,3 +1,4 @@
+import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
@@ -6,11 +7,12 @@ import { composePictures, continuePictures, quietLandscape, quietPictures, joinW
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { yearToX } from './timeScale.js?v=3';
-import { renderStory, updateStory, disposeStory } from './storyRenderer.js?v=pass2-story-v2';
+import { renderStory, updateStory, disposeStory } from './storyRenderer.js?v=pass2-labels-v5';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const BRAID_PITCH = 5;
-const CAPTION_HEIGHT = 20;
+const CAPTION_HEIGHT = 54;
+const CAPTION_PITCH = 18;
 const models = new WeakMap();
 let ribbonSerial = 0;
 let captionMeasure;
@@ -68,12 +70,14 @@ function makeModel(ribbon) {
   weave.className = 'tapestry-weave tapestry-cloth';
   weave.setAttribute('aria-hidden', 'true');
   ribbon.append(definitions, weave, annotations);
-  const model = { id, defs, background, landscape, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), continuationCaptions: new Map(), entrySerial: 0 };
+  const model = { id, defs, background, landscape, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), entrySerial: 0 };
   models.set(ribbon, model);
   return model;
 }
 
 function retainFaces(model, pose, clothHeight) {
+  const pixelRatio = window.devicePixelRatio || 1;
+  const snap = x => Math.round(x * pixelRatio) / pixelRatio;
   pose.cells.forEach((panel, i) => {
     let cell = model.cells[i];
     if (!cell) {
@@ -82,8 +86,10 @@ function retainFaces(model, pose, clothHeight) {
       model.weave.appendChild(cell);
       model.cells[i] = cell;
     }
-    cell.style.left = `${panel.left}px`;
-    cell.style.width = `${panel.width}px`;
+    // Adjacent clips share the same physical pixel boundary. Fractional
+    // overflow clips otherwise leave pale seams through the landscape.
+    cell.style.left = `${snap(panel.left)}px`;
+    cell.style.width = `${snap(panel.left + panel.width) - snap(panel.left)}px`;
     cell.style.height = `${clothHeight}px`;
     cell.style.setProperty('--fold-shade', String(1 - pose.ratio));
   });
@@ -104,7 +110,8 @@ function retainFaces(model, pose, clothHeight) {
     face.dataset.exposedWidth = String(panel.exposedWidth);
     face.style.width = `${panel.sourceWidth}px`;
     face.style.height = `${clothHeight}px`;
-    face.style.transform = `translateX(${panel.left}px)`;
+    const sourceCellLeft = pose.cells[panel.cellIndex].left;
+    face.style.transform = `translateX(${panel.left + sourceCellLeft - snap(sourceCellLeft)}px)`;
     face.style.zIndex = String(panel.order);
     face.style.setProperty('--fold-shade', String(panel.shade));
     attribute(art, 'viewBox', `${panel.sourceX} 0 ${panel.sourceWidth} ${clothHeight}`);
@@ -234,10 +241,11 @@ function makeEntry(model, key) {
   const span = svg('rect', { height: 4, fill: `url(#${braidPatternId})` });
   const startKnot = svg('path', { d: 'M-3 0Q0-4 3 0Q0 4-3 0M0-2V2', fill: 'none', 'stroke-width': 1.2 });
   const endKnot = startKnot.cloneNode(true);
-  thread.append(span, startKnot, endKnot);
+  const leader = svg('path', { class: 'context-label-leader', fill: 'none', stroke: 'currentColor', 'stroke-width': .8 });
+  thread.append(span, startKnot, endKnot, leader);
   model.braidLayer.appendChild(thread);
   const entry = { key, button, caption, captionTitle, captionDate, picture, thread, braidPattern,
-    span, startKnot, endKnot, original: false };
+    span, startKnot, endKnot, leader, original: false };
   const highlight = value => {
     thread.classList.toggle('is-highlighted', value);
     picture.setAttribute('opacity', value ? '.9' : '1');
@@ -267,7 +275,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   ribbon.className = 'tapestry-ribbon';
   ribbon.dataset.artStyle = style;
   ribbon.setAttribute('role', 'group');
-  ribbon.setAttribute('aria-label', 'Historical tapestry. Flat scene summaries stay exposed; folded detail is concealed underneath until the cloth opens. All cloth is flat at maximum zoom. Woven braids show recorded period spans. Knots mark single-year events, whose illustrated vignettes occupy at most one year.');
+  ribbon.setAttribute('aria-label', 'Historical landscape. English names and dates connect to woven braids showing recorded period spans. Knots mark single-year events. Illustrated folds reveal detail as you zoom.');
   const model = models.get(ribbon) || makeModel(ribbon);
   // Assembly may start off-DOM; asynchronous recovery belongs to whichever
   // timeline owns the visible ribbon after those nodes have been installed.
@@ -290,6 +298,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   model.pose = pose;
   retainFaces(model, pose, clothHeight);
   model.headerHeight = headerHeight;
+  model.braidHeight = lanes * BRAID_PITCH;
   model.weave.style.setProperty('--cloth-art-top', `${headerHeight}px`);
   ribbon.dataset.zoomLimit = String(config.MAX_SCALE);
   ribbon.dataset.foldOpen = pose.openness.toFixed(4);
@@ -340,11 +349,13 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     caption.dataset.sceneLeft = String(left);
     caption.dataset.sceneWidth = String(right - left);
     caption.dataset.startYear = String(event.startYear);
+    caption.dataset.braidY = String(4 + lane * BRAID_PITCH);
     caption.style.top = `${4 + lanes * BRAID_PITCH}px`;
     caption.style.maxWidth = `${Math.max(0, right - left - 8)}px`;
     if (materialChanged) {
       const color = ['#854635', '#425c61', '#626539', '#694c67'][lane % 4];
       braidPattern.style.color = color;
+      thread.style.color = color;
       thread.dataset.startYear = String(event.startYear);
       thread.dataset.endYear = String(event.endYear);
       thread.classList.toggle('is-point', event.startYear === event.endYear);
@@ -365,31 +376,6 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   for (const [key, entry] of model.entries) if (!active.has(key)) {
     for (const node of [entry.button, entry.caption, entry.picture, entry.thread, entry.braidPattern]) node.remove();
     model.entries.delete(key);
-  }
-  const continued = new Set();
-  for (const picture of compositions.filter(p => p.continuation)) {
-    continued.add(picture.key);
-    let caption = model.continuationCaptions.get(picture.key);
-    if (!caption) {
-      caption = document.createElement('span');
-      caption.className = 'tapestry-caption tapestry-continuation-caption';
-      caption.setAttribute('aria-hidden', 'true');
-      const title = document.createElement('span'); title.className = 'tapestry-caption-title';
-      const date = document.createElement('span'); date.className = 'tapestry-caption-date';
-      caption.append(title, date); ribbon.appendChild(caption);
-      model.continuationCaptions.set(picture.key, caption);
-    }
-    const inscription = contextHeading(picture.event, style, true);
-    if (caption.firstElementChild.textContent !== inscription.title) caption.firstElementChild.textContent = inscription.title;
-    if (caption.firstElementChild.lang !== inscription.lang) caption.firstElementChild.lang = inscription.lang;
-    if (caption.lastElementChild.textContent !== inscription.date) caption.lastElementChild.textContent = inscription.date;
-    caption.dataset.sceneLeft = String(projectClothX(picture.anchor, pose));
-    caption.dataset.sceneWidth = String((picture.end - picture.anchor) * pose.ratio);
-    caption.dataset.startYear = String(picture.event.startYear);
-    caption.style.top = `${4 + lanes * BRAID_PITCH}px`;
-  }
-  for (const [key, caption] of model.continuationCaptions) if (!continued.has(key)) {
-    caption.remove(); model.continuationCaptions.delete(key);
   }
   const rasterKey = [style, materialWidth, clothHeight, ...[...model.entries.values()].map(e => e.materialKey)].join('|');
   if (model.rasterKey !== rasterKey) {
@@ -445,8 +431,8 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   if (timeline.dataset.zoomMotion !== 'true') updateTapestryCaptions(timeline, timeline.parentElement);
 }
 
-// Keep inscriptions visible inside their real spans. Shorter, later events
-// take precedence over overlapping broad-period inscriptions at low density.
+// Complete English labels borrow free rows beyond narrow event spans.
+// Their fine connectors remain on the real dated braid.
 export function updateTapestryCaptions(timeline, timelineContainer) {
   const ribbon = timeline.querySelector('.tapestry-ribbon');
   if (!ribbon || !timelineContainer) return;
@@ -473,25 +459,37 @@ export function updateTapestryCaptions(timeline, timelineContainer) {
   const captionStyle = getComputedStyle(captions[0]);
   captionMeasure.font = captionStyle.font;
   const spacing = parseFloat(captionStyle.letterSpacing) || 0;
-  const positions = captions.map(caption => {
+  const labels = captions.map(caption => {
     const start = Number(caption.dataset.sceneLeft);
     const width = Number(caption.dataset.sceneWidth);
-    const limit = Math.min(start + width, visibleRight) - 4;
-    const left = Math.max(start + 4, visibleLeft + 4);
-    const available = Math.min(width - 8, limit - left);
-    const textWidth = captionMeasure.measureText(caption.textContent).width + caption.textContent.length * spacing;
-    const dateWidth = captionMeasure.measureText(caption.lastElementChild.textContent).width + 3;
-    return { caption, left, available, textWidth, dateWidth };
-  }).reverse();
-  const occupied = [];
-  for (const { caption, left, available, textWidth, dateWidth } of positions) {
-    const right = left + Math.min(textWidth, available);
-    const shown = available >= Math.max(37, dateWidth) && !occupied.some(([a, b]) => left < b + 8 && right > a - 8);
-    if (caption.hidden === shown) caption.hidden = !shown;
-    caption.style.left = `${left}px`;
-    caption.style.maxWidth = `${Math.max(0, available)}px`;
-    if (shown) occupied.push([left, right]);
+    const textWidth = captionMeasure.measureText(caption.textContent).width + caption.textContent.length * spacing + 4;
+    // Only narrow viewports wrap. Desktop labels use their full measured width.
+    const limit = Math.max(1, visibleRight - visibleLeft - 8);
+    let lines = 1, lineWidth = 0;
+    for (const word of caption.textContent.split(/\s+/)) {
+      const wordWidth = captionMeasure.measureText(`${word} `).width + (word.length + 1) * spacing;
+      if (lineWidth && lineWidth + wordWidth > limit) { lines++; lineWidth = 0; }
+      lineWidth += wordWidth;
+    }
+    return { caption, start, end: start + width, width: textWidth, lines };
+  });
+  const placements = layoutContextLabels(labels, visibleLeft, visibleRight);
+  const shown = new Set(placements.map(p => p.caption));
+  captions.forEach(caption => { caption.hidden = !shown.has(caption); });
+  if (model) model.entries.forEach(entry => entry.leader.style.display = 'none');
+  for (const { caption, left, width, row, anchor } of placements) {
+    const braidY = Number(caption.dataset.braidY) || 4;
+    const y = 4 + model.braidHeight + row * CAPTION_PITCH;
+    caption.style.left = `${left}px`; caption.style.top = `${y}px`;
+    caption.style.maxWidth = `${width}px`; caption.style.width = `${width}px`;
+    const entry = [...model.entries.values()].find(e => e.caption === caption);
+    if (entry) {
+      entry.leader.style.display = '';
+      // A short thread bends from the dated braid to the beginning of its label.
+      attribute(entry.leader, 'd', `M${anchor} ${braidY}L${anchor} ${y - 3}L${left + 2} ${y - 3}`);
+    }
   }
+
 }
 
 export function disposeTapestry(ribbon) {

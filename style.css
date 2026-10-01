@@ -2693,3 +2693,23 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
 .tapestry-scene { background: transparent; }
 
 .tapestry-story-hit { position: absolute; display: block; pointer-events: auto; }
+
+.tapestry-ribbon[data-art-style="landscape"] .tapestry-caption {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 16px;
+  background: #dfcda5e8;
+}
+.context-label-leader { opacity: .65; }
+
+.tapestry-ribbon[data-art-style="landscape"] .tapestry-caption:not([hidden]) { display: block; }
+.tapestry-ribbon[data-art-style="landscape"] .tapestry-caption-title { overflow: visible; text-overflow: clip; }
+
+.tapestry-ribbon[data-art-style="landscape"] .tapestry-caption {
+  font-size: 12px;
+  font-variant-caps: normal;
+  letter-spacing: .01em;
+}
+.tapestry-ribbon[data-art-style="landscape"] .tapestry-caption-date { font-size: 11px; }
+@media (max-width: 360px) { .toolbar-primary { flex-wrap: wrap; } }
