@@ -30,7 +30,7 @@ Restore the animal borders from the agreed [Bayeux facsimile study](bayeux-style
 
 Braids may be removed from **Tapestry** mode to make room for the narrative and animal borders. Keep the braids in **Landscape** mode.
 
-**Confirmed zoom behaviour:** show a continuous, recognisable overview when zoomed out, revealing more detail as the user zooms in. Narrow picture fragments and large gaps must not replace the overview story. The implementation should serve this behaviour rather than preserve the current folding effect at its expense.
+**Confirmed zoom behaviour:** show a continuous, recognisable overview when zoomed out, revealing more detail as the user zooms in. Narrow picture fragments and large gaps must not replace the overview story. Preserve the original fixed-picture folds: they conceal and reveal the same drawing, without distortion, sliding or picture swaps, and open fully at maximum zoom. The previous sentence suggesting the overview could supersede folding was an assistant interpretation, explicitly rejected by the user on 1 October.
 
 ![User screenshot of fragmented tapestry artwork and missing animal borders](img/review-tapestry-gaps-2026-10-01.png)
 
@@ -54,6 +54,8 @@ Show the Carrington Event together with the telegraph network it disrupted. Use 
 
 ## Implementation stack
 
+**Latest governing brief:** [Consolidated context requirements](ui-pass2-context-summary.html), reconstructed from the older settled conversations and this review. The layer descriptions below record implementation history; the user has since rejected the Tapestry's multirow motif composition and loss of folding. Passing checks and earlier source-sheet approval do not establish acceptance of that result.
+
 All layers target `prototype/ui-pass2` through their preceding branch, with the existing hourly CodeRabbit review gate. The review site is updated only after the stack has passed review and landed.
 
 1. `ui-pass2/17-context-performance`: one initial URL-aware render, detached timeline assembly and canvas-first artwork with SVG recovery.
@@ -65,6 +67,8 @@ Performance check for layer 17: a local baseline Bars-to-Landscape click occupie
 
 
 ### Continuous story implementation (layer 19)
+
+**Superseded Tapestry approach:** the user requires concurrent events to be drawn together in one depiction, on one continuous linear cloth that folds. Separate extracted motifs arranged on different baselines do not satisfy that instruction. Keep the Carrington/telegraph relationship and canonical dates while replacing the composition and restoring fixed-art folding.
 
 Tapestry now composes complete identifying motifs on a single viewport canvas instead of projecting Landscape's narrow folded faces. Its continuous animal and bird borders use the approved Bayeux sheet. Climate scenes use the approved winter-era sources; overlapping events share baselines, with key subjects given precedence. Wider chronological room exposes further action groups from the same approved sources, preserving their proportions. The composition is symbolic; English selection details carry exact dates. Decorative border repetition does not duplicate historical events.
 
