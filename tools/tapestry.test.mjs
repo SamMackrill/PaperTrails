@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { config } from '../src/config.js';
 import { layoutTapestry } from '../src/tapestryRenderer.js';
-import { tapestryScenes, getPanoramaCrop } from '../src/tapestryScenes.js';
 
-test('pictures remain contiguous while exact dates and overlapping durations are preserved', () => {
+
+test('picture footprints use event durations and preserve overlapping chronology', () => {
   const events = [
     { title: 'Later', startYear: 1600, endYear: 1850 },
     { title: 'Period', startYear: 1400, endYear: 1600 },
@@ -17,28 +17,10 @@ test('pictures remain contiguous while exact dates and overlapping durations are
     for (const [index, item] of items.entries()) {
       assert.equal(item.anchor, (item.event.startYear - config.START_YEAR) / config.YEAR_SPAN * width);
       assert.equal(item.end, (item.event.endYear - config.START_YEAR) / config.YEAR_SPAN * width);
-      const nextLeft = items[index + 1]?.left ?? width;
-      assert.ok(Math.abs(item.left + item.sceneWidth - nextLeft) < 0.00001);
+      const pictureYears = Math.max(1, item.event.endYear - item.event.startYear);
+      assert.ok(Math.abs(item.sceneWidth - pictureYears / config.YEAR_SPAN * width) < 0.00001);
     }
     assert.notEqual(items[0].lane, items[1].lane, 'overlapping duration threads get separate lanes');
-  }
-});
-
-test('zoom reveals different narrative facets instead of only enlarging the summary', () => {
-  assert.equal(tapestryScenes.size, 21);
-  for (const scene of tapestryScenes.values()) {
-    const overview = getPanoramaCrop(scene, 110, 110, 1);
-    const expanded = getPanoramaCrop(scene, 900, 125, 4);
-    const full = getPanoramaCrop(scene, 4000, 130, 8);
-    assert.equal(overview.facets.length, 1);
-    assert.ok(expanded.facets.length > overview.facets.length);
-    assert.equal(full.facets.length, 5);
-    assert.equal(new Set(full.facets).size, 5);
-    assert.ok(expanded.width > overview.width);
-    assert.equal(expanded.height, overview.height, 'source figures keep their vertical scale');
-    assert.ok(full.y >= 0 && full.y + full.height <= full.atlas.height);
-    assert.equal(full.edges.at(-1), full.atlas.width);
-    assert.ok(full.edges.every((edge, index) => index === 0 || edge > full.edges[index - 1]));
   }
 });
 
@@ -53,13 +35,25 @@ test('invalid and out-of-range events cannot corrupt the layout', () => {
   assert.equal(items.length, 1);
   assert.equal(items[0].left, 0);
   assert.equal(items[0].anchor, 0);
-  assert.equal(items[0].sceneWidth, 1000);
+  assert.ok(Math.abs(items[0].sceneWidth - 50 / config.YEAR_SPAN * 1000) < 1e-8);
 });
 
-test('date annotation lanes leave room without altering true intervals or picture boundaries', () => {
+test('compact braid lanes reflect overlapping dates and do not multiply at low zoom', () => {
   const events = [{ startYear: 1800, endYear: 1801 }, { startYear: 1802, endYear: 1802 }, { startYear: 1803, endYear: 1850 }];
-  const original = layoutTapestry(events, 1000);
-  const labelled = layoutTapestry(events, 1000, 72);
-  assert.equal(labelled.lanes, 3);
-  assert.deepEqual(labelled.items.map(({ anchor, end, left, sceneWidth }) => ({ anchor, end, left, sceneWidth })), original.items.map(({ anchor, end, left, sceneWidth }) => ({ anchor, end, left, sceneWidth })));
+  const overview = layoutTapestry(events, 390);
+  const full = layoutTapestry(events, 390 * 32);
+  assert.equal(overview.lanes, 1);
+  assert.equal(full.lanes, 1);
+  assert.deepEqual(overview.items.map(item => item.lane), full.items.map(item => item.lane));
+});
+
+test('Carrington remains a point with a one-year vignette beside a four-year Civil War', () => {
+  const events = [{ title: 'Carrington Event', startYear: 1859, endYear: 1859 }, { title: 'American Civil War', startYear: 1861, endYear: 1865 }];
+  for (const width of [390, 1286, 1286 * 32]) {
+    const { items: [point, war] } = layoutTapestry(events, width);
+    assert.equal(point.anchor, point.end, 'point braid has no invented duration');
+    assert.ok(Math.abs(war.sceneWidth / point.sceneWidth - 4) < 1e-8);
+    assert.ok(point.left + point.sceneWidth < war.left, 'the event picture does not extend to the next event');
+    assert.equal(war.end - war.anchor, war.sceneWidth);
+  }
 });

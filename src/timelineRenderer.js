@@ -2,10 +2,10 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-04';
 import { groupKey, openItem } from './modalManager.js?v=pass2-06b';
-import { TAPESTRY_ANNOTATION_WIDTH, THREAD_SPACING, layoutTapestry, renderTapestry, updateTapestryCaptions } from './tapestryRenderer.js?v=pass2-continuous';
+import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-box-folds';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
-import { projectZoomBox } from './zoomLayout.js?v=pass2-continuous';
+import { projectZoomBox } from './zoomLayout.js?v=pass2-box-folds';
 import {
   EVENT_PIN_GAP,
   EVENT_LABEL_PADDING,
@@ -31,7 +31,7 @@ const PUBLICATION_PITCH = 8;
 const PUBLICATION_MAX_STACK = 5;
 const MILESTONE_FIRST_OFFSET = 60;
 const MILESTONE_GAP = 42;
-const TAPESTRY_LANE_HEIGHT = 250;
+const TAPESTRY_LANE_HEIGHT = 180;
 
 // Timeline items are rebuilt on every zoom, so selection is tracked by a stable
 // item key rather than by element.
@@ -649,7 +649,7 @@ function getEventItems(width) {
 }
 
 function measureContextNeed(width, tapestry) {
-  if (tapestry) return Math.max(TAPESTRY_LANE_HEIGHT, 100 + layoutTapestry(significantEvents, width, TAPESTRY_ANNOTATION_WIDTH).lanes * THREAD_SPACING);
+  if (tapestry) return TAPESTRY_LANE_HEIGHT;
   const { rows } = layoutEventRows(getEventItems(width), Infinity);
   return 16 + 30 + (rows - 1) * 36 + 8;
 }
@@ -762,7 +762,9 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
 
   setupDelegatedEvents(timeline);
   itemActions.clear();
-  const retainedCloth = tapestry ? timeline.querySelector('.tapestry-ribbon') : null;
+  const previousCloth = timeline.querySelector('.tapestry-ribbon');
+  const retainedCloth = tapestry ? previousCloth : null;
+  if (previousCloth && !retainedCloth) disposeTapestry(previousCloth);
   for (const child of [...timeline.childNodes]) if (child !== retainedCloth) child.remove();
   timeline.style.width = `${width}px`;
   timeline.style.height = `${height}px`;

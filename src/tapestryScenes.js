@@ -80,21 +80,3 @@ export function getPanoramaStrip(scene, original = false) {
   return { atlas, y: top, width: edges.at(-1), height: cropHeight,
     facets: scene.facets, edges };
 }
-
-// Retained for callers that need a static overview crop. Interactive cloth uses
-// a fixed curated piece of this strip; zoom opens folds without swapping crops.
-export function getPanoramaCrop(scene, sceneWidth, artHeight, scale, original = false) {
-  const strip = getPanoramaStrip(scene, original);
-  const { atlas, y, height: cropHeight, edges } = strip;
-  const zoomLimit = scale < 1.5 ? 1 : scale < 3 ? 3 : scene.facets.length;
-  let count = 1;
-  while (count < zoomLimit && artHeight * edges[count] / cropHeight < sceneWidth) count++;
-  return {
-    atlas,
-    y,
-    width: edges[count],
-    height: cropHeight,
-    facets: scene.facets.slice(0, count),
-    edges: edges.slice(0, count + 1)
-  };
-}
