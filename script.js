@@ -4,7 +4,7 @@ import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-chapters-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-chapters-v2';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-bayeux-art-v1';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-performance-v1';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
@@ -828,8 +828,18 @@ function applyUrlState({ initial = false } = {}) {
     currentItemKey = null;
     closeModal({ restoreFocus: false });
   }
-  render();
-  applyUrlView(state, { initial });
+  // Apply the requested range before the first render. A shared Bars link
+  // should not build a default Landscape and then immediately discard it.
+  if (state.from !== null && state.to !== null && state.to > state.from) {
+    applyUrlView(state, { initial });
+  } else {
+    if (!initial) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      currentScale = 1; currentTranslateX = 0;
+    }
+    render();
+  }
   if (state.item) {
     const element = selectItemByKey(state.item);
     if (element && state.from === null) revealElement(element, { centre: true });
@@ -938,7 +948,6 @@ async function initializeApp() {
       scheduleUrlUpdate({ push: true });
     }
   });
-  render();
   setupMinimap();
   applyUrlState({ initial: true });
   setupControls();

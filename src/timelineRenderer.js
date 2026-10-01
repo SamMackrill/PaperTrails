@@ -2,7 +2,7 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-chapters-v2';
 import { groupKey, openItem } from './modalManager.js?v=pass2-chapters-v2';
-import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-bayeux-art-v1';
+import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-performance-v1';
 import { getContextMode } from './contextMode.js?v=pass2-cloth-recovery-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
@@ -767,7 +767,10 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   const previousCloth = timeline.querySelector('.tapestry-ribbon');
   const retainedCloth = tapestry ? previousCloth : null;
   if (previousCloth && !retainedCloth) disposeTapestry(previousCloth);
-  for (const child of [...timeline.childNodes]) if (child !== retainedCloth) child.remove();
+  // Assemble the next layout off the live document. Portraits, SVG and label
+  // writes must not trigger layout of the previous cloth between insertions.
+  const content = document.createElement('div');
+  if (retainedCloth) content.appendChild(retainedCloth);
   timeline.style.width = `${width}px`;
   timeline.style.height = `${height}px`;
 
@@ -786,30 +789,31 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   svg.setAttribute('width', width);
   svg.setAttribute('height', height);
   svg.setAttribute('aria-hidden', 'true');
-  timeline.appendChild(svg);
+  content.appendChild(svg);
 
   const coordinates = {};
-  renderScaleSegments(timeline, width, height);
-  renderAxis(timeline, svg, width, height, axisY, scale);
+  renderScaleSegments(content, width, height);
+  renderAxis(content, svg, width, height, axisY, scale);
   // Publications are laid out first because portraits link to them, but are
   // added after the people so the lanes tab in top-to-bottom order.
   const publications = document.createDocumentFragment();
   renderPublications(publications, width, axisY, coordinates);
-  renderScientists(timeline, svg, width, axisY, coordinates, scale);
-  timeline.appendChild(publications);
-  renderMilestones(timeline, svg, width, axisY, contextTop, scale);
+  renderScientists(content, svg, width, axisY, coordinates, scale);
+  content.appendChild(publications);
+  renderMilestones(content, svg, width, axisY, contextTop, scale);
   if (tapestry) {
-    renderTapestry(timeline, significantEvents, width, height, contextTop, scale, (button) => {
+    renderTapestry(content, significantEvents, width, height, contextTop, scale, (button) => {
       selectItem(button);
       openItem(button.dataset.itemKey, { fromTimeline: true });
     }, contextMode);
   } else if (contextVisible) {
-    renderEvents(timeline, width, height, contextTop);
+    renderEvents(content, width, height, contextTop);
   }
   // Connections are drawn last so they sit above the lane content in the SVG.
   const relationLayer = document.createElementNS(SVG_NS, 'g');
   relationLayer.classList.add('relation-layer');
   svg.appendChild(relationLayer);
+  timeline.replaceChildren(...content.childNodes);
   hoverKey = null;
   updateScalePresentation(timeline, scale);
   applySelection(timeline);
