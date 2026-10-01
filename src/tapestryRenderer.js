@@ -1,8 +1,9 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-box-folds';
-import { layoutPleats, projectClothX, clothCells, SUMMARY_WIDTH } from './clothPleats.js?v=pass2-box-folds';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-box-folds';
+import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-chapters-v2';
+import { composePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-chapters-v2';
+import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -53,21 +54,8 @@ function makeModel(ribbon) {
   material.appendChild(background);
   // Quiet woven scenery connects intervals without extending an event's art.
   // It has no people, dates or historical claims, and never changes with zoom.
-  const landscape = svg('pattern', { id: `${id}-landscape`, width: 320, height: ART_HEIGHT,
-    patternUnits: 'userSpaceOnUse' });
-  landscape.appendChild(svg('rect', { width: 320, height: ART_HEIGHT, fill: '#dfcda5' }));
-  landscape.appendChild(svg('path', { d: 'M0 45 Q40 25 80 45 T160 45 T240 45 T320 45 M0 85 Q65 55 130 85 T260 85 T390 85',
-    fill: 'none', stroke: '#a39774', 'stroke-width': 1, 'stroke-dasharray': '2 2', opacity: '.5' }));
-  landscape.appendChild(svg('path', { d: 'M40 112V58m0 24-12-10m12 22 14-15M190 115V64m0 18-10-9m10 22 13-13',
-    fill: 'none', stroke: '#7b8060', 'stroke-width': 1.5, 'stroke-linecap': 'round', opacity: '.55' }));
-  const landscapeCrop = svg('svg', { viewBox: '0 148 2172 468', preserveAspectRatio: 'xMidYMid meet' });
-  const landscapeImage = svg('image', { href: 'images/tapestry/landscape-b-interlude.png', width: 2172, height: 724 });
-  landscapeImage.addEventListener('error', () => { landscapeCrop.style.display = 'none'; });
-  landscapeCrop.appendChild(landscapeImage);
-  landscape.appendChild(landscapeCrop);
-  defs.appendChild(landscape);
-  const interlude = svg('rect', { fill: `url(#${id}-landscape)` });
-  material.appendChild(interlude);
+  const landscape = svg('g');
+  material.appendChild(landscape);
   const artLayer = svg('g');
   const braidLayer = svg('g');
   material.append(artLayer);
@@ -79,7 +67,7 @@ function makeModel(ribbon) {
   weave.className = 'tapestry-weave tapestry-cloth';
   weave.setAttribute('aria-hidden', 'true');
   ribbon.append(definitions, weave, annotations);
-  const model = { id, defs, background, interlude, landscape, landscapeCrop, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), entrySerial: 0 };
+  const model = { id, defs, background, landscape, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), entrySerial: 0 };
   models.set(ribbon, model);
   return model;
 }
@@ -137,6 +125,65 @@ function installTexture(model, texture, clothHeight) {
   });
 }
 
+function sourceCrop(strip, left, origin, width, artHeight) {
+  const scale = artHeight / strip.height;
+  const crop = svg('svg', { x: left, width, height: artHeight,
+    viewBox: `${(strip.x || 0) + (left - origin) / scale} ${strip.y} ${width / scale} ${strip.height}` });
+  const image = svg('image', { href: strip.atlas.file, width: strip.atlas.width, height: strip.atlas.height });
+  crop.appendChild(image);
+  return { crop, image };
+}
+
+function joinOverlay(group, left, right, top, artHeight) {
+  // SVG <use> mask support varies across browsers. Small linen-colour thread
+  // bands provide a bounded fallback join without hiding the referenced art.
+  const fade = joinWidth(right - left), steps = 24, step = fade / steps;
+  for (let i = 0; i < steps; i++) for (const x of [left + i * step, right - (i + 1) * step]) {
+    group.appendChild(svg('rect', { x, y: top, width: step + .02, height: artHeight,
+      fill: '#dfcda5', opacity: 1 - (i + .5) / steps }));
+  }
+}
+
+function renderSourceMaterial(model, pictures, width, top, artHeight) {
+  model.landscape.replaceChildren();
+  attribute(model.landscape, 'transform', `translate(0 ${top})`);
+  for (const { d, stroke, strokeWidth, opacity, fill } of quietLandscape(width, artHeight)) {
+    model.landscape.appendChild(svg('path', { d, stroke, 'stroke-width': strokeWidth, opacity, fill }));
+  }
+  for (const quiet of quietPictures(width, artHeight)) {
+    const strip = { x: 0, y: quiet.y, width: quietAtlas.width, height: quiet.height, atlas: quietAtlas };
+    const { crop, image } = sourceCrop(strip, quiet.left, quiet.left, quiet.width, artHeight);
+    const joined = svg('g');
+    joined.appendChild(crop);
+    joinOverlay(joined, quiet.left, quiet.left + quiet.width, 0, artHeight);
+    image.addEventListener('error', () => joined.remove());
+    model.landscape.appendChild(joined);
+  }
+  for (const entry of model.entries.values()) entry.picture.replaceChildren();
+  const byId = new Map([...model.entries.values()].map(entry => [entry.event.id || entry.event.title, entry]));
+  for (const picture of pictures) {
+    const entry = byId.get(picture.event.id || picture.event.title);
+    const { crop, image } = sourceCrop(picture.strip, picture.anchor, picture.origin, picture.sceneWidth, artHeight);
+    attribute(crop, 'y', top);
+    crop.dataset.chapter = picture.key;
+    const joined = svg('g');
+    joined.appendChild(crop);
+    joinOverlay(joined, picture.anchor, picture.right, top, artHeight);
+    image.addEventListener('error', () => {
+      if (entry.original || model.disposed) return;
+      entry.original = true;
+      entry.button.dataset.artFallback = 'original';
+      if (!model.artworkPending) {
+        model.artworkPending = true;
+        queueMicrotask(() => { model.artworkPending = false; if (!model.disposed) model.redraw(); });
+      }
+    });
+    entry.picture.appendChild(joined);
+    // Match the chronological caption and hit-target precedence.
+    model.artLayer.appendChild(entry.picture);
+  }
+}
+
 function makeEntry(model, key) {
   const button = document.createElement('button');
   button.type = 'button';
@@ -150,13 +197,7 @@ function makeEntry(model, key) {
   captionDate.className = 'tapestry-caption-date';
   caption.append(captionTitle, captionDate);
   const patternId = `${model.id}-art-${model.entrySerial++}`;
-  const pattern = svg('pattern', { id: patternId, patternUnits: 'userSpaceOnUse' });
-  const crop = svg('svg', { preserveAspectRatio: 'xMidYMid meet' });
-  const image = svg('image');
-  crop.appendChild(image);
-  pattern.appendChild(crop);
-  model.defs.appendChild(pattern);
-  const picture = svg('rect', { fill: `url(#${patternId})` });
+  const picture = svg('g');
   model.artLayer.appendChild(picture);
   const thread = svg('g', { class: 'tapestry-thread', 'aria-hidden': 'true' });
   const braidPatternId = `${patternId}-braid`;
@@ -172,17 +213,8 @@ function makeEntry(model, key) {
   const endKnot = startKnot.cloneNode(true);
   thread.append(span, startKnot, endKnot);
   model.braidLayer.appendChild(thread);
-  const entry = { key, button, caption, captionTitle, captionDate, pattern, crop, image, picture, thread, braidPattern,
+  const entry = { key, button, caption, captionTitle, captionDate, picture, thread, braidPattern,
     span, startKnot, endKnot, original: false };
-  image.addEventListener('error', () => {
-    if (entry.original || model.disposed) return;
-    entry.original = true;
-    button.dataset.artFallback = 'original';
-    if (!model.artworkPending) {
-      model.artworkPending = true;
-      queueMicrotask(() => { model.artworkPending = false; if (!model.disposed) model.redraw(); });
-    }
-  });
   const highlight = value => {
     thread.classList.toggle('is-highlighted', value);
     picture.setAttribute('opacity', value ? '.9' : '1');
@@ -209,7 +241,8 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const headerHeight = 4 + lanes * BRAID_PITCH + CAPTION_HEIGHT;
   const artHeight = Math.max(24, Math.min(ART_HEIGHT, height - top - headerHeight - 14));
   const clothHeight = headerHeight + artHeight;
-  const pose = layoutPleats(materialWidth, width, clothCells(materialWidth, items));
+  const compositions = composePictures(items, artHeight, materialWidth);
+  const pose = layoutPleats(materialWidth, width, clothCells(materialWidth, [...items, ...compositions]));
   model.pose = pose;
   retainFaces(model, pose, clothHeight);
   model.headerHeight = headerHeight;
@@ -226,22 +259,14 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   attribute(model.annotations, 'height', headerHeight);
   attribute(model.background, 'width', materialWidth);
   attribute(model.background, 'height', clothHeight);
-  attribute(model.interlude, 'width', materialWidth);
-  attribute(model.interlude, 'y', headerHeight);
-  attribute(model.interlude, 'height', artHeight);
-  attribute(model.landscape, 'y', headerHeight);
-  attribute(model.landscape, 'width', artHeight * 2172 / 468);
-  attribute(model.landscape, 'height', artHeight);
-  attribute(model.landscapeCrop, 'width', artHeight * 2172 / 468);
-  attribute(model.landscapeCrop, 'height', artHeight);
   const active = new Set();
   for (const { event, anchor, end, sceneWidth, lane } of items) {
     const key = recordKey('event', event, `event:${events.indexOf(event)}`);
     active.add(key);
     const entry = model.entries.get(key) || makeEntry(model, key);
     Object.assign(entry, { event, onSelect, anchor, end, sceneWidth, lane });
-    const { button, caption, captionTitle, captionDate, thread, pattern, crop, image, picture, span, startKnot, endKnot, braidPattern } = entry;
-    const date = event.startYear === event.endYear ? String(event.startYear) : `${event.startYear}–${event.endYear}`;
+    const { button, caption, captionTitle, captionDate, thread, span, startKnot, endKnot, braidPattern } = entry;
+    const date = contextDate(event);
     const heading = `${event.title} · ${date}`;
     const left = projectClothX(anchor, pose);
     const right = projectClothX(anchor + sceneWidth, pose);
@@ -256,30 +281,9 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     button.style.top = `${headerHeight}px`;
     button.style.height = `${artHeight}px`;
     attribute(button, 'aria-label', `${heading}. ${event.details || ''}`);
-    const scene = tapestryScenes.get(event.title);
-    const materialKey = [anchor, end, sceneWidth, lane, artHeight, headerHeight, entry.original, scene?.atlas, scene?.row].join(':');
+    const materialKey = [anchor, end, sceneWidth, lane, artHeight, headerHeight, entry.original, JSON.stringify(event.chapters)].join(':');
     const materialChanged = materialKey !== entry.materialKey;
-    if (scene && materialChanged) {
-      const strip = getPanoramaStrip(scene, entry.original);
-      const tileWidth = strip.width * artHeight / strip.height;
-      const firstFacetWidth = strip.edges[1] * artHeight / strip.height;
-      pattern.setAttribute('x', anchor - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, sceneWidth)) / 2));
-      pattern.setAttribute('y', headerHeight);
-      pattern.setAttribute('width', tileWidth);
-      pattern.setAttribute('height', artHeight);
-      crop.setAttribute('width', tileWidth);
-      crop.setAttribute('height', artHeight);
-      crop.setAttribute('viewBox', `0 ${strip.y} ${strip.width} ${strip.height}`);
-      image.setAttribute('width', strip.atlas.width);
-      image.setAttribute('height', strip.atlas.height);
-      if (image.getAttribute('href') !== strip.atlas.file) image.setAttribute('href', strip.atlas.file);
-      button.dataset.tooltip = `${heading}\n${event.details || ''}`;
-      picture.setAttribute('x', anchor);
-      picture.setAttribute('y', headerHeight);
-      picture.setAttribute('width', sceneWidth);
-      picture.setAttribute('height', artHeight);
-      picture.style.display = '';
-    } else if (!scene) picture.style.display = 'none';
+    button.dataset.tooltip = `${heading}\n${event.details || ''}`;
     if (captionTitle.textContent !== event.title) captionTitle.textContent = event.title;
     if (captionDate.textContent !== ` · ${date}`) captionDate.textContent = ` · ${date}`;
     caption.dataset.sceneLeft = String(left);
@@ -308,12 +312,13 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     if (!button.isConnected) ribbon.append(button, caption);
   }
   for (const [key, entry] of model.entries) if (!active.has(key)) {
-    for (const node of [entry.button, entry.caption, entry.pattern, entry.picture, entry.thread, entry.braidPattern]) node.remove();
+    for (const node of [entry.button, entry.caption, entry.picture, entry.thread, entry.braidPattern]) node.remove();
     model.entries.delete(key);
   }
   const rasterKey = [materialWidth, clothHeight, ...[...model.entries.values()].map(e => e.materialKey)].join('|');
   if (model.rasterKey !== rasterKey) {
     model.rasterKey = rasterKey;
+    renderSourceMaterial(model, composePictures([...model.entries.values()], artHeight, materialWidth), materialWidth, headerHeight, artHeight);
     ribbon.dataset.artReady = 'false';
     const generation = model.generation = (model.generation || 0) + 1;
     rasterizeCloth([...model.entries.values()], materialWidth, clothHeight, headerHeight, artHeight,

@@ -1998,9 +1998,15 @@ body.has-docked-panel .timeline-shell {
 .lifespan-end { right: 0; transform: translateX(50%); }
 
 .detail-relations,
-.detail-sources {
+.detail-sources,
+.detail-context-chapters {
   margin-top: 28px;
 }
+
+.detail-context-chapters ol { padding-left: 1.25rem; }
+.detail-context-chapters li { margin: 1rem 0; padding-left: .25rem; }
+.detail-context-chapters h4 { margin: 0 0 .25rem; font-size: 14px; }
+.detail-context-chapters li p { margin: 0; font-size: 14px; color: var(--text-secondary); }
 
 .detail-item-role {
   display: block;

@@ -1,9 +1,7 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-box-folds';
-import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-box-folds';
+import { composePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-chapters-v2';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
-const INTERLUDE = { file: 'images/tapestry/landscape-b-interlude.png', y: 148, width: 2172, height: 468 };
 
 function loadImage(file) {
   if (!imageLoads.has(file)) imageLoads.set(file, new Promise(resolve => {
@@ -15,31 +13,26 @@ function loadImage(file) {
   return imageLoads.get(file);
 }
 
-function tileRow(context, image, source, origin, from, to, top, height) {
-  if (!image) return;
-  const tileWidth = source.width * height / source.height;
-  let left = origin + Math.floor((from - origin) / tileWidth) * tileWidth;
-  for (; left < to; left += tileWidth) {
-    context.drawImage(image, 0, source.y, source.width, source.height, left, top, tileWidth, height);
-  }
+function softenJoin(ink, left, right, top, height) {
+  const width = right - left, fade = joinWidth(width);
+  const edge = ink.createLinearGradient(left, 0, right, 0);
+  edge.addColorStop(0, 'transparent'); edge.addColorStop(fade / width, '#fff');
+  edge.addColorStop(1 - fade / width, '#fff'); edge.addColorStop(1, 'transparent');
+  ink.globalCompositeOperation = 'destination-in'; ink.fillStyle = edge;
+  ink.fillRect(left, top, width, height);
 }
 
-// Paint once into eight modest-size textures. Native-size face backgrounds
-// can span chunk boundaries without changing their material during zoom.
-// A single 60,000px canvas would exceed common browser canvas dimension limits.
+// Paint each composition once into eight bounded textures. Native material
+// stays fixed while its detail is concealed or exposed by folds.
 export async function rasterizeCloth(entries, width, height, artTop, artHeight, isCurrent = () => true) {
-  const interlude = await loadImage(INTERLUDE.file);
-  const paintings = await Promise.all(entries.map(async entry => {
-    const scene = tapestryScenes.get(entry.event.title);
-    const strip = scene ? getPanoramaStrip(scene, entry.original) : null;
-    return { ...entry, strip, image: strip ? await loadImage(strip.atlas.file) : null };
-  }));
+  const pictures = composePictures(entries, artHeight, width);
+  const [landscape, paintings] = await Promise.all([
+    loadImage(quietAtlas.file),
+    Promise.all(pictures.map(async picture => ({ ...picture, image: await loadImage(picture.strip.atlas.file) })))
+  ]);
   if (!isCurrent()) return null;
-  // Installing a texture without a scene image would hide the SVG fallback
-  // for that scene. Keep the complete source material visible instead.
-  if (paintings.some(({ strip, image }) => strip && !image)) {
-    throw new Error('Cloth panorama could not be loaded');
-  }
+  if (paintings.some(({ image }) => !image)) throw new Error('Cloth panorama could not be loaded');
+  const paths = quietLandscape(width, artHeight).map(path => ({ ...path, shape: new Path2D(path.d) }));
   const chunkWidth = width / CHUNKS;
   const urls = [];
   try {
@@ -47,36 +40,35 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
       if (!isCurrent()) { urls.forEach(url => URL.revokeObjectURL(url)); return null; }
       const left = chunk * chunkWidth, right = left + chunkWidth;
       const canvas = document.createElement('canvas');
-      canvas.width = chunkWidth;
-      canvas.height = height;
+      canvas.width = Math.ceil(chunkWidth); canvas.height = height;
       const context = canvas.getContext('2d');
-      context.fillStyle = '#dfcda5'; context.fillRect(0, 0, chunkWidth, height);
-      context.translate(-left, 0);
-      tileRow(context, interlude, INTERLUDE, 0, left, right, artTop, artHeight);
+      context.fillStyle = '#dfcda5'; context.fillRect(0, 0, canvas.width, height);
+      context.translate(-left, artTop);
+      for (const path of paths) {
+        context.strokeStyle = path.stroke; context.lineWidth = path.strokeWidth;
+        context.globalAlpha = path.opacity; context.stroke(path.shape);
+      }
+      context.globalAlpha = 1; context.translate(0, -artTop);
       const layer = document.createElement('canvas');
-      layer.width = chunkWidth; layer.height = height;
+      layer.width = canvas.width; layer.height = height;
       const ink = layer.getContext('2d');
       ink.translate(-left, 0);
-      for (const { anchor, sceneWidth, strip, image } of paintings) {
-        const pictureEnd = anchor + sceneWidth;
-        if (strip && image && pictureEnd > left && anchor < right) {
-          ink.clearRect(left, 0, chunkWidth, height);
-          ink.save();
-          ink.beginPath(); ink.rect(anchor, artTop, sceneWidth, artHeight); ink.clip();
-          const firstFacetWidth = strip.edges[1] * artHeight / strip.height;
-          const origin = anchor - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, sceneWidth)) / 2);
-          tileRow(ink, image, strip, origin, Math.max(left, anchor), Math.min(right, pictureEnd), artTop, artHeight);
-          // A fixed short join exposes the landscape underneath, never blank
-          // space or content extending beyond the recorded event footprint.
-          const fade = Math.min(12, sceneWidth / 4);
-          const edge = ink.createLinearGradient(anchor, 0, pictureEnd, 0);
-          edge.addColorStop(0, 'transparent'); edge.addColorStop(fade / sceneWidth, '#fff');
-          edge.addColorStop(1 - fade / sceneWidth, '#fff'); edge.addColorStop(1, 'transparent');
-          ink.globalCompositeOperation = 'destination-in'; ink.fillStyle = edge;
-          ink.fillRect(anchor, artTop, sceneWidth, artHeight);
-          ink.restore();
-          context.drawImage(layer, left, 0);
-        }
+      if (landscape) for (const quiet of quietPictures(width, artHeight)) {
+        if (quiet.left + quiet.width <= left || quiet.left >= right) continue;
+        ink.clearRect(left, 0, layer.width, height); ink.save();
+        ink.drawImage(landscape, 0, quiet.y, quietAtlas.width, quiet.height,
+          quiet.left, artTop, quiet.width, artHeight);
+        softenJoin(ink, quiet.left, quiet.left + quiet.width, artTop, artHeight);
+        ink.restore(); context.drawImage(layer, left, 0);
+      }
+      for (const { anchor, right: pictureEnd, sceneWidth, origin, nativeWidth, strip, image } of paintings) {
+        if (pictureEnd <= left || anchor >= right) continue;
+        ink.clearRect(left, 0, layer.width, height); ink.save();
+        ink.beginPath(); ink.rect(anchor, artTop, sceneWidth, artHeight); ink.clip();
+        ink.drawImage(image, strip.x, strip.y, strip.width, strip.height,
+          origin, artTop, nativeWidth, artHeight);
+        softenJoin(ink, anchor, pictureEnd, artTop, artHeight);
+        ink.restore(); context.drawImage(layer, left, 0);
       }
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
       if (!blob) throw new Error('Cloth texture could not be painted');

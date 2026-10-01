@@ -1,4 +1,5 @@
-import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-04';
+import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-chapters-v2';
+import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { createPortrait, getPortraitSource } from './portraits.js?v=3';
 
 // Wide screens dock the panel beside the timeline so both stay usable.
@@ -364,14 +365,14 @@ export function parseHttpsUrl(value) {
   }
 }
 
-function createSources(links) {
+function createSources(links, heading = 'Further reading') {
   const valid = (Array.isArray(links) ? links : [])
     .map((link) => ({ ...link, parsed: parseHttpsUrl(link?.url) }))
     .filter((link) => link.parsed);
   if (!valid.length) return null;
   const section = document.createElement('section');
   section.className = 'detail-sources';
-  section.appendChild(createSectionHeading('Further reading'));
+  section.appendChild(createSectionHeading(heading));
   const list = document.createElement('ul');
   list.className = 'detail-source-list';
   valid.forEach((link) => {
@@ -702,12 +703,37 @@ function renderEvent(index) {
   if (!item) return false;
   renderTimelineItem({
     type: 'event',
-    year: item.startYear === item.endYear ? `${item.startYear}` : `${item.startYear}–${item.endYear}`,
+    year: contextDate(item),
     itemTitle: item.title,
     description: item.details,
-    attendeeIds: item.attendee_ids
+    attendeeIds: item.attendee_ids,
+    extraMetadata: item.scope ? [['Scope', item.scope]] : [],
+    extraBody: [createContextChapters(item), createSources(item.sources, 'Evidence and sources')]
   });
   return true;
+}
+
+function createContextChapters(item) {
+  if (!item.chapters?.length) return null;
+  const section = document.createElement('section');
+  section.className = 'detail-context-chapters';
+  section.appendChild(createSectionHeading('Illustrated chapters'));
+  if (item.dateNote) {
+    const note = document.createElement('p');
+    note.className = 'detail-copy'; note.textContent = item.dateNote;
+    section.appendChild(note);
+  }
+  const list = document.createElement('ol');
+  for (const chapter of item.chapters) {
+    const entry = document.createElement('li');
+    const heading = document.createElement('h4');
+    heading.textContent = `${chapter.title} · ${chapter.startYear}–${chapter.endYear}`;
+    const description = document.createElement('p');
+    description.textContent = chapter.details;
+    entry.append(heading, description); list.appendChild(entry);
+  }
+  section.appendChild(list);
+  return section;
 }
 
 // Lists people who stay grouped even at the closest zoom.

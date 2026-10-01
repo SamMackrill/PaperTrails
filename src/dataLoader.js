@@ -1,5 +1,6 @@
 import { buildResearchIndex } from './researchModel.js';
 import { buildItemIndex } from './itemIdentity.js';
+import { validateContextChapters } from './contextModel.js?v=pass2-chapters-v2';
 export let scientists = {};
 export let discoveries = [];
 export let conferences = [];
@@ -10,7 +11,7 @@ export let relations = [];
 export let trails = [];
 export let researchIndex = buildResearchIndex([], [], buildItemIndex({}));
 
-const DATA_VERSION = 'pass2-04';
+const DATA_VERSION = 'pass2-chapters-v2';
 let itemIndex = buildItemIndex({});
 export const getItemKey = (type, index, scientistId = null) => itemIndex.at(type === 'publication' ? `publication:${scientistId}:${index}` : `${type}:${index}`);
 export const resolveItem = (key) => itemIndex.resolve(key);
@@ -39,6 +40,7 @@ async function loadConferencesData() {
 
 async function loadSignificantEventsData() {
   significantEvents = await loadYamlData('data/significantevents.yaml');
+  validateContextChapters(significantEvents);
 }
 
 const ids = (value) => (Array.isArray(value) ? value : []);
