@@ -1,7 +1,14 @@
-import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-bayeux-art-v1';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-height-joins-v1';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
+
+// Keep source and CSS texture widths identical. Fractional chunk edges caused
+// the browser to resample an extra canvas pixel into a visible vertical seam.
+export function textureChunks(width, count = CHUNKS) {
+  const chunkWidth = Math.max(1, Math.ceil(width / count));
+  return { chunkWidth, count: Math.ceil(width / chunkWidth) };
+}
 
 function loadImage(file) {
   if (!imageLoads.has(file)) imageLoads.set(file, new Promise(resolve => {
@@ -40,14 +47,14 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
     throw error;
   }
   const paths = quietLandscape(width, artHeight, entries, style).map(path => ({ ...path, shape: new Path2D(path.d) }));
-  const chunkWidth = width / CHUNKS;
+  const { chunkWidth, count } = textureChunks(width);
   const urls = [];
   try {
-    for (let chunk = 0; chunk < CHUNKS; chunk++) {
+    for (let chunk = 0; chunk < count; chunk++) {
       if (!isCurrent()) { urls.forEach(url => URL.revokeObjectURL(url)); return null; }
       const left = chunk * chunkWidth, right = left + chunkWidth;
       const canvas = document.createElement('canvas');
-      canvas.width = Math.ceil(chunkWidth); canvas.height = height;
+      canvas.width = chunkWidth; canvas.height = height;
       const context = canvas.getContext('2d');
       context.fillStyle = style === 'tapestry' ? '#e8dec8' : '#dfcda5'; context.fillRect(0, 0, canvas.width, height);
       context.translate(-left, artTop);
