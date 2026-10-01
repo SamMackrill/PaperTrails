@@ -1,4 +1,4 @@
-import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-continuous-context';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-continuous-context-v2';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
@@ -26,11 +26,13 @@ function softenJoin(ink, left, right, top, height) {
 // stays fixed while its detail is concealed or exposed by folds.
 export async function rasterizeCloth(entries, width, height, artTop, artHeight, isCurrent = () => true) {
   const pictures = continuePictures(composePictures(entries, artHeight, width), entries, artHeight);
-  const [landscape, paintings] = await Promise.all([
-    loadImage(quietAtlas.file),
+  const [landscapes, paintings] = await Promise.all([
+    Promise.all(quietAtlases.map(async atlas => [atlas.file, await loadImage(atlas.file)])),
     Promise.all(pictures.map(async picture => ({ ...picture, image: await loadImage(picture.strip.atlas.file) })))
   ]);
   if (!isCurrent()) return null;
+  const quietImages = new Map(landscapes);
+  const scenery = quietPictures(width, artHeight, pictures, entries);
   if (paintings.some(({ image }) => !image)) throw new Error('Cloth panorama could not be loaded');
   const paths = quietLandscape(width, artHeight, entries).map(path => ({ ...path, shape: new Path2D(path.d) }));
   const chunkWidth = width / CHUNKS;
@@ -55,10 +57,12 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
       layer.width = canvas.width; layer.height = height;
       const ink = layer.getContext('2d');
       ink.translate(-left, 0);
-      if (landscape) for (const quiet of quietPictures(width, artHeight)) {
+      for (const quiet of scenery) {
         if (quiet.left + quiet.width <= left || quiet.left >= right) continue;
+        const landscape = quietImages.get(quiet.atlas.file);
+        if (!landscape) continue;
         ink.clearRect(left, 0, layer.width, height); ink.save();
-        ink.drawImage(landscape, 0, quiet.y, quietAtlas.width, quiet.height,
+        ink.drawImage(landscape, quiet.x, quiet.y, quiet.sourceWidth, quiet.height,
           quiet.left, artTop, quiet.width, artHeight);
         softenJoin(ink, quiet.left, quiet.left + quiet.width, artTop, artHeight);
         ink.restore(); context.drawImage(layer, left, 0);
