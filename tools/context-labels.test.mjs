@@ -30,3 +30,11 @@ test('panned broad periods stay labelled; wrapped labels occupy all of their row
   assert.ok(short.row < broad.row || short.row >= broad.row + 2);
   assert.deepEqual(layoutContextLabels([], 4, 4), []);
 });
+
+test('labels that need more rows than the context can provide are hidden', () => {
+  const placed = layoutContextLabels([
+    { id: 'too-tall', start: 100, end: 120, width: 180, lines: 4 },
+    { id: 'fits', start: 260, end: 280, width: 120, lines: 3 }
+  ], 0, 600, 3);
+  assert.deepEqual(placed.map(label => label.id), ['fits']);
+});

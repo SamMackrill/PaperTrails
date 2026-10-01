@@ -8,7 +8,8 @@ export function layoutContextLabels(labels, left, right, rows = 3) {
     if (label.end < left || label.start > right || label.width <= 0
       || (label.width > available && !label.lines)) continue;
     const width = Math.min(label.width, available);
-    const lines = Math.min(rows, Math.max(1, label.lines || 1));
+    const lines = Math.max(1, label.lines || 1);
+    if (lines > rows) continue;
     const anchor = Math.max(left + 4, Math.min(right - 4, label.start));
     const desired = Math.max(left + 4, Math.min(right - width - 4, anchor + 4));
     let choice;

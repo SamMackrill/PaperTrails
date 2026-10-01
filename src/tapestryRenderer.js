@@ -225,7 +225,7 @@ function makeEntry(model, key) {
   captionTitle.className = 'tapestry-caption-title';
   const captionDate = document.createElement('span');
   captionDate.className = 'tapestry-caption-date';
-  caption.append(captionTitle, captionDate);
+  caption.append(captionTitle, document.createTextNode(' '), captionDate);
   const patternId = `${model.id}-art-${model.entrySerial++}`;
   const picture = svg('g');
   model.artLayer.appendChild(picture);
