@@ -1,4 +1,4 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-continuations-era-fallback';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-continuous-context-v2';
 import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -91,56 +91,69 @@ function datedPictures(picture, artHeight) {
 }
 
 export function continuePictures(pictures, entries, artHeight) {
-  return pictures.flatMap(original => {
+  const placed = [];
+  // Paint the newest context first when planning occupancy. A recorded period
+  // is not an opaque rectangle: its actual artwork is what hides older cloth.
+  for (const original of [...pictures].reverse()) {
     const dated = datedPictures(original, artHeight);
     // Undated artwork keeps its initial placement; it cannot migrate to later gaps.
-    if (!dated) return [original];
-    return dated.flatMap(picture => {
-    if (!picture.eraSource && picture.end - picture.anchor <= picture.nativeWidth) return [picture];
-    const windows = contextWindows(picture, entries);
-    if (windows.length === 1 && windows[0].left === picture.anchor) {
-      const end = windows[0].right, right = Math.min(end, picture.right);
-      return [{ ...picture, end, right, sceneWidth: right - picture.anchor }];
-    }
-    if (!windows.length) return [];
-    const count = picture.strip.edges.length - 1;
-    const allocations = windows.map(() => 0);
-    if (windows.length <= count) {
-      allocations.fill(1);
-      for (let remaining = count - windows.length; remaining > 0; remaining--) {
-        const weights = windows.map((w, i) => (w.right - w.left) / (allocations[i] + 1));
-        const largest = weights.indexOf(Math.max(...weights));
-        allocations[largest]++;
+    if (!dated) { placed.push(original); continue; }
+    for (const picture of dated) {
+      if (!picture.eraSource && picture.end - picture.anchor <= picture.nativeWidth) {
+        placed.push(picture); continue;
       }
-    } else {
-      for (let facet = 0; facet < count; facet++) {
-        allocations[count === 1 ? 0 : Math.round(facet * (windows.length - 1) / (count - 1))]++;
+      const footprints = placed.map(p => ({ ...p, end: p.right }));
+      const windows = contextWindows(picture, footprints);
+      if (!windows.length) continue;
+      const count = picture.strip.edges.length - 1;
+      const allocations = windows.map(() => 0);
+      if (windows.length <= count) {
+        allocations.fill(1);
+        for (let remaining = count - windows.length; remaining > 0; remaining--) {
+          const weights = windows.map((w, i) => (w.right - w.left) / (allocations[i] + 1));
+          const largest = weights.indexOf(Math.max(...weights));
+          allocations[largest]++;
+        }
+      } else {
+        for (let facet = 0; facet < count; facet++) {
+          allocations[count === 1 ? 0 : Math.round(facet * (windows.length - 1) / (count - 1))]++;
+        }
+      }
+      let nextFacet = 0;
+      const assignments = allocations.flatMap((allocation, windowIndex) => {
+        const first = nextFacet;
+        nextFacet += allocation;
+        return allocation ? [[windowIndex, Array.from({ length: allocation }, (_, i) => first + i)]] : [];
+      });
+      for (const [windowIndex, facets] of assignments) {
+        const { left, right: windowEnd } = windows[windowIndex];
+        const totalWidth = (picture.strip.edges[facets.at(-1) + 1] - picture.strip.edges[facets[0]]) * artHeight / picture.strip.height;
+        const free = Math.max(0, windowEnd - left - totalWidth);
+        // Distinct motifs recur throughout the active interval, not all at its
+        // left edge. Their source pixels remain fixed; scenery connects them.
+        const groups = free > 96 && facets.length > 1 ? facets.map(f => [f]) : [facets];
+        let used = 0;
+        for (const [groupIndex, group] of groups.entries()) {
+          const first = group[0], last = group.at(-1) + 1;
+          const sourceLeft = picture.strip.edges[first];
+          const strip = { ...picture.strip, x: picture.strip.x + sourceLeft,
+            width: picture.strip.edges[last] - sourceLeft,
+            edges: picture.strip.edges.slice(first, last + 1).map(x => x - sourceLeft),
+            facets: picture.strip.facets.slice(first, last) };
+          const nativeWidth = strip.width * artHeight / strip.height;
+          const firstFacetWidth = (strip.edges[1] - strip.edges[0]) * artHeight / strip.height;
+          const anchor = left + used + (groups.length > 1 ? free * groupIndex / (groups.length - 1) : 0);
+          const origin = anchor - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, windowEnd - anchor)) / 2);
+          const right = Math.min(windowEnd, origin + nativeWidth);
+          placed.push({ ...picture, key: `${picture.key}/continuation-${windowIndex}-${first}`, strip,
+            anchor, left: anchor, end: windowEnd, right, sceneWidth: right - anchor,
+            origin, nativeWidth, continuation: picture.continuation || windowIndex > 0 || anchor > picture.anchor });
+          used += nativeWidth;
+        }
       }
     }
-    let nextFacet = 0;
-    const assignments = allocations.flatMap((allocation, windowIndex) => {
-      const first = nextFacet;
-      nextFacet += allocation;
-      return allocation ? [[windowIndex, Array.from({ length: allocation }, (_, i) => first + i)]] : [];
-    });
-    return [...assignments].map(([windowIndex, facets]) => {
-      const { left, right: windowEnd } = windows[windowIndex];
-      const first = facets[0], last = facets.at(-1) + 1;
-      const sourceLeft = picture.strip.edges[first];
-      const strip = { ...picture.strip, x: picture.strip.x + sourceLeft,
-        width: picture.strip.edges[last] - sourceLeft,
-        edges: picture.strip.edges.slice(first, last + 1).map(x => x - sourceLeft),
-        facets: picture.strip.facets.slice(first, last) };
-      const nativeWidth = strip.width * artHeight / strip.height;
-      const firstFacetWidth = (strip.edges[1] - strip.edges[0]) * artHeight / strip.height;
-      const origin = left - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, windowEnd - left)) / 2);
-      const right = Math.min(windowEnd, origin + nativeWidth);
-      return { ...picture, key: `${picture.key}/continuation-${windowIndex}`, strip,
-        anchor: left, left, end: windowEnd, right, sceneWidth: right - left,
-        origin, nativeWidth, continuation: picture.continuation || windowIndex > 0 || left > picture.anchor };
-    });
-    });
-  });
+  }
+  return placed.sort((a, b) => a.priority - b.priority || a.anchor - b.anchor);
 }
 
 // Both SVG fallback and canvas textures use the same feathered join, contained
@@ -151,7 +164,7 @@ export function joinWidth(pictureWidth) {
 
 // Draw continuous thread paths and individually varied plants across the full
 // material. There is no repeated panel, mirrored image, or zoom-dependent seed.
-export function quietLandscape(width, height) {
+export function quietLandscape(width, height, entries = []) {
   const paths = [];
   let seed = 71821;
   const random = () => {
@@ -160,15 +173,39 @@ export function quietLandscape(width, height) {
   };
   const path = (d, stroke, strokeWidth, opacity, fill = 'none') =>
     paths.push({ d, stroke, strokeWidth, opacity, fill });
-  for (let ridge = 0; ridge < 4; ridge++) {
-    let d = `M0 ${height * (.37 + ridge * .12)}`;
-    for (let x = 0; x < width; x += 160) {
-      const right = Math.min(width, x + 160);
-      const y = height * (.37 + ridge * .12 + .055 * Math.sin(right / (310 + ridge * 70) + ridge)
-        + .025 * Math.sin(right / 93 + ridge));
-      d += ` Q${(x + right) / 2} ${y - 7 + random() * 14} ${right} ${y}`;
+  const palettes = ['#a7b5b2', '#a1a78a', '#acaa81', '#b4a273', '#b3a07b'];
+  const contour = (x, ridge) => height * (.24 + ridge * .13
+    + .045 * Math.sin(x / (277 + ridge * 81) + ridge)
+    + .029 * Math.sin(x / (91 + ridge * 17) + ridge * 2.7));
+  const horizon = (left, right, ridge) => {
+    let d = `M${left} ${contour(left, ridge)}`;
+    for (let x = left; x < right; x += 36) {
+      const next = Math.min(right, x + 36);
+      d += ` L${next} ${contour(next, ridge)}`;
     }
-    path(d, ridge < 2 ? '#788a89' : '#8a8865', .8, ridge < 2 ? .38 : .25);
+    return d;
+  };
+  // Every material coordinate contains a landscape, rather than occasional
+  // decorative rows separated by bare linen. These paths never tile or reset.
+  for (let ridge = 0; ridge < 5; ridge++) {
+    const d = horizon(0, width, ridge);
+    path(`${d} L${width} ${height} L0 ${height}Z`, '#76806c', .65, .65, palettes[ridge]);
+    path(d, ridge < 2 ? '#748a8d' : '#827654', .8, .75);
+  }
+  const winter = entries.find(({ event }) => event.id === 'event-04');
+  if (winter) {
+    // Symbolic seasonal scenery, bounded by the actual climate-period record.
+    // No people, buildings or technology imply a particular dated occurrence.
+    for (let ridge = 1; ridge < 5; ridge++) {
+      const d = horizon(winter.anchor, winter.end, ridge);
+      path(`${d} L${winter.end} ${height} L${winter.anchor} ${height}Z`, '#899997', .8, .68,
+        ['#d9dac6', '#e8dfc5', '#d0d2bc', '#e1d8bb'][ridge - 1]);
+    }
+  }
+  let hatching = '', grass = '', trunks = '', crowns = '', branches = '', stones = '';
+  for (let x = 0; x < width; x += 8 + random() * 14) {
+    const y = height * (.54 + random() * .43), length = 2 + random() * 8;
+    hatching += `M${x} ${y}l${length} ${-length * .21} `;
   }
   for (let x = 10; x < width; x += 42 + random() * 94) {
     const base = height * (.76 + random() * .22);
@@ -176,30 +213,99 @@ export function quietLandscape(width, height) {
     const plantHeight = height * (tall ? .18 + random() * .26 : .025 + random() * .075);
     const lean = (random() - .5) * plantHeight * .4;
     let d = `M${x} ${base} Q${x + lean / 2} ${base - plantHeight * .6} ${x + lean} ${base - plantHeight}`;
-    const branches = tall ? 5 + Math.floor(random() * 5) : 2 + Math.floor(random() * 3);
-    for (let i = 1; i <= branches; i++) {
-      const fraction = i / (branches + 1);
+    const branchCount = tall ? 5 + Math.floor(random() * 5) : 2 + Math.floor(random() * 3);
+    for (let i = 1; i <= branchCount; i++) {
+      const fraction = i / (branchCount + 1);
       const y = base - fraction * plantHeight;
       const reach = plantHeight * (.12 + random() * .24);
       const side = i % 2 ? -1 : 1;
       d += ` M${x + lean * fraction} ${y} q${side * reach * .6} ${-reach * .3} ${side * reach} ${-reach * (.4 + random() * .5)}`;
     }
-    path(d, tall ? '#68745b' : '#8c8259', tall ? 1 : .7, tall ? .5 : .4);
+    grass += d;
+    if (tall) {
+      // Varied broadleaf silhouettes and branch fans; nothing architectural.
+      const crown = plantHeight * (.23 + random() * .2);
+      const cx = x + lean, cy = base - plantHeight * .7;
+      crowns += `M${cx - crown} ${cy}q${-crown * .4} ${-crown * .7} ${crown * .3} ${-crown}
+        q${crown * .35} ${-crown} ${crown * .9} ${-crown * .35}
+        q${crown} ${-crown * .3} ${crown * .85} ${crown * .75}
+        q${crown * .6} ${crown * .9} ${-crown * .6} ${crown * 1.1}Z `;
+      trunks += `M${x} ${base}Q${x + lean / 2} ${cy} ${cx} ${base - plantHeight} `;
+      for (let twig = 0; twig < 7; twig++) {
+        const level = .48 + random() * .45, direction = twig % 2 ? -1 : 1;
+        const reach = crown * (.4 + random() * .8);
+        const startX = x + lean * level, startY = base - plantHeight * level;
+        branches += `M${startX} ${startY}q${direction * reach * .45} ${-reach * .45} ${direction * reach} ${-reach * .6} `;
+      }
+    }
+    if (random() < .2) {
+      const size = 2 + random() * 5;
+      stones += `M${x} ${base}q${size * .2} ${-size} ${size} ${-size * .7}l${size * .8} ${size * .7}Z `;
+    }
   }
+  path(hatching, '#8e805f', .65, .38);
+  path(crowns, '#737953', .85, .58, '#95996b');
+  path(trunks, '#695b41', 1.25, .85);
+  path(branches, '#776349', .8, .78);
+  path(grass, '#82805a', .8, .65);
+  path(stones, '#8b7d63', .6, .65, '#b5aa8c');
   return paths;
 }
 
-// Six separately authored landscapes appear once each on the source material.
-// The continuous thread drawing fills everything between them.
+// Original assets are kept unchanged. Each source pixel is used at most once
+// when its natural-width crop is allocated to uncovered material.
 export const quietAtlas = {
   file: 'images/tapestry/landscape-b-quiet-chapters.png', width: 1774, height: 887,
   bounds: [[0,144], [148,291], [295,438], [442,586], [591,735], [741,887]]
 };
 
-export function quietPictures(width, artHeight) {
-  return quietAtlas.bounds.map(([y, bottom], index) => {
-    const nativeWidth = quietAtlas.width * artHeight / (bottom - y);
-    const left = Math.max(0, Math.min(width - nativeWidth, (index + .5) * width / 6 - nativeWidth / 2));
-    return { y, height: bottom - y, left, width: nativeWidth };
+export const quietAtlases = [quietAtlas,
+  { file: 'images/tapestry/landscape-b-quiet-extensions.png', width: 1774, height: 887,
+    bounds: [[0,145], [153,292], [299,440], [448,588], [596,734], [741,887]] },
+  { file: 'images/tapestry/landscape-b-quiet-winter.png', width: 1774, height: 887, winter: true,
+    bounds: [[0,146], [153,292], [299,440], [449,588], [596,733], [742,887]] },
+  { file: 'images/tapestry/landscape-b-quiet-wide.png', width: 1774, height: 887,
+    bounds: [[0,66], [74,140], [149,216], [225,291], [299,365], [373,438],
+      [447,512], [521,587], [595,661], [670,735], [743,807], [816,887]] }
+];
+
+export function quietPictures(width, artHeight, pictures = [], entries = []) {
+  let windows = [{ left: 0, right: width }];
+  for (const picture of pictures) {
+    windows = windows.flatMap(window => {
+      if (picture.right <= window.left || picture.anchor >= window.right) return [window];
+      return [
+        ...(picture.anchor > window.left ? [{ left: window.left, right: picture.anchor }] : []),
+        ...(picture.right < window.right ? [{ left: picture.right, right: window.right }] : [])
+      ];
+    });
+  }
+  const winter = entries.find(({ event }) => event.id === 'event-04');
+  if (winter) windows = windows.flatMap(window => {
+    const edges = [...new Set([window.left, window.right,
+      ...[winter.anchor, winter.end].filter(x => x > window.left && x < window.right)])].sort((a, b) => a - b);
+    return edges.slice(1).map((right, i) => ({ left: edges[i], right,
+      winter: edges[i] >= winter.anchor && right <= winter.end }));
   });
+  const makePool = seasonal => quietAtlases.filter(atlas => Boolean(atlas.winter) === seasonal)
+    .flatMap(atlas => atlas.bounds.map(([y, bottom]) => ({ atlas, y, height: bottom - y, used: 0 })));
+  const pools = { neutral: makePool(false), winter: makePool(true) };
+  const result = [];
+  for (const window of windows) {
+    let left = window.left;
+    while (left < window.right - 1e-7) {
+      const pool = window.winter && pools.winter.length ? pools.winter : pools.neutral;
+      if (!pool.length) break; // Fully illustrated vector cloth remains underneath.
+      const source = pool[0];
+      const scale = artHeight / source.height;
+      const sourceWidth = Math.min(source.atlas.width - source.used, (window.right - left) / scale);
+      const nativeWidth = sourceWidth * scale;
+      result.push({ atlas: source.atlas, x: source.used, y: source.y, height: source.height,
+        sourceWidth, left, width: nativeWidth, nativeWidth });
+      source.used += sourceWidth;
+      left += nativeWidth;
+      if (source.atlas.width - source.used < 1e-7) pool.shift();
+    }
+  }
+  return result;
 }

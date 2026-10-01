@@ -96,3 +96,19 @@ Full generation prompt:
 ```text
 Create ONE NEW historical embroidery atlas for PaperTrails, exactly FIVE full-width equally high horizontal strips stacked vertically, no gutters, no outer border, no text or dates. Reference image is STYLE ONLY: keep its delicate brown ink outlines, muted indigo, madder, ochre linen, fine thread vegetation and charming Bayeux-inspired textile drawing. Every strip is a DIFFERENT continuous winter landscape, quiet transitions between five distinct small activities, shared horizon at 40% of its strip height, adults about 35% of strip height, feet at 85%, same pale warm linen/snow colours at edges. No copied panels. These pictures illustrate broad regional cold-weather context, NOT a particular recorded freeze or claim that every pictured year was snowy. The COSTUMES, TRANSPORT and ARCHITECTURE must belong to that strip's era, never medieval costume in a later century. FIVE STRIPS TOP TO BOTTOM: 1 Northern European winter 1600-1699: seventeenth-century wool coats, breeches, stockings, wide-brim hats, women with modest long wool skirts and linen caps; low timber/plaster and brick cottages, frozen river crossing, simple hand sled, people gathering fuel, skating; NO medieval hoods, armour, castles, nineteenth-century railways. 2 Northern European winter 1700-1749: early eighteenth-century long coats and breeches, some cocked hats, women in period wool skirts/caps; Georgian brick street at a distance, horse cart, snow-covered fields, riverside workshop, people sharing fuel, frozen canal; no medieval dress. 3 Winter 1750-1799: late eighteenth-century coats/waistcoats/breeches, bonneted women, Georgian farmhouses and canal-side buildings, horse-drawn supply cart, winter fieldwork, mill worker, family entering warm cottage; no medieval buildings, no locomotives. 4 Winter 1800-1829: Regency/early nineteenth-century long coats and trousers, simple top hats, women with high-waisted dresses under wool cloaks and bonnets; Georgian houses, horse coach on wintry road, canal boat, workers fetching fuel, hedged fields; no medieval/Elizabethan clothes. 5 Winter 1830-1850: early Victorian everyday dress, frock coats and trousers, simple top hats and flat work caps, women in bonnets and long skirts under shawls; modest brick terraces and small rural workshops, horse-drawn cart, canal transport, family carrying fuel, snow-covered village lane; absolutely NO medieval hoods or robes, armour, castles, modern technology, fantasy motifs, late Victorian bustle dresses or exaggerated Victorian locomotives. Scenes are humane modest everyday winter life with no battlefield, no famous landmark, no event labels. Keep all scenes naturally proportioned, no folds or shadows baked into the image; the app supplies cloth folds. Very wide fine linework strips, matching the reference's palette and drawing scale. No lettering or watermarks.
 ```
+
+## Continuous scenery atlases (layer 14)
+
+Created with the built-in image_gen tool. Original generated PNG bytes are preserved;
+no bitmap was edited. Full prompts: [continuous-context-art-prompts.json](../../docs/continuous-context-art-prompts.json).
+
+- `images/tapestry/landscape-b-quiet-extensions.png`: six distinct neutral natural panoramas.
+- `images/tapestry/landscape-b-quiet-winter.png`: six distinct winter natural panoramas, used only within the recorded Little Ice Age interval.
+- `images/tapestry/landscape-b-quiet-wide.png`: twelve distinct broad neutral panoramas for wider desktop material.
+
+Each image is 1774 by 887. Measured row bounds are in `quietAtlases` in
+`src/clothComposition.js`. There are no people, buildings, settlements, vehicles
+or technology. Quiet source pixels are consumed once into actual uncovered
+windows at uniform natural scale, not tiled or mirrored. Existing dated historical
+artwork retains its explicit era compatibility. The winter scenery is symbolic
+seasonal context, not a claim of a particular freeze or continuous snow.
