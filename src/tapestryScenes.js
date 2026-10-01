@@ -99,15 +99,47 @@ tapestryScenes.set('atlantic-resistance', { ...tapestryScenes.get('atlantic-resi
 tapestryScenes.set('telegraph-experiments', { ...tapestryScenes.get('telegraph-networks'), facetRange: [0, 3] });
 tapestryScenes.set('telegraph-cable', { ...tapestryScenes.get('telegraph-networks'), facetRange: [3, 5] });
 
+// Reuse requires an explicitly compatible era. No undated source migrates into
+// later gaps. These are editorial art ranges, not new historical event dates.
+for (const [key, range] of [
+  ['The Renaissance', [1400,1600]], ['Protestant Reformation', [1517,1648]],
+  ['industry-water', [1760,1777]], ['industry-steam', [1777,1812]],
+  ['industry-community', [1812,1830]], ['atlantic-communities', [1501,1650]],
+  ['atlantic-resistance', [1650,1780]], ['atlantic-abolition', [1780,1866]],
+  ['telegraph-experiments', [1830,1850]], ['telegraph-cable', [1850,1866]]
+]) tapestryScenes.get(key).continuationRange = range;
+
+const winterAtlas = { file: 'images/tapestry/landscape-b-winter-eras.png', width: 1855, height: 848,
+  rows: [[0,171], [176,350], [356,520], [525,684], [688,848]]
+    .map(([top, bottom]) => [top, bottom, Array.from({ length: 6 }, (_, i) => i * 1855 / 5)]) };
+const winterEras = [[1600,1700], [1700,1750], [1750,1800], [1800,1830], [1830,1850]];
+tapestryScenes.get('The Little Ice Age').continuationSources = winterEras.map(([startYear,endYear],row) => {
+  const scene = `winter-era-${startYear}`;
+  tapestryScenes.set(scene, { customAtlas: winterAtlas, row,
+    facets: ['Winter travel', 'Fuel and household work', 'Cold-weather countryside', 'River and canal transport', 'Village community'] });
+  return { startYear,endYear,scene };
+});
+
+// Failed custom art retries against neutral, era-independent countryside.
+// Never substitute a legacy event with unrelated costumes or historical claims.
+const quietFallbackAtlas = { file: 'images/tapestry/landscape-b-quiet-chapters.png', width: 1774, height: 887,
+  rows: [[0,144], [148,291], [295,438], [442,586], [591,735], [741,887]]
+    .map(([top,bottom]) => [top,bottom,Array.from({ length: 6 }, (_,i) => i * 1774 / 5)]) };
+for (const scene of tapestryScenes.values()) if (scene.customAtlas) {
+  scene.fallbackAtlas = quietFallbackAtlas;
+  scene.fallbackRow = scene.row % quietFallbackAtlas.rows.length;
+}
+
 export function getPanoramaStrip(scene, original = false) {
   const atlas = original && scene.fallbackAtlas
     ? scene.fallbackAtlas
     : scene.customAtlas || (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
+  const row = original && scene.fallbackAtlas ? scene.fallbackRow ?? scene.row : scene.row;
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
   // panoramas do not divide into a mathematically exact grid.
-  const [top, bottom, edges] = atlas.rows?.[scene.row] ?? [scene.row * rowHeight + rowHeight * 0.04,
-    (scene.row + 1) * rowHeight - rowHeight * 0.04, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)];
+  const [top, bottom, edges] = atlas.rows?.[row] ?? [row * rowHeight + rowHeight * 0.04,
+    (row + 1) * rowHeight - rowHeight * 0.04, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)];
   const cropHeight = bottom - top;
   const [first, last] = scene.facetRange || [0, edges.length - 1];
   const x = edges[first];
