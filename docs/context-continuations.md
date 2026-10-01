@@ -15,3 +15,26 @@ that a particular depicted activity occurred at its placement date.
 This required user follow-up has a separate branch/worktree above PR #65 and
 joins the same shared 61-minute review queue. Merge only to prototype/ui-pass2;
 initial publication waits for every registered primary layer. Main stays isolated.
+
+PR: https://github.com/SamMackrill/PaperTrails/pull/66.
+
+`contextWindows` subtracts later foreground event footprints from the active
+chapter, including the bounded illustration allowance for point events. Longer
+panoramas are partitioned into disjoint source facets and assigned to surviving
+windows in chronological order. Every window gets a facet when the source has
+enough; remaining facets go to larger windows. With more windows than available
+facets, placements span the available range without duplicating source regions.
+The canvas and SVG use the same plan, and each continuation's material boundaries
+participate in cloth-cell construction. Dates and chapter boundaries stay intact.
+
+Continuation inscriptions identify the original period and full dates rather than
+claiming a new onset. They use the existing caption collision handling. The original
+record remains the selection target; no duplicate event or legacy alias is created.
+
+Validation: 61 native tests and 25 operator tests pass. Added regression checks
+cover the 1651–1693 Little Ice Age window, unchanged shorter events, disjoint native
+source crops, nested overlaps and point events, density anchors and full unfolding.
+T3 confirms the continuing inscription and original record dates, unchanged crop
+boxes and retained faces throughout zoom reversal, and complete maximum-zoom
+flattening. Existing source art is reused without regeneration or bitmap edits.
+The publisher repeats the complete packaged browser audit before publication.

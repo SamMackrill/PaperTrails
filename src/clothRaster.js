@@ -1,4 +1,4 @@
-import { composePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-chapters-v2';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-continuations-v2';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
@@ -25,7 +25,7 @@ function softenJoin(ink, left, right, top, height) {
 // Paint each composition once into eight bounded textures. Native material
 // stays fixed while its detail is concealed or exposed by folds.
 export async function rasterizeCloth(entries, width, height, artTop, artHeight, isCurrent = () => true) {
-  const pictures = composePictures(entries, artHeight, width);
+  const pictures = continuePictures(composePictures(entries, artHeight, width), entries, artHeight);
   const [landscape, paintings] = await Promise.all([
     loadImage(quietAtlas.file),
     Promise.all(pictures.map(async picture => ({ ...picture, image: await loadImage(picture.strip.atlas.file) })))

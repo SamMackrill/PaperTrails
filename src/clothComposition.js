@@ -37,6 +37,74 @@ export function composePictures(entries, artHeight, materialWidth = null) {
   return pictures.sort((a, b) => a.priority - b.priority || a.anchor - b.anchor);
 }
 
+// Cut out the recorded footprints of later foreground events. The surviving
+// windows belong to the same ongoing context, not newly dated occurrences.
+export function contextWindows(picture, entries) {
+  let windows = [{ left: picture.anchor, right: picture.end }];
+  for (const entry of entries) {
+    if (entry.event.startYear <= picture.event.startYear) continue;
+    const left = entry.anchor;
+    const right = entry.event.startYear === entry.event.endYear
+      ? entry.anchor + entry.sceneWidth : entry.end;
+    windows = windows.flatMap(window => {
+      if (right <= window.left || left >= window.right) return [window];
+      return [
+        ...(left > window.left ? [{ left: window.left, right: left }] : []),
+        ...(right < window.right ? [{ left: right, right: window.right }] : [])
+      ];
+    });
+  }
+  return windows;
+}
+
+// Use disjoint regions of a long panorama in its uncovered windows. Source
+// coordinates and placements are decided once for the material, never on zoom.
+// A source facet appears at most once; neither pictures nor people are stretched.
+export function continuePictures(pictures, entries, artHeight) {
+  return pictures.flatMap(picture => {
+    if (picture.end - picture.anchor <= picture.nativeWidth) return [picture];
+    const windows = contextWindows(picture, entries);
+    if (windows.length === 1 && windows[0].left === picture.anchor) return [picture];
+    if (!windows.length) return [];
+    const count = picture.strip.edges.length - 1;
+    const allocations = windows.map(() => 0);
+    if (windows.length <= count) {
+      allocations.fill(1);
+      for (let remaining = count - windows.length; remaining > 0; remaining--) {
+        const weights = windows.map((w, i) => (w.right - w.left) / (allocations[i] + 1));
+        const largest = weights.indexOf(Math.max(...weights));
+        allocations[largest]++;
+      }
+    } else {
+      for (let facet = 0; facet < count; facet++) {
+        allocations[count === 1 ? 0 : Math.round(facet * (windows.length - 1) / (count - 1))]++;
+      }
+    }
+    let nextFacet = 0;
+    const assignments = allocations.flatMap((allocation, windowIndex) => {
+      const first = nextFacet;
+      nextFacet += allocation;
+      return allocation ? [[windowIndex, Array.from({ length: allocation }, (_, i) => first + i)]] : [];
+    });
+    return [...assignments].map(([windowIndex, facets]) => {
+      const { left, right: windowEnd } = windows[windowIndex];
+      const first = facets[0], last = facets.at(-1) + 1;
+      const sourceLeft = picture.strip.edges[first];
+      const strip = { ...picture.strip, x: picture.strip.x + sourceLeft,
+        width: picture.strip.edges[last] - sourceLeft,
+        edges: picture.strip.edges.slice(first, last + 1).map(x => x - sourceLeft),
+        facets: picture.strip.facets.slice(first, last) };
+      const nativeWidth = strip.width * artHeight / strip.height;
+      const firstFacetWidth = (strip.edges[1] - strip.edges[0]) * artHeight / strip.height;
+      const origin = left - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, windowEnd - left)) / 2);
+      const right = Math.min(windowEnd, origin + nativeWidth);
+      return { ...picture, key: `${picture.key}/continuation-${windowIndex}`, strip,
+        anchor: left, left, end: windowEnd, right, sceneWidth: right - left,
+        origin, nativeWidth, continuation: windowIndex > 0 || left > picture.anchor };
+    });
+  });
+}
+
 // Both SVG fallback and canvas textures use the same feathered join, contained
 // inside the chapter footprint. No historical imagery leaks across its dates.
 export function joinWidth(pictureWidth) {

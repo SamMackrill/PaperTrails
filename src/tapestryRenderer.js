@@ -1,8 +1,8 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-chapters-v2';
-import { composePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-chapters-v2';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-continuations-v2';
+import { composePictures, continuePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-continuations-v2';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -67,7 +67,7 @@ function makeModel(ribbon) {
   weave.className = 'tapestry-weave tapestry-cloth';
   weave.setAttribute('aria-hidden', 'true');
   ribbon.append(definitions, weave, annotations);
-  const model = { id, defs, background, landscape, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), entrySerial: 0 };
+  const model = { id, defs, background, landscape, artLayer, braidLayer, annotations, weave, faces: [], cells: [], entries: new Map(), continuationCaptions: new Map(), entrySerial: 0 };
   models.set(ribbon, model);
   return model;
 }
@@ -166,6 +166,7 @@ function renderSourceMaterial(model, pictures, width, top, artHeight) {
     const { crop, image } = sourceCrop(picture.strip, picture.anchor, picture.origin, picture.sceneWidth, artHeight);
     attribute(crop, 'y', top);
     crop.dataset.chapter = picture.key;
+    crop.dataset.continuation = String(Boolean(picture.continuation));
     const joined = svg('g');
     joined.appendChild(crop);
     joinOverlay(joined, picture.anchor, picture.right, top, artHeight);
@@ -241,7 +242,7 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const headerHeight = 4 + lanes * BRAID_PITCH + CAPTION_HEIGHT;
   const artHeight = Math.max(24, Math.min(ART_HEIGHT, height - top - headerHeight - 14));
   const clothHeight = headerHeight + artHeight;
-  const compositions = composePictures(items, artHeight, materialWidth);
+  const compositions = continuePictures(composePictures(items, artHeight, materialWidth), items, artHeight);
   const pose = layoutPleats(materialWidth, width, clothCells(materialWidth, [...items, ...compositions]));
   model.pose = pose;
   retainFaces(model, pose, clothHeight);
@@ -315,10 +316,34 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     for (const node of [entry.button, entry.caption, entry.picture, entry.thread, entry.braidPattern]) node.remove();
     model.entries.delete(key);
   }
+  const continued = new Set();
+  for (const picture of compositions.filter(p => p.continuation)) {
+    continued.add(picture.key);
+    let caption = model.continuationCaptions.get(picture.key);
+    if (!caption) {
+      caption = document.createElement('span');
+      caption.className = 'tapestry-caption tapestry-continuation-caption';
+      caption.setAttribute('aria-hidden', 'true');
+      const title = document.createElement('span'); title.className = 'tapestry-caption-title';
+      const date = document.createElement('span'); date.className = 'tapestry-caption-date';
+      caption.append(title, date); ribbon.appendChild(caption);
+      model.continuationCaptions.set(picture.key, caption);
+    }
+    caption.firstElementChild.textContent = `${picture.event.title} (continuing)`;
+    caption.lastElementChild.textContent = ` · ${contextDate(picture.event)}`;
+    caption.dataset.sceneLeft = String(projectClothX(picture.anchor, pose));
+    caption.dataset.sceneWidth = String((picture.end - picture.anchor) * pose.ratio);
+    caption.dataset.startYear = String(picture.event.startYear);
+    caption.style.top = `${4 + lanes * BRAID_PITCH}px`;
+  }
+  for (const [key, caption] of model.continuationCaptions) if (!continued.has(key)) {
+    caption.remove(); model.continuationCaptions.delete(key);
+  }
   const rasterKey = [materialWidth, clothHeight, ...[...model.entries.values()].map(e => e.materialKey)].join('|');
   if (model.rasterKey !== rasterKey) {
     model.rasterKey = rasterKey;
-    renderSourceMaterial(model, composePictures([...model.entries.values()], artHeight, materialWidth), materialWidth, headerHeight, artHeight);
+    const entries = [...model.entries.values()];
+    renderSourceMaterial(model, continuePictures(composePictures(entries, artHeight, materialWidth), entries, artHeight), materialWidth, headerHeight, artHeight);
     ribbon.dataset.artReady = 'false';
     const generation = model.generation = (model.generation || 0) + 1;
     rasterizeCloth([...model.entries.values()], materialWidth, clothHeight, headerHeight, artHeight,
