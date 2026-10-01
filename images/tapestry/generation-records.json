@@ -2,6 +2,7 @@
   "landscape/early": {
     "subjectsHash": "8eee74d84c59e0cf66bf46f58afa8f3c9a88fc75172fba7567078b7eb072aed3",
     "referenceHash": "1021ff5230a30298e5f4cfadb4d25a223ecd39516fcf1d37343ae0349f7ff5f1",
+    "cropHash": "6465f0e5c1bfc4913dcaf2e98d25c0cab3fb89602fa4f4fc22b57fb899a0f909",
     "sourceHash": "1105d8f92fd48514e729794ed3465f3ff4e5e2d244ebc4d07cdd15da1cddfd32",
     "runtimeHash": "1105d8f92fd48514e729794ed3465f3ff4e5e2d244ebc4d07cdd15da1cddfd32",
     "redrawPending": false
@@ -9,6 +10,7 @@
   "landscape/revolutions": {
     "subjectsHash": "2ab45c0f850aec98c78ac088281ad65283db463c591e92248a6dc9e9020f330c",
     "referenceHash": "1021ff5230a30298e5f4cfadb4d25a223ecd39516fcf1d37343ae0349f7ff5f1",
+    "cropHash": "c11c3ecf14d9994f3bc026266a39d1bd3f16b6dc8d0db712e2802eeb302fd170",
     "sourceHash": "3578706e700da88765f66eeeb296203fdb2244c55509b731351008851c081ee3",
     "runtimeHash": "3578706e700da88765f66eeeb296203fdb2244c55509b731351008851c081ee3",
     "redrawPending": false
@@ -16,6 +18,7 @@
   "landscape/modern": {
     "subjectsHash": "9a5d019c78b4d5f092e99d1e478faaf20e404a861ebd199c20a30eccecda87d3",
     "referenceHash": "1021ff5230a30298e5f4cfadb4d25a223ecd39516fcf1d37343ae0349f7ff5f1",
+    "cropHash": "a8cc41fbbf0e095b4facf4cd482889d5391f28332c2f5c6a3499802c19163b66",
     "sourceHash": "285dcb7c8efef60afb494cbc09683550bc1c5651852084d29333eb363050681f",
     "runtimeHash": "285dcb7c8efef60afb494cbc09683550bc1c5651852084d29333eb363050681f",
     "redrawPending": false
@@ -23,6 +26,7 @@
   "landscape/context-chapters": {
     "subjectsHash": "f62732c4abe3f2d9ff5a5d9a43f9014f50bcf873851f917bdad942b59c5dcf57",
     "referenceHash": "1021ff5230a30298e5f4cfadb4d25a223ecd39516fcf1d37343ae0349f7ff5f1",
+    "cropHash": "15aba0b8de11a2aabd8073fa0940ecbaac398e38afd7658c7289ef56a39642ab",
     "sourceHash": "4f357d303fa8cb86aaf64eda81ad12ca17d631dbed841f8aae3384bfdb86f685",
     "runtimeHash": "4f357d303fa8cb86aaf64eda81ad12ca17d631dbed841f8aae3384bfdb86f685",
     "redrawPending": false
@@ -30,6 +34,7 @@
   "landscape/winter-eras": {
     "subjectsHash": "1512b01d6caeaf4a3b2b6286c247ec0e28306e93c7806de5e536638b28289669",
     "referenceHash": "1021ff5230a30298e5f4cfadb4d25a223ecd39516fcf1d37343ae0349f7ff5f1",
+    "cropHash": "5548bbd07d34b1fe1e82475e545a9a0239766850cf36a0333d8406094f03872f",
     "sourceHash": "eeb6591b9fe8e3e11a705d4026b302fe592760b86a387bd71df572ea26d8f207",
     "runtimeHash": "eeb6591b9fe8e3e11a705d4026b302fe592760b86a387bd71df572ea26d8f207",
     "redrawPending": false
@@ -37,36 +42,41 @@
   "tapestry/early": {
     "subjectsHash": "8eee74d84c59e0cf66bf46f58afa8f3c9a88fc75172fba7567078b7eb072aed3",
     "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-    "sourceHash": "30c8253c915ba90f490873f71b56c716c8dc9406f7fb5df3a3edf32451b0e6b0",
-    "runtimeHash": "e0e659eb71a39fd8861e17b3b1e0dd47a3cd2ef9081c8e62124ae3d34d8bc7ea",
-    "redrawPending": true
+    "cropHash": "f70e83ea8cce0405217798708390e82009df0365d6f452c7e6a687e3f70696b5",
+    "sourceHash": "231171bde01611a72410db0c538a7135a1fc38d7e35a249be29fe0847c89f89e",
+    "runtimeHash": "95b1fb8b39228ad6b9da3f061efaa26af34ab26c7296086d730cc1619a71a382",
+    "redrawPending": false
   },
   "tapestry/revolutions": {
     "subjectsHash": "2ab45c0f850aec98c78ac088281ad65283db463c591e92248a6dc9e9020f330c",
     "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-    "sourceHash": "1848b77468f1a7c2bbab2401ac150a5515e4e74c37d0161b6b2db8de953f69e5",
-    "runtimeHash": "82e85d2d0280a9b6ce939dbb02a365a6acd097d1f29678781492bc75e1fd57cb",
-    "redrawPending": true
+    "cropHash": "661d122715ca855efb1cf4fce5fc10703d9ce1a708a85d45e82511fdf4dd0115",
+    "sourceHash": "78db5fe6d3241a41c1b047b8cd39aa399891f60908c0f8f454997d6b2540c83b",
+    "runtimeHash": "3d2ee2e387bed21c8b3b8d69df4b18707050d229146629356a735bda727e52db",
+    "redrawPending": false
   },
   "tapestry/modern": {
     "subjectsHash": "9a5d019c78b4d5f092e99d1e478faaf20e404a861ebd199c20a30eccecda87d3",
     "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-    "sourceHash": "050832bee851704ff1e67c9672ec24ee5fa9ee49c5556f462217131e08d9d2ea",
-    "runtimeHash": "22ca2b09bfc865ca8ec90ee29cfc528f6db56d0d8f088f58b7af1756371cb593",
-    "redrawPending": true
+    "cropHash": "94ba94a1744d1325e0ac9d226db01d22e57af3f4b10d30619dfefb00f4df58a9",
+    "sourceHash": "e876e6c6ae5deb7bcb264a5b5db12343f051d4de194fe8b5f40631a7bd88c512",
+    "runtimeHash": "55b215ee75038c72b07a074315a6bfae592657f1fffb8012209ee2cf950b3f95",
+    "redrawPending": false
   },
   "tapestry/context-chapters": {
     "subjectsHash": "f62732c4abe3f2d9ff5a5d9a43f9014f50bcf873851f917bdad942b59c5dcf57",
     "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-    "sourceHash": "4f357d303fa8cb86aaf64eda81ad12ca17d631dbed841f8aae3384bfdb86f685",
-    "runtimeHash": "4f357d303fa8cb86aaf64eda81ad12ca17d631dbed841f8aae3384bfdb86f685",
-    "redrawPending": true
+    "cropHash": "4dede7225cdd39d76a94aecfebfd5ce0febcce9cc1d9ed381b432ea163a2a13c",
+    "sourceHash": "69729148c77c8ba8fe3ef06d1ad81260e8222981379ac33649bdd612b470d138",
+    "runtimeHash": "75a2ef87bd950f8a78f4896765acbb87a11aacd69bf04806ad09967f4f824256",
+    "redrawPending": false
   },
   "tapestry/winter-eras": {
     "subjectsHash": "1512b01d6caeaf4a3b2b6286c247ec0e28306e93c7806de5e536638b28289669",
     "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-    "sourceHash": "eeb6591b9fe8e3e11a705d4026b302fe592760b86a387bd71df572ea26d8f207",
-    "runtimeHash": "eeb6591b9fe8e3e11a705d4026b302fe592760b86a387bd71df572ea26d8f207",
-    "redrawPending": true
+    "cropHash": "df3dacd72cbe24325ac534ba4ca1bdcdd35902cdffba5eaae08bee165ea16634",
+    "sourceHash": "a457fe0a8690d75769d463527f914309759a2979b518c9208d3baca5c316559d",
+    "runtimeHash": "917c1f13da2dbe7ee23e93c9238db9f351019d7fac19b42c21434db46467e4da",
+    "redrawPending": false
   }
 }

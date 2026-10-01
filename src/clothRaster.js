@@ -1,4 +1,4 @@
-import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-context-styles-v1';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-bayeux-art-v1';
 
 const imageLoads = new Map();
 const CHUNKS = 8;

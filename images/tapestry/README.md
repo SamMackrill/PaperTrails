@@ -3,11 +3,21 @@
 The UI2 context control now has three modes: Bars, Landscape and Tapestry. The
 current landscape and the closest-to-Bayeux direction are maintained together.
 See [drawing-guide.md](drawing-guide.md) for the paired drawing workflow,
-fold-aware composition rules and deferred production redraws. Tapestry uses
+fold-aware composition rules and the five completed Bayeux redraws. Tapestry uses
 Latin inscriptions without visible dates; English titles and dates remain in
 event details. Landscape retains English captions and dates.
 
-The current ribbon uses `early-panorama.png`, `revolutions-panorama-v2.png`, and `modern-panorama.png`, generated with the built-in image generation tool. Each sheet has seven horizontal panoramas, with five distinct narrative groups per event. Together they illustrate the 21 events in `data/significantevents.yaml`. Dates and descriptions are read from that database at runtime. The images are artistic interpretations, not documentary reconstructions.
+Tapestry loads full-size WebP derivatives of the five `bayeux-*.png` masters,
+including the context chapters and five winter eras. Measured row crops live in
+`bayeuxAtlases` in `src/tapestryScenes.js`; a failed derivative retries its own
+PNG master. Generated PNG bytes and exact prompts are preserved. The user
+approved the source sheets; publication remains held for an in-prototype preview.
+
+The archived `early-panorama.png`, `revolutions-panorama-v2.png`, and
+`modern-panorama.png` were generated with the built-in image generation tool.
+Each has seven horizontal panoramas with five narrative groups per event.
+They remain available as Landscape fallback sources. The images are artistic
+interpretations; dates and descriptions come from the database at runtime.
 
 The revised revolutions sheet replaces only the American Revolution's first group with colonial troops facing British redcoats across a gap. The generated correction was cropped into the original atlas at x=0–327, y=568–704; all pixels outside that rectangle are preserved. The original `revolutions-panorama.png` remains as a source. The edit prompt is recorded in [panorama-prompts.md](panorama-prompts.md#american-revolution-correction).
 

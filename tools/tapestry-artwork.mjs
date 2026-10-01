@@ -13,6 +13,7 @@ const hash = value => createHash('sha256').update(value).digest('hex');
 const recordFile = 'images/tapestry/generation-records.json';
 const records = () => existsSync(resolve(root, recordFile)) ? JSON.parse(read(recordFile)) : {};
 const names = ['early', 'revolutions', 'modern', 'context-chapters', 'winter-eras'];
+const cropHash = atlas => hash(JSON.stringify({ width: atlas.width, height: atlas.height, rows: atlas.rows }));
 
 function subjects(index) {
   const atlas = artworkStyles.landscape.atlases[index];
@@ -37,7 +38,8 @@ export function drawingPlans() {
   };
   return Object.entries(artworkStyles).flatMap(([style, config]) => config.atlases.map((atlas, index) => {
     const topics = subjects(index);
-    const rows = Array.from({ length: atlas.rows.length }, (_, row) => ({ row,
+    const rows = atlas.rows.map(([top, bottom, edges], row) => ({ row,
+      measuredCrop: { top, bottom, edges },
       scenes: topics.filter(topic => topic.row === row) }));
     return { style, sheet: names[index], reference: config.reference,
       output: style === 'tapestry' ? `images/tapestry/bayeux-${names[index]}.png` : atlas.file,
@@ -78,6 +80,7 @@ export function validateArtwork({ provenance = true } = {}) {
     const key = `${plan.style}/${plan.sheet}`;
     if (provenance) {
       const expected = { subjectsHash: plan.subjectsHash, referenceHash: hash(read(plan.reference)),
+        cropHash: cropHash(atlas),
         sourceHash: hash(png), runtimeHash: hash(read(atlas.file)), redrawPending: plan.redrawPending };
       if (Object.entries(expected).some(([field, value]) => manifest[key]?.[field] !== value)) failures.push(`Outdated/unrecorded ${key}: update both affected styles and record after review`);
     }
@@ -103,6 +106,7 @@ function recordArtwork({ metadataOnly = false } = {}) {
   for (const plan of drawingPlans()) {
     const key = `${plan.style}/${plan.sheet}`;
     const record = { subjectsHash: plan.subjectsHash, referenceHash: hash(read(plan.reference)),
+      cropHash: cropHash(artworkStyles[plan.style].atlases[names.indexOf(plan.sheet)]),
       sourceHash: hash(read(plan.runtime.replace(/\.webp$/, '.png'))), runtimeHash: hash(read(plan.runtime)),
       redrawPending: plan.redrawPending };
     const old = previous[key];
