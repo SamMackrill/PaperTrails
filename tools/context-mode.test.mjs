@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CONTEXT_MODES, nextContextMode, savedContextMode } from '../src/contextMode.js';
 import { formatHash, parseHash } from '../src/urlState.js';
-import { drawingPlans, validateArtwork } from './tapestry-artwork.mjs';
+import { drawingPlans, validateArtwork, validateRecordUpdate } from './tapestry-artwork.mjs';
 
 test('context cycles Bars, Landscape, Tapestry and back to Bars', () => {
   let mode = 'bars';
@@ -47,4 +47,16 @@ test('winter continuation sources retain their approved chronological bounds in 
       assert.match(plan.prompt, new RegExp(`\\"startYear\\": ${startYear},\\n\\s+\\"endYear\\": ${endYear}`));
     }
   }
+});
+
+test('scope metadata corrections require an explicit exception and preserve reviewed image bytes', () => {
+  const old = { subjectsHash: 'old scope', referenceHash: 'reference', sourceHash: 'master', runtimeHash: 'runtime' };
+  const corrected = { ...old, subjectsHash: 'corrected scope' };
+  assert.throws(() => validateRecordUpdate(old, corrected), /subjects changed/);
+  assert.doesNotThrow(() => validateRecordUpdate(old, corrected, { metadataOnly: true }));
+  assert.throws(() => validateRecordUpdate(old, { ...corrected, referenceHash: 'new style' }, { metadataOnly: true }), /reference changed/);
+  for (const field of ['sourceHash', 'runtimeHash']) {
+    assert.throws(() => validateRecordUpdate(old, { ...corrected, [field]: 'changed' }, { metadataOnly: true }), /image bytes/);
+  }
+  assert.doesNotThrow(() => validateRecordUpdate(old, { ...corrected, sourceHash: 'redrawn', runtimeHash: 'new runtime' }));
 });

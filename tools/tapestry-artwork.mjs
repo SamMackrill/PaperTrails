@@ -86,7 +86,18 @@ export function validateArtwork({ provenance = true } = {}) {
   return { styles: Object.keys(artworkStyles), events: events().length, plans: plans.length };
 }
 
-function recordArtwork() {
+export function validateRecordUpdate(old, record, { metadataOnly = false } = {}) {
+  if (!old) return;
+  const sameSource = old.sourceHash === record.sourceHash;
+  const sameRuntime = old.runtimeHash === record.runtimeHash;
+  if (metadataOnly && (!sameSource || !sameRuntime)) throw new Error('Metadata-only recording cannot change image bytes');
+  if (old.referenceHash !== record.referenceHash && sameSource) throw new Error('Style reference changed without redrawing the artwork');
+  if (old.subjectsHash !== record.subjectsHash && sameSource && !metadataOnly) {
+    throw new Error('Drawing subjects changed without redrawing the artwork. Use --metadata-only only after reviewing a scope metadata correction.');
+  }
+}
+
+function recordArtwork({ metadataOnly = false } = {}) {
   validateArtwork({ provenance: false });
   const previous = records(), next = {};
   for (const plan of drawingPlans()) {
@@ -95,9 +106,8 @@ function recordArtwork() {
       sourceHash: hash(read(plan.runtime.replace(/\.webp$/, '.png'))), runtimeHash: hash(read(plan.runtime)),
       redrawPending: plan.redrawPending };
     const old = previous[key];
-    if (old && old.referenceHash !== record.referenceHash && old.sourceHash === record.sourceHash) {
-      throw new Error(`Style reference changed but ${key} was not redrawn. Update both styles before recording.`);
-    }
+    try { validateRecordUpdate(old, record, { metadataOnly }); }
+    catch (error) { throw new Error(`${key}: ${error.message}. Update both affected styles before recording.`); }
     next[key] = record;
   }
   writeFileSync(resolve(root, recordFile), JSON.stringify(next, null, 2) + '\n');
@@ -109,8 +119,11 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     if (command === 'prompts') {
       writeFileSync(resolve(root, 'images/tapestry/drawing-prompts.json'), JSON.stringify(drawingPlans(), null, 2) + '\n');
       console.log('Prepared ten paired, fold-aware drawing briefs.');
-    } else if (command === 'record') { recordArtwork(); console.log(validateArtwork()); }
+    } else if (command === 'record') {
+      if (process.argv[3] && process.argv[3] !== '--metadata-only') throw new Error('Unknown record option');
+      recordArtwork({ metadataOnly: process.argv[3] === '--metadata-only' }); console.log(validateArtwork());
+    }
     else if (command === 'check') console.log(validateArtwork());
-    else throw new Error('Usage: node tools/tapestry-artwork.mjs [prompts|record|check]');
+    else throw new Error('Usage: node tools/tapestry-artwork.mjs [prompts|record [--metadata-only]|check]');
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

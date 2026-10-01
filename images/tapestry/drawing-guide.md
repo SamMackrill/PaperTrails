@@ -44,6 +44,12 @@ references, source pixels and runtime pixels. Recording refuses a changed brief
 whose artwork has not changed, so an update to only one style cannot silently
 pass. Commit original PNGs, crop metadata, regenerated prompts and records.
 
+For a reviewed correction to scope metadata that preserves the existing image
+content, use `node tools/tapestry-artwork.mjs record --metadata-only`. This
+explicit exception records both style briefs while requiring unchanged master
+and runtime image hashes. It cannot accept a changed style reference without a
+redraw. Ordinary subject changes continue to require updated artwork.
+
 Validate with `node --test tools/*.test.mjs` and the native browser. Check all
 three modes, reload/shared links, low/mid/max zoom and reversal in both time
 scales, Latin captions without dates, and correct chapter details when clicked.
