@@ -130,24 +130,40 @@ for (const scene of tapestryScenes.values()) if (scene.customAtlas) {
   scene.fallbackRow = scene.row % quietFallbackAtlas.rows.length;
 }
 
-// Both styles share scene identities and chronological footprints. Bayeux
-// redraws are deferred while context chapters are evolving; shipped embroidered
-// sources keep the alternate mode usable meanwhile.
+// Bayeux sheets keep their original PNG pixels. Row starts include the narrow
+// animal border; measured cuts separate motifs without borrowing the next row.
+// Five authored action groups remain the source of each fixed cloth facet.
+export const bayeuxAtlases = [
+  { sheet: 'early', bounds: [[0,120],[120,263],[263,400],[400,533],[533,651],[651,767],[767,887]] },
+  { sheet: 'revolutions', bounds: [[0,127],[127,261],[261,397],[397,534],[534,657],[657,768],[768,887]] },
+  { sheet: 'modern', bounds: [[0,150],[150,271],[271,411],[411,538],[538,661],[661,797],[797,887]] },
+  { sheet: 'context-chapters', bounds: [[0,132],[132,275],[275,410],[410,548],[548,683],[683,800],[800,887]] },
+  { sheet: 'winter-eras', bounds: [[0,188],[188,371],[371,553],[553,732],[732,887]] }
+].map(({ sheet, bounds }) => ({ file: `images/tapestry/bayeux-${sheet}.webp`, width: 1774, height: 887,
+  rows: bounds.map(([top, bottom]) => [top, bottom,
+    Array.from({ length: 6 }, (_, i) => i * 1774 / 5)]) }));
+
+// Both styles share scene identities and chronological footprints. Landscape
+// retains its existing sources and crops; Tapestry uses the approved redraws.
 export const artworkStyles = {
   landscape: { reference: 'images/tapestry/style-reference-landscape.png',
     atlases: [...tapestryAtlases, chapterAtlas, winterAtlas] },
-  tapestry: { reference: 'images/tapestry/style-reference-bayeux.png', redrawPending: true,
-    atlases: [...originalTapestryAtlases, chapterAtlas, winterAtlas] }
+  tapestry: { reference: 'images/tapestry/style-reference-bayeux.png',
+    atlases: bayeuxAtlases }
 };
 
 export function getPanoramaStrip(scene, original = false, style = 'landscape') {
   const customIndex = scene.customAtlas === chapterAtlas ? 3 : 4;
-  const atlas = original && scene.fallbackAtlas
+  // A failed Bayeux WebP retries its own PNG master, keeping the subject,
+  // era and measured crop. Landscape keeps its established fallback sources.
+  const atlas = style === 'tapestry'
+    ? artworkStyles.tapestry.atlases[scene.customAtlas ? customIndex : scene.atlas]
+    : original && scene.fallbackAtlas
     ? scene.fallbackAtlas
     : scene.customAtlas ? artworkStyles[style].atlases[customIndex]
       : (original ? originalTapestryAtlases : artworkStyles[style].atlases)[scene.atlas];
-  const row = original && scene.fallbackAtlas ? scene.fallbackRow ?? scene.row : scene.row;
-  const source = style === 'tapestry' && original && !scene.customAtlas
+  const row = style !== 'tapestry' && original && scene.fallbackAtlas ? scene.fallbackRow ?? scene.row : scene.row;
+  const source = style === 'tapestry' && original
     ? { ...atlas, file: atlas.file.replace('.webp', '.png') } : atlas;
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn

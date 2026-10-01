@@ -6,19 +6,21 @@ the Bayeux embroidery: coloured wool contours and fills, profile figures and
 mostly open linen. The two approved industrial references are committed here
 as `style-reference-landscape.png` and `style-reference-bayeux.png`.
 
-Large redraws are deferred while the #67 context work settles. Tapestry currently
-uses the shipped embroidered panoramas for the original events and the correct
-existing chapter/winter pictures for the newer subjects. The registry explicitly
-marks its redraw pending. These interim pictures are not the completed study 8
-production set. Never substitute an unrelated historical scene to fill a gap.
+Tapestry uses five approved Bayeux sheets: `bayeux-early`, `bayeux-revolutions`,
+`bayeux-modern`, `bayeux-context-chapters` and `bayeux-winter-eras`. Original
+generated PNGs are preserved; full-size WebP derivatives are used at runtime.
+A failed WebP retries its own PNG with the same row and facet crop. Landscape
+retains its existing sources, neutral scenery and fallback behaviour. Never
+substitute an unrelated historical scene to fill a gap.
 
 Run `node tools/tapestry-artwork.mjs prompts` before drawing. It prepares **ten
 paired briefs**: early, revolutions, modern, context chapters and winter eras,
 once per style. A subject or date-scope change affects both corresponding briefs.
 Keep each style's measured rows in `artworkStyles` in `src/tapestryScenes.js`.
-Install finished Bayeux sheets there and remove `redrawPending` only after all
-five sheets have been reviewed. Chapter and winter sources can share interim
-assets, but their finished Bayeux counterparts must be separately authored.
+The five Bayeux sheets are 1774×887, with seven/seven/seven/seven/five rows.
+Each crop includes its upper animal border and stops before the next row.
+The paired briefs include the measured crop coordinates for each style;
+provenance checks detect row/facet changes as well as pixel and subject drift.
 
 Respect #67's folds: the first facet's central **112px** must identify the subject
 at overview. Later facets sit behind fixed source crops and appear as folds open.

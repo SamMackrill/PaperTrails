@@ -1,8 +1,8 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-cloth-recovery-v1';
-import { composePictures, continuePictures, quietLandscape, quietPictures, joinWidth } from './clothComposition.js?v=pass2-cloth-recovery-v1';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-bayeux-art-v1';
+import { composePictures, continuePictures, quietLandscape, quietPictures, joinWidth } from './clothComposition.js?v=pass2-bayeux-art-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { yearToX } from './timeScale.js?v=3';

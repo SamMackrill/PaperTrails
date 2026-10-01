@@ -1,4 +1,4 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-context-styles-v1';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-bayeux-art-v1';
 import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
