@@ -62,3 +62,12 @@ All layers target `prototype/ui-pass2` through their preceding branch, with the 
 4. `ui-pass2/20-context-labels-validation`: roomy English landscape labels with braid connections, Latin tapestry inscriptions, browser regression checks and deployment handoff.
 
 Performance check for layer 17: a local baseline Bars-to-Landscape click occupied roughly 4.4 seconds of synchronous main-thread work. After the change, switches at 1440×900 measured 42 ms (Tapestry), 20 ms (Bars) and 34 ms (Landscape); a first switch at 1280×800 measured 68 ms. These are development-browser observations, not cross-device benchmarks or a claim that artwork download time is eliminated. All 81 native tests and 25 Python operator tests passed.
+
+
+### Continuous story implementation (layer 19)
+
+Tapestry now composes complete identifying motifs on a single viewport canvas instead of projecting Landscape's narrow folded faces. Its continuous animal and bird borders use the approved Bayeux sheet. Climate scenes use the approved winter-era sources; overlapping events share baselines, with key subjects given precedence. Wider chronological room exposes further action groups from the same approved sources, preserving their proportions. The composition is symbolic; English selection details carry exact dates. Decorative border repetition does not duplicate historical events.
+
+Carrington and electric telegraph networks use their approved wires/operators imagery together, with Carrington retained at 1859 and the network retaining its own 1830–1866 interval. Carrington's details now explain induced currents, sparks, operator shocks and messages carried with batteries disconnected, supported by [NASA Goddard, Cutting Edge, Winter 2012, page 3](https://www.nasa.gov/wp-content/uploads/2017/11/winter2012.pdf).
+
+Validation: 86 Node tests and 25 Python tests; collaborative-browser overview and 1845–1871 detail inspection. Tapestry contains 25 accessible events and no duration braids. PNG fallback retries the same approved drawing when its WebP cannot load. Label spacing and broader interaction checks follow in layer 20.

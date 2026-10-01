@@ -1,10 +1,10 @@
-import { setupTrails } from './src/trailController.js?v=pass2-chapters-v2';
+import { setupTrails } from './src/trailController.js?v=pass2-story-v2';
 import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
 import { config } from './src/config.js?v=16';
-import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-chapters-v2';
+import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-story-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-chapters-v2';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-height-joins-v1';
+import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-story-v2';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-story-v2';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';

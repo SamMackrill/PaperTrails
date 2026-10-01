@@ -187,7 +187,11 @@
   startYear: 1859
   endYear: 1859
   color: "#39FF88" # Aurora green
-  details: "Strongest recorded solar storm, causing brilliant auroras and widespread telegraph-system failures."
+  details: "A major geomagnetic storm in September 1859 produced widespread auroras and disrupted telegraph networks. Storm-induced currents in the wires caused sparks and shocks to operators; some lines could carry messages even after their batteries were disconnected."
+  sources:
+    - label: "NASA Goddard — Cutting Edge, Winter 2012"
+      url: "https://www.nasa.gov/wp-content/uploads/2017/11/winter2012.pdf"
+      locator: "Page 3, The All-Time Greatest Solar Storms / Telegraph Goes Haywire: the September 1859 event and storm-induced currents in telegraph lines."
 
 - id: event-industrial-revolution
   legacyKey: event:21

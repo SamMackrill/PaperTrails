@@ -1,4 +1,4 @@
-import { initializeData, researchIndex, resolveItem, scientists } from './dataLoader.js?v=pass2-chapters-v2';
+import { initializeData, researchIndex, resolveItem, scientists } from './dataLoader.js?v=pass2-story-v2';
 import { RELATION_LABELS } from './researchModel.js?v=pass2-04';
 import { element, stopContent } from './trailContent.js?v=pass2-06b';
 import { formatHash } from './urlState.js?v=pass2-context-styles-v1';

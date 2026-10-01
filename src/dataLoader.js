@@ -11,7 +11,7 @@ export let relations = [];
 export let trails = [];
 export let researchIndex = buildResearchIndex([], [], buildItemIndex({}));
 
-const DATA_VERSION = 'pass2-chapters-v2';
+const DATA_VERSION = 'pass2-story-v1';
 let itemIndex = buildItemIndex({});
 export const getItemKey = (type, index, scientistId = null) => itemIndex.at(type === 'publication' ? `publication:${scientistId}:${index}` : `${type}:${index}`);
 export const resolveItem = (key) => itemIndex.resolve(key);

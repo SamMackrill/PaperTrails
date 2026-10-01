@@ -1257,6 +1257,8 @@ html[data-theme="dark"] .icon-sun {
 }
 
 .tapestry-definitions { position: absolute; width: 0; height: 0; pointer-events: none; }
+.tapestry-story-canvas { position: absolute; top: 0; pointer-events: none; }
+.tapestry-story .tapestry-caption { white-space: nowrap; text-overflow: clip; }
 .tapestry-ribbon[data-art-ready="false"]::before {
   content: "Loading historical context…";
   position: absolute;
@@ -2689,3 +2691,5 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
   .trail-route-stop { font-size: 11px; }
 }
 .tapestry-scene { background: transparent; }
+
+.tapestry-story-hit { position: absolute; display: block; pointer-events: auto; }

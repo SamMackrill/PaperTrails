@@ -6,6 +6,7 @@ import { composePictures, continuePictures, quietLandscape, quietPictures, joinW
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { yearToX } from './timeScale.js?v=3';
+import { renderStory, updateStory, disposeStory } from './storyRenderer.js?v=pass2-story-v2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const BRAID_PITCH = 5;
@@ -251,6 +252,17 @@ function makeEntry(model, key) {
 }
 
 export function renderTapestry(timeline, events, width, height, top, scale, onSelect, style = 'landscape') {
+  const previous = timeline.querySelector('.tapestry-ribbon');
+  if (style === 'tapestry') {
+    if (previous && !previous.classList.contains('tapestry-story')) {
+      disposeTapestry(previous); previous.remove();
+    }
+    renderStory(timeline, events, width, height, top, scale, onSelect);
+    return;
+  }
+  if (previous?.classList.contains('tapestry-story')) {
+    disposeStory(previous); previous.remove();
+  }
   const ribbon = timeline.querySelector('.tapestry-ribbon') || document.createElement('div');
   ribbon.className = 'tapestry-ribbon';
   ribbon.dataset.artStyle = style;
@@ -438,6 +450,10 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
 export function updateTapestryCaptions(timeline, timelineContainer) {
   const ribbon = timeline.querySelector('.tapestry-ribbon');
   if (!ribbon || !timelineContainer) return;
+  if (ribbon.classList.contains('tapestry-story')) {
+    updateStory(ribbon, timelineContainer);
+    return;
+  }
   const viewport = timelineContainer.getBoundingClientRect();
   const ribbonLeft = ribbon.getBoundingClientRect().left;
   const visibleLeft = viewport.left - ribbonLeft;
@@ -479,6 +495,10 @@ export function updateTapestryCaptions(timeline, timelineContainer) {
 }
 
 export function disposeTapestry(ribbon) {
+  if (ribbon.classList.contains('tapestry-story')) {
+    disposeStory(ribbon);
+    return;
+  }
   const model = models.get(ribbon);
   if (!model) return;
   model.disposed = true;
