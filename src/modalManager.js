@@ -1,4 +1,4 @@
-import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-chapters-v2';
+import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-story-v2';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { createPortrait, getPortraitSource } from './portraits.js?v=3';
 

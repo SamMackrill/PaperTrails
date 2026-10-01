@@ -1,8 +1,8 @@
 import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.js?v=pass2-06c';
 import { config } from './config.js?v=16';
-import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-chapters-v2';
-import { groupKey, openItem } from './modalManager.js?v=pass2-chapters-v2';
-import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-height-joins-v1';
+import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-story-v2';
+import { groupKey, openItem } from './modalManager.js?v=pass2-story-v2';
+import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-story-v2';
 import { getContextMode } from './contextMode.js?v=pass2-cloth-recovery-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';

@@ -1,4 +1,4 @@
-import { resolveItem, researchIndex, scientists, trails } from './dataLoader.js?v=pass2-chapters-v2';
+import { resolveItem, researchIndex, scientists, trails } from './dataLoader.js?v=pass2-story-v2';
 import { RELATION_LABELS } from './researchModel.js?v=pass2-04';
 import { yearToX } from './timeScale.js?v=3';
 import { element, stopContent } from './trailContent.js?v=pass2-06b';

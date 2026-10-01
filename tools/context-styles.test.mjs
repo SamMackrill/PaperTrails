@@ -22,14 +22,14 @@ test('every Tapestry inscription has Latin text and no visible dates, including 
   }
 });
 
-test('Tapestry leaves linen gaps while Landscape retains its quiet scenery', () => {
+test('legacy cloth excludes Landscape scenery from Bayeux source material', () => {
   assert.deepEqual(quietLandscape(40960, 128, [], 'tapestry'), []);
   assert.deepEqual(quietPictures(40960, 128, [], [], 'tapestry'), []);
   assert.ok(quietLandscape(40960, 128).length > 0);
   assert.ok(quietPictures(40960, 128).length > 0);
 });
 
-test('both styles keep chapter scope, native proportions and reversible folded source regions', () => {
+test('legacy cloth material keeps chapter scope, native proportions and reversible source regions', () => {
   const width = 40960;
   for (const style of ['landscape', 'tapestry']) {
     const { items } = layoutTapestry(events, width);
