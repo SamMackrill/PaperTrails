@@ -258,7 +258,10 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   ribbon.setAttribute('role', 'group');
   ribbon.setAttribute('aria-label', 'Historical tapestry. Flat scene summaries stay exposed; folded detail is concealed underneath until the cloth opens. All cloth is flat at maximum zoom. Woven braids show recorded period spans. Knots mark single-year events, whose illustrated vignettes occupy at most one year.');
   const model = models.get(ribbon) || makeModel(ribbon);
-  model.redraw = () => renderTapestry(timeline, events, width, height, top, scale, onSelect, style);
+  // Assembly may start off-DOM; asynchronous recovery belongs to whichever
+  // timeline owns the visible ribbon after those nodes have been installed.
+  model.redraw = () => renderTapestry(ribbon.parentElement || timeline,
+    events, width, height, top, scale, onSelect, style);
   const viewportWidth = timeline.parentElement?.clientWidth || width / Math.max(1, scale);
   const materialWidth = viewportWidth * config.MAX_SCALE;
   const { items, lanes } = layoutTapestry(events, materialWidth);
@@ -406,15 +409,22 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     }).catch(error => {
       // SVG source material remains usable if texture allocation is unavailable.
       if (model.generation === generation) {
+        const failed = new Set(error?.failedEvents || []);
+        const retry = [...model.entries.values()].filter(entry =>
+          !entry.original && failed.has(entry.event.id || entry.event.title));
+        if (retry.length) {
+          // Decode a valid original before expanding SVG through every face.
+          // A missing optimized drawing should not freeze the recovery path.
+          retryArtwork(model, retry, style);
+          return;
+        }
         renderSourceMaterial(model, compositions, materialWidth, headerHeight, artHeight, style);
         model.faces.forEach(({ face, art }) => { face.style.backgroundImage = ''; art.style.display = ''; });
         ribbon.dataset.artReady = 'fallback';
         ribbon.setAttribute('aria-busy', 'false');
         // SVG definitions do not reliably report errors through their <use> copies.
         // Retry failed records together and leave failed fallbacks on SVG cloth.
-        const failed = new Set(error?.failedEvents || []);
-        retryArtwork(model, [...model.entries.values()].filter(entry =>
-          failed.has(entry.event.id || entry.event.title)), style);
+
       }
     });
   }

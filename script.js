@@ -833,7 +833,11 @@ function applyUrlState({ initial = false } = {}) {
   if (state.from !== null && state.to !== null && state.to > state.from) {
     applyUrlView(state, { initial });
   } else {
-    if (!initial) { currentScale = 1; currentTranslateX = 0; }
+    if (!initial) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      currentScale = 1; currentTranslateX = 0;
+    }
     render();
   }
   if (state.item) {
