@@ -31,10 +31,20 @@ Continuation inscriptions identify the original period and full dates rather tha
 claiming a new onset. They use the existing caption collision handling. The original
 record remains the selection target; no duplicate event or legacy alias is created.
 
-Validation: 61 native tests and 25 operator tests pass. Added regression checks
+Validation: 63 native tests and 25 operator tests pass. Added regression checks
 cover the 1651–1693 Little Ice Age window, unchanged shorter events, disjoint native
 source crops, nested overlaps and point events, density anchors and full unfolding.
 T3 confirms the continuing inscription and original record dates, unchanged crop
 boxes and retained faces throughout zoom reversal, and complete maximum-zoom
-flattening. Existing source art is reused without regeneration or bitmap edits.
+flattening. A new five-era winter atlas replaces the early winter source in this layer. Original PNG bytes and full built-in prompt are preserved in images/tapestry/README.md.
 The publisher repeats the complete packaged browser audit before publication.
+
+
+Reuse requires an explicit continuationRange or dated continuationSources.
+Unapproved art stays at its initial placement; missing compatible art leaves
+quiet cloth. Winter art is bounded to 1600–1700, 1700–1750, 1750–1800,
+1800–1830 and 1830–1850. These editorial visual bounds add no historical dates.
+Tests enforce Victorian selection and prevent unapproved reuse. T3 confirms the
+Victorian source and visible SVG fallback in an isolated winter fixture. The
+artifact audit checks fallback only on rendered sources: fully occluded context
+has no image to fail loading but keeps its dated braid.

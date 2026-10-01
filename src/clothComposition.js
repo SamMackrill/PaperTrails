@@ -1,4 +1,4 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-chapters-v2';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-continuations-eras';
 import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -29,7 +29,7 @@ export function composePictures(entries, artHeight, materialWidth = null) {
       const right = Math.min(stop, origin + nativeWidth);
       pictures.push({ key: `${event.id || event.title}/${chapter.id}`, event, chapter,
         anchor: start, end: stop, left: start, right, sceneWidth: right - start,
-        origin, nativeWidth, strip, priority: event.startYear });
+        origin, nativeWidth, strip, materialWidth, priority: event.startYear });
     }
   }
   // Match caption and hit-target precedence: later-starting events lie above
@@ -60,11 +60,48 @@ export function contextWindows(picture, entries) {
 // Use disjoint regions of a long panorama in its uncovered windows. Source
 // coordinates and placements are decided once for the material, never on zoom.
 // A source facet appears at most once; neither pictures nor people are stretched.
+function datedPictures(picture, artHeight) {
+  const scene = tapestryScenes.get(picture.chapter.scene || picture.event.title);
+  const sources = scene?.continuationSources;
+  const range = scene?.continuationRange;
+  if (!sources && !range) return null;
+  const choices = sources || [{ startYear: range[0], endYear: range[1] }];
+  const position = year => picture.materialWidth === null
+    ? picture.anchor + (year - picture.chapter.startYear) * (picture.end - picture.anchor)
+      / (picture.chapter.endYear - picture.chapter.startYear)
+    : yearToX(year, picture.materialWidth);
+  return choices.flatMap(choice => {
+    const startYear = Math.max(picture.chapter.startYear, choice.startYear);
+    const endYear = Math.min(picture.chapter.endYear, choice.endYear);
+    if (endYear <= startYear) return [];
+    const source = choice.scene ? tapestryScenes.get(choice.scene) : scene;
+    if (!source) return [];
+    const strip = choice.scene ? getPanoramaStrip(source) : picture.strip;
+    const anchor = Math.max(picture.anchor, position(startYear));
+    const end = Math.min(picture.end, position(endYear));
+    const nativeWidth = strip.width * artHeight / strip.height;
+    const firstFacetWidth = (strip.edges[1] - strip.edges[0]) * artHeight / strip.height;
+    const origin = anchor - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, end - anchor)) / 2);
+    const right = Math.min(end, origin + nativeWidth);
+    return [{ ...picture, key: choice.scene ? `${picture.key}/${choice.scene}` : picture.key,
+      anchor, left: anchor, end, right, sceneWidth: right - anchor, origin, nativeWidth, strip,
+      artStartYear: choice.startYear, artEndYear: choice.endYear,
+      eraSource: Boolean(choice.scene), continuation: anchor > picture.anchor }];
+  });
+}
+
 export function continuePictures(pictures, entries, artHeight) {
-  return pictures.flatMap(picture => {
-    if (picture.end - picture.anchor <= picture.nativeWidth) return [picture];
+  return pictures.flatMap(original => {
+    const dated = datedPictures(original, artHeight);
+    // Undated artwork keeps its initial placement; it cannot migrate to later gaps.
+    if (!dated) return [original];
+    return dated.flatMap(picture => {
+    if (!picture.eraSource && picture.end - picture.anchor <= picture.nativeWidth) return [picture];
     const windows = contextWindows(picture, entries);
-    if (windows.length === 1 && windows[0].left === picture.anchor) return [picture];
+    if (windows.length === 1 && windows[0].left === picture.anchor) {
+      const end = windows[0].right, right = Math.min(end, picture.right);
+      return [{ ...picture, end, right, sceneWidth: right - picture.anchor }];
+    }
     if (!windows.length) return [];
     const count = picture.strip.edges.length - 1;
     const allocations = windows.map(() => 0);
@@ -100,7 +137,8 @@ export function continuePictures(pictures, entries, artHeight) {
       const right = Math.min(windowEnd, origin + nativeWidth);
       return { ...picture, key: `${picture.key}/continuation-${windowIndex}`, strip,
         anchor: left, left, end: windowEnd, right, sceneWidth: right - left,
-        origin, nativeWidth, continuation: windowIndex > 0 || left > picture.anchor };
+        origin, nativeWidth, continuation: picture.continuation || windowIndex > 0 || left > picture.anchor };
+    });
     });
   });
 }

@@ -6,6 +6,7 @@ import { composePictures, contextWindows, continuePictures } from '../src/clothC
 import { layoutTapestry } from '../src/tapestryRenderer.js';
 import { setScaleMode, yearToX } from '../src/timeScale.js?v=3';
 import { clothCells, layoutPleats } from '../src/clothPleats.js';
+import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-continuations-eras';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const events = yaml.load(readFileSync(new URL('../data/significantevents.yaml', import.meta.url), 'utf8'));
 const width = 40960, artHeight = 128;
@@ -34,12 +35,42 @@ test('continuations use disjoint source regions at uniform scale while shorter p
     const p = winter[i];
     assert.ok(Math.abs(p.nativeWidth / p.strip.width - artHeight / p.strip.height) < 1e-12);
     assert.ok(p.sceneWidth > 0 && p.sceneWidth <= p.nativeWidth);
-    if (i) assert.ok(winter[i - 1].strip.x + winter[i - 1].strip.width <= p.strip.x);
+    for (const earlier of winter.slice(0, i)) if (earlier.strip.y === p.strip.y && earlier.strip.atlas.file === p.strip.atlas.file) {
+      assert.ok(earlier.strip.x + earlier.strip.width <= p.strip.x);
+    }
   }
   for (const id of ['event-05', 'event-06', 'event-07', 'event-18']) {
     const original = pictures.find(p => p.event.id === id);
     assert.deepEqual(continued.filter(p => p.event.id === id), [original]);
   }
+});
+
+test('Victorian gaps use only the nineteenth-century winter source and stop by 1850', () => {
+  const winter = events.find(e => e.id === 'event-04');
+  const { items } = layoutTapestry([winter], width);
+  const pictures = continuePictures(composePictures(items, artHeight, width), items, artHeight);
+  const victorian = pictures.filter(p => p.anchor >= yearToX(1830, width));
+  assert.equal(victorian.length, 1);
+  assert.match(victorian[0].key, /winter-era-1830/);
+  assert.equal(victorian[0].artStartYear, 1830);
+  assert.equal(victorian[0].artEndYear, 1850);
+  assert.ok(victorian[0].right <= yearToX(1850, width));
+  for (const p of pictures) {
+    assert.ok(p.anchor >= yearToX(p.artStartYear, width));
+    assert.ok(p.right <= yearToX(p.artEndYear, width));
+  }
+});
+
+test('an unapproved scene is never relocated into later gaps', () => {
+  const scene = tapestryScenes.get('Protestant Reformation');
+  const range = scene.continuationRange;
+  try {
+    delete scene.continuationRange;
+    const { items } = layoutTapestry(events, width);
+    const pictures = composePictures(items, artHeight, width);
+    const original = pictures.find(p => p.event.id === 'event-03');
+    assert.deepEqual(continuePictures([original], items, artHeight), [original]);
+  } finally { scene.continuationRange = range; }
 });
 
 test('nested foreground footprints and point vignettes leave exact uncovered windows', () => {

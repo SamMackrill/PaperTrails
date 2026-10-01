@@ -1,8 +1,8 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-continuations-v2';
-import { composePictures, continuePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-continuations-v2';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-continuations-eras';
+import { composePictures, continuePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-continuations-eras';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -159,14 +159,22 @@ function renderSourceMaterial(model, pictures, width, top, artHeight) {
     image.addEventListener('error', () => joined.remove());
     model.landscape.appendChild(joined);
   }
-  for (const entry of model.entries.values()) entry.picture.replaceChildren();
+  for (const entry of model.entries.values()) {
+    entry.picture.replaceChildren();
+    entry.button.dataset.artRendered = 'false';
+  }
   const byId = new Map([...model.entries.values()].map(entry => [entry.event.id || entry.event.title, entry]));
   for (const picture of pictures) {
     const entry = byId.get(picture.event.id || picture.event.title);
+    entry.button.dataset.artRendered = 'true';
     const { crop, image } = sourceCrop(picture.strip, picture.anchor, picture.origin, picture.sceneWidth, artHeight);
     attribute(crop, 'y', top);
     crop.dataset.chapter = picture.key;
     crop.dataset.continuation = String(Boolean(picture.continuation));
+    if (picture.artStartYear !== undefined) {
+      crop.dataset.artStartYear = String(picture.artStartYear);
+      crop.dataset.artEndYear = String(picture.artEndYear);
+    }
     const joined = svg('g');
     joined.appendChild(crop);
     joinOverlay(joined, picture.anchor, picture.right, top, artHeight);

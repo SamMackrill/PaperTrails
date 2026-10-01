@@ -84,7 +84,7 @@ try {
   await viewport(1440, 900);
   await send('Network.setBlockedURLs', { urls: ['*landscape-b-*.png'] });
   await navigate('/?fallback=1');
-  await until('document.querySelectorAll("[data-art-fallback=original]").length===25');
+  await until('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length > 0 && [...document.querySelectorAll(".tapestry-scene[data-art-rendered=true]")].every(e => e.dataset.artFallback === "original")');
   assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread").length'), 25);
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');

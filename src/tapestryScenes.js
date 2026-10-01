@@ -99,6 +99,27 @@ tapestryScenes.set('atlantic-resistance', { ...tapestryScenes.get('atlantic-resi
 tapestryScenes.set('telegraph-experiments', { ...tapestryScenes.get('telegraph-networks'), facetRange: [0, 3] });
 tapestryScenes.set('telegraph-cable', { ...tapestryScenes.get('telegraph-networks'), facetRange: [3, 5] });
 
+// Reuse requires an explicitly compatible era. No undated source migrates into
+// later gaps. These are editorial art ranges, not new historical event dates.
+for (const [key, range] of [
+  ['The Renaissance', [1400,1600]], ['Protestant Reformation', [1517,1648]],
+  ['industry-water', [1760,1777]], ['industry-steam', [1777,1812]],
+  ['industry-community', [1812,1830]], ['atlantic-communities', [1501,1650]],
+  ['atlantic-resistance', [1650,1780]], ['atlantic-abolition', [1780,1866]],
+  ['telegraph-experiments', [1830,1850]], ['telegraph-cable', [1850,1866]]
+]) tapestryScenes.get(key).continuationRange = range;
+
+const winterAtlas = { file: 'images/tapestry/landscape-b-winter-eras.png', width: 1855, height: 848,
+  rows: [[0,171], [176,350], [356,520], [525,684], [688,848]]
+    .map(([top, bottom]) => [top, bottom, Array.from({ length: 6 }, (_, i) => i * 1855 / 5)]) };
+const winterEras = [[1600,1700], [1700,1750], [1750,1800], [1800,1830], [1830,1850]];
+tapestryScenes.get('The Little Ice Age').continuationSources = winterEras.map(([startYear,endYear],row) => {
+  const scene = `winter-era-${startYear}`;
+  tapestryScenes.set(scene, { customAtlas: winterAtlas, row,
+    facets: ['Winter travel', 'Fuel and household work', 'Cold-weather countryside', 'River and canal transport', 'Village community'] });
+  return { startYear,endYear,scene };
+});
+
 export function getPanoramaStrip(scene, original = false) {
   const atlas = original && scene.fallbackAtlas
     ? scene.fallbackAtlas
