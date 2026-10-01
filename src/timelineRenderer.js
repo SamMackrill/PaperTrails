@@ -738,6 +738,14 @@ export function updateEventLabelPositions(timeline, timelineContainer) {
   });
 }
 
+/**
+ * Rebuild the timeline using the container's measured size and enabled layers.
+ * Assemble nodes off the document, then install them in the live timeline;
+ * retained artwork must recover through its current owner after installation.
+ * @param {HTMLElement} timelineContainer Viewport that supplies layout dimensions.
+ * @param {HTMLElement} timeline Live element that receives the assembled layout.
+ * @param {number} [scale=1] Horizontal zoom multiplier, clamped to at least one.
+ */
 export function renderTimeline(timelineContainer, timeline, scale = 1) {
   if (!timelineContainer || !timeline) return;
 

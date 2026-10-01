@@ -794,6 +794,14 @@ function applyUrlLayers(state, { initial = false } = {}) {
   updateTapestryAvailability();
 }
 
+/**
+ * Cancel ongoing motion and fit a parsed URL range to the available viewport.
+ * A missing or invalid range resets a restored view; on initial load it leaves
+ * the existing view intact. Valid ranges render before translation is measured.
+ * @param {object} state Parsed URL state containing from/to year bounds.
+ * @param {object} [options] Restoration options.
+ * @param {boolean} [options.initial=false] Whether this is the first page load.
+ */
 function applyUrlView(state, { initial = false } = {}) {
   cancelAnimationFrame(animationFrame);
   animationFrame = 0;
@@ -814,6 +822,13 @@ function applyUrlView(state, { initial = false } = {}) {
   updateTransform();
 }
 
+/**
+ * Restore layers, selection and range from the current location hash.
+ * Open the details panel before fitting the view, and apply URL preferences
+ * before rendering. A range-free history entry cancels motion and resets zoom.
+ * @param {object} [options] Restoration options.
+ * @param {boolean} [options.initial=false] Preserve saved defaults on first load.
+ */
 function applyUrlState({ initial = false } = {}) {
   const state = parseHash(location.hash);
   restoringUrl = true;
