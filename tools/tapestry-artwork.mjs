@@ -21,8 +21,12 @@ function subjects(index) {
     .map(([key, scene]) => ({ key, row: scene.row, facets: scene.facets,
       facetRange: scene.facetRange, continuationRange: scene.continuationRange,
       continuationSources: scene.continuationSources,
-      scope: events().flatMap(event => event.chapters?.filter(c => c.scene === key)
-        || (event.title === key ? [{ startYear: event.startYear, endYear: event.endYear }] : [])) }));
+      scope: [
+        ...events().flatMap(event => event.chapters?.filter(c => c.scene === key)
+          || (event.title === key ? [{ startYear: event.startYear, endYear: event.endYear }] : [])),
+        ...[...tapestryScenes].flatMap(([, source]) =>
+          source.continuationSources?.filter(reference => reference.scene === key) || [])
+      ] }));
 }
 
 export function drawingPlans() {
@@ -91,8 +95,9 @@ function recordArtwork() {
       sourceHash: hash(read(plan.runtime.replace(/\.webp$/, '.png'))), runtimeHash: hash(read(plan.runtime)),
       redrawPending: plan.redrawPending };
     const old = previous[key];
-    if (old && (old.subjectsHash !== record.subjectsHash || old.referenceHash !== record.referenceHash)
-      && old.sourceHash === record.sourceHash) throw new Error(`Drawing brief changed but ${key} was not redrawn. Update both styles before recording.`);
+    if (old && old.referenceHash !== record.referenceHash && old.sourceHash === record.sourceHash) {
+      throw new Error(`Style reference changed but ${key} was not redrawn. Update both styles before recording.`);
+    }
     next[key] = record;
   }
   writeFileSync(resolve(root, recordFile), JSON.stringify(next, null, 2) + '\n');

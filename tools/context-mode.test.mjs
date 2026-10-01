@@ -40,3 +40,11 @@ test('both drawing briefs cover the same events and runtime assets are current',
     assert.notEqual(plans[index].output, plans[index + 5].output);
   }
 });
+
+test('winter continuation sources retain their approved chronological bounds in both briefs', () => {
+  for (const plan of drawingPlans().filter(plan => plan.sheet === 'winter-eras')) {
+    for (const [startYear, endYear] of [[1600, 1700], [1700, 1750], [1750, 1800], [1800, 1830], [1830, 1850]]) {
+      assert.match(plan.prompt, new RegExp(`\\"startYear\\": ${startYear},\\n\\s+\\"endYear\\": ${endYear}`));
+    }
+  }
+});
