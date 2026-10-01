@@ -90,6 +90,19 @@ try {
   assert.equal(await evaluate('document.querySelectorAll(".tapestry-ribbon").length'), 1);
   assert.equal(await evaluate('document.querySelector(".tapestry-ribbon").parentElement.id'), 'timeline');
   assert.equal(await evaluate('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length'), 25);
+  assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-cloth-face")].length > 21 && [...document.querySelectorAll(".tapestry-cloth-face")].every(face => face.style.backgroundImage && face.querySelector("svg").style.display === "none")'));
+  await send('Network.setBlockedURLs', { urls: [] });
+  // Canvas textures and SVG source material are separate recovery paths. Force
+  // the latter here so its quiet-scene contract cannot be hidden by a healthy
+  // raster render.
+  const fallbackScript = await send('Page.addScriptToEvaluateOnNewDocument', { source: 'HTMLCanvasElement.prototype.toBlob = function (callback) { callback(null); };' });
+  try {
+    await navigate('/?svg-fallback=1#context=landscape');
+    await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady === "fallback"');
+    assert.ok(await evaluate('document.querySelectorAll("[data-quiet-scene]").length > 0'));
+  } finally {
+    await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fallbackScript.identifier });
+  }
   await send('Network.setBlockedURLs', { urls: ['*bayeux-*.webp'] });
   await navigate('/?story-fallback=1#context=tapestry');
   await until('document.querySelector(".tapestry-story")?.dataset.artReady === "true"');
@@ -122,7 +135,7 @@ try {
       await until(`document.querySelector('.zoom-level').textContent===window.__auditOverviewRange`);
       continue;
     }
-    assert.ok(await evaluate('document.querySelectorAll("[data-quiet-scene]").length > 0'));
+    assert.equal(await evaluate('document.querySelector(".tapestry-ribbon").dataset.artReady'), 'true');
     assert.match(await evaluate('document.querySelector(".tapestry-caption-date").textContent'), /1400/);
     assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-caption:not([hidden])')].every(e=>e.scrollWidth<=e.clientWidth+1 && getComputedStyle(e).textOverflow!=='ellipsis')`));
     assert.equal(await evaluate(`document.querySelectorAll('.tapestry-caption:not([hidden])').length`), await evaluate(`[...document.querySelectorAll('.context-label-leader')].filter(e=>e.style.display!=='none').length`));
