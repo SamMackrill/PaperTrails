@@ -1,10 +1,10 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-context-styles-v1';
-import { composePictures, continuePictures, quietLandscape, quietPictures, joinWidth } from './clothComposition.js?v=pass2-context-styles-v1';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-cloth-recovery-v1';
+import { composePictures, continuePictures, quietLandscape, quietPictures, joinWidth } from './clothComposition.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
-import { contextHeading } from './contextHeadings.js?v=pass2-context-styles-v1';
+import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { yearToX } from './timeScale.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -145,6 +145,23 @@ function joinOverlay(group, left, right, top, artHeight, style = 'landscape') {
   }
 }
 
+function retryArtwork(model, entries, style) {
+  let changed = false;
+  for (const entry of entries) {
+    if (entry.original || entry.style !== style || model.disposed) continue;
+    entry.original = true;
+    entry.button.dataset.artFallback = 'original';
+    changed = true;
+  }
+  if (changed && !model.artworkPending) {
+    model.artworkPending = true;
+    requestAnimationFrame(() => {
+      model.artworkPending = false;
+      if (!model.disposed) model.redraw();
+    });
+  }
+}
+
 function renderSourceMaterial(model, pictures, width, top, artHeight, style) {
   model.landscape.replaceChildren();
   attribute(model.landscape, 'transform', `translate(0 ${top})`);
@@ -182,13 +199,7 @@ function renderSourceMaterial(model, pictures, width, top, artHeight, style) {
     joined.appendChild(crop);
     joinOverlay(joined, picture.anchor, picture.right, top, artHeight, style);
     image.addEventListener('error', () => {
-      if (entry.original || entry.style !== style || model.disposed) return;
-      entry.original = true;
-      entry.button.dataset.artFallback = 'original';
-      if (!model.artworkPending) {
-        model.artworkPending = true;
-        queueMicrotask(() => { model.artworkPending = false; if (!model.disposed) model.redraw(); });
-      }
+      retryArtwork(model, [entry], style);
     });
     entry.picture.appendChild(joined);
     // Match the chronological caption and hit-target precedence.
@@ -386,11 +397,16 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
       model.texture?.urls.forEach(url => URL.revokeObjectURL(url));
       model.texture = texture;
       ribbon.dataset.artReady = 'true';
-    }).catch(() => {
+    }).catch(error => {
       // SVG source material remains usable if texture allocation is unavailable.
       if (model.generation === generation) {
         model.faces.forEach(({ face, art }) => { face.style.backgroundImage = ''; art.style.display = ''; });
         ribbon.dataset.artReady = 'fallback';
+        // SVG definitions do not reliably report errors through their <use> copies.
+        // Retry failed records together and leave failed fallbacks on SVG cloth.
+        const failed = new Set(error?.failedEvents || []);
+        retryArtwork(model, [...model.entries.values()].filter(entry =>
+          failed.has(entry.event.id || entry.event.title)), style);
       }
     });
   }

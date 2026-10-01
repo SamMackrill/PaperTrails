@@ -49,7 +49,7 @@ try {
       const job = pending.get(message.id); if (!job) return;
       pending.delete(message.id); clearTimeout(job.timer);
       if (message.error) job.reject(new Error(JSON.stringify(message.error))); else job.resolve(message.result);
-    } else if (message.method === 'Runtime.exceptionThrown') errors.push(message.params.exceptionDetails.text + ': ' + (message.params.exceptionDetails.exception?.description || ''));
+    } else if (message.method === 'Runtime.exceptionThrown') { const error=message.params.exceptionDetails.text + ': ' + (message.params.exceptionDetails.exception?.description || ''); errors.push(error); console.error(`Audit runtime error: ${error}`); }
   };
   const send = (method, params = {}) => new Promise((resolve, reject) => {
     const id = ++sequence;
@@ -91,6 +91,7 @@ try {
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
   // One fixed chronological material is pleated without moving or swapping art.
   for (const style of ['landscape', 'tapestry']) {
+    console.log(`Audit: ${style} cloth and route`);
     await navigate(`/?style-audit=${style}#context=${style}`);
     assert.equal(await evaluate('document.querySelector("#tapestryToggle").dataset.contextMode'), style);
     if (style === 'tapestry') {
@@ -107,7 +108,9 @@ try {
     assert.ok(await evaluate(`window.__auditClothFaces.every(e=>{const m=new DOMMatrixReadOnly(getComputedStyle(e).transform);return m.a===1&&m.d===1})`));
     await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
     const previousZoom = await evaluate('document.querySelector("#zoom-slider").value');
+    const previousRange = await evaluate('document.querySelector(".zoom-level").textContent');
     await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
+    await until(`document.querySelector('.zoom-level').textContent!==${JSON.stringify(previousRange)} && !document.querySelector('#pan-later').disabled`);
     assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`));
     assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => {const m=new DOMMatrixReadOnly(getComputedStyle(face).transform);return Number(face.style.getPropertyValue('--fold-shade') || 0)===0 && m.a===1 && m.d===1 && Math.abs(Number(face.dataset.exposedWidth)-parseFloat(face.style.width))<.001})`));
     assert.ok(await evaluate('window.__auditClothFaces.every(e=>e.isConnected)'));
@@ -120,6 +123,7 @@ try {
     await evaluate(`window.__auditFixedCloth=[...document.querySelectorAll('.tapestry-scene')].map(e=>[e.style.left,e.style.width]);`);
     const from = await evaluate(`document.querySelector('.zoom-level').textContent`);
     await evaluate(`document.querySelector('#pan-later').click()`);
+    await until(`document.querySelector('.zoom-level').textContent!==${JSON.stringify(from)}`);
     assert.notEqual(await evaluate(`document.querySelector('.zoom-level').textContent`), from);
     assert.ok(await evaluate(`JSON.stringify(window.__auditFixedCloth)===JSON.stringify([...document.querySelectorAll('.tapestry-scene')].map(e=>[e.style.left,e.style.width]))`));
     await evaluate(`document.querySelector('#pan-earlier').click();document.querySelector('#zoom-slider').value=${JSON.stringify(previousZoom)};document.querySelector('#zoom-slider').dispatchEvent(new Event('input',{bubbles:true}));`);
@@ -136,6 +140,7 @@ try {
   assert.equal(await evaluate('document.querySelectorAll("[data-trail-stop]").length'), 8);
   assert.ok(await evaluate('document.querySelectorAll(".scientist-node, .scientist-cluster").length > 0'));
   assert.equal(await evaluate('document.querySelectorAll(".scientist-photo").length'), 0);
+  console.log('Audit: trail interactions');
   await screenshot('trail-dark.png');
   await evaluate('document.querySelector("#trail-next").focus()');
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', text: '\r', unmodifiedText: '\r', windowsVirtualKeyCode: 13 });
@@ -171,6 +176,7 @@ try {
   assert.equal(await evaluate('document.querySelector("#trail-progress").textContent'), '7 / 8');
   await screenshot('trail-phone.png');
   await viewport(1440, 900);
+  console.log('Audit: printable trail');
   await navigate('/print-trail.html?trail=understanding-charge', 'document.querySelector("#print-content")?.dataset.ready==="true"');
   assert.equal(await evaluate('document.querySelectorAll("article").length'), 8);
   assert.equal(await evaluate('document.querySelectorAll(".trail-sources a").length'), 27);
