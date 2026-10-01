@@ -13,7 +13,8 @@ test('a failed panorama prevents raster texture installation', async () => {
     await assert.rejects(
       rasterizeCloth([{ event: { title: 'The Renaissance', startYear: 1400, endYear: 1600 },
         anchor: 0, end: 400, sceneWidth: 400, original: false }], 800, 160, 20, 120),
-      /Cloth panorama could not be loaded/
+      error => error.message === 'Cloth panorama could not be loaded'
+        && JSON.stringify(error.failedEvents) === JSON.stringify(['The Renaissance'])
     );
   } finally {
     globalThis.Image = PreviousImage;

@@ -33,7 +33,12 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
   if (!isCurrent()) return null;
   const quietImages = new Map(landscapes);
   const scenery = quietPictures(width, artHeight, pictures, entries, style);
-  if (paintings.some(({ image }) => !image)) throw new Error('Cloth panorama could not be loaded');
+  const failed = paintings.filter(({ image }) => !image);
+  if (failed.length) {
+    const error = new Error('Cloth panorama could not be loaded');
+    error.failedEvents = [...new Set(failed.map(({ event }) => event.id || event.title))];
+    throw error;
+  }
   const paths = quietLandscape(width, artHeight, entries, style).map(path => ({ ...path, shape: new Path2D(path.d) }));
   const chunkWidth = width / CHUNKS;
   const urls = [];
