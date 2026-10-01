@@ -2,7 +2,7 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-chapters-v2';
 import { groupKey, openItem } from './modalManager.js?v=pass2-chapters-v2';
-import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-performance-v1';
+import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-height-joins-v1';
 import { getContextMode } from './contextMode.js?v=pass2-cloth-recovery-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
@@ -32,7 +32,6 @@ const PUBLICATION_PITCH = 8;
 const PUBLICATION_MAX_STACK = 5;
 const MILESTONE_FIRST_OFFSET = 60;
 const MILESTONE_GAP = 42;
-const TAPESTRY_LANE_HEIGHT = 180;
 
 // Timeline items are rebuilt on every zoom, so selection is tracked by a stable
 // item key rather than by element.
@@ -649,8 +648,7 @@ function getEventItems(width) {
     });
 }
 
-function measureContextNeed(width, tapestry) {
-  if (tapestry) return TAPESTRY_LANE_HEIGHT;
+function measureContextNeed(width) {
   const { rows } = layoutEventRows(getEventItems(width), Infinity);
   return 16 + 30 + (rows - 1) * 36 + 8;
 }
@@ -757,7 +755,8 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   const { axisY, contextTop } = planLanes({
     height,
     milestonesNeed: measureMilestoneNeed(width, scale),
-    contextNeed: contextVisible ? measureContextNeed(width, tapestry) : 0,
+    // Bars is the shared reference, including its labels and overlap rows.
+    contextNeed: contextVisible ? measureContextNeed(width) : 0,
     milestonesVisible,
     contextVisible
   });

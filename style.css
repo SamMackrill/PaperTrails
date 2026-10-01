@@ -1202,7 +1202,7 @@ html[data-theme="dark"] .icon-sun {
 .tapestry-weave { position: absolute; top: 0; left: 0; transform-style: preserve-3d; pointer-events: none; }
 .tapestry-fold-cell { position: absolute; top: 0; overflow: hidden; isolation: isolate; }
 .tapestry-fold-cell[hidden] { display: none; }
-.tapestry-fold-cell::after { content: ''; position: absolute; top: var(--cloth-art-top, 40px); bottom: 0; right: 0; width: min(6px, 8%); z-index: 8; pointer-events: none; background: linear-gradient(90deg, transparent, #fff1c870 45%, #4a301b85); opacity: var(--fold-shade, 0); }
+.tapestry-fold-cell::after { content: none; }
 .tapestry-braids { position: absolute; top: 0; left: 0; z-index: 4; overflow: visible; pointer-events: none; }
 .tapestry-cloth-face {
   left: 0;
@@ -1224,7 +1224,7 @@ html[data-theme="dark"] .icon-sun {
 /* A narrow turned cloth edge defines the fold. The flat illustrated face is
    never tinted or squeezed; its fixed source is concealed by the next layer. */
 .tapestry-cloth-face::after {
-  content: "";
+  content: none;
   position: absolute;
   inset: var(--cloth-art-top, 40px) 0 0 auto;
   width: 12px;

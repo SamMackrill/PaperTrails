@@ -159,7 +159,8 @@ export function continuePictures(pictures, entries, artHeight) {
 // Both SVG fallback and canvas textures use the same feathered join, contained
 // inside the chapter footprint. No historical imagery leaks across its dates.
 export function joinWidth(pictureWidth) {
-  return Math.min(72, pictureWidth / 4);
+  // A smooth short feather connects scenes without washing away the subject.
+  return Math.max(0, Math.min(28, pictureWidth / 8));
 }
 
 // Draw continuous thread paths and individually varied plants across the full
