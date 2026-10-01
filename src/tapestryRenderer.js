@@ -380,11 +380,14 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   const rasterKey = [style, materialWidth, clothHeight, ...[...model.entries.values()].map(e => e.materialKey)].join('|');
   if (model.rasterKey !== rasterKey) {
     model.rasterKey = rasterKey;
-    // Show the new SVG material immediately while its textures are prepared.
+    // SVG <use> on hundreds of faces expands the whole source tree on every
+    // face. Prepare canvas first; build that expensive fallback only on failure.
     model.faces.forEach(({ face, art }) => { face.style.backgroundImage = ''; art.style.display = ''; });
     const entries = [...model.entries.values()];
-    renderSourceMaterial(model, continuePictures(composePictures(entries, artHeight, materialWidth), entries, artHeight), materialWidth, headerHeight, artHeight, style);
+    model.landscape.replaceChildren();
+    entries.forEach(entry => entry.picture.replaceChildren());
     ribbon.dataset.artReady = 'false';
+    ribbon.setAttribute('aria-busy', 'true');
     const generation = model.generation = (model.generation || 0) + 1;
     rasterizeCloth([...model.entries.values()], materialWidth, clothHeight, headerHeight, artHeight,
       () => model.generation === generation && !model.disposed, style).then(texture => {
@@ -397,11 +400,16 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
       model.texture?.urls.forEach(url => URL.revokeObjectURL(url));
       model.texture = texture;
       ribbon.dataset.artReady = 'true';
+      ribbon.setAttribute('aria-busy', 'false');
+      const painted = new Set(compositions.map(picture => picture.event.id || picture.event.title));
+      entries.forEach(entry => { entry.button.dataset.artRendered = String(painted.has(entry.event.id || entry.event.title)); });
     }).catch(error => {
       // SVG source material remains usable if texture allocation is unavailable.
       if (model.generation === generation) {
+        renderSourceMaterial(model, compositions, materialWidth, headerHeight, artHeight, style);
         model.faces.forEach(({ face, art }) => { face.style.backgroundImage = ''; art.style.display = ''; });
         ribbon.dataset.artReady = 'fallback';
+        ribbon.setAttribute('aria-busy', 'false');
         // SVG definitions do not reliably report errors through their <use> copies.
         // Retry failed records together and leave failed fallbacks on SVG cloth.
         const failed = new Set(error?.failedEvents || []);
