@@ -1,4 +1,4 @@
-import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-continuous-context-v2';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlases, quietPictures } from './clothComposition.js?v=pass2-context-styles-v1';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
@@ -24,17 +24,17 @@ function softenJoin(ink, left, right, top, height) {
 
 // Paint each composition once into eight bounded textures. Native material
 // stays fixed while its detail is concealed or exposed by folds.
-export async function rasterizeCloth(entries, width, height, artTop, artHeight, isCurrent = () => true) {
+export async function rasterizeCloth(entries, width, height, artTop, artHeight, isCurrent = () => true, style = 'landscape') {
   const pictures = continuePictures(composePictures(entries, artHeight, width), entries, artHeight);
   const [landscapes, paintings] = await Promise.all([
-    Promise.all(quietAtlases.map(async atlas => [atlas.file, await loadImage(atlas.file)])),
+    Promise.all((style === 'tapestry' ? [] : quietAtlases).map(async atlas => [atlas.file, await loadImage(atlas.file)])),
     Promise.all(pictures.map(async picture => ({ ...picture, image: await loadImage(picture.strip.atlas.file) })))
   ]);
   if (!isCurrent()) return null;
   const quietImages = new Map(landscapes);
-  const scenery = quietPictures(width, artHeight, pictures, entries);
+  const scenery = quietPictures(width, artHeight, pictures, entries, style);
   if (paintings.some(({ image }) => !image)) throw new Error('Cloth panorama could not be loaded');
-  const paths = quietLandscape(width, artHeight, entries).map(path => ({ ...path, shape: new Path2D(path.d) }));
+  const paths = quietLandscape(width, artHeight, entries, style).map(path => ({ ...path, shape: new Path2D(path.d) }));
   const chunkWidth = width / CHUNKS;
   const urls = [];
   try {
@@ -44,7 +44,7 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
       const canvas = document.createElement('canvas');
       canvas.width = Math.ceil(chunkWidth); canvas.height = height;
       const context = canvas.getContext('2d');
-      context.fillStyle = '#dfcda5'; context.fillRect(0, 0, canvas.width, height);
+      context.fillStyle = style === 'tapestry' ? '#e8dec8' : '#dfcda5'; context.fillRect(0, 0, canvas.width, height);
       context.translate(-left, artTop);
       for (const path of paths) {
         context.strokeStyle = path.stroke; context.lineWidth = path.strokeWidth;

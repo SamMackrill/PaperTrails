@@ -1,4 +1,4 @@
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-continuous-context-v2';
+import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-context-styles-v1';
 import { SUMMARY_WIDTH } from './clothPleats.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -7,7 +7,7 @@ import { yearToX } from './timeScale.js?v=3';
 export function composePictures(entries, artHeight, materialWidth = null) {
   const pictures = [];
   for (const entry of entries) {
-    const { event, anchor, end, sceneWidth, original } = entry;
+    const { event, anchor, end, sceneWidth, original, style = 'landscape' } = entry;
     const chapters = event.chapters?.length ? event.chapters : [{
       id: event.id || event.title, title: event.title,
       startYear: event.startYear, endYear: event.endYear, scene: event.title
@@ -22,14 +22,14 @@ export function composePictures(entries, artHeight, materialWidth = null) {
       const start = years > 0 ? Math.max(anchor, position(chapter.startYear)) : anchor;
       const stop = years > 0 ? Math.min(end, position(chapter.endYear)) : anchor + sceneWidth;
       if (stop <= start || start >= end && years > 0) continue;
-      const strip = getPanoramaStrip(scene, original);
+      const strip = getPanoramaStrip(scene, original, style);
       const nativeWidth = strip.width * artHeight / strip.height;
       const firstFacetWidth = (strip.edges[1] - strip.edges[0]) * artHeight / strip.height;
       const origin = start - Math.max(0, (firstFacetWidth - Math.min(SUMMARY_WIDTH, stop - start)) / 2);
       const right = Math.min(stop, origin + nativeWidth);
       pictures.push({ key: `${event.id || event.title}/${chapter.id}`, event, chapter,
         anchor: start, end: stop, left: start, right, sceneWidth: right - start,
-        origin, nativeWidth, strip, original, materialWidth, priority: event.startYear });
+        origin, nativeWidth, strip, original, style, materialWidth, priority: event.startYear });
     }
   }
   // Match caption and hit-target precedence: later-starting events lie above
@@ -76,7 +76,7 @@ function datedPictures(picture, artHeight) {
     if (endYear <= startYear) return [];
     const source = choice.scene ? tapestryScenes.get(choice.scene) : scene;
     if (!source) return [];
-    const strip = choice.scene ? getPanoramaStrip(source, picture.original) : picture.strip;
+    const strip = choice.scene ? getPanoramaStrip(source, picture.original, picture.style) : picture.strip;
     const anchor = Math.max(picture.anchor, position(startYear));
     const end = Math.min(picture.end, position(endYear));
     const nativeWidth = strip.width * artHeight / strip.height;
@@ -164,7 +164,8 @@ export function joinWidth(pictureWidth) {
 
 // Draw continuous thread paths and individually varied plants across the full
 // material. There is no repeated panel, mirrored image, or zoom-dependent seed.
-export function quietLandscape(width, height, entries = []) {
+export function quietLandscape(width, height, entries = [], style = 'landscape') {
+  if (style === 'tapestry') return [];
   const paths = [];
   let seed = 71821;
   const random = () => {
@@ -269,7 +270,8 @@ export const quietAtlases = [quietAtlas,
       [447,512], [521,587], [595,661], [670,735], [743,807], [816,887]] }
 ];
 
-export function quietPictures(width, artHeight, pictures = [], entries = []) {
+export function quietPictures(width, artHeight, pictures = [], entries = [], style = 'landscape') {
+  if (style === 'tapestry') return [];
   let windows = [{ left: 0, right: width }];
   for (const picture of pictures) {
     windows = windows.flatMap(window => {

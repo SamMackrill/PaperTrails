@@ -386,13 +386,13 @@ html[data-theme="dark"] .icon-sun {
   white-space: nowrap;
 }
 
-.filter-button[aria-pressed="true"] {
+.filter-button[aria-pressed="true"], .filter-button[data-context-mode]:not([data-context-mode="bars"]) {
   border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
   background: var(--accent-soft);
   color: var(--text-primary);
 }
 
-.filter-button[aria-pressed="false"] {
+.filter-button[aria-pressed="false"], .filter-button[data-context-mode="bars"] {
   border-color: var(--border);
   background: transparent;
   color: var(--text-secondary);
@@ -427,11 +427,11 @@ html[data-theme="dark"] .icon-sun {
 /* Display modes use the same pills as the layer filters: tinted when on,
    outlined when off. Their icon takes the accent colour when on, as the
    layers' legend symbols fill in. */
-.mode-toggle[aria-pressed="true"] svg {
+.mode-toggle[aria-pressed="true"] svg, .mode-toggle[data-context-mode]:not([data-context-mode="bars"]) svg {
   stroke: var(--accent);
 }
 
-.mode-toggle[aria-pressed="false"] svg {
+.mode-toggle[aria-pressed="false"] svg, .mode-toggle[data-context-mode="bars"] svg {
   stroke: var(--text-tertiary);
 }
 
@@ -2622,6 +2622,14 @@ body.has-docked-panel .timeline-shell {
 .tapestry-caption:not([hidden]) { display: flex; gap: 3px; align-items: baseline; }
 .tapestry-caption-title { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .tapestry-caption-date { flex: 0 0 auto; font-size: 10px; font-variant-numeric: tabular-nums; }
+.mode-toggle svg[hidden] { display: none; }
+.tapestry-ribbon[data-art-style="tapestry"] .tapestry-cloth-face { background-color: #e8dec8; }
+.tapestry-ribbon[data-art-style="tapestry"] .tapestry-caption {
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: .8px;
+  color: #794331;
+}
+.tapestry-ribbon[data-art-style="tapestry"] .tapestry-caption-date { display: none; }
 .context-guide { margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
 
 /* A shared linen ground and soft scene edges connect the landscape strips. */

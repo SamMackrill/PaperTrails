@@ -3,7 +3,8 @@
 Portraits are drawn at 30-92px, so the timeline uses 192px thumbnails:
 images/example.jpg becomes images/thumbs/example.webp, and
 images/cartoons/example.png becomes images/thumbs/cartoons/example.webp.
-Tapestry panoramas get full-size WebP copies beside their PNG masters.
+Both Landscape and Bayeux tapestry atlases get full-size WebP copies beside
+their PNG masters. Archived original panoramas retain their WebP copies.
 
 Requires Python 3 and Pillow. Run from the repository root:
 
@@ -13,6 +14,7 @@ Only missing or outdated outputs are regenerated. The originals are kept as
 masters and as fallbacks if a thumbnail fails to load.
 """
 
+import argparse
 from pathlib import Path
 
 from PIL import Image
@@ -25,7 +27,13 @@ PORTRAIT_SUFFIXES = {'.jpg', '.jpeg', '.png', '.webp'}
 SKIP = {'icon.png', 'brand-mark.png'}
 # The panoramas the timeline draws. Other PNGs in images/tapestry are kept
 # only as provenance sources (see images/tapestry/README.md).
-TAPESTRY_ATLASES = ('early-panorama.png', 'revolutions-panorama-v2.png', 'modern-panorama.png')
+LEGACY_ATLASES = ('early-panorama.png', 'revolutions-panorama-v2.png', 'modern-panorama.png')
+
+
+def tapestry_masters():
+    folder = IMAGES / 'tapestry'
+    return sorted({*(folder / name for name in LEGACY_ATLASES),
+                   *folder.glob('landscape-b-*.png'), *folder.glob('bayeux-*.png')})
 
 
 def is_stale(source, target):
@@ -46,8 +54,12 @@ def thumbnail(source, target):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--tapestry-only', action='store_true', help='Update both historical artwork sets without touching portraits')
+    args = parser.parse_args()
     written = 0
-    for folder, prefix in ((IMAGES, THUMBS), (IMAGES / 'cartoons', THUMBS / 'cartoons')):
+    portrait_folders = () if args.tapestry_only else ((IMAGES, THUMBS), (IMAGES / 'cartoons', THUMBS / 'cartoons'))
+    for folder, prefix in portrait_folders:
         for source in sorted(folder.iterdir()):
             if source.suffix.lower() not in PORTRAIT_SUFFIXES or source.name in SKIP:
                 continue
@@ -56,8 +68,7 @@ def main():
                 thumbnail(source, target)
                 written += 1
 
-    for name in TAPESTRY_ATLASES:
-        source = IMAGES / 'tapestry' / name
+    for source in tapestry_masters():
         target = source.with_suffix('.webp')
         if is_stale(source, target):
             with Image.open(source) as image:

@@ -6,7 +6,7 @@ import { composePictures, contextWindows, continuePictures } from '../src/clothC
 import { layoutTapestry } from '../src/tapestryRenderer.js';
 import { setScaleMode, yearToX } from '../src/timeScale.js?v=3';
 import { clothCells, layoutPleats } from '../src/clothPleats.js';
-import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-continuous-context-v2';
+import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-context-styles-v1';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const events = yaml.load(readFileSync(new URL('../data/significantevents.yaml', import.meta.url), 'utf8'));
 const width = 40960, artHeight = 128;

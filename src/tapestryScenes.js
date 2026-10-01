@@ -130,11 +130,25 @@ for (const scene of tapestryScenes.values()) if (scene.customAtlas) {
   scene.fallbackRow = scene.row % quietFallbackAtlas.rows.length;
 }
 
-export function getPanoramaStrip(scene, original = false) {
+// Both styles share scene identities and chronological footprints. Bayeux
+// redraws are deferred while context chapters are evolving; shipped embroidered
+// sources keep the alternate mode usable meanwhile.
+export const artworkStyles = {
+  landscape: { reference: 'images/tapestry/style-reference-landscape.png',
+    atlases: [...tapestryAtlases, chapterAtlas, winterAtlas] },
+  tapestry: { reference: 'images/tapestry/style-reference-bayeux.png', redrawPending: true,
+    atlases: [...originalTapestryAtlases, chapterAtlas, winterAtlas] }
+};
+
+export function getPanoramaStrip(scene, original = false, style = 'landscape') {
+  const customIndex = scene.customAtlas === chapterAtlas ? 3 : 4;
   const atlas = original && scene.fallbackAtlas
     ? scene.fallbackAtlas
-    : scene.customAtlas || (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
+    : scene.customAtlas ? artworkStyles[style].atlases[customIndex]
+      : (original ? originalTapestryAtlases : artworkStyles[style].atlases)[scene.atlas];
   const row = original && scene.fallbackAtlas ? scene.fallbackRow ?? scene.row : scene.row;
+  const source = style === 'tapestry' && original && !scene.customAtlas
+    ? { ...atlas, file: atlas.file.replace('.webp', '.png') } : atlas;
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
   // panoramas do not divide into a mathematically exact grid.
@@ -143,6 +157,6 @@ export function getPanoramaStrip(scene, original = false) {
   const cropHeight = bottom - top;
   const [first, last] = scene.facetRange || [0, edges.length - 1];
   const x = edges[first];
-  return { atlas, x, y: top, width: edges[last] - x, height: cropHeight,
+  return { atlas: source, x, y: top, width: edges[last] - x, height: cropHeight,
     facets: scene.facets, edges: edges.slice(first, last + 1).map(edge => edge - x) };
 }

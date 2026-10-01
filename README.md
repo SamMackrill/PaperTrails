@@ -11,7 +11,7 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
-- A Bayeux-style historical tapestry, shown by default, with captions stitched above each scene, blended panoramas, and additional narrative scenes revealed as you zoom
+- Historical context in three views: Bars, Landscape (default), and a Bayeux-inspired Tapestry with Latin headings and no visible dates. Both illustrated views preserve the folding cloth as you zoom.
 - A details panel for scientists, publications, discoveries, conferences, and events. On wide screens it docks beside the timeline, which stays usable; on phones it opens as a sheet. It links related items in both directions, keeps a Back history, and offers further reading and citations
 - Hovering or selecting an item draws its connections: a scientist's discoveries, conferences, and events, with their lifespan shown as a bar, or the people linked to a discovery or conference
 - Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
@@ -57,7 +57,7 @@ The application code, data, and YAML parser are stored in this repository, so an
 - Short historical events are drawn as pins with their label alongside; hover or focus any band for its full title and dates.
 - **Tapestry** is on by default; turn it off to show labelled context bands instead. Each scene's caption stays in view as you pan, and each thread's knots mark the event's start and end. This preference is saved in your browser. **Context** still controls whether the entire historical layer is visible.
 - Tapestry scenes begin at the database's event start dates. Their picture windows extend to the next event's start; the stitched threads below show actual event durations, including overlaps. The panoramas fill those windows and blend into their neighbours. Zooming reveals additional narrative groups while keeping figures at a similar size. Hover different parts of a panorama for explanations of the depicted activities, or focus/select the event for accessible details. Drag the ribbon to pan.
-- The tapestry uses symbolic illustrations of all 21 current events, rather than depictions of additional dated incidents. Artwork provenance and the generation prompt are recorded in `images/tapestry/README.md`.
+- The illustrated context uses symbolic depictions of 25 events, including their authored chapters. Both styles share chronological scope and fixed source crops. Paired generation briefs, fold-aware composition rules and deferred Bayeux redraws are documented in `images/tapestry/drawing-guide.md`. Run `node tools/tapestry-artwork.mjs prompts`, then review both styles and run `record` and `check` when updating artwork.
 
 ## Editing the content
 

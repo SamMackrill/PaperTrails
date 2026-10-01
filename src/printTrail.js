@@ -1,7 +1,7 @@
 import { initializeData, researchIndex, resolveItem, scientists } from './dataLoader.js?v=pass2-chapters-v2';
 import { RELATION_LABELS } from './researchModel.js?v=pass2-04';
 import { element, stopContent } from './trailContent.js?v=pass2-06b';
-import { formatHash } from './urlState.js?v=pass2-06b';
+import { formatHash } from './urlState.js?v=pass2-context-styles-v1';
 
 const main = document.getElementById('print-content');
 const print = document.getElementById('print');
@@ -21,7 +21,7 @@ try {
     article.append(element('p', `STOP ${index + 1} / ${trail.stops.length} · ${record.item.year} · ${scientists[record.scientistId]?.name || record.item.discoverer || ''}`, 'stop-index'));
     article.append(element('h2', record.item.title), stopContent(stop, record, relation, RELATION_LABELS[relation?.kind], { expanded: true }));
     const link = element('a', 'Explore this stop on the timeline', 'return-to-timeline');
-    link.href = `./${formatHash({ trail: trail.id, stop: stop.id, explain: true, from: record.item.year - 55, to: record.item.year + 55, scale: 'linear', tapestry: true })}`;
+    link.href = `./${formatHash({ trail: trail.id, stop: stop.id, explain: true, from: record.item.year - 55, to: record.item.year + 55, scale: 'linear', contextMode: 'landscape' })}`;
     article.append(link); main.append(article);
   });
   main.append(element('footer', 'Evidence and relationship qualifications are included at every stop. Conceptual bridges are editorial comparisons, not unverified citations or claims of influence.'));
