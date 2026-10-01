@@ -189,11 +189,11 @@ test('search folds diacritics and letters that do not decompose', () => {
 });
 
 test('view state round-trips through the URL hash', () => {
-  const state = { trail: null, stop: null, explain: false, from: 1850, to: 1950, item: 'scientist:maxwell', hidden: ['publications'], scale: 'density', tapestry: true };
+  const state = { trail: null, stop: null, explain: false, from: 1850, to: 1950, item: 'scientist:maxwell', hidden: ['publications'], scale: 'density', tapestry: true, contextMode: null };
   const hash = formatHash(state);
   assert.equal(hash, '#from=1850&to=1950&item=scientist:maxwell&hide=publications&scale=density&tapestry=1');
   assert.deepEqual(parseHash(hash), state);
-  assert.deepEqual(parseHash('#item=javascript:alert(1)&hide=nonsense&scale=wobbly'), { from: null, to: null, item: null, hidden: [], scale: null, tapestry: null, trail: null, stop: null, explain: false });
+  assert.deepEqual(parseHash('#item=javascript:alert(1)&hide=nonsense&scale=wobbly'), { from: null, to: null, item: null, hidden: [], scale: null, tapestry: null, contextMode: null, trail: null, stop: null, explain: false });
   assert.equal(formatHash({}), '');
   // Even time is recorded explicitly, so it overrides a recipient's preference.
   assert.equal(parseHash(formatHash({ scale: 'linear', tapestry: false })).scale, 'linear');

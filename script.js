@@ -4,12 +4,13 @@ import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-chapters-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-chapters-v2';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-continuous-context-v2';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-context-styles-v1';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
 import { createMinimap } from './src/minimap.js?v=pass2-chapters-v2';
-import { formatHash, parseHash } from './src/urlState.js?v=pass2-06b';
+import { formatHash, parseHash } from './src/urlState.js?v=pass2-context-styles-v1';
+import { CONTEXT_MODE_STORAGE_KEY, DEFAULT_CONTEXT_MODE, getContextMode, nextContextMode, savedContextMode, updateContextModeButton } from './src/contextMode.js?v=pass2-context-styles-v1';
 import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-chapters-v2';
 import { zoomProgress } from './src/zoomLayout.js?v=pass2-chapters-v2';
 
@@ -569,10 +570,7 @@ function setupTooltips() {
 function updateTapestryAvailability() {
   const tapestryToggle = document.getElementById('tapestryToggle');
   const contextVisible = isPressed('significantEventsToggle');
-  tapestryToggle.setAttribute('aria-disabled', String(!contextVisible));
-  tapestryToggle.title = contextVisible
-    ? 'Show historical context as a Bayeux-style tapestry. Zoom in to unfold the cloth; zoom out to fold it again. Hover or select a scene to learn more.'
-    : 'Turn on Context to show the tapestry.';
+  updateContextModeButton(tapestryToggle, getContextMode(tapestryToggle), contextVisible);
 }
 
 function setupOptionsPopover() {
@@ -642,8 +640,10 @@ function setupControls() {
 
   document.getElementById('tapestryToggle').addEventListener('click', (event) => {
     if (event.currentTarget.getAttribute('aria-disabled') === 'true') return;
-    const enabled = togglePressed(event.currentTarget);
-    try { localStorage.setItem('paperTrailsTapestry', String(enabled)); } catch { /* Storage can be disabled. */ }
+    const mode = nextContextMode(getContextMode(event.currentTarget));
+    updateContextModeButton(event.currentTarget, mode);
+    try { localStorage.setItem(CONTEXT_MODE_STORAGE_KEY, mode); } catch { /* Storage can be disabled. */ }
+    if (timelineStatus) timelineStatus.textContent = `Historical context: ${mode}.`;
     render();
   });
 
@@ -764,7 +764,7 @@ function scheduleUrlUpdate({ push = false } = {}) {
       ...getTrailState(),
       hidden: getHiddenLayers(),
       scale: getScaleMode(),
-      tapestry: isPressed('tapestryToggle')
+      contextMode: getContextMode(document.getElementById('tapestryToggle'))
     });
     const url = `${location.pathname}${location.search}${hash}`;
     if (url === `${location.pathname}${location.search}${location.hash}`) return;
@@ -787,7 +787,8 @@ function applyUrlLayers(state, { initial = false } = {}) {
   Object.entries(LAYER_TOGGLES).forEach(([name, id]) => {
     document.getElementById(id).setAttribute('aria-pressed', String(!state.hidden.includes(name)));
   });
-  if (state.tapestry !== null) document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(state.tapestry));
+  const mode = state.contextMode ?? (state.tapestry === null ? null : state.tapestry ? 'landscape' : 'bars');
+  if (mode !== null || !initial) updateContextModeButton(document.getElementById('tapestryToggle'), mode ?? DEFAULT_CONTEXT_MODE);
   setScaleMode(state.scale ?? (initial ? getScaleMode() : 'linear'), dataYears);
   document.getElementById('densityToggle').setAttribute('aria-pressed', String(getScaleMode() === 'density'));
   updateTapestryAvailability();
@@ -896,10 +897,10 @@ async function initializeApp() {
   document.getElementById('timeline-range').textContent = `${config.START_YEAR}–${config.END_YEAR}`;
   initializeTheme();
   try {
-    // The tapestry is the default context view; readers can switch to bands.
-    document.getElementById('tapestryToggle').setAttribute('aria-pressed', String(localStorage.getItem('paperTrailsTapestry') !== 'false'));
+    // Preserve the current landscape default and migrate the old on/off choice.
+    updateContextModeButton(document.getElementById('tapestryToggle'), savedContextMode(localStorage));
     if (localStorage.getItem(HINT_STORAGE_KEY) === 'true') interactionHint.classList.add('is-hidden');
-  } catch { /* Use the default text view when storage is unavailable. */ }
+  } catch { /* Keep the default Landscape view when storage is unavailable. */ }
   setupModalEventListeners();
 
   try {

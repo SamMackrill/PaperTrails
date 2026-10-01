@@ -83,14 +83,24 @@ try {
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };
   await viewport(1440, 900);
   await send('Network.setBlockedURLs', { urls: ['*landscape-b-*.png'] });
-  await navigate('/?fallback=1');
+  await navigate('/?fallback=1#context=landscape');
   await until('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length > 0 && [...document.querySelectorAll(".tapestry-scene[data-art-rendered=true]")].every(e => e.dataset.artFallback === "original")');
   assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread").length'), 25);
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
   // One fixed chronological material is pleated without moving or swapping art.
-  if (await evaluate('Boolean(document.querySelector(".tapestry-weave"))')) {
+  for (const style of ['landscape', 'tapestry']) {
+    await navigate(`/?style-audit=${style}#context=${style}`);
+    assert.equal(await evaluate('document.querySelector("#tapestryToggle").dataset.contextMode'), style);
+    if (style === 'tapestry') {
+      assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-caption-date")].every(e => e.textContent === "")'));
+      assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-caption-title")].every(e => e.lang === "la" && !/\\d/.test(e.textContent))'));
+      assert.equal(await evaluate('document.querySelectorAll("[data-quiet-scene]").length'), 0);
+    } else {
+      assert.ok(await evaluate('document.querySelectorAll("[data-quiet-scene]").length > 0'));
+      assert.match(await evaluate('document.querySelector(".tapestry-caption-date").textContent'), /1400/);
+    }
     await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady==="true" || document.querySelector(".tapestry-ribbon")?.dataset.artReady==="fallback"');
     await evaluate(`window.__auditClothFaces=[...document.querySelectorAll('.tapestry-cloth-face')];window.__auditDates=[...document.querySelectorAll('.tapestry-thread')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditArtHeight=document.querySelector('.tapestry-scene').clientHeight;window.__auditSourceBoxes=[...document.querySelectorAll('.tapestry-definitions svg[viewBox],.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox'));`);
     assert.ok(await evaluate('window.__auditClothFaces.length > 21'));
@@ -115,6 +125,13 @@ try {
     await evaluate(`document.querySelector('#pan-earlier').click();document.querySelector('#zoom-slider').value=${JSON.stringify(previousZoom)};document.querySelector('#zoom-slider').dispatchEvent(new Event('input',{bubbles:true}));`);
     await send('Emulation.setEmulatedMedia', { features: [] });
   }
+  for (const mode of ['bars', 'landscape', 'tapestry']) {
+    await evaluate('document.querySelector("#tapestryToggle").click()');
+    assert.equal(await evaluate('document.querySelector("#tapestryToggle").dataset.contextMode'), mode);
+    assert.equal(await evaluate('Boolean(document.querySelector(".tapestry-ribbon"))'), mode !== 'bars');
+    if (mode === 'bars') assert.equal(await evaluate('document.querySelectorAll(".event-band").length'), 25);
+  }
+  await navigate('/?style-audit=complete#context=landscape');
   await evaluate('document.querySelector("#trail-select").value="understanding-charge";document.querySelector("#trail-select").dispatchEvent(new Event("change"));');
   assert.equal(await evaluate('document.querySelectorAll("[data-trail-stop]").length'), 8);
   assert.ok(await evaluate('document.querySelectorAll(".scientist-node, .scientist-cluster").length > 0'));

@@ -2,7 +2,8 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-chapters-v2';
 import { groupKey, openItem } from './modalManager.js?v=pass2-chapters-v2';
-import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-continuous-context-v2';
+import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-context-styles-v1';
+import { getContextMode } from './contextMode.js?v=pass2-context-styles-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
 import { projectZoomBox } from './zoomLayout.js?v=pass2-chapters-v2';
@@ -80,7 +81,7 @@ export function renderTimelineMotion(container, timeline, scale) {
     renderTapestry(timeline, significantEvents, width, container.clientHeight, top, scale, button => {
       selectItem(button);
       openItem(button.dataset.itemKey, { fromTimeline: true });
-    });
+    }, getContextMode(document.getElementById('tapestryToggle')));
   }
 }
 
@@ -750,7 +751,8 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
 
   const width = Math.max(containerWidth, Math.round(containerWidth * Math.max(1, scale)));
   const contextVisible = isLayerVisible('significantEventsToggle');
-  const tapestry = contextVisible && document.getElementById('tapestryToggle')?.getAttribute('aria-pressed') === 'true';
+  const contextMode = getContextMode(document.getElementById('tapestryToggle'));
+  const tapestry = contextVisible && contextMode !== 'bars';
   const milestonesVisible = isLayerVisible('discoveriesToggle') || isLayerVisible('conferencesToggle');
   const { axisY, contextTop } = planLanes({
     height,
@@ -800,7 +802,7 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
     renderTapestry(timeline, significantEvents, width, height, contextTop, scale, (button) => {
       selectItem(button);
       openItem(button.dataset.itemKey, { fromTimeline: true });
-    });
+    }, contextMode);
   } else if (contextVisible) {
     renderEvents(timeline, width, height, contextTop);
   }

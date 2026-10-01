@@ -1,9 +1,10 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-continuous-context-v2';
-import { composePictures, continuePictures, quietLandscape, quietPictures, joinWidth } from './clothComposition.js?v=pass2-continuous-context-v2';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-context-styles-v1';
+import { composePictures, continuePictures, quietLandscape, quietPictures, joinWidth } from './clothComposition.js?v=pass2-context-styles-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
+import { contextHeading } from './contextHeadings.js?v=pass2-context-styles-v1';
 import { yearToX } from './timeScale.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -134,23 +135,23 @@ function sourceCrop(strip, left, origin, width, artHeight) {
   return { crop, image };
 }
 
-function joinOverlay(group, left, right, top, artHeight) {
+function joinOverlay(group, left, right, top, artHeight, style = 'landscape') {
   // SVG <use> mask support varies across browsers. Small linen-colour thread
   // bands provide a bounded fallback join without hiding the referenced art.
   const fade = joinWidth(right - left), steps = 24, step = fade / steps;
   for (let i = 0; i < steps; i++) for (const x of [left + i * step, right - (i + 1) * step]) {
     group.appendChild(svg('rect', { x, y: top, width: step + .02, height: artHeight,
-      fill: '#dfcda5', opacity: 1 - (i + .5) / steps }));
+      fill: style === 'tapestry' ? '#e8dec8' : '#dfcda5', opacity: 1 - (i + .5) / steps }));
   }
 }
 
-function renderSourceMaterial(model, pictures, width, top, artHeight) {
+function renderSourceMaterial(model, pictures, width, top, artHeight, style) {
   model.landscape.replaceChildren();
   attribute(model.landscape, 'transform', `translate(0 ${top})`);
-  for (const { d, stroke, strokeWidth, opacity, fill } of quietLandscape(width, artHeight, [...model.entries.values()])) {
+  for (const { d, stroke, strokeWidth, opacity, fill } of quietLandscape(width, artHeight, [...model.entries.values()], style)) {
     model.landscape.appendChild(svg('path', { d, stroke, 'stroke-width': strokeWidth, opacity, fill }));
   }
-  for (const quiet of quietPictures(width, artHeight, pictures, [...model.entries.values()])) {
+  for (const quiet of quietPictures(width, artHeight, pictures, [...model.entries.values()], style)) {
     const strip = { x: quiet.x, y: quiet.y, width: quiet.sourceWidth, height: quiet.height, atlas: quiet.atlas };
     const { crop, image } = sourceCrop(strip, quiet.left, quiet.left, quiet.width, artHeight);
     const joined = svg('g');
@@ -179,9 +180,9 @@ function renderSourceMaterial(model, pictures, width, top, artHeight) {
     }
     const joined = svg('g');
     joined.appendChild(crop);
-    joinOverlay(joined, picture.anchor, picture.right, top, artHeight);
+    joinOverlay(joined, picture.anchor, picture.right, top, artHeight, style);
     image.addEventListener('error', () => {
-      if (entry.original || model.disposed) return;
+      if (entry.original || entry.style !== style || model.disposed) return;
       entry.original = true;
       entry.button.dataset.artFallback = 'original';
       if (!model.artworkPending) {
@@ -239,16 +240,23 @@ function makeEntry(model, key) {
   return entry;
 }
 
-export function renderTapestry(timeline, events, width, height, top, scale, onSelect) {
+export function renderTapestry(timeline, events, width, height, top, scale, onSelect, style = 'landscape') {
   const ribbon = timeline.querySelector('.tapestry-ribbon') || document.createElement('div');
   ribbon.className = 'tapestry-ribbon';
+  ribbon.dataset.artStyle = style;
   ribbon.setAttribute('role', 'group');
   ribbon.setAttribute('aria-label', 'Historical tapestry. Flat scene summaries stay exposed; folded detail is concealed underneath until the cloth opens. All cloth is flat at maximum zoom. Woven braids show recorded period spans. Knots mark single-year events, whose illustrated vignettes occupy at most one year.');
   const model = models.get(ribbon) || makeModel(ribbon);
-  model.redraw = () => renderTapestry(timeline, events, width, height, top, scale, onSelect);
+  model.redraw = () => renderTapestry(timeline, events, width, height, top, scale, onSelect, style);
   const viewportWidth = timeline.parentElement?.clientWidth || width / Math.max(1, scale);
   const materialWidth = viewportWidth * config.MAX_SCALE;
   const { items, lanes } = layoutTapestry(events, materialWidth);
+  items.forEach(item => {
+    item.style = style;
+    const key = recordKey('event', item.event, `event:${events.indexOf(item.event)}`);
+    const previous = model.entries.get(key);
+    item.original = previous?.style === style && previous.original;
+  });
   const headerHeight = 4 + lanes * BRAID_PITCH + CAPTION_HEIGHT;
   const artHeight = Math.max(24, Math.min(ART_HEIGHT, height - top - headerHeight - 14));
   const clothHeight = headerHeight + artHeight;
@@ -270,12 +278,17 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   attribute(model.annotations, 'height', headerHeight);
   attribute(model.background, 'width', materialWidth);
   attribute(model.background, 'height', clothHeight);
+  attribute(model.background, 'fill', style === 'tapestry' ? '#e8dec8' : '#dfcda5');
   const active = new Set();
   for (const { event, anchor, end, sceneWidth, lane } of items) {
     const key = recordKey('event', event, `event:${events.indexOf(event)}`);
     active.add(key);
     const entry = model.entries.get(key) || makeEntry(model, key);
-    Object.assign(entry, { event, onSelect, anchor, end, sceneWidth, lane });
+    if (entry.style !== style) {
+      entry.original = false;
+      delete entry.button.dataset.artFallback;
+    }
+    Object.assign(entry, { event, onSelect, anchor, end, sceneWidth, lane, style });
     const { button, caption, captionTitle, captionDate, thread, span, startKnot, endKnot, braidPattern } = entry;
     const date = contextDate(event);
     const heading = `${event.title} · ${date}`;
@@ -292,11 +305,13 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
     button.style.top = `${headerHeight}px`;
     button.style.height = `${artHeight}px`;
     attribute(button, 'aria-label', `${heading}. ${event.details || ''}`);
-    const materialKey = [anchor, end, sceneWidth, lane, artHeight, headerHeight, entry.original, JSON.stringify(event.chapters)].join(':');
+    const materialKey = [style, anchor, end, sceneWidth, lane, artHeight, headerHeight, entry.original, JSON.stringify(event.chapters)].join(':');
     const materialChanged = materialKey !== entry.materialKey;
     button.dataset.tooltip = `${heading}\n${event.details || ''}`;
-    if (captionTitle.textContent !== event.title) captionTitle.textContent = event.title;
-    if (captionDate.textContent !== ` · ${date}`) captionDate.textContent = ` · ${date}`;
+    const inscription = contextHeading(event, style);
+    if (captionTitle.textContent !== inscription.title) captionTitle.textContent = inscription.title;
+    if (captionTitle.lang !== inscription.lang) captionTitle.lang = inscription.lang;
+    if (captionDate.textContent !== inscription.date) captionDate.textContent = inscription.date;
     caption.dataset.sceneLeft = String(left);
     caption.dataset.sceneWidth = String(right - left);
     caption.dataset.startYear = String(event.startYear);
@@ -339,8 +354,10 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
       caption.append(title, date); ribbon.appendChild(caption);
       model.continuationCaptions.set(picture.key, caption);
     }
-    caption.firstElementChild.textContent = `${picture.event.title} (continuing)`;
-    caption.lastElementChild.textContent = ` · ${contextDate(picture.event)}`;
+    const inscription = contextHeading(picture.event, style, true);
+    if (caption.firstElementChild.textContent !== inscription.title) caption.firstElementChild.textContent = inscription.title;
+    if (caption.firstElementChild.lang !== inscription.lang) caption.firstElementChild.lang = inscription.lang;
+    if (caption.lastElementChild.textContent !== inscription.date) caption.lastElementChild.textContent = inscription.date;
     caption.dataset.sceneLeft = String(projectClothX(picture.anchor, pose));
     caption.dataset.sceneWidth = String((picture.end - picture.anchor) * pose.ratio);
     caption.dataset.startYear = String(picture.event.startYear);
@@ -349,17 +366,19 @@ export function renderTapestry(timeline, events, width, height, top, scale, onSe
   for (const [key, caption] of model.continuationCaptions) if (!continued.has(key)) {
     caption.remove(); model.continuationCaptions.delete(key);
   }
-  const rasterKey = [materialWidth, clothHeight, ...[...model.entries.values()].map(e => e.materialKey)].join('|');
+  const rasterKey = [style, materialWidth, clothHeight, ...[...model.entries.values()].map(e => e.materialKey)].join('|');
   if (model.rasterKey !== rasterKey) {
     model.rasterKey = rasterKey;
+    // Show the new SVG material immediately while its textures are prepared.
+    model.faces.forEach(({ face, art }) => { face.style.backgroundImage = ''; art.style.display = ''; });
     const entries = [...model.entries.values()];
-    renderSourceMaterial(model, continuePictures(composePictures(entries, artHeight, materialWidth), entries, artHeight), materialWidth, headerHeight, artHeight);
+    renderSourceMaterial(model, continuePictures(composePictures(entries, artHeight, materialWidth), entries, artHeight), materialWidth, headerHeight, artHeight, style);
     ribbon.dataset.artReady = 'false';
     const generation = model.generation = (model.generation || 0) + 1;
     rasterizeCloth([...model.entries.values()], materialWidth, clothHeight, headerHeight, artHeight,
-      () => model.generation === generation && !model.disposed).then(texture => {
+      () => model.generation === generation && !model.disposed, style).then(texture => {
       if (!texture) return;
-      if (model.generation !== generation) {
+      if (model.generation !== generation || model.disposed) {
         texture.urls.forEach(url => URL.revokeObjectURL(url));
         return;
       }
