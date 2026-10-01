@@ -82,10 +82,14 @@ try {
   const viewport = async (width, height) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 1024 }); await delay(150); };
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };
   await viewport(1440, 900);
-  await send('Network.setBlockedURLs', { urls: ['*landscape-b-*.png'] });
+  await send('Network.setBlockedURLs', { urls: ['*landscape-b-early.png', '*landscape-b-revolutions.png', '*landscape-b-modern.png', '*landscape-b-context-chapters.png', '*landscape-b-winter-eras.png'] });
   await navigate('/?fallback=1#context=landscape');
   await until('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length > 0 && [...document.querySelectorAll(".tapestry-scene[data-art-rendered=true]")].every(e => e.dataset.artFallback === "original")');
   assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread").length'), 25);
+  await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady === "true"');
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-ribbon").length'), 1);
+  assert.equal(await evaluate('document.querySelector(".tapestry-ribbon").parentElement.id'), 'timeline');
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length'), 25);
   await send('Network.setBlockedURLs', { urls: ['*bayeux-*.webp'] });
   await navigate('/?story-fallback=1#context=tapestry');
   await until('document.querySelector(".tapestry-story")?.dataset.artReady === "true"');
@@ -93,6 +97,9 @@ try {
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
+  await evaluate(`document.querySelector('#zoom-in').click();history.replaceState(null,'',location.pathname+'#context=bars');dispatchEvent(new PopStateEvent('popstate'));window.__auditRestoredRange=document.querySelector('.zoom-level').textContent;`);
+  await delay(550);
+  assert.equal(await evaluate(`document.querySelector('.zoom-level').textContent`), await evaluate('window.__auditRestoredRange'));
   // Landscape retains fixed pleated material; Tapestry composes a continuous story.
   for (const style of ['landscape', 'tapestry']) {
     console.log(`Audit: ${style} cloth and route`);
