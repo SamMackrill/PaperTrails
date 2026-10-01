@@ -82,18 +82,27 @@ const chapterScenes = [
   ['haitian-revolution', 5, ['Organisers meeting', 'Revolutionary forces', 'Political leadership', 'Constitutional debate', 'Independence']],
   ['telegraph-networks', 6, ['Batteries and experiments', 'Telegraph operators', 'Wires across countryside', 'Cable laying', 'Receiving station']]
 ];
-for (const [key, row, facets] of chapterScenes) tapestryScenes.set(key, { customAtlas: chapterAtlas, row, facets });
+// The retry path must use a distinct, already-shipped source if the chapter
+// atlas cannot be decoded. These legacy panoramas retain the same seven rows.
+for (const [key, row, facets] of chapterScenes) tapestryScenes.set(key, {
+  customAtlas: chapterAtlas,
+  fallbackAtlas: originalTapestryAtlases[key.startsWith('telegraph') ? 2 : 1],
+  row,
+  facets
+});
 tapestryScenes.set('industry-community', { ...tapestryScenes.get('industry-community'), facetRange: [0, 3],
   facets: ['Factory workers', 'Textile production', 'Workers’ housing'] });
 // Disjoint crops of one authored sequence, never repeated whole panels.
-tapestryScenes.set('atlantic-abolition', { customAtlas: chapterAtlas, row: 4,
+tapestryScenes.set('atlantic-abolition', { customAtlas: chapterAtlas, fallbackAtlas: originalTapestryAtlases[1], row: 4,
   facets: ['Abolition campaigners'], facetRange: [4, 5] });
 tapestryScenes.set('atlantic-resistance', { ...tapestryScenes.get('atlantic-resistance'), facetRange: [0, 4] });
 tapestryScenes.set('telegraph-experiments', { ...tapestryScenes.get('telegraph-networks'), facetRange: [0, 3] });
 tapestryScenes.set('telegraph-cable', { ...tapestryScenes.get('telegraph-networks'), facetRange: [3, 5] });
 
 export function getPanoramaStrip(scene, original = false) {
-  const atlas = scene.customAtlas || (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
+  const atlas = original && scene.fallbackAtlas
+    ? scene.fallbackAtlas
+    : scene.customAtlas || (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
   // panoramas do not divide into a mathematically exact grid.

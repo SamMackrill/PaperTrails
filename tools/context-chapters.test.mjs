@@ -85,6 +85,16 @@ test('adjacent chapter crops reveal distinct source regions instead of duplicate
   }
 });
 
+test('a failed chapter atlas retries with a distinct shipped panorama', () => {
+  for (const scene of tapestryScenes.values()) {
+    if (!scene.customAtlas) continue;
+    const normal = getPanoramaStrip(scene);
+    const fallback = getPanoramaStrip(scene, true);
+    assert.notEqual(fallback.atlas.file, normal.atlas.file);
+    assert.equal(fallback.atlas, scene.fallbackAtlas);
+  }
+});
+
 test('chapter anchors follow the same nonlinear density scale as the papers and braids', () => {
   try {
     setScaleMode('density', [1500, 1501, 1600, 1700, 1750, 1780, 1800, 1812, 1850, 1900]);
