@@ -2645,7 +2645,9 @@ body.has-docked-panel .timeline-shell {
   color: #794331;
 }
 .tapestry-ribbon[data-art-style="tapestry"] .tapestry-caption-date { display: none; }
-.context-guide { margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
+.context-guide { display: grid; margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
+.context-guide > span { grid-area: 1 / 1; min-width: 0; }
+.context-guide-sizer { visibility: hidden; pointer-events: none; user-select: none; }
 
 /* A shared linen ground and soft scene edges connect the landscape strips. */
 .tapestry-ribbon { background-color: #dfcda5; }
