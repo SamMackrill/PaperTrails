@@ -1,85 +1,98 @@
 import { config } from './config.js?v=16';
 import { yearToX } from './timeScale.js?v=3';
-import { tapestryScenes, getPanoramaStrip } from './tapestryScenes.js?v=pass2-bayeux-art-v1';
+import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-linear-v1';
+const FRONT = 160;
+const RETURN = 240;
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 
-// These are representative subjects, not extra events or invented date spans.
-// Short events get a readable vignette whose dated anchor remains exact.
-export const storyFocus = new Map([
-  ["Thirty Years' War", 2], ["The Seven Years' War", 2],
-  ['Reign of Napoleon', 0], ['industry-steam', 0],
-  ['World War I', 0], ['World War II', 0], ['Cold War', 3],
-  ['Carrington Event', 2], ['telegraph-networks', 2]
-]);
-
-function motifCrop(strip, facet) {
-  const left = strip.edges[facet], right = strip.edges[facet + 1];
-  // Atlas row starts contain the border. The continuous border is drawn once
-  // above and below the story, rather than cut into every individual motif.
-  const inset = Math.min(26, strip.height * .22);
-  return { ...strip, x: strip.x + left, width: right - left,
-    y: strip.y + inset, height: strip.height - inset };
+// Native artwork dimensions depend on context height, never zoom or density.
+// All concurrent subjects are already drawn together in each source row.
+export function layoutStory(events, width, height) {
+  let sourceX = 0;
+  const panels = storyPanels.map(section => {
+    const atlas = storyAtlases[section.sheet];
+    const [top, bottom] = atlas.bodies[section.row];
+    const unit = height / (bottom - top);
+    const sourceWidth = atlas.width * unit;
+    const summaryWidth = Math.min(FRONT, sourceWidth);
+    const summaryX = clamp(section.focus * sourceWidth - summaryWidth / 2, 0, sourceWidth - summaryWidth);
+    const faces = [{ sourceX: sourceX + summaryX, sourceWidth: summaryWidth, summary: true, order: 1000 }];
+    for (const [from, to, side] of [[0, summaryX, 'left'], [summaryX + summaryWidth, sourceWidth, 'right']]) {
+      const count = Math.ceil((to - from) / RETURN);
+      for (let i = 0; i < count; i++) faces.push({ sourceX: sourceX + from + i * (to - from) / count,
+        sourceWidth: (to - from) / count, summary: false, side, order: side === 'left' ? 500 + i : count - i });
+    }
+    const result = { ...section, to: section.to ?? config.END_YEAR, atlas,
+      crop: { x: 0, y: top, width: atlas.width, height: bottom - top },
+      unit, sourceX, sourceWidth, summaryX, summaryWidth, faces };
+    sourceX += sourceWidth;
+    return result;
+  });
+  const records = events.filter(event => Number.isFinite(event.startYear) && Number.isFinite(event.endYear)
+    && event.endYear >= event.startYear && event.endYear >= config.START_YEAR && event.startYear <= config.END_YEAR)
+    .map(event => ({ event, anchor: clamp(yearToX(event.startYear, width), 0, width),
+      end: clamp(yearToX(event.endYear, width), 0, width),
+      subjects: panels.flatMap(p => p.subjects.filter(([id]) => id === event.id).map(([, from, to]) => ({
+        panel: p.id, sourceX: p.sourceX + from * p.sourceWidth, sourceWidth: (to - from) * p.sourceWidth
+      }))) }));
+  return { panels, records, materialWidth: sourceX };
 }
 
-export function layoutStory(events, width, height) {
-  const subjects = [], records = [];
-  for (const event of events) {
-    if (!Number.isFinite(event.startYear) || !Number.isFinite(event.endYear)
-      || event.endYear < event.startYear || event.endYear < config.START_YEAR
-      || event.startYear > config.END_YEAR) continue;
-    const anchor = Math.max(0, yearToX(event.startYear, width));
-    const end = Math.min(width, yearToX(event.endYear, width));
-    const winterSources = event.title === 'The Little Ice Age'
-      ? tapestryScenes.get(event.title)?.continuationSources : null;
-    const chapters = winterSources?.map(source => ({ ...source, id: source.scene }))
-      || (event.chapters?.length ? event.chapters : [{
-      id: event.id || event.title, startYear: event.startYear,
-      endYear: event.endYear, scene: event.title
-    }]);
-    const record = { event, anchor, end, subjects: [] };
-    records.push(record);
-    for (const chapter of chapters) {
-      let key = chapter.scene || event.title;
-      // Operators and wires remain part of the network after 1850, alongside
-      // cable laying. This uses its already-approved general network source.
-      if (event.title === 'Electric telegraph networks') key = 'telegraph-networks';
-      const scene = tapestryScenes.get(key);
-      if (!scene) continue;
-      const strip = getPanoramaStrip(scene, false, 'tapestry');
-      const first = Math.max(anchor, yearToX(chapter.startYear, width));
-      const last = Math.min(end, yearToX(chapter.endYear, width));
-      const climate = event.title === 'The Little Ice Age';
-      const count = Math.min(strip.edges.length - 1, Math.max(1, Math.floor((last - first) / 145)));
-      const focus = Math.min(strip.edges.length - 2, storyFocus.get(key) ?? 0);
-      const facets = [focus, ...Array.from({ length: strip.edges.length - 1 }, (_, i) => i).filter(i => i !== focus)]
-        .slice(0, count).sort((a, b) => a - b);
-      facets.forEach((facet, i) => {
-        const crop = motifCrop(strip, facet);
-        const h = height * (climate ? .40 : .72);
-        const naturalWidth = crop.width * h / crop.height;
-        // Keep complete identifying objects at overview, then expose each
-        // approved action group as the event gets more chronological room.
-        const displayWidth = Math.min(naturalWidth, Math.max(climate ? 115 : storyFocus.has(key) ? 210 : 105, (last - first) / count));
-        const scale = Math.min(h / crop.height, displayWidth / crop.width);
-        const drawnWidth = crop.width * scale, drawnHeight = crop.height * scale;
-        const center = first + (last > first ? (i + .5) * (last - first) / count : 0);
-        const left = Math.max(0, Math.min(width - drawnWidth, center - drawnWidth / 2));
-        const subject = { key: `${event.id || event.title}/${chapter.id}/${facet}`, event,
-          chapter, facet, crop, left, width: drawnWidth, height: drawnHeight,
-          top: climate ? Math.min(height - drawnHeight, height * .4) : height - drawnHeight,
-          anchor, end, climate, focus: facet === focus,
-          priority: (storyFocus.has(key) ? 2 : 1) + (climate ? -1 : 0) };
-        subjects.push(subject); record.subjects.push(subject);
-      });
+// Both sides unfold behind the same identifying front. Fully open faces
+// recover their original source order; no scaling, scene swapping or mirroring.
+export function foldStory(layout, viewport, scale) {
+  const progress = clamp((scale - config.MIN_SCALE) / (config.MAX_SCALE - config.MIN_SCALE), 0, 1);
+  const base = Math.min(viewport, layout.materialWidth);
+  const total = base + (layout.materialWidth - base) * progress;
+  const ratio = layout.materialWidth ? total / layout.materialWidth : 1;
+  const cells = layout.panels.map(panel => {
+    const width = panel.sourceWidth * ratio;
+    const open = clamp((width - panel.summaryWidth) / (panel.sourceWidth - panel.summaryWidth || 1), 0, 1);
+    const summaryLeft = width < panel.summaryWidth ? (width - panel.summaryWidth) / 2 : open * panel.summaryX;
+    const faces = panel.faces.map(face => {
+      const local = face.sourceX - panel.sourceX;
+      const left = face.summary ? summaryLeft : face.side === 'left'
+        ? summaryLeft - face.sourceWidth + open * (local - panel.summaryX + face.sourceWidth)
+        : summaryLeft + panel.summaryWidth - face.sourceWidth
+          + open * (local - panel.summaryX - panel.summaryWidth + face.sourceWidth);
+      return { ...face, left, shade: 1 - open };
+    });
+    return { ...panel, left: panel.sourceX * ratio, width, open, faces };
+  });
+  return { width: total, ratio, progress, cells };
+}
+
+// Drawing and hit-testing share the exact fixed source pixels left exposed by
+// higher faces. Concealed subjects cannot become invisible pointer targets.
+export function exposedStory(pose) {
+  return pose.cells.flatMap(cell => cell.faces.flatMap(face => {
+    let ranges = [[Math.max(0, face.left), Math.min(cell.width, face.left + face.sourceWidth)]]
+      .filter(([left, right]) => right - left > 1e-8);
+    for (const upper of cell.faces.filter(other => other.order > face.order)) {
+      const a = upper.left, b = a + upper.sourceWidth;
+      ranges = ranges.flatMap(([left, right]) => b <= left || a >= right ? [[left, right]]
+        : [[left, Math.min(a, right)], [Math.max(b, left), right]].filter(([x, y]) => y - x > 1e-8));
     }
-  }
-  // Climate occupies a separate baseline behind foreground figures. Nearby stories
-  // weave into the same strip through different baselines, not opaque spans.
-  const occupied = [];
-  for (const subject of [...subjects].sort((a, b) => b.priority - a.priority || a.left - b.left)) {
-    if (subject.climate) continue;
-    const overlaps = occupied.filter(p => subject.left < p.left + p.width - 8 && subject.left + subject.width > p.left + 8);
-    if (overlaps.length) subject.top = 0;
-    occupied.push(subject);
-  }
-  return { records, subjects: subjects.sort((a, b) => a.priority - b.priority || a.left - b.left) };
+    return ranges.filter(([a, b]) => b - a > 1e-8).map(([left, right]) => ({
+      panel: cell, face, left: cell.left + left, width: right - left,
+      sourceX: face.sourceX + left - face.left
+    }));
+  }));
+}
+
+export function storyYearX(year, pose) {
+  const cell = pose.cells.find(p => year < p.to) || pose.cells.at(-1);
+  if (!cell) return 0;
+  const anchors = cell.cameraAnchors.length ? [...cell.cameraAnchors] : [[cell.from, 0]];
+  if (anchors.at(-1)[0] !== cell.to) anchors.push([cell.to, 1]);
+  const upper = anchors.findIndex(([at]) => at >= year);
+  if (upper <= 0) return upper === 0 ? cell.left + anchors[0][1] * cell.width : cell.left + cell.width;
+  const [from, start] = anchors[upper - 1], [to, end] = anchors[upper];
+  return cell.left + (start + clamp((year - from) / (to - from), 0, 1) * (end - start)) * cell.width;
+}
+
+// Symbolic cloth space is not a second duration axis. Follow the scientific
+// viewport's central year without stretching the underlying embroidery.
+export function storyCamera(year, pose, viewport) {
+  return clamp(storyYearX(year, pose) - viewport / 2, 0, Math.max(0, pose.width - viewport));
 }
