@@ -54,7 +54,7 @@ Show the Carrington Event together with the telegraph network it disrupted. Use 
 
 ## Implementation stack
 
-**Latest governing brief:** [Consolidated context requirements](ui-pass2-context-summary.html), reconstructed from the older settled conversations and this review. The layer descriptions below record implementation history; the user has since rejected the Tapestry's multirow motif composition and loss of folding. Passing checks and earlier source-sheet approval do not establish acceptance of that result.
+**Standing specification:** [Context drawing instructions](../context-drawing-instructions.html), reconstructed from the older settled conversations and this review. Consult and update this record before drawing or changing the context display. The layer descriptions below record implementation history; the user has since rejected the Tapestry's multirow motif composition and loss of folding. Passing checks and earlier source-sheet approval do not establish acceptance of that result.
 
 All layers target `prototype/ui-pass2` through their preceding branch, with the existing hourly CodeRabbit review gate. The review site is updated only after the stack has passed review and landed.
 

@@ -1,5 +1,10 @@
 # Maintaining the two illustration styles
 
+Consult the standing [Context drawing instructions](../../docs/context-drawing-instructions.html)
+before drawing or composing context artwork. They specify Bars, Landscape and
+Tapestry equally and take precedence over superseded layout assumptions below,
+including the rejected use of separate vignette rows for concurrent Tapestry events.
+
 The context control cycles **Bars → Landscape → Tapestry → Bars**. Landscape
 keeps the current illustrations. Tapestry targets approved study 8, closest to
 the Bayeux embroidery: coloured wool contours and fills, profile figures and

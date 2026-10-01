@@ -171,6 +171,8 @@ Prototype records carry persisted `id` values and frozen `legacyKey` aliases. Ne
 
 This work targets `prototype/ui-pass2` only. See `docs/ui-improvements/ui-improvement-analysis-second-pass.html` for the approved prototype plan.
 
+The [Context drawing instructions](docs/context-drawing-instructions.html) are the standing instructions for the context depictions in all three modes: Bars, Landscape and Tapestry. Consult them before drawing, composing or changing the context display, and keep them current when new user decisions change the specification. They take precedence over superseded context proposals and implementation notes.
+
 ## Curated relations and trails (prototype)
 
 `data/relations.yaml` defines stable endpoints, a relation kind, a precise claim and evidence with an HTTPS URL, label and locator. Supported kinds are documented influence, prediction/test, competing explanations and conceptual bridge. A conceptual bridge is an editorial connection, not a historical influence assertion. `data/trails.yaml` defines an ordered question-led reading route. Each stop has its own claim, significance and evidence; every transition explicitly references a matching relation. Validation rejects dangling IDs, unsupported claims and malformed transitions before rendering. Relation networks can contain cycles. New records must retain existing IDs and aliases.
