@@ -11,7 +11,8 @@ test('a failed panorama prevents raster texture installation', async () => {
   try {
     const { rasterizeCloth } = await import(`../src/clothRaster.js?failure-test=${Date.now()}`);
     await assert.rejects(
-      rasterizeCloth([{ event: { title: 'The Renaissance' }, original: false }], 800, 160, 20, 120),
+      rasterizeCloth([{ event: { title: 'The Renaissance', startYear: 1400, endYear: 1600 },
+        anchor: 0, end: 400, sceneWidth: 400, original: false }], 800, 160, 20, 120),
       /Cloth panorama could not be loaded/
     );
   } finally {

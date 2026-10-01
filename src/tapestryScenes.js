@@ -69,14 +69,39 @@ export const tapestryScenes = new Map(entries.map(([title, facets], index) => [t
   atlas: Math.floor(index / 7), row: index % 7, facets
 }]));
 
+// Explicit art references keep chapter pictures independent of data ordering.
+const chapterAtlas = { file: 'images/tapestry/landscape-b-context-chapters.png', width: 1774, height: 887,
+  rows: [[0,142], [145,284], [288,424], [429,556], [560,693], [697,795], [799,887]]
+    .map(([top, bottom]) => [top, bottom, Array.from({ length: 6 }, (_, i) => i * 1774 / 5)]) };
+const chapterScenes = [
+  ['industry-water', 0, ['Water-powered mill', 'Textile workers', 'Mining pump', 'Canal transport', 'Riverside factory']],
+  ['industry-steam', 1, ['Beam engine', 'Mechanics and tools', 'Furnace workers', 'Machine assembly', 'Factory yard']],
+  ['industry-community', 2, ['Factory workers', 'Textile production', 'Workers’ housing', 'Steam transport', 'Community market']],
+  ['atlantic-communities', 3, ['African families and artisans', 'Forced departure', 'Coastal fort', 'Atlantic crossing', 'Caribbean coast']],
+  ['atlantic-resistance', 4, ['Plantation labour', 'Sugar processing', 'Family and community', 'Organised resistance', 'Abolition campaigning']],
+  ['haitian-revolution', 5, ['Organisers meeting', 'Revolutionary forces', 'Political leadership', 'Constitutional debate', 'Independence']],
+  ['telegraph-networks', 6, ['Batteries and experiments', 'Telegraph operators', 'Wires across countryside', 'Cable laying', 'Receiving station']]
+];
+for (const [key, row, facets] of chapterScenes) tapestryScenes.set(key, { customAtlas: chapterAtlas, row, facets });
+tapestryScenes.set('industry-community', { ...tapestryScenes.get('industry-community'), facetRange: [0, 3],
+  facets: ['Factory workers', 'Textile production', 'Workers’ housing'] });
+// Disjoint crops of one authored sequence, never repeated whole panels.
+tapestryScenes.set('atlantic-abolition', { customAtlas: chapterAtlas, row: 4,
+  facets: ['Abolition campaigners'], facetRange: [4, 5] });
+tapestryScenes.set('atlantic-resistance', { ...tapestryScenes.get('atlantic-resistance'), facetRange: [0, 4] });
+tapestryScenes.set('telegraph-experiments', { ...tapestryScenes.get('telegraph-networks'), facetRange: [0, 3] });
+tapestryScenes.set('telegraph-cable', { ...tapestryScenes.get('telegraph-networks'), facetRange: [3, 5] });
+
 export function getPanoramaStrip(scene, original = false) {
-  const atlas = (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
+  const atlas = scene.customAtlas || (original ? originalTapestryAtlases : tapestryAtlases)[scene.atlas];
   const rowHeight = atlas.height / 7;
   // Use measured row and action-group boundaries, since the hand-drawn
   // panoramas do not divide into a mathematically exact grid.
   const [top, bottom, edges] = atlas.rows?.[scene.row] ?? [scene.row * rowHeight + rowHeight * 0.04,
     (scene.row + 1) * rowHeight - rowHeight * 0.04, Array.from({ length: 6 }, (_, index) => index * atlas.width / 5)];
   const cropHeight = bottom - top;
-  return { atlas, y: top, width: edges.at(-1), height: cropHeight,
-    facets: scene.facets, edges };
+  const [first, last] = scene.facetRange || [0, edges.length - 1];
+  const x = edges[first];
+  return { atlas, x, y: top, width: edges[last] - x, height: cropHeight,
+    facets: scene.facets, edges: edges.slice(first, last + 1).map(edge => edge - x) };
 }

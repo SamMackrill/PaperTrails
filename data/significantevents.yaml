@@ -188,3 +188,126 @@
   endYear: 1859
   color: "#39FF88" # Aurora green
   details: "Strongest recorded solar storm, causing brilliant auroras and widespread telegraph-system failures."
+
+- id: event-industrial-revolution
+  legacyKey: event:21
+  title: "Industrial Revolution in Britain"
+  shortTitle: "Industry"
+  startYear: 1760
+  endYear: 1830
+  approximate: true
+  scope: "Britain; selected first-phase industrialisation"
+  color: "#86583c"
+  details: "Water and steam power changed production, engineering and working life in Britain. This approximate first-phase interval follows the Science Museum's 1760–1830 framing; industrialisation continued afterwards and followed different chronologies elsewhere."
+  dateNote: "Chapter divisions organise the illustration; they do not date a sudden replacement of water power or the end of industrialisation. The 1777 and 1812 anchors correspond to surviving Boulton & Watt engines."
+  sources:
+    - label: "Science Museum — Steaming through the centuries"
+      url: "https://blog.sciencemuseum.org.uk/steaming-through-the-centuries/"
+      locator: "British industrialisation, 1760–1830; Old Bess (1777); Crofton engine (1812)."
+  chapters:
+    - id: water-and-workshops
+      title: "Water, mills and workshops"
+      startYear: 1760
+      endYear: 1777
+      scene: industry-water
+      details: "Water-powered production and early steam machinery form the opening illustrated chapter."
+    - id: steam-workshops
+      title: "Steam and machine workshops"
+      startYear: 1777
+      endYear: 1812
+      scene: industry-steam
+      details: "Old Bess, built in 1777, anchors a chapter about stationary steam engines and the work of making machinery."
+    - id: industrial-communities
+      title: "Factories and industrial communities"
+      startYear: 1812
+      endYear: 1830
+      scene: industry-community
+      details: "The surviving Crofton pumping engine of 1812 anchors the later chapter. Its imagery brings workers, production and transport into the landscape."
+
+- id: event-transatlantic-slave-trade
+  legacyKey: event:22
+  title: "Transatlantic slave trade"
+  shortTitle: "Enslavement"
+  startYear: 1501
+  endYear: 1866
+  dateQualifier: "estimates window"
+  scope: "Africa, the Atlantic and the Americas"
+  color: "#795443"
+  details: "The forced transportation of enslaved Africans reshaped societies around the Atlantic. This record follows the coverage window of SlaveVoyages' estimates, 1501–1866. The illustrations foreground people, coerced labour, community, resistance and abolition campaigns."
+  dateNote: "1501–1866 is a dataset coverage window, not the beginning and end of slavery. Abolition occurred at different dates in different jurisdictions. The chapter divisions are editorial, and their pictures are symbolic compositions."
+  sources:
+    - label: "SlaveVoyages — Transatlantic estimates"
+      url: "https://legacy.slavevoyages.org/assessment/estimates"
+      locator: "Estimates coverage, 1501–1866; changing volumes and regions of forced transportation."
+    - label: "Royal Museums Greenwich — Slave trade and abolition in Britain"
+      url: "https://www.rmg.co.uk/stories/maritime-history/how-did-slave-trade-end-britain"
+      locator: "Forced migration, plantation goods, formerly enslaved campaigners, the Haitian uprising and Britain's 1807 trade ban."
+  chapters:
+    - id: communities-and-forced-migration
+      title: "Communities and forced migration"
+      startYear: 1501
+      endYear: 1650
+      scene: atlantic-communities
+      details: "The opening chapter connects African communities, coercion at coastal embarkation points and Atlantic crossings."
+    - id: plantation-economies-and-resistance
+      title: "Plantation economies and resistance"
+      startYear: 1650
+      endYear: 1780
+      scene: atlantic-resistance
+      details: "This chapter depicts coerced plantation labour alongside family life, community and organised resistance."
+    - id: abolition-and-continuing-trade
+      title: "Abolition campaigns and continuing trade"
+      startYear: 1780
+      endYear: 1866
+      scene: atlantic-abolition
+      details: "Campaigning intensified in the late eighteenth century. Britain's 1807 ban ended its legal trade; forced Atlantic transportation continued elsewhere."
+
+- id: event-haitian-revolution
+  legacyKey: event:23
+  title: "Haitian Revolution"
+  shortTitle: "Haiti"
+  startYear: 1791
+  endYear: 1804
+  scope: "Saint-Domingue / Haiti"
+  color: "#6b7650"
+  details: "An uprising against slavery in Saint-Domingue developed into a revolution and the creation of independent Haiti. Its consequences reached across the Atlantic world, including debates about slavery, recognition and political rights."
+  sources:
+    - label: "Office of the Historian — The Haitian Revolution, 1791–1804"
+      url: "https://history.state.gov/milestones/1784-1800/haitian-rev"
+      locator: "The 1791 uprising, revolutionary leadership, independence and reactions in the United States."
+  chapters:
+    - id: revolution-and-independence
+      title: "Revolution and independence"
+      startYear: 1791
+      endYear: 1804
+      scene: haitian-revolution
+      details: "Organisers, revolutionary forces and political debate lead towards an independence gathering in the symbolic panorama."
+
+- id: event-electric-telegraph
+  legacyKey: event:24
+  title: "Electric telegraph networks"
+  shortTitle: "Telegraph"
+  startYear: 1830
+  endYear: 1866
+  approximate: true
+  scope: "Selected European, American and Atlantic developments"
+  color: "#42666c"
+  details: "Inventors in several countries developed workable electric telegraphs during the 1830s and 1840s. Growing networks accelerated communication; a permanent transatlantic cable connected the continents in 1866. This selected chapter ends at that milestone, while telegraphy continued to develop."
+  dateNote: "1830 is an approximate decade boundary. 1850 divides the illustrated chapters around the growth of international networks; 1866 marks the permanent transatlantic connection."
+  sources:
+    - label: "Office of the Historian — Diplomacy and the telegraph"
+      url: "https://history.state.gov/milestones/1866-1898/telegraph"
+      locator: "Independent inventions in the 1830s–40s; international use in the 1850s; permanent Atlantic cable in 1866."
+  chapters:
+    - id: experiments-and-landlines
+      title: "Experiments and landlines"
+      startYear: 1830
+      endYear: 1850
+      scene: telegraph-experiments
+      details: "Batteries, electromagnetic instruments and operators connect experimental electricity with working communication networks."
+    - id: atlantic-cable
+      title: "Connecting across the Atlantic"
+      startYear: 1850
+      endYear: 1866
+      scene: telegraph-cable
+      details: "Cable-laying and receiving stations illustrate the move towards the permanent Atlantic connection of 1866."
