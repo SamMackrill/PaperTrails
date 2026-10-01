@@ -6,7 +6,7 @@ import { composePictures, contextWindows, continuePictures } from '../src/clothC
 import { layoutTapestry } from '../src/tapestryRenderer.js';
 import { setScaleMode, yearToX } from '../src/timeScale.js?v=3';
 import { clothCells, layoutPleats } from '../src/clothPleats.js';
-import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-continuations-era-fallback';
+import { tapestryScenes } from '../src/tapestryScenes.js?v=pass2-continuous-context';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const events = yaml.load(readFileSync(new URL('../data/significantevents.yaml', import.meta.url), 'utf8'));
 const width = 40960, artHeight = 128;
@@ -21,7 +21,9 @@ test('Little Ice Age reappears after the civil war until the famine, inside its 
   assert.ok(segments.some(p => p.continuation && p.anchor === yearToX(1651, width)));
   for (const p of segments) {
     assert.ok(p.anchor >= yearToX(1600, width) && p.right <= yearToX(1850, width));
-    assert.ok(windows.some(w => p.anchor >= w.left && p.right <= w.right));
+    const foreground = continuePictures(pictures, items, artHeight).filter(other => other.priority > p.priority);
+    assert.ok(foreground.every(other => other.right <= p.anchor || other.anchor >= p.right),
+      'only painted foreground, not an entire unpainted period, conceals continuing winter');
   }
 });
 
@@ -50,11 +52,13 @@ test('Victorian gaps use only the nineteenth-century winter source and stop by 1
   const { items } = layoutTapestry([winter], width);
   const pictures = continuePictures(composePictures(items, artHeight, width), items, artHeight);
   const victorian = pictures.filter(p => p.anchor >= yearToX(1830, width));
-  assert.equal(victorian.length, 1);
-  assert.match(victorian[0].key, /winter-era-1830/);
-  assert.equal(victorian[0].artStartYear, 1830);
-  assert.equal(victorian[0].artEndYear, 1850);
-  assert.ok(victorian[0].right <= yearToX(1850, width));
+  assert.ok(victorian.length > 0);
+  for (const p of victorian) {
+    assert.match(p.key, /winter-era-1830/);
+    assert.equal(p.artStartYear, 1830);
+    assert.equal(p.artEndYear, 1850);
+    assert.ok(p.right <= yearToX(1850, width));
+  }
   for (const p of pictures) {
     assert.ok(p.anchor >= yearToX(p.artStartYear, width));
     assert.ok(p.right <= yearToX(p.artEndYear, width));

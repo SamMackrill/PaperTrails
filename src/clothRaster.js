@@ -1,4 +1,4 @@
-import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-continuations-era-fallback';
+import { composePictures, continuePictures, joinWidth, quietLandscape, quietAtlas, quietPictures } from './clothComposition.js?v=pass2-continuous-context';
 
 const imageLoads = new Map();
 const CHUNKS = 8;
@@ -32,7 +32,7 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
   ]);
   if (!isCurrent()) return null;
   if (paintings.some(({ image }) => !image)) throw new Error('Cloth panorama could not be loaded');
-  const paths = quietLandscape(width, artHeight).map(path => ({ ...path, shape: new Path2D(path.d) }));
+  const paths = quietLandscape(width, artHeight, entries).map(path => ({ ...path, shape: new Path2D(path.d) }));
   const chunkWidth = width / CHUNKS;
   const urls = [];
   try {
@@ -46,7 +46,9 @@ export async function rasterizeCloth(entries, width, height, artTop, artHeight, 
       context.translate(-left, artTop);
       for (const path of paths) {
         context.strokeStyle = path.stroke; context.lineWidth = path.strokeWidth;
-        context.globalAlpha = path.opacity; context.stroke(path.shape);
+        context.globalAlpha = path.opacity;
+        if (path.fill !== 'none') { context.fillStyle = path.fill; context.fill(path.shape); }
+        context.stroke(path.shape);
       }
       context.globalAlpha = 1; context.translate(0, -artTop);
       const layer = document.createElement('canvas');

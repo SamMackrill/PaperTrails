@@ -1,8 +1,8 @@
 import { recordKey } from './itemIdentity.js';
 import { config } from './config.js?v=16';
 import { layoutPleats, projectClothX, clothCells } from './clothPleats.js?v=pass2-chapters-v2';
-import { rasterizeCloth } from './clothRaster.js?v=pass2-continuations-era-fallback';
-import { composePictures, continuePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-continuations-era-fallback';
+import { rasterizeCloth } from './clothRaster.js?v=pass2-continuous-context';
+import { composePictures, continuePictures, quietLandscape, quietAtlas, quietPictures, joinWidth } from './clothComposition.js?v=pass2-continuous-context';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { yearToX } from './timeScale.js?v=3';
 
@@ -147,7 +147,7 @@ function joinOverlay(group, left, right, top, artHeight) {
 function renderSourceMaterial(model, pictures, width, top, artHeight) {
   model.landscape.replaceChildren();
   attribute(model.landscape, 'transform', `translate(0 ${top})`);
-  for (const { d, stroke, strokeWidth, opacity, fill } of quietLandscape(width, artHeight)) {
+  for (const { d, stroke, strokeWidth, opacity, fill } of quietLandscape(width, artHeight, [...model.entries.values()])) {
     model.landscape.appendChild(svg('path', { d, stroke, 'stroke-width': strokeWidth, opacity, fill }));
   }
   for (const quiet of quietPictures(width, artHeight)) {
