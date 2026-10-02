@@ -2,6 +2,12 @@ export const CONTEXT_MODES = ['bars', 'landscape', 'tapestry'];
 export const DEFAULT_CONTEXT_MODE = 'landscape';
 export const CONTEXT_MODE_STORAGE_KEY = 'paperTrailsContextMode';
 
+const CONTEXT_GUIDES = {
+  bars: 'Recorded event dates and durations · select an event for details',
+  landscape: 'Names and dates follow woven braids · knots mark single-year events · zoom for illustrated detail',
+  tapestry: 'A continuous embroidered story · zoom for more detail · select a scene for English names and dates'
+};
+
 export function isContextMode(mode) {
   return CONTEXT_MODES.includes(mode);
 }
@@ -31,11 +37,24 @@ export function updateContextModeButton(button, mode, contextVisible = true) {
   const next = nextContextMode(mode);
   const nextLabel = next[0].toUpperCase() + next.slice(1);
   const guide = button.ownerDocument?.querySelector('.context-guide');
-  if (guide) guide.textContent = {
-    bars: 'Recorded event dates and durations · select an event for details',
-    landscape: 'Names and dates follow woven braids · knots mark single-year events · zoom for illustrated detail',
-    tapestry: 'A continuous embroidered story · zoom for more detail · select a scene for English names and dates'
-  }[mode];
+  if (guide) {
+    let text = guide.querySelector('.context-guide-text');
+    if (!text) {
+      text = guide.ownerDocument.createElement('span');
+      text.className = 'context-guide-text';
+      // Layer each possible hint in the same grid cell so wrapping reserves
+      // the largest height at this viewport, even before a mode is selected.
+      const sizers = Object.values(CONTEXT_GUIDES).map(copy => {
+        const span = guide.ownerDocument.createElement('span');
+        span.className = 'context-guide-sizer';
+        span.setAttribute('aria-hidden', 'true');
+        span.textContent = copy;
+        return span;
+      });
+      guide.replaceChildren(text, ...sizers);
+    }
+    text.textContent = CONTEXT_GUIDES[mode];
+  }
   button.dataset.contextMode = mode;
   button.querySelector('[data-context-label]').textContent = label;
   button.querySelectorAll('[data-context-icon]').forEach(icon => { icon.toggleAttribute('hidden', icon.dataset.contextIcon !== mode); });

@@ -3,7 +3,7 @@ import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-story-v2';
 import { groupKey, openItem } from './modalManager.js?v=pass2-story-v2';
 import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-linear-v1';
-import { getContextMode } from './contextMode.js?v=pass2-labels-v5';
+import { getContextMode } from './contextMode.js?v=pass2-stable-height-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
 import { projectZoomBox } from './zoomLayout.js?v=pass2-chapters-v2';
@@ -755,8 +755,9 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   const { axisY, contextTop } = planLanes({
     height,
     milestonesNeed: measureMilestoneNeed(width, scale),
-    // Bars is the shared reference, including its labels and overlap rows.
-    contextNeed: contextVisible ? measureContextNeed(width) : 0,
+    // Reserve the fitted Bars area for every mode. Zoom changes horizontal
+    // detail, not the height of the context artwork, borders or labels.
+    contextNeed: contextVisible ? measureContextNeed(containerWidth) : 0,
     milestonesVisible,
     contextVisible
   });
