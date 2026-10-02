@@ -36,8 +36,10 @@ const GAP = 2, SPACE = 5, PADDING = 3;
 const advance = letter => (THREAD_ALPHABET[letter]?.width ?? 0) + GAP;
 const wordWidth = word => [...word].reduce((sum, letter) => sum + advance(letter), 0) - GAP;
 
-export function planInscription(text, available) {
+export function planInscription(text, available, glyphScale = 1) {
+  if (!Number.isFinite(glyphScale) || glyphScale <= 0) return null;
   const words = String(text).trim().toUpperCase().split(/\s+/).filter(Boolean);
+  available /= glyphScale;
   if (!words.length || available <= 2 * PADDING) return null;
   if (words.some(word => [...word].some(letter => !THREAD_ALPHABET[letter]))) return null;
   const limit = available - 2 * PADDING;
@@ -51,8 +53,10 @@ export function planInscription(text, available) {
     } else { line.text += ` ${word}`; line.width += SPACE + width; }
   }
   if (lines.length > 2) return null;
-  return { text: words.join(' '), lines, width: Math.ceil(Math.max(...lines.map(line => line.width)) + 2 * PADDING),
-    height: lines.length * INSCRIPTION_LINE_HEIGHT, key: lines.map(line => line.text).join('\n') };
+  return { text: words.join(' '), lines, glyphScale,
+    width: Math.ceil((Math.max(...lines.map(line => line.width)) + 2 * PADDING) * glyphScale),
+    height: Math.ceil(lines.length * INSCRIPTION_LINE_HEIGHT * glyphScale),
+    key: `${glyphScale}:${lines.map(line => line.text).join('\n')}` };
 }
 
 const paths = new Map();
@@ -62,7 +66,7 @@ export function drawInscription(canvas, plan, pixelRatio = 1) {
   const ratio = Math.min(2, Math.max(1, pixelRatio));
   canvas.width = Math.ceil(plan.width * ratio); canvas.height = Math.ceil(plan.height * ratio);
   canvas.style.width = `${plan.width}px`; canvas.style.height = `${plan.height}px`;
-  const ink = canvas.getContext('2d'); ink.scale(ratio, ratio);
+  const ink = canvas.getContext('2d'); ink.scale(ratio * plan.glyphScale, ratio * plan.glyphScale);
   ink.lineCap = 'round'; ink.lineJoin = 'round';
   let index = 0;
   plan.lines.forEach((line, row) => {

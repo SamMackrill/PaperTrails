@@ -1,16 +1,17 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-borders-v1';
-import { layoutScientificBorder, exposedScientificBorder, SCIENTIFIC_BORDER_HEIGHT } from './scientificBorders.js?v=pass2-borders-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-integrated-latin-v1';
+import { layoutScientificBorder, exposedScientificBorder, SCIENTIFIC_BORDER_HEIGHT } from './scientificBorders.js?v=pass2-integrated-latin-v1';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
 import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-borders-v1';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-integrated-latin-v1';
 const models = new WeakMap();
 const images = new Map();
 const BORDER_HEIGHT = SCIENTIFIC_BORDER_HEIGHT;
-const CAPTION_HEIGHT = 2 * INSCRIPTION_LINE_HEIGHT + 4;
+const INSCRIPTION_SCALE = .78;
+const LETTER_ROW_HEIGHT = INSCRIPTION_LINE_HEIGHT * INSCRIPTION_SCALE;
 
 export function loadStoryImage(file) {
   if (!images.has(file)) images.set(file, new Promise(resolve => {
@@ -54,7 +55,7 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
     }));
     const first = spans.length ? Math.min(...spans.map(s => s.left)) : 0;
     const last = spans.length ? Math.max(...spans.map(s => s.left + s.width)) : 0;
-    entry.button.style.cssText = `left:${worldLeft + first}px;width:${Math.max(1, last - first)}px;top:${BORDER_HEIGHT + CAPTION_HEIGHT}px;height:${model.artHeight}px;pointer-events:none`;
+    entry.button.style.cssText = `left:${worldLeft + first}px;width:${Math.max(1, last - first)}px;top:${BORDER_HEIGHT}px;height:${model.artHeight}px;pointer-events:none`;
     // Concealed records retain accessible descriptions but no invisible tab
     // stops. Existing search and navigation can still select those records.
     entry.button.tabIndex = spans.length ? 0 : -1;
@@ -66,22 +67,24 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
       if (!entry.hits[i]) { entry.button.appendChild(hit); entry.hits.push(hit); }
     });
     while (entry.hits.length > spans.length) entry.hits.pop().remove();
-    const inscription = spans.length ? planInscription(entry.text.textContent, viewport - 8) : null;
+    const inscription = spans.length ? planInscription(entry.text.textContent, viewport - 8, INSCRIPTION_SCALE) : null;
     if (inscription) labels.push({ entry, inscription, caption: entry.caption, start: worldLeft + first,
       end: worldLeft + last, width: inscription.width, lines: inscription.lines.length,
       priority: ['event-20', 'event-18', 'event-08', 'event-09', 'event-17'].includes(record.event.id) ? 2 : 1 });
     entry.caption.hidden = true;
   }
-  for (const { entry, inscription, caption, left, width, row } of layoutContextLabels(labels, worldLeft, worldLeft + viewport, 2)) {
+  const placed = layoutContextLabels(labels, worldLeft, worldLeft + viewport, 2);
+  for (const { entry, inscription, caption, left, width, row } of placed) {
     const pixelRatio = Math.min(2, window.devicePixelRatio || 1);
     const key = `${inscription.key}:${pixelRatio}`;
     if (entry.inscriptionKey !== key) {
       drawInscription(entry.lettering, inscription, pixelRatio); entry.inscriptionKey = key;
     }
     caption.hidden = false; caption.style.left = `${left}px`; caption.style.width = `${width}px`;
-    caption.style.top = `${BORDER_HEIGHT + 2 + row * INSCRIPTION_LINE_HEIGHT}px`;
+    caption.style.top = `${BORDER_HEIGHT + 2 + row * LETTER_ROW_HEIGHT}px`;
     caption.dataset.inscription = inscription.text; caption.dataset.lines = String(inscription.lines.length);
   }
+  return placed;
 }
 
 function paint(model, container) {
@@ -99,8 +102,20 @@ function paint(model, container) {
   if (canvas.width !== pixels) canvas.width = pixels;
   if (canvas.height !== rows) canvas.height = rows;
   const ink = canvas.getContext('2d'); ink.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-  ink.fillStyle = '#e8dec8'; ink.fillRect(0, 0, viewport, height); ink.translate(-camera, 0);
-  const artTop = BORDER_HEIGHT + CAPTION_HEIGHT;
+  ink.fillStyle = '#e8dec8'; ink.fillRect(0, 0, viewport, height);
+  const artTop = BORDER_HEIGHT;
+  // The picture uses the complete narrative height. White is a neutral ground
+  // for the multiply pass, preserving its original pixels outside lettering.
+  ink.fillStyle = '#fff';
+  for (const fragment of fragments) if (model.loaded.get(fragment.panel.atlas.file)) {
+    ink.fillRect(fragment.left - camera, artTop, fragment.width, model.artHeight);
+  }
+  const lettering = positionRecords(model, fragments, worldLeft, camera, viewport);
+  for (const { entry, left, row, inscription } of lettering) {
+    ink.drawImage(entry.lettering, left - worldLeft, artTop + 2 + row * LETTER_ROW_HEIGHT,
+      inscription.width, inscription.height);
+  }
+  ink.translate(-camera, 0);
   for (const fragment of fragments) {
     const { panel, left, sourceX, width: exposedWidth } = fragment;
     if (left + exposedWidth < camera || left > camera + viewport) continue;
@@ -110,8 +125,13 @@ function paint(model, container) {
     if (image) {
       const cropX = panel.crop.x + (sourceX - panel.sourceX) / panel.unit;
       const bodyHeight = panel.crop.height * panel.unit;
+      // Flat wool imagery is painted over the stitched lettering. Multiplying
+      // its linen preserves the transparent text while dark figures interrupt
+      // the letters naturally, without cutting holes in the source artwork.
+      ink.globalCompositeOperation = 'multiply';
       ink.drawImage(image, cropX, panel.crop.y, exposedWidth / panel.unit, panel.crop.height,
         left, artTop + model.artHeight - bodyHeight, exposedWidth, bodyHeight);
+      ink.globalCompositeOperation = 'source-over';
     }
     for (const border of exposedScientificBorder(model.borders.get(panel.id), fragment)) {
       const drawing = model.loaded.get(border.file);
@@ -138,7 +158,6 @@ function paint(model, container) {
   ribbon.setAttribute('aria-busy', String(model.loading));
   model.status.hidden = model.loading || !failed;
   ribbon.dataset.cameraYear = String(year); ribbon.dataset.cameraX = String(camera);
-  positionRecords(model, fragments, worldLeft, camera, viewport);
 }
 
 export function renderStory(timeline, events, width, height, top, scale, onSelect) {
@@ -157,7 +176,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   }
   const model = models.get(ribbon);
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
-  model.artHeight = Math.max(1, model.height - 2 * BORDER_HEIGHT - CAPTION_HEIGHT);
+  model.artHeight = Math.max(1, model.height - 2 * BORDER_HEIGHT);
   model.layout = layoutStory(events, width, model.artHeight);
   model.borders = new Map(model.layout.panels.map(panel => [panel.id, layoutScientificBorder(panel)]));
   model.pose = foldStory(model.layout, timeline.parentElement?.clientWidth || width / scale, scale);
