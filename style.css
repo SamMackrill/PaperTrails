@@ -1258,7 +1258,9 @@ html[data-theme="dark"] .icon-sun {
 
 .tapestry-definitions { position: absolute; width: 0; height: 0; pointer-events: none; }
 .tapestry-story-canvas { position: absolute; top: 0; pointer-events: none; }
-.tapestry-story .tapestry-caption { white-space: nowrap; text-overflow: clip; }
+.tapestry-story .tapestry-caption { overflow: visible; max-width: none; text-shadow: none; letter-spacing: normal; }
+.tapestry-story .tapestry-caption:not([hidden]) { display: block; }
+.tapestry-inscription { display: block; }
 .tapestry-art-status { position: sticky; left: 12px; top: 44px; display: block; width: max-content; max-width: calc(100% - 24px); z-index: 5; padding: 4px 8px; background: #e8dec8; color: #493721; font: 12px/1.4 Georgia, serif; }
 .tapestry-art-status[hidden] { display: none; }
 .tapestry-story .tapestry-scene:is(:hover, .is-selected, :focus-visible) { box-shadow: none; outline: none; }
