@@ -7,7 +7,12 @@ import { tmpdir } from 'node:os';
 import { resolve, relative, join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { assertStorySnapshot, storySnapshotExpression } from './context-audit.mjs';
 const root = resolve(process.argv[2] || fileURLToPath(new URL('../../', import.meta.url)));
+const yaml = createRequire(import.meta.url)(resolve(root, 'vendor/js-yaml.min.js'));
+const expectedStoryKeys = yaml.load(await readFile(join(root, 'data/significantevents.yaml'), 'utf8'))
+  .map(event => `event:${event.id}`).concat('publication:halley-work-00', 'discovery:discovery-13');
 const output = resolve(process.env.PAPERTRAILS_AUDIT_DIR || join(tmpdir(), 'papertrails-prototype-audit'));
 await mkdir(output, { recursive: true });
 const browser = process.env.PAPERTRAILS_BROWSER || [
@@ -103,10 +108,13 @@ try {
   } finally {
     await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fallbackScript.identifier });
   }
-  await send('Network.setBlockedURLs', { urls: ['*bayeux-*.webp'] });
+  await send('Network.setBlockedURLs', { urls: ['*bayeux-*.webp', '*scientific-borders-*.webp'] });
   await navigate('/?story-fallback=1#context=tapestry');
   await until('document.querySelector(".tapestry-story")?.dataset.artReady === "true"');
-  assert.equal(await evaluate('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length'), 25);
+  const recoveredStory = await evaluate(storySnapshotExpression);
+  assertStorySnapshot(recoveredStory, expectedStoryKeys);
+  assert.ok(recoveredStory.visibleKeys.length > 0, 'PNG recovery renders visible subjects');
+  assert.equal(await evaluate(`new Set(performance.getEntriesByType('resource').filter(e=>/-threads\\.png(?:\\?|$)/.test(e.name)).map(e=>e.name)).size`), 16);
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
@@ -120,19 +128,25 @@ try {
     assert.equal(await evaluate('document.querySelector("#tapestryToggle").dataset.contextMode'), style);
     await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady==="true" || document.querySelector(".tapestry-ribbon")?.dataset.artReady==="fallback"');
     if (style === 'tapestry') {
+      const overviewStory = await evaluate(storySnapshotExpression);
+      assertStorySnapshot(overviewStory, expectedStoryKeys);
       assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-story .tapestry-caption")].every(e => e.lang === "la" && !/\\d/.test(e.textContent))'));
       assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread,.tapestry-cloth-face").length'), 0);
-      await evaluate(`window.__auditOverviewRange=document.querySelector('.zoom-level').textContent;window.__auditStoryDates=[...document.querySelectorAll('.tapestry-scene')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditStoryHeight=document.querySelector('.tapestry-story').clientHeight;window.__auditStoryGroups=document.querySelectorAll('.tapestry-story-hit').length;`);
+      await evaluate(`window.__auditOverviewRange=document.querySelector('.zoom-level').textContent;window.__auditStoryDates=[...document.querySelectorAll('.tapestry-scene')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditStoryGroups=document.querySelectorAll('.tapestry-story-hit').length;`);
       await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
       await until(`!document.querySelector('#pan-later').disabled && document.querySelectorAll('.tapestry-story-hit').length>window.__auditStoryGroups`);
+      await until(`document.querySelector('.tapestry-story')?.dataset.foldOpen === '1'`);
+      assertStorySnapshot(await evaluate(storySnapshotExpression), expectedStoryKeys, overviewStory);
       assert.ok(await evaluate(`JSON.stringify(window.__auditStoryDates)===JSON.stringify([...document.querySelectorAll('.tapestry-scene')].map(e=>[e.dataset.startYear,e.dataset.endYear]))`));
       assert.ok(await evaluate(`document.querySelector('.tapestry-story-canvas').width<=document.querySelector('#timeline-container').clientWidth*2+2`));
-      await evaluate(`window.__auditStoryPositions=[...document.querySelectorAll('.tapestry-story-hit')].map(e=>e.style.cssText);window.__auditStoryRange=document.querySelector('.zoom-level').textContent;document.querySelector('#pan-later').click();`);
+      await evaluate(`window.__auditStoryRange=document.querySelector('.zoom-level').textContent;document.querySelector('#pan-later').click();`);
       await until(`document.querySelector('.zoom-level').textContent!==window.__auditStoryRange`);
-      await until(`JSON.stringify(window.__auditStoryPositions)===JSON.stringify([...document.querySelectorAll('.tapestry-story-hit')].map(e=>e.style.cssText))`);
+      assertStorySnapshot(await evaluate(storySnapshotExpression), expectedStoryKeys, overviewStory);
       await screenshot('tapestry-story-detail.png');
       await evaluate(`document.querySelector('#fit-view').click()`);
       await until(`document.querySelector('.zoom-level').textContent===window.__auditOverviewRange`);
+      await until(`document.querySelector('.tapestry-story')?.dataset.foldOpen === '0'`);
+      assertStorySnapshot(await evaluate(storySnapshotExpression), expectedStoryKeys, overviewStory);
       continue;
     }
     assert.equal(await evaluate('document.querySelector(".tapestry-ribbon").dataset.artReady'), 'true');
