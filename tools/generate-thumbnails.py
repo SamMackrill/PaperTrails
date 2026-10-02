@@ -33,7 +33,8 @@ LEGACY_ATLASES = ('early-panorama.png', 'revolutions-panorama-v2.png', 'modern-p
 def tapestry_masters():
     folder = IMAGES / 'tapestry'
     return sorted({*(folder / name for name in LEGACY_ATLASES),
-                   *folder.glob('landscape-b-*.png'), *folder.glob('bayeux-*.png')})
+                   *folder.glob('landscape-b-*.png'), *folder.glob('bayeux-*.png'),
+                   *folder.glob('scientific-borders-*.png')})
 
 
 def is_stale(source, target):

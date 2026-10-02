@@ -39,4 +39,3 @@ const cameraAnchors = {
 };
 for (const panel of storyPanels) panel.cameraAnchors = cameraAnchors[panel.id] || [];
 export const STORY_BODY_HEIGHT = 180;
-export const STORY_BORDER = { file: 'images/tapestry/style-reference-bayeux.png', x: 0, y: 4, width: 2172, height: 104 };

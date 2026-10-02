@@ -1,15 +1,15 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-inscriptions-v2';
-import { STORY_BORDER } from './storyPanels.js?v=pass2-inscriptions-v2';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-borders-v1';
+import { layoutScientificBorder, exposedScientificBorder, SCIENTIFIC_BORDER_HEIGHT } from './scientificBorders.js?v=pass2-borders-v1';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
 import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-inscriptions-v2';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-borders-v1';
 const models = new WeakMap();
 const images = new Map();
-const BORDER_HEIGHT = 16;
+const BORDER_HEIGHT = SCIENTIFIC_BORDER_HEIGHT;
 const CAPTION_HEIGHT = 2 * INSCRIPTION_LINE_HEIGHT + 4;
 
 export function loadStoryImage(file) {
@@ -101,8 +101,6 @@ function paint(model, container) {
   const ink = canvas.getContext('2d'); ink.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   ink.fillStyle = '#e8dec8'; ink.fillRect(0, 0, viewport, height); ink.translate(-camera, 0);
   const artTop = BORDER_HEIGHT + CAPTION_HEIGHT;
-  const border = model.loaded.get(STORY_BORDER.file);
-  const tileWidth = STORY_BORDER.width * BORDER_HEIGHT / STORY_BORDER.height;
   for (const fragment of fragments) {
     const { panel, left, sourceX, width: exposedWidth } = fragment;
     if (left + exposedWidth < camera || left > camera + viewport) continue;
@@ -115,13 +113,12 @@ function paint(model, container) {
       ink.drawImage(image, cropX, panel.crop.y, exposedWidth / panel.unit, panel.crop.height,
         left, artTop + model.artHeight - bodyHeight, exposedWidth, bodyHeight);
     }
-    if (border) {
-      ink.save(); ink.beginPath(); ink.rect(left, 0, exposedWidth, height); ink.clip();
-      for (let tile = Math.floor(sourceX / tileWidth) * tileWidth; tile < sourceX + exposedWidth; tile += tileWidth)
-        for (const y of [0, height - BORDER_HEIGHT]) ink.drawImage(border,
-          STORY_BORDER.x, STORY_BORDER.y, STORY_BORDER.width, STORY_BORDER.height,
-          left + tile - sourceX, y, tileWidth, BORDER_HEIGHT);
-      ink.restore();
+    for (const border of exposedScientificBorder(model.borders.get(panel.id), fragment)) {
+      const drawing = model.loaded.get(border.file);
+      if (!drawing) continue;
+      const y = (border.side === 'top' ? 0 : height - BORDER_HEIGHT) + border.inset;
+      ink.drawImage(drawing, border.crop.x, border.crop.y, border.crop.width, border.crop.height,
+        border.left, y, border.width, border.height);
     }
   }
   // A thin turned edge explains each fold. No grey bands tint the scene, and
@@ -162,6 +159,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
   model.artHeight = Math.max(1, model.height - 2 * BORDER_HEIGHT - CAPTION_HEIGHT);
   model.layout = layoutStory(events, width, model.artHeight);
+  model.borders = new Map(model.layout.panels.map(panel => [panel.id, layoutScientificBorder(panel)]));
   model.pose = foldStory(model.layout, timeline.parentElement?.clientWidth || width / scale, scale);
   ribbon.style.cssText = `top:${top + 8}px;width:${width}px;height:${model.height}px`;
   ribbon.dataset.foldOpen = String(model.pose.progress); ribbon.dataset.zoomLimit = String(config.MAX_SCALE);
@@ -180,7 +178,8 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
     entry.button.remove(); entry.caption.remove(); model.records.delete(id);
   }
   if (ribbon.parentElement !== timeline) timeline.appendChild(ribbon);
-  const files = [...new Set([STORY_BORDER.file, ...model.layout.panels.map(p => p.atlas.file)])];
+  const files = [...new Set([...model.layout.panels.map(p => p.atlas.file),
+    ...[...model.borders.values()].flat().map(border => border.file)])];
   const missing = files.filter(file => !model.loaded.has(file)); model.loading = missing.length > 0;
   if (missing.length) {
     const generation = ++model.generation;

@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
-import { storyAtlases, storyPanels, STORY_BODY_HEIGHT, STORY_BORDER } from '../src/storyPanels.js';
+import { storyAtlases, storyPanels, STORY_BODY_HEIGHT } from '../src/storyPanels.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = file => readFileSync(resolve(root, file));
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -13,7 +13,7 @@ const recordFile = 'images/tapestry/linear-story-generation.json';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 
 function geometryHash() {
-  return hash(JSON.stringify({ storyAtlases, storyPanels, STORY_BODY_HEIGHT, STORY_BORDER }));
+  return hash(JSON.stringify({ storyAtlases, storyPanels, STORY_BODY_HEIGHT }));
 }
 
 export function validateLinearStory() {
