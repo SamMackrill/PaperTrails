@@ -66,6 +66,36 @@ def request(url, payload=None, method='GET', key=None):
 def atomic(path, value):
     temporary = path.with_suffix('.pending'); temporary.write_text(json.dumps(value, indent=2), encoding='utf-8'); os.replace(temporary, path)
 
+def read_owner_file(slug, path, key):
+    class SameHost(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            if urllib.parse.urlparse(newurl).hostname != 'here.now':
+                raise RuntimeError('Owner file verification redirect changed host')
+            return super().redirect_request(req, fp, code, msg, headers, newurl)
+    url = f'https://here.now/api/v1/publish/{urllib.parse.quote(slug, safe="")}/files/{urllib.parse.quote(path, safe="/")}'
+    req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + key, 'X-HereNow-Client': 't3-code/codex'})
+    try:
+        with urllib.request.build_opener(SameHost()).open(req, timeout=60) as response:
+            return response.read()
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f'Owner artifact verification HTTP {error.code} for {path}') from None
+
+def verify_live_artifact(slug, commit, manifest, key, fetch_file=None):
+    fetch_file = fetch_file or read_owner_file
+    files = {file['path']: file for file in manifest}
+    paths = ['index.html', 'data/trails.yaml', 'src/trailController.js',
+             'images/tapestry/landscape-b-revolutions.png', 'print-trail.html', 'prototype-version.json']
+    paths += [path for path in files if path.endswith('-threads.webp')]
+    for path in paths:
+        if path not in files: raise RuntimeError(f'Live artifact manifest is missing {path}')
+        contents = fetch_file(slug, path, key)
+        if hashlib.sha256(contents).hexdigest() != files[path]['hash']:
+            raise RuntimeError(f'Live artifact hash mismatch for {path}')
+        if path == 'prototype-version.json':
+            version = json.loads(contents)
+            if version.get('commit') != commit or version.get('branch') != PROTOTYPE:
+                raise RuntimeError('Live deployment commit or branch mismatch')
+
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--dry-run', action='store_true'); args = parser.parse_args()
     state = json.loads((ROOT/'state.json').read_text(encoding='utf-8'))
@@ -129,10 +159,7 @@ def main():
     if not finalized.get('success') or status.get('state') != 'live' or status.get('persistence') != 'permanent':
         raise RuntimeError('here.now did not confirm a permanent live Site')
     url = finalized['siteUrl'].rstrip('/')+'/'
-    for path in ('', 'data/trails.yaml', 'src/trailController.js', 'images/tapestry/landscape-b-revolutions.png', 'print-trail.html', 'prototype-version.json'):
-        with urllib.request.urlopen(url+path, timeout=60) as response:
-            if response.status != 200: raise RuntimeError('Live asset check failed')
-            if path == 'prototype-version.json' and json.load(response)['commit'] != commit: raise RuntimeError('Live deployment commit mismatch')
+    verify_live_artifact(finalized['slug'], commit, manifest, key)
     state = json.loads((ROOT/'state.json').read_text(encoding='utf-8'))
     state['deployment'] = {'slug': finalized['slug'], 'versionId': finalized['currentVersionId'], 'url': url, 'commit': commit, 'publishStatus': status}
     atomic(ROOT/'state.json', state); session_path.unlink()

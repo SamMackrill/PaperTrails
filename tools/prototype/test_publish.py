@@ -22,4 +22,45 @@ class ArtifactTests(unittest.TestCase):
             p.package(Path(directory), 'commit', Path(directory)/'artifact')
         self.assertEqual(command.call_count, 1)
         self.assertTrue(all(call.kwargs['timeout'] == 120 for call in check_output.call_args_list))
+class OwnerVerificationTests(unittest.TestCase):
+    def fixture(self, branch=p.PROTOTYPE):
+        import hashlib, json
+        paths=['index.html','data/trails.yaml','src/trailController.js',
+               'images/tapestry/landscape-b-revolutions.png','print-trail.html',
+               'prototype-version.json','images/tapestry/example-threads.webp']
+        files={path:path.encode() for path in paths}
+        files['prototype-version.json']=json.dumps({'branch':branch,'commit':'expected'}).encode()
+        return files,[dict(path=path,hash=hashlib.sha256(contents).hexdigest()) for path,contents in files.items()]
+
+    def test_owner_verification_checks_entry_points_and_thread_bytes(self):
+        files,manifest=self.fixture()
+        seen=[]
+        def fetch(slug,path,key):
+            seen.append((slug,path,key));return files[path]
+        p.verify_live_artifact('review','expected',manifest,'test-key',fetch)
+        self.assertEqual({path for _,path,_ in seen},set(files))
+        self.assertTrue(all(slug=='review' and key=='test-key' for slug,_,key in seen))
+
+    def test_owner_verification_rejects_stale_bytes_or_wrong_source(self):
+        files,manifest=self.fixture()
+        with self.assertRaisesRegex(RuntimeError,'hash mismatch'):
+            p.verify_live_artifact('review','expected',manifest,'test-key',lambda *args:b'stale')
+        with self.assertRaisesRegex(RuntimeError,'commit or branch mismatch'):
+            p.verify_live_artifact('review','different',manifest,'test-key',lambda slug,path,key:files[path])
+        files,manifest=self.fixture('main')
+        with self.assertRaisesRegex(RuntimeError,'commit or branch mismatch'):
+            p.verify_live_artifact('review','expected',manifest,'test-key',lambda slug,path,key:files[path])
+
+    def test_owner_file_uses_authenticated_api_and_blocks_cross_host_redirect(self):
+        from unittest.mock import MagicMock
+        response=MagicMock();response.__enter__.return_value.read.return_value=b'bytes'
+        opener=MagicMock();opener.open.return_value=response
+        with patch.object(p.urllib.request,'build_opener',return_value=opener) as build:
+            self.assertEqual(p.read_owner_file('review','index.html','test-key'),b'bytes')
+        request=opener.open.call_args.args[0]
+        self.assertEqual(request.full_url,'https://here.now/api/v1/publish/review/files/index.html')
+        self.assertEqual(request.get_header('Authorization'),'Bearer test-key')
+        with self.assertRaisesRegex(RuntimeError,'redirect changed host'):
+            build.call_args.args[0].redirect_request(request,None,302,'',{},'https://untrusted.example/file')
+
 if __name__ == '__main__': unittest.main()
