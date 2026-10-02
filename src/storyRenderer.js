@@ -1,16 +1,16 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-linear-v1';
-import { STORY_BORDER } from './storyPanels.js?v=pass2-linear-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-inscriptions-v2';
+import { STORY_BORDER } from './storyPanels.js?v=pass2-inscriptions-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
 import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-inscriptions-v2';
 const models = new WeakMap();
 const images = new Map();
 const BORDER_HEIGHT = 16;
-const CAPTION_HEIGHT = 24;
-let captionMeasure;
+const CAPTION_HEIGHT = 2 * INSCRIPTION_LINE_HEIGHT + 4;
 
 export function loadStoryImage(file) {
   if (!images.has(file)) images.set(file, new Promise(resolve => {
@@ -31,7 +31,10 @@ function makeRecord(model, event) {
   button.dataset.itemKey = recordKey('event', event); button.dataset.tooltipAnchor = 'scene';
   const caption = document.createElement('span');
   caption.className = 'tapestry-caption'; caption.lang = 'la'; caption.setAttribute('aria-hidden', 'true');
-  const entry = { button, caption, hits: [], event };
+  const lettering = document.createElement('canvas'); lettering.className = 'tapestry-inscription';
+  const text = document.createElement('span'); text.className = 'sr-only';
+  caption.append(lettering, text);
+  const entry = { button, caption, lettering, text, hits: [], event };
   button.addEventListener('click', () => model.onSelect(button, entry.event));
   model.ribbon.append(button, caption);
   return entry;
@@ -63,13 +66,21 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
       if (!entry.hits[i]) { entry.button.appendChild(hit); entry.hits.push(hit); }
     });
     while (entry.hits.length > spans.length) entry.hits.pop().remove();
-    if (spans.length) labels.push({ caption: entry.caption, start: worldLeft + first,
-      end: worldLeft + last, width: entry.labelWidth,
+    const inscription = spans.length ? planInscription(entry.text.textContent, viewport - 8) : null;
+    if (inscription) labels.push({ entry, inscription, caption: entry.caption, start: worldLeft + first,
+      end: worldLeft + last, width: inscription.width, lines: inscription.lines.length,
       priority: ['event-20', 'event-18', 'event-08', 'event-09', 'event-17'].includes(record.event.id) ? 2 : 1 });
     entry.caption.hidden = true;
   }
-  for (const { caption, left, width } of layoutContextLabels(labels, worldLeft, worldLeft + viewport, 1)) {
-    caption.hidden = false; caption.style.left = `${left}px`; caption.style.maxWidth = `${width}px`;
+  for (const { entry, inscription, caption, left, width, row } of layoutContextLabels(labels, worldLeft, worldLeft + viewport, 2)) {
+    const pixelRatio = Math.min(2, window.devicePixelRatio || 1);
+    const key = `${inscription.key}:${pixelRatio}`;
+    if (entry.inscriptionKey !== key) {
+      drawInscription(entry.lettering, inscription, pixelRatio); entry.inscriptionKey = key;
+    }
+    caption.hidden = false; caption.style.left = `${left}px`; caption.style.width = `${width}px`;
+    caption.style.top = `${BORDER_HEIGHT + 2 + row * INSCRIPTION_LINE_HEIGHT}px`;
+    caption.dataset.inscription = inscription.text; caption.dataset.lines = String(inscription.lines.length);
   }
 }
 
@@ -163,23 +174,12 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
     entry.button.dataset.startYear = String(event.startYear); entry.button.dataset.endYear = String(event.endYear);
     const heading = `${event.title} · ${contextDate(event)}`;
     entry.button.dataset.tooltip = `${heading}\n${event.details || ''}`; entry.button.setAttribute('aria-label', `${heading}. ${event.details || ''}`);
-    entry.caption.textContent = contextHeading(event, 'tapestry').title; entry.caption.style.top = `${BORDER_HEIGHT + 4}px`;
+    entry.text.textContent = contextHeading(event, 'tapestry').title;
   }
   for (const [id, entry] of model.records) if (!active.has(id)) {
     entry.button.remove(); entry.caption.remove(); model.records.delete(id);
   }
   if (ribbon.parentElement !== timeline) timeline.appendChild(ribbon);
-  const labelKey = [...model.records.values()].map(entry => entry.caption.textContent).join('|');
-  if (labelKey !== model.labelKey) {
-    captionMeasure ||= document.createElement('canvas').getContext('2d');
-    const first = model.records.values().next().value;
-    if (first) {
-      const style = getComputedStyle(first.caption); captionMeasure.font = style.font;
-      const spacing = parseFloat(style.letterSpacing) || 0;
-      model.records.forEach(entry => { entry.labelWidth = captionMeasure.measureText(entry.caption.textContent).width + entry.caption.textContent.length * spacing + 4; });
-    }
-    model.labelKey = labelKey;
-  }
   const files = [...new Set([STORY_BORDER.file, ...model.layout.panels.map(p => p.atlas.file)])];
   const missing = files.filter(file => !model.loaded.has(file)); model.loading = missing.length > 0;
   if (missing.length) {

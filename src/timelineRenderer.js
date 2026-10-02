@@ -2,7 +2,7 @@ import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.j
 import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-story-v2';
 import { groupKey, openItem } from './modalManager.js?v=pass2-story-v2';
-import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-linear-v1';
+import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-inscriptions-v2';
 import { getContextMode } from './contextMode.js?v=pass2-stable-height-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';

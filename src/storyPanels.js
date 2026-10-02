@@ -7,7 +7,7 @@ export const storyAtlases = {
     bodies: [[47, 223]] },
   early: { file: 'images/tapestry/bayeux-linear-early.webp', width: 2172, height: 724,
     bodies: [[47, 191], [245, 402], [452, 573], [610, 718]] },
-  middle: { file: 'images/tapestry/bayeux-linear-middle.webp', width: 2172, height: 724,
+  middle: { file: 'images/tapestry/bayeux-linear-middle-v2.webp', width: 2172, height: 724,
     bodies: [[45, 179], [222, 378], [419, 562], [599, 718]] },
   modern: { file: 'images/tapestry/bayeux-linear-modern.webp', width: 2172, height: 724,
     bodies: [[44, 177], [216, 358], [395, 536], [575, 699]] }
