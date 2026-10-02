@@ -1,8 +1,8 @@
 // Additional authored material: eight unique source rows per atlas.
 export const scientificBorderContinuations = {
   "earlyContinuation": {
-    "file": "images/tapestry/scientific-borders-early-continuation.webp",
-    "width": 2169,
+    "file": "images/tapestry/scientific-borders-early-continuation-threads.webp",
+    "width": 2167,
     "height": 725,
     "bands": [
       [
@@ -40,8 +40,8 @@ export const scientificBorderContinuations = {
     ]
   },
   "seventeenthContinuation": {
-    "file": "images/tapestry/scientific-borders-seventeenth-continuation.webp",
-    "width": 2171,
+    "file": "images/tapestry/scientific-borders-seventeenth-continuation-threads.webp",
+    "width": 2172,
     "height": 724,
     "bands": [
       [
@@ -79,9 +79,9 @@ export const scientificBorderContinuations = {
     ]
   },
   "eighteenthContinuation": {
-    "file": "images/tapestry/scientific-borders-eighteenth-continuation.webp",
-    "width": 2170,
-    "height": 725,
+    "file": "images/tapestry/scientific-borders-eighteenth-continuation-threads.webp",
+    "width": 2167,
+    "height": 726,
     "bands": [
       [
         0,
@@ -118,8 +118,8 @@ export const scientificBorderContinuations = {
     ]
   },
   "nineteenthContinuation": {
-    "file": "images/tapestry/scientific-borders-nineteenth-continuation.webp",
-    "width": 2170,
+    "file": "images/tapestry/scientific-borders-nineteenth-continuation-threads.webp",
+    "width": 2169,
     "height": 725,
     "bands": [
       [
@@ -157,7 +157,7 @@ export const scientificBorderContinuations = {
     ]
   },
   "electronsContinuation": {
-    "file": "images/tapestry/scientific-borders-electrons-continuation.webp",
+    "file": "images/tapestry/scientific-borders-electrons-continuation-threads.webp",
     "width": 2169,
     "height": 725,
     "bands": [
@@ -196,7 +196,7 @@ export const scientificBorderContinuations = {
     ]
   },
   "spaceContinuation": {
-    "file": "images/tapestry/scientific-borders-space-continuation.webp",
+    "file": "images/tapestry/scientific-borders-space-continuation-threads.webp",
     "width": 2170,
     "height": 725,
     "bands": [

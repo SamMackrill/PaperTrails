@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
-import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame } from '../src/scientificBorders.js';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from '../src/scientificBorders.js';
 import { layoutStory, foldStory, exposedStory } from '../src/storyLayout.js';
 import { validateScientificBorders } from './scientific-border-artwork.mjs';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
@@ -27,6 +27,10 @@ test('upper and lower borders use each source region once, within the cloth, at 
         assert.ok(segment.sourceX >= panel.sourceX - 1e-7);
         assert.ok(segment.sourceX + segment.width <= panel.sourceX + panel.sourceWidth + 1e-7);
         assert.ok(segment.height > 0 && segment.height <= frame.borderHeight + 1e-7);
+        const y = scientificBorderY(segment, frame);
+        assert.ok(y >= -1e-7 && y + segment.height <= height + 1e-7);
+        if (segment.side === 'top') near(y + segment.height, frame.borderHeight);
+        else near(y, frame.borderHeight + frame.artHeight);
       }
       for (const side of ['top', 'bottom']) {
         const edge = segments.filter(s => s.side === side);

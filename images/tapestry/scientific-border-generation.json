@@ -2,213 +2,393 @@
   "method": "Built-in image_gen",
   "generatedAt": "2026-10-02",
   "userApproved": false,
-  "notes": "Six authored atlases store forty-eight distinct ribbons. Every retained source region is used once across twelve chronological sections; top and bottom differ. Descriptions reflect inspected artwork. Science diagrams are symbolic embroidery, not calibrated technical schematics or assertions that a named scientist personally used every pictured device. Related earlier publications can supply the scientific background of later apparatus; the border introduces no new dated events. Exact prompts and both supplied references are maintained separately. Pixel hashes record the inspected RGB crop data; source and geometry hashes detect changes. Visual review must still assess repeated compositions and accuracy. A second set of six continuation atlases supplies 48 additional distinct ribbons. Four different whole ribbons now run end-to-end on each side of each chronological section. Frame sizing fits native source aspect ratios into the shared context height; no horizontal spacer is permitted. The early continuation has a small lodestone correction; the uncorrected edit target and exact correction prompt are retained.",
-  "geometryHash": "f38c7c244f58014b49fd0be887326a0657f665e62ec5c2ee3076785efca826a8",
+  "notes": "Six authored atlases store forty-eight distinct ribbons. Every retained source region is used once across twelve chronological sections; top and bottom differ. Descriptions reflect inspected artwork. Science diagrams are symbolic embroidery, not calibrated technical schematics or assertions that a named scientist personally used every pictured device. Related earlier publications can supply the scientific background of later apparatus; the border introduces no new dated events. Exact prompts and both supplied references are maintained separately. Pixel hashes record the inspected RGB crop data; source and geometry hashes detect changes. Visual review must still assess repeated compositions and accuracy. A second set of six continuation atlases supplies 48 additional distinct ribbons. Four different whole ribbons now run end-to-end on each side of each chronological section. Frame sizing fits native source aspect ratios into the shared context height; no horizontal spacer is permitted. The early continuation has a small lodestone correction; the uncorrected edit target and exact correction prompt are retained. Active masters contain transparent threadwork on a shared linen backing. All 96 native ribbon regions remain distinct.",
+  "geometryHash": "f353338c2c33ea55754d0dbfec31b7ae6cc5839111048573697983fee6d76395",
   "sources": {
     "early": {
-      "original": "exec-6adb9fc6-9c04-4732-91e7-ee8b21e2bcf4.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "818020f22af121dc1b07775d22692dd7a3634dadd128dc2d82b71ff4a09cef0a",
-      "runtimeHash": "87944f157c5b1b6232420a594216338050ec740c84c54407e3e322d6fbcc7240",
-      "promptHash": "99a7c3938a2c550d09ac218a9962340940719bc1451a07405c591c9debd7650f",
+      "original": "exec-aa3f7a45-701d-447d-b2eb-8ab49993f6b9.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-6adb9fc6-9c04-4732-91e7-ee8b21e2bcf4.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "818020f22af121dc1b07775d22692dd7a3634dadd128dc2d82b71ff4a09cef0a",
+        "runtimeHash": "87944f157c5b1b6232420a594216338050ec740c84c54407e3e322d6fbcc7240",
+        "promptHash": "99a7c3938a2c550d09ac218a9962340940719bc1451a07405c591c9debd7650f",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/style-reference-bayeux.png",
+            "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-early.png",
+        "runtimeFile": "images/tapestry/scientific-borders-early.webp"
+      },
+      "sourceHash": "3f51f387063416f6dbfdbd7ef070b2a3bffb012cbc23fe32af4bc34fc56a6154",
+      "runtimeHash": "e66eeeed8a79955d2ab0ac082f11879ceb0af174f91406029f07411a0364891d",
+      "promptHash": "b86ae2ca276a59e9a7a7273eadf7ee36b706936efccaf3dec5745518e8c09a07",
       "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
-        {
-          "file": "images/tapestry/style-reference-bayeux.png",
-          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
-        }
-      ]
-    },
-    "seventeenth": {
-      "original": "exec-9a40e69f-514e-40ba-b83a-53a51bcd8b2e.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "b690982d9a07eaf61e3e130146ad12d944cac266e278c2129b38d893aecf51e4",
-      "runtimeHash": "49e44ea9c8ff1e197aa3a4534fd78eeb0b4055f6f513ee6bf7060dd9ba97e233",
-      "promptHash": "ac2d5e2801eef6c05ea58789598b52965769493acd0bf68e0c200d1a3826a48f",
-      "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
-        {
-          "file": "images/tapestry/style-reference-bayeux.png",
-          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
-        }
-      ]
-    },
-    "eighteenth": {
-      "original": "exec-0948b45a-3f22-437f-b38e-a2fc56a55677.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "3919150fd09d92c9f21210a7b228a09b80ff58d96c76785c3da6b485aceedcd3",
-      "runtimeHash": "994bb419bc2c74b37bb8730783a9389c75401d20a830d916ec67e8200f65ae65",
-      "promptHash": "2d94ba3c699f82bf1f3654e60d00c72b5357370d1419d7093089f7ac4c3fc4f3",
-      "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
-        {
-          "file": "images/tapestry/style-reference-bayeux.png",
-          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
-        }
-      ]
-    },
-    "nineteenth": {
-      "original": "exec-a0bbe631-c117-4494-a88a-bbdc8dcc7dfe.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "436b09ce8fa0321872fb85ade70a50cbbd8356fc6327ce8faab33e7e4b446148",
-      "runtimeHash": "6aae09e166b329a0eee348027300a23742e151691492692557c825c5e2d817cd",
-      "promptHash": "4143769950c48b1e2ded6a32b4c43fb4a7cb52ea6b2745a076b601c536f0f3f0",
-      "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
-        {
-          "file": "images/tapestry/style-reference-bayeux.png",
-          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
-        }
-      ]
-    },
-    "electrons": {
-      "original": "exec-dd1dcf34-163e-4ad2-9ec5-82842d4e86ad.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "9497fc3f09ad1a7f7c899cce44018d5e0abbe103024ea53735ed6dfecd7c67d8",
-      "runtimeHash": "35fdbd28c0fc0659777eb779caa31c74839cb11bdc779f3fcabddf70d402a77b",
-      "promptHash": "833ce5eccf9d5ca7dd0ab7c5b111ccc93d9935c0ab62b7763c5fb32fe6732ef9",
-      "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
-        {
-          "file": "images/tapestry/style-reference-bayeux.png",
-          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
-        }
-      ]
-    },
-    "space": {
-      "original": "exec-e3bfc6b8-7590-4036-87b8-7728a4e315a8.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "1d9847fcdc4be5665e5e8c435a7073a5bdee51ddcf189a892cc0b00e95cec752",
-      "runtimeHash": "facbbf88c7ef7bf97f516dced4c2f3b64dde2b31d79a429ddf2ed403202a28a9",
-      "promptHash": "51fa902853f6510cb1b462e50e1172f4df6329e86458bc2a2dcd1d3ca75a9f58",
-      "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
-        {
-          "file": "images/tapestry/style-reference-bayeux.png",
-          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
-        }
-      ]
-    },
-    "earlyContinuation": {
-      "original": "exec-483cbd8f-d473-4cf5-a21d-d1aee849a2a6.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "9f4e622a6c3bce5bbb48130ad509035c01f71ea105712c7398d4f28343aef10f",
-      "runtimeHash": "9cac3fbd7165224d3ee002f9e8b3f44f022d57ed3d557892c4cfd6abce9eca9a",
-      "promptHash": "70b82b6b033c5aaae5b4d5fe67c1e07a1f86ff315dd8aa6cc07a6c11fa13780c",
-      "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
         {
           "file": "images/tapestry/scientific-borders-early.png",
           "hash": "818020f22af121dc1b07775d22692dd7a3634dadd128dc2d82b71ff4a09cef0a"
         }
-      ],
-      "generationOriginal": "exec-132d11d6-b823-4a7f-af40-c14c02bc76d8.png",
-      "correctionPromptHash": "aaa5c67fb97ca9a06efae1b4363b9c71e2976b49ae5879645d1ed4b712b58dec",
-      "correctionReferenceHash": "2d4d67e7f15e8b1b0d14033d4bba8eff940c9d2db6483224bcf24e933917bb76"
+      ]
     },
-    "seventeenthContinuation": {
-      "original": "exec-bfd94ce9-75f7-4899-8b9e-6b0c133461f3.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "4809f4735f3f05e8fa347a46e73b5ef174067ae05c7fa1294db594801ca511f0",
-      "runtimeHash": "f2417939414a0334163415e6c8af6ae042876a2a6a13e7ef77ae234d6afe868e",
-      "promptHash": "457e65aaa9d56164d91eeb48e15331ed3aeeb49ceea8e46a9eeb58e9f24a0543",
+    "seventeenth": {
+      "original": "exec-ef612ecf-4270-41be-994b-5086a36d758d.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-9a40e69f-514e-40ba-b83a-53a51bcd8b2e.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "b690982d9a07eaf61e3e130146ad12d944cac266e278c2129b38d893aecf51e4",
+        "runtimeHash": "49e44ea9c8ff1e197aa3a4534fd78eeb0b4055f6f513ee6bf7060dd9ba97e233",
+        "promptHash": "ac2d5e2801eef6c05ea58789598b52965769493acd0bf68e0c200d1a3826a48f",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/style-reference-bayeux.png",
+            "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-seventeenth.png",
+        "runtimeFile": "images/tapestry/scientific-borders-seventeenth.webp"
+      },
+      "sourceHash": "01a85b2437dbf0b7e05589e4792a09cf587ff5a7dbd2a7aeb79e95a9f80ac3b7",
+      "runtimeHash": "79ef2a07c0da299b9f36e2d1685225b5b45e15048c3742ac7dd43c6948196df4",
+      "promptHash": "b86ae2ca276a59e9a7a7273eadf7ee36b706936efccaf3dec5745518e8c09a07",
       "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
         {
           "file": "images/tapestry/scientific-borders-seventeenth.png",
           "hash": "b690982d9a07eaf61e3e130146ad12d944cac266e278c2129b38d893aecf51e4"
         }
       ]
     },
-    "eighteenthContinuation": {
-      "original": "exec-dbdde0ed-df3b-4eb9-a726-125e3ee56b73.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "fed5574b18f2792e34b5c66bf1b94ea99b93075093d9f049672c8039ac1b340d",
-      "runtimeHash": "d7937d2c71c1598fd2f93b2a9bcba062eeab8f71d6f7964e8fea8d7f068ffee6",
-      "promptHash": "1195b77a85311c5af2c4203bcd78a9dabaa1730e5588192363df3d7a3d8ead57",
+    "eighteenth": {
+      "original": "exec-e420ad53-c7c6-46ec-90d4-8043227564ab.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-0948b45a-3f22-437f-b38e-a2fc56a55677.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "3919150fd09d92c9f21210a7b228a09b80ff58d96c76785c3da6b485aceedcd3",
+        "runtimeHash": "994bb419bc2c74b37bb8730783a9389c75401d20a830d916ec67e8200f65ae65",
+        "promptHash": "2d94ba3c699f82bf1f3654e60d00c72b5357370d1419d7093089f7ac4c3fc4f3",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/style-reference-bayeux.png",
+            "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-eighteenth.png",
+        "runtimeFile": "images/tapestry/scientific-borders-eighteenth.webp"
+      },
+      "sourceHash": "fdc43aa6f02e8b394dc29ce269c0303df9aa7b65ee4714c4e101fa3d18d579b0",
+      "runtimeHash": "285457f237d2b2e9a03eb454fc8d902a8e4a8f7bb1d31314f57be39304cfad3f",
+      "promptHash": "775b91025e9b281ff7f7dbb6ddf345790000a1f234cadddc70ffc1ae9706ab8e",
       "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
         {
           "file": "images/tapestry/scientific-borders-eighteenth.png",
           "hash": "3919150fd09d92c9f21210a7b228a09b80ff58d96c76785c3da6b485aceedcd3"
         }
       ]
     },
-    "nineteenthContinuation": {
-      "original": "exec-fed1d4b3-bdcc-4de5-938c-81082a71f152.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "721929741c98450552f8e81b0308b133d43e3ccae9bfee4743cdde800a2200ca",
-      "runtimeHash": "c216b8daf016b2f0fd29dc0ca1c8280adbaad6a98fe269e6cba77dff884de7e5",
-      "promptHash": "746c3b188730f90a921d5a1c481c70d273054c5bafe73a7a8e56beb6c12c1e0b",
+    "nineteenth": {
+      "original": "exec-88fa64cd-da90-400c-bfc1-a70b69d2c904.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-a0bbe631-c117-4494-a88a-bbdc8dcc7dfe.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "436b09ce8fa0321872fb85ade70a50cbbd8356fc6327ce8faab33e7e4b446148",
+        "runtimeHash": "6aae09e166b329a0eee348027300a23742e151691492692557c825c5e2d817cd",
+        "promptHash": "4143769950c48b1e2ded6a32b4c43fb4a7cb52ea6b2745a076b601c536f0f3f0",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/style-reference-bayeux.png",
+            "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-nineteenth.png",
+        "runtimeFile": "images/tapestry/scientific-borders-nineteenth.webp"
+      },
+      "sourceHash": "335aaac8f947cf99fe60d708a9ae09d730227bf12cb02a82eb84c795def81bb3",
+      "runtimeHash": "29559af30033ae8a59e19c248adf9f9440639b010289c21e94af3f0223223c8c",
+      "promptHash": "b86ae2ca276a59e9a7a7273eadf7ee36b706936efccaf3dec5745518e8c09a07",
       "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
         {
           "file": "images/tapestry/scientific-borders-nineteenth.png",
           "hash": "436b09ce8fa0321872fb85ade70a50cbbd8356fc6327ce8faab33e7e4b446148"
         }
       ]
     },
-    "electronsContinuation": {
-      "original": "exec-5ddf2419-f6f8-4139-906e-3e2475468027.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "8a0c692dacb98bcc893b0c4b1798e374ea35ca370950cc33c66e3968609bbcb3",
-      "runtimeHash": "4b1e4cb3c1d98a2f94705e5b7266ee1077ba21d1f9246390e170a91078c24cb2",
-      "promptHash": "0c804b78f16b757147d3ec98c9a20c5ac938b9c54e5850fbf9509f5847d49711",
+    "electrons": {
+      "original": "exec-bccb9817-9aef-4750-b04f-95008a8b2343.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-dd1dcf34-163e-4ad2-9ec5-82842d4e86ad.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "9497fc3f09ad1a7f7c899cce44018d5e0abbe103024ea53735ed6dfecd7c67d8",
+        "runtimeHash": "35fdbd28c0fc0659777eb779caa31c74839cb11bdc779f3fcabddf70d402a77b",
+        "promptHash": "833ce5eccf9d5ca7dd0ab7c5b111ccc93d9935c0ab62b7763c5fb32fe6732ef9",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/style-reference-bayeux.png",
+            "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-electrons.png",
+        "runtimeFile": "images/tapestry/scientific-borders-electrons.webp"
+      },
+      "sourceHash": "99715ed270b358582b0679d96f53341248477dc38e7bd8c9e3587b4c0f2b7942",
+      "runtimeHash": "d3166e9ab538b76ce6dc8190d8eb385e3d1314d66f94341ea612fd96b044b5ff",
+      "promptHash": "775b91025e9b281ff7f7dbb6ddf345790000a1f234cadddc70ffc1ae9706ab8e",
       "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
         {
           "file": "images/tapestry/scientific-borders-electrons.png",
           "hash": "9497fc3f09ad1a7f7c899cce44018d5e0abbe103024ea53735ed6dfecd7c67d8"
         }
       ]
     },
-    "spaceContinuation": {
-      "original": "exec-d337803a-ec21-4fc1-a04b-10798593772a.png",
-      "generatedAt": "2026-10-02",
-      "sourceHash": "3cec23ceb87660f1549b3410896e920f06fbd618286f94606f078a2c54a0ac24",
-      "runtimeHash": "f3ddb02165109d52aad94e82caa92c8ddc4eb450381fc77b43045b54fca081d6",
-      "promptHash": "7162f3bc67e0b0bd2cdced2997187ca68d1171469f52f08df4b89bbc4a940e3d",
+    "space": {
+      "original": "exec-914e22e5-7f9c-4b81-8c2e-eb35e2f821cd.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-e3bfc6b8-7590-4036-87b8-7728a4e315a8.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "1d9847fcdc4be5665e5e8c435a7073a5bdee51ddcf189a892cc0b00e95cec752",
+        "runtimeHash": "facbbf88c7ef7bf97f516dced4c2f3b64dde2b31d79a429ddf2ed403202a28a9",
+        "promptHash": "51fa902853f6510cb1b462e50e1172f4df6329e86458bc2a2dcd1d3ca75a9f58",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/style-reference-bayeux.png",
+            "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-space.png",
+        "runtimeFile": "images/tapestry/scientific-borders-space.webp"
+      },
+      "sourceHash": "68a4ee6347382a5aa08374394fa3491fb677c4461cffde249669db4cbb93cbcb",
+      "runtimeHash": "1bf21cab276a8377f0e92101537bd7709a6e8a270dec3a50ab3228316e086e07",
+      "promptHash": "775b91025e9b281ff7f7dbb6ddf345790000a1f234cadddc70ffc1ae9706ab8e",
       "references": [
-        {
-          "file": "images/tapestry/style-reference-original-bayeux.png",
-          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
-        },
         {
           "file": "images/tapestry/scientific-borders-space.png",
           "hash": "1d9847fcdc4be5665e5e8c435a7073a5bdee51ddcf189a892cc0b00e95cec752"
+        }
+      ]
+    },
+    "earlyContinuation": {
+      "original": "exec-ede7ccf0-f6f1-4720-b79d-a1a0612538a3.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-483cbd8f-d473-4cf5-a21d-d1aee849a2a6.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "9f4e622a6c3bce5bbb48130ad509035c01f71ea105712c7398d4f28343aef10f",
+        "runtimeHash": "9cac3fbd7165224d3ee002f9e8b3f44f022d57ed3d557892c4cfd6abce9eca9a",
+        "promptHash": "70b82b6b033c5aaae5b4d5fe67c1e07a1f86ff315dd8aa6cc07a6c11fa13780c",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/scientific-borders-early.png",
+            "hash": "818020f22af121dc1b07775d22692dd7a3634dadd128dc2d82b71ff4a09cef0a"
+          }
+        ],
+        "generationOriginal": "exec-132d11d6-b823-4a7f-af40-c14c02bc76d8.png",
+        "correctionPromptHash": "aaa5c67fb97ca9a06efae1b4363b9c71e2976b49ae5879645d1ed4b712b58dec",
+        "correctionReferenceHash": "2d4d67e7f15e8b1b0d14033d4bba8eff940c9d2db6483224bcf24e933917bb76",
+        "sourceFile": "images/tapestry/scientific-borders-early-continuation.png",
+        "runtimeFile": "images/tapestry/scientific-borders-early-continuation.webp"
+      },
+      "sourceHash": "31ce652a7c3ff9c4b2f6f09680b72662437520ec8dcc44738712bc887ddf0ea5",
+      "runtimeHash": "11d53651c0cc78c65ef238e65ddf8c76e3f4f895adcaf0a2a64ccddcfdbd8679",
+      "promptHash": "e145c699f40615796067bbbeccedd5b56845fb95fa1c86c57b7091f17e7f470b",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-early-continuation.png",
+          "hash": "9f4e622a6c3bce5bbb48130ad509035c01f71ea105712c7398d4f28343aef10f"
+        }
+      ]
+    },
+    "seventeenthContinuation": {
+      "original": "exec-e1766046-d379-4307-b04b-24dd9555d1ff.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-bfd94ce9-75f7-4899-8b9e-6b0c133461f3.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "4809f4735f3f05e8fa347a46e73b5ef174067ae05c7fa1294db594801ca511f0",
+        "runtimeHash": "f2417939414a0334163415e6c8af6ae042876a2a6a13e7ef77ae234d6afe868e",
+        "promptHash": "457e65aaa9d56164d91eeb48e15331ed3aeeb49ceea8e46a9eeb58e9f24a0543",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/scientific-borders-seventeenth.png",
+            "hash": "b690982d9a07eaf61e3e130146ad12d944cac266e278c2129b38d893aecf51e4"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-seventeenth-continuation.png",
+        "runtimeFile": "images/tapestry/scientific-borders-seventeenth-continuation.webp"
+      },
+      "sourceHash": "fed8b348be3cb7b6831119bf47e65f2f112ffa7ba80a613b1d308643be7827df",
+      "runtimeHash": "fae5e80fae6391537c7796320655290243336b10b4341ab4efb81da34a3b1636",
+      "promptHash": "b86ae2ca276a59e9a7a7273eadf7ee36b706936efccaf3dec5745518e8c09a07",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-seventeenth-continuation.png",
+          "hash": "4809f4735f3f05e8fa347a46e73b5ef174067ae05c7fa1294db594801ca511f0"
+        }
+      ]
+    },
+    "eighteenthContinuation": {
+      "original": "exec-7fb9a697-1e6a-47a1-b809-fd36ff4f3caf.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-dbdde0ed-df3b-4eb9-a726-125e3ee56b73.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "fed5574b18f2792e34b5c66bf1b94ea99b93075093d9f049672c8039ac1b340d",
+        "runtimeHash": "d7937d2c71c1598fd2f93b2a9bcba062eeab8f71d6f7964e8fea8d7f068ffee6",
+        "promptHash": "1195b77a85311c5af2c4203bcd78a9dabaa1730e5588192363df3d7a3d8ead57",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/scientific-borders-eighteenth.png",
+            "hash": "3919150fd09d92c9f21210a7b228a09b80ff58d96c76785c3da6b485aceedcd3"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-eighteenth-continuation.png",
+        "runtimeFile": "images/tapestry/scientific-borders-eighteenth-continuation.webp"
+      },
+      "sourceHash": "d006d3dcb6f16391d15b62b1473a91c43267f61bc774204e9a44b575d3b24521",
+      "runtimeHash": "03df7e823d0d2577f8aa0024d2cbe54951ac8f3998cca60eaf42c6cdf3b1155f",
+      "promptHash": "775b91025e9b281ff7f7dbb6ddf345790000a1f234cadddc70ffc1ae9706ab8e",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-eighteenth-continuation.png",
+          "hash": "fed5574b18f2792e34b5c66bf1b94ea99b93075093d9f049672c8039ac1b340d"
+        }
+      ]
+    },
+    "nineteenthContinuation": {
+      "original": "exec-5a99b9f6-713a-43f8-a661-43fce1e45516.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-fed1d4b3-bdcc-4de5-938c-81082a71f152.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "721929741c98450552f8e81b0308b133d43e3ccae9bfee4743cdde800a2200ca",
+        "runtimeHash": "c216b8daf016b2f0fd29dc0ca1c8280adbaad6a98fe269e6cba77dff884de7e5",
+        "promptHash": "746c3b188730f90a921d5a1c481c70d273054c5bafe73a7a8e56beb6c12c1e0b",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/scientific-borders-nineteenth.png",
+            "hash": "436b09ce8fa0321872fb85ade70a50cbbd8356fc6327ce8faab33e7e4b446148"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-nineteenth-continuation.png",
+        "runtimeFile": "images/tapestry/scientific-borders-nineteenth-continuation.webp"
+      },
+      "sourceHash": "2c44c2a8e2f021d86f2c28edc096aa0ab0748617e16465b7977899a6ddd25dd7",
+      "runtimeHash": "c2f68d8fc3eb420ace88fa048f60fdd68e558d539ad03f3a46ff9f9b4f7f26a8",
+      "promptHash": "775b91025e9b281ff7f7dbb6ddf345790000a1f234cadddc70ffc1ae9706ab8e",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-nineteenth-continuation.png",
+          "hash": "721929741c98450552f8e81b0308b133d43e3ccae9bfee4743cdde800a2200ca"
+        }
+      ]
+    },
+    "electronsContinuation": {
+      "original": "exec-947c2280-5d31-4fd0-84c2-2c90fc8adbe9.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-5ddf2419-f6f8-4139-906e-3e2475468027.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "8a0c692dacb98bcc893b0c4b1798e374ea35ca370950cc33c66e3968609bbcb3",
+        "runtimeHash": "4b1e4cb3c1d98a2f94705e5b7266ee1077ba21d1f9246390e170a91078c24cb2",
+        "promptHash": "0c804b78f16b757147d3ec98c9a20c5ac938b9c54e5850fbf9509f5847d49711",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/scientific-borders-electrons.png",
+            "hash": "9497fc3f09ad1a7f7c899cce44018d5e0abbe103024ea53735ed6dfecd7c67d8"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-electrons-continuation.png",
+        "runtimeFile": "images/tapestry/scientific-borders-electrons-continuation.webp"
+      },
+      "sourceHash": "591b385bb3385355192b69e56415b6890c82deb966e7f03e60ea8ffafaaccc53",
+      "runtimeHash": "b9d6bdb4694a621519ecae910045befe8f849818485f92804c56a8b5a6103675",
+      "promptHash": "e145c699f40615796067bbbeccedd5b56845fb95fa1c86c57b7091f17e7f470b",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-electrons-continuation.png",
+          "hash": "8a0c692dacb98bcc893b0c4b1798e374ea35ca370950cc33c66e3968609bbcb3"
+        }
+      ]
+    },
+    "spaceContinuation": {
+      "original": "exec-4ea6bbc0-8ef1-4d63-8081-9972410fe579.png",
+      "transparent": true,
+      "previousGeneration": {
+        "original": "exec-d337803a-ec21-4fc1-a04b-10798593772a.png",
+        "generatedAt": "2026-10-02",
+        "sourceHash": "3cec23ceb87660f1549b3410896e920f06fbd618286f94606f078a2c54a0ac24",
+        "runtimeHash": "f3ddb02165109d52aad94e82caa92c8ddc4eb450381fc77b43045b54fca081d6",
+        "promptHash": "7162f3bc67e0b0bd2cdced2997187ca68d1171469f52f08df4b89bbc4a940e3d",
+        "references": [
+          {
+            "file": "images/tapestry/style-reference-original-bayeux.png",
+            "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+          },
+          {
+            "file": "images/tapestry/scientific-borders-space.png",
+            "hash": "1d9847fcdc4be5665e5e8c435a7073a5bdee51ddcf189a892cc0b00e95cec752"
+          }
+        ],
+        "sourceFile": "images/tapestry/scientific-borders-space-continuation.png",
+        "runtimeFile": "images/tapestry/scientific-borders-space-continuation.webp"
+      },
+      "sourceHash": "fd969bec3dc991e8b146b28e77fe7b367a0c6d031bde5e8dbd4898d712861be9",
+      "runtimeHash": "0cb2a0a34e5ab63a935d60b01e64a7cd410fad4061ae44cd109da784ab17c7a5",
+      "promptHash": "775b91025e9b281ff7f7dbb6ddf345790000a1f234cadddc70ffc1ae9706ab8e",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-space-continuation.png",
+          "hash": "3cec23ceb87660f1549b3410896e920f06fbd618286f94606f078a2c54a0ac24"
         }
       ]
     }
@@ -233,7 +413,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "cf67b0e60265594c0e825633b1b53a23a6b7193937fa9a743490fa87bdd5b731"
+      "pixelHash": "58b7c4a3a6f2b09b76069ca1da3b6c0032b9ad910454b7c7b367bbffdbdc9834"
     },
     {
       "id": "early-1",
@@ -254,7 +434,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "91b1ff63fd7de98cf8b6890bda9a488a5333849aab7623b476f777870fb903c9"
+      "pixelHash": "2ebdd07c0275f05929d7bf50f2738bb63898968ad37c5ba00ca51be6e423ee79"
     },
     {
       "id": "early-2",
@@ -271,7 +451,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "5bd8e2d7fe6e9a9da22bd149acca0cfd3e7ff75e6c174089eb86ce983991665b"
+      "pixelHash": "df69138d3e24945ed644e153f53841aed20263e94ea06bdcac9651adcd0c252a"
     },
     {
       "id": "early-3",
@@ -288,7 +468,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "2d03f9b30f4f26cee4e2ab11106f685823dee9b587f0a9f18a11d96ee3f73449"
+      "pixelHash": "7d2d055bb88e4f2dc58601f0b81590f08efd790847e076dddf62fadb6673f58d"
     },
     {
       "id": "early-4",
@@ -309,7 +489,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "c62570eb05a74cef788bda2355fd1b59c3434cc3ee53c34a5a3fab6c37396bd6"
+      "pixelHash": "79651fdf5af623588e024025ff85207a4ba141ddc92c72b1230ecd89119c3903"
     },
     {
       "id": "early-5",
@@ -331,7 +511,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "c6a45e6aef679fb695110fda017bbf501c69229e64c3e2fc07ffa640f4a0c9cc"
+      "pixelHash": "ed3026b9d430bacb9c2157c5f2a2153555cbb56785092324e960c2c8e051cbc0"
     },
     {
       "id": "early-6",
@@ -353,7 +533,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "fd60824ea4b8a042c70c104ee907bda0dafbfcfc0bd4badecd0bd084588bb90b"
+      "pixelHash": "df986e5df092eb1ef2f9ec91f3258eae67d191271821abd4318e2e5888ab800f"
     },
     {
       "id": "early-7",
@@ -375,7 +555,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "3eadb602fc61d1061ccd50b0537991b348324dbf17c550c85d4de93aaf06f68e"
+      "pixelHash": "a46f8810f35ffc268cc4afde1c5f42c1ea4d40a96b2eb775dc9af5809300f345"
     },
     {
       "id": "seventeenth-0",
@@ -398,7 +578,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "68ef84fcbfa64fe86fb354d17d1ae98a97158279bbd025e202ca312b207a0e68"
+      "pixelHash": "294b1a268eba65d580db28c73718ea753c2b08f4647d544feaae6e4e77fb7b69"
     },
     {
       "id": "seventeenth-1",
@@ -421,7 +601,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "643ec6ff66f40f4d65e953e832b4835357cf20ae38c66401e175aef9ec838fc1"
+      "pixelHash": "3869a4c6054d974d6883ec752f998ec9301906646ca1400d18d2817ae2c1b9d8"
     },
     {
       "id": "seventeenth-2",
@@ -444,7 +624,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "ddac94cbcbb295f428437b7120bd194f25baf22aa6536d4692d6f70a92d597e2"
+      "pixelHash": "5c2fc7f1acdd79f882ddda0a2835375594dd824ac6a24584e068e4b1530cddff"
     },
     {
       "id": "seventeenth-3",
@@ -467,7 +647,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "80074a29114d6a29b2fa01fd92393c3d7bf491de082ad7f203f68893d6291e65"
+      "pixelHash": "8fb8dc1065308231aa8d7c0951c66efa053381931868f35922e2ba952e6d6ad5"
     },
     {
       "id": "seventeenth-4",
@@ -490,7 +670,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "431deff62d4eabb09c27843af38e460ed338a652146493e9c848625ff6ffda3c"
+      "pixelHash": "242370a087e276aded6276d446686ffb7084a9880bc2573f705a1dd8186d8ad4"
     },
     {
       "id": "seventeenth-5",
@@ -513,7 +693,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "aa04d533fa12bbd1b6ba3858a6d90221509c266e6eb3e5ca26a72a4d6783db63"
+      "pixelHash": "12b92d0d02e3bcadfe646ee2b0737dcf4c4e43ff7162451cfa4c91366dc6613b"
     },
     {
       "id": "seventeenth-6",
@@ -538,7 +718,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "ef4550f095971eb1b8b44018272103c15e4d737ad11d3daedc99a375f337c2a3"
+      "pixelHash": "a256d0f6724c19b480b7f8b26b1458159f0dba7148a2aa87760ff4742fa249b9"
     },
     {
       "id": "seventeenth-7",
@@ -565,7 +745,7 @@
       "primaryReferences": [
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "f56c7b4f2b439ab81257e08c7a686bc8f702fe2803934642bfd174782b76c6ad"
+      "pixelHash": "b450638ef8f216efccdbf8fa58c33b78d5fa70b4c1f0bfebcacffc5617742635"
     },
     {
       "id": "eighteenth-0",
@@ -591,7 +771,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "45711d79dd256fe7be3f4c546ae1206a30b6883eccbbc8703ba8700a4822bce7"
+      "pixelHash": "359c53b02d12cee45c665ea9b5f09e8b4ccaf025e8e35cb260fb50f9e92a1a3b"
     },
     {
       "id": "eighteenth-1",
@@ -618,7 +798,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "1136fd5924ec4f8532262ebb5914af9162ef1e5fffb4708bd7b44b7f46b693a5"
+      "pixelHash": "a4017ec81302c90783cd96d7aaef72db50cae01c4acd14c6ac82c63e3b610b2d"
     },
     {
       "id": "eighteenth-2",
@@ -641,7 +821,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "8b968c3d1eb42e0218dfe91aa437eb211f352d1bd52e8f7e4f116471e06007c7"
+      "pixelHash": "3eefcaf85935251775c884c45e724744aad4cfa1a9e3753aae4950a5e4f8080c"
     },
     {
       "id": "eighteenth-3",
@@ -663,7 +843,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "e6dfa657ec1a668bdf1aaf2400f199f184873c6daf982f54fb8cce3b6ae1f094"
+      "pixelHash": "a0eb0a792b39efd26b84bc447d41cd98fe9d040653af363ef475b76caa1a488f"
     },
     {
       "id": "eighteenth-4",
@@ -687,7 +867,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "def96fe27fe43b3dd2c5b2a1e3d408ba300705bacced204a155ceaffef668371"
+      "pixelHash": "7e14b2e7ade8f7ff82ee8562ed88ee5626f73a0bc3a9387ac8e1ceb5e60ab77b"
     },
     {
       "id": "eighteenth-5",
@@ -712,7 +892,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "695f918e08c35e46a51fc6e5410327ee78e61b81a93209ae33e77752242c1848"
+      "pixelHash": "e2937abb9f183c39f5f8e5db2cbf14495938b6652cddb89fe14b60db72601981"
     },
     {
       "id": "eighteenth-6",
@@ -734,7 +914,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "78ed4268674f3bca7caaa0631a5aa7c58b736b01ee09a497534e8630e2364d46"
+      "pixelHash": "4983c7ffc81d66602f2a6dc3c6674e9d9926c2b25bb7bcec329da30037445cd8"
     },
     {
       "id": "eighteenth-7",
@@ -756,7 +936,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "aced4dd548526207a37e5db6baf9c43bed52846385a756946aff7b07e9731140"
+      "pixelHash": "6933dcf32ebc9a4795fed531ac50759436fe79c3e3ee3b4736aee34dacfdf7a5"
     },
     {
       "id": "nineteenth-0",
@@ -782,7 +962,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "14604dd8589e7cc836d88e01dfbb010a22280b1b77b422a63d6ac8d148a84d22"
+      "pixelHash": "5043902b7c0dc11cc4e5308c08b7714c6664d3984e4810932a03e15b440d1b2b"
     },
     {
       "id": "nineteenth-1",
@@ -809,7 +989,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "4ae5a6d4119393580beb0e3650496a297355f7141e4517f8deca632e409c366d"
+      "pixelHash": "324c94a0b620ff9c4df7a806690f756b45de20a63b59210bb7d70de980988c00"
     },
     {
       "id": "nineteenth-2",
@@ -834,7 +1014,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "9ba7822beea199bc6a6b158636f0adb8dcd8dc8d6401f0120ca8877748e53e73"
+      "pixelHash": "fd2810e91353989a0909772537e36687b8784a16ba76457a6d1012e52fda51c8"
     },
     {
       "id": "nineteenth-3",
@@ -854,7 +1034,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "352cfab6a24e5f9505c6b7eb90c708f373bfad1b89d03d201eb444c04a716a25"
+      "pixelHash": "c7e60ff917a8808560bad25a38714e8a0b67539ef82f707e12540a6192a1fa22"
     },
     {
       "id": "nineteenth-4",
@@ -880,7 +1060,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "7fc31cd651d2f351ff350929b4a0f6ec3083f554553f6ed9a4425ed018fb2daf"
+      "pixelHash": "4207481b8c84d829493ab54b225d537a0a30c41e854d80e8cf65c81ccdbf8d65"
     },
     {
       "id": "nineteenth-5",
@@ -903,7 +1083,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "1050a397c3a5ee6bf348e8513b84f60ca8d14a802a2993d3301a253f88cde92b"
+      "pixelHash": "436fbe4646e72b7fb06094e06ff4985e870f3c66eab6c262376608b226ee4165"
     },
     {
       "id": "nineteenth-6",
@@ -928,7 +1108,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "c6cfde072913a89b95ee0bb2444766e605ea4eb8529f7e405caaec9d00a20dfb"
+      "pixelHash": "f59d4ca00c0d6428b11b0b6dd7c1edb6ac69340c94737921988ed131b2b82f3d"
     },
     {
       "id": "nineteenth-7",
@@ -955,7 +1135,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "559409cf4238e82936b7438c0d9ea880249cd9a205d59c34b90ac937c65c8d5d"
+      "pixelHash": "2b2be7d2ef951ee4a85974ae9ffa8f5e3b4ff575ff55f97b7a332392adf7995c"
     },
     {
       "id": "electrons-0",
@@ -980,7 +1160,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "607b8eaf464526a43829721285208f89dd79f1bcaa45c16c0a92f95a427ececc"
+      "pixelHash": "ba31f01d85d6e43dbb36a2780051e7042c565d28ba1a40e305d046701961ff33"
     },
     {
       "id": "electrons-1",
@@ -1012,7 +1192,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "796e1a83b82381279cebb9483e59a4ed922b3103a2daf07443b41fc362ad903e"
+      "pixelHash": "a0e868a63fc24f0036fd3fa8b60fd2bf2efcb938c3fcf468fd2a5b73a9adc482"
     },
     {
       "id": "electrons-2",
@@ -1036,7 +1216,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "a5a260be00dd46716f62b01bd357c81400d8509d6111def50978c9fc505778ed"
+      "pixelHash": "30c727efe731c294db53d17669248ead57baedc18fc72726e508c429ee2a5a6e"
     },
     {
       "id": "electrons-3",
@@ -1058,7 +1238,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "4cb0aa5b402c8106e90ddbcd9148aa92647636437472804b3d0484e0b4c5cead"
+      "pixelHash": "a238146350c186e7e53a8873daa5ba01647390d38a1bdbb813ec925e3849a3e2"
     },
     {
       "id": "electrons-4",
@@ -1083,7 +1263,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "679be9005aabac3b0ae565929c3a7544051d74a8776ac7245815ec9144280c32"
+      "pixelHash": "43b47c1445168e52f4945431f38b00fe1a3b60f697b8315f4c5f157135c6567c"
     },
     {
       "id": "electrons-5",
@@ -1112,7 +1292,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "5373454fb1713d842e9be8bc05f3b986881378b2524bc926d5864256f4b6ae21"
+      "pixelHash": "f2fd0cc1f5b6ff78353718091b877b6c100ac33d03fa7489e6426205a4636048"
     },
     {
       "id": "electrons-6",
@@ -1133,7 +1313,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "6a6cbb6770e45242fbfbf3fb0a5e8d1c1be026cdca61ef96d9b3d4f982b3f2e5"
+      "pixelHash": "af6cb639b595de8933d371811f9a666fb64c3d3197f462f98258c27ae13fb48a"
     },
     {
       "id": "electrons-7",
@@ -1157,7 +1337,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "4068f86493bc271a94d38fa5521bdb095a625da8ba5455f806ccc1c3334ab1b8"
+      "pixelHash": "c736f6cb753d992f74f42cf17b44018d117aaa1094cb493c6ad517a24fdefbe0"
     },
     {
       "id": "space-0",
@@ -1184,7 +1364,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "ea51fb5f11fa6730213670bac17294a8a6d89405333851a47b00f6e1ffad112f"
+      "pixelHash": "537b4d80b9a125876ad49f8f07cf479af3c21623e4b7c06967bccf0dd71ffd2a"
     },
     {
       "id": "space-1",
@@ -1214,7 +1394,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "23e70652dd16c3bded66ba8f0e93ea13ef95627919a8202e641f991c4db7354f"
+      "pixelHash": "4e680ec46b77a3d10a34e9ede96b9717771e3dc45f7b8e72ed390998fad9afb2"
     },
     {
       "id": "space-2",
@@ -1243,7 +1423,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "c84896327a4394c7be9ccc0d881507d2e4c2caa6a5f798eaaf4fffaaa1c4420b"
+      "pixelHash": "e751c82cec2c669750a54b5fd485d15ff443370473e332f57ec37521df8ce8ff"
     },
     {
       "id": "space-3",
@@ -1269,7 +1449,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "0b33ecbeece2cf4f34bbff2fbcf584942f6f644efb8002f3fb239fbb63cb1ee4"
+      "pixelHash": "633b292f947c3b7a17d5f1d0def63d4a0a5abbf462d4f4be2c153f776a2124e1"
     },
     {
       "id": "space-4",
@@ -1298,7 +1478,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "d5706615b75e114e1f9fcd9dddb3bb0865633f69f4dd527a1751878f53e11182"
+      "pixelHash": "9713542f3ad92aeb544b9f3f8bc646356aa4e97bf6b709ddd6a3671cd0214459"
     },
     {
       "id": "space-5",
@@ -1328,7 +1508,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "9ba8fcf6de991405d9eeb06ae27d3c6a0d5f380a604aa0a19878a58e0c7dc39f"
+      "pixelHash": "acfb5f754d9b8e51f471075e4ed1c72c984c7871e6c4e40370d8147d87d0866e"
     },
     {
       "id": "space-6",
@@ -1354,7 +1534,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "6612f5fa2c42c97e2c649c4539bdb507b39d42a71d241f0bab958e322849e8ca"
+      "pixelHash": "0beda41093c97f506360359ca4e4864781e5a4545a252746dc82da7a1a4537ac"
     },
     {
       "id": "space-7",
@@ -1383,7 +1563,7 @@
         "https://home.cern/science/experiments/gargamelle/",
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
-      "pixelHash": "b12c85ff31371bee58d491d8f495fef3da0b79daea7443eb49c576a99b8de566"
+      "pixelHash": "a8a45e0f389a761da49554270c6cc4dad10656e74949d6c907c6a496b6509247"
     },
     {
       "id": "earlyContinuation-0",
@@ -1405,7 +1585,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "073fa61bd3d8e170fc2cdbb0d84bbe392bb489a64731b156d38a24891062b782"
+      "pixelHash": "1bc59452edaabd85cd4a341e5f25278c3a00356cbc14d8bbaa58d3453168c076"
     },
     {
       "id": "earlyContinuation-1",
@@ -1427,7 +1607,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "b55ce39d6ff165568b52c82853643af44a94649b24bcc088845740568371f70c"
+      "pixelHash": "35b556087c4d515ce89fdc731cb98e40aeef9c5e7df769826c08346ae145f882"
     },
     {
       "id": "earlyContinuation-2",
@@ -1445,7 +1625,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "91631835044f3785cc9c330158b78983f707d4bf6ce6bce8f6448ee46084a849"
+      "pixelHash": "6abc042a256e86e01683455e83ca9d08fe3b87d09a56c651981726b57359e1f5"
     },
     {
       "id": "earlyContinuation-3",
@@ -1463,7 +1643,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "2472d4d334643a3460624c6a565081abc141417df78b46ecf304354fcbac7226"
+      "pixelHash": "4204f03dbf55400963ed0d864dc1863cd90246f1dbf9d8124f87f9452d85af15"
     },
     {
       "id": "earlyContinuation-4",
@@ -1485,7 +1665,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "99638e839a4551311c7feb1f7638b10b5aba5ddc0be2a41917e1f5953345b343"
+      "pixelHash": "518df0bf6b1f2fdb59cb852a477adc1624681138034a5ff5e2c38500542ac31b"
     },
     {
       "id": "earlyContinuation-5",
@@ -1508,7 +1688,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "2dad1a0ffa8f104d2a2f38eacbae4c02b86be63352767c0f11c6f83d597aa483"
+      "pixelHash": "f806df751b82559139e063e3190badc3290a285048d781cf6101f606fe798392"
     },
     {
       "id": "earlyContinuation-6",
@@ -1531,7 +1711,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "f736448fd0ca739e984dadb3dbe745ed5d1a430ee60f773a7b7e1c9c06614b31"
+      "pixelHash": "cf8dbf2a0dff69f83efa1c37f2fdf7b29cda1b614a24877ef016bc3628d5de60"
     },
     {
       "id": "earlyContinuation-7",
@@ -1554,7 +1734,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "a873aa878bcd1b81b609273ca63e0dee2d3794c6c8923b8b6b423fc0920f3ca5"
+      "pixelHash": "3084ab388a786bc1d09d78e496d93b1e9221bbdfb2520925bb44e1c936c378f8"
     },
     {
       "id": "seventeenthContinuation-0",
@@ -1578,7 +1758,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "35a4d76bd4a5ff73fa04d43f0e61f917f645720abde1d2e4ddeca44221b2a6f2"
+      "pixelHash": "9a48d2e60539c6588d7dd10dcab48a48ad8a1f684bcecbc7c46047c6851c0bd5"
     },
     {
       "id": "seventeenthContinuation-1",
@@ -1602,7 +1782,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "8efe770f87fbb8b3da5ddf5c1b7a3f0ba5ab4df39021491c3f9c9727b774d2a2"
+      "pixelHash": "0391f169d93a195e14f3bb4243f6cbb46b10ecf1d8bced53d58e6002f807febc"
     },
     {
       "id": "seventeenthContinuation-2",
@@ -1626,7 +1806,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "212a0cd2e43c3ae0363acb4675eb863bf2983cfcd58a967d82dd9de82b525467"
+      "pixelHash": "88df3c890e073ebbe95df7557cc69a8c93011fbfce33373bb8bad27a28a8d491"
     },
     {
       "id": "seventeenthContinuation-3",
@@ -1650,7 +1830,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "1c629d551211c950b84cfee34764c2f040804ee03685b966aae58bb955c16aa1"
+      "pixelHash": "e186388eb5dc6952b96934b527b014f00ed5b838db2b5cfc9d88b4f8887f66eb"
     },
     {
       "id": "seventeenthContinuation-4",
@@ -1674,7 +1854,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "db32b6aea7afdb735c80dbb1c63efcf73a1ecc20935a848a75ea2c8152bcda4f"
+      "pixelHash": "3d1882761da6d772da594c5b45d38aca4f7283b03440ce371c5af2a723c89886"
     },
     {
       "id": "seventeenthContinuation-5",
@@ -1698,7 +1878,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "9a04cf85fb6d543c5317cde5ea25d717255f7b1f06dd2b38a09fe13ba7b332cf"
+      "pixelHash": "6890a8fcc3be672d952657d30b52de13ca74cad9f9fcfe4e39fc739d7316b347"
     },
     {
       "id": "seventeenthContinuation-6",
@@ -1724,7 +1904,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "86970a3ab336d6cfbbfa43dc28b5b2c4cad15f05610a55afc90f3a3bb73afd65"
+      "pixelHash": "450c7c66c1a3369533161b4098dfc4527c91c2557f4249519f8c0f083668cb9b"
     },
     {
       "id": "seventeenthContinuation-7",
@@ -1752,7 +1932,7 @@
         "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
         "https://www.museogalileo.it/en/galileo/instruments-en.html"
       ],
-      "pixelHash": "bafeebbe98592b64784fc4a5918f2522c5179a3e73e9d261564ebfa2e6617a7c"
+      "pixelHash": "0bde6ad0e9910e8875377908c9fc6263857da4afbec30b02969979b5fe60d993"
     },
     {
       "id": "eighteenthContinuation-0",
@@ -1779,7 +1959,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "8ba36d70a369aaacfa5dfede2798bc1a069fe022014becbc672978b4f6b0671c"
+      "pixelHash": "5b6ee63b58c7b2bbd71a0ce1d7d5ac3e9c26aacdd8fe6cb5abf892500297d1c9"
     },
     {
       "id": "eighteenthContinuation-1",
@@ -1807,7 +1987,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "4b320be8c330f79363e5d43ae6d0eb39a04960fd1d0b8c814c2293ef76672529"
+      "pixelHash": "26a915789b59b5eff4e9a24a31e3a05f938e6a214051c50426cb32bed9c71c7a"
     },
     {
       "id": "eighteenthContinuation-2",
@@ -1831,7 +2011,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "dae4f567b47fc49f6ef7b63b63f33112214b5486c8785a85484cf1bc90c7d3d0"
+      "pixelHash": "ee503db78094ad5e9dcb913d2d34e720f5ce813e8e80a8ecf62639b42cbf1b57"
     },
     {
       "id": "eighteenthContinuation-3",
@@ -1854,7 +2034,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "144b208a9b38e17cca42d895797fb46c901afff1f33eedc73ea1b09ad6b545c1"
+      "pixelHash": "1e174551f90ec8ca240d6541c5541cc0a6fcd7a8361edc478eaaa855bc2f28aa"
     },
     {
       "id": "eighteenthContinuation-4",
@@ -1879,7 +2059,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "83615d60e10bc72abd40101e315ec2e336c8dd87dc02bfc164dfbef5a35522f8"
+      "pixelHash": "a9a8f93704be9686cdf7884b1c9558ad0fb916737d3170cf6c95965f36132cf1"
     },
     {
       "id": "eighteenthContinuation-5",
@@ -1905,7 +2085,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "c3a8a4590f7c5ff89fab1c10cbbe611215f2f4874e0edf058ab57bb02bae32b2"
+      "pixelHash": "9ee3fb96e005b17b1d9680769d7cb8e3e2508d676b2ce1299ae1e1890c9c55c3"
     },
     {
       "id": "eighteenthContinuation-6",
@@ -1928,7 +2108,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "0783216717a363b9ac9f3da07c7cb770819fba75e6cb6343681af05cbf2c11ed"
+      "pixelHash": "45c75920e25ca3e3edd2702fd639dd705a9ee5c729cbcb757a363af807b65c62"
     },
     {
       "id": "eighteenthContinuation-7",
@@ -1951,7 +2131,7 @@
         "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
         "https://www.museogalileo.it/en/collections.html"
       ],
-      "pixelHash": "000cbba5470487ed0999dbaafa0c1e194480b40c40a4ce4349dddd28f7621546"
+      "pixelHash": "ade3991f3f6f7f3c5106bb13336f6578304151114fc83c99c557cda54947cbf1"
     },
     {
       "id": "nineteenthContinuation-0",
@@ -1978,7 +2158,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "95919eb9013b54ce948e572f33ec590712dac61564c1b7ec5a9c3546a9e55fa0"
+      "pixelHash": "69f5849a81995ba2fed030e3cf72122493b7bb17736a3dfe864f0a45db4ff43f"
     },
     {
       "id": "nineteenthContinuation-1",
@@ -2006,7 +2186,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "e89a3a7be67279bedbdd3309826f98cf5e15d683aeaa5fd2e2c274241339e981"
+      "pixelHash": "c3eeb0cf022f6bef4f43dbaeccd3b43cebc0077848709331e651afac27046efa"
     },
     {
       "id": "nineteenthContinuation-2",
@@ -2032,7 +2212,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "84bbaadc6e847e4b9d234f6cc6e67dce42160059a94c573846c0b29a285cd140"
+      "pixelHash": "cd84d881c8b8391823837359cce7605f62ddc7c9cd9f46f301867f8387937377"
     },
     {
       "id": "nineteenthContinuation-3",
@@ -2053,7 +2233,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "011aa9d2ea77be4e55e5b282d8927e120099bebded5abdbd7d17749c65c9fd3a"
+      "pixelHash": "b4cf0e67582f65c82c77851ee1207787802bdc3b80f549a3a9c65899b266ca44"
     },
     {
       "id": "nineteenthContinuation-4",
@@ -2080,7 +2260,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "6714d3d2063194ecae5e32727c399453f3acdf624dca11005c5ade8a0f6436c2"
+      "pixelHash": "6f12c84a6ff95c0066ccd6c9232fae07574153dc9aa7ebf851ea6c2821b8c466"
     },
     {
       "id": "nineteenthContinuation-5",
@@ -2104,7 +2284,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "2924f140b3904e3d353231931cda360a4b9ea57e6135fd2f83f13db680842c96"
+      "pixelHash": "e55e2be47641853948cd825931dee6ddd816845bb2e5d2c385e0e172815d1214"
     },
     {
       "id": "nineteenthContinuation-6",
@@ -2130,7 +2310,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "3dc02e00b0f79677b793c7a6ed5ea8e4eb8f9755cd2541fde347a83852158a8d"
+      "pixelHash": "813119613f792a440defcb8087b370f3428b20b6a130e24efb0508d691b32941"
     },
     {
       "id": "nineteenthContinuation-7",
@@ -2158,7 +2338,7 @@
         "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
         "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
       ],
-      "pixelHash": "55a09058ecaa01b8ca6cac1c40d39ef069de2c828bd93f161e3ea1c58f88850e"
+      "pixelHash": "d06f885e22cdae02a51123c5cc91d70dffe6532f4e7d5eec76322574ad393e3a"
     },
     {
       "id": "electronsContinuation-0",
@@ -2183,7 +2363,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "a7a01a206d76e1175f4b2748408be35188e980df23dc5c8643a37ccc25230f32"
+      "pixelHash": "8c554ebd98cd6fefd38a6280c96590c76d20b437fdadbd71ca25f2778ef8cbe7"
     },
     {
       "id": "electronsContinuation-1",
@@ -2215,7 +2395,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "57c523edd4b6338e702cb1080284a3ab93d0d40d229f815b63b382a499facde8"
+      "pixelHash": "5ba99be6a5fe81ca25fa1767c8ae39a314c7dbda571974b919e0bbcb1aab63f5"
     },
     {
       "id": "electronsContinuation-2",
@@ -2239,7 +2419,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "0d7491e3c5b71973833346daa1bdce9ca8bc726b4ba706e9d434e29b31dee83f"
+      "pixelHash": "8280b8aac873d802341514b16ec33545009f4b922b5a0b1e9dadeb5dc628dfb9"
     },
     {
       "id": "electronsContinuation-3",
@@ -2261,7 +2441,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "48cb1e89f668b794d8847299fcf2037d3763e30ea0a6bae0db6048075f8827f4"
+      "pixelHash": "6c3b603f3d87e14757227eb2f112ed9617ea46787b38583959e11bb7ca25658b"
     },
     {
       "id": "electronsContinuation-4",
@@ -2286,7 +2466,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "0885a727e022071cd2ffcd22ae57b7e37876ca811b0dab234b359c9b9e0d4c4e"
+      "pixelHash": "5cb5172897672466b47721da843df5eb53315b4d3759d0cdd98bfffa45cbe160"
     },
     {
       "id": "electronsContinuation-5",
@@ -2315,7 +2495,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "84248be31641421c43b728d09d54c2cb3203fea3ba6e7a479a17ae099d71d30a"
+      "pixelHash": "a2104719da67e2f05d223cf1262ed352be22dab9124f695d06835d2cd17f800c"
     },
     {
       "id": "electronsContinuation-6",
@@ -2336,7 +2516,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "1af9a7b2b785089aed1a7dcd1aa6b6f9e0f2a254d8496ea4ff633bddfe371c11"
+      "pixelHash": "741b1ec8ca0b90e79f109359ba4760ac32e0dea351531951247beb726f04f7dc"
     },
     {
       "id": "electronsContinuation-7",
@@ -2360,7 +2540,7 @@
       "primaryReferences": [
         "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
       ],
-      "pixelHash": "5161fb9771eb3bfb0326c42799eca39961da7c1eda41efecb2545dda48df0ca0"
+      "pixelHash": "625895b35dfdf97542c15a40348a8f656de72464169c55dddb8d131e57a5e0b2"
     },
     {
       "id": "spaceContinuation-0",
@@ -2387,7 +2567,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "127bb4ca7b7c4636ad50c74d80a428ff9afeec77e8c2921d9b9f2c7c4b1ce97e"
+      "pixelHash": "cba4c5c16643120213389a802317a40e86f49c05b7ba2cc7dd9d169aa6e3d8f3"
     },
     {
       "id": "spaceContinuation-1",
@@ -2417,7 +2597,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "2e6fa0e70b3638a1e4df09a3d60abe72069d170f3ec192e35a1d8ad50454241b"
+      "pixelHash": "de11d9e2cf16b76a805b59048e5580fa5483f9efa2e6a43395aec5b438fb3b95"
     },
     {
       "id": "spaceContinuation-2",
@@ -2446,7 +2626,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "24877f3c0804a4c40ad24cc584731ef0cc0fa12bb35f635755df3216e4978047"
+      "pixelHash": "8cb55697f45422c14ceffd18c62323367be53733d2e8921001607978dd4c7108"
     },
     {
       "id": "spaceContinuation-3",
@@ -2472,7 +2652,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "429020392364c8639f942a102867f9d0068914ce3859e8baff9c1ed18c7cd0da"
+      "pixelHash": "5ebab022c78b7a1cdfda4fbae653f9d87bab742f0a91acbc7e699d9f34af8b3a"
     },
     {
       "id": "spaceContinuation-4",
@@ -2502,7 +2682,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "0425e4acc42295a14c2497392c1bdddc56abae4529a85755aa58bd935194722b"
+      "pixelHash": "c8d75587cdebba661a1a56b20f06e8bc8eb6cbd248ac77c0614e7e64ddfbc2d4"
     },
     {
       "id": "spaceContinuation-5",
@@ -2532,7 +2712,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "2a68e9edec9e90ac7586934217a61a215d2c7ebb107ac10f001752acd8ef9364"
+      "pixelHash": "df10bb729ae0e0d540fbaded6b5ddfccbb15f0fbfe40ee82c38de88cef2aea16"
     },
     {
       "id": "spaceContinuation-6",
@@ -2559,7 +2739,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "a14877735cba08fc5901b117e5fb16ea1f33416390eb9ff3fa2bb2c55b0aa963"
+      "pixelHash": "287df7bda3ed122bbf65b181ee9b37d1b997872b91d1107b21d7a6fdd6a03b53"
     },
     {
       "id": "spaceContinuation-7",
@@ -2588,7 +2768,7 @@
         "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
         "https://www.si.edu/object/nmah_711120"
       ],
-      "pixelHash": "95215782411832f00179df67903b4aeae7a888aacf028a3776ba6a7d999fc929"
+      "pixelHash": "7e6e625944ae3bf2465eb558de88a8a9ae74b98cf7dbea254d709e076df32069"
     }
   ],
   "sourceExamplesApproved": {

@@ -39,15 +39,19 @@ export function validateLinearStory() {
     if (png.readUInt32BE(16) !== atlas.width || png.readUInt32BE(20) !== atlas.height) throw new Error(`Invalid story master dimensions: ${sheet}`);
     for (const [top, bottom] of atlas.bodies) if (!(top >= 0 && bottom > top && bottom <= atlas.height && bottom - top <= STORY_BODY_HEIGHT)) throw new Error(`Invalid story body crop: ${sheet}`);
     const generation = record.sources[sheet];
+    if (!generation?.transparent || png[25] !== 6) throw new Error(`Story master must retain RGBA thread transparency: ${sheet}`);
     if (!generation?.prompt || generation.sourceHash !== hash(png) || generation.runtimeHash !== hash(read(atlas.file))
       || generation.promptHash !== hash(generation.prompt)
       || generation.referenceHash !== hash(read(generation.reference))) throw new Error(`Unrecorded story generation: ${sheet}`);
-    if (generation.supportingReferences?.some(ref => ref.hash !== hash(read(ref.file)))) throw new Error(`Changed comet style reference: ${sheet}`);
-    if (generation.initialEdit) {
+    const previous = generation.previousGeneration;
+    if (!previous || previous.sourceHash !== hash(read(previous.sourceFile))
+      || previous.runtimeHash !== hash(read(previous.runtimeFile))) throw new Error(`Changed linen extraction source: ${sheet}`);
+    if (previous.supportingReferences?.some(ref => ref.hash !== hash(read(ref.file)))) throw new Error(`Changed comet style reference: ${sheet}`);
+    if (previous.initialEdit) {
       const prompts = JSON.parse(read('images/tapestry/halley-comet-prompts.json'));
-      const group = prompts.groups.find(g => g.id === sheet), edit = generation.initialEdit;
+      const group = prompts.groups.find(g => g.id === sheet), edit = previous.initialEdit;
       if (!group?.initialEdit || edit.promptHash !== hash(group.initialEdit.prompt)
-        || edit.referenceHash !== hash(read(edit.reference)) || edit.sourceHash !== hash(read(generation.reference))) throw new Error(`Unrecorded initial comet edit: ${sheet}`);
+        || edit.referenceHash !== hash(read(edit.reference)) || edit.sourceHash !== hash(read(previous.reference))) throw new Error(`Unrecorded initial comet edit: ${sheet}`);
     }
   }
   return { sources: Object.keys(storyAtlases).length, linearSections: storyPanels.length, records: events.length };

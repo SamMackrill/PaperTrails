@@ -3,13 +3,13 @@
 // Hotspot fractions describe objects in the artwork, never invented dates.
 const panel = (sheet, row, from, to, focus, subjects) => ({ id: `${sheet}-${row}`, sheet, row, from, to, focus, subjects });
 export const storyAtlases = {
-  opening: { file: 'images/tapestry/bayeux-linear-opening.webp', width: 2172, height: 724,
+  opening: { file: 'images/tapestry/bayeux-linear-opening-threads.webp', width: 2171, height: 724,
     bodies: [[47, 223]] },
-  early: { file: 'images/tapestry/bayeux-linear-early-comets.webp', width: 2172, height: 724,
+  early: { file: 'images/tapestry/bayeux-linear-early-threads.webp', width: 2171, height: 724,
     bodies: [[47, 191], [245, 402], [452, 573], [610, 718]] },
-  middle: { file: 'images/tapestry/bayeux-linear-middle-comets.webp', width: 2172, height: 724,
+  middle: { file: 'images/tapestry/bayeux-linear-middle-comets-threads.webp', width: 2172, height: 724,
     bodies: [[45, 179], [222, 378], [419, 562], [599, 718]] },
-  modern: { file: 'images/tapestry/bayeux-linear-modern.webp', width: 2172, height: 724,
+  modern: { file: 'images/tapestry/bayeux-linear-modern-threads.webp', width: 2172, height: 724,
     bodies: [[44, 177], [216, 358], [395, 536], [575, 699]] }
 };
 export const storyPanels = [
