@@ -1,4 +1,4 @@
-import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
+import { layoutContextLabels } from './contextLabels.js?v=pass2-latin-retries-v1';
 import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-continuous-linen-v1';
 import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-continuous-linen-v1';
 import { paintLinen } from './linenBacking.js';
@@ -9,7 +9,7 @@ import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
 import { scientists, discoveries } from './dataLoader.js?v=pass2-story-v2';
 import { scientificStoryRecords } from './storyScience.js';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-continuous-linen-v1';
+import { planInscription, planNarrowerInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-latin-retries-v1';
 const models = new WeakMap();
 const images = new Map();
 const INSCRIPTION_SCALE = .78;
@@ -33,8 +33,9 @@ function makeRecord(model, event) {
   button.type = 'button'; button.className = 'tapestry-scene';
   button.dataset.itemKey = event.itemKey || recordKey('event', event); button.dataset.tooltipAnchor = 'scene';
   const caption = document.createElement('span');
-  caption.className = 'tapestry-caption'; caption.lang = 'la'; caption.setAttribute('aria-hidden', 'true');
+  caption.className = 'tapestry-caption'; caption.lang = 'la';
   const lettering = document.createElement('canvas'); lettering.className = 'tapestry-inscription';
+  lettering.setAttribute('aria-hidden', 'true');
   const text = document.createElement('span'); text.className = 'sr-only';
   caption.append(lettering, text);
   const entry = { button, caption, lettering, text, hits: [], event };
@@ -70,13 +71,18 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
     });
     while (entry.hits.length > spans.length) entry.hits.pop().remove();
     const inscription = spans.length ? planInscription(entry.text.textContent, viewport - 8, INSCRIPTION_SCALE) : null;
-    if (inscription) labels.push({ entry, inscription, caption: entry.caption, start: worldLeft + first,
+    const narrower = inscription && planNarrowerInscription(entry.text.textContent, viewport - 8, inscription.width, INSCRIPTION_SCALE);
+    if (inscription) labels.push({ entry, inscription, narrower, caption: entry.caption, start: worldLeft + first,
       end: worldLeft + last, width: inscription.width, lines: inscription.lines.length,
       priority: record.event.itemKey || ['event-20', 'event-18', 'event-08', 'event-09', 'event-17'].includes(record.event.id) ? 2 : 1 });
     entry.caption.hidden = true;
   }
   const placed = layoutContextLabels(labels, worldLeft, worldLeft + viewport, 2);
-  for (const { entry, inscription, caption, left, width, row } of placed) {
+  const placedEntries = new Set(placed.map(label => label.entry));
+  const retries = layoutContextLabels(labels.filter(label => !placedEntries.has(label.entry) && label.narrower)
+    .map(label => ({ ...label, inscription: label.narrower, width: label.narrower.width, lines: label.narrower.lines.length })),
+  worldLeft, worldLeft + viewport, 2, placed);
+  for (const { entry, inscription, caption, left, width, row } of [...placed, ...retries]) {
     const pixelRatio = Math.min(2, window.devicePixelRatio || 1);
     const key = `${inscription.key}:${pixelRatio}`;
     if (entry.inscriptionKey !== key) {
@@ -86,7 +92,7 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
     caption.style.top = `${model.borderHeight + 2 + row * LETTER_ROW_HEIGHT}px`;
     caption.dataset.inscription = inscription.text; caption.dataset.lines = String(inscription.lines.length);
   }
-  return placed;
+  return [...placed, ...retries];
 }
 
 function paint(model, container) {

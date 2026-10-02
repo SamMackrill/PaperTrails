@@ -59,6 +59,28 @@ export function planInscription(text, available, glyphScale = 1) {
     key: `${glyphScale}:${lines.map(line => line.text).join('\n')}` };
 }
 
+// A compact whole-word alternative is useful when the preferred inscription
+// cannot occupy any of the narrative's label rows.  It deliberately considers
+// only one break: captions have room for at most two stitched rows.
+export function planNarrowerInscription(text, available, preferredWidth, glyphScale = 1) {
+  if (!Number.isFinite(glyphScale) || glyphScale <= 0) return null;
+  const words = String(text).trim().toUpperCase().split(/\s+/).filter(Boolean);
+  if (words.length < 2 || available <= 2 * PADDING * glyphScale
+    || words.some(word => [...word].some(letter => !THREAD_ALPHABET[letter]))) return null;
+  const limit = available / glyphScale - 2 * PADDING;
+  let choice = null;
+  for (let split = 1; split < words.length; split++) {
+    const lineText = [words.slice(0, split).join(' '), words.slice(split).join(' ')];
+    const lines = lineText.map(text => ({ text, width: text.split(' ').reduce((sum, word, index) =>
+      sum + (index ? SPACE : 0) + wordWidth(word), 0) }));
+    const width = Math.ceil((Math.max(...lines.map(line => line.width)) + 2 * PADDING) * glyphScale);
+    if (width > available || width >= preferredWidth || lines.some(line => line.width > limit)) continue;
+    if (!choice || width < choice.width) choice = { text: words.join(' '), lines, width, glyphScale,
+      height: Math.ceil(2 * INSCRIPTION_LINE_HEIGHT * glyphScale), key: `${glyphScale}:${lines.map(line => line.text).join('\n')}` };
+  }
+  return choice;
+}
+
 const paths = new Map();
 // A short stitched contour with uneven capitals and muted thread colours.
 // No font, text screenshot, typeset backdrop or generated lettering is used.

@@ -1,9 +1,14 @@
 // Labels may borrow space outside their event span; their connector stays on
 // the real visible braid. Whole labels are hidden only when all rows are full.
-export function layoutContextLabels(labels, left, right, rows = 3) {
+export function layoutContextLabels(labels, left, right, rows = 3, reserved = []) {
   const occupied = Array.from({ length: rows }, () => []), placed = [];
   const available = right - left - 8;
   if (available <= 0) return placed;
+  for (const label of reserved) {
+    const labelRows = Math.max(1, label.lines || 1);
+    for (let row = Math.max(0, label.row || 0); row < Math.min(rows, (label.row || 0) + labelRows); row++)
+      occupied[row].push([label.left, label.left + label.width]);
+  }
   for (const label of [...labels].sort((a, b) => (b.priority || 0) - (a.priority || 0) || (a.end - a.start) - (b.end - b.start) || a.start - b.start)) {
     if (label.end < left || label.start > right || label.width <= 0
       || (label.width > available && !label.lines)) continue;

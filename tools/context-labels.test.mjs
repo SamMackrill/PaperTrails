@@ -38,3 +38,9 @@ test('labels that need more rows than the context can provide are hidden', () =>
   ], 0, 600, 3);
   assert.deepEqual(placed.map(label => label.id), ['fits']);
 });
+
+test('retry labels respect rows already occupied by accepted labels', () => {
+  const accepted = layoutContextLabels([{ id: 'accepted', start: 20, end: 20, width: 180 }], 0, 300, 2);
+  const retry = layoutContextLabels([{ id: 'retry', start: 20, end: 20, width: 100, lines: 2 }], 0, 300, 2, accepted);
+  assert.deepEqual(retry, [], 'a retry may not overlap the original placement');
+});
