@@ -259,6 +259,19 @@ function makeEntry(model, key) {
   return entry;
 }
 
+/**
+ * Render illustrated historical context with date anchors and selectable events.
+ * The owner may initially be detached; asynchronous artwork recovery follows
+ * the ribbon's current parent so retries update the installed illustration.
+ * @param {HTMLElement} timeline Element that owns or will receive the ribbon.
+ * @param {Array<object>} events Historical records used to place artwork and anchors.
+ * @param {number} width Scaled timeline width in CSS pixels.
+ * @param {number} height Available timeline height in CSS pixels.
+ * @param {number} top Context lane offset in CSS pixels.
+ * @param {number} scale Horizontal zoom multiplier.
+ * @param {Function} onSelect Receives the selected button and historical record.
+ * @param {string} [style='landscape'] Artwork style for the illustrated context.
+ */
 export function renderTapestry(timeline, events, width, height, top, scale, onSelect, style = 'landscape') {
   const previous = timeline.querySelector('.tapestry-ribbon');
   if (style === 'tapestry') {
