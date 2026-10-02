@@ -4,6 +4,9 @@ import { inflateSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 
 const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+// Artwork masters are about 6 MiB decoded. Keep this decoder safe for every
+// caller rather than relying on a later, atlas-specific geometry check.
+const maxDecodedBytes = 64 * 1024 * 1024;
 const paeth = (a, b, c) => {
   const p = a + b - c, da = Math.abs(p - a), db = Math.abs(p - b), dc = Math.abs(p - c);
   return da <= db && da <= dc ? a : db <= dc ? b : c;
@@ -22,6 +25,10 @@ export function decodePngPixels(png) {
       if (data.length !== 13 || data[8] !== 8 || ![2, 6].includes(data[9])
         || data[10] || data[11] || data[12]) throw new Error('Artwork requires non-interlaced 8-bit RGB/RGBA PNG');
       width = data.readUInt32BE(0); height = data.readUInt32BE(4); channels = data[9] === 2 ? 3 : 4;
+      const decodedBytes = (width * channels + 1) * height;
+      if (!Number.isSafeInteger(decodedBytes) || decodedBytes > maxDecodedBytes) {
+        throw new Error('PNG decoded data exceeds artwork limit');
+      }
     } else if (type === 'IDAT') chunks.push(data);
     else if (type === 'IEND') break;
     offset = end;
