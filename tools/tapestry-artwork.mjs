@@ -42,6 +42,7 @@ export function drawingPlans() {
       measuredCrop: { top, bottom, edges },
       scenes: topics.filter(topic => topic.row === row) }));
     return { style, sheet: names[index], reference: config.reference,
+      usage: style === 'tapestry' ? 'Archived per-event source recipe; current Tapestry uses linear-story-generation.json and tools/linear-story-artwork.mjs' : 'Current Landscape source recipe',
       output: style === 'tapestry' ? `images/tapestry/bayeux-${names[index]}.png` : atlas.file,
       runtime: atlas.file, redrawPending: Boolean(config.redrawPending),
       subjectsHash: hash(JSON.stringify(topics)),
@@ -122,7 +123,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const command = process.argv[2] || 'check';
     if (command === 'prompts') {
       writeFileSync(resolve(root, 'images/tapestry/drawing-prompts.json'), JSON.stringify(drawingPlans(), null, 2) + '\n');
-      console.log('Prepared ten paired, fold-aware drawing briefs.');
+      console.log('Prepared paired Landscape/archived event-atlas briefs. Current Tapestry shared depictions: linear-story-generation.json and tools/linear-story-artwork.mjs.');
     } else if (command === 'record') {
       if (process.argv[3] && process.argv[3] !== '--metadata-only') throw new Error('Unknown record option');
       recordArtwork({ metadataOnly: process.argv[3] === '--metadata-only' }); console.log(validateArtwork());

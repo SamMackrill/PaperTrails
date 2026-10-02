@@ -2,16 +2,22 @@
 
 The UI2 context control now has three modes: Bars, Landscape and Tapestry. The
 current landscape and the closest-to-Bayeux direction are maintained together.
-See [drawing-guide.md](drawing-guide.md) for the paired drawing workflow,
-fold-aware composition rules and the five completed Bayeux redraws. Tapestry uses
+See the standing [Context drawing instructions](../../docs/context-drawing-instructions.html)
+and [drawing-guide.md](drawing-guide.md) for the distinct source workflows and
+fixed-art folding rules. Tapestry uses
 Latin inscriptions without visible dates; English titles and dates remain in
 event details. Landscape retains English captions and dates.
 
-Tapestry loads full-size WebP derivatives of the five `bayeux-*.png` masters,
-including the context chapters and five winter eras. Measured row crops live in
-`bayeuxAtlases` in `src/tapestryScenes.js`; a failed derivative retries its own
-PNG master. Generated PNG bytes and exact prompts are preserved. The user
-approved the source sheets; publication remains held for an in-prototype preview.
+Tapestry loads four `bayeux-linear-*.webp` sources and joins twelve whole drawn
+bands end to end, with overlapping history already composed into each picture.
+Native body crops and selection hotspots live in `src/storyPanels.js`; a failed
+derivative retries its own PNG master. Exact prompts, references and hashes live
+in `linear-story-generation.json`. These new compositions are available for
+in-prototype review; they do not inherit approval from the older source sheets.
+
+The five earlier Bayeux event atlases, their measured rows in `src/tapestryScenes.js`
+and their paired generation records remain archived. Landscape continues to use
+its existing sources, English names/dates, braids and fold renderer.
 
 The archived `early-panorama.png`, `revolutions-panorama-v2.png`, and
 `modern-panorama.png` were generated with the built-in image generation tool.

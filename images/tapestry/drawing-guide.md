@@ -1,19 +1,45 @@
 # Maintaining the two illustration styles
 
+Consult the standing [Context drawing instructions](../../docs/context-drawing-instructions.html)
+before drawing or composing context artwork. They specify Bars, Landscape and
+Tapestry equally and take precedence over superseded layout assumptions below,
+including the rejected use of separate vignette rows for concurrent Tapestry events.
+
 The context control cycles **Bars → Landscape → Tapestry → Bars**. Landscape
 keeps the current illustrations. Tapestry targets approved study 8, closest to
 the Bayeux embroidery: coloured wool contours and fills, profile figures and
 mostly open linen. The two approved industrial references are committed here
 as `style-reference-landscape.png` and `style-reference-bayeux.png`.
 
-Tapestry uses five approved Bayeux sheets: `bayeux-early`, `bayeux-revolutions`,
-`bayeux-modern`, `bayeux-context-chapters` and `bayeux-winter-eras`. Original
-generated PNGs are preserved; full-size WebP derivatives are used at runtime.
-A failed WebP retries its own PNG with the same row and facet crop. Landscape
-retains its existing sources, neutral scenery and fallback behaviour. Never
-substitute an unrelated historical scene to fill a gap.
+Tapestry now joins twelve **whole shared depictions** from the four
+`bayeux-linear-*.png` masters into one linear cloth. The three four-band atlases
+are storage layouts, never a multirow runtime display. The opening correction
+supplies only its first band; the unchanged early atlas supplies the other three.
+Measured body crops, editorial camera anchors and record hotspots live in
+`src/storyPanels.js`. Concurrent subjects must be drawn together before rendering:
+snow and soldiers, Napoleon and steam machinery, Carrington and telegraph wires.
+Do not recreate the rejected layout by arranging independent event crops.
 
-Run `node tools/tapestry-artwork.mjs prompts` before drawing. It prepares **ten
+Exact built-in imagegen calls, references and pixel hashes are preserved in
+`linear-story-generation.json`. Run `node tools/linear-story-artwork.mjs check`
+to validate current Tapestry artwork; use `record` after reviewing measured crop
+or source changes. A failed WebP retries its own PNG. Landscape retains its
+existing sources, neutral scenery and fallback behaviour. Never substitute a
+Landscape image or an unrelated historical scene for a missing Bayeux source.
+
+The Tapestry source is uniformly sized to the available illustration height,
+then kept fixed during zoom. An identifying front conceals left and right detail;
+at 32× every retained pixel is exposed at its original position. Cloth widths are
+symbolic, not durations. The camera follows the scientific viewport through
+editorial anchors without changing canonical dates. Borders fold with the artwork.
+
+### Existing Landscape and archived event-atlas workflow
+
+The five previously approved Bayeux event sheets remain preserved as historical
+source records. Their per-event facet recipes below are not the current Tapestry
+composition. Source-sheet approval did not approve the later vignette-row layout.
+
+For existing Landscape or archived event atlases, `node tools/tapestry-artwork.mjs prompts` prepares **ten
 paired briefs**: early, revolutions, modern, context chapters and winter eras,
 once per style. A subject or date-scope change affects both corresponding briefs.
 Keep each style's measured rows in `artworkStyles` in `src/tapestryScenes.js`.
@@ -22,7 +48,7 @@ Each crop includes its upper animal border and stops before the next row.
 The paired briefs include the measured crop coordinates for each style;
 provenance checks detect row/facet changes as well as pixel and subject drift.
 
-Respect #67's folds: the first facet's central **112px** must identify the subject
+For Landscape's existing #67 folds, the first facet's central **112px** must identify the subject
 at overview. Later facets sit behind fixed source crops and appear as folds open.
 Use distinct activities in consecutive fifths, preserve all restricted facet
 ranges, and avoid placing important faces on fold/row boundaries. The cloth
