@@ -1,15 +1,14 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-integrated-latin-v1';
-import { layoutScientificBorder, exposedScientificBorder, SCIENTIFIC_BORDER_HEIGHT } from './scientificBorders.js?v=pass2-integrated-latin-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-continuous-borders-v1';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame } from './scientificBorders.js?v=pass2-continuous-borders-v1';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
 import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-integrated-latin-v1';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-continuous-borders-v1';
 const models = new WeakMap();
 const images = new Map();
-const BORDER_HEIGHT = SCIENTIFIC_BORDER_HEIGHT;
 const INSCRIPTION_SCALE = .78;
 const LETTER_ROW_HEIGHT = INSCRIPTION_LINE_HEIGHT * INSCRIPTION_SCALE;
 
@@ -55,7 +54,7 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
     }));
     const first = spans.length ? Math.min(...spans.map(s => s.left)) : 0;
     const last = spans.length ? Math.max(...spans.map(s => s.left + s.width)) : 0;
-    entry.button.style.cssText = `left:${worldLeft + first}px;width:${Math.max(1, last - first)}px;top:${BORDER_HEIGHT}px;height:${model.artHeight}px;pointer-events:none`;
+    entry.button.style.cssText = `left:${worldLeft + first}px;width:${Math.max(1, last - first)}px;top:${model.borderHeight}px;height:${model.artHeight}px;pointer-events:none`;
     // Concealed records retain accessible descriptions but no invisible tab
     // stops. Existing search and navigation can still select those records.
     entry.button.tabIndex = spans.length ? 0 : -1;
@@ -81,7 +80,7 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
       drawInscription(entry.lettering, inscription, pixelRatio); entry.inscriptionKey = key;
     }
     caption.hidden = false; caption.style.left = `${left}px`; caption.style.width = `${width}px`;
-    caption.style.top = `${BORDER_HEIGHT + 2 + row * LETTER_ROW_HEIGHT}px`;
+    caption.style.top = `${model.borderHeight + 2 + row * LETTER_ROW_HEIGHT}px`;
     caption.dataset.inscription = inscription.text; caption.dataset.lines = String(inscription.lines.length);
   }
   return placed;
@@ -103,7 +102,7 @@ function paint(model, container) {
   if (canvas.height !== rows) canvas.height = rows;
   const ink = canvas.getContext('2d'); ink.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   ink.fillStyle = '#e8dec8'; ink.fillRect(0, 0, viewport, height);
-  const artTop = BORDER_HEIGHT;
+  const artTop = model.borderHeight;
   // The picture uses the complete narrative height. White is a neutral ground
   // for the multiply pass, preserving its original pixels outside lettering.
   ink.fillStyle = '#fff';
@@ -136,7 +135,7 @@ function paint(model, container) {
     for (const border of exposedScientificBorder(model.borders.get(panel.id), fragment)) {
       const drawing = model.loaded.get(border.file);
       if (!drawing) continue;
-      const y = (border.side === 'top' ? 0 : height - BORDER_HEIGHT) + border.inset;
+      const y = border.side === 'top' ? 0 : height - border.height;
       ink.drawImage(drawing, border.crop.x, border.crop.y, border.crop.width, border.crop.height,
         border.left, y, border.width, border.height);
     }
@@ -176,7 +175,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   }
   const model = models.get(ribbon);
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
-  model.artHeight = Math.max(1, model.height - 2 * BORDER_HEIGHT);
+  Object.assign(model, scientificBorderFrame(model.height));
   model.layout = layoutStory(events, width, model.artHeight);
   model.borders = new Map(model.layout.panels.map(panel => [panel.id, layoutScientificBorder(panel)]));
   model.pose = foldStory(model.layout, timeline.parentElement?.clientWidth || width / scale, scale);

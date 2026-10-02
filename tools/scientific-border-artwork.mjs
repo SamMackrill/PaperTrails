@@ -5,15 +5,16 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
-import { scientificBorderAtlases, scientificBorderSections, SCIENTIFIC_BORDER_HEIGHT } from '../src/scientificBorders.js';
-import { storyPanels } from '../src/storyPanels.js';
+import { scientificBorderAtlases, scientificBorderSections, scientificBorderRows } from '../src/scientificBorders.js';
+import { storyPanels, storyAtlases } from '../src/storyPanels.js';
 import { config } from '../src/config.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = file => readFileSync(resolve(root, file));
 const hash = value => createHash('sha256').update(value).digest('hex');
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const recordFile = 'images/tapestry/scientific-border-generation.json';
-const geometryHash = () => hash(JSON.stringify({ scientificBorderAtlases, scientificBorderSections, SCIENTIFIC_BORDER_HEIGHT }));
+const geometryHash = () => hash(JSON.stringify({ scientificBorderAtlases, scientificBorderSections, storyAtlases,
+  sections: storyPanels.map(({ id, sheet, row }) => ({ id, sheet, row })), scheme: 'continuous-whole-rows-v1' }));
 
 export function validateScientificBorders() {
   const record = JSON.parse(read(recordFile));
@@ -24,12 +25,10 @@ export function validateScientificBorders() {
   const events = new Set(yaml.load(read('data/significantevents.yaml').toString()).map(event => event.id));
   const regions = new Set(), pixels = new Set();
   for (const panel of storyPanels) {
-    const [sheet, first] = scientificBorderSections[panel.id] || [];
-    const atlas = scientificBorderAtlases[sheet];
-    if (!atlas || first + 3 >= atlas.bands.length) throw new Error(`Missing chronological border: ${panel.id}`);
-    for (let row = first; row < first + 4; row++) {
+    if (!scientificBorderSections[panel.id]) throw new Error(`Missing chronological border: ${panel.id}`);
+    for (const side of ['top', 'bottom']) for (const { sheet, row } of scientificBorderRows(panel.id, side)) {
       const id = `${sheet}-${row}`, motif = record.ribbons.find(r => r.id === id);
-      if (regions.has(id) || !motif || motif.section !== panel.id || motif.side !== (row < first + 2 ? 'top' : 'bottom')) throw new Error(`Repeated or misplaced border region: ${id}`);
+      if (regions.has(id) || !motif || motif.section !== panel.id || motif.side !== side) throw new Error(`Repeated or misplaced border region: ${id}`);
       regions.add(id);
       if (motif.period[0] !== panel.from || motif.period[1] !== panel.to) throw new Error(`Wrong border period: ${id}`);
       if (!motif.description || !motif.primaryReferences.length || !/^[0-9a-f]{64}$/.test(motif.pixelHash) || pixels.has(motif.pixelHash)) throw new Error(`Missing or cloned scientific illustration: ${id}`);
@@ -53,6 +52,8 @@ export function validateScientificBorders() {
     if (!generation || generation.sourceHash !== hash(png) || generation.runtimeHash !== hash(read(atlas.file))
       || generation.promptHash !== hash(prompt.prompt) || generation.references.length !== prompt.references.length
       || generation.references.some((ref, i) => ref.file !== prompt.references[i] || ref.hash !== hash(read(ref.file)))) throw new Error(`Unrecorded border generation: ${sheet}`);
+    if (prompt.correction && (generation.correctionPromptHash !== hash(prompt.correction.prompt)
+      || generation.correctionReferenceHash !== hash(read(prompt.correction.reference)))) throw new Error(`Unrecorded border correction: ${sheet}`);
   }
   return { sources: Object.keys(scientificBorderAtlases).length, distinctRibbons: regions.size, chronologicalSections: storyPanels.length };
 }
@@ -67,6 +68,10 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
         generation.sourceHash = hash(read(atlas.file.replace(/\.webp$/, '.png')));
         generation.runtimeHash = hash(read(atlas.file)); generation.promptHash = hash(prompt.prompt);
         generation.references = prompt.references.map(file => ({ file, hash: hash(read(file)) }));
+        if (prompt.correction) {
+          generation.correctionPromptHash = hash(prompt.correction.prompt);
+          generation.correctionReferenceHash = hash(read(prompt.correction.reference));
+        }
       }
       writeFileSync(resolve(root, recordFile), JSON.stringify(record, null, 2) + '\n');
     } else if (process.argv[2] && process.argv[2] !== 'check') throw new Error('Usage: node tools/scientific-border-artwork.mjs [record|check]');
