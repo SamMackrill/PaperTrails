@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planInscription, drawInscription, THREAD_ALPHABET } from '../src/stitchedInscriptions.js';
+import { planInscription, planNarrowerInscription, drawInscription, THREAD_ALPHABET } from '../src/stitchedInscriptions.js';
 import { latinHeadings } from '../src/contextHeadings.js';
 import { layoutContextLabels } from '../src/contextLabels.js';
 
@@ -35,6 +35,24 @@ test('wrapped inscriptions occupy both rows and retain their words when panned',
   assert.equal(placed.length, 1);
   assert.equal(placed[0].width, plan.width);
   assert.ok(placed[0].left >= 304 && placed[0].left + placed[0].width <= 596);
+});
+
+test('a rejected wide inscription has a narrower complete two-line alternative', () => {
+  for (const glyphScale of [1, .78]) {
+  const text = 'BELLVM DE SVCCESSIONE HISPANICA';
+  const wide = planInscription(text, 600, glyphScale);
+  const narrow = planNarrowerInscription(text, 600, wide.width, glyphScale);
+  assert.ok(narrow);
+  assert.equal(narrow.lines.length, 2);
+  assert.equal(narrow.lines.map(line => line.text).join(' '), text);
+  assert.ok(narrow.width < wide.width);
+  assert.equal(narrow.glyphScale, glyphScale);
+  const reserved = [{left:4,width:180 * glyphScale,row:0,lines:2}];
+  const initial = layoutContextLabels([{ id: 'wide', ...wide, start: 200 * glyphScale, end: 400 * glyphScale, lines: 1 }], 0, 450 * glyphScale, 2, reserved);
+  const retry = layoutContextLabels([{ id: 'narrow', ...narrow, start: 200 * glyphScale, end: 400 * glyphScale, lines: 2 }], 0, 450 * glyphScale, 2, reserved);
+  assert.equal(initial.length, 0);
+  assert.equal(retry.length, 1, 'the compact plan can use the remaining label rows');
+  }
 });
 
 test('drawn multiword inscriptions keep their final strokes inside the measured canvas at both lettering sizes', () => {
