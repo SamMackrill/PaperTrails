@@ -1,12 +1,14 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-continuous-borders-v1';
-import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame } from './scientificBorders.js?v=pass2-continuous-borders-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-halley-scenes-v1';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame } from './scientificBorders.js?v=pass2-halley-scenes-v1';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
 import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-continuous-borders-v1';
+import { scientists, discoveries } from './dataLoader.js?v=pass2-story-v2';
+import { scientificStoryRecords } from './storyScience.js';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-halley-scenes-v1';
 const models = new WeakMap();
 const images = new Map();
 const INSCRIPTION_SCALE = .78;
@@ -28,7 +30,7 @@ export function loadStoryImage(file) {
 function makeRecord(model, event) {
   const button = document.createElement('button');
   button.type = 'button'; button.className = 'tapestry-scene';
-  button.dataset.itemKey = recordKey('event', event); button.dataset.tooltipAnchor = 'scene';
+  button.dataset.itemKey = event.itemKey || recordKey('event', event); button.dataset.tooltipAnchor = 'scene';
   const caption = document.createElement('span');
   caption.className = 'tapestry-caption'; caption.lang = 'la'; caption.setAttribute('aria-hidden', 'true');
   const lettering = document.createElement('canvas'); lettering.className = 'tapestry-inscription';
@@ -69,7 +71,7 @@ function positionRecords(model, fragments, worldLeft, camera, viewport) {
     const inscription = spans.length ? planInscription(entry.text.textContent, viewport - 8, INSCRIPTION_SCALE) : null;
     if (inscription) labels.push({ entry, inscription, caption: entry.caption, start: worldLeft + first,
       end: worldLeft + last, width: inscription.width, lines: inscription.lines.length,
-      priority: ['event-20', 'event-18', 'event-08', 'event-09', 'event-17'].includes(record.event.id) ? 2 : 1 });
+      priority: record.event.itemKey || ['event-20', 'event-18', 'event-08', 'event-09', 'event-17'].includes(record.event.id) ? 2 : 1 });
     entry.caption.hidden = true;
   }
   const placed = layoutContextLabels(labels, worldLeft, worldLeft + viewport, 2);
@@ -176,7 +178,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   const model = models.get(ribbon);
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
   Object.assign(model, scientificBorderFrame(model.height));
-  model.layout = layoutStory(events, width, model.artHeight);
+  model.layout = layoutStory([...events, ...scientificStoryRecords(scientists, discoveries)], width, model.artHeight);
   model.borders = new Map(model.layout.panels.map(panel => [panel.id, layoutScientificBorder(panel)]));
   model.pose = foldStory(model.layout, timeline.parentElement?.clientWidth || width / scale, scale);
   ribbon.style.cssText = `top:${top + 8}px;width:${width}px;height:${model.height}px`;
@@ -190,7 +192,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
     entry.button.dataset.startYear = String(event.startYear); entry.button.dataset.endYear = String(event.endYear);
     const heading = `${event.title} · ${contextDate(event)}`;
     entry.button.dataset.tooltip = `${heading}\n${event.details || ''}`; entry.button.setAttribute('aria-label', `${heading}. ${event.details || ''}`);
-    entry.text.textContent = contextHeading(event, 'tapestry').title;
+    entry.text.textContent = event.inscription || contextHeading(event, 'tapestry').title;
   }
   for (const [id, entry] of model.records) if (!active.has(id)) {
     entry.button.remove(); entry.caption.remove(); model.records.delete(id);

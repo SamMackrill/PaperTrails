@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
 import { storyAtlases, storyPanels, STORY_BODY_HEIGHT } from '../src/storyPanels.js';
+import { scientificStoryRecords } from '../src/storyScience.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = file => readFileSync(resolve(root, file));
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -21,7 +22,9 @@ export function validateLinearStory() {
   if (record.geometryHash !== geometryHash()) throw new Error('Unrecorded linear story source geometry');
   if (record.referenceHash !== hash(read('images/tapestry/style-reference-bayeux.png'))) throw new Error('Changed Bayeux reference needs reviewed redraw');
   const events = yaml.load(read('data/significantevents.yaml').toString());
-  const ids = new Set(events.map(event => event.id));
+  const science = scientificStoryRecords(yaml.load(read('data/scientists.yaml').toString()), yaml.load(read('data/discoveries.yaml').toString()));
+  if (science.length !== 2) throw new Error('Both settled comet records must resolve');
+  const ids = new Set([...events, ...science].map(event => event.id));
   for (const panel of storyPanels) for (const [id, from, to] of panel.subjects) {
     if (!ids.has(id) || from < 0 || to <= from || to > 1) throw new Error(`Invalid story hotspot: ${panel.id}/${id}`);
   }
@@ -30,6 +33,7 @@ export function validateLinearStory() {
       || (index && (year <= anchors[index - 1][0] || fraction <= anchors[index - 1][1]))) throw new Error(`Invalid story camera: ${panel.id}`);
   });
   for (const event of events) if (!storyPanels.some(p => p.subjects.some(([id]) => id === event.id))) throw new Error(`Missing depicted record: ${event.id}`);
+  for (const topic of science) if (!storyPanels.some(p => p.subjects.some(([id]) => id === topic.id))) throw new Error(`Missing depicted comet: ${topic.id}`);
   for (const [sheet, atlas] of Object.entries(storyAtlases)) {
     const master = atlas.file.replace(/\.webp$/, '.png'), png = read(master);
     if (png.readUInt32BE(16) !== atlas.width || png.readUInt32BE(20) !== atlas.height) throw new Error(`Invalid story master dimensions: ${sheet}`);
@@ -38,6 +42,13 @@ export function validateLinearStory() {
     if (!generation?.prompt || generation.sourceHash !== hash(png) || generation.runtimeHash !== hash(read(atlas.file))
       || generation.promptHash !== hash(generation.prompt)
       || generation.referenceHash !== hash(read(generation.reference))) throw new Error(`Unrecorded story generation: ${sheet}`);
+    if (generation.supportingReferences?.some(ref => ref.hash !== hash(read(ref.file)))) throw new Error(`Changed comet style reference: ${sheet}`);
+    if (generation.initialEdit) {
+      const prompts = JSON.parse(read('images/tapestry/halley-comet-prompts.json'));
+      const group = prompts.groups.find(g => g.id === sheet), edit = generation.initialEdit;
+      if (!group?.initialEdit || edit.promptHash !== hash(group.initialEdit.prompt)
+        || edit.referenceHash !== hash(read(edit.reference)) || edit.sourceHash !== hash(read(generation.reference))) throw new Error(`Unrecorded initial comet edit: ${sheet}`);
+    }
   }
   return { sources: Object.keys(storyAtlases).length, linearSections: storyPanels.length, records: events.length };
 }

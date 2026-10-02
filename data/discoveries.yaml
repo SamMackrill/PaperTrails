@@ -130,6 +130,13 @@
   discoverer: "Johann Georg Palitzsch; return predicted by Edmond Halley"
   theorist_ids: [newton, halley]
   details: "Palitzsch recovered the predicted comet on 25 December 1758; it reached perihelion in March 1759. Its return confirmed Halley's application of Newtonian gravitation to periodic cometary orbits."
+  sources:
+    - label: "NASA: Halley’s Comet (historical report)"
+      url: "https://ntrs.nasa.gov/api/citations/19800003728/downloads/19800003728.pdf"
+      locator: "Palitzsch’s recovery on 25 December 1758 and the March 1759 perihelion."
+    - label: "ESA: Giotto approaching Comet Halley"
+      url: "https://www.esa.int/ESA_Multimedia/Images/2016/03/Giotto_approaching_Comet_Halley"
+      locator: "Halley died before the predicted return; confirmation came with the 1758–59 apparition."
   particle: "☄"
   color: "#6f4e7c"
 
