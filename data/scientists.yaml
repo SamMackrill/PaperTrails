@@ -3391,6 +3391,10 @@ halley:
       year: 1705
       title: "Astronomiae cometicae synopsis"
       abstract: "Compared cometary orbits using Newtonian gravitation and identified the apparitions of 1531, 1607, and 1682 as one comet whose return he predicted."
+      sources:
+        - label: "NASA: 1P/Halley"
+          url: "https://science.nasa.gov/solar-system/comets/1p-halley/"
+          locator: "History: the 1682 apparition, Halley’s 1705 comparison and the predicted 1758 return."
     - id: halley-work-01
       legacyKey: publication:halley:1
       year: 1716
