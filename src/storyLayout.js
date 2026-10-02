@@ -1,6 +1,6 @@
 import { config } from './config.js?v=16';
 import { yearToX } from './timeScale.js?v=3';
-import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-inscriptions-v1';
+import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-inscriptions-v2';
 const FRONT = 160;
 const RETURN = 240;
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));

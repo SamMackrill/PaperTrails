@@ -68,7 +68,9 @@ export function drawInscription(canvas, plan, pixelRatio = 1) {
   plan.lines.forEach((line, row) => {
     let x = PADDING;
     for (const letter of line.text) {
-      if (letter === ' ') { x += SPACE; continue; }
+      // The preceding glyph already advanced by GAP; a word boundary replaces
+      // that gap with SPACE rather than adding an unmeasured extra gap.
+      if (letter === ' ') { x += SPACE - GAP; continue; }
       const shape = THREAD_ALPHABET[letter];
       if (!paths.has(letter)) paths.set(letter, shape.paths.map(path => new Path2D(path)));
       ink.save(); ink.translate(x, row * INSCRIPTION_LINE_HEIGHT + 1.2 + (index % 3) * .35);

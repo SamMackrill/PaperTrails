@@ -1,12 +1,12 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-inscriptions-v1';
-import { STORY_BORDER } from './storyPanels.js?v=pass2-inscriptions-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-inscriptions-v2';
+import { STORY_BORDER } from './storyPanels.js?v=pass2-inscriptions-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
 import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-inscriptions-v1';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-inscriptions-v2';
 const models = new WeakMap();
 const images = new Map();
 const BORDER_HEIGHT = 16;

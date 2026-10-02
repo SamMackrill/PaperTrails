@@ -7,7 +7,7 @@ import { composePictures, continuePictures, quietLandscape, quietPictures, joinW
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { yearToX } from './timeScale.js?v=3';
-import { renderStory, updateStory, disposeStory } from './storyRenderer.js?v=pass2-inscriptions-v1';
+import { renderStory, updateStory, disposeStory } from './storyRenderer.js?v=pass2-inscriptions-v2';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const BRAID_PITCH = 5;
