@@ -2,32 +2,40 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
-import { layoutScientificBorder, exposedScientificBorder, SCIENTIFIC_BORDER_HEIGHT } from '../src/scientificBorders.js';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame } from '../src/scientificBorders.js';
 import { layoutStory, foldStory, exposedStory } from '../src/storyLayout.js';
 import { validateScientificBorders } from './scientific-border-artwork.mjs';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const events = yaml.load(readFileSync(new URL('../data/significantevents.yaml', import.meta.url), 'utf8'));
 const near = (a, b) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
 
-test('six authored atlases provide 48 distinct, sourced chronological border regions', () => {
-  assert.deepEqual(validateScientificBorders(), { sources: 6, distinctRibbons: 48, chronologicalSections: 12 });
+test('twelve authored atlases provide 96 distinct, sourced chronological border regions', () => {
+  assert.deepEqual(validateScientificBorders(), { sources: 12, distinctRibbons: 96, chronologicalSections: 12 });
 });
 
 test('upper and lower borders use each source region once, within the cloth, at native proportions', () => {
-  for (const height of [1, 75, 150, 250]) {
-    const layout = layoutStory(events, 1126, height), used = new Set();
+  for (const height of [1, 75, 171, 250, 450]) {
+    const frame = scientificBorderFrame(height);
+    near(frame.artHeight + 2 * frame.borderHeight, height);
+    const layout = layoutStory(events, 1126, frame.artHeight), used = new Set();
     for (const panel of layout.panels) {
       const segments = layoutScientificBorder(panel);
-      assert.equal(segments.length, 4);
+      assert.equal(segments.length, 8);
       for (const segment of segments) {
         assert.ok(!used.has(segment.id)); used.add(segment.id);
         near(segment.width / segment.crop.width, segment.height / segment.crop.height);
         assert.ok(segment.sourceX >= panel.sourceX - 1e-7);
         assert.ok(segment.sourceX + segment.width <= panel.sourceX + panel.sourceWidth + 1e-7);
-        assert.ok(segment.inset >= 0 && segment.height + segment.inset <= SCIENTIFIC_BORDER_HEIGHT + 1e-7);
+        assert.ok(segment.height > 0 && segment.height <= frame.borderHeight + 1e-7);
+      }
+      for (const side of ['top', 'bottom']) {
+        const edge = segments.filter(s => s.side === side);
+        near(edge[0].sourceX, panel.sourceX);
+        edge.slice(1).forEach((s, i) => near(s.sourceX, edge[i].sourceX + edge[i].width));
+        near(edge.at(-1).sourceX + edge.at(-1).width, panel.sourceX + panel.sourceWidth);
       }
     }
-    assert.equal(used.size, 48);
+    assert.equal(used.size, 96);
   }
 });
 

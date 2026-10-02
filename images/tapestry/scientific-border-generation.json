@@ -2,15 +2,15 @@
   "method": "Built-in image_gen",
   "generatedAt": "2026-10-02",
   "userApproved": false,
-  "notes": "Six authored atlases store forty-eight distinct ribbons. Every retained source region is used once across twelve chronological sections; top and bottom differ. Descriptions reflect inspected artwork. Science diagrams are symbolic embroidery, not calibrated technical schematics or assertions that a named scientist personally used every pictured device. Related earlier publications can supply the scientific background of later apparatus; the border introduces no new dated events. Exact prompts and both supplied references are maintained separately. Pixel hashes record the inspected RGB crop data; source and geometry hashes detect changes. Visual review must still assess repeated compositions and accuracy.",
-  "geometryHash": "30066260084ca2f08e5cb7d57103b6485ebcc54394a08458203f80d1976fb042",
+  "notes": "Six authored atlases store forty-eight distinct ribbons. Every retained source region is used once across twelve chronological sections; top and bottom differ. Descriptions reflect inspected artwork. Science diagrams are symbolic embroidery, not calibrated technical schematics or assertions that a named scientist personally used every pictured device. Related earlier publications can supply the scientific background of later apparatus; the border introduces no new dated events. Exact prompts and both supplied references are maintained separately. Pixel hashes record the inspected RGB crop data; source and geometry hashes detect changes. Visual review must still assess repeated compositions and accuracy. A second set of six continuation atlases supplies 48 additional distinct ribbons. Four different whole ribbons now run end-to-end on each side of each chronological section. Frame sizing fits native source aspect ratios into the shared context height; no horizontal spacer is permitted. The early continuation has a small lodestone correction; the uncorrected edit target and exact correction prompt are retained.",
+  "geometryHash": "fcd1dcaecf99c745b66e1eb57ba5297209cd68bab022f9dc242c9026d5532c7d",
   "sources": {
     "early": {
       "original": "exec-6adb9fc6-9c04-4732-91e7-ee8b21e2bcf4.png",
       "generatedAt": "2026-10-02",
       "sourceHash": "818020f22af121dc1b07775d22692dd7a3634dadd128dc2d82b71ff4a09cef0a",
       "runtimeHash": "87944f157c5b1b6232420a594216338050ec740c84c54407e3e322d6fbcc7240",
-      "promptHash": "8b4e35e276631fb946f569ac9cf9c786add5ca840dbf5316df026b987acb483d",
+      "promptHash": "99a7c3938a2c550d09ac218a9962340940719bc1451a07405c591c9debd7650f",
       "references": [
         {
           "file": "images/tapestry/style-reference-original-bayeux.png",
@@ -27,7 +27,7 @@
       "generatedAt": "2026-10-02",
       "sourceHash": "b690982d9a07eaf61e3e130146ad12d944cac266e278c2129b38d893aecf51e4",
       "runtimeHash": "49e44ea9c8ff1e197aa3a4534fd78eeb0b4055f6f513ee6bf7060dd9ba97e233",
-      "promptHash": "281d8afcb994aca22d480e49f7a114a085b7945081e543edf366e9a9b5cbf103",
+      "promptHash": "ac2d5e2801eef6c05ea58789598b52965769493acd0bf68e0c200d1a3826a48f",
       "references": [
         {
           "file": "images/tapestry/style-reference-original-bayeux.png",
@@ -44,7 +44,7 @@
       "generatedAt": "2026-10-02",
       "sourceHash": "3919150fd09d92c9f21210a7b228a09b80ff58d96c76785c3da6b485aceedcd3",
       "runtimeHash": "994bb419bc2c74b37bb8730783a9389c75401d20a830d916ec67e8200f65ae65",
-      "promptHash": "68e9d93c25064936dabcc130dd90c5952bdf7d1309f89f32ba654545c50eddb4",
+      "promptHash": "2d94ba3c699f82bf1f3654e60d00c72b5357370d1419d7093089f7ac4c3fc4f3",
       "references": [
         {
           "file": "images/tapestry/style-reference-original-bayeux.png",
@@ -61,7 +61,7 @@
       "generatedAt": "2026-10-02",
       "sourceHash": "436b09ce8fa0321872fb85ade70a50cbbd8356fc6327ce8faab33e7e4b446148",
       "runtimeHash": "6aae09e166b329a0eee348027300a23742e151691492692557c825c5e2d817cd",
-      "promptHash": "2ddaa6d4435686e3e5baf70b0a19ae8af4789c7866dc106635c336e9556afb08",
+      "promptHash": "4143769950c48b1e2ded6a32b4c43fb4a7cb52ea6b2745a076b601c536f0f3f0",
       "references": [
         {
           "file": "images/tapestry/style-reference-original-bayeux.png",
@@ -78,7 +78,7 @@
       "generatedAt": "2026-10-02",
       "sourceHash": "9497fc3f09ad1a7f7c899cce44018d5e0abbe103024ea53735ed6dfecd7c67d8",
       "runtimeHash": "35fdbd28c0fc0659777eb779caa31c74839cb11bdc779f3fcabddf70d402a77b",
-      "promptHash": "042a4b286cecedbc70a8c47f51f8612a3e547fc4c49808598285fb59c2479765",
+      "promptHash": "833ce5eccf9d5ca7dd0ab7c5b111ccc93d9935c0ab62b7763c5fb32fe6732ef9",
       "references": [
         {
           "file": "images/tapestry/style-reference-original-bayeux.png",
@@ -95,7 +95,7 @@
       "generatedAt": "2026-10-02",
       "sourceHash": "1d9847fcdc4be5665e5e8c435a7073a5bdee51ddcf189a892cc0b00e95cec752",
       "runtimeHash": "facbbf88c7ef7bf97f516dced4c2f3b64dde2b31d79a429ddf2ed403202a28a9",
-      "promptHash": "ba983a526e9b59595464dc327d799d355d74d5debc567fb3ca65b9533fbb4504",
+      "promptHash": "51fa902853f6510cb1b462e50e1172f4df6329e86458bc2a2dcd1d3ca75a9f58",
       "references": [
         {
           "file": "images/tapestry/style-reference-original-bayeux.png",
@@ -104,6 +104,111 @@
         {
           "file": "images/tapestry/style-reference-bayeux.png",
           "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+        }
+      ]
+    },
+    "earlyContinuation": {
+      "original": "exec-483cbd8f-d473-4cf5-a21d-d1aee849a2a6.png",
+      "generatedAt": "2026-10-02",
+      "sourceHash": "9f4e622a6c3bce5bbb48130ad509035c01f71ea105712c7398d4f28343aef10f",
+      "runtimeHash": "9cac3fbd7165224d3ee002f9e8b3f44f022d57ed3d557892c4cfd6abce9eca9a",
+      "promptHash": "70b82b6b033c5aaae5b4d5fe67c1e07a1f86ff315dd8aa6cc07a6c11fa13780c",
+      "references": [
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        },
+        {
+          "file": "images/tapestry/scientific-borders-early.png",
+          "hash": "818020f22af121dc1b07775d22692dd7a3634dadd128dc2d82b71ff4a09cef0a"
+        }
+      ],
+      "generationOriginal": "exec-132d11d6-b823-4a7f-af40-c14c02bc76d8.png",
+      "correctionPromptHash": "aaa5c67fb97ca9a06efae1b4363b9c71e2976b49ae5879645d1ed4b712b58dec",
+      "correctionReferenceHash": "2d4d67e7f15e8b1b0d14033d4bba8eff940c9d2db6483224bcf24e933917bb76"
+    },
+    "seventeenthContinuation": {
+      "original": "exec-bfd94ce9-75f7-4899-8b9e-6b0c133461f3.png",
+      "generatedAt": "2026-10-02",
+      "sourceHash": "4809f4735f3f05e8fa347a46e73b5ef174067ae05c7fa1294db594801ca511f0",
+      "runtimeHash": "f2417939414a0334163415e6c8af6ae042876a2a6a13e7ef77ae234d6afe868e",
+      "promptHash": "457e65aaa9d56164d91eeb48e15331ed3aeeb49ceea8e46a9eeb58e9f24a0543",
+      "references": [
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        },
+        {
+          "file": "images/tapestry/scientific-borders-seventeenth.png",
+          "hash": "b690982d9a07eaf61e3e130146ad12d944cac266e278c2129b38d893aecf51e4"
+        }
+      ]
+    },
+    "eighteenthContinuation": {
+      "original": "exec-dbdde0ed-df3b-4eb9-a726-125e3ee56b73.png",
+      "generatedAt": "2026-10-02",
+      "sourceHash": "fed5574b18f2792e34b5c66bf1b94ea99b93075093d9f049672c8039ac1b340d",
+      "runtimeHash": "d7937d2c71c1598fd2f93b2a9bcba062eeab8f71d6f7964e8fea8d7f068ffee6",
+      "promptHash": "1195b77a85311c5af2c4203bcd78a9dabaa1730e5588192363df3d7a3d8ead57",
+      "references": [
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        },
+        {
+          "file": "images/tapestry/scientific-borders-eighteenth.png",
+          "hash": "3919150fd09d92c9f21210a7b228a09b80ff58d96c76785c3da6b485aceedcd3"
+        }
+      ]
+    },
+    "nineteenthContinuation": {
+      "original": "exec-fed1d4b3-bdcc-4de5-938c-81082a71f152.png",
+      "generatedAt": "2026-10-02",
+      "sourceHash": "721929741c98450552f8e81b0308b133d43e3ccae9bfee4743cdde800a2200ca",
+      "runtimeHash": "c216b8daf016b2f0fd29dc0ca1c8280adbaad6a98fe269e6cba77dff884de7e5",
+      "promptHash": "746c3b188730f90a921d5a1c481c70d273054c5bafe73a7a8e56beb6c12c1e0b",
+      "references": [
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        },
+        {
+          "file": "images/tapestry/scientific-borders-nineteenth.png",
+          "hash": "436b09ce8fa0321872fb85ade70a50cbbd8356fc6327ce8faab33e7e4b446148"
+        }
+      ]
+    },
+    "electronsContinuation": {
+      "original": "exec-5ddf2419-f6f8-4139-906e-3e2475468027.png",
+      "generatedAt": "2026-10-02",
+      "sourceHash": "8a0c692dacb98bcc893b0c4b1798e374ea35ca370950cc33c66e3968609bbcb3",
+      "runtimeHash": "4b1e4cb3c1d98a2f94705e5b7266ee1077ba21d1f9246390e170a91078c24cb2",
+      "promptHash": "0c804b78f16b757147d3ec98c9a20c5ac938b9c54e5850fbf9509f5847d49711",
+      "references": [
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        },
+        {
+          "file": "images/tapestry/scientific-borders-electrons.png",
+          "hash": "9497fc3f09ad1a7f7c899cce44018d5e0abbe103024ea53735ed6dfecd7c67d8"
+        }
+      ]
+    },
+    "spaceContinuation": {
+      "original": "exec-d337803a-ec21-4fc1-a04b-10798593772a.png",
+      "generatedAt": "2026-10-02",
+      "sourceHash": "3cec23ceb87660f1549b3410896e920f06fbd618286f94606f078a2c54a0ac24",
+      "runtimeHash": "f3ddb02165109d52aad94e82caa92c8ddc4eb450381fc77b43045b54fca081d6",
+      "promptHash": "7162f3bc67e0b0bd2cdced2997187ca68d1171469f52f08df4b89bbc4a940e3d",
+      "references": [
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        },
+        {
+          "file": "images/tapestry/scientific-borders-space.png",
+          "hash": "1d9847fcdc4be5665e5e8c435a7073a5bdee51ddcf189a892cc0b00e95cec752"
         }
       ]
     }
@@ -1279,6 +1384,1211 @@
         "https://home.cern/science/accelerators/synchrocyclotron/"
       ],
       "pixelHash": "b12c85ff31371bee58d491d8f495fef3da0b79daea7443eb49c576a99b8de566"
+    },
+    {
+      "id": "earlyContinuation-0",
+      "section": "opening-0",
+      "side": "top",
+      "period": [
+        1400,
+        1500
+      ],
+      "description": "A nocturnal star clock, hand sighting stars and two varied quadrant arrangements",
+      "relatedScientists": [
+        "regiomontanus"
+      ],
+      "relatedPublications": [
+        "regiomontanus-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "073fa61bd3d8e170fc2cdbb0d84bbe392bb489a64731b156d38a24891062b782"
+    },
+    {
+      "id": "earlyContinuation-1",
+      "section": "opening-0",
+      "side": "top",
+      "period": [
+        1400,
+        1500
+      ],
+      "description": "A cross staff measuring a mast height, plumb line and a folded geometric compass",
+      "relatedScientists": [
+        "regiomontanus"
+      ],
+      "relatedPublications": [
+        "regiomontanus-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "b55ce39d6ff165568b52c82853643af44a94649b24bcc088845740568371f70c"
+    },
+    {
+      "id": "earlyContinuation-2",
+      "section": "opening-0",
+      "side": "bottom",
+      "period": [
+        1400,
+        1500
+      ],
+      "description": "A balance beam with unequal brass weights, a counting board and a geometric manuscript",
+      "relatedScientists": [],
+      "relatedPublications": [],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "91631835044f3785cc9c330158b78983f707d4bf6ce6bce8f6448ee46084a849"
+    },
+    {
+      "id": "earlyContinuation-3",
+      "section": "opening-0",
+      "side": "bottom",
+      "period": [
+        1400,
+        1500
+      ],
+      "description": "A sundial with oblique shadow, simple celestial circles and different measuring rods",
+      "relatedScientists": [],
+      "relatedPublications": [],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "2472d4d334643a3460624c6a565081abc141417df78b46ecf304354fcbac7226"
+    },
+    {
+      "id": "earlyContinuation-4",
+      "section": "early-1",
+      "side": "top",
+      "period": [
+        1500,
+        1600
+      ],
+      "description": "Copernican planetary orbit diagrams beside a book stand, not modern satellites",
+      "relatedScientists": [
+        "copernicus"
+      ],
+      "relatedPublications": [
+        "copernicus-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "99638e839a4551311c7feb1f7638b10b5aba5ddc0be2a41917e1f5953345b343"
+    },
+    {
+      "id": "earlyContinuation-5",
+      "section": "early-1",
+      "side": "top",
+      "period": [
+        1500,
+        1600
+      ],
+      "description": "Anatomical bone study folios, a jointed skeleton drawing and small specimen jars",
+      "relatedScientists": [
+        "tycho_brahe"
+      ],
+      "relatedPublications": [
+        "tycho_brahe-work-00",
+        "tycho_brahe-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "2dad1a0ffa8f104d2a2f38eacbae4c02b86be63352767c0f11c6f83d597aa483"
+    },
+    {
+      "id": "earlyContinuation-6",
+      "section": "early-1",
+      "side": "bottom",
+      "period": [
+        1500,
+        1600
+      ],
+      "description": "A large wooden astronomical quadrant, ruler, sighting frame and star observations",
+      "relatedScientists": [
+        "vesalius"
+      ],
+      "relatedPublications": [
+        "vesalius-work-00",
+        "vesalius-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "f736448fd0ca739e984dadb3dbe745ed5d1a430ee60f773a7b7e1c9c06614b31"
+    },
+    {
+      "id": "earlyContinuation-7",
+      "section": "early-1",
+      "side": "bottom",
+      "period": [
+        1500,
+        1600
+      ],
+      "description": "Lodestone lifting iron, an opened compass box and separate needle experiment",
+      "relatedScientists": [
+        "tycho_brahe"
+      ],
+      "relatedPublications": [
+        "tycho_brahe-work-00",
+        "tycho_brahe-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "a873aa878bcd1b81b609273ca63e0dee2d3794c6c8923b8b6b423fc0920f3ca5"
+    },
+    {
+      "id": "seventeenthContinuation-0",
+      "section": "early-2",
+      "side": "top",
+      "period": [
+        1600,
+        1650
+      ],
+      "description": "A refractor observed from the rear with Jupiter and four small moon points, rays and lens detail",
+      "relatedScientists": [
+        "galileo"
+      ],
+      "relatedPublications": [
+        "galileo-work-00",
+        "galileo-work-01",
+        "galileo-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "35a4d76bd4a5ff73fa04d43f0e61f917f645720abde1d2e4ddeca44221b2a6f2"
+    },
+    {
+      "id": "seventeenthContinuation-1",
+      "section": "early-2",
+      "side": "top",
+      "period": [
+        1600,
+        1650
+      ],
+      "description": "Keplerian elliptical orbital diagrams, area sectors and measuring dividers",
+      "relatedScientists": [
+        "galileo"
+      ],
+      "relatedPublications": [
+        "galileo-work-00",
+        "galileo-work-01",
+        "galileo-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "8efe770f87fbb8b3da5ddf5c1b7a3f0ba5ab4df39021491c3f9c9727b774d2a2"
+    },
+    {
+      "id": "seventeenthContinuation-2",
+      "section": "early-2",
+      "side": "bottom",
+      "period": [
+        1600,
+        1650
+      ],
+      "description": "A Torricellian mercury tube inverted into a shallow dish, falling droplets and glass vessels",
+      "relatedScientists": [
+        "galileo"
+      ],
+      "relatedPublications": [
+        "galileo-work-00",
+        "galileo-work-01",
+        "galileo-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "212a0cd2e43c3ae0363acb4675eb863bf2983cfcd58a967d82dd9de82b525467"
+    },
+    {
+      "id": "seventeenthContinuation-3",
+      "section": "early-2",
+      "side": "bottom",
+      "period": [
+        1600,
+        1650
+      ],
+      "description": "A compound microscope viewed from the side, insect specimen and lens stand before 1650",
+      "relatedScientists": [
+        "kepler"
+      ],
+      "relatedPublications": [
+        "kepler-work-00",
+        "kepler-work-01",
+        "kepler-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "1c629d551211c950b84cfee34764c2f040804ee03685b966aae58bb955c16aa1"
+    },
+    {
+      "id": "seventeenthContinuation-4",
+      "section": "early-3",
+      "side": "top",
+      "period": [
+        1650,
+        1700
+      ],
+      "description": "A Newtonian reflecting telescope with a visible small angled mirror and varied colour-ray studies",
+      "relatedScientists": [
+        "huygens"
+      ],
+      "relatedPublications": [
+        "huygens-work-00",
+        "huygens-work-01",
+        "huygens-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "db32b6aea7afdb735c80dbb1c63efcf73a1ecc20935a848a75ea2c8152bcda4f"
+    },
+    {
+      "id": "seventeenthContinuation-5",
+      "section": "early-3",
+      "side": "top",
+      "period": [
+        1650,
+        1700
+      ],
+      "description": "A Huygens pendulum mechanism, toothed wheel and timed falling pendulum bob",
+      "relatedScientists": [
+        "hooke"
+      ],
+      "relatedPublications": [
+        "hooke-work-00",
+        "hooke-work-01",
+        "hooke-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "9a04cf85fb6d543c5317cde5ea25d717255f7b1f06dd2b38a09fe13ba7b332cf"
+    },
+    {
+      "id": "seventeenthContinuation-6",
+      "section": "early-3",
+      "side": "bottom",
+      "period": [
+        1650,
+        1700
+      ],
+      "description": "A Hooke-type microscope beside a cellular tissue diagram and insect wing",
+      "relatedScientists": [
+        "newton",
+        "huygens"
+      ],
+      "relatedPublications": [
+        "newton-work-00",
+        "huygens-work-00",
+        "huygens-work-01",
+        "huygens-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "86970a3ab336d6cfbbfa43dc28b5b2c4cad15f05610a55afc90f3a3bb73afd65"
+    },
+    {
+      "id": "seventeenthContinuation-7",
+      "section": "early-3",
+      "side": "bottom",
+      "period": [
+        1650,
+        1700
+      ],
+      "description": "Boyle's air pump as an assembled experimental arrangement with valve, bell jar and pressure tube",
+      "relatedScientists": [
+        "cassini",
+        "richer",
+        "huygens"
+      ],
+      "relatedPublications": [
+        "cassini-work-00",
+        "richer-work-00",
+        "huygens-work-00",
+        "huygens-work-01",
+        "huygens-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://www.museogalileo.it/en/galileo/instruments-en.html"
+      ],
+      "pixelHash": "bafeebbe98592b64784fc4a5918f2522c5179a3e73e9d261564ebfa2e6617a7c"
+    },
+    {
+      "id": "eighteenthContinuation-0",
+      "section": "middle-0",
+      "side": "top",
+      "period": [
+        1700,
+        1740
+      ],
+      "description": "An eighteenth-century reflecting telescope and curved light paths from a distant star",
+      "relatedScientists": [
+        "newton",
+        "halley"
+      ],
+      "relatedPublications": [
+        "newton-work-00",
+        "newton-work-01",
+        "halley-work-00",
+        "halley-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "8ba36d70a369aaacfa5dfede2798bc1a069fe022014becbc672978b4f6b0671c"
+    },
+    {
+      "id": "eighteenthContinuation-1",
+      "section": "middle-0",
+      "side": "top",
+      "period": [
+        1700,
+        1740
+      ],
+      "description": "Newtonian colour disk, angled prism on a different stand and a small lens comparison",
+      "relatedScientists": [
+        "bradley",
+        "du_fay",
+        "euler"
+      ],
+      "relatedPublications": [
+        "bradley-work-00",
+        "du_fay-work-00",
+        "du_fay-work-01",
+        "euler-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "4b320be8c330f79363e5d43ae6d0eb39a04960fd1d0b8c814c2293ef76672529"
+    },
+    {
+      "id": "eighteenthContinuation-2",
+      "section": "middle-0",
+      "side": "bottom",
+      "period": [
+        1700,
+        1740
+      ],
+      "description": "A glass rod rubbed with cloth attracting small paper pieces, early electrical experiment",
+      "relatedScientists": [
+        "du_fay"
+      ],
+      "relatedPublications": [
+        "du_fay-work-00",
+        "du_fay-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "dae4f567b47fc49f6ef7b63b63f33112214b5486c8785a85484cf1bc90c7d3d0"
+    },
+    {
+      "id": "eighteenthContinuation-3",
+      "section": "middle-0",
+      "side": "bottom",
+      "period": [
+        1700,
+        1740
+      ],
+      "description": "Precision pendulum escapement, suspended weight and a portable sundial",
+      "relatedScientists": [
+        "euler"
+      ],
+      "relatedPublications": [
+        "euler-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "144b208a9b38e17cca42d895797fb46c901afff1f33eedc73ea1b09ad6b545c1"
+    },
+    {
+      "id": "eighteenthContinuation-4",
+      "section": "middle-1",
+      "side": "top",
+      "period": [
+        1740,
+        1789
+      ],
+      "description": "A rack of Leyden jars wired in a battery, experimenter hand and spark balls",
+      "relatedScientists": [
+        "kleist",
+        "franklin"
+      ],
+      "relatedPublications": [
+        "kleist-work-00",
+        "franklin-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "83615d60e10bc72abd40101e315ec2e336c8dd87dc02bfc164dfbef5a35522f8"
+    },
+    {
+      "id": "eighteenthContinuation-5",
+      "section": "middle-1",
+      "side": "top",
+      "period": [
+        1740,
+        1789
+      ],
+      "description": "An electrostatic disk machine linked to electric bells, conductor and insulating stool",
+      "relatedScientists": [
+        "herschel",
+        "halley"
+      ],
+      "relatedPublications": [
+        "herschel-work-00",
+        "halley-work-00",
+        "halley-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "c3a8a4590f7c5ff89fab1c10cbbe611215f2f4874e0edf058ab57bb02bae32b2"
+    },
+    {
+      "id": "eighteenthContinuation-6",
+      "section": "middle-1",
+      "side": "bottom",
+      "period": [
+        1740,
+        1789
+      ],
+      "description": "A Coulomb torsion balance seen obliquely, wire suspension and small charged spheres",
+      "relatedScientists": [
+        "coulomb"
+      ],
+      "relatedPublications": [
+        "coulomb-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "0783216717a363b9ac9f3da07c7cb770819fba75e6cb6343681af05cbf2c11ed"
+    },
+    {
+      "id": "eighteenthContinuation-7",
+      "section": "middle-1",
+      "side": "bottom",
+      "period": [
+        1740,
+        1789
+      ],
+      "description": "An observation of lightning above a grounded conductor, separate star charts and brass measures",
+      "relatedScientists": [
+        "henry_cavendish"
+      ],
+      "relatedPublications": [
+        "henry_cavendish-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://catalogue.museogalileo.it/index/IndexObjectsByRoomIndexRoomInstruments.html",
+        "https://collection.sciencemuseumgroup.org.uk/search/object_type/leyden-jars",
+        "https://www.museogalileo.it/en/collections.html"
+      ],
+      "pixelHash": "000cbba5470487ed0999dbaafa0c1e194480b40c40a4ce4349dddd28f7621546"
+    },
+    {
+      "id": "nineteenthContinuation-0",
+      "section": "middle-2",
+      "side": "top",
+      "period": [
+        1789,
+        1830
+      ],
+      "description": "A voltaic pile with disks laid beside the stack, connecting wire and electrochemical cups",
+      "relatedScientists": [
+        "volta",
+        "young",
+        "oersted"
+      ],
+      "relatedPublications": [
+        "volta-work-00",
+        "young-work-00",
+        "oersted-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "95919eb9013b54ce948e572f33ec590712dac61564c1b7ec5a9c3546a9e55fa0"
+    },
+    {
+      "id": "nineteenthContinuation-1",
+      "section": "middle-2",
+      "side": "top",
+      "period": [
+        1789,
+        1830
+      ],
+      "description": "A compass encircled by a current-carrying wire, Ampere coils and magnet poles",
+      "relatedScientists": [
+        "ampere",
+        "fresnel",
+        "ohm"
+      ],
+      "relatedPublications": [
+        "ampere-work-00",
+        "ampere-work-01",
+        "fresnel-work-00",
+        "ohm-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "e89a3a7be67279bedbdd3309826f98cf5e15d683aeaa5fd2e2c274241339e981"
+    },
+    {
+      "id": "nineteenthContinuation-2",
+      "section": "middle-2",
+      "side": "bottom",
+      "period": [
+        1789,
+        1830
+      ],
+      "description": "A two-slit interference experiment with two openings, fringes and lamp light",
+      "relatedScientists": [
+        "herschel",
+        "dalton"
+      ],
+      "relatedPublications": [
+        "herschel-work-00",
+        "herschel-work-01",
+        "dalton-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "84bbaadc6e847e4b9d234f6cc6e67dce42160059a94c573846c0b29a285cd140"
+    },
+    {
+      "id": "nineteenthContinuation-3",
+      "section": "middle-2",
+      "side": "bottom",
+      "period": [
+        1789,
+        1830
+      ],
+      "description": "A Fraunhofer spectroscope with a stitched dark-line spectrum and lenses",
+      "relatedScientists": [
+        "faraday"
+      ],
+      "relatedPublications": [],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "011aa9d2ea77be4e55e5b282d8927e120099bebded5abdbd7d17749c65c9fd3a"
+    },
+    {
+      "id": "nineteenthContinuation-4",
+      "section": "middle-3",
+      "side": "top",
+      "period": [
+        1830,
+        1870
+      ],
+      "description": "Faraday induction ring shown with two differently coloured windings, galvanometer and magnet",
+      "relatedScientists": [
+        "faraday",
+        "joseph_henry"
+      ],
+      "relatedPublications": [
+        "faraday-work-00",
+        "faraday-work-01",
+        "joseph_henry-work-00",
+        "joseph_henry-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "6714d3d2063194ecae5e32727c399453f3acdf624dca11005c5ade8a0f6436c2"
+    },
+    {
+      "id": "nineteenthContinuation-5",
+      "section": "middle-3",
+      "side": "top",
+      "period": [
+        1830,
+        1870
+      ],
+      "description": "An 1851-style long Foucault pendulum swinging across a ground plane beside observing figures",
+      "relatedScientists": [
+        "heaviside"
+      ],
+      "relatedPublications": [],
+      "relatedEvents": [
+        "event-20",
+        "event-electric-telegraph"
+      ],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "2924f140b3904e3d353231931cda360a4b9ea57e6135fd2f83f13db680842c96"
+    },
+    {
+      "id": "nineteenthContinuation-6",
+      "section": "middle-3",
+      "side": "bottom",
+      "period": [
+        1830,
+        1870
+      ],
+      "description": "Carrington white-light solar observation: telescope projection of the Sun, sunspot group and a flare trace",
+      "relatedScientists": [
+        "gustav_kirchhoff",
+        "mendeleev"
+      ],
+      "relatedPublications": [
+        "gustav_kirchhoff-work-00",
+        "gustav_kirchhoff-work-01",
+        "mendeleev-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "3dc02e00b0f79677b793c7a6ed5ea8e4eb8f9755cd2541fde347a83852158a8d"
+    },
+    {
+      "id": "nineteenthContinuation-7",
+      "section": "middle-3",
+      "side": "bottom",
+      "period": [
+        1830,
+        1870
+      ],
+      "description": "Telegraph relay, key, battery cells, spool and pole insulators in a different circuit arrangement",
+      "relatedScientists": [
+        "helmholtz",
+        "hippolyte_fizeau"
+      ],
+      "relatedPublications": [
+        "helmholtz-work-00",
+        "helmholtz-work-01",
+        "helmholtz-work-02",
+        "hippolyte_fizeau-work-00",
+        "hippolyte_fizeau-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.rigb.org/explore-science/explore/collection/alessandro-voltas-voltaic-pile",
+        "https://www.rigb.org/explore-science/explore/collection/michael-faradays-ring-coil-apparatus",
+        "https://www.rigb.org/explore-science/michael-faraday-royal-institution"
+      ],
+      "pixelHash": "55a09058ecaa01b8ca6cac1c40d39ef069de2c828bd93f161e3ea1c58f88850e"
+    },
+    {
+      "id": "electronsContinuation-0",
+      "section": "modern-0",
+      "side": "top",
+      "period": [
+        1870,
+        1914
+      ],
+      "description": "An interferometer from a different angle, beam splitter, perpendicular mirror paths and fringes",
+      "relatedScientists": [
+        "hertz",
+        "thomson"
+      ],
+      "relatedPublications": [
+        "hertz-work-00",
+        "hertz-work-01",
+        "hertz-work-02",
+        "thomson-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "a7a01a206d76e1175f4b2748408be35188e980df23dc5c8643a37ccc25230f32"
+    },
+    {
+      "id": "electronsContinuation-1",
+      "section": "modern-0",
+      "side": "top",
+      "period": [
+        1870,
+        1914
+      ],
+      "description": "A cathode-ray discharge tube with magnetic deflection and a pair of coils",
+      "relatedScientists": [
+        "michelson",
+        "morley",
+        "curie_marie",
+        "birkeland"
+      ],
+      "relatedPublications": [
+        "michelson-work-00",
+        "michelson-work-01",
+        "morley-work-00",
+        "morley-work-01",
+        "morley-work-02",
+        "curie_marie-work-00",
+        "curie_marie-work-01",
+        "curie_marie-work-02",
+        "birkeland-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "57c523edd4b6338e702cb1080284a3ab93d0d40d229f815b63b382a499facde8"
+    },
+    {
+      "id": "electronsContinuation-2",
+      "section": "modern-0",
+      "side": "bottom",
+      "period": [
+        1870,
+        1914
+      ],
+      "description": "A Hertz spark-gap transmitter with receiving loop, spark trace and antenna wires",
+      "relatedScientists": [
+        "becquerel",
+        "planck"
+      ],
+      "relatedPublications": [
+        "becquerel-work-00",
+        "becquerel-work-01",
+        "planck-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "0d7491e3c5b71973833346daa1bdce9ca8bc726b4ba706e9d434e29b31dee83f"
+    },
+    {
+      "id": "electronsContinuation-3",
+      "section": "modern-0",
+      "side": "bottom",
+      "period": [
+        1870,
+        1914
+      ],
+      "description": "Early X-ray bulb beside a symbolic photographic plate of a hand's bones",
+      "relatedScientists": [
+        "gustav_kirchhoff"
+      ],
+      "relatedPublications": [
+        "gustav_kirchhoff-work-00",
+        "gustav_kirchhoff-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "48cb1e89f668b794d8847299fcf2037d3763e30ea0a6bae0db6048075f8827f4"
+    },
+    {
+      "id": "electronsContinuation-4",
+      "section": "modern-1",
+      "side": "top",
+      "period": [
+        1914,
+        1939
+      ],
+      "description": "An alpha-particle scattering arrangement with foil and circular detector positions",
+      "relatedScientists": [
+        "hubble",
+        "leavitt"
+      ],
+      "relatedPublications": [
+        "hubble-work-00",
+        "hubble-work-01",
+        "leavitt-work-00",
+        "leavitt-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "0885a727e022071cd2ffcd22ae57b7e37876ca811b0dab234b359c9b9e0d4c4e"
+    },
+    {
+      "id": "electronsContinuation-5",
+      "section": "modern-1",
+      "side": "top",
+      "period": [
+        1914,
+        1939
+      ],
+      "description": "A cloud chamber with varied thin condensation tracks, piston and cold chamber",
+      "relatedScientists": [
+        "rutherford",
+        "einstein",
+        "eotvos"
+      ],
+      "relatedPublications": [
+        "rutherford-work-00",
+        "rutherford-work-01",
+        "einstein-work-00",
+        "einstein-work-01",
+        "einstein-work-02",
+        "eotvos-work-00",
+        "eotvos-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "84248be31641421c43b728d09d54c2cb3203fea3ba6e7a479a17ae099d71d30a"
+    },
+    {
+      "id": "electronsContinuation-6",
+      "section": "modern-1",
+      "side": "bottom",
+      "period": [
+        1914,
+        1939
+      ],
+      "description": "A 1930s cyclotron with two D electrodes, curved accelerating paths and pole pieces",
+      "relatedScientists": [
+        "anderson"
+      ],
+      "relatedPublications": [
+        "anderson-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "1af9a7b2b785089aed1a7dcd1aa6b6f9e0f2a254d8496ea4ff633bddfe371c11"
+    },
+    {
+      "id": "electronsContinuation-7",
+      "section": "modern-1",
+      "side": "bottom",
+      "period": [
+        1914,
+        1939
+      ],
+      "description": "A neutron-discovery experiment with source, beryllium target and paraffin block, no laser",
+      "relatedScientists": [
+        "dirac",
+        "chadwick"
+      ],
+      "relatedPublications": [
+        "dirac-work-00",
+        "dirac-work-01",
+        "chadwick-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://www.nobelprize.org/prizes/themes/the-nobel-prize-in-physics-1901-2000/"
+      ],
+      "pixelHash": "5161fb9771eb3bfb0326c42799eca39961da7c1eda41efecb2545dda48df0ca0"
+    },
+    {
+      "id": "spaceContinuation-0",
+      "section": "modern-2",
+      "side": "top",
+      "period": [
+        1939,
+        1969
+      ],
+      "description": "A radio antenna array and early dish linked to a chart recorder",
+      "relatedScientists": [
+        "penzias",
+        "wilson_robert"
+      ],
+      "relatedPublications": [
+        "penzias-work-00",
+        "wilson_robert-work-00"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "127bb4ca7b7c4636ad50c74d80a428ff9afeec77e8c2921d9b9f2c7c4b1ce97e"
+    },
+    {
+      "id": "spaceContinuation-1",
+      "section": "modern-2",
+      "side": "top",
+      "period": [
+        1939,
+        1969
+      ],
+      "description": "A Sputnik-style satellite with four distinct antennas and Earth-orbit diagram, no copied silhouette",
+      "relatedScientists": [
+        "feynman",
+        "schwinger"
+      ],
+      "relatedPublications": [
+        "feynman-work-00",
+        "feynman-work-01",
+        "feynman-work-02",
+        "schwinger-work-00",
+        "schwinger-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "2e6fa0e70b3638a1e4df09a3d60abe72069d170f3ec192e35a1d8ad50454241b"
+    },
+    {
+      "id": "spaceContinuation-2",
+      "section": "modern-2",
+      "side": "bottom",
+      "period": [
+        1939,
+        1969
+      ],
+      "description": "A ruby laser rod within a resonator with two mirrors, beam and power supply after 1960",
+      "relatedScientists": [
+        "meitner",
+        "fermi"
+      ],
+      "relatedPublications": [
+        "meitner-work-00",
+        "meitner-work-01",
+        "fermi-work-00",
+        "fermi-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "24877f3c0804a4c40ad24cc584731ef0cc0fa12bb35f635755df3216e4978047"
+    },
+    {
+      "id": "spaceContinuation-3",
+      "section": "modern-2",
+      "side": "bottom",
+      "period": [
+        1939,
+        1969
+      ],
+      "description": "Bubble-chamber glass vessel with a new distinct arrangement of curved particle tracks",
+      "relatedScientists": [
+        "bell"
+      ],
+      "relatedPublications": [
+        "bell-work-00",
+        "bell-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "429020392364c8639f942a102867f9d0068914ce3859e8baff9c1ed18c7cd0da"
+    },
+    {
+      "id": "spaceContinuation-4",
+      "section": "modern-3",
+      "side": "top",
+      "period": [
+        1969,
+        null
+      ],
+      "description": "A multiwire proportional chamber with parallel wires, ionisation and readout channels after 1968",
+      "relatedScientists": [
+        "dirac",
+        "alfven"
+      ],
+      "relatedPublications": [
+        "dirac-work-00",
+        "dirac-work-01",
+        "alfven-work-00",
+        "alfven-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://cds.cern.ch/record/347202",
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "0425e4acc42295a14c2497392c1bdddc56abae4529a85755aa58bd935194722b"
+    },
+    {
+      "id": "spaceContinuation-5",
+      "section": "modern-3",
+      "side": "top",
+      "period": [
+        1969,
+        null
+      ],
+      "description": "A large modern collider arc and detector cross-section shown as flat thread diagrams",
+      "relatedScientists": [
+        "dicke",
+        "einstein"
+      ],
+      "relatedPublications": [
+        "dicke-work-00",
+        "dicke-work-01",
+        "einstein-work-00",
+        "einstein-work-01",
+        "einstein-work-02"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "2a68e9edec9e90ac7586934217a61a215d2c7ebb107ac10f001752acd8ef9364"
+    },
+    {
+      "id": "spaceContinuation-6",
+      "section": "modern-3",
+      "side": "bottom",
+      "period": [
+        1969,
+        null
+      ],
+      "description": "A laser interferometer with a beam splitter, two perpendicular arms and suspended test-mass mirrors",
+      "relatedScientists": [
+        "bell"
+      ],
+      "relatedPublications": [
+        "bell-work-00",
+        "bell-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.ligo.caltech.edu/MIT/page/ligos-ifo",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "a14877735cba08fc5901b117e5fb16ea1f33416390eb9ff3fa2bb2c55b0aa963"
+    },
+    {
+      "id": "spaceContinuation-7",
+      "section": "modern-3",
+      "side": "bottom",
+      "period": [
+        1969,
+        null
+      ],
+      "description": "Quantum optical apparatus: polariser, paired beam paths, photon detectors and recorded coincidences",
+      "relatedScientists": [
+        "lamoreaux",
+        "pauli"
+      ],
+      "relatedPublications": [
+        "lamoreaux-work-00",
+        "lamoreaux-work-01",
+        "pauli-work-00",
+        "pauli-work-01"
+      ],
+      "relatedEvents": [],
+      "primaryReferences": [
+        "https://home.cern/science/accelerators/synchrocyclotron/",
+        "https://home.cern/science/experiments/gargamelle/",
+        "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/",
+        "https://www.nobelprize.org/uploads/2017/05/glaser-lecture.pdf",
+        "https://www.si.edu/object/nmah_711120"
+      ],
+      "pixelHash": "95215782411832f00179df67903b4aeae7a888aacf028a3776ba6a7d999fc929"
     }
   ],
   "sourceExamplesApproved": {

@@ -1,6 +1,7 @@
 // Every region is used once on the chronological cloth. Storage rows never
 // become display rows, repeated tiles, or zoom-dependent replacements.
-export const SCIENTIFIC_BORDER_HEIGHT = 28;
+import { scientificBorderContinuations } from './scientificBorderContinuations.js';
+import { storyPanels, storyAtlases } from './storyPanels.js';
 export const scientificBorderAtlases = {
   early: { file: 'images/tapestry/scientific-borders-early.webp', width: 2171, height: 724,
     bands: [[7, 90], [93, 183], [187, 276], [277, 365], [367, 457], [458, 547], [547, 635], [636, 720]] },
@@ -13,7 +14,8 @@ export const scientificBorderAtlases = {
   electrons: { file: 'images/tapestry/scientific-borders-electrons.webp', width: 2170, height: 725,
     bands: [[7, 87], [95, 182], [188, 269], [275, 360], [365, 453], [458, 545], [547, 633], [636, 719]] },
   space: { file: 'images/tapestry/scientific-borders-space.webp', width: 2170, height: 725,
-    bands: [[6, 95], [98, 193], [194, 286], [286, 374], [375, 462], [463, 554], [555, 645], [645, 724]] }
+    bands: [[6, 95], [98, 193], [194, 286], [286, 374], [375, 462], [463, 554], [555, 645], [645, 724]] },
+  ...scientificBorderContinuations
 };
 export const scientificBorderSections = {
   'opening-0': ['early', 0], 'early-1': ['early', 4],
@@ -24,24 +26,45 @@ export const scientificBorderSections = {
   'modern-2': ['space', 0], 'modern-3': ['space', 4]
 };
 
-// These positions depend on the fixed material geometry, never the fold pose.
-// A small amount of linen is retained where fitting both dimensions requires
-// it; the equipment itself is always uniformly scaled with native proportions.
-export function layoutScientificBorder(panel, borderHeight = SCIENTIFIC_BORDER_HEIGHT) {
-  const assignment = scientificBorderSections[panel.id];
-  if (!assignment || panel.sourceWidth <= 0 || borderHeight <= 0) return [];
-  const [sheet, first] = assignment, atlas = scientificBorderAtlases[sheet];
-  const slotWidth = panel.sourceWidth / 2;
-  return ['top', 'bottom'].flatMap((side, edge) => [0, 1].map(part => {
-    const row = first + edge * 2 + part;
-    const [top, bottom] = atlas.bands[row];
-    const unit = Math.min(slotWidth / atlas.width, borderHeight / (bottom - top));
-    const width = atlas.width * unit, height = (bottom - top) * unit;
-    return { id: `${sheet}-${row}`, sheet, row, side, file: atlas.file,
-      sourceX: panel.sourceX + part * slotWidth + (slotWidth - width) / 2,
-      width, height, inset: Math.max(0, (borderHeight - height) / 2), unit,
-      crop: { x: 0, y: top, width: atlas.width, height: bottom - top } };
+export function scientificBorderRows(section, side) {
+  const [sheet, first] = scientificBorderSections[section];
+  const start = first + (side === 'top' ? 0 : 2);
+  return [start, start + 1].flatMap(row => [sheet, `${sheet}Continuation`].map(sheet => {
+    const atlas = scientificBorderAtlases[sheet], [top, bottom] = atlas.bands[row];
+    return { sheet, row, atlas, top, bottom, aspect: atlas.width / (bottom - top) };
   }));
+}
+
+// Fit a complete contiguous border around the complete narrative. This uses
+// only authored aspect ratios and the shared context height, never zoom/pan.
+export function scientificBorderFrame(totalHeight) {
+  const ratio = Math.max(...storyPanels.flatMap(panel => {
+    const atlas = storyAtlases[panel.sheet], [top, bottom] = atlas.bodies[panel.row];
+    return ['top', 'bottom'].map(side => (atlas.width / (bottom - top))
+      / scientificBorderRows(panel.id, side).reduce((sum, row) => sum + row.aspect, 0));
+  }));
+  const artHeight = Math.max(0, totalHeight) / (1 + 2 * ratio);
+  return { artHeight, borderHeight: artHeight * ratio };
+}
+
+// Every side is assembled end-to-end from four different whole source rows.
+// A common row height preserves native proportions and exactly fills its edge.
+export function layoutScientificBorder(panel) {
+  const assignment = scientificBorderSections[panel.id];
+  if (!assignment || panel.sourceWidth <= 0) return [];
+  return ['top', 'bottom'].flatMap(side => {
+    const rows = scientificBorderRows(panel.id, side);
+    const height = panel.sourceWidth / rows.reduce((sum, row) => sum + row.aspect, 0);
+    let sourceX = panel.sourceX;
+    return rows.map(({ sheet, row, atlas, top, bottom }) => {
+      const unit = height / (bottom - top), width = atlas.width * unit;
+      const result = { id: `${sheet}-${row}`, sheet, row, side, file: atlas.file,
+        sourceX, width, height, unit,
+        crop: { x: 0, y: top, width: atlas.width, height: bottom - top } };
+      sourceX += width;
+      return result;
+    });
+  });
 }
 
 // Share the narrative's exposed material ranges so borders are concealed and
