@@ -14,7 +14,7 @@ const paeth = (a, b, c) => {
 
 export function decodePngPixels(png) {
   if (!png.subarray(0, 8).equals(signature)) throw new Error('Invalid PNG signature');
-  let width, height, channels;
+  let width, height, channels, sawIend = false;
   const chunks = [];
   for (let offset = 8; offset < png.length;) {
     if (offset + 12 > png.length) throw new Error('Truncated PNG chunk');
@@ -30,9 +30,14 @@ export function decodePngPixels(png) {
         throw new Error('PNG decoded data exceeds artwork limit');
       }
     } else if (type === 'IDAT') chunks.push(data);
-    else if (type === 'IEND') break;
+    else if (type === 'IEND') {
+      if (data.length) throw new Error('PNG IEND must be empty');
+      sawIend = true;
+      break;
+    }
     offset = end;
   }
+  if (!sawIend) throw new Error('PNG is missing IEND');
   if (!width || !height || !channels || !chunks.length) throw new Error('PNG is missing image data');
   const stride = width * channels, expected = (stride + 1) * height;
   const filtered = inflateSync(Buffer.concat(chunks), { maxOutputLength: expected });

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { deflateSync } from 'node:zlib';
 import { validateScientificBorders } from './scientific-border-artwork.mjs';
 import { decodePngPixels } from './png-pixels.mjs';
 
@@ -23,4 +24,14 @@ test('PNG decoder rejects an oversized IHDR before collecting or inflating image
   header[8] = 8; header[9] = 6;
   const png = Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', header)]);
   assert.throws(() => decodePngPixels(png), /decoded data exceeds artwork limit/);
+});
+
+test('PNG decoder requires an empty IEND chunk', () => {
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(1, 0); header.writeUInt32BE(1, 4);
+  header[8] = 8; header[9] = 6;
+  const prefix = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+  const body = Buffer.concat([chunk('IHDR', header), chunk('IDAT', deflateSync(Buffer.from([0, 0, 0, 0, 0])))]);
+  assert.throws(() => decodePngPixels(Buffer.concat([prefix, body])), /missing IEND/);
+  assert.throws(() => decodePngPixels(Buffer.concat([prefix, body, chunk('IEND', Buffer.from([0]))])), /IEND must be empty/);
 });
