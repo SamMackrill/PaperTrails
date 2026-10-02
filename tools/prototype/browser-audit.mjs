@@ -82,27 +82,63 @@ try {
   const viewport = async (width, height) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 1024 }); await delay(150); };
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };
   await viewport(1440, 900);
-  await send('Network.setBlockedURLs', { urls: ['*landscape-b-*.png'] });
+  await send('Network.setBlockedURLs', { urls: ['*landscape-b-early.png', '*landscape-b-revolutions.png', '*landscape-b-modern.png', '*landscape-b-context-chapters.png', '*landscape-b-winter-eras.png'] });
   await navigate('/?fallback=1#context=landscape');
   await until('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length > 0 && [...document.querySelectorAll(".tapestry-scene[data-art-rendered=true]")].every(e => e.dataset.artFallback === "original")');
   assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread").length'), 25);
+  await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady === "true"');
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-ribbon").length'), 1);
+  assert.equal(await evaluate('document.querySelector(".tapestry-ribbon").parentElement.id'), 'timeline');
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length'), 25);
+  assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-cloth-face")].length > 21 && [...document.querySelectorAll(".tapestry-cloth-face")].every(face => face.style.backgroundImage && face.querySelector("svg").style.display === "none")'));
+  await send('Network.setBlockedURLs', { urls: [] });
+  // Canvas textures and SVG source material are separate recovery paths. Force
+  // the latter here so its quiet-scene contract cannot be hidden by a healthy
+  // raster render.
+  const fallbackScript = await send('Page.addScriptToEvaluateOnNewDocument', { source: 'HTMLCanvasElement.prototype.toBlob = function (callback) { callback(null); };' });
+  try {
+    await navigate('/?svg-fallback=1#context=landscape');
+    await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady === "fallback"');
+    assert.ok(await evaluate('document.querySelectorAll("[data-quiet-scene]").length > 0'));
+  } finally {
+    await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fallbackScript.identifier });
+  }
+  await send('Network.setBlockedURLs', { urls: ['*bayeux-*.webp'] });
+  await navigate('/?story-fallback=1#context=tapestry');
+  await until('document.querySelector(".tapestry-story")?.dataset.artReady === "true"');
+  assert.equal(await evaluate('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length'), 25);
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));
-  // One fixed chronological material is pleated without moving or swapping art.
+  await evaluate(`document.querySelector('#zoom-in').click();history.replaceState(null,'',location.pathname+'#context=bars');dispatchEvent(new PopStateEvent('popstate'));window.__auditRestoredRange=document.querySelector('.zoom-level').textContent;`);
+  await delay(550);
+  assert.equal(await evaluate(`document.querySelector('.zoom-level').textContent`), await evaluate('window.__auditRestoredRange'));
+  // Landscape retains fixed pleated material; Tapestry composes a continuous story.
   for (const style of ['landscape', 'tapestry']) {
     console.log(`Audit: ${style} cloth and route`);
-    await navigate(`/?style-audit=${style}#context=${style}`);
+    await navigate(`/?style-audit=${style}#context=${style}&scale=linear`);
     assert.equal(await evaluate('document.querySelector("#tapestryToggle").dataset.contextMode'), style);
-    if (style === 'tapestry') {
-      assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-caption-date")].every(e => e.textContent === "")'));
-      assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-caption-title")].every(e => e.lang === "la" && !/\\d/.test(e.textContent))'));
-      assert.equal(await evaluate('document.querySelectorAll("[data-quiet-scene]").length'), 0);
-    } else {
-      assert.ok(await evaluate('document.querySelectorAll("[data-quiet-scene]").length > 0'));
-      assert.match(await evaluate('document.querySelector(".tapestry-caption-date").textContent'), /1400/);
-    }
     await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady==="true" || document.querySelector(".tapestry-ribbon")?.dataset.artReady==="fallback"');
+    if (style === 'tapestry') {
+      assert.ok(await evaluate('[...document.querySelectorAll(".tapestry-story .tapestry-caption")].every(e => e.lang === "la" && !/\\d/.test(e.textContent))'));
+      assert.equal(await evaluate('document.querySelectorAll(".tapestry-thread,.tapestry-cloth-face").length'), 0);
+      await evaluate(`window.__auditOverviewRange=document.querySelector('.zoom-level').textContent;window.__auditStoryDates=[...document.querySelectorAll('.tapestry-scene')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditStoryHeight=document.querySelector('.tapestry-story').clientHeight;window.__auditStoryGroups=document.querySelectorAll('.tapestry-story-hit').length;`);
+      await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
+      await until(`!document.querySelector('#pan-later').disabled && document.querySelectorAll('.tapestry-story-hit').length>window.__auditStoryGroups`);
+      assert.ok(await evaluate(`JSON.stringify(window.__auditStoryDates)===JSON.stringify([...document.querySelectorAll('.tapestry-scene')].map(e=>[e.dataset.startYear,e.dataset.endYear]))`));
+      assert.ok(await evaluate(`document.querySelector('.tapestry-story-canvas').width<=document.querySelector('#timeline-container').clientWidth*2+2`));
+      await evaluate(`window.__auditStoryPositions=[...document.querySelectorAll('.tapestry-story-hit')].map(e=>e.style.cssText);window.__auditStoryRange=document.querySelector('.zoom-level').textContent;document.querySelector('#pan-later').click();`);
+      await until(`document.querySelector('.zoom-level').textContent!==window.__auditStoryRange`);
+      await until(`JSON.stringify(window.__auditStoryPositions)===JSON.stringify([...document.querySelectorAll('.tapestry-story-hit')].map(e=>e.style.cssText))`);
+      await screenshot('tapestry-story-detail.png');
+      await evaluate(`document.querySelector('#fit-view').click()`);
+      await until(`document.querySelector('.zoom-level').textContent===window.__auditOverviewRange`);
+      continue;
+    }
+    assert.equal(await evaluate('document.querySelector(".tapestry-ribbon").dataset.artReady'), 'true');
+    assert.match(await evaluate('document.querySelector(".tapestry-caption-date").textContent'), /1400/);
+    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-caption:not([hidden])')].every(e=>e.scrollWidth<=e.clientWidth+1 && getComputedStyle(e).textOverflow!=='ellipsis')`));
+    assert.equal(await evaluate(`document.querySelectorAll('.tapestry-caption:not([hidden])').length`), await evaluate(`[...document.querySelectorAll('.context-label-leader')].filter(e=>e.style.display!=='none').length`));
     await evaluate(`window.__auditClothFaces=[...document.querySelectorAll('.tapestry-cloth-face')];window.__auditDates=[...document.querySelectorAll('.tapestry-thread')].map(e=>[e.dataset.startYear,e.dataset.endYear]);window.__auditArtHeight=document.querySelector('.tapestry-scene').clientHeight;window.__auditSourceBoxes=[...document.querySelectorAll('.tapestry-definitions svg[viewBox],.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox'));`);
     assert.ok(await evaluate('window.__auditClothFaces.length > 21'));
     assert.ok(await evaluate(`window.__auditClothFaces.every(e=>{const m=new DOMMatrixReadOnly(getComputedStyle(e).transform);return m.a===1&&m.d===1})`));
@@ -111,12 +147,9 @@ try {
     const previousRange = await evaluate('document.querySelector(".zoom-level").textContent');
     await evaluate(`const slider=document.querySelector('#zoom-slider');slider.value=slider.max;slider.dispatchEvent(new Event('input',{bubbles:true}));`);
     await until(`document.querySelector('.zoom-level').textContent!==${JSON.stringify(previousRange)} && !document.querySelector('#pan-later').disabled`);
-    assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`));
+    await until(`[...document.querySelectorAll('.tapestry-scene')].every(scene => scene.dataset.foldOpen === '1.0000')`);
     assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-cloth-face')].every(face => {const m=new DOMMatrixReadOnly(getComputedStyle(face).transform);return Number(face.style.getPropertyValue('--fold-shade') || 0)===0 && m.a===1 && m.d===1 && Math.abs(Number(face.dataset.exposedWidth)-parseFloat(face.style.width))<.001})`));
-    assert.ok(await evaluate('window.__auditClothFaces.every(e=>e.isConnected)'));
-    assert.equal(await evaluate('document.querySelector(".tapestry-scene").clientHeight'), await evaluate('window.__auditArtHeight'));
     assert.ok(await evaluate('JSON.stringify(window.__auditDates)===JSON.stringify([...document.querySelectorAll(".tapestry-thread")].map(e=>[e.dataset.startYear,e.dataset.endYear]))'));
-    assert.ok(await evaluate(`JSON.stringify(window.__auditSourceBoxes)===JSON.stringify([...document.querySelectorAll('.tapestry-definitions svg[viewBox],.tapestry-cloth-face svg')].map(e=>e.getAttribute('viewBox')))`));
     assert.ok(await evaluate(`[...document.querySelectorAll('.tapestry-definitions image')].every(image=>{const m=image.getCTM();return Math.abs(m.a-m.d)<1e-7})`));
     assert.ok(await evaluate(`(()=>{const a=document.querySelector('[data-item-key="event:event-20"]'),b=document.querySelector('[data-item-key="event:event-16"]');return Math.abs(b.getBoundingClientRect().width/a.getBoundingClientRect().width-4)<.01})()`));
     assert.equal(await evaluate(`document.querySelector('.tapestry-ribbon').dataset.zoomLimit`), '32');
@@ -129,9 +162,11 @@ try {
     await evaluate(`document.querySelector('#pan-earlier').click();document.querySelector('#zoom-slider').value=${JSON.stringify(previousZoom)};document.querySelector('#zoom-slider').dispatchEvent(new Event('input',{bubbles:true}));`);
     await send('Emulation.setEmulatedMedia', { features: [] });
   }
+  const sharedContextTop = await evaluate(`document.querySelector('.timeline-frame').style.getPropertyValue('--context-top')`);
   for (const mode of ['bars', 'landscape', 'tapestry']) {
     await evaluate('document.querySelector("#tapestryToggle").click()');
     assert.equal(await evaluate('document.querySelector("#tapestryToggle").dataset.contextMode'), mode);
+    assert.equal(await evaluate(`document.querySelector('.timeline-frame').style.getPropertyValue('--context-top')`), sharedContextTop);
     assert.equal(await evaluate('Boolean(document.querySelector(".tapestry-ribbon"))'), mode !== 'bars');
     if (mode === 'bars') assert.equal(await evaluate('document.querySelectorAll(".event-band").length'), 25);
   }

@@ -17,6 +17,9 @@ test('key narrative subjects remain complete at overview and expose more groups 
     assert.ok(subject.width >= 50 && subject.height > 15, title);
   }
   assert.ok(overview.subjects.some(s => s.climate));
+  assert.ok(overview.subjects.some(s => s.climate && s.chapter.startYear === events.find(e => e.title === 'The Little Ice Age').startYear));
+  assert.ok(overview.subjects.some(s => s.climate && s.chapter.endYear === 1850));
+  assert.ok(overview.subjects.every(s => s.top >= 0 && s.top + s.height <= 140 + 1e-8));
   assert.ok(overview.subjects.some(s => s.chapter.scene === 'industry-steam' && s.facet === 0));
   assert.ok(detail.subjects.length > overview.subjects.length);
   for (const subject of detail.subjects) {

@@ -58,27 +58,27 @@ export function layoutStory(events, width, height) {
         const naturalWidth = crop.width * h / crop.height;
         // Keep complete identifying objects at overview, then expose each
         // approved action group as the event gets more chronological room.
-        const displayWidth = Math.min(naturalWidth, Math.max(climate ? 95 : storyFocus.has(key) ? 170 : 105, (last - first) / count));
+        const displayWidth = Math.min(naturalWidth, Math.max(climate ? 115 : storyFocus.has(key) ? 210 : 105, (last - first) / count));
         const scale = Math.min(h / crop.height, displayWidth / crop.width);
         const drawnWidth = crop.width * scale, drawnHeight = crop.height * scale;
         const center = first + (last > first ? (i + .5) * (last - first) / count : 0);
         const left = Math.max(0, Math.min(width - drawnWidth, center - drawnWidth / 2));
         const subject = { key: `${event.id || event.title}/${chapter.id}/${facet}`, event,
           chapter, facet, crop, left, width: drawnWidth, height: drawnHeight,
-          top: climate ? 0 : height - drawnHeight,
+          top: climate ? Math.min(height - drawnHeight, height * .4) : height - drawnHeight,
           anchor, end, climate, focus: facet === focus,
           priority: (storyFocus.has(key) ? 2 : 1) + (climate ? -1 : 0) };
         subjects.push(subject); record.subjects.push(subject);
       });
     }
   }
-  // Broad climate remains visible above foreground figures. Nearby stories
+  // Climate occupies a separate baseline behind foreground figures. Nearby stories
   // weave into the same strip through different baselines, not opaque spans.
   const occupied = [];
   for (const subject of [...subjects].sort((a, b) => b.priority - a.priority || a.left - b.left)) {
     if (subject.climate) continue;
     const overlaps = occupied.filter(p => subject.left < p.left + p.width - 8 && subject.left + subject.width > p.left + 8);
-    if (overlaps.length) subject.top = Math.max(height * .28, subject.top - height * .25);
+    if (overlaps.length) subject.top = 0;
     occupied.push(subject);
   }
   return { records, subjects: subjects.sort((a, b) => a.priority - b.priority || a.left - b.left) };

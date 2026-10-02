@@ -11,7 +11,7 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
-- Historical context in three views: Bars, Landscape (default), and a Bayeux-inspired Tapestry with Latin headings and no visible dates. Both illustrated views preserve the folding cloth as you zoom.
+- Historical context in three views: Bars, Landscape (default), and a Bayeux-inspired Tapestry with Latin headings and no visible dates. Landscape keeps its folding cloth and braids; Tapestry presents a continuous embroidered story with animal borders. All three views share the total context area height.
 - A details panel for scientists, publications, discoveries, conferences, and events. On wide screens it docks beside the timeline, which stays usable; on phones it opens as a sheet. It links related items in both directions, keeps a Back history, and offers further reading and citations
 - Hovering or selecting an item draws its connections: a scientist's discoveries, conferences, and events, with their lifespan shown as a bar, or the people linked to a discovery or conference
 - Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
@@ -56,8 +56,9 @@ The application code, data, and YAML parser are stored in this repository, so an
 - Use the moon/sun button to switch themes.
 - Short historical events are drawn as pins with their label alongside; hover or focus any band for its full title and dates.
 - The historical-context view starts in **Landscape**. Its view button cycles **Bars → Landscape → Tapestry → Bars**; this preference is saved in your browser. Each scene's caption stays in view as you pan, and each thread's knots mark the event's start and end. **Context** still controls whether the entire historical layer is visible.
-- Tapestry scenes begin at the database's event start dates. Their picture windows extend to the next event's start; the stitched threads below show actual event durations, including overlaps. The panoramas fill those windows and blend into their neighbours. Zooming reveals additional narrative groups while keeping figures at a similar size. Hover different parts of a panorama for explanations of the depicted activities, or focus/select the event for accessible details. Drag the ribbon to pan.
-- The illustrated context uses symbolic depictions of 25 events, including their authored chapters. Landscape keeps its current art; Tapestry uses five Bayeux-style sheets with exposed linen, coloured-thread figures and Latin headings without visible dates. Both styles share chronological scope and fixed source crops. Paired generation briefs and fold-aware composition rules are documented in `images/tapestry/drawing-guide.md`. Run `node tools/tapestry-artwork.mjs prompts`, then review both styles and run `record` and `check` when updating artwork.
+- Landscape's English names and dates use available label rows beyond narrow event spans, with fine threads connecting them to their real dated braids. A knot marks a single-year event. Whole labels yield to others when space is full, then become visible as you zoom.
+- Tapestry composes symbolic depictions of the 25 events on a continuous linen ground with animal and bird borders, including authored chapters and winter-era scenes. Key motifs remain complete at overview; zoom exposes further action groups from the same approved Bayeux drawings. Overlapping periods share the story, including Carrington and the telegraph network. Short Latin inscriptions have no visible dates; selection reveals English details and recorded dates. Drag the ribbon to pan.
+- Both styles preserve the proportions of their approved artwork. Source provenance, generation briefs and review rules are documented in `images/tapestry/drawing-guide.md`. Run `node tools/tapestry-artwork.mjs prompts`, then review both styles and run `record` and `check` when updating bitmap assets.
 
 ## Editing the content
 

@@ -71,3 +71,18 @@ Tapestry now composes complete identifying motifs on a single viewport canvas in
 Carrington and electric telegraph networks use their approved wires/operators imagery together, with Carrington retained at 1859 and the network retaining its own 1830–1866 interval. Carrington's details now explain induced currents, sparks, operator shocks and messages carried with batteries disconnected, supported by [NASA Goddard, Cutting Edge, Winter 2012, page 3](https://www.nasa.gov/wp-content/uploads/2017/11/winter2012.pdf).
 
 Validation: 86 Node tests and 25 Python tests; collaborative-browser overview and 1845–1871 detail inspection. Tapestry contains 25 accessible events and no duration braids. PNG fallback retries the same approved drawing when its WebP cannot load. Label spacing and broader interaction checks follow in layer 20.
+
+
+### Label and regression implementation (layer 20)
+
+Landscape English names and dates now use three measured rows and may borrow room beyond narrow event spans. Fine threads connect them to their real visible braids. Complete labels yield when those rows are full and return as zoom creates room; they are not ellipsised. Narrow screens wrap long names. Landscape fold clips now share physical pixel boundaries to reduce fractional seams, without shifting the dated braids. Tapestry's Latin text uses measured widths with priority for key scenes, and winter scenes have their own baseline behind the foreground story.
+
+Validation: 89 Node tests and 25 Python operator tests passed; artwork provenance and the updated optional unattended browser-audit script passed their native/syntax checks. Browser verification for this pass used T3's collaborative preview: overview and detailed views, both date scales, mode cycles, maximum zoom, panning, 1440×900 and 390/320 px layouts, and keyboard selection of Carrington's English details. Full visible Landscape labels did not overlap or truncate, and each had a braid connector. The 320 px toolbar also wraps to avoid horizontal overflow.
+
+At a fixed range, all three modes shared the same total context area, including labels and borders. At maximum zoom, Tapestry exposed 129 action groups while retaining all 25 events' recorded dates; panning kept their geometry stable. Context height may change with the Bars row requirements of a new range. Repeated local mode switches occupied 16–40 ms synchronously; network and decode times are separate.
+
+The existing gated reviewer remains responsible for fresh-head review, fixes, restacking and merges into `prototype/ui-pass2`. The saved here.now review Site is refreshed after the full stack lands and its packaged artifact passes the publication checks.
+
+![Landscape English labels and braid threads, 1845–1871](img/polish-landscape-labels-2026-10-01.png)
+
+![Continuous Bayeux story and animal borders at overview](img/polish-tapestry-story-2026-10-01.png)
