@@ -15,6 +15,13 @@ derivative retries its own PNG master. Exact prompts, references and hashes live
 in `linear-story-generation.json`. These new compositions are available for
 in-prototype review; they do not inherit approval from the older source sheets.
 
+The active narrative and scientific masters are now transparent `*-threads.png`
+edits, with full-size WebP derivatives. One runtime linen backing is continuous
+under the entire narrative and both attached borders. Exact built-in extraction
+calls and native output dimensions are retained in
+[continuous-linen-prompts.json](continuous-linen-prompts.json); read the
+[join implementation record](../../docs/continuous-linen-tapestry.md).
+
 The five earlier Bayeux event atlases, their measured rows in `src/tapestryScenes.js`
 and their paired generation records remain archived. Landscape continues to use
 its existing sources, English names/dates, braids and fold renderer.

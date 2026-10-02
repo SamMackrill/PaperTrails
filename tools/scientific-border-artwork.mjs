@@ -45,6 +45,7 @@ export function validateScientificBorders() {
   for (const [sheet, atlas] of Object.entries(scientificBorderAtlases)) {
     const png = read(atlas.file.replace(/\.webp$/, '.png')), generation = record.sources[sheet];
     const prompt = prompts.groups.find(g => g.id === sheet);
+    if (!generation?.transparent || png[25] !== 6) throw new Error(`Border master must retain RGBA thread transparency: ${sheet}`);
     if (png.readUInt32BE(16) !== atlas.width || png.readUInt32BE(20) !== atlas.height || atlas.bands.length !== 8) throw new Error(`Invalid border atlas: ${sheet}`);
     atlas.bands.forEach(([top, bottom], row) => {
       if (top < 0 || bottom <= top || bottom > atlas.height || (row && top < atlas.bands[row - 1][1])) throw new Error(`Invalid border crop: ${sheet}-${row}`);
@@ -52,6 +53,9 @@ export function validateScientificBorders() {
     if (!generation || generation.sourceHash !== hash(png) || generation.runtimeHash !== hash(read(atlas.file))
       || generation.promptHash !== hash(prompt.prompt) || generation.references.length !== prompt.references.length
       || generation.references.some((ref, i) => ref.file !== prompt.references[i] || ref.hash !== hash(read(ref.file)))) throw new Error(`Unrecorded border generation: ${sheet}`);
+    const previous = generation.previousGeneration;
+    if (!previous || previous.sourceHash !== hash(read(previous.sourceFile))
+      || previous.runtimeHash !== hash(read(previous.runtimeFile))) throw new Error(`Changed border extraction source: ${sheet}`);
     if (prompt.correction && (generation.correctionPromptHash !== hash(prompt.correction.prompt)
       || generation.correctionReferenceHash !== hash(read(prompt.correction.reference)))) throw new Error(`Unrecorded border correction: ${sheet}`);
   }

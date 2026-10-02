@@ -1,6 +1,7 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-labels-v5';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-halley-scenes-v1';
-import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame } from './scientificBorders.js?v=pass2-halley-scenes-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-continuous-linen-v1';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-continuous-linen-v1';
+import { paintLinen } from './linenBacking.js';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
@@ -8,7 +9,7 @@ import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
 import { scientists, discoveries } from './dataLoader.js?v=pass2-story-v2';
 import { scientificStoryRecords } from './storyScience.js';
-import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-halley-scenes-v1';
+import { planInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-continuous-linen-v1';
 const models = new WeakMap();
 const images = new Map();
 const INSCRIPTION_SCALE = .78;
@@ -103,14 +104,8 @@ function paint(model, container) {
   if (canvas.width !== pixels) canvas.width = pixels;
   if (canvas.height !== rows) canvas.height = rows;
   const ink = canvas.getContext('2d'); ink.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-  ink.fillStyle = '#e8dec8'; ink.fillRect(0, 0, viewport, height);
+  paintLinen(ink, viewport, height, camera);
   const artTop = model.borderHeight;
-  // The picture uses the complete narrative height. White is a neutral ground
-  // for the multiply pass, preserving its original pixels outside lettering.
-  ink.fillStyle = '#fff';
-  for (const fragment of fragments) if (model.loaded.get(fragment.panel.atlas.file)) {
-    ink.fillRect(fragment.left - camera, artTop, fragment.width, model.artHeight);
-  }
   const lettering = positionRecords(model, fragments, worldLeft, camera, viewport);
   for (const { entry, left, row, inscription } of lettering) {
     ink.drawImage(entry.lettering, left - worldLeft, artTop + 2 + row * LETTER_ROW_HEIGHT,
@@ -126,10 +121,8 @@ function paint(model, container) {
     if (image) {
       const cropX = panel.crop.x + (sourceX - panel.sourceX) / panel.unit;
       const bodyHeight = panel.crop.height * panel.unit;
-      // Flat wool imagery is painted over the stitched lettering. Multiplying
-      // its linen preserves the transparent text while dark figures interrupt
-      // the letters naturally, without cutting holes in the source artwork.
-      ink.globalCompositeOperation = 'multiply';
+      // Transparent thread artwork shares one linen backing. Opaque wool
+      // interrupts lettering naturally; exposed fabric remains continuous.
       ink.drawImage(image, cropX, panel.crop.y, exposedWidth / panel.unit, panel.crop.height,
         left, artTop + model.artHeight - bodyHeight, exposedWidth, bodyHeight);
       ink.globalCompositeOperation = 'source-over';
@@ -137,7 +130,7 @@ function paint(model, container) {
     for (const border of exposedScientificBorder(model.borders.get(panel.id), fragment)) {
       const drawing = model.loaded.get(border.file);
       if (!drawing) continue;
-      const y = border.side === 'top' ? 0 : height - border.height;
+      const y = scientificBorderY(border, model);
       ink.drawImage(drawing, border.crop.x, border.crop.y, border.crop.width, border.crop.height,
         border.left, y, border.width, border.height);
     }
