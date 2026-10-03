@@ -12,9 +12,9 @@ export function layoutStory(events, width, height) {
   const panels = storyPanels.map(section => {
     const atlas = storyAtlases[section.sheet];
     const [top, bottom] = atlas.bodies[section.row];
-    // One source-pixel scale across the whole cloth, including short scenes.
-    // Independently fitting every crop enlarged people and changed border depth.
-    const unit = height / STORY_BODY_HEIGHT;
+    // Complete drawings share one stable envelope, fitted proportionally.
+    // Pixel sizes differ between authored bands; zoom only exposes fixed cloth.
+    const unit = height / (bottom - top);
     const sourceWidth = atlas.width * unit;
     const summaryWidth = Math.min(FRONT, sourceWidth);
     const summaryX = clamp(section.focus * sourceWidth - summaryWidth / 2, 0, sourceWidth - summaryWidth);

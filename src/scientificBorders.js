@@ -38,7 +38,10 @@ export function scientificBorderRows(section, side) {
 // Fit each complete chronological edge as one ribbon, at a single depth.
 // Its storage-section boundaries need not coincide with narrative joins.
 export function scientificBorderFrame(totalHeight) {
-  const materialAspect = storyPanels.reduce((sum, panel) => sum + storyAtlases[panel.sheet].width / STORY_BODY_HEIGHT, 0);
+  const materialAspect = storyPanels.reduce((sum, panel) => {
+    const atlas = storyAtlases[panel.sheet], [top, bottom] = atlas.bodies[panel.row];
+    return sum + atlas.width / (bottom - top);
+  }, 0);
   const ratios = ['top', 'bottom'].map(side => materialAspect / storyPanels
     .flatMap(panel => scientificBorderRows(panel.id, side)).reduce((sum, row) => sum + row.aspect, 0));
   const artHeight = Math.max(0, totalHeight) / (1 + ratios[0] + ratios[1]);
