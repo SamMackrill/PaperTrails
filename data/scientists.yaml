@@ -3953,3 +3953,92 @@ millikan:
       abstract: "Measured photoelectric stopping potentials across light frequencies to test Einstein's photoelectric equation and determine Planck's constant experimentally."
       doi: "10.1103/PhysRev.7.355"
       source: "https://journals.aps.org/pr/abstract/10.1103/PhysRev.7.355"
+
+stern:
+  name: "Otto Stern"
+  summary: "A German-American physicist who developed molecular-beam experiments, demonstrated spatial quantization with Walther Gerlach and measured the unexpectedly large magnetic moment of the proton."
+  color: "#618a7b"
+  notability: 2
+  photo: "images/stern.jpg"
+  cartoon: "images/cartoons/stern.png"
+  nationality: "German-American"
+  birth: "1888-02-17"
+  death: "1969-08-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Otto_Stern"
+    - label: "Nobel Prize biography"
+      url: "https://www.nobelprize.org/prizes/physics/1943/stern/biographical/"
+  academic_affiliations:
+    - institution: "University of Breslau"
+      association: "Doctorate in physical chemistry"
+    - institution: "ETH Zurich"
+      association: "Privatdozent in physical chemistry"
+      coat: "images/institutions/eth-zurich.png"
+    - institution: "University of Frankfurt"
+      association: "Privatdozent in theoretical physics"
+    - institution: "University of Rostock"
+      association: "Associate professor of theoretical physics"
+    - institution: "University of Hamburg"
+      association: "Professor of physical chemistry and laboratory director"
+      coat: "images/institutions/university-of-hamburg.svg"
+    - institution: "Carnegie Institute of Technology"
+      association: "Research professor of physics"
+  publications:
+    - id: stern-work-00
+      legacyKey: publication:stern:0
+      year: 1922
+      title: "Der experimentelle Nachweis der Richtungsquantelung im Magnetfeld"
+      abstract: "With Walther Gerlach, demonstrated discrete orientations of atomic magnetic moments by splitting a beam of silver atoms in an inhomogeneous magnetic field."
+      doi: "10.1007/BF01326983"
+      source: "https://link.springer.com/article/10.1007/BF01326983"
+    - id: stern-work-01
+      legacyKey: publication:stern:1
+      year: 1933
+      title: "Über die magnetische Ablenkung von Wasserstoffmolekülen und das magnetische Moment des Protons. I"
+      abstract: "With Otto Robert Frisch, used the magnetic deflection of hydrogen molecular beams to show that the proton's magnetic moment was substantially larger than one nuclear magneton."
+      doi: "10.1007/BF01330773"
+      source: "https://link.springer.com/article/10.1007/BF01330773"
+
+gerlach:
+  name: "Walther Gerlach"
+  summary: "A German experimental physicist whose precision measurements with Otto Stern established spatial quantization, providing evidence later understood through electron spin."
+  color: "#947b60"
+  notability: 2
+  photo: "images/gerlach.jpg"
+  cartoon: "images/cartoons/gerlach.png"
+  nationality: "German"
+  birth: "1889-08-01"
+  death: "1979-08-10"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Walther_Gerlach"
+    - label: "Scientific biography"
+      url: "https://link.springer.com/chapter/10.1007/978-3-030-63963-1_8"
+  academic_affiliations:
+    - institution: "University of Tübingen"
+      association: "Doctorate, research assistant and later professor of physics"
+      coat: "images/institutions/university-of-tubingen.svg"
+    - institution: "University of Frankfurt"
+      association: "Research assistant and professor of experimental physics"
+    - institution: "Ludwig Maximilian University of Munich"
+      association: "Professor of experimental physics and rector"
+      coat: "images/institutions/ludwig-maximilian-university-of-munich.png"
+    - institution: "University of Bonn"
+      association: "Professor and director of the physics institute"
+      coat: "images/institutions/university-of-bonn.png"
+  publications:
+    - id: gerlach-work-00
+      legacyKey: publication:gerlach:0
+      year: 1922
+      title: "Der experimentelle Nachweis des magnetischen Moments des Silberatoms"
+      abstract: "With Otto Stern, reported the deflection of silver atomic beams by a magnetic field, establishing an experimental method for studying atomic magnetic moments."
+      doi: "10.1007/BF01329580"
+      source: "https://link.springer.com/article/10.1007/BF01329580"
+    - id: gerlach-work-01
+      legacyKey: publication:gerlach:1
+      year: 1922
+      title: "Der experimentelle Nachweis der Richtungsquantelung im Magnetfeld"
+      abstract: "With Otto Stern, showed that a silver atomic beam divides into distinct components rather than a continuous distribution, demonstrating spatial quantization."
+      doi: "10.1007/BF01326983"
+      source: "https://link.springer.com/article/10.1007/BF01326983"

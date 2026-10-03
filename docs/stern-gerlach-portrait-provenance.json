@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-03",
+  "method": "Built-in image_gen; one fresh generation per identity; approved deterministic finisher normalizes 1254x1254 to 1024x1024, removed zero edge-background pixels.",
+  "permissionPolicy": "https://aip.libguides.com/esvaguide/copyright",
+  "portraits": [
+    {
+      "id": "stern",
+      "sourcePage": "https://repository.aip.org/node/64141",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Otto_Stern_smoking_a_cigar_while_in_laboratory.jpg",
+      "originalCatalogueDownload": "https://repository.aip.org/_foxml/datastream/nbla%3A309703%2BOBJ%2BOBJ.0",
+      "catalogueId": "Stern Otto F2",
+      "localIdentifier": "PH 1998-2931",
+      "originalDimensions": [
+        3489,
+        2376
+      ],
+      "photographer": null,
+      "photoDate": null,
+      "rightsHolder": "American Institute of Physics (AIP)",
+      "permission": "AIP freely permits use of its copyright-owned images with listed credit. Commons also lists CC BY 4.0.",
+      "credit": "AIP Emilio Segrè Visual Archives, Segrè Collection",
+      "crop": [
+        600,
+        65,
+        1640,
+        1105
+      ],
+      "photoPreparation": "Square crop resized using Lanczos to 640x640 RGB JPEG, quality 93.",
+      "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference: Otto Stern in his Hamburg laboratory. Images 2 Rutherford, 3 Bohr, and 4 Alfven are approved house-style references only; do not borrow their facial identity.\nPrimary request: newly draw Otto Stern as an affectionate editorial caricature, recognisable before humorous.\nRecognition anchors from Image 1: high broad balding forehead with dark swept-back side hair, short dark moustache above a pronounced profile nose, full cheek and chin, with the characteristic small cigar. Preserve the right-facing profile and period white laboratory coat/open collar; simplify to a centred head-and-shoulders bust. Keep the entire cigar and facial outline safe inside the circle, no hands or apparatus.\nComic idea: subtly wry attentive expression, tiny cigar already documented in the identity photograph; no additional symbols.\nStyle: The Wry Engraver, confident near-black blue-green ink contour, simplified graphic shapes, mildly oversized head and compressed shoulders, restrained flat colour with at most one shallow shadow and faint printed grain inside fills. Match references as a single portrait family. Natural light skin with restrained neutral-warm shadows; dark hair, charcoal teal contours and muted off-white coat. No global sepia.\nComposition: square 1024 x 1024, head and shoulders fill about 85% height, crown starts about 8% down, eyes near 42% height, strong silhouette, all important facial features within central 76%, usable at 42px grayscale and 92px circular crops.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: no text, watermark or signature, no other people, full body, laboratory scenery, colourised-photo realism, painterly gradients, airbrushing or photorealistic skin. Preserve recognisable facial proportions and natural undertones; modest 10–15% caricature only. Output PNG with real alpha.",
+      "rawGeneration": "exec-a8f2eb33-629e-4ed3-abd4-6d0010bfb94d.png",
+      "references": [
+        {
+          "path": "images/stern.jpg",
+          "sha256": "bf061faad62db6e9fb3b83683f1ebf40410041a28b5197228213d0ea8a70e147"
+        },
+        {
+          "path": "images/cartoons/rutherford.png",
+          "sha256": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3"
+        },
+        {
+          "path": "images/cartoons/bohr.png",
+          "sha256": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec"
+        },
+        {
+          "path": "images/cartoons/alfven.png",
+          "sha256": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        }
+      ],
+      "originalSha256": "26278eeecf0c4f4fe432d8b2fe86ef062f2be8aa2c556831da1bcf31a0e61469",
+      "rawGenerationSha256": "58dafcc212a747eff4f75a34549c345aded88989a6864e763b8e0b8bd77cbcc9",
+      "finalAssets": [
+        {
+          "path": "images/stern.jpg",
+          "sha256": "bf061faad62db6e9fb3b83683f1ebf40410041a28b5197228213d0ea8a70e147"
+        },
+        {
+          "path": "images/cartoons/stern.png",
+          "sha256": "c3bbc819bf16609ed9fe86dca5c4c5cfc6efb828596bfe2c35fe90a189a87e2c"
+        },
+        {
+          "path": "images/thumbs/stern.webp",
+          "sha256": "0f06a7e2169b28e47ba2c9bcc4fed64fd4a63da6b1ca68ad894123f652ef61c2"
+        },
+        {
+          "path": "images/thumbs/cartoons/stern.webp",
+          "sha256": "525fe3860ed86ea980e07ef65ffcd865f8b2bb6ed0e40c1991b30cdb1e59677a"
+        }
+      ]
+    },
+    {
+      "id": "gerlach",
+      "sourcePage": "https://repository.aip.org/node/59036",
+      "downloadUrl": "https://repository.aip.org/_foxml/datastream/nbla%3A297053%2BOBJ%2BOBJ.0",
+      "catalogueId": "Gerlach Walther B1",
+      "originalDimensions": [
+        3953,
+        2424
+      ],
+      "photographer": null,
+      "photoDate": "circa 1925",
+      "rightsHolder": "American Institute of Physics (AIP)",
+      "permission": "AIP freely permits use of its copyright-owned images with listed credit; no specific Creative Commons licence or public-domain status inferred.",
+      "credit": "AIP Emilio Segrè Visual Archives, Lande Collection",
+      "crop": [
+        35,
+        220,
+        1015,
+        1200
+      ],
+      "photoPreparation": "Square crop of actual subject excluding shadow, resized using Lanczos to 640x640 RGB JPEG, quality 93.",
+      "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, an AIP archive photograph of Walther Gerlach circa 1925; the dark shape to his right is HIS SHADOW, not a second person. Images 2 Rutherford, 3 Bohr, 4 Alfven supply house style only, not their identity.\nPrimary request: newly draw Walther Gerlach as an affectionate Wry Engraver editorial caricature, recognisable before humorous, from the actual man on the LEFT of the identity photograph. Do not draw his shadow.\nRecognition anchors: thick dark side-parted wavy hair swept across a relatively low forehead; prominent bridge and straight profile nose; broad cheek, rounded substantial jaw and clean-shaven face. Preserve right-facing profile and dark 1920s suit with white stiff collar and discreet dark tie. No hands, shadows, scenery, plants or scientific apparatus.\nComic idea: quietly inquisitive expression; no prop. Modest exaggeration about 10–15%, not a different face.\nStyle: confident near-black blue-green ink contour, simplified graphic shapes, mildly oversized head and compressed shoulders, restrained flat colour with one shallow shadow tone and faint printed grain inside fills. Match the approved references. Natural light skin with neutral-warm shadows, dark brown hair, muted charcoal-teal clothing and cream collar, no global sepia or yellow skin.\nComposition: square 1024 x 1024, centred head and shoulders occupying about 85% height, crown about 8% down, eyes near 42% height, central 76% contains all face anchors; strong cutout silhouette safe at 42px grayscale and 92px circular crops. Keep face comfortably inside circle despite profile.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: PNG with real alpha; no text, watermark or signature; no colourised-photo realism, painterly lighting, gradients, airbrushing, extra person, generic science clipart or full-body pose. Simplify grainy photo into clear shapes without inventing eyewear or facial hair.",
+      "rawGeneration": "exec-ed459918-ade6-49bf-940c-e5cbbfd09e9a.png",
+      "references": [
+        {
+          "path": "images/gerlach.jpg",
+          "sha256": "09b21ca7b859cb01cf96efa09e446b9db8778d06b256c7a0893ea6174862d1aa"
+        },
+        {
+          "path": "images/cartoons/rutherford.png",
+          "sha256": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3"
+        },
+        {
+          "path": "images/cartoons/bohr.png",
+          "sha256": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec"
+        },
+        {
+          "path": "images/cartoons/alfven.png",
+          "sha256": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        }
+      ],
+      "originalSha256": "4a640366b2af7decabfaa04bf0fdd785d46b9c3f7eb60678b80fe75a28e314f6",
+      "rawGenerationSha256": "322c85300264994005191232b6a5b10a51697a7effa98021cae6590075637eec",
+      "finalAssets": [
+        {
+          "path": "images/gerlach.jpg",
+          "sha256": "09b21ca7b859cb01cf96efa09e446b9db8778d06b256c7a0893ea6174862d1aa"
+        },
+        {
+          "path": "images/cartoons/gerlach.png",
+          "sha256": "14a1cd3ed61fd5a92eef8fe94acd96b43245dd38e6fa2bc547bc31ce8843aa69"
+        },
+        {
+          "path": "images/thumbs/gerlach.webp",
+          "sha256": "60e3b7f1e88e15cef61f43a8fc14bce9ebadf23cec1baa90ded6772964798f87"
+        },
+        {
+          "path": "images/thumbs/cartoons/gerlach.webp",
+          "sha256": "e7993d10c545d647f58cd62894728a5830748eb6339f7bd0b513785ced9397b8"
+        }
+      ]
+    }
+  ],
+  "styleReferences": [
+    "images/cartoons/rutherford.png",
+    "images/cartoons/bohr.png",
+    "images/cartoons/alfven.png"
+  ]
+}
