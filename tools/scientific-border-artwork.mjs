@@ -68,9 +68,20 @@ export function validateScientificBorders(record = JSON.parse(read(recordFile)))
   const additions = JSON.parse(read('images/tapestry/photography-border-generation.json'));
   for (const [id, revision] of Object.entries(photographyBorderRevisions)) {
     const generation = additions[id];
-    if (!generation || generation.sourceHash !== hash(read(revision.file.replace(/\.webp$/, '.png')))
+    const sourceFile = revision.file.replace(/\.webp$/, '.png'), png = read(sourceFile);
+    if (!generation || generation.sourceFile !== sourceFile || generation.runtimeFile !== revision.file
+      || generation.transparent !== true || png[25] !== 6
+      || png.readUInt32BE(16) !== revision.width || png.readUInt32BE(20) !== revision.height
+      || !generation.prompt || !generation.references?.length || generation.sourceHash !== hash(png)
       || generation.runtimeHash !== hash(read(revision.file)) || generation.promptHash !== hash(generation.prompt)
       || generation.references.some(ref => ref.hash !== hash(read(ref.file)))) throw new Error(`Unrecorded photography border: ${id}`);
+    const initial = generation.initialGeneration;
+    if (initial && (!initial.prompt || !initial.references?.length
+      || initial.sourceHash !== hash(read(initial.sourceFile)) || initial.promptHash !== hash(initial.prompt)
+      || initial.references.some(ref => ref.hash !== hash(read(ref.file)))
+      || !generation.references.some(ref => ref.file === initial.sourceFile && ref.hash === initial.sourceHash))) {
+      throw new Error(`Changed initial photography generation: ${id}`);
+    }
     const discovery = yaml.load(read('data/discoveries.yaml').toString()).find(d => d.id === revision.milestoneId);
     if (!discovery || discovery.year !== revision.year) throw new Error(`Wrong photography milestone: ${id}`);
   }
