@@ -411,3 +411,29 @@
     url: https://history.aip.org/exhibits/gap/PDF/millikan.pdf
     locator: Original 1913 paper, p. 109 and tables of observed charge multiples; historical measurement,
       not today’s exact SI definition
+
+- id: first-camera-photograph
+  legacyKey: discovery:40
+  year: 1827
+  title: "First Surviving Camera Photograph"
+  discoverer: "Joseph Nicéphore Niépce"
+  details: "Niépce made View from the Window at Le Gras using a camera obscura and a pewter plate coated with light-sensitive bitumen. The Harry Ransom Center, which holds the plate, dates it to 1827; older accounts often give 1826. This marks the earliest surviving camera photograph, rather than the invention of the much older camera obscura."
+  particle: "CAM"
+  color: "#9b7852"
+  sources:
+    - label: "Harry Ransom Center: the Niépce heliograph"
+      url: "https://www.hrc.utexas.edu/niepce-heliograph/"
+
+- id: kodachrome-colour-film
+  legacyKey: discovery:41
+  year: 1935
+  title: "Kodachrome Colour Film Introduced"
+  discoverer: "Leopold Mannes and Leopold Godowsky Jr., with Kodak"
+  details: "Kodak introduced the three-colour Kodachrome process in 1935, initially for 16 mm motion-picture film. Developed by Mannes and Godowsky, it became a commercially successful amateur colour film. Earlier colour processes existed, including glass plates and other film systems; this milestone identifies the Kodachrome launch rather than claiming it was the first colour photograph. Its 35 mm slides and 8 mm home-movie formats followed in 1936."
+  particle: "RGB"
+  color: "#a2697d"
+  sources:
+    - label: "Kodak: 1935 milestone"
+      url: "https://www.kodak.com/en/company/page/milestones/"
+    - label: "George Eastman Museum / FIAF Film Atlas: Kodachrome"
+      url: "https://www.filmatlas.com/entry/544"

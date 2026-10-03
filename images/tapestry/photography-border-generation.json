@@ -1,0 +1,56 @@
+{
+  "nineteenth-1": {
+    "method": "Built-in image_gen",
+    "generatedAt": "2026-10-03",
+    "transparent": true,
+    "prompt": "Use case: historical-scene. Production raster artwork for the scientific border of Paper Trails' continuous Bayeux-style embroidered tapestry. Image 1 is the existing border style reference, image 2 is the original Bayeux reference; neither is an edit target. Draw ONE extremely long, very slender continuous horizontal embroidery ribbon on a wide transparent canvas, about 2172x724 pixels. The ribbon itself spans the complete width and occupies ONLY about 80 pixels of height, vertically centered at y=360. All other pixels must be genuinely transparent alpha. One narrow border ribbon ONLY; no extra rows, sample sheet, title, text, dates, labels, logo, checkerboard, parchment, linen texture or painted background. Continuous fine madder stitch edges along both top and bottom, same height across the whole row. Instruments integrated with sparse varied delicate Bayeux sprigs and diagonal madder/indigo/ochre stitched dividers; no blank gaps or identical repeated motifs. Handmade flat laid-and-couched wool fills and stem-stitch contours, muted faded madder rust, indigo blue-grey, dull sage, flax ochre, unfilled spaces showing the real transparent substrate. Restrained flat embroidery with visible stitch irregularity; NO black modern icon outlines, gradients, photorealism, glossy metal or vivid saturation. Preserve natural native proportions of apparatus. This will display about 24px high, so broad recognisable silhouettes with sparse details. Scene: early nineteenth-century camera photography. Place the MAIN wooden camera obscura with a short brass cylindrical lens at precisely 46.4% of the full ribbon width. The camera is a plain rigid wooden sliding-box camera from the 1820s, NOT a later folding bellows camera or tripod portrait studio. Its pewter photographic plate and a small schematic courtyard impression sit immediately beside it. At the left show a period optical lens with rays entering; at the right a small lavender/bitumen preparation vessel and a plate drying rack. All are one flowing slender border depiction, with diagonal threadwork framing small connected scientific groups. Camera should be unmistakable, occupy approximately 18% of ribbon width and most of ribbon height. Do not depict film rolls, flash bulbs, electronics or anachronistic equipment.",
+    "sourceFile": "images/tapestry/scientific-borders-camera-1827.png",
+    "runtimeFile": "images/tapestry/scientific-borders-camera-1827.webp",
+    "references": [
+      {
+        "file": "images/tapestry/scientific-borders-nineteenth-threads.png",
+        "hash": "335aaac8f947cf99fe60d708a9ae09d730227bf12cb02a82eb84c795def81bb3"
+      },
+      {
+        "file": "images/tapestry/style-reference-original-bayeux.png",
+        "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+      }
+    ],
+    "sourceHash": "0ee21c7b871b7c50036849f7604b1bc1186064b0c616d1902edb77a88f6be9d7",
+    "runtimeHash": "ead3bdceba4dccab1888f2356c51c64c594e813b699d504d2e6188b917e6ee3c",
+    "promptHash": "68b855afb437c9be940e7728264f7922c99c2deb613b240a16d2d62c14c09743"
+  },
+  "electrons-5": {
+    "method": "Built-in image_gen",
+    "generatedAt": "2026-10-03",
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Edit ONLY the cine camera and its reels in the supplied embroidered scientific border ribbon. Preserve the entire 2172x724 transparent canvas, all embroidery outside the camera, every glass vessel, filmstrip, perforation, sprig, diagonal divider, stitch-edge placement, muted faded palette and true alpha background. The existing twin external reels above the camera resemble a larger studio camera; replace that camera with a historically plausible 1935 compact spring-wound 16mm amateur cine camera, Bell & Howell Filmo 70 style: small rounded rectangular dark indigo-grey body, a single short projecting brass lens, small winding key on the side, internal film spools. Put ONE detached small round film reel immediately beside the body within the ribbon, no reels above it. Keep the camera centre at 69% of image width. All camera threadwork and detached reel must fit BETWEEN the existing upper and lower horizontal stitched edges at approximately y=310 to y=422; NOTHING protrudes above the upper edge. Continue the film strip naturally towards and away from the camera. Re-draw this equipment in flat wool couching and coloured stitch contours, no modern glossy photorealistic shading. Keep genuine alpha transparency, no linen backdrop, checkerboard, extra text, logo or dates. Retain every other part unchanged.",
+    "sourceFile": "images/tapestry/scientific-borders-colour-film-1935.png",
+    "runtimeFile": "images/tapestry/scientific-borders-colour-film-1935.webp",
+    "references": [
+      {
+        "file": "images/tapestry/source-colour-film-1935-draft.png",
+        "hash": "43e3893ff0e885cfc742174ceb9cd097428ad3b5cf72f0c8141544cdd0b9b434"
+      }
+    ],
+    "initialGeneration": {
+      "prompt": "Use case: historical-scene. Production raster artwork for the scientific border of Paper Trails' continuous Bayeux-style embroidered tapestry. Image 1 is the existing border style reference, image 2 is the original Bayeux reference; neither is an edit target. Draw ONE extremely long, very slender continuous horizontal embroidery ribbon on a wide transparent canvas, about 2172x724 pixels. The ribbon itself spans the complete width and occupies ONLY about 80 pixels of height, vertically centered at y=360. All other pixels must be genuinely transparent alpha. One narrow border ribbon ONLY; no extra rows, sample sheet, title, text, dates, labels, logo, checkerboard, parchment, linen texture or painted background. Continuous fine madder stitch edges along both top and bottom, same height across the whole row. Instruments integrated with sparse varied delicate Bayeux sprigs and diagonal madder/indigo/ochre stitched dividers; no blank gaps or identical repeated motifs. Handmade flat laid-and-couched wool fills and stem-stitch contours, muted faded madder rust, indigo blue-grey, dull sage, flax ochre, unfilled spaces showing the real transparent substrate. Restrained flat embroidery with visible stitch irregularity; NO black modern icon outlines, gradients, photorealism, glossy metal or vivid saturation. Preserve natural native proportions of apparatus. This will display about 24px high, so broad recognisable silhouettes with sparse details. Scene: practical three-colour photographic film introduced in 1935. Place the MAIN 1930s spring-wound 16mm movie camera and round film reel centred at precisely 69.1% of the full ribbon width. A small period cine camera with lens and visible crank/key, not a modern DSLR, is paired with a continuous perforated film strip whose frames show a tiny simple red flower/blue sky in faded wool colours. At the left show three symbolic dye/emulsion layers as slender stitched bands in muted yellow ochre, faded rose and blue-green, connected through period developing glassware to the film. At the right show a lens and three small glass filters. One continuous flowing scientific embroidery row. Period-correct 16mm cine imagery, not 35mm slide frames or 8mm gear (which followed in 1936), not plastic cartridges or digital screens. No branding.",
+      "references": [
+        {
+          "file": "images/tapestry/scientific-borders-electrons-threads.png",
+          "hash": "99715ed270b358582b0679d96f53341248477dc38e7bd8c9e3587b4c0f2b7942"
+        },
+        {
+          "file": "images/tapestry/style-reference-original-bayeux.png",
+          "hash": "83e5d640ee6b8b4a8e5f2f96394398f8ca8cfb553fcbd10b0183c375b983a8ea"
+        }
+      ],
+      "sourceFile": "images/tapestry/source-colour-film-1935-draft.png",
+      "sourceHash": "43e3893ff0e885cfc742174ceb9cd097428ad3b5cf72f0c8141544cdd0b9b434",
+      "promptHash": "62514a8f514af299d82050b10bce952d226ec7ffb2f1e5d636a15ed72c91e220"
+    },
+    "sourceHash": "2233fe40fd63ed03a033b42c1e9c35d8260cc8d63f698d02142c72b287137ac1",
+    "runtimeHash": "1d67809bb47773d471450bd852b99c4baff9acce51a70dae8e88e7cf0175d4de",
+    "promptHash": "63dcde0533d61c5e5e28b4f5a353fb995dcfe39a6f4264833c5ccdb77238df53"
+  }
+}

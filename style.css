@@ -2705,6 +2705,8 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
 .tapestry-scene { background: transparent; }
 
 .tapestry-story-hit { position: absolute; display: block; pointer-events: auto; }
+.tapestry-border-target { position: absolute; z-index: 12; border: 0; padding: 0; background: transparent; pointer-events: none; }
+.tapestry-border-target:is(:hover, :focus-visible) .tapestry-story-hit { outline: 2px dashed #633725; outline-offset: -2px; }
 
 .tapestry-ribbon[data-art-style="landscape"] .tapestry-caption {
   white-space: normal;

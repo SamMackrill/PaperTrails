@@ -9,8 +9,8 @@ const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const events = yaml.load(readFileSync(new URL('../data/significantevents.yaml', import.meta.url), 'utf8'));
 const near = (a, b) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
 
-test('twelve authored atlases provide 96 distinct, sourced chronological border regions', () => {
-  assert.deepEqual(validateScientificBorders(), { sources: 12, distinctRibbons: 96, chronologicalSections: 12 });
+test('twelve atlases and two photography strips provide 96 distinct sourced border regions', () => {
+  assert.deepEqual(validateScientificBorders(), { sources: 14, distinctRibbons: 96, chronologicalSections: 12 });
 });
 
 test('upper and lower borders use each source region once, within the cloth, at native proportions', () => {
