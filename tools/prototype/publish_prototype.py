@@ -66,6 +66,62 @@ def request(url, payload=None, method='GET', key=None):
 def atomic(path, value):
     temporary = path.with_suffix('.pending'); temporary.write_text(json.dumps(value, indent=2), encoding='utf-8'); os.replace(temporary, path)
 
+def read_owner_file(slug, path, key):
+    class SameHost(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            parsed = urllib.parse.urlparse(newurl)
+            if parsed.scheme != 'https' or parsed.hostname != 'here.now':
+                raise RuntimeError('Owner file verification redirect changed host or scheme')
+            return super().redirect_request(req, fp, code, msg, headers, newurl)
+    url = f'https://here.now/api/v1/publish/{urllib.parse.quote(slug, safe="")}/files/{urllib.parse.quote(path, safe="/")}'
+    req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + key, 'X-HereNow-Client': 't3-code/codex'})
+    try:
+        with urllib.request.build_opener(SameHost()).open(req, timeout=60) as response:
+            return response.read()
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f'Owner artifact verification HTTP {error.code} for {path}') from None
+
+def verify_live_artifact(slug, commit, manifest, key, fetch_file=None):
+    fetch_file = fetch_file or read_owner_file
+    files = {file['path']: file for file in manifest}
+    required = {'index.html', 'data/trails.yaml', 'src/trailController.js',
+                'images/tapestry/landscape-b-revolutions.png', 'print-trail.html', 'prototype-version.json'}
+    if not required.issubset(files):
+        raise RuntimeError('Live artifact manifest is missing required files')
+    if len(files) != len(manifest):
+        raise RuntimeError('Live artifact manifest contains duplicate paths')
+    for path in files:
+        contents = fetch_file(slug, path, key)
+        if hashlib.sha256(contents).hexdigest() != files[path]['hash']:
+            raise RuntimeError(f'Live artifact hash mismatch for {path}')
+        if path == 'prototype-version.json':
+            version = json.loads(contents)
+            if version.get('commit') != commit or version.get('branch') != PROTOTYPE:
+                raise RuntimeError('Live deployment commit or branch mismatch')
+
+def read_live_entry_point(site_url, path):
+    url = urllib.parse.urljoin(site_url.rstrip('/')+'/', path)
+    # here.now rejects the default Python client identity on visitor routes.
+    # Identify this audit explicitly while requesting the normal HTML entry.
+    request = urllib.request.Request(url, headers={
+        'User-Agent': 'Mozilla/5.0 (compatible; PaperTrailsPrototypeAudit/1.0)',
+        'Accept': 'text/html',
+    })
+    class RejectRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            raise RuntimeError('Live entry point check followed a redirect')
+    with urllib.request.build_opener(RejectRedirect()).open(request, timeout=60) as response:
+        if response.status != 200:
+            raise RuntimeError(f'Live entry point check failed for {path or "/"}')
+
+def verify_live_entry_points(site_url, fetch_entry=None):
+    parsed = urllib.parse.urlparse(site_url)
+    if parsed.scheme != 'https' or not parsed.hostname.endswith('.here.now'):
+        raise RuntimeError('Live Site URL escaped here.now')
+    fetch_entry = fetch_entry or read_live_entry_point
+    for path in ('', 'print-trail.html'):
+        fetch_entry(site_url, path)
+
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--dry-run', action='store_true'); args = parser.parse_args()
     state = json.loads((ROOT/'state.json').read_text(encoding='utf-8'))
@@ -129,10 +185,8 @@ def main():
     if not finalized.get('success') or status.get('state') != 'live' or status.get('persistence') != 'permanent':
         raise RuntimeError('here.now did not confirm a permanent live Site')
     url = finalized['siteUrl'].rstrip('/')+'/'
-    for path in ('', 'data/trails.yaml', 'src/trailController.js', 'images/tapestry/landscape-b-revolutions.png', 'print-trail.html', 'prototype-version.json'):
-        with urllib.request.urlopen(url+path, timeout=60) as response:
-            if response.status != 200: raise RuntimeError('Live asset check failed')
-            if path == 'prototype-version.json' and json.load(response)['commit'] != commit: raise RuntimeError('Live deployment commit mismatch')
+    verify_live_artifact(finalized['slug'], commit, manifest, key)
+    verify_live_entry_points(url)
     state = json.loads((ROOT/'state.json').read_text(encoding='utf-8'))
     state['deployment'] = {'slug': finalized['slug'], 'versionId': finalized['currentVersionId'], 'url': url, 'commit': commit, 'publishStatus': status}
     atomic(ROOT/'state.json', state); session_path.unlink()
