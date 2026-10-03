@@ -4166,3 +4166,157 @@ dalibard:
       abstract: "With Claude Cohen-Tannoudji, explained polarization-gradient cooling mechanisms that allow atoms to reach temperatures below the usual Doppler limit."
       doi: "10.1364/JOSAB.6.002023"
       source: "https://opg.optica.org/josab/abstract.cfm?uri=josab-6-11-2023"
+
+cornu:
+  name: "Alfred Cornu"
+  summary: "A French physicist who improved measurements of the speed of light and introduced a graphical method for calculating Fresnel diffraction."
+  color: "#b08667"
+  notability: 2
+  photo: "images/cornu.jpg"
+  cartoon: "images/cartoons/cornu.png"
+  nationality: "French"
+  birth: "1841-03-06"
+  death: "1902-04-12"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Alfred_Cornu"
+    - label: "Optics biography"
+      url: "https://micro.magnet.fsu.edu/optics/timeline/people/cornu.html"
+  academic_affiliations:
+    - institution: "École Polytechnique"
+      association: "Student and professor of physics"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "École des mines de Paris"
+      association: "Student"
+      coat: "images/institutions/mines-paris-psl.png"
+  publications:
+    - id: cornu-work-00
+      legacyKey: publication:cornu:0
+      year: 1874
+      title: "Méthode nouvelle pour la discussion des problémes de diffraction dans le cas d'une onde cylindrique"
+      abstract: "Introduced a graphical method using the curve now called the Cornu spiral to evaluate Fresnel diffraction."
+      doi: "10.1051/jphystap:0187400300500"
+      source: "https://jphystap.journaldephysique.org/articles/jphystap/abs/1874/01/jphystap_1874__3__5_0/jphystap_1874__3__5_0.html"
+    - id: cornu-work-01
+      legacyKey: publication:cornu:1
+      year: 1875
+      title: "Détermination de la vitesse de la lumière et de la parallaxe du soleil"
+      abstract: "Reported precise terrestrial measurements of the speed of light and used them in determining the solar parallax."
+      doi: "10.1051/jphystap:018750040010401"
+      source: "https://jphystap.journaldephysique.org/en/articles/jphystap/abs/1875/01/jphystap_1875__4__104_1/jphystap_1875__4__104_1.html"
+
+curie_irene:
+  name: "Irène Joliot-Curie"
+  summary: "A French physicist and chemist who, with Frédéric Joliot, produced artificial radioactive isotopes, opening new methods for studying nuclear transformations."
+  color: "#a17689"
+  notability: 2
+  photo: "images/curie_irene.jpg"
+  cartoon: "images/cartoons/curie_irene.png"
+  nationality: "French"
+  birth: "1897-09-12"
+  death: "1956-03-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Ir%C3%A8ne_Joliot-Curie"
+    - label: "Nobel Prize biography"
+      url: "https://www.nobelprize.org/prizes/chemistry/1935/joliot-curie/biographical/"
+  academic_affiliations:
+    - institution: "University of Paris"
+      association: "Student, doctorate and professor in the Faculty of Science"
+      coat: "images/institutions/university-of-paris.png"
+    - institution: "Radium Institute, Paris"
+      association: "Researcher and later director"
+  publications:
+    - id: curie_irene-work-00
+      legacyKey: publication:curie_irene:0
+      year: 1934
+      title: "Un nouveau type de radioactivité"
+      abstract: "With Frédéric Joliot, reported that alpha-particle irradiation can create isotopes that continue emitting positrons after the irradiation stops."
+      source: "https://www.aip.org/library/from-artificial-radioactivity-to-mainstream-medicine"
+    - id: curie_irene-work-01
+      legacyKey: publication:curie_irene:1
+      year: 1934
+      title: "Artificial Production of a New Kind of Radio-Element"
+      abstract: "With Frédéric Joliot, described the production and identification of new radioactive isotopes through bombardment of light elements by alpha particles."
+      doi: "10.1038/133201a0"
+      source: "https://www.nature.com/articles/133201a0"
+
+pais:
+  name: "Abraham Pais"
+  summary: "A Dutch-American theoretical physicist who developed associated production and neutral-particle mixing, and later wrote influential histories of twentieth-century physics."
+  color: "#6e919c"
+  notability: 2
+  photo: "images/pais.jpg"
+  cartoon: "images/cartoons/pais.png"
+  nationality: "Dutch-American"
+  birth: "1918-05-19"
+  death: "2000-07-28"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Abraham_Pais"
+    - label: "Institute for Advanced Study profile"
+      url: "https://www.ias.edu/sns/Abraham_Pais"
+  academic_affiliations:
+    - institution: "University of Amsterdam"
+      association: "Undergraduate student"
+      coat: "images/institutions/university-of-amsterdam.png"
+    - institution: "Utrecht University"
+      association: "Graduate student, doctorate and research assistant"
+    - institution: "Institute for Advanced Study"
+      association: "Member and professor"
+      coat: "images/institutions/institute-for-advanced-study.png"
+    - institution: "Rockefeller University"
+      association: "Professor of theoretical physics"
+  publications:
+    - id: pais-work-00
+      legacyKey: publication:pais:0
+      year: 1952
+      title: "Some Remarks on the V-Particles"
+      abstract: "Proposed associated production of heavy unstable particles to reconcile their abundant production with their comparatively long lifetimes."
+      doi: "10.1103/PhysRev.86.663"
+      source: "https://link.aps.org/doi/10.1103/PhysRev.86.663"
+    - id: pais-work-01
+      legacyKey: publication:pais:1
+      year: 1955
+      title: "Behavior of Neutral Particles under Charge Conjugation"
+      abstract: "With Murray Gell-Mann, described neutral-particle mixtures with distinct lifetimes and decay modes, laying the basis for neutral-kaon mixing."
+      doi: "10.1103/PhysRev.97.1387"
+      source: "https://link.aps.org/doi/10.1103/PhysRev.97.1387"
+
+feshbach:
+  name: "Herman Feshbach"
+  summary: "An American theoretical physicist who developed optical-potential and projection methods for nuclear reactions and helped build MIT's theoretical-physics programme."
+  color: "#928061"
+  notability: 2
+  photo: "images/feshbach.jpg"
+  cartoon: "images/cartoons/feshbach.png"
+  nationality: "American"
+  birth: "1917-02-02"
+  death: "2000-12-22"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Herman_Feshbach"
+    - label: "Physics Today obituary"
+      url: "https://physicstoday.aip.org/obituaries/herman-feshbach"
+  academic_affiliations:
+    - institution: "City College of New York"
+      association: "Bachelor of Science"
+      coat: "images/institutions/city-college-of-new-york.png"
+    - institution: "Massachusetts Institute of Technology"
+      association: "Doctorate, institute professor and director of the Center for Theoretical Physics"
+      coat: "images/institutions/massachusetts-institute-of-technology.png"
+  publications:
+    - id: feshbach-work-00
+      legacyKey: publication:feshbach:0
+      year: 1954
+      title: "Model for Nuclear Reactions with Neutrons"
+      abstract: "With Charles E. Porter and Victor F. Weisskopf, used a complex optical potential to describe neutron scattering and absorption by nuclei."
+      doi: "10.1103/PhysRev.96.448"
+      source: "https://link.aps.org/doi/10.1103/PhysRev.96.448"
+    - id: feshbach-work-01
+      legacyKey: publication:feshbach:1
+      year: 1958
+      title: "Unified theory of nuclear reactions"
+      abstract: "Developed a projection-based formulation that connects direct and compound-nucleus reactions through a generalized optical potential."
+      doi: "10.1016/0003-4916(58)90007-1"
+      source: "https://www.sciencedirect.com/science/article/pii/0003491658900071"

@@ -105,7 +105,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Twenty-seven affiliation rows deliberately omit `coat` and display the neutral icon:
+Thirty affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -126,6 +126,7 @@ Twenty-seven affiliation rows deliberately omit `coat` and display the neutral i
 - **University of Frankfurt** — both Stern and Gerlach use neutral icons because no verified local emblem is recorded.
 - **Technion – Israel Institute of Technology**, **Tel Aviv University**, and **Chapman University** — Aharonov's affiliations use neutral icons because no verified local emblems are recorded.
 - **École normale supérieure de Cachan** and **Institut d'Optique Graduate School** — Aspect's affiliations use neutral icons because no verified local emblems are recorded; Cachan is distinct from the Paris ENS.
+- **Radium Institute, Paris**, **Utrecht University**, and **Rockefeller University** — the Joliot-Curie and Pais affiliations use neutral icons because no verified local emblems are recorded.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 

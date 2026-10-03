@@ -19,9 +19,9 @@ Millikan's PR adds Millikan only. The audit identified sixteen further candidate
 | Johann Georg Palitzsch | Halley's 1758–59 return | Verify original work and historical likeness |
 | Aloysius Lilius | Gregorian calendar reform | Verify partial life dates, surviving work and historical likeness |
 | Christopher Clavius | Gregorian calendar reform | Awaiting complete profile |
-| Alfred Cornu | 1900 physics congress | Awaiting complete profile |
-| Irène Joliot-Curie | 1933 Solvay photograph | Awaiting complete profile |
-| Abraham Pais | 1947 Shelter Island photograph | Awaiting complete profile |
-| Herman Feshbach | 1947 Shelter Island photograph | Awaiting complete profile |
+| Alfred Cornu | 1900 physics congress | Implemented in the conference-scientist layer |
+| Irène Joliot-Curie | 1933 Solvay photograph | Implemented in the conference-scientist layer |
+| Abraham Pais | 1947 Shelter Island photograph | Implemented in the conference-scientist layer |
+| Herman Feshbach | 1947 Shelter Island photograph | Implemented in the conference-scientist layer |
 
-The eleven remaining candidates stay in scope for subsequent scientist additions. Retherford and Roger need additional archival biography/portrait research; their verified joint papers do not justify guessing missing personal details. An observer's contribution must not be presented as authorship of someone else's paper. Partial historical dates must not be expanded into invented precise dates. An unavailable licensed likeness must not be replaced by an invented face.
+The seven remaining candidates stay in scope for subsequent scientist additions. Retherford and Roger need additional archival biography/portrait research; their verified joint papers do not justify guessing missing personal details. An observer's contribution must not be presented as authorship of someone else's paper. Partial historical dates must not be expanded into invented precise dates. An unavailable licensed likeness must not be replaced by an invented face.
