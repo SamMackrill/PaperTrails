@@ -1,5 +1,9 @@
 # Image attribution
 
+Portraits added for the discovery and conference scientist audit:
+
+- `millikan.jpg` is resized without stretching and padded to a square from Smithsonian Libraries and Archives' *Portrait of Robert Andrews Millikan*, identifier `DAMS:SIL-SIL14-m004-03`, explicitly marked **No Copyright – United States**. [Institutional source and rights](https://library.si.edu/image-gallery/73673), [reuse explanation](https://library.si.edu/copyright), [original image](https://ids.si.edu/ids/deliveryService?id=SIL-SIL14-m004-03). Courtesy of the Smithsonian Libraries and Archives. The catalogue supplies no photographer or historical photograph date; none is inferred. `cartoons/millikan.png` is a newly generated Wry Engraver illustration using this Smithsonian portrait, with the same documented U.S. source-rights basis. Both 192px WebP derivatives use the corresponding replacement masters. [Generation and preparation record](../docs/millikan-portrait-provenance.json).
+
 Portraits added for the Karlsruhe and periodic-table expansion:
 
 - `cannizzaro.jpg` is cropped from the portrait in *Zeitschrift für Physikalische Chemie*, volume 56 (1906), photographer unidentified, scanned by Armin Kübelbeck and cropped on Commons by FMSky. Public domain. [Source and rights](https://commons.wikimedia.org/wiki/File:Stanislao_Cannizzaro_01_(cropped).jpg). `cartoons/cannizzaro.png` is an AI-assisted illustrated adaptation.

@@ -1,0 +1,48 @@
+{
+  "method": "Built-in image_gen",
+  "generatedAt": "2026-10-03",
+  "source": {
+    "title": "Portrait of Robert Andrews Millikan",
+    "institution": "Smithsonian Libraries and Archives",
+    "identifier": "DAMS:SIL-SIL14-m004-03",
+    "catalogue": "https://library.si.edu/image-gallery/73673",
+    "download": "https://ids.si.edu/ids/deliveryService?id=SIL-SIL14-m004-03",
+    "rights": "No Copyright - United States",
+    "rightsExplanation": "https://library.si.edu/copyright",
+    "credit": "Courtesy of the Smithsonian Libraries and Archives",
+    "photographer": null,
+    "historicalDate": null,
+    "originalDimensions": [
+      1274,
+      2000
+    ],
+    "originalHash": "de09252fb9696a444b423ae70d57f5e6e69834c11132fc3ee7d603288ff526fe"
+  },
+  "preparation": "Pillow ImageOps.pad to 640×640 on white, Lanczos resampling, original aspect retained; JPEG quality 92.",
+  "identityReference": "images/millikan.jpg",
+  "prompt": "Use case: style-transfer. Asset type: Paper Trails circular timeline portrait. Image 1 is the newly verified Smithsonian identity reference of Robert Andrews Millikan (1868–1953); images 2–4 are approved house-style references only. Do not use any other portrait as an identity reference. Create ONE newly drawn 1024x1024 head-and-shoulders editorial caricature. Recognition anchors: long broad clean-shaven oval face with strong rounded chin and furrow between the brows; high forehead with thick smooth silver-grey hair swept to a neat side part; heavy focused eyes and a small straight mouth, with the distinctive dark polka-dot bow tie shown in the photograph. Preserve these anchors faithfully. Comic idea: a very subtle knowing eyebrow and gently oversized spotted bow tie, secondary to his recognizable likeness. Wry Engraver style like the rutherford, bohr and alfven references: confident near-black charcoal-teal ink contour, simplified graphic shapes, flat restrained colour and at most one shallow shadow, faint paper grain inside coloured shapes. Natural light skin undertones, no yellow/orange/bronze/sepia cast. Charcoal blue-green 1920s suit and cream shirt, period-correct silver-grey hairstyle. Centered bust, hair begins 8% from top, shoulders meet bottom, facial features inside central 76%; clear silhouette that reads at 42px grayscale and 92px colour circular crops. Background: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour. Output 1024x1024 PNG with decoded alpha. Draw a new caricature, do not colourize the photograph. No text, captions, labels, equations, logos, watermark, apparatus, hands, full body or elaborate background.",
+  "styleReferences": [
+    "images/cartoons/rutherford.png",
+    "images/cartoons/bohr.png",
+    "images/cartoons/alfven.png"
+  ],
+  "rawGenerationDimensions": [
+    1254,
+    1254
+  ],
+  "normalization": "Repository-approved finish-cartoon-asset.ps1 to 1024×1024; removed zero edge-connected background pixels.",
+  "cartoon": "images/cartoons/millikan.png",
+  "thumbnailPaths": [
+    "images/thumbs/millikan.webp",
+    "images/thumbs/cartoons/millikan.webp"
+  ],
+  "assetHashes": {
+    "images/millikan.jpg": "6f3bc6169dc454ab86eadaeb4ba509fec687852d01f1a5270a2a6f4230a36859",
+    "images/cartoons/millikan.png": "c00a6f6300be82cfeff897e917a9b17aef0ad531793ecd2591ac9a3db72eae68",
+    "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+    "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+    "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77",
+    "images/thumbs/millikan.webp": "dd5ba41b71c4b6c903d62cccd5575fcf396924a023ff40c4bc28c1f614a716eb",
+    "images/thumbs/cartoons/millikan.webp": "0a87ce901aab3f532908f303993200fedb9c0c056725d0deba56a1ac5ebff7b9"
+  }
+}

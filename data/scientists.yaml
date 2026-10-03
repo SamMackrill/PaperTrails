@@ -3910,3 +3910,46 @@ steinmetz:
       year: 1897
       title: "Theory and Calculation of Alternating Current Phenomena"
       abstract: "Systematized the analysis of alternating-current circuits and machines using complex quantities and practical calculation methods."
+
+millikan:
+  name: "Robert Andrews Millikan"
+  summary: "An American experimental physicist whose oil-drop measurements established the elementary electrical charge and whose photoelectric experiments tested Einstein's equation and measured Planck's constant."
+  color: "#7a668f"
+  notability: 2
+  photo: "images/millikan.jpg"
+  cartoon: "images/cartoons/millikan.png"
+  nationality: "American"
+  birth: "1868-03-22"
+  death: "1953-12-19"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Robert_Millikan"
+    - label: "Nobel Prize biography"
+      url: "https://www.nobelprize.org/prizes/physics/1923/millikan/biographical/"
+  academic_affiliations:
+    - institution: "Oberlin College"
+      association: "Student, master's degree in physics and instructor"
+    - institution: "Columbia University"
+      association: "Doctorate in physics"
+      coat: "images/institutions/columbia-university.png"
+    - institution: "University of Chicago"
+      association: "Professor of physics"
+      coat: "images/institutions/university-of-chicago.png"
+    - institution: "California Institute of Technology"
+      association: "Professor and chairman of the Executive Council"
+      coat: "images/institutions/california-institute-of-technology.png"
+  publications:
+    - id: millikan-work-00
+      legacyKey: publication:millikan:0
+      year: 1913
+      title: "On the Elementary Electrical Charge and the Avogadro Constant"
+      abstract: "Used measurements of charged oil drops to determine the elementary electrical charge and Avogadro's constant, supporting the quantization of electric charge."
+      doi: "10.1103/PhysRev.2.109"
+      source: "https://journals.aps.org/pr/abstract/10.1103/PhysRev.2.109"
+    - id: millikan-work-01
+      legacyKey: publication:millikan:1
+      year: 1916
+      title: "A Direct Photoelectric Determination of Planck's \"h\""
+      abstract: "Measured photoelectric stopping potentials across light frequencies to test Einstein's photoelectric equation and determine Planck's constant experimentally."
+      doi: "10.1103/PhysRev.7.355"
+      source: "https://journals.aps.org/pr/abstract/10.1103/PhysRev.7.355"
