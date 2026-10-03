@@ -1,6 +1,6 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-latin-retries-v1';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-continuous-linen-v1';
-import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-continuous-linen-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-border-depth-v1';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-border-depth-v1';
 import { paintLinen } from './linenBacking.js';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
@@ -133,7 +133,7 @@ function paint(model, container) {
         left, artTop + model.artHeight - bodyHeight, exposedWidth, bodyHeight);
       ink.globalCompositeOperation = 'source-over';
     }
-    for (const border of exposedScientificBorder(model.borders.get(panel.id), fragment)) {
+    for (const border of exposedScientificBorder(model.borders, fragment)) {
       const drawing = model.loaded.get(border.file);
       if (!drawing) continue;
       const y = scientificBorderY(border, model);
@@ -178,7 +178,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
   Object.assign(model, scientificBorderFrame(model.height));
   model.layout = layoutStory([...events, ...scientificStoryRecords(scientists, discoveries)], width, model.artHeight);
-  model.borders = new Map(model.layout.panels.map(panel => [panel.id, layoutScientificBorder(panel)]));
+  model.borders = layoutScientificBorder(model.layout);
   model.pose = foldStory(model.layout, timeline.parentElement?.clientWidth || width / scale, scale);
   ribbon.style.cssText = `top:${top + 8}px;width:${width}px;height:${model.height}px`;
   ribbon.dataset.foldOpen = String(model.pose.progress); ribbon.dataset.zoomLimit = String(config.MAX_SCALE);
@@ -198,7 +198,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   }
   if (ribbon.parentElement !== timeline) timeline.appendChild(ribbon);
   const files = [...new Set([...model.layout.panels.map(p => p.atlas.file),
-    ...[...model.borders.values()].flat().map(border => border.file)])];
+    ...model.borders.map(border => border.file)])];
   const missing = files.filter(file => !model.loaded.has(file)); model.loading = missing.length > 0;
   if (missing.length) {
     const generation = ++model.generation;
