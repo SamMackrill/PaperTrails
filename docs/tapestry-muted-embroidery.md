@@ -23,3 +23,14 @@ These images were exported from the running application canvas at full opening, 
 ![Composed tapestry near 1835](ui-improvements/img/tapestry-muted-join-1835-20261003.webp)
 
 Validation: 117 native tests, 30 prototype tests and the full desktop browser audit passed, including all three modes, folding, fixed height, canonical targets and printable research trail. The eight visually inspected locations were 1600, 1700, 1835, 1682, 1758, 1859, 1916 and 1969.
+
+## Saved active artwork and prompts
+
+Generated and edited with the built-in image generation tool. Active PNG masters (each has a lossless WebP sibling):
+
+- [opening narrative](../images/tapestry/bayeux-linear-opening-faded-wool-threads.png)
+- [early narrative](../images/tapestry/bayeux-linear-early-faded-wool-threads.png)
+- [middle narrative](../images/tapestry/bayeux-linear-middle-faded-wool-threads.png)
+- [modern narrative](../images/tapestry/bayeux-linear-modern-faded-wool-threads.png)
+
+[Exact ten generation and edit prompts](../images/tapestry/muted-embroidery-prompts.json) include each input reference and output path; [the generation record](../images/tapestry/linear-story-generation.json) retains their hashes and complete earlier history.
