@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { validateRetainedGenerations } from './linear-story-artwork.mjs';
 const sources = () => JSON.parse(readFileSync(new URL('../images/tapestry/linear-story-generation.json', import.meta.url))).sources;
+const cometMaster = generation => generation.sourceFile?.endsWith('-comets.png');
 function retained(generation, predicate) {
   if (predicate(generation)) return generation;
   return (generation.previousGeneration && retained(generation.previousGeneration, predicate))
@@ -12,7 +13,7 @@ function retained(generation, predicate) {
 test('deleting required comet references and initial-edit evidence is rejected', () => {
   for (const [sheet, field] of [['early', 'supportingReferences'], ['middle', 'supportingReferences'], ['middle', 'initialEdit']]) {
     const record = sources();
-    delete retained(record[sheet], g => g.initialEdit || g.supportingReferences?.length)[field];
+    delete retained(record[sheet], cometMaster)[field];
     assert.throws(() => validateRetainedGenerations(record), /Missing retained (supporting references|initial edit)/);
   }
 });
@@ -20,7 +21,7 @@ test('deleting required comet references and initial-edit evidence is rejected',
 test('empty or substituted comet reference inventories are rejected', () => {
   for (const references of [[], [{ file: 'images/tapestry/style-reference-bayeux.png', hash: '0'.repeat(64) }]]) {
     const record = sources();
-    retained(record.early, g => g.supportingReferences?.length).supportingReferences = references;
+    retained(record.early, cometMaster).supportingReferences = references;
     assert.throws(() => validateRetainedGenerations(record), /Missing retained supporting references/);
   }
 });
