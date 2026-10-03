@@ -43,6 +43,16 @@ export function validateLinearStory() {
     if (!generation?.prompt || generation.sourceHash !== hash(png) || generation.runtimeHash !== hash(read(atlas.file))
       || generation.promptHash !== hash(generation.prompt)
       || generation.referenceHash !== hash(read(generation.reference))) throw new Error(`Unrecorded story generation: ${sheet}`);
+    if (generation.scenePolish) {
+      const edit = generation.scenePolish;
+      const prompts = JSON.parse(read('images/tapestry/scene-polish-prompts.json'));
+      const prompt = prompts.groups.find(group => group.id === sheet);
+      if (!prompt || prompt.prompt !== generation.prompt || prompt.reference !== generation.reference
+        || prompt.output !== master || edit.sourceFile !== generation.reference
+        || edit.sourceHash !== hash(read(edit.sourceFile)) || edit.runtimeHash !== hash(read(edit.runtimeFile))
+        || edit.priorGeneration?.sourceHash !== edit.sourceHash
+        || edit.priorGeneration?.runtimeHash !== edit.runtimeHash) throw new Error(`Unrecorded scene polish: ${sheet}`);
+    }
     const previous = generation.previousGeneration;
     if (!previous || previous.sourceHash !== hash(read(previous.sourceFile))
       || previous.runtimeHash !== hash(read(previous.runtimeFile))) throw new Error(`Changed linen extraction source: ${sheet}`);

@@ -1,7 +1,7 @@
 // Every region is used once on the chronological cloth. Storage rows never
 // become display rows, repeated tiles, or zoom-dependent replacements.
 import { scientificBorderContinuations } from './scientificBorderContinuations.js?v=pass2-continuous-linen-v1';
-import { storyPanels, storyAtlases, STORY_BODY_HEIGHT } from './storyPanels.js?v=pass2-continuous-linen-v1';
+import { storyPanels, storyAtlases, STORY_BODY_HEIGHT } from './storyPanels.js?v=pass2-scene-polish-v1';
 export const scientificBorderAtlases = {
   early: { file: 'images/tapestry/scientific-borders-early-threads.webp', width: 2172, height: 724,
     bands: [[7, 90], [93, 183], [187, 276], [277, 365], [367, 457], [458, 547], [547, 635], [636, 720]] },

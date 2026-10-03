@@ -3,7 +3,7 @@
   "generatedAt": "2026-10-02",
   "userApproved": false,
   "notes": "Six authored atlases store forty-eight distinct ribbons. Every retained source region is used once across twelve chronological sections; top and bottom differ. Descriptions reflect inspected artwork. Science diagrams are symbolic embroidery, not calibrated technical schematics or assertions that a named scientist personally used every pictured device. Related earlier publications can supply the scientific background of later apparatus; the border introduces no new dated events. Exact prompts and both supplied references are maintained separately. Pixel hashes record the inspected RGB crop data; source and geometry hashes detect changes. Visual review must still assess repeated compositions and accuracy. A second set of six continuation atlases supplies 48 additional distinct ribbons. Four different whole ribbons now run end-to-end on each side of each chronological section. Frame sizing fits native source aspect ratios into the shared context height; no horizontal spacer is permitted. The early continuation has a small lodestone correction; the uncorrected edit target and exact correction prompt are retained. Active masters contain transparent threadwork on a shared linen backing. All 96 native ribbon regions remain distinct.",
-  "geometryHash": "f353338c2c33ea55754d0dbfec31b7ae6cc5839111048573697983fee6d76395",
+  "geometryHash": "fc65f3a0e8ea81bba60276592f70bd184458a55f94ed7b6a60c81205fcbf51ac",
   "sources": {
     "early": {
       "original": "exec-aa3f7a45-701d-447d-b2eb-8ab49993f6b9.png",
