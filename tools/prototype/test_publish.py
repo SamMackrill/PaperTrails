@@ -27,7 +27,7 @@ class OwnerVerificationTests(unittest.TestCase):
         import hashlib, json
         paths=['index.html','data/trails.yaml','src/trailController.js',
                'images/tapestry/landscape-b-revolutions.png','print-trail.html',
-               'prototype-version.json','images/tapestry/example-threads.webp']
+               'prototype-version.json','images/tapestry/example-threads.webp', 'style.css']
         files={path:path.encode() for path in paths}
         files['prototype-version.json']=json.dumps({'branch':branch,'commit':'expected'}).encode()
         return files,[dict(path=path,hash=hashlib.sha256(contents).hexdigest()) for path,contents in files.items()]
@@ -62,5 +62,14 @@ class OwnerVerificationTests(unittest.TestCase):
         self.assertEqual(request.get_header('Authorization'),'Bearer test-key')
         with self.assertRaisesRegex(RuntimeError,'redirect changed host'):
             build.call_args.args[0].redirect_request(request,None,302,'',{},'https://untrusted.example/file')
+        with self.assertRaisesRegex(RuntimeError,'redirect changed host or scheme'):
+            build.call_args.args[0].redirect_request(request,None,302,'',{},'http://here.now/file')
+
+    def test_visitor_entry_points_are_checked_at_the_live_site(self):
+        seen=[]
+        p.verify_live_entry_points('https://review.here.now/', lambda site_url, path: seen.append((site_url,path)))
+        self.assertEqual(seen,[('https://review.here.now/',''),('https://review.here.now/','print-trail.html')])
+        with self.assertRaisesRegex(RuntimeError,'escaped here.now'):
+            p.verify_live_entry_points('http://review.here.now/', lambda *args: None)
 
 if __name__ == '__main__': unittest.main()

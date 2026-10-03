@@ -69,8 +69,9 @@ def atomic(path, value):
 def read_owner_file(slug, path, key):
     class SameHost(urllib.request.HTTPRedirectHandler):
         def redirect_request(self, req, fp, code, msg, headers, newurl):
-            if urllib.parse.urlparse(newurl).hostname != 'here.now':
-                raise RuntimeError('Owner file verification redirect changed host')
+            parsed = urllib.parse.urlparse(newurl)
+            if parsed.scheme != 'https' or parsed.hostname != 'here.now':
+                raise RuntimeError('Owner file verification redirect changed host or scheme')
             return super().redirect_request(req, fp, code, msg, headers, newurl)
     url = f'https://here.now/api/v1/publish/{urllib.parse.quote(slug, safe="")}/files/{urllib.parse.quote(path, safe="/")}'
     req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + key, 'X-HereNow-Client': 't3-code/codex'})
@@ -83,11 +84,13 @@ def read_owner_file(slug, path, key):
 def verify_live_artifact(slug, commit, manifest, key, fetch_file=None):
     fetch_file = fetch_file or read_owner_file
     files = {file['path']: file for file in manifest}
-    paths = ['index.html', 'data/trails.yaml', 'src/trailController.js',
-             'images/tapestry/landscape-b-revolutions.png', 'print-trail.html', 'prototype-version.json']
-    paths += [path for path in files if path.endswith('-threads.webp')]
-    for path in paths:
-        if path not in files: raise RuntimeError(f'Live artifact manifest is missing {path}')
+    required = {'index.html', 'data/trails.yaml', 'src/trailController.js',
+                'images/tapestry/landscape-b-revolutions.png', 'print-trail.html', 'prototype-version.json'}
+    if not required.issubset(files):
+        raise RuntimeError('Live artifact manifest is missing required files')
+    if len(files) != len(manifest):
+        raise RuntimeError('Live artifact manifest contains duplicate paths')
+    for path in files:
         contents = fetch_file(slug, path, key)
         if hashlib.sha256(contents).hexdigest() != files[path]['hash']:
             raise RuntimeError(f'Live artifact hash mismatch for {path}')
@@ -95,6 +98,20 @@ def verify_live_artifact(slug, commit, manifest, key, fetch_file=None):
             version = json.loads(contents)
             if version.get('commit') != commit or version.get('branch') != PROTOTYPE:
                 raise RuntimeError('Live deployment commit or branch mismatch')
+
+def read_live_entry_point(site_url, path):
+    url = urllib.parse.urljoin(site_url.rstrip('/')+'/', path)
+    with urllib.request.urlopen(url, timeout=60) as response:
+        if response.status != 200:
+            raise RuntimeError(f'Live entry point check failed for {path or "/"}')
+
+def verify_live_entry_points(site_url, fetch_entry=None):
+    parsed = urllib.parse.urlparse(site_url)
+    if parsed.scheme != 'https' or not parsed.hostname.endswith('.here.now'):
+        raise RuntimeError('Live Site URL escaped here.now')
+    fetch_entry = fetch_entry or read_live_entry_point
+    for path in ('', 'print-trail.html'):
+        fetch_entry(site_url, path)
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--dry-run', action='store_true'); args = parser.parse_args()
@@ -160,6 +177,7 @@ def main():
         raise RuntimeError('here.now did not confirm a permanent live Site')
     url = finalized['siteUrl'].rstrip('/')+'/'
     verify_live_artifact(finalized['slug'], commit, manifest, key)
+    verify_live_entry_points(url)
     state = json.loads((ROOT/'state.json').read_text(encoding='utf-8'))
     state['deployment'] = {'slug': finalized['slug'], 'versionId': finalized['currentVersionId'], 'url': url, 'commit': commit, 'publishStatus': status}
     atomic(ROOT/'state.json', state); session_path.unlink()
