@@ -37,3 +37,10 @@ test('a retained edit cannot point at a different recorded generation', () => {
   record.modern.scenePolish.priorGeneration.sourceFile = record.modern.sourceFile;
   assert.throws(() => validateRetainedGenerations(record), /Disconnected retained story edit/);
 });
+
+test('initial comet edits remain checked after a later redraw wraps their generation', () => {
+  const record = sources();
+  record.middle = { ...record.middle, previousGeneration: structuredClone(record.middle) };
+  record.middle.previousGeneration.previousGeneration.initialEdit.promptHash = '0'.repeat(64);
+  assert.throws(() => validateRetainedGenerations(record), /Changed retained initial edit prompt/);
+});

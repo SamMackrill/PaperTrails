@@ -20,6 +20,7 @@ function geometryHash() {
 /** Check every retained output, prompt and reference, including nested edits. */
 export function validateRetainedGenerations(sources, readSource = read) {
   const digests = new Map();
+  let cometPrompts;
   function checkFile(file, expected, label) {
     if (typeof file !== 'string' || !file || !/^[a-f0-9]{64}$/.test(expected || '')) throw new Error(`Missing retained ${label}`);
     if (!digests.has(file)) digests.set(file, hash(readSource(file)));
@@ -33,6 +34,14 @@ export function validateRetainedGenerations(sources, readSource = read) {
     checkFile(generation.reference, generation.referenceHash, 'story reference');
     for (const ref of generation.supportingReferences || []) checkFile(ref.file, ref.hash, 'supporting reference');
     // The singular supportingReference is a user-thread citation, not a file.
+    if (generation.initialEdit) {
+      cometPrompts ||= JSON.parse(readSource('images/tapestry/halley-comet-prompts.json'));
+      const edit = generation.initialEdit;
+      const group = cometPrompts.groups.find(entry => entry.id === label.split('/')[0]);
+      if (!group?.initialEdit || edit.promptHash !== hash(group.initialEdit.prompt)) throw new Error(`Changed retained initial edit prompt: ${label}`);
+      checkFile(edit.reference, edit.referenceHash, 'initial edit reference');
+      checkFile(generation.reference, edit.sourceHash, 'initial edit output');
+    }
     if (generation.previousGeneration) visit(generation.previousGeneration, `${label}/previousGeneration`);
     if (generation.scenePolish) {
       const edit = generation.scenePolish, prior = edit.priorGeneration;
