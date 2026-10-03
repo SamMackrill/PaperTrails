@@ -60,7 +60,9 @@ export function renderTimelineMotion(container, timeline, scale) {
       const centered = node.matches('.scientist-node, .scientist-cluster, .publication, .discovery-marker, .conference-marker, .trail-route-stop');
       const width = node.offsetWidth;
       return { node, left: parseFloat(node.style.left) || 0, width, stretch, anchor: centered ? width / 2 : 0 };
-    }), svg: timeline.querySelector('.timeline-svg') };
+    }), svg: timeline.querySelector('.timeline-svg'), holes: [...timeline.querySelectorAll('.indicator-clearance')].map(node => ({
+      node, x: Number(node.dataset.x), y: Number(node.dataset.y)
+    })) };
     motionLayouts.set(timeline, layout);
   }
   const width = Math.max(container.clientWidth, Math.round(container.clientWidth * scale));
@@ -74,6 +76,11 @@ export function renderTimelineMotion(container, timeline, scale) {
   if (layout.svg) {
     layout.svg.style.transformOrigin = '0 0';
     layout.svg.style.transform = `scaleX(${ratio})`;
+    // The SVG stretches horizontally during zoom, while indicators retain
+    // their size. Keep their clear spaces at the same screen-pixel size too.
+    layout.holes.forEach(({ node, x, y }) => {
+      node.setAttribute('transform', `translate(${x} ${y}) scale(${1 / ratio} 1)`);
+    });
   }
   if (timeline.querySelector('.tapestry-ribbon')) {
     const top = parseFloat(container.closest('.timeline-frame').style.getPropertyValue('--context-top'));
@@ -96,6 +103,55 @@ function createSvgLine(className, x1, y1, x2, y2) {
   line.setAttribute('y2', y2);
   line.classList.add(className);
   return line;
+}
+
+// Cut every indicator out of the connector layers, including unrelated,
+// dimmed indicators. A translucent button background cannot hide the lines.
+function createIndicatorMask(svg, content, width, height) {
+  const id = 'timeline-indicator-mask';
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const mask = document.createElementNS(SVG_NS, 'mask');
+  mask.id = id;
+  mask.setAttribute('maskUnits', 'userSpaceOnUse');
+  mask.setAttribute('maskContentUnits', 'userSpaceOnUse');
+  mask.setAttribute('x', 0);
+  mask.setAttribute('y', 0);
+  mask.setAttribute('width', width);
+  mask.setAttribute('height', height);
+  mask.style.maskType = 'luminance';
+  const backing = document.createElementNS(SVG_NS, 'rect');
+  backing.setAttribute('width', width);
+  backing.setAttribute('height', height);
+  backing.setAttribute('fill', 'white');
+  mask.appendChild(backing);
+  content.querySelectorAll('.discovery-marker, .conference-marker').forEach(marker => {
+    const size = parseFloat(marker.style.width);
+    const x = parseFloat(marker.style.left) + size / 2;
+    const y = parseFloat(marker.style.top) + size / 2;
+    const hole = document.createElementNS(SVG_NS, 'g');
+    hole.classList.add('indicator-clearance');
+    hole.dataset.x = x;
+    hole.dataset.y = y;
+    hole.setAttribute('transform', `translate(${x} ${y})`);
+    const diamond = marker.classList.contains('conference-marker');
+    const shape = document.createElementNS(SVG_NS, diamond ? 'rect' : 'circle');
+    if (diamond) {
+      shape.setAttribute('x', -size / 2 - 4);
+      shape.setAttribute('y', -size / 2 - 4);
+      shape.setAttribute('width', size + 8);
+      shape.setAttribute('height', size + 8);
+      shape.setAttribute('rx', 8);
+      shape.setAttribute('transform', 'rotate(45)');
+    } else {
+      shape.setAttribute('r', size / 2 + 4);
+    }
+    shape.setAttribute('fill', 'black');
+    hole.appendChild(shape);
+    mask.appendChild(hole);
+  });
+  defs.appendChild(mask);
+  svg.appendChild(defs);
+  return `url(#${id})`;
 }
 
 // The font family is read once, because reading computed style between DOM
@@ -802,13 +858,16 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   const coordinates = {};
   renderScaleSegments(content, width, height);
   renderAxis(content, svg, width, height, axisY, scale);
+  const connectorLayer = document.createElementNS(SVG_NS, 'g');
+  connectorLayer.classList.add('connector-layer');
+  svg.appendChild(connectorLayer);
   // Publications are laid out first because portraits link to them, but are
   // added after the people so the lanes tab in top-to-bottom order.
   const publications = document.createDocumentFragment();
   renderPublications(publications, width, axisY, coordinates);
-  renderScientists(content, svg, width, axisY, coordinates, scale);
+  renderScientists(content, connectorLayer, width, axisY, coordinates, scale);
   content.appendChild(publications);
-  renderMilestones(content, svg, width, axisY, contextTop, scale);
+  renderMilestones(content, connectorLayer, width, axisY, contextTop, scale);
   if (tapestry) {
     renderTapestry(content, significantEvents, width, height, contextTop, scale, (button) => {
       selectItem(button);
@@ -820,6 +879,9 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   // Connections are drawn last so they sit above the lane content in the SVG.
   const relationLayer = document.createElementNS(SVG_NS, 'g');
   relationLayer.classList.add('relation-layer');
+  const indicatorMask = createIndicatorMask(svg, content, width, height);
+  connectorLayer.setAttribute('mask', indicatorMask);
+  relationLayer.setAttribute('mask', indicatorMask);
   svg.appendChild(relationLayer);
   timeline.replaceChildren(...content.childNodes);
   hoverKey = null;
