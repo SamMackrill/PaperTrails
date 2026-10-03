@@ -1,5 +1,7 @@
 # Image attribution
 
+- `tapestry/scientific-borders-camera-1827.png` and `tapestry/scientific-borders-colour-film-1935.png` (and WebP derivatives): AI-generated embroidered border artwork, built-in image generation, 3 October 2026. Exact prompts, style references, correction source and hashes: `tapestry/photography-border-generation.json`. The retained `source-colour-film-1935-draft.png` is the input to the camera correction, not runtime artwork. Historical sources and technical qualifications: `docs/photography-milestones.md`.
+
 Portraits added for the discovery and conference scientist audit:
 
 - `millikan.jpg` is resized without stretching and padded to a square from Smithsonian Libraries and Archives' *Portrait of Robert Andrews Millikan*, identifier `DAMS:SIL-SIL14-m004-03`, explicitly marked **No Copyright – United States**. [Institutional source and rights](https://library.si.edu/image-gallery/73673), [reuse explanation](https://library.si.edu/copyright), [original image](https://ids.si.edu/ids/deliveryService?id=SIL-SIL14-m004-03). Courtesy of the Smithsonian Libraries and Archives. The catalogue supplies no photographer or historical photograph date; none is inferred. `cartoons/millikan.png` is a newly generated Wry Engraver illustration using this Smithsonian portrait, with the same documented U.S. source-rights basis. Both 192px WebP derivatives use the corresponding replacement masters. [Generation and preparation record](../docs/millikan-portrait-provenance.json).

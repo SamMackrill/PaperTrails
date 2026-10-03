@@ -1,6 +1,6 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-latin-retries-v1';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-muted-embroidery-v2';
-import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-muted-embroidery-v2';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-photography-v1';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-photography-v1';
 import { paintLinen } from './linenBacking.js?v=pass2-muted-embroidery-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
@@ -9,6 +9,7 @@ import { xToYear } from './timeScale.js?v=3';
 import { config } from './config.js?v=16';
 import { scientists, discoveries } from './dataLoader.js?v=pass2-story-v2';
 import { scientificStoryRecords } from './storyScience.js';
+import { exposedPhotographyTargets } from './photographyBorders.js';
 import { planInscription, planNarrowerInscription, drawInscription, INSCRIPTION_LINE_HEIGHT } from './stitchedInscriptions.js?v=pass2-latin-retries-v1';
 const models = new WeakMap();
 const images = new Map();
@@ -113,6 +114,22 @@ function paint(model, container) {
   paintLinen(ink, viewport, height, camera);
   const artTop = model.borderHeight;
   const lettering = positionRecords(model, fragments, worldLeft, camera, viewport);
+  const borderTargets = exposedPhotographyTargets(model.borders, fragments);
+  for (const [id, button] of model.borderTargets) {
+    const spans = borderTargets.filter(target => target.revision.milestoneId === id && model.loaded.get(target.file))
+      .map(target => ({ ...target, left: target.left - camera }))
+      .filter(target => target.left + target.width > 0 && target.left < viewport)
+      .map(target => ({ ...target, width: Math.min(viewport, target.left + target.width) - Math.max(0, target.left), left: Math.max(0, target.left) }));
+    const first = spans.length ? Math.min(...spans.map(s => s.left)) : 0;
+    const last = spans.length ? Math.max(...spans.map(s => s.left + s.width)) : 0;
+    button.style.cssText = `left:${worldLeft + first}px;top:0;width:${Math.max(1, last - first)}px;height:${height}px`;
+    button.replaceChildren(...spans.map(span => {
+      const hit = document.createElement('span'); hit.className = 'tapestry-story-hit';
+      hit.style.cssText = `left:${span.left - first}px;top:${scientificBorderY(span, model)}px;width:${span.width}px;height:${span.height}px`;
+      return hit;
+    }));
+    button.tabIndex = spans.length ? 0 : -1;
+  }
   for (const { entry, left, row, inscription } of lettering) {
     ink.drawImage(entry.lettering, left - worldLeft, artTop + 2 + row * LETTER_ROW_HEIGHT,
       inscription.width, inscription.height);
@@ -172,13 +189,25 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
     status.setAttribute('role', 'status'); status.hidden = true;
     status.textContent = 'Some artwork could not load. Select a subject for details, or switch to Bars.';
     ribbon.appendChild(status);
-    models.set(ribbon, { ribbon, canvas, status, records: new Map(), loaded: new Map(), generation: 0 });
+    models.set(ribbon, { ribbon, canvas, status, records: new Map(), borderTargets: new Map(), loaded: new Map(), generation: 0 });
   }
   const model = models.get(ribbon);
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
   Object.assign(model, scientificBorderFrame(model.height));
   model.layout = layoutStory([...events, ...scientificStoryRecords(scientists, discoveries)], width, model.artHeight);
   model.borders = layoutScientificBorder(model.layout);
+  for (const border of model.borders.filter(border => border.revision)) {
+    const discovery = discoveries.find(d => d.id === border.revision.milestoneId);
+    if (!discovery || model.borderTargets.has(discovery.id)) continue;
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'tapestry-border-target';
+    button.dataset.itemKey = `discovery:${discovery.id}`;
+    button.dataset.tooltip = `${discovery.title} · ${discovery.year}`;
+    button.setAttribute('aria-label', `${discovery.title}, ${discovery.year}. Open milestone details.`);
+    button.addEventListener('click', event => {
+      event.stopPropagation(); model.onSelect(button, { ...discovery, startYear: discovery.year, endYear: discovery.year });
+    });
+    model.borderTargets.set(discovery.id, button); ribbon.appendChild(button);
+  }
   model.pose = foldStory(model.layout, timeline.parentElement?.clientWidth || width / scale, scale);
   ribbon.style.cssText = `top:${top + 8}px;width:${width}px;height:${model.height}px`;
   ribbon.dataset.foldOpen = String(model.pose.progress); ribbon.dataset.zoomLimit = String(config.MAX_SCALE);
