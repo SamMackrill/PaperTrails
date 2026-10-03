@@ -14,9 +14,10 @@ test('saved modes take precedence over the migrated on/off preference', () => {
   const storage = values => ({ getItem: key => values[key] ?? null });
   for (const mode of CONTEXT_MODES) assert.equal(savedContextMode(storage({ paperTrailsContextMode: mode, paperTrailsTapestry: 'false' })), mode);
   assert.equal(savedContextMode(storage({ paperTrailsTapestry: 'false' })), 'bars');
-  assert.equal(savedContextMode(storage({ paperTrailsTapestry: 'true' })), 'landscape');
-  assert.equal(savedContextMode(storage({ paperTrailsContextMode: 'invalid' })), 'landscape');
-  assert.equal(savedContextMode({ getItem() { throw new Error('Storage disabled'); } }), 'landscape');
+  assert.equal(savedContextMode(storage({})), 'tapestry', 'fresh visits open the embroidered story');
+  assert.equal(savedContextMode(storage({ paperTrailsTapestry: 'true' })), 'tapestry');
+  assert.equal(savedContextMode(storage({ paperTrailsContextMode: 'invalid' })), 'tapestry');
+  assert.equal(savedContextMode({ getItem() { throw new Error('Storage disabled'); } }), 'tapestry');
 });
 
 test('shared links preserve all three modes and still read legacy links', () => {

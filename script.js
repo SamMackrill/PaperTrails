@@ -10,7 +10,7 @@ import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
 import { createMinimap } from './src/minimap.js?v=pass2-chapters-v2';
 import { formatHash, parseHash } from './src/urlState.js?v=pass2-labels-v5';
-import { CONTEXT_MODE_STORAGE_KEY, DEFAULT_CONTEXT_MODE, getContextMode, nextContextMode, savedContextMode, updateContextModeButton } from './src/contextMode.js?v=pass2-stable-height-v1';
+import { CONTEXT_MODE_STORAGE_KEY, DEFAULT_CONTEXT_MODE, getContextMode, nextContextMode, savedContextMode, updateContextModeButton } from './src/contextMode.js?v=pass2-tapestry-default-v1';
 import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-chapters-v2';
 import { zoomProgress } from './src/zoomLayout.js?v=pass2-chapters-v2';
 

@@ -1,5 +1,5 @@
 export const CONTEXT_MODES = ['bars', 'landscape', 'tapestry'];
-export const DEFAULT_CONTEXT_MODE = 'landscape';
+export const DEFAULT_CONTEXT_MODE = 'tapestry';
 export const CONTEXT_MODE_STORAGE_KEY = 'paperTrailsContextMode';
 
 const CONTEXT_GUIDES = {
