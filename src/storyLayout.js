@@ -1,6 +1,6 @@
 import { config } from './config.js?v=16';
 import { yearToX } from './timeScale.js?v=3';
-import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-continuous-linen-v1';
+import { storyPanels, storyAtlases, STORY_BODY_HEIGHT } from './storyPanels.js?v=pass2-continuous-linen-v1';
 const FRONT = 160;
 const RETURN = 240;
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -12,7 +12,9 @@ export function layoutStory(events, width, height) {
   const panels = storyPanels.map(section => {
     const atlas = storyAtlases[section.sheet];
     const [top, bottom] = atlas.bodies[section.row];
-    const unit = height / (bottom - top);
+    // One source-pixel scale across the whole cloth, including short scenes.
+    // Independently fitting every crop enlarged people and changed border depth.
+    const unit = height / STORY_BODY_HEIGHT;
     const sourceWidth = atlas.width * unit;
     const summaryWidth = Math.min(FRONT, sourceWidth);
     const summaryX = clamp(section.focus * sourceWidth - summaryWidth / 2, 0, sourceWidth - summaryWidth);

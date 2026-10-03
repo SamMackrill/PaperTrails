@@ -16,6 +16,7 @@ test('one linear material uses whole shared depictions and preserves every recor
   for (const record of layout.records) assert.ok(record.subjects.length, record.event.title);
   for (const [i, panel] of layout.panels.entries()) {
     near(panel.sourceWidth / panel.crop.width, panel.unit);
+    near(panel.unit, layout.panels[0].unit, 'short source rows do not enlarge the figures');
     if (i) {
       near(panel.sourceX, layout.panels[i - 1].sourceX + layout.panels[i - 1].sourceWidth);
       assert.equal(panel.from, layout.panels[i - 1].to);

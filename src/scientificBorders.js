@@ -1,7 +1,7 @@
 // Every region is used once on the chronological cloth. Storage rows never
 // become display rows, repeated tiles, or zoom-dependent replacements.
 import { scientificBorderContinuations } from './scientificBorderContinuations.js?v=pass2-continuous-linen-v1';
-import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-continuous-linen-v1';
+import { storyPanels, storyAtlases, STORY_BODY_HEIGHT } from './storyPanels.js?v=pass2-continuous-linen-v1';
 export const scientificBorderAtlases = {
   early: { file: 'images/tapestry/scientific-borders-early-threads.webp', width: 2172, height: 724,
     bands: [[7, 90], [93, 183], [187, 276], [277, 365], [367, 457], [458, 547], [547, 635], [636, 720]] },
@@ -35,27 +35,24 @@ export function scientificBorderRows(section, side) {
   }));
 }
 
-// Fit a complete contiguous border around the complete narrative. This uses
-// only authored aspect ratios and the shared context height, never zoom/pan.
+// Fit each complete chronological edge as one ribbon, at a single depth.
+// Its storage-section boundaries need not coincide with narrative joins.
 export function scientificBorderFrame(totalHeight) {
-  const ratio = Math.max(...storyPanels.flatMap(panel => {
-    const atlas = storyAtlases[panel.sheet], [top, bottom] = atlas.bodies[panel.row];
-    return ['top', 'bottom'].map(side => (atlas.width / (bottom - top))
-      / scientificBorderRows(panel.id, side).reduce((sum, row) => sum + row.aspect, 0));
-  }));
-  const artHeight = Math.max(0, totalHeight) / (1 + 2 * ratio);
-  return { artHeight, borderHeight: artHeight * ratio };
+  const materialAspect = storyPanels.reduce((sum, panel) => sum + storyAtlases[panel.sheet].width / STORY_BODY_HEIGHT, 0);
+  const ratios = ['top', 'bottom'].map(side => materialAspect / storyPanels
+    .flatMap(panel => scientificBorderRows(panel.id, side)).reduce((sum, row) => sum + row.aspect, 0));
+  const artHeight = Math.max(0, totalHeight) / (1 + ratios[0] + ratios[1]);
+  return { artHeight, borderHeight: artHeight * ratios[0], bottomBorderHeight: artHeight * ratios[1] };
 }
 
-// Every side is assembled end-to-end from four different whole source rows.
-// A common row height preserves native proportions and exactly fills its edge.
-export function layoutScientificBorder(panel) {
-  const assignment = scientificBorderSections[panel.id];
-  if (!assignment || panel.sourceWidth <= 0) return [];
+// All 48 distinct rows on each edge share one height. Native source proportions
+// and complete row coverage are retained; no repeated or stretched filler.
+export function layoutScientificBorder(layout) {
+  if (layout.materialWidth <= 0) return [];
   return ['top', 'bottom'].flatMap(side => {
-    const rows = scientificBorderRows(panel.id, side);
-    const height = panel.sourceWidth / rows.reduce((sum, row) => sum + row.aspect, 0);
-    let sourceX = panel.sourceX;
+    const rows = layout.panels.flatMap(panel => scientificBorderRows(panel.id, side));
+    const height = layout.materialWidth / rows.reduce((sum, row) => sum + row.aspect, 0);
+    let sourceX = 0;
     return rows.map(({ sheet, row, atlas, top, bottom }) => {
       const unit = height / (bottom - top), width = atlas.width * unit;
       const result = { id: `${sheet}-${row}`, sheet, row, side, file: atlas.file,
@@ -80,8 +77,7 @@ export function exposedScientificBorder(segments, fragment) {
   });
 }
 
-// The inner embroidered edge touches the narrative. Spare allocation remains
-// exposed linen outside, never a spacer between embroidery and the scene.
+// Constant inner and outer edge positions across the entire material.
 export function scientificBorderY(border, frame) {
-  return border.side === 'top' ? frame.borderHeight - border.height : frame.borderHeight + frame.artHeight;
+  return border.side === 'top' ? 0 : frame.borderHeight + frame.artHeight;
 }
