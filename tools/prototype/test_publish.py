@@ -75,15 +75,22 @@ class OwnerVerificationTests(unittest.TestCase):
     def test_visitor_requests_identify_the_audit_and_reject_failed_access(self):
         from unittest.mock import MagicMock
         response=MagicMock(); response.__enter__.return_value.status=200
-        with patch.object(p.urllib.request,'urlopen',return_value=response) as fetch:
+        opener=MagicMock(); opener.open.return_value=response
+        with patch.object(p.urllib.request,'build_opener',return_value=opener) as build:
             p.read_live_entry_point('https://review.here.now/','print-trail.html')
-        request=fetch.call_args.args[0]
+        request=opener.open.call_args.args[0]
         self.assertEqual(request.full_url,'https://review.here.now/print-trail.html')
         self.assertIn('PaperTrailsPrototypeAudit',request.get_header('User-agent'))
         self.assertEqual(request.get_header('Accept'),'text/html')
         self.assertIsNone(request.get_header('Authorization'))
+        redirect_handler=build.call_args.args[0]
+        for target in ('https://untrusted.example/login',
+                       'http://review.here.now/print-trail.html',
+                       'https://review.here.now/login'):
+            with self.assertRaisesRegex(RuntimeError,'followed a redirect'):
+                redirect_handler.redirect_request(request,None,302,'',{},target)
         response.__enter__.return_value.status=503
-        with patch.object(p.urllib.request,'urlopen',return_value=response):
+        with patch.object(p.urllib.request,'build_opener',return_value=opener):
             with self.assertRaisesRegex(RuntimeError,'entry point check failed'):
                 p.read_live_entry_point('https://review.here.now/','')
 

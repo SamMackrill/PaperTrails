@@ -107,7 +107,10 @@ def read_live_entry_point(site_url, path):
         'User-Agent': 'Mozilla/5.0 (compatible; PaperTrailsPrototypeAudit/1.0)',
         'Accept': 'text/html',
     })
-    with urllib.request.urlopen(request, timeout=60) as response:
+    class RejectRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            raise RuntimeError('Live entry point check followed a redirect')
+    with urllib.request.build_opener(RejectRedirect()).open(request, timeout=60) as response:
         if response.status != 200:
             raise RuntimeError(f'Live entry point check failed for {path or "/"}')
 
