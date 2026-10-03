@@ -127,6 +127,8 @@ These sources establish the identity of the mark, but generally do not grant a s
 
 ## Deliberately neutral entries
 
+The Stern–Gerlach addition reuses the existing ETH Zurich, Hamburg, Tübingen, Munich and Bonn assets with their recorded terms. University of Breslau, University of Rostock, Carnegie Institute of Technology and University of Frankfurt have no verified local emblems in this addition and use neutral academic icons. Frankfurt occurs in both new profiles.
+
 | Institution | Reason no emblem is bundled |
 | --- | --- |
 | Manchester Academy | The historical dissenting academy attended by John Dalton has no distinct, reliably documented surviving institutional mark; a modern Manchester venue or successor-college badge would be misleading. |

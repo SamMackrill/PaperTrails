@@ -327,6 +327,7 @@
   year: 1922
   title: "Stern–Gerlach Experiment"
   discoverer: "Otto Stern and Walther Gerlach"
+  scientist_ids: [stern, gerlach]
   details: "A beam of silver atoms split into discrete components in an inhomogeneous magnetic field. Initially interpreted as spatial quantization of atomic angular momentum, the result was later understood in terms of the unpaired electron's spin."
   particle: "↑↓"
   color: "#597b67"
