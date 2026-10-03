@@ -17,8 +17,38 @@ function geometryHash() {
   return hash(JSON.stringify({ storyAtlases, storyPanels, STORY_BODY_HEIGHT }));
 }
 
+/** Check every retained output, prompt and reference, including nested edits. */
+export function validateRetainedGenerations(sources, readSource = read) {
+  const digests = new Map();
+  function checkFile(file, expected, label) {
+    if (typeof file !== 'string' || !file || !/^[a-f0-9]{64}$/.test(expected || '')) throw new Error(`Missing retained ${label}`);
+    if (!digests.has(file)) digests.set(file, hash(readSource(file)));
+    if (digests.get(file) !== expected) throw new Error(`Changed retained ${label}: ${file}`);
+  }
+  function visit(generation, label) {
+    if (!generation) throw new Error(`Missing retained generation: ${label}`);
+    checkFile(generation.sourceFile, generation.sourceHash, 'story master');
+    checkFile(generation.runtimeFile, generation.runtimeHash, 'story delivery file');
+    if (!generation.prompt || hash(generation.prompt) !== generation.promptHash) throw new Error(`Changed retained story prompt: ${label}`);
+    checkFile(generation.reference, generation.referenceHash, 'story reference');
+    for (const ref of generation.supportingReferences || []) checkFile(ref.file, ref.hash, 'supporting reference');
+    // The singular supportingReference is a user-thread citation, not a file.
+    if (generation.previousGeneration) visit(generation.previousGeneration, `${label}/previousGeneration`);
+    if (generation.scenePolish) {
+      const edit = generation.scenePolish, prior = edit.priorGeneration;
+      checkFile(edit.sourceFile, edit.sourceHash, 'edit input master');
+      checkFile(edit.runtimeFile, edit.runtimeHash, 'edit input delivery file');
+      if (!prior || prior.sourceFile !== edit.sourceFile || prior.runtimeFile !== edit.runtimeFile
+        || prior.sourceHash !== edit.sourceHash || prior.runtimeHash !== edit.runtimeHash) throw new Error(`Disconnected retained story edit: ${label}`);
+      visit(prior, `${label}/scenePolish`);
+    }
+  }
+  for (const [sheet, generation] of Object.entries(sources)) visit(generation, sheet);
+}
+
 export function validateLinearStory() {
   const record = JSON.parse(read(recordFile));
+  validateRetainedGenerations(record.sources);
   if (record.geometryHash !== geometryHash()) throw new Error('Unrecorded linear story source geometry');
   if (record.referenceHash !== hash(read('images/tapestry/style-reference-bayeux.png'))) throw new Error('Changed Bayeux reference needs reviewed redraw');
   const events = yaml.load(read('data/significantevents.yaml').toString());
@@ -74,6 +104,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       record.geometryHash = geometryHash(); record.referenceHash = hash(read('images/tapestry/style-reference-bayeux.png'));
       for (const [sheet, atlas] of Object.entries(storyAtlases)) {
         const generation = record.sources[sheet];
+        generation.sourceFile = atlas.file.replace(/\.webp$/, '.png'); generation.runtimeFile = atlas.file;
         generation.sourceHash = hash(read(atlas.file.replace(/\.webp$/, '.png')));
         generation.runtimeHash = hash(read(atlas.file)); generation.promptHash = hash(generation.prompt);
         generation.referenceHash = hash(read(generation.reference));
