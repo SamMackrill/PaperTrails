@@ -340,7 +340,7 @@
   year: 1947
   title: "Measurement of the Lamb Shift"
   discoverer: "Willis Lamb and Robert Retherford"
-  scientist_ids: [lamb]
+  scientist_ids: [lamb, retherford]
   details: "Lamb and Retherford used microwave spectroscopy to reveal a separation between hydrogen energy levels that Dirac's basic theory predicted to coincide. The measurement became a crucial test of radiative corrections in quantum electrodynamics."
   particle: ΔE
   color: "#487db0"
@@ -370,7 +370,7 @@
   year: 1982
   title: "Bell Test with Changing Analyzer Settings"
   discoverer: "Alain Aspect, Jean Dalibard, and Gérard Roger"
-  scientist_ids: [aspect, dalibard]
+  scientist_ids: [aspect, dalibard, roger]
   theorist_ids: [bell]
   details: "Measurements of entangled photons with rapidly changing analyzer settings violated a Bell inequality, supporting quantum predictions against local hidden-variable models. The experiment was a major advance, although it did not close every experimental loophole."
   particle: BELL
