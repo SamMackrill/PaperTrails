@@ -357,7 +357,7 @@
   year: 1959
   title: "Prediction of the Aharonov–Bohm Effect"
   discoverer: "Yakir Aharonov and David Bohm"
-  scientist_ids: [bohm]
+  scientist_ids: [aharonov, bohm]
   details: "Aharonov and Bohm predicted a shift in quantum interference when charged particles encircle magnetic flux even though their paths lie in a region with no magnetic field. The effect exposed the significance of electromagnetic potentials in quantum theory."
   particle: AB
   color: "#637ead"
@@ -367,6 +367,7 @@
   year: 1982
   title: "Bell Test with Changing Analyzer Settings"
   discoverer: "Alain Aspect, Jean Dalibard, and Gérard Roger"
+  scientist_ids: [aspect, dalibard]
   theorist_ids: [bell]
   details: "Measurements of entangled photons with rapidly changing analyzer settings violated a Bell inequality, supporting quantum predictions against local hidden-variable models. The experiment was a major advance, although it did not close every experimental loophole."
   particle: BELL

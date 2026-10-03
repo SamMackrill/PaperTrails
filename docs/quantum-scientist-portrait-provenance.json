@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-03",
+  "method": "Built-in image generation, one identity at a time; real alpha; deterministic finisher normalizes 1254x1254 to 1024x1024 and removes zero edge-background pixels.",
+  "styleReferences": [
+    "images/cartoons/rutherford.png",
+    "images/cartoons/bohr.png",
+    "images/cartoons/alfven.png"
+  ],
+  "portraits": [
+    {
+      "id": "aharonov",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Yakir_aharonov.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Yakir_aharonov.jpg",
+      "originalDimensions": [
+        540,
+        315
+      ],
+      "creator": "Kobi Kalmanovitz (קובי קלמנוביץ)",
+      "photoDate": "2006-01-01 (Commons metadata)",
+      "source": "EMET Prize website",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "permissionVerification": "Commons VRT ticket 2014120210018751",
+      "crop": [
+        235,
+        55,
+        445,
+        265
+      ],
+      "finalPhotoDimensions": [
+        256,
+        256
+      ],
+      "photoPreparation": "210px square crop; modest 1.22x Lanczos resampling, RGB JPEG quality 93. No invented photo detail.",
+      "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular scientist portrait, The Wry Engraver.\nImage 1 is the sole identity reference: Yakir Aharonov. Images 2 Rutherford, 3 Bohr, 4 Alfven supply approved graphic house style ONLY.\nNewly draw Aharonov as an affectionate, recognisable editorial caricature. Recognition anchors: high square forehead under thick upright swept-back silver hair; intense dark eyebrows and gently knowing asymmetric gaze; neatly trimmed gray moustache and square short beard, long nose. Derive face and skin undertones from Image 1. Use a modestly enlarged head and compressed shoulders, keep caricature about 10–15%. Dress in muted burgundy collared shirt as photographed.\nRemove all hands, pipe, chess pieces, table, clock, ornaments and room. A head-and-shoulders bust only, no props; the thoughtful expression supplies the humour.\nStyle: confident near-black blue-green ink outlines, simplified shapes, restrained flat colour, one shallow shadow tone, faint printed grain inside fills; crisp silhouette like the supplied house portraits. Natural fair skin with neutral-warm shadows, silver-gray hair and beard, burgundy shirt; never a blanket yellow, orange or sepia cast. Clearly drawn, not a colourised photograph, painterly airbrush or photorealism.\nComposition: centred bust on square 1024x1024, crown about 8% down, eyes about 42% height, important facial features within the central 76%, safe at 42px grayscale and 92px circular crop. Entire face and beard must fit comfortably in the circle.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nPNG with decoded alpha; no text, watermark or signature, no equation, atom symbol, accessories, elaborate hatching, scene or full body. Identity must remain recognisable before humour.",
+      "rawGeneration": "exec-15c03863-08ea-420d-8185-1d6d07738509.png",
+      "references": [
+        {
+          "path": "images/aharonov.jpg",
+          "sha256": "c175908b86c3545007bc9630542c351f0b9f1774a54a0e473f871c015c9eb494"
+        },
+        {
+          "path": "images/cartoons/rutherford.png",
+          "sha256": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3"
+        },
+        {
+          "path": "images/cartoons/bohr.png",
+          "sha256": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec"
+        },
+        {
+          "path": "images/cartoons/alfven.png",
+          "sha256": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        }
+      ],
+      "originalSha256": "1c187d974b8024bb67126be8baf8f4918033e090b8b9a1abb1e38515deb76472",
+      "rawGenerationSha256": "720c2b0e085e5b862198ed09426ca190e3f3db846a18d54dc8e7b9c0994a74f7",
+      "finalAssets": [
+        {
+          "path": "images/aharonov.jpg",
+          "sha256": "c175908b86c3545007bc9630542c351f0b9f1774a54a0e473f871c015c9eb494"
+        },
+        {
+          "path": "images/cartoons/aharonov.png",
+          "sha256": "501608b5e370b8409f002719461edec5bee54778ffec4bbb341ab464373455f1"
+        },
+        {
+          "path": "images/thumbs/aharonov.webp",
+          "sha256": "f8a498769498578aea10603c98ca21e377c40bcf9aabeae0c6d8a9f1bae5e2dd"
+        },
+        {
+          "path": "images/thumbs/cartoons/aharonov.webp",
+          "sha256": "0d064e8a1c452162dcb40b1179c520f8cde29b4331a4bafdda511dfb3da3f847"
+        }
+      ]
+    },
+    {
+      "id": "aspect",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Alain-Aspect-ForMemRS.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Alain-Aspect-ForMemRS.jpg",
+      "originalDimensions": [
+        3724,
+        5586
+      ],
+      "creator": "Royal Society; uploader Royal Society uploader; individual photographer not separately named",
+      "photoDate": "2015-07-10",
+      "license": "CC BY-SA 4.0 (chosen from dual 3.0/4.0 grant)",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "permissionVerification": "Commons VRT ticket 2014062710019796",
+      "crop": [
+        350,
+        300,
+        3350,
+        3300
+      ],
+      "finalPhotoDimensions": [
+        640,
+        640
+      ],
+      "photoPreparation": "3000px square crop resized with Lanczos, RGB JPEG quality 93.",
+      "prompt": "Use case: style-transfer, focused artwork correction.\nAsset type: Paper Trails circular scientist portrait.\nImage roles: Image 1 is the edit target, the newly drawn Alain Aspect portrait. Image 2 is the original Aspect identity photograph. Images 3 Rutherford, 4 Bohr, 5 Alfven are approved house-style references only.\nCorrect the edit target to fit the restrained flat Wry Engraver graphic style more closely. Keep the exact identity, face proportions, broad smile, curled handlebar moustache, thin rectangular glasses, dark side-parted hair, suit silhouette and golden tie with small elephants. Keep the same pose, framing and genuine transparent background.\nChange only the drawing finish: remove photographic-looking skin mottling, red speckling, pores and dense wrinkles. Use a clean natural fair skin base plus one broad shallow shadow, only a few deliberate ink lines for expression. Simplify hair and moustache into decisive graphic groupings with selective pale strokes rather than finely rendered individual strands. Reduce the skin's orange/red saturation slightly to the neutral natural tones of the references. The result should look hand-drawn in flat printed shapes at 42px, not colourised photo realism. Retain confident charcoal-teal outlines and subtle printed-paper grain solely within coloured fills; no gradients or airbrushing. Preserve age and recognisable expression without smoothing into a different person.\nComposition: square 1024x1024 centered head-and-shoulders bust; important facial features remain safe within central 76% and 42px/92px circular crops.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nNo additional props, hands, scene, text, watermark, signature or symbols. PNG with genuine alpha.",
+      "rawGeneration": "exec-e8417b53-6c1f-4287-9362-3690197b8825.png",
+      "initialGeneration": {
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular scientist portrait, The Wry Engraver.\nImage 1 is sole identity reference, Alain Aspect. Images 2 Rutherford, 3 Bohr, 4 Alfven supply house style ONLY; never their facial identity.\nNewly draw Aspect as a warm, gently wry, recognisable editorial caricature. Recognition anchors: exuberant broad smile, distinctive large gray handlebar moustache with upturned curled tips, thin rectangular silver glasses and short side-parted dark hair flecked gray. Preserve natural facial proportions and large friendly cheeks; mildly enlarge head relative to shoulders about 10–15%, not an invented face. Dark charcoal suit, white shirt and small muted golden-yellow tie with simplified tiny elephant motifs already present in the photograph. The moustache and smile are the comic beat, no science symbols or props.\nStyle: confident near-black blue-green ink contour, simplified graphic shapes, restrained flat colour with one shallow shadow tone, faint printed grain only within fills; same drawing family as the approved references. Natural fair skin with neutral-warm shadows, gray-brown hair and silver moustache, restrained warm tie accent. No global yellow or sepia cast.\nComposition: centred head-and-shoulders square 1024x1024, crown about 8% down, eyes around 42% height, all glasses/moustache/face anchors within central 76%; clean silhouette, safe at 42px grayscale and 92px circular crop. Show enough shoulders to balance broad head.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nOutput PNG with real decoded alpha. No text, watermark, signature, backdrop, apparatus, equation, atom symbol, full body, extra person, photographic skin, painterly gradients or airbrushing. Recognition before humour, subtle caricature rather than colourisation.",
+        "rawGeneration": "exec-49bc5ae1-c821-4623-a95e-55d61954579b.png",
+        "correctionReason": "Simplify skin finish to match the flat printed house style",
+        "correctionReferences": [
+          "initialGeneration",
+          "images/aspect.jpg",
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "rawGenerationSha256": "a1204a6ad08ab4a12ee20c754aaaa2be3a0c633ecfc940ae479aafd737fc586a"
+      },
+      "references": [
+        {
+          "path": "images/aspect.jpg",
+          "sha256": "2cc2cac041b9e8cdfbb032ac93da2ac13824f04a128ece8f1af346e0ea7d7017"
+        },
+        {
+          "path": "images/cartoons/rutherford.png",
+          "sha256": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3"
+        },
+        {
+          "path": "images/cartoons/bohr.png",
+          "sha256": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec"
+        },
+        {
+          "path": "images/cartoons/alfven.png",
+          "sha256": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        }
+      ],
+      "originalSha256": "bf011e2bedc3939534e94244596db713c4b7e72dc390f3907cdf50535c429c1d",
+      "rawGenerationSha256": "0f02d895ec5bff4bbc54a9502c45027c47605c618c9c76d6897552a3d8c657d8",
+      "finalAssets": [
+        {
+          "path": "images/aspect.jpg",
+          "sha256": "2cc2cac041b9e8cdfbb032ac93da2ac13824f04a128ece8f1af346e0ea7d7017"
+        },
+        {
+          "path": "images/cartoons/aspect.png",
+          "sha256": "9dac077f48782460c68aa0d73127b56fc54905433b94c9645921888f916211d5"
+        },
+        {
+          "path": "images/thumbs/aspect.webp",
+          "sha256": "4f4de25f0420a9de60766075b5d033d7045f497348d9e54b053a2b67c8a7c05e"
+        },
+        {
+          "path": "images/thumbs/cartoons/aspect.webp",
+          "sha256": "be81fa346caca6488ac51d5c8a1fc17c75535e4394ddd65d2a11e894d5921e87"
+        }
+      ]
+    },
+    {
+      "id": "dalibard",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Jean_Dalibard_(cropped).jpg",
+      "originalSource": "https://www.flickr.com/photos/117994717@N06/14002744812",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/7/79/Jean_Dalibard_%28cropped%29.jpg",
+      "originalDimensions": [
+        1069,
+        1430
+      ],
+      "creator": "Jérémy Barande / École polytechnique",
+      "photoDate": "2014-04-24",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "credit": "© Barande Jérémy / EP.",
+      "crop": [
+        0,
+        50,
+        1069,
+        1119
+      ],
+      "finalPhotoDimensions": [
+        640,
+        640
+      ],
+      "photoPreparation": "1069px square crop resized with Lanczos, RGB JPEG quality 93.",
+      "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular scientist portrait, The Wry Engraver.\nImage 1 is sole identity reference: Jean Dalibard. Images 2 Rutherford, 3 Bohr, 4 Alfven supply graphic house style ONLY, not facial identity.\nNewly draw Dalibard as a recognisable, subtly wry editorial caricature. Recognition anchors: broad high forehead beneath short loosely curly gray hair; thick black oval spectacles surrounding wide attentive light eyes; clean-shaven round cheek and substantial rounded chin, slightly parted mouth. Preserve the three-quarter right-facing pose, dark gray suit, white shirt and understated dark blue-green tie. No arm or hand.\nSimplify decisively into bold ink graphic shapes; natural skin with one broad shallow shadow, flat fills with very faint printed grain. Use confident near-black blue-green contour, limited muted palette, mildly oversized head and compressed shoulders, friendly curious expression. Avoid photographic pores, skin mottling, stipple, dense hair strands, gradients and painterly shading. No global sepia or yellow-orange filter; preserve natural fair skin.\nComposition: centred head-and-shoulders square 1024x1024, crown 8% down, eyes near 42% height; all glasses and facial anchors inside central 76%, strong silhouette safe for 42px grayscale and 92px circular crops.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nOutput PNG with genuine decoded alpha. No text, watermark, signature, room, lighting effects, apparatus, atom symbols, equations, full body or extra person. Draw a fresh editorial caricature matching the references, not a colourised photograph; moderate 10–15% exaggeration only.",
+      "rawGeneration": "exec-15cc86bf-8fca-4472-9d66-beacae156cfe.png",
+      "alphaWarningReview": "Central transparent portion comes from profile silhouette and open space at spectacles; light/dark inspection confirms no interior skin/eye holes.",
+      "references": [
+        {
+          "path": "images/dalibard.jpg",
+          "sha256": "0a32b30cddc4121daf497bcf6f51371e555ba1256f4ded27f38d1d7e3ebb76ec"
+        },
+        {
+          "path": "images/cartoons/rutherford.png",
+          "sha256": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3"
+        },
+        {
+          "path": "images/cartoons/bohr.png",
+          "sha256": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec"
+        },
+        {
+          "path": "images/cartoons/alfven.png",
+          "sha256": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        }
+      ],
+      "originalSha256": "fa21fa99e60ff8f65f1964975e603779453dec098c492063474932959edc9679",
+      "rawGenerationSha256": "f986fc14e079b572412bd23f336860597b6f72f5118721ce888bd1e4f327ab27",
+      "finalAssets": [
+        {
+          "path": "images/dalibard.jpg",
+          "sha256": "0a32b30cddc4121daf497bcf6f51371e555ba1256f4ded27f38d1d7e3ebb76ec"
+        },
+        {
+          "path": "images/cartoons/dalibard.png",
+          "sha256": "1c0d0b6164741af5ec96cb000406790ba83e007f89a69fc147c34187d3f04ef8"
+        },
+        {
+          "path": "images/thumbs/dalibard.webp",
+          "sha256": "3f1b2b3180b0aa96e6b9653b31cfef7e68d9cd84eb3cdbfad26067b0fc9ee27c"
+        },
+        {
+          "path": "images/thumbs/cartoons/dalibard.webp",
+          "sha256": "4e3b827eef7ea7315a1ed83015ea9110fb3a683570681aae00528ab42e5c90d1"
+        }
+      ]
+    }
+  ]
+}
