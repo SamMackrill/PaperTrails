@@ -110,6 +110,32 @@ try {
     assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return !document.querySelector('#detail-panel').hidden&&paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)&&document.querySelector('.relation-layer').getAttribute('mask')==='url(#timeline-indicator-mask)'})()`), `${theme}: selected milestone keeps masked relations while other scientists are dimmed`);
     await evaluate(`document.querySelector('#detail-close').click()`);
   }
+  console.log('Audit: scientists without listed publications');
+  for (const [id, name, year, discoveryId] of [
+    ['lilius', 'Aloysius Lilius', 1582, 'discovery-04'],
+    ['palitzsch', 'Johann Georg Palitzsch', 1758, 'discovery-13']
+  ]) {
+    for (const scale of ['linear', 'density']) {
+      await navigate(`/?paperless-audit=${id}-${scale}#context=tapestry&scale=${scale}&from=${year - 8}&to=${year + 8}&item=scientist:${id}`);
+      await until(`document.querySelector('.scientist-node[data-item-key="scientist:${id}"]') && document.querySelector('#detail-panel h2')?.textContent === ${JSON.stringify(name)}`);
+      assert.ok(await evaluate(`document.querySelector('#detail-panel').textContent.includes('No publications are represented on this timeline yet.')`), 'Paperless profile does not fabricate publication rows');
+      const position = await evaluate(`(async()=>{const {yearToX}=await import('./src/timeScale.js?v=3');const node=document.querySelector('.scientist-node[data-item-key="scientist:${id}"]'),line=document.querySelector('.scientist-link[data-scientist-id="${id}"]'),timeline=document.querySelector('#timeline');return {tooltip:node.dataset.tooltip,anchorX:Number(line.getAttribute('x2')),expectedX:yearToX(${year},timeline.offsetWidth),finite:!/(?:NaN|Infinity)/.test(line.outerHTML)}})()`);
+      assert.ok(position.tooltip.includes(`linked discovery ${year}`), 'Tooltip identifies the genuine anchor');
+      assert.ok(position.finite && Math.abs(position.anchorX - position.expectedX) < 1, `${scale}: paperless portrait connects to its discovery year`);
+      if (id === 'lilius') {
+        assert.ok(await evaluate(`document.querySelector('#detail-panel').textContent.includes('c. 1510–c. 1576')`), 'Approximate dates remain qualified');
+        assert.ok(await evaluate(`!document.querySelector('#detail-panel').textContent.includes('aged ')`), 'No exact age is invented');
+      }
+      await evaluate(`document.querySelector('.scientist-node[data-item-key="scientist:${id}"]').focus()`);
+      await until('document.querySelector(".lifespan") && document.querySelector(".relation-layer path")');
+      assert.ok(await evaluate(`[...document.querySelectorAll('.relation-layer path')].every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)`), 'Paperless hover/focus relations remain visible');
+      await navigate(`/?paperless-link=${id}-${scale}#context=tapestry&scale=${scale}&from=1900&to=1920&item=discovery:${discoveryId}`);
+      await evaluate(`[...document.querySelectorAll('#detail-panel button[aria-label^="Open scientist profile"]')].find(b=>b.textContent.includes(${JSON.stringify(name)})).click()`);
+      await until(`document.querySelector('#detail-panel h2')?.textContent===${JSON.stringify(name)} && document.querySelector('.scientist-node[data-item-key="scientist:${id}"]') && !document.querySelector('#timeline').dataset.zoomMotion`);
+      const visible = await evaluate(`(()=>{const node=document.querySelector('.scientist-node[data-item-key="scientist:${id}"]'),viewport=document.querySelector('#timeline-container');const r=node.getBoundingClientRect(),v=viewport.getBoundingClientRect();return r.right>v.left&&r.left<v.right})()`);
+      if (!visible) await until(`(()=>{const node=document.querySelector('.scientist-node[data-item-key="scientist:${id}"]'),viewport=document.querySelector('#timeline-container');const r=node.getBoundingClientRect(),v=viewport.getBoundingClientRect();return r.right>v.left&&r.left<v.right})()`);
+    }
+  }
   console.log('Audit: photography border selection');
   for (const [id, from, to, title, source] of [
     ['first-camera-photograph', 1815, 1835, 'First Surviving Camera Photograph', 'www.hrc.utexas.edu'],

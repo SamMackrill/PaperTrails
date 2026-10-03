@@ -1,5 +1,7 @@
 # Institutional arms, seals, and emblems
 
+Lilius's University of Perugia medicine lectureship is documented by a 1552 letter cited in the Treccani biographical dictionary. No verified local institutional emblem is bundled, so the row uses the neutral academic-building icon.
+
 The historical-scientist addition reuses the existing Trinity College Dublin asset for Molyneux. Trinity College, Oxford, University of Coimbra and Collegio Romano have no verified local emblems and deliberately use neutral icons. Oxford's college does not reuse the Cambridge or Dublin Trinity assets; Collegio Romano does not substitute a successor institution's emblem.
 
 The images in this directory identify academic affiliations and do not imply endorsement by the institutions. Each asset is a verified institutional arm, seal, or official emblem checked against an institutional, archival, or openly licensed source; no heraldry is invented or approximated.

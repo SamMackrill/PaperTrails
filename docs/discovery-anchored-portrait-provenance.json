@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-03",
+  "portraits": [
+    {
+      "id": "palitzsch",
+      "sourcePage": "https://library.si.edu/image-gallery/73460",
+      "originalUrl": "https://ids.si.edu/ids/deliveryService?id=SIL-SIL14-p001-05",
+      "archiveId": "SIL-SIL14-p001-05",
+      "credit": "Christian Gottfried Schulze, after Anton Graff; Courtesy Smithsonian Libraries and Archives",
+      "date": "1782, as printed in the engraved footer; no precise day stated",
+      "rights": "No Copyright–United States, explicitly identified by the institutional image record. No new worldwide CC0 waiver inferred.",
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/42-discovery-anchored-scientists/../run/research/discovery-anchored-scientists/palitzsch-original.jpg",
+      "crop": [
+        419,
+        409,
+        1143,
+        1133
+      ],
+      "photoPreparation": {
+        "output": "images/palitzsch.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/palitzsch.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, Christian Gottfried Schulze's historical engraved likeness of Johann Georg Palitzsch after Anton Graff, supplied by Smithsonian Libraries and Archives. Images 2, 3 and 4 are approved Rutherford, Bohr and Alfvén house-style references only; never borrow their faces.\nPrimary request: draw a fresh affectionate editorial caricature of Johann Georg Palitzsch in the Wry Engraver style, recognisable before humorous.\nRecognition anchors: high rounded balding forehead with brushed-back hair curling behind the ears; softly rounded clean-shaven face with broad long nose; alert eyes and a warm restrained almost-smile. Preserve his three-quarter turn towards the viewer's right, eighteenth-century plain dark coat with large round buttons and the light cloth neck wrap.\nComic idea: his gently curious almost-smile is sufficient, no hands, telescope, globe or invented props.\nStyle: bold charcoal-teal ink contour, simplified graphic shapes, restrained flat fills, one shallow shadow tone and faint print grain. Match the graphic approved reference portraits, never colourise the engraving or copy its dense hatching.\nComposition: centred head-and-shoulders bust, hair begins 8% from top, eyes near 42% canvas height, shoulders meet lower edge; face and distinctive hair inside central 76%, readable in 42px and 92px circular crops.\nPalette: muted dark brown and charcoal-teal period coat, cream neck cloth, muted brown hair; natural neutral pink-beige skin. Sepia printing is an identity source, not the skin hue. No yellow, orange, bronze or sepia cast.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square 1024×1024 RGBA PNG. Preserve historical identity and clothing; no text, captions, signature, watermark, apparatus or full body. Avoid photorealism, airbrushing, gradients and dense hatching.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-56f42e10-ebad-476f-b78b-917319136fbc.png",
+        "finisher": "Raw 1254px; approved finisher normalized to 1024px and removed 0 edge-connected background pixels. Final validator PASS.",
+        "identityReferenceSha256": "f618a9af6239b176e2cb71eee2e6f93896107422047e86d6b90e78274c44024b",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "a227b4a017f34028400e0406acd4f28fe96da98aaabeaf49cfea815362cf83c4"
+      },
+      "finalAssets": [
+        "images/palitzsch.jpg",
+        "images/cartoons/palitzsch.png",
+        "images/thumbs/palitzsch.webp",
+        "images/thumbs/cartoons/palitzsch.webp"
+      ],
+      "originalSha256": "02abdafe2651a44603d3e2e175f070ed5c1dea19459bc16776305076c589cd56",
+      "finalSha256": {
+        "images/palitzsch.jpg": "f618a9af6239b176e2cb71eee2e6f93896107422047e86d6b90e78274c44024b",
+        "images/cartoons/palitzsch.png": "db680184383cafb685f433be01544beeebbbbf6b2dbb0eac55033ac8d3028060",
+        "images/thumbs/palitzsch.webp": "aad43c7ace9917c82f0bc348efe86db2e272339012244ab5cc2096690bfcbd4b",
+        "images/thumbs/cartoons/palitzsch.webp": "ea5945039d5b161e6b43292efb9c11dd77e94a33b07552a00ee171bb7ebeec0f"
+      }
+    }
+  ],
+  "neutralPortraits": [
+    {
+      "id": "lilius",
+      "photo": "images/default.png",
+      "cartoon": "images/cartoons/default.png",
+      "reason": "No verified contemporary likeness found. Modern imagined depictions are not substituted and no face is fabricated."
+    }
+  ]
+}

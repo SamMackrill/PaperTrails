@@ -1,11 +1,13 @@
 import { getActiveTrail, trailIncludes, trailScientistIds } from './trailState.js?v=pass2-06c';
 import { config } from './config.js?v=16';
 import { getItemKey, resolveItem, scientists, discoveries, conferences, significantEvents, getRelatedItems } from './dataLoader.js?v=pass2-story-v2';
-import { groupKey, openItem } from './modalManager.js?v=pass2-story-v2';
+import { groupKey, openItem } from './modalManager.js?v=pass2-scientist-anchors-v1';
 import { renderTapestry, updateTapestryCaptions, disposeTapestry } from './tapestryRenderer.js?v=pass2-photography-v1';
 import { getContextMode } from './contextMode.js?v=pass2-tapestry-default-v1';
 import { getScaleSegments, yearToX } from './timeScale.js?v=3';
 import { createPortrait } from './portraits.js?v=3';
+import { getScientistAnchor } from './scientistAnchor.js?v=1';
+import { formatScientistYear, parseScientistYear } from './scientistDates.js?v=1';
 import { projectZoomBox } from './zoomLayout.js?v=pass2-chapters-v2';
 import {
   EVENT_PIN_GAP,
@@ -205,18 +207,13 @@ function centreOf(element) {
   return { x: element.offsetLeft + element.offsetWidth / 2, y: element.offsetTop + element.offsetHeight / 2 };
 }
 
-function parseYear(date) {
-  const year = Number.parseInt(String(date || '').slice(0, 4), 10);
-  return Number.isFinite(year) ? year : null;
-}
-
 // Shows a scientist's lifetime as a bar behind their portrait.
 function drawLifespan(timeline, scientistId) {
   const scientist = scientists[scientistId];
   const node = findItemElement(timeline, `scientist:${scientistId}`);
-  const birth = parseYear(scientist?.birth);
+  const birth = parseScientistYear(scientist?.birth);
   if (!node || birth === null) return;
-  const death = parseYear(scientist.death) ?? config.END_YEAR;
+  const death = parseScientistYear(scientist.death) ?? config.END_YEAR;
   const width = parseFloat(timeline.style.width) || timeline.offsetWidth;
   const left = yearToX(Math.max(config.START_YEAR, birth), width);
   const right = yearToX(Math.min(config.END_YEAR, death), width);
@@ -230,10 +227,10 @@ function drawLifespan(timeline, scientistId) {
   bar.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
   const start = document.createElement('span');
   start.className = 'lifespan-year lifespan-start';
-  start.textContent = String(birth);
+  start.textContent = formatScientistYear(scientist.birth);
   const end = document.createElement('span');
   end.className = 'lifespan-year lifespan-end';
-  end.textContent = scientist.death ? String(death) : 'living';
+  end.textContent = scientist.death ? formatScientistYear(scientist.death) : 'living';
   bar.append(start, end);
   timeline.appendChild(bar);
 }
@@ -429,12 +426,6 @@ function renderAxis(timeline, svg, width, height, axisY, scale) {
   if (config.END_YEAR > lastDecade) addYear(config.END_YEAR, true);
 }
 
-function getFirstPublication(scientist) {
-  return [...(scientist.publications || [])]
-    .filter((publication) => Number.isFinite(publication.year))
-    .sort((a, b) => a.year - b.year)[0];
-}
-
 function renderPublications(timeline, width, axisY, coordinates) {
   const items = [];
   Object.entries(scientists).forEach(([scientistId, scientist]) => {
@@ -522,8 +513,8 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
   const allowedScientists = trailScientistIds(resolveItem);
   const entries = Object.entries(scientists)
     .filter(([id]) => !allowedScientists || allowedScientists.has(id))
-    .map(([id, scientist]) => ({ id, scientist, firstPublication: getFirstPublication(scientist) }))
-    .filter((entry) => entry.firstPublication)
+    .map(([id, scientist]) => ({ id, scientist, anchor: getScientistAnchor(id, scientist, discoveries, conferences) }))
+    .filter((entry) => entry.anchor)
     .map((entry) => {
       const label = showLabel(entry.scientist) ? getTimelineLabel(entry.scientist.name) : '';
       const labelWidth = label ? measureText(label, NAME_LABEL_FONT) + 8 : 0;
@@ -531,7 +522,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
         ...entry,
         label,
         labelWidth,
-        x: yearToX(entry.firstPublication.year, width),
+        x: yearToX(entry.anchor.year, width),
         width: Math.max(PERSON_SIZE, labelWidth)
       };
     })
@@ -563,7 +554,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
 
     if (item.type === 'cluster') {
       const members = item.members;
-      const years = members.map((member) => member.firstPublication.year);
+      const years = members.map((member) => member.anchor.year);
       const meanYear = years.reduce((sum, year) => sum + year, 0) / years.length;
       const names = [...members].sort(rankForFaces).map((member) => member.scientist.name).filter(Boolean);
       const cluster = document.createElement('button');
@@ -596,14 +587,15 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
       return;
     }
 
-    const { id, scientist, firstPublication, label, labelWidth } = item.members[0];
+    const { id, scientist, anchor, label, labelWidth } = item.members[0];
     const node = document.createElement('button');
     node.type = 'button';
     node.className = 'scientist-node';
     node.dataset.scientistId = id;
     node.dataset.itemKey = `scientist:${id}`;
     if (label) node.dataset.captionWidth = labelWidth;
-    node.dataset.tooltip = `${scientist.name || 'Unknown scientist'} · first listed work ${firstPublication.year}`;
+    const anchorLabel = anchor.type === 'publication' ? 'first listed work' : `linked ${anchor.type}`;
+    node.dataset.tooltip = `${scientist.name || 'Unknown scientist'} · ${anchorLabel} ${anchor.year}`;
     node.setAttribute('aria-label', `${scientist.name || 'Unknown scientist'}, scientist details`);
     node.style.left = `${centerX - PERSON_SIZE / 2}px`;
     node.style.top = `${centerY - PERSON_SIZE / 2}px`;
@@ -627,11 +619,11 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
     });
     timeline.appendChild(node);
 
-    const publicationCoordinate = coordinates[`publication_${id}_${firstPublication.year}`] || {
-      x: yearToX(firstPublication.year, width),
+    const anchorCoordinate = (anchor.type === 'publication' && coordinates[`publication_${id}_${anchor.year}`]) || {
+      x: yearToX(anchor.year, width),
       y: axisY
     };
-    const line = createSvgLine('scientist-link', centerX, centerY, publicationCoordinate.x, publicationCoordinate.y);
+    const line = createSvgLine('scientist-link', centerX, centerY, anchorCoordinate.x, anchorCoordinate.y);
     line.dataset.scientistId = id;
     line.style.setProperty('--scientist-color', scientist.color || 'var(--accent)');
     svg.appendChild(line);

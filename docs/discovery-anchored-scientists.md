@@ -1,0 +1,28 @@
+# Discovery-positioned scientists without invented publications
+
+The user explicitly approved profiles at discovery dates when their contributions are documented but their own authored papers have not been verified. This layer adds Johann Georg Palitzsch and Aloysius Lilius with empty publication arrays. It derives their timeline positions from existing explicitly linked discoveries: **1758** and **1582**. No synthetic publication records, publication IDs or guessed publication dates are created.
+
+## Shared anchor rule and historical dates
+
+The renderer, profile's locate control and shared-item/search navigation use the same pure anchor helper. An existing finite publication year always retains priority, preserving established portrait positions. Only a profile without a finite publication year falls back to its earliest explicitly linked discovery or conference; unrelated names or unlinked neighbouring events cannot create an anchor. Discovery observers, theorists and conference attendees are supported.
+
+Portraits still participate in grouping, layer toggles, selection, hover relations and lifespans. Their persistent date connector ends at the anchor's axis year; the existing masked relation layer draws their actual discovery connection when hovered or selected. The tooltip says “linked discovery” rather than pretending a paper exists. The existing empty-publication state remains honest.
+
+Life dates accept an exact ISO date, a verified year or a qualified `c. YYYY` year. The profile and lifespan retain circa labels; exact age is calculated only when both dates are complete ISO values. Lilius's calendar-reform anchor follows his death because 1582 is the reform's adoption, not a claim that he was still alive.
+
+## Verified profiles
+
+- **Johann Georg Palitzsch**, German, **11 June 1723–21 February 1788**. [Palitzsch Society's chronology](https://www.palitzschgesellschaft.de/2018/02/02/zeittafeln-zu-leben-und-wirken-georg-palitzschs-11-6-1723-21-2-1788/) records both full dates; [Linda Hall Library](https://www.lindahall.org/about/news/scientist-of-the-day/georg-palitzsch/) corroborates the birth day, independent astronomical study and the comet recovery. [Palitzsch Museum](https://palitzsch-museum.de/museum/ueber-uns/) corroborates identity, life years and the 1758 rediscovery. [English Wikipedia identity](https://en.wikipedia.org/wiki/Johann_Georg_Palitzsch) describes the same astronomer. No university association is invented for a self-taught farmer. Existing NASA/ESA discovery sources preserve 25 December 1758 recovery and March 1759 perihelion, along with Halley's theoretical credit.
+- **Aloysius Lilius**, Italian, **c. 1510–c. 1576**. [Treccani's short biography](https://www.treccani.it/enciclopedia/luigi-lilio/) supplies approximate dates and the calendar contribution; [Cesare Preti's Treccani biographical-dictionary entry](https://www.treccani.it/enciclopedia/luigi-giglio_(Dizionario-Biografico)/) gives the archival basis for the **University of Perugia medicine lectureship** in a 25 September 1552 letter. The latter treats 1576 as a latest possible death year and suggests an earlier death; this layer retains the traditional circa year without inventing a day or exact age. [English Wikipedia identity](https://en.wikipedia.org/wiki/Aloysius_Lilius) identifies the same physician/calendar reformer. The Perugia row uses a neutral icon; precise Naples institutional study is not inferred from residence or a general account of studies.
+
+Lilius's original manuscript and epact tables are lost. The 1577 *Compendium* summarises his proposal, but is not safely treated as a verified original publication authored by him. Palitzsch's observation must not become authorship of a friend's announcement or Olbers's later account. Both profiles therefore list **zero papers**. The Perugia row brings the exact neutral affiliation count to **34**.
+
+## Portrait rights and inspection
+
+Palitzsch's source is **Christian Gottfried Schulze's engraving after Anton Graff**, **Smithsonian Libraries and Archives SIL-SIL14-p001-05**: [primary image record and rights](https://library.si.edu/image-gallery/73460), [original download](https://ids.si.edu/ids/deliveryService?id=SIL-SIL14-p001-05). The archive identifies **No Copyright–United States**; credit **Courtesy Smithsonian Libraries and Archives**. The engraved footer itself bears 1782. No creation day, photographer or new worldwide CC0 waiver is inferred.
+
+A cropped RGB JPEG supplies identity for a fresh Wry Engraver drawing. [Exact provenance](discovery-anchored-portrait-provenance.json) records the original, crop, generation prompt, three house-style references and SHA-256 hashes. The accepted drawing is a validated 1024px RGBA PNG, with photo and cartoon WebP thumbnails. Source/current/proposed comparisons were inspected over both themes, followed by 92px colour and 42px grayscale circular crops. Lilius uses the existing shared neutral default: no verified contemporary likeness was found, and modern imagined portraits or sculptures are not used to fabricate a face.
+
+## Validation
+
+All **128 native tests** pass, including new checks for publication precedence, explicit milestone links, conference fallback, actual paperless entries and approximate dates. The full browser audit additionally exercises both real paperless profiles on linear and density scales: date-connector geometry, tooltip wording, empty publication states, qualified dates, no invented age, hover/focus paths, lifespan bars and discovery-to-profile navigation from a distant view. It also retains the full prior hover, photography, context, trail and print regression coverage.
