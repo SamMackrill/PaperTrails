@@ -105,8 +105,8 @@ function createSvgLine(className, x1, y1, x2, y2) {
   return line;
 }
 
-// Cut every indicator out of the connector layers, including unrelated,
-// dimmed indicators. A translucent button background cannot hide the lines.
+// Cut every indicator and portrait out of the connector layers, including
+// dimmed records. A translucent button background cannot hide the lines.
 function createIndicatorMask(svg, content, width, height) {
   const id = 'timeline-indicator-mask';
   const defs = document.createElementNS(SVG_NS, 'defs');
@@ -124,29 +124,44 @@ function createIndicatorMask(svg, content, width, height) {
   backing.setAttribute('height', height);
   backing.setAttribute('fill', 'white');
   mask.appendChild(backing);
-  content.querySelectorAll('.discovery-marker, .conference-marker').forEach(marker => {
-    const size = parseFloat(marker.style.width);
-    const x = parseFloat(marker.style.left) + size / 2;
+  content.querySelectorAll('.discovery-marker, .conference-marker, .scientist-node, .scientist-cluster').forEach(marker => {
+    const portrait = marker.classList.contains('scientist-node');
+    const cluster = marker.classList.contains('scientist-cluster');
+    const size = portrait ? PERSON_SIZE : cluster ? FACE_SIZE : parseFloat(marker.style.width);
+    const markerWidth = cluster ? parseFloat(marker.style.width) : size;
+    const x = parseFloat(marker.style.left) + markerWidth / 2;
     const y = parseFloat(marker.style.top) + size / 2;
     const hole = document.createElementNS(SVG_NS, 'g');
     hole.classList.add('indicator-clearance');
     hole.dataset.x = x;
     hole.dataset.y = y;
+    hole.dataset.itemKey = marker.dataset.itemKey;
     hole.setAttribute('transform', `translate(${x} ${y})`);
     const diamond = marker.classList.contains('conference-marker');
-    const shape = document.createElementNS(SVG_NS, diamond ? 'rect' : 'circle');
-    if (diamond) {
-      shape.setAttribute('x', -size / 2 - 4);
-      shape.setAttribute('y', -size / 2 - 4);
-      shape.setAttribute('width', size + 8);
-      shape.setAttribute('height', size + 8);
-      shape.setAttribute('rx', 8);
-      shape.setAttribute('transform', 'rotate(45)');
+    const shape = document.createElementNS(SVG_NS, diamond || cluster ? 'rect' : 'circle');
+    if (diamond || cluster) {
+      shape.setAttribute('x', -markerWidth / 2 - 4);
+      shape.setAttribute('y', -size / 2 - (cluster ? 6 : 4));
+      shape.setAttribute('width', markerWidth + (cluster ? 14 : 8));
+      shape.setAttribute('height', size + (cluster ? 16 : 8));
+      shape.setAttribute('rx', cluster ? size / 2 : 8);
+      if (diamond) shape.setAttribute('transform', 'rotate(45)');
     } else {
       shape.setAttribute('r', size / 2 + 4);
     }
     shape.setAttribute('fill', 'black');
     hole.appendChild(shape);
+    if (portrait && marker.dataset.captionWidth) {
+      const captionWidth = Number(marker.dataset.captionWidth);
+      const caption = document.createElementNS(SVG_NS, 'rect');
+      caption.setAttribute('x', -captionWidth / 2 - 3);
+      caption.setAttribute('y', size / 2 + 1);
+      caption.setAttribute('width', captionWidth + 6);
+      caption.setAttribute('height', 18);
+      caption.setAttribute('rx', 3);
+      caption.setAttribute('fill', 'black');
+      hole.appendChild(caption);
+    }
     mask.appendChild(hole);
   });
   defs.appendChild(mask);
@@ -513,6 +528,7 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
       return {
         ...entry,
         label,
+        labelWidth,
         x: yearToX(entry.firstPublication.year, width),
         width: Math.max(PERSON_SIZE, labelWidth)
       };
@@ -578,12 +594,13 @@ function renderScientists(timeline, svg, width, axisY, coordinates, scale) {
       return;
     }
 
-    const { id, scientist, firstPublication, label } = item.members[0];
+    const { id, scientist, firstPublication, label, labelWidth } = item.members[0];
     const node = document.createElement('button');
     node.type = 'button';
     node.className = 'scientist-node';
     node.dataset.scientistId = id;
     node.dataset.itemKey = `scientist:${id}`;
+    if (label) node.dataset.captionWidth = labelWidth;
     node.dataset.tooltip = `${scientist.name || 'Unknown scientist'} · first listed work ${firstPublication.year}`;
     node.setAttribute('aria-label', `${scientist.name || 'Unknown scientist'}, scientist details`);
     node.style.left = `${centerX - PERSON_SIZE / 2}px`;
