@@ -20,6 +20,13 @@ function geometryHash() {
 /** Check every retained output, prompt and reference, including nested edits. */
 export function validateRetainedGenerations(sources, readSource = read) {
   const digests = new Map();
+  // Immutable comet masters retain their required extra evidence even when
+  // later redraws move them deeper into the history. Visit paths can change.
+  const cometReference = 'images/tapestry/style-reference-halley-comet.png';
+  const requiredEvidence = {
+    d1aad2936fa5c444ce91f4fdc0724e86ec1a28ae6f57a04c88ae27798f957bba: { references: [cometReference] },
+    f77a27db00495f54196c44fbfbd6e53d6366bbbeeb7be21ba237c96941679cf1: { references: [cometReference], initialEdit: true }
+  };
   let cometPrompts;
   function checkFile(file, expected, label) {
     if (typeof file !== 'string' || !file || !/^[a-f0-9]{64}$/.test(expected || '')) throw new Error(`Missing retained ${label}`);
@@ -28,6 +35,13 @@ export function validateRetainedGenerations(sources, readSource = read) {
   }
   function visit(generation, label) {
     if (!generation) throw new Error(`Missing retained generation: ${label}`);
+    const required = requiredEvidence[generation.sourceHash];
+    if (required && (!Array.isArray(generation.supportingReferences)
+      || generation.supportingReferences.length !== required.references.length
+      || required.references.some((file, index) => generation.supportingReferences[index]?.file !== file))) {
+      throw new Error(`Missing retained supporting references: ${label}`);
+    }
+    if (required?.initialEdit && !generation.initialEdit) throw new Error(`Missing retained initial edit: ${label}`);
     const links = ['previousGeneration', 'scenePolish'];
     if (!Array.isArray(generation.historyLinks)
       || generation.historyLinks.some(link => !links.includes(link))
