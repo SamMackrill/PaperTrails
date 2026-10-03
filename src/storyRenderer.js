@@ -1,6 +1,6 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-latin-retries-v1';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-border-depth-v1';
-import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-border-depth-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-crop-safe-soldier-v1';
+import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-crop-safe-soldier-v1';
 import { paintLinen } from './linenBacking.js';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
