@@ -135,7 +135,9 @@ function createIndicatorMask(svg, content, width, height) {
     hole.classList.add('indicator-clearance');
     hole.dataset.x = x;
     hole.dataset.y = y;
-    hole.dataset.itemKey = marker.dataset.itemKey;
+    // Clearance geometry is not an interactive item. Sharing data-item-key
+    // makes relation lookup select this SVG group before the real button.
+    hole.dataset.clearanceKey = marker.dataset.itemKey;
     hole.setAttribute('transform', `translate(${x} ${y})`);
     const diamond = marker.classList.contains('conference-marker');
     const shape = document.createElementNS(SVG_NS, diamond || cluster ? 'rect' : 'circle');
