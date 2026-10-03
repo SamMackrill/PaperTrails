@@ -9,7 +9,7 @@ export const storyAtlases = {
     bodies: [[47, 191], [245, 402], [452, 573], [610, 718]] },
   middle: { file: 'images/tapestry/bayeux-linear-middle-comets-threads.webp', width: 2172, height: 724,
     bodies: [[45, 179], [222, 378], [419, 562], [599, 718]] },
-  modern: { file: 'images/tapestry/bayeux-linear-modern-trench-arrival-threads.webp', width: 2172, height: 724,
+  modern: { file: 'images/tapestry/bayeux-linear-modern-crop-safe-threads.webp', width: 2172, height: 724,
     bodies: [[44, 177], [216, 358], [395, 536], [575, 699]] }
 };
 export const storyPanels = [
