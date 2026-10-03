@@ -72,4 +72,19 @@ class OwnerVerificationTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'escaped here.now'):
             p.verify_live_entry_points('http://review.here.now/', lambda *args: None)
 
+    def test_visitor_requests_identify_the_audit_and_reject_failed_access(self):
+        from unittest.mock import MagicMock
+        response=MagicMock(); response.__enter__.return_value.status=200
+        with patch.object(p.urllib.request,'urlopen',return_value=response) as fetch:
+            p.read_live_entry_point('https://review.here.now/','print-trail.html')
+        request=fetch.call_args.args[0]
+        self.assertEqual(request.full_url,'https://review.here.now/print-trail.html')
+        self.assertIn('PaperTrailsPrototypeAudit',request.get_header('User-agent'))
+        self.assertEqual(request.get_header('Accept'),'text/html')
+        self.assertIsNone(request.get_header('Authorization'))
+        response.__enter__.return_value.status=503
+        with patch.object(p.urllib.request,'urlopen',return_value=response):
+            with self.assertRaisesRegex(RuntimeError,'entry point check failed'):
+                p.read_live_entry_point('https://review.here.now/','')
+
 if __name__ == '__main__': unittest.main()

@@ -101,7 +101,13 @@ def verify_live_artifact(slug, commit, manifest, key, fetch_file=None):
 
 def read_live_entry_point(site_url, path):
     url = urllib.parse.urljoin(site_url.rstrip('/')+'/', path)
-    with urllib.request.urlopen(url, timeout=60) as response:
+    # here.now rejects the default Python client identity on visitor routes.
+    # Identify this audit explicitly while requesting the normal HTML entry.
+    request = urllib.request.Request(url, headers={
+        'User-Agent': 'Mozilla/5.0 (compatible; PaperTrailsPrototypeAudit/1.0)',
+        'Accept': 'text/html',
+    })
+    with urllib.request.urlopen(request, timeout=60) as response:
         if response.status != 200:
             raise RuntimeError(f'Live entry point check failed for {path or "/"}')
 
