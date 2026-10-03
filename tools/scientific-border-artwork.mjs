@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 import { scientificBorderAtlases, scientificBorderSections, scientificBorderRows } from '../src/scientificBorders.js';
 import { storyPanels, storyAtlases } from '../src/storyPanels.js';
 import { config } from '../src/config.js';
+import { decodePngPixels, cropPixelHash } from './png-pixels.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = file => readFileSync(resolve(root, file));
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -16,14 +17,14 @@ const recordFile = 'images/tapestry/scientific-border-generation.json';
 const geometryHash = () => hash(JSON.stringify({ scientificBorderAtlases, scientificBorderSections, storyAtlases,
   sections: storyPanels.map(({ id, sheet, row }) => ({ id, sheet, row })), scheme: 'continuous-whole-rows-v1' }));
 
-export function validateScientificBorders() {
-  const record = JSON.parse(read(recordFile));
+export function validateScientificBorders(record = JSON.parse(read(recordFile))) {
   const prompts = JSON.parse(read('images/tapestry/scientific-border-prompts.json'));
   if (record.geometryHash !== geometryHash()) throw new Error('Unrecorded scientific border geometry');
   const scientists = yaml.load(read('data/scientists.yaml').toString());
   const publications = new Map(Object.values(scientists).flatMap(s => (s.publications || []).map(p => [p.id, p])));
   const events = new Set(yaml.load(read('data/significantevents.yaml').toString()).map(event => event.id));
   const regions = new Set(), pixels = new Set();
+  const decoded = new Map();
   for (const panel of storyPanels) {
     if (!scientificBorderSections[panel.id]) throw new Error(`Missing chronological border: ${panel.id}`);
     for (const side of ['top', 'bottom']) for (const { sheet, row } of scientificBorderRows(panel.id, side)) {
@@ -32,6 +33,10 @@ export function validateScientificBorders() {
       regions.add(id);
       if (motif.period[0] !== panel.from || motif.period[1] !== panel.to) throw new Error(`Wrong border period: ${id}`);
       if (!motif.description || !motif.primaryReferences.length || !/^[0-9a-f]{64}$/.test(motif.pixelHash) || pixels.has(motif.pixelHash)) throw new Error(`Missing or cloned scientific illustration: ${id}`);
+      if (!decoded.has(sheet)) decoded.set(sheet, decodePngPixels(read(scientificBorderAtlases[sheet].file.replace(/\.webp$/, '.png'))));
+      const image = decoded.get(sheet), atlas = scientificBorderAtlases[sheet];
+      if (image.width !== atlas.width || image.height !== atlas.height) throw new Error(`Invalid border pixel dimensions: ${sheet}`);
+      if (cropPixelHash(image, ...atlas.bands[row]) !== motif.pixelHash) throw new Error(`Stale scientific illustration pixel hash: ${id}`);
       pixels.add(motif.pixelHash);
       for (const author of motif.relatedScientists) if (!scientists[author]) throw new Error(`Unknown border scientist: ${author}`);
       for (const id of motif.relatedPublications) {
