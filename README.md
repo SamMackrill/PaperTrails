@@ -105,7 +105,7 @@ example_id:
 
 ### Academic affiliations without emblems
 
-Seventeen affiliation rows deliberately omit `coat` and display the neutral icon:
+Twenty-two affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -122,6 +122,8 @@ Seventeen affiliation rows deliberately omit `coat` and display the neutral icon
 - **University of Wisconsin–Madison** — the Breit row deliberately retains the neutral icon because no repository-compatible emblem is recorded for the affiliation.
 - **University of Genoa**, **University of Palermo**, and **University of Turin** — Cannizzaro's Genoa and Palermo affiliations and Avogadro's Turin affiliation use neutral icons because no verified local emblems are recorded.
 - **Oberlin College** — Millikan's student and instructor affiliation uses the neutral icon because no verified local emblem is recorded.
+- **University of Breslau**, **University of Rostock**, and **Carnegie Institute of Technology** — Stern's affiliations use neutral icons because no verified local emblems are recorded for these institutions.
+- **University of Frankfurt** — both Stern and Gerlach use neutral icons because no verified local emblem is recorded.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 
@@ -171,6 +173,8 @@ This project is released into the public domain under [The Unlicense](LICENSE). 
 Prototype records carry persisted `id` values and frozen `legacyKey` aliases. New links use IDs; old positional links resolve through those aliases. IDs are assigned once, independent of title edits or data order. Never renumber IDs or recompute legacy aliases when inserting/reordering records. New records need an unused ID and normally no legacy alias. Scientist keys retain their existing identity.
 
 This work targets `prototype/ui-pass2` only. See `docs/ui-improvements/ui-improvement-analysis-second-pass.html` for the approved prototype plan.
+
+The [missing-scientist audit](docs/missing-scientist-audit.md) tracks scientists named in discovery and conference records who need their own profiles. Millikan is followed by Stern and Gerlach; the remaining candidates continue in subsequent additions.
 
 The [Context drawing instructions](docs/context-drawing-instructions.html) are the standing instructions for the context depictions in all three modes: Bars, Landscape and Tapestry. Consult them before drawing, composing or changing the context display, and keep them current when new user decisions change the specification. They take precedence over superseded context proposals and implementation notes.
 
