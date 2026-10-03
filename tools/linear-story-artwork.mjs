@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
-import { storyAtlases, storyPanels, STORY_BODY_HEIGHT } from '../src/storyPanels.js';
+import { storyAtlases, storyPanels } from '../src/storyPanels.js';
 import { scientificStoryRecords } from '../src/storyScience.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = file => readFileSync(resolve(root, file));
@@ -14,7 +14,7 @@ const recordFile = 'images/tapestry/linear-story-generation.json';
 const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 
 function geometryHash() {
-  return hash(JSON.stringify({ storyAtlases, storyPanels, STORY_BODY_HEIGHT }));
+  return hash(JSON.stringify({ storyAtlases, storyPanels }));
 }
 
 /** Check every retained output, prompt and reference, including nested edits. */
@@ -37,6 +37,12 @@ export function validateRetainedGenerations(sources, readSource = read) {
     checkFile(generation.sourceFile, generation.sourceHash, 'story master');
     checkFile(generation.runtimeFile, generation.runtimeHash, 'story delivery file');
     if (!generation.prompt || hash(generation.prompt) !== generation.promptHash) throw new Error(`Changed retained story prompt: ${label}`);
+    if (generation.promptRecord) {
+      const evidence = JSON.parse(readSource(generation.promptRecord.file));
+      const call = evidence.groups.find(group => group.id === generation.promptRecord.id);
+      if (!call || call.prompt !== generation.prompt || call.reference !== generation.reference
+        || call.output !== generation.sourceFile) throw new Error(`Changed recorded drawing call: ${label}`);
+    }
     checkFile(generation.reference, generation.referenceHash, 'story reference');
     for (const ref of generation.supportingReferences || []) checkFile(ref.file, ref.hash, 'supporting reference');
     // The singular supportingReference is a user-thread citation, not a file.
@@ -82,7 +88,7 @@ export function validateLinearStory() {
   for (const [sheet, atlas] of Object.entries(storyAtlases)) {
     const master = atlas.file.replace(/\.webp$/, '.png'), png = read(master);
     if (png.readUInt32BE(16) !== atlas.width || png.readUInt32BE(20) !== atlas.height) throw new Error(`Invalid story master dimensions: ${sheet}`);
-    for (const [top, bottom] of atlas.bodies) if (!(top >= 0 && bottom > top && bottom <= atlas.height && bottom - top <= STORY_BODY_HEIGHT)) throw new Error(`Invalid story body crop: ${sheet}`);
+    for (const [top, bottom] of atlas.bodies) if (!(top >= 0 && bottom > top && bottom <= atlas.height)) throw new Error(`Invalid story body crop: ${sheet}`);
     const generation = record.sources[sheet];
     if (!generation?.transparent || png[25] !== 6) throw new Error(`Story master must retain RGBA thread transparency: ${sheet}`);
     if (!generation?.prompt || generation.sourceHash !== hash(png) || generation.runtimeHash !== hash(read(atlas.file))

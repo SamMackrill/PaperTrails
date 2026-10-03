@@ -142,3 +142,7 @@ or technology. Quiet source pixels are consumed once into actual uncovered
 windows at uniform natural scale, not tiled or mirrored. Existing dated historical
 artwork retains its explicit era compatibility. The winter scenery is symbolic
 seasonal context, not a claim of a particular freeze or continuous snow.
+
+## Muted wool and stable drawing height, 3 October 2026
+
+The active four narrative sources use complete proportional drawing envelopes at one fixed context height. Exact built-in image generation/edit prompts and retained inputs are in `muted-embroidery-prompts.json` and `linear-story-generation.json`. All PNG masters remain unchanged after generation; delivery WebP files are lossless. See [the composed review and implementation record](../../docs/tapestry-muted-embroidery.md) and the standing [Context drawing instructions](../../docs/context-drawing-instructions.html).
