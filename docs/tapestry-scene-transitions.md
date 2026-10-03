@@ -14,4 +14,6 @@ Hotspot fractions, canonical event dates, both comet scenes and the shared fixed
 
 Validation covers source dimensions, transparent masters, retained edit-input hashes, all historical and comet record targets, scientific-border geometry and all 96 distinct border pixel hashes. Native and prototype suites plus the full desktop browser audit cover PNG recovery, all three modes, stable context height, zoom, pan, full opening, reversal, shared links and the research trail.
 
+The retained-generation follow-up validates every generation's explicit PNG and WebP output paths, inline prompt hash, reference file and file-backed supporting references through both earlier-generation and scene-edit chains. Legacy prompt copies affected by character encoding are restored only when the recovered UTF-8 text matches the unchanged original hash. Regression tests alter an older trench master, its WebP, a deeply retained prompt, an original source, a supporting reference and a generation link; each is rejected without modifying files on disk. User-thread citations are preserved separately from file-backed references.
+
 The actual assembled harbour, WWI arrival and lunar scene are shown from the native shared browser canvas before publication. Source-sheet images alone do not establish approval of the composed result.
