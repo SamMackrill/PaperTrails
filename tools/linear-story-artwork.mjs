@@ -28,6 +28,12 @@ export function validateRetainedGenerations(sources, readSource = read) {
   }
   function visit(generation, label) {
     if (!generation) throw new Error(`Missing retained generation: ${label}`);
+    const links = ['previousGeneration', 'scenePolish'];
+    if (!Array.isArray(generation.historyLinks)
+      || generation.historyLinks.some(link => !links.includes(link))
+      || links.some(link => generation.historyLinks.includes(link) !== Boolean(generation[link]))) {
+      throw new Error(`Truncated retained generation history: ${label}`);
+    }
     checkFile(generation.sourceFile, generation.sourceHash, 'story master');
     checkFile(generation.runtimeFile, generation.runtimeHash, 'story delivery file');
     if (!generation.prompt || hash(generation.prompt) !== generation.promptHash) throw new Error(`Changed retained story prompt: ${label}`);

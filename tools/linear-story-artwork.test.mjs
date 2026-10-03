@@ -44,3 +44,18 @@ test('initial comet edits remain checked after a later redraw wraps their genera
   record.middle.previousGeneration.previousGeneration.initialEdit.promptHash = '0'.repeat(64);
   assert.throws(() => validateRetainedGenerations(record), /Changed retained initial edit prompt/);
 });
+
+test('removing a nonterminal history link is rejected while explicit origins are accepted', () => {
+  validateRetainedGenerations(sources());
+  const record = sources();
+  delete record.modern.scenePolish.priorGeneration.previousGeneration;
+  assert.throws(() => validateRetainedGenerations(record), /Truncated retained generation history/);
+});
+
+test('removing an edit history link or its link declaration is rejected', () => {
+  for (const key of ['scenePolish', 'historyLinks']) {
+    const record = sources();
+    delete record.modern[key];
+    assert.throws(() => validateRetainedGenerations(record), /Truncated retained generation history/);
+  }
+});
