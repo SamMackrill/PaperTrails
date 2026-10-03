@@ -1,5 +1,11 @@
 # Image attribution
 
+- `derham.jpg` is cropped and resized from an anonymous eighteenth-century engraving of William Derham, scanned from an eighteenth-century text. [Commons source and rights](https://commons.wikimedia.org/wiki/File:William_Derham.jpg) records public-domain art and a faithful reproduction; the underlying published engraving predates U.S. copyright cutoffs. The 2012 metadata is not the engraving's date. `cartoons/derham.png` is a fresh AI-assisted illustrated adaptation; no artist name or historical date is invented.
+- `clavius.jpg` is cropped and resized from **Francesco Villamena's 1606** engraving of Christopher Clavius, **Rijksmuseum RP-P-OB-38.439**, distributed under **CC0 1.0**. [Museum record](http://hdl.handle.net/10934/RM0001.COLLECT.188648); [Commons crop and rights](https://commons.wikimedia.org/wiki/File:Portret_van_astronoom_Christoph_Clavius,_RP-P-OB-38.439_(cropped).jpg). `cartoons/clavius.png` is a fresh AI-assisted illustrated adaptation.
+- Molyneux uses the existing shared `default.png` and `cartoons/default.png` because no verified likeness was found. No image of another Molyneux and no invented face is substituted.
+
+Photo and cartoon WebP derivatives retain the same source information. Exact crops, prompts, references and hashes: [historical scientist provenance](../docs/historical-scientist-portrait-provenance.json).
+
 - `tapestry/scientific-borders-camera-1827.png` and `tapestry/scientific-borders-colour-film-1935.png` (and WebP derivatives): AI-generated embroidered border artwork, built-in image generation, 3 October 2026. Exact prompts, style references, correction source and hashes: `tapestry/photography-border-generation.json`. The retained `source-colour-film-1935-draft.png` is the input to the camera correction, not runtime artwork. Historical sources and technical qualifications: `docs/photography-milestones.md`.
 
 Portraits added for the discovery and conference scientist audit:
