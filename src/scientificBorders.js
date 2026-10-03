@@ -1,7 +1,8 @@
 // Every region is used once on the chronological cloth. Storage rows never
 // become display rows, repeated tiles, or zoom-dependent replacements.
 import { scientificBorderContinuations } from './scientificBorderContinuations.js?v=pass2-continuous-linen-v1';
-import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-muted-embroidery-v2';
+import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-photography-v1';
+import { photographyBorderRevisions } from './photographyBorders.js';
 export const scientificBorderAtlases = {
   early: { file: 'images/tapestry/scientific-borders-early-threads.webp', width: 2172, height: 724,
     bands: [[7, 90], [93, 183], [187, 276], [277, 365], [367, 457], [458, 547], [547, 635], [636, 720]] },
@@ -30,8 +31,11 @@ export function scientificBorderRows(section, side) {
   const [sheet, first] = scientificBorderSections[section];
   const start = first + (side === 'top' ? 0 : 2);
   return [start, start + 1].flatMap(row => [sheet, `${sheet}Continuation`].map(sheet => {
-    const atlas = scientificBorderAtlases[sheet], [top, bottom] = atlas.bands[row];
-    return { sheet, row, atlas, top, bottom, aspect: atlas.width / (bottom - top) };
+    const original = scientificBorderAtlases[sheet];
+    const revision = photographyBorderRevisions[`${sheet}-${row}`];
+    const atlas = revision ? { ...original, file: revision.file, width: revision.width, height: revision.height } : original;
+    const [top, bottom] = revision ? [revision.top, revision.bottom] : atlas.bands[row];
+    return { sheet, row, atlas, top, bottom, revision, aspect: atlas.width / (bottom - top) };
   }));
 }
 
@@ -56,9 +60,9 @@ export function layoutScientificBorder(layout) {
     const rows = layout.panels.flatMap(panel => scientificBorderRows(panel.id, side));
     const height = layout.materialWidth / rows.reduce((sum, row) => sum + row.aspect, 0);
     let sourceX = 0;
-    return rows.map(({ sheet, row, atlas, top, bottom }) => {
+    return rows.map(({ sheet, row, atlas, top, bottom, revision }) => {
       const unit = height / (bottom - top), width = atlas.width * unit;
-      const result = { id: `${sheet}-${row}`, sheet, row, side, file: atlas.file,
+      const result = { id: `${sheet}-${row}`, sheet, row, side, file: atlas.file, revision,
         sourceX, width, height, unit,
         crop: { x: 0, y: top, width: atlas.width, height: bottom - top } };
       sourceX += width;

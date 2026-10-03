@@ -110,6 +110,20 @@ try {
     assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return !document.querySelector('#detail-panel').hidden&&paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)&&document.querySelector('.relation-layer').getAttribute('mask')==='url(#timeline-indicator-mask)'})()`), `${theme}: selected milestone keeps masked relations while other scientists are dimmed`);
     await evaluate(`document.querySelector('#detail-close').click()`);
   }
+  console.log('Audit: photography border selection');
+  for (const [id, from, to, title, source] of [
+    ['first-camera-photograph', 1815, 1835, 'First Surviving Camera Photograph', 'www.hrc.utexas.edu'],
+    ['kodachrome-colour-film', 1925, 1940, 'Kodachrome Colour Film Introduced', 'www.kodak.com']
+  ]) {
+    await navigate(`/?photography-audit=${id}#context=tapestry&from=${from}&to=${to}`);
+    await until('document.querySelector(".tapestry-ribbon")?.dataset.artReady === "true"');
+    const point = await evaluate(`(()=>{const hit=document.querySelector('.tapestry-border-target[data-item-key="discovery:${id}"] .tapestry-story-hit');if(!hit)throw new Error('Missing visible photography motif');const r=hit.getBoundingClientRect();if(r.width<=0||r.height<=0||!document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('.tapestry-border-target'))throw new Error('Photography motif is obscured');return {x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+    await screenshot(`${id}-border.png`);
+    await send('Input.dispatchMouseEvent', { type: 'mousePressed', ...point, button: 'left', clickCount: 1 });
+    await send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...point, button: 'left', clickCount: 1 });
+    await until(`document.querySelector('#detail-title')?.textContent === ${JSON.stringify(title)}`);
+    assert.ok(await evaluate(`[...document.querySelectorAll('#detail-panel a')].some(a=>new URL(a.href).hostname===${JSON.stringify(source)})`), `${id}: border selection opens its sourced milestone`);
+  }
   await send('Network.setBlockedURLs', { urls: ['*landscape-b-early.png', '*landscape-b-revolutions.png', '*landscape-b-modern.png', '*landscape-b-context-chapters.png', '*landscape-b-winter-eras.png'] });
   await navigate('/?fallback=1#context=landscape');
   await until('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length > 0 && [...document.querySelectorAll(".tapestry-scene[data-art-rendered=true]")].every(e => e.dataset.artFallback === "original")');
