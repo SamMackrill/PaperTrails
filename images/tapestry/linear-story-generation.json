@@ -1,58 +1,46 @@
 {
   "method": "Built-in image_gen",
-  "generatedAt": "2026-10-01",
+  "generatedAt": "2026-10-03",
   "userApproved": false,
-  "notes": "Source atlases store bands; runtime joins twelve whole depictions into one linear cloth. Opening uses only corrected band 1. Original early atlas supplies unchanged bands 2Ã¢â‚¬â€œ4; lower bands in the opening edit are unused. Active masters now contain transparent threadwork above one continuous runtime linen backing; original linen masters and generation history remain retained.",
+  "notes": "Flat muted handmade wool redraw against the governing facsimile; true transparent thread sources share continuous linen. Complete source bands fit one stable height proportionally; zoom only unfolds fixed artwork. Exact fresh and extraction calls, inputs, outputs and all older generations are retained.",
   "sources": {
     "early": {
-      "original": "exec-87f4630d-ddb3-4a07-882f-d22e2b9becb1.png",
+      "original": "exec-fbbdd8a1-73b5-4ff0-9be2-dfa09b9bd285.png",
       "transparent": true,
-      "previousGeneration": {
-        "prompt": "Use case: precise-object-edit. Edit ONLY the bottom/fourth row of Image 1, a 2172x724 historical embroidery atlas. Image 2 is ONLY a style reference of an embroidered comet, not a composition to copy. Leave the first three rows exactly unchanged, especially the cannon and soldiers in the third row. Preserve all animal dividers. In the fourth row, add a SMALL 1682 comet and TWO SMALL late-seventeenth-century observing figures in the gap around x=830â€“1040. Every added stitch MUST FIT entirely in rectangle x=790â€“1060,y=610â€“718. A SMALL horizontal stitched comet at y=614â€“639, with 25px diameter star head and 120px tail. Under it, two small figures roughly 60px tall, heads around y=650, feet on the existing baseline y=715; one looking through a small simple refractor on a short wooden tripod, other pointing upward with ONE hand. Late-seventeenth-century coats, breeches and plain broad hats. EXACTLY TWO ARMS each. This is a shallow band; scale the entire observation group SMALL ENOUGH TO FIT THE BOTTOM ROW, not tall figures crossing a divider. Retain the famine/cold family scene to left, Atlantic ship and labourers to right. The observation group shares their existing ground, with no vignette box. Flat madder/ochre/indigo wool stitching on exposed linen, NO photograph, realistic shading, filled sky, letters, numerals, dates or labels. Absolutely no comet, telescope or observers in row three; absolutely no added element above y=610.",
-        "reference": "images/tapestry/bayeux-linear-early.png",
-        "original": "exec-d05a8803-b650-42a5-a971-f6c7476aa378.png",
-        "previousGeneration": {
-          "prompt": "Use case: historical-scene.\nAsset type: production source atlas for ONE continuous linear Bayeux tapestry in Paper Trails, a scientific-history timeline. The supplied image is the mandatory STYLE reference, not subjects to copy indiscriminately.\nCreate a wide landscape image with EXACTLY FOUR long horizontal embroidered bands stacked top to bottom as a source atlas, overall image 3:1 aspect. Each band is ONE single connected left-to-right scene, about twelve times as wide as high, between narrow continuous animal and bird borders. These four storage bands will be joined end to end in the application into ONE LINEAR STRIP, never displayed as a multirow collage. No separate vignette boxes, no floating motifs, no scenic thumbnails. Adjacent band endings and beginnings must join on bare linen and a single thin stitched ground at the same vertical position. Continuous warm pale linen, uniform figure scale and thread palette in every band.\nMatch the reference VERY CLOSELY: exposed flax linen, vivid madder red / ochre / indigo / sage wool stem-stitch contours, flat laid-and-couched thread fills, unfilled profile faces, angular expressive limbs/hands, sparse symbolic architecture. This is embroidery, not painting: no photographic detail, tonal gradients, volumetric shading, filled skies, black ink or sepia wash. Figures large relative to band height. Upper and lower border alternating embroidered birds, deer, dogs and leaf sprigs. Keep all figures within borders.\nFour chronological bands, top to bottom:\n1. 1380–1500: late medieval scholarship and Renaissance awakening as one scene: a manor rent exchange at left, scholars sharing manuscripts with a painter and geometric drawing in the central group, then a printer turning a press with apprentices carrying books at right. Mostly open linen, one baseline, restrained symbolic arcaded building, period clothing.\n2. 1500–1600: Reformation pamphlets and religious debate, Renaissance study and Atlantic coercion overlap in one depiction: scholars and printers at left; a reformer holding a book with disputing townspeople in centre; African coastal community, a guarded forced embarkation and a sailing vessel at right. Convey agency, distress and dignity without gore. No modern flags or weapons. Interweave figures and shared objects, don't divide scenes into panels.\n3. 1600–1650: Little Ice Age snow, Thirty Years' War and English Civil War IN THE SAME DRAWN SCENE: a snow-covered bare tree and family carrying firewood, pikemen crossing the same snowy ground behind a cart, a cannon and roundhead/cavalier figures interacting by a symbolic fortified gate, sparse chilly weather stitches above. Snow threads run under every subject, winter is part of the setting, not a separate winter vignette. Period muskets and clothing.\n4. 1650–1700: continuing cold period, famine and Atlantic plantation labour/resistance as one continuous scene: a cold village household sharing a small loaf and hauling fuel at left, hungry people near poor grain at centre, an Atlantic ship connects toward Black families/community and plantation workers who also organise mutual aid at right. Geographic transition symbolic, no causal claim that climate caused enslavement; dignity, no gore. Shared baseline and connected threads. End with a bare vine/tree on exposed linen.\nNo words, letters, numerals, dates, captions or watermark anywhere. No repeated people or cloned panels. No layout UI. Every band must be a coherent single depiction with its contemporaneous subjects drawn together, not separate cutouts. Keep first main identifying action group close enough to the left to remain visible when later detail is pleated behind it.",
-          "reference": "images/tapestry/style-reference-bayeux.png",
-          "original": "exec-078aade9-e8d2-4132-b7b0-fa74f4442ea3.png",
-          "sourceHash": "5f812b6ed16f963d2a9cd06a3bfd16af780b57f0c7449ba288043a03d4a2084b",
-          "runtimeHash": "8a0ba5322b2a57119196707da2082a4bfd0487bc83756079eb8621c4a4b7b9f6",
-          "promptHash": "799e4794def2c0abaa491d2c8c245eb30a47c908279e24d8b25f38fc2e2638e4",
-          "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-          "sourceFile": "images/tapestry/bayeux-linear-early.png",
-          "runtimeFile": "images/tapestry/bayeux-linear-early.webp",
-          "historyLinks": []
-        },
-        "supportingReferences": [
-          {
-            "file": "images/tapestry/style-reference-halley-comet.png",
-            "hash": "184071aa8fc9b0b7d9ce5f83a528f7a80bbfbc1cd4767c9062ab7673c22c0e43"
-          }
-        ],
-        "sourceHash": "d1aad2936fa5c444ce91f4fdc0724e86ec1a28ae6f57a04c88ae27798f957bba",
-        "runtimeHash": "c909ffc474f9fea5fa91b1b479c0a309ee6e69ee7b01051cf5c7247b9c4bb0fe",
-        "promptHash": "ff9aae35af5d21a1e7bb3112a121767381df4e11e2df0fd6eaf74b996e121e79",
-        "referenceHash": "5f812b6ed16f963d2a9cd06a3bfd16af780b57f0c7449ba288043a03d4a2084b",
-        "sourceFile": "images/tapestry/bayeux-linear-early-comets.png",
-        "runtimeFile": "images/tapestry/bayeux-linear-early-comets.webp",
-        "historyLinks": [
-          "previousGeneration"
-        ]
+      "sourceFile": "images/tapestry/bayeux-linear-early-faded-wool-threads.png",
+      "runtimeFile": "images/tapestry/bayeux-linear-early-faded-wool-threads.webp",
+      "sourceHash": "029588ba6b34c2326e3f7675b7f3c855424ece8a1f1f5a9b7b59c40d032a9bd3",
+      "runtimeHash": "fd62abd97b074ccc3b8be409f8aff9b56289cf85f0d84ddbf3d98e47bd0966ef",
+      "prompt": "Edit target: Image1 transparent narrative embroidery atlas. Image2 is ONLY the governing faded Bayeux facsimile for palette, not composition. ONE precise refinement: bring thread colours into Image2's low-saturation, weathered natural wool palette. Change bright scarlet/vermilion to soft dusty madder/rust around #8c5140; vivid golden orange to faded ochre around #9b8352; strong blue to subdued slate-indigo around #455358; foliage to dull olive-sage; keep warm brown stitch contours rather than high-contrast black. Snow/undyed wool is warm ivory, not brilliant white. Preserve the exact existing historical subjects, all figure positions, proportions, native canvas dimensions, separate source-band geometry, ground lines, fine handmade thread texture and flat drawing style. Colour change only; do not redraw, resize, move or add anything. Especially preserve both comets and period observers, exactly two arms per human, telegraph wires/aurora, trench approach and barren lunar scene where present. Preserve FULL true background transparency and all negative space: no linen, coloured haze, semiopaque backing, rectangle, added border or text. Colour should remain softly visible, with genuinely muted plant-dyed threads and the gentle uneven faded character of the reference, not vivid modern cartoon colours. Existing fixed scene geometry and transparent alpha are essential.",
+      "promptHash": "441ed0048a63bfe52f1ea94cab90bb18437c7252ba79ce4b62d8526da197615c",
+      "reference": "images/tapestry/bayeux-linear-early-muted-fresh-threads.png",
+      "referenceHash": "ea7237d04b1f9546c3478364b5b1ca44f8727fa11d1841f5129cf8513f3fbb1f",
+      "supportingReferences": [
+        {
+          "file": "images/tapestry/style-reference-bayeux.png",
+          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+        }
+      ],
+      "promptRecord": {
+        "file": "images/tapestry/muted-embroidery-prompts.json",
+        "id": "early-faded"
       },
-      "prompt": "Use case: precise-object-edit. Edit target: this transparent Bayeux wool-thread history atlas, 2171 x 724, with FOUR horizontal story bands. These bands are played end-to-end as ONE long cloth in the app. Keep canvas bounds, band coordinates, all established figures, era clothing, printing press, Reformation, plantation/slavery, wars, agricultural labor, ships and the 1682 comet observers exactly in their bands and existing native stitched style. Correct only terrain transitions at band endpoints. At the FAR RIGHT of the SECOND band (y245..402), the slave-trade ship's sea must not end in an abrupt vertical blue wall. Draw a small convincing snowy harbour shoreline/quay beyond the ship: blue embroidered waves taper towards a stone bank and winter shore that reaches the right edge at the same ground baseline; the next band begins with the snow-covered house at LEFT (y452..573). At the FAR RIGHT of the THIRD band, and FAR LEFT of the FOURTH band (y610..718), make the snow contours and lower ground stitch meet seamlessly as a continuation from industrial chimneys to snowy timber house: no raised rectangle of snow, no sudden step in depth, no vertical scene wall. Keep the white stitched snow fill and its contours as actual threadwork on transparent exposed linen, never an opaque backdrop rectangle. Near the far right end of the FOURTH band, gently bring the farmland onto sparse cold-season earth rather than abruptly clipped greenery, to lead into the winter/redcoat opening of the next sheet. Preserve every human's sensible two arms, all boat rigging and period apparatus. Preserve the small 1682 comet and observers in the fourth band. NO new text, border designs, modern apparatus, empty spacers, compositing fades, checkerboard or linen backdrop. Maintain the original source row layout and source locations so established hotspot fractions still address their subjects. The only changes should be authored transitional shore/ground/snow threadwork at these row edges.",
-      "reference": "images/tapestry/bayeux-linear-early-threads.png",
-      "sourceHash": "ec433dce4b6e766b3ae7842c2c87271bdbc16e16e15a7a6cec653ac1a8423345",
-      "runtimeHash": "7c2d713dfea625761e8ac4fde8f7aea42113b4b8bd6756a90f04334aa251d2b9",
-      "promptHash": "74dad297595f1590b4f4376fbb9c4d088eff0dddf20e3a29fa23095a7481522c",
-      "referenceHash": "af7926071e29ba13baa4f75b80e0d49b163fc37e00d4bae6d55033abe7b51cc4",
-      "scenePolish": {
-        "method": "Built-in image_gen",
-        "transparent_background": true,
-        "sourceFile": "images/tapestry/bayeux-linear-early-threads.png",
-        "sourceHash": "af7926071e29ba13baa4f75b80e0d49b163fc37e00d4bae6d55033abe7b51cc4",
-        "runtimeFile": "images/tapestry/bayeux-linear-early-threads.webp",
-        "runtimeHash": "f9d4faa19bcd92be50979e9da589fe06909e34f0b421adc87aba0ccc510cb3f7",
-        "priorGeneration": {
+      "previousGeneration": {
+        "original": "exec-a7beedf8-ea81-4720-b96e-c13e8d72a5d9.png",
+        "transparent": true,
+        "sourceFile": "images/tapestry/bayeux-linear-early-muted-fresh-threads.png",
+        "runtimeFile": "images/tapestry/bayeux-linear-early-muted-fresh-threads.webp",
+        "sourceHash": "ea7237d04b1f9546c3478364b5b1ca44f8727fa11d1841f5129cf8513f3fbb1f",
+        "runtimeHash": "dccf6e2eff2275f1f38e2b523b1ed6f672afd6172dd151e70704d151e4695b98",
+        "prompt": "Use case: historical-scene. Draw NEW production artwork for a historical timeline, matching the supplied Bayeux facsimile VERY CLOSELY. The reference is STYLE ONLY; change its industrial subjects to the specified early history. Authentic medieval embroidered drawing, NOT a painting or cartoon: unfilled pale/transparent profile faces, simple angular people, irregular stem-stitched contours, FLAT laid-and-couched coloured wool fills with individual parallel stitches. Muted aged madder/rust, faded grey-indigo, subdued ochre, dull sage, undyed wool and brown outlines. No smooth shading, dimensional toy figures, saturated orange/red/blue, shiny metallic gold, gradients or photoreal foliage. Exact transparent2172x724 atlas of FOUR equal-height horizontally continuous narrative strips stored vertically. Each strip about180px high, ground baselines y177,358,539,720; adults consistently130px high and principal architecture/trees155px high. NO animal/decorative borders, no labels, no dates or letters. No linen/background panels: genuine transparency everywhere except actual stitches. Strip1: Renaissance workshop, scholars, spinning and printing, one modest symbolic church, craftspeople; one picture along the ground. Strip2: press near left, Reformation clerics/readers centre-left, colonial slavery and plantation labour centre-right, enslaved people on a quay and a sailing ship at far right; the sea becomes a small winter harbour shore reaching snowy land at the right edge. Strip3: snowy timber house and woodworkers at left, Thirty Years War/English Civil War period soldiers, cannon and horse cart through centre, war-town gate at right, ending on cold winter ground. Strip4: snow-covered household at left, children/food/work and late17th-century field labour next, a large 1682 Halley comet drawn like Bayeux's stitched star and flowing tail over gesturing Stuart-era observers around x850..1010, a ship and colonial plantation labour at centre-right, cold bare trees at right. Keep all FOUR scenes equally tall, with the same standing-human optical scale and ground contours meeting at each strip's ends. Do not fill lower strips with smaller people or clip the top of trees at a flat rectangle. Overlapping history is drawn together in each common scene, never separate cards or floating vignettes. Accurate era clothing/equipment and two arms per person. Sparse symbolic architecture and snow lines, abundant exposed linen, same flat thread grammar throughout. Scientific borders and Latin are added by the application later; draw ONLY the central narrative. Preserve complete figures inside their band, no subject clipping.",
+        "promptHash": "ac1a581bb2000538250840f58bf9be6d46ff42a2a433d089d87245122466238a",
+        "reference": "images/tapestry/style-reference-bayeux.png",
+        "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+        "promptRecord": {
+          "file": "images/tapestry/muted-embroidery-prompts.json",
+          "id": "early-fresh"
+        },
+        "previousGeneration": {
           "original": "exec-87f4630d-ddb3-4a07-882f-d22e2b9becb1.png",
           "transparent": true,
           "previousGeneration": {
@@ -87,300 +75,528 @@
               "previousGeneration"
             ]
           },
-          "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present.",
-          "reference": "images/tapestry/bayeux-linear-early-comets.png",
-          "sourceHash": "af7926071e29ba13baa4f75b80e0d49b163fc37e00d4bae6d55033abe7b51cc4",
-          "runtimeHash": "f9d4faa19bcd92be50979e9da589fe06909e34f0b421adc87aba0ccc510cb3f7",
-          "promptHash": "9cd65e221dd81a1b8e4d0adf9ab0529d14949f4796901b08caf9416697626979",
-          "referenceHash": "d1aad2936fa5c444ce91f4fdc0724e86ec1a28ae6f57a04c88ae27798f957bba",
-          "sourceFile": "images/tapestry/bayeux-linear-early-threads.png",
-          "runtimeFile": "images/tapestry/bayeux-linear-early-threads.webp",
+          "prompt": "Use case: precise-object-edit. Edit target: this transparent Bayeux wool-thread history atlas, 2171 x 724, with FOUR horizontal story bands. These bands are played end-to-end as ONE long cloth in the app. Keep canvas bounds, band coordinates, all established figures, era clothing, printing press, Reformation, plantation/slavery, wars, agricultural labor, ships and the 1682 comet observers exactly in their bands and existing native stitched style. Correct only terrain transitions at band endpoints. At the FAR RIGHT of the SECOND band (y245..402), the slave-trade ship's sea must not end in an abrupt vertical blue wall. Draw a small convincing snowy harbour shoreline/quay beyond the ship: blue embroidered waves taper towards a stone bank and winter shore that reaches the right edge at the same ground baseline; the next band begins with the snow-covered house at LEFT (y452..573). At the FAR RIGHT of the THIRD band, and FAR LEFT of the FOURTH band (y610..718), make the snow contours and lower ground stitch meet seamlessly as a continuation from industrial chimneys to snowy timber house: no raised rectangle of snow, no sudden step in depth, no vertical scene wall. Keep the white stitched snow fill and its contours as actual threadwork on transparent exposed linen, never an opaque backdrop rectangle. Near the far right end of the FOURTH band, gently bring the farmland onto sparse cold-season earth rather than abruptly clipped greenery, to lead into the winter/redcoat opening of the next sheet. Preserve every human's sensible two arms, all boat rigging and period apparatus. Preserve the small 1682 comet and observers in the fourth band. NO new text, border designs, modern apparatus, empty spacers, compositing fades, checkerboard or linen backdrop. Maintain the original source row layout and source locations so established hotspot fractions still address their subjects. The only changes should be authored transitional shore/ground/snow threadwork at these row edges.",
+          "reference": "images/tapestry/bayeux-linear-early-threads.png",
+          "sourceHash": "ec433dce4b6e766b3ae7842c2c87271bdbc16e16e15a7a6cec653ac1a8423345",
+          "runtimeHash": "7c2d713dfea625761e8ac4fde8f7aea42113b4b8bd6756a90f04334aa251d2b9",
+          "promptHash": "74dad297595f1590b4f4376fbb9c4d088eff0dddf20e3a29fa23095a7481522c",
+          "referenceHash": "af7926071e29ba13baa4f75b80e0d49b163fc37e00d4bae6d55033abe7b51cc4",
+          "scenePolish": {
+            "method": "Built-in image_gen",
+            "transparent_background": true,
+            "sourceFile": "images/tapestry/bayeux-linear-early-threads.png",
+            "sourceHash": "af7926071e29ba13baa4f75b80e0d49b163fc37e00d4bae6d55033abe7b51cc4",
+            "runtimeFile": "images/tapestry/bayeux-linear-early-threads.webp",
+            "runtimeHash": "f9d4faa19bcd92be50979e9da589fe06909e34f0b421adc87aba0ccc510cb3f7",
+            "priorGeneration": {
+              "original": "exec-87f4630d-ddb3-4a07-882f-d22e2b9becb1.png",
+              "transparent": true,
+              "previousGeneration": {
+                "prompt": "Use case: precise-object-edit. Edit ONLY the bottom/fourth row of Image 1, a 2172x724 historical embroidery atlas. Image 2 is ONLY a style reference of an embroidered comet, not a composition to copy. Leave the first three rows exactly unchanged, especially the cannon and soldiers in the third row. Preserve all animal dividers. In the fourth row, add a SMALL 1682 comet and TWO SMALL late-seventeenth-century observing figures in the gap around x=830â€“1040. Every added stitch MUST FIT entirely in rectangle x=790â€“1060,y=610â€“718. A SMALL horizontal stitched comet at y=614â€“639, with 25px diameter star head and 120px tail. Under it, two small figures roughly 60px tall, heads around y=650, feet on the existing baseline y=715; one looking through a small simple refractor on a short wooden tripod, other pointing upward with ONE hand. Late-seventeenth-century coats, breeches and plain broad hats. EXACTLY TWO ARMS each. This is a shallow band; scale the entire observation group SMALL ENOUGH TO FIT THE BOTTOM ROW, not tall figures crossing a divider. Retain the famine/cold family scene to left, Atlantic ship and labourers to right. The observation group shares their existing ground, with no vignette box. Flat madder/ochre/indigo wool stitching on exposed linen, NO photograph, realistic shading, filled sky, letters, numerals, dates or labels. Absolutely no comet, telescope or observers in row three; absolutely no added element above y=610.",
+                "reference": "images/tapestry/bayeux-linear-early.png",
+                "original": "exec-d05a8803-b650-42a5-a971-f6c7476aa378.png",
+                "previousGeneration": {
+                  "prompt": "Use case: historical-scene.\nAsset type: production source atlas for ONE continuous linear Bayeux tapestry in Paper Trails, a scientific-history timeline. The supplied image is the mandatory STYLE reference, not subjects to copy indiscriminately.\nCreate a wide landscape image with EXACTLY FOUR long horizontal embroidered bands stacked top to bottom as a source atlas, overall image 3:1 aspect. Each band is ONE single connected left-to-right scene, about twelve times as wide as high, between narrow continuous animal and bird borders. These four storage bands will be joined end to end in the application into ONE LINEAR STRIP, never displayed as a multirow collage. No separate vignette boxes, no floating motifs, no scenic thumbnails. Adjacent band endings and beginnings must join on bare linen and a single thin stitched ground at the same vertical position. Continuous warm pale linen, uniform figure scale and thread palette in every band.\nMatch the reference VERY CLOSELY: exposed flax linen, vivid madder red / ochre / indigo / sage wool stem-stitch contours, flat laid-and-couched thread fills, unfilled profile faces, angular expressive limbs/hands, sparse symbolic architecture. This is embroidery, not painting: no photographic detail, tonal gradients, volumetric shading, filled skies, black ink or sepia wash. Figures large relative to band height. Upper and lower border alternating embroidered birds, deer, dogs and leaf sprigs. Keep all figures within borders.\nFour chronological bands, top to bottom:\n1. 1380–1500: late medieval scholarship and Renaissance awakening as one scene: a manor rent exchange at left, scholars sharing manuscripts with a painter and geometric drawing in the central group, then a printer turning a press with apprentices carrying books at right. Mostly open linen, one baseline, restrained symbolic arcaded building, period clothing.\n2. 1500–1600: Reformation pamphlets and religious debate, Renaissance study and Atlantic coercion overlap in one depiction: scholars and printers at left; a reformer holding a book with disputing townspeople in centre; African coastal community, a guarded forced embarkation and a sailing vessel at right. Convey agency, distress and dignity without gore. No modern flags or weapons. Interweave figures and shared objects, don't divide scenes into panels.\n3. 1600–1650: Little Ice Age snow, Thirty Years' War and English Civil War IN THE SAME DRAWN SCENE: a snow-covered bare tree and family carrying firewood, pikemen crossing the same snowy ground behind a cart, a cannon and roundhead/cavalier figures interacting by a symbolic fortified gate, sparse chilly weather stitches above. Snow threads run under every subject, winter is part of the setting, not a separate winter vignette. Period muskets and clothing.\n4. 1650–1700: continuing cold period, famine and Atlantic plantation labour/resistance as one continuous scene: a cold village household sharing a small loaf and hauling fuel at left, hungry people near poor grain at centre, an Atlantic ship connects toward Black families/community and plantation workers who also organise mutual aid at right. Geographic transition symbolic, no causal claim that climate caused enslavement; dignity, no gore. Shared baseline and connected threads. End with a bare vine/tree on exposed linen.\nNo words, letters, numerals, dates, captions or watermark anywhere. No repeated people or cloned panels. No layout UI. Every band must be a coherent single depiction with its contemporaneous subjects drawn together, not separate cutouts. Keep first main identifying action group close enough to the left to remain visible when later detail is pleated behind it.",
+                  "reference": "images/tapestry/style-reference-bayeux.png",
+                  "original": "exec-078aade9-e8d2-4132-b7b0-fa74f4442ea3.png",
+                  "sourceHash": "5f812b6ed16f963d2a9cd06a3bfd16af780b57f0c7449ba288043a03d4a2084b",
+                  "runtimeHash": "8a0ba5322b2a57119196707da2082a4bfd0487bc83756079eb8621c4a4b7b9f6",
+                  "promptHash": "799e4794def2c0abaa491d2c8c245eb30a47c908279e24d8b25f38fc2e2638e4",
+                  "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+                  "sourceFile": "images/tapestry/bayeux-linear-early.png",
+                  "runtimeFile": "images/tapestry/bayeux-linear-early.webp",
+                  "historyLinks": []
+                },
+                "supportingReferences": [
+                  {
+                    "file": "images/tapestry/style-reference-halley-comet.png",
+                    "hash": "184071aa8fc9b0b7d9ce5f83a528f7a80bbfbc1cd4767c9062ab7673c22c0e43"
+                  }
+                ],
+                "sourceHash": "d1aad2936fa5c444ce91f4fdc0724e86ec1a28ae6f57a04c88ae27798f957bba",
+                "runtimeHash": "c909ffc474f9fea5fa91b1b479c0a309ee6e69ee7b01051cf5c7247b9c4bb0fe",
+                "promptHash": "ff9aae35af5d21a1e7bb3112a121767381df4e11e2df0fd6eaf74b996e121e79",
+                "referenceHash": "5f812b6ed16f963d2a9cd06a3bfd16af780b57f0c7449ba288043a03d4a2084b",
+                "sourceFile": "images/tapestry/bayeux-linear-early-comets.png",
+                "runtimeFile": "images/tapestry/bayeux-linear-early-comets.webp",
+                "historyLinks": [
+                  "previousGeneration"
+                ]
+              },
+              "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present.",
+              "reference": "images/tapestry/bayeux-linear-early-comets.png",
+              "sourceHash": "af7926071e29ba13baa4f75b80e0d49b163fc37e00d4bae6d55033abe7b51cc4",
+              "runtimeHash": "f9d4faa19bcd92be50979e9da589fe06909e34f0b421adc87aba0ccc510cb3f7",
+              "promptHash": "9cd65e221dd81a1b8e4d0adf9ab0529d14949f4796901b08caf9416697626979",
+              "referenceHash": "d1aad2936fa5c444ce91f4fdc0724e86ec1a28ae6f57a04c88ae27798f957bba",
+              "sourceFile": "images/tapestry/bayeux-linear-early-threads.png",
+              "runtimeFile": "images/tapestry/bayeux-linear-early-threads.webp",
+              "historyLinks": [
+                "previousGeneration"
+              ]
+            }
+          },
+          "sourceFile": "images/tapestry/bayeux-linear-early-scene-polish-threads.png",
+          "runtimeFile": "images/tapestry/bayeux-linear-early-scene-polish-threads.webp",
           "historyLinks": [
-            "previousGeneration"
+            "previousGeneration",
+            "scenePolish"
           ]
-        }
+        },
+        "historyLinks": [
+          "previousGeneration"
+        ]
       },
-      "sourceFile": "images/tapestry/bayeux-linear-early-scene-polish-threads.png",
-      "runtimeFile": "images/tapestry/bayeux-linear-early-scene-polish-threads.webp",
       "historyLinks": [
-        "previousGeneration",
-        "scenePolish"
+        "previousGeneration"
       ]
     },
     "opening": {
-      "original": "exec-5cb43a7f-3dd1-4ada-b927-c71028ee2c3d.png",
+      "original": "exec-f7da45eb-813d-4a08-a6ed-60261f9f64c3.png",
       "transparent": true,
-      "previousGeneration": {
-        "prompt": "Edit this production atlas. Keep bands 2, 3 and 4, their borders, linen, figures, exact positions and style unchanged. Change ONLY the artwork of band 1 to cover the missing important subjects in the historical sequence. It must remain ONE connected Bayeux embroidered narrative on a single ground, with the same continuous bird/animal borders and scale. Left-to-right band 1: Renaissance manuscript scholarship and a painter with a geometric drawing in the first quarter; the 1453 fall of Constantinople represented by a sparse symbolic Byzantine city gateway, an Ottoman officer in fifteenth-century dress and a cannon in the middle; then an early Atlantic sailing ship, maize and plants carried by people with Indigenous American people shown with dignity at the right, representing the early Columbian Exchange after 1492. Retain mostly exposed linen and flat coloured wool thread grammar, profile faces, expressive hands and restrained architecture. No realistic filled background. Do not imply that Constantinople's fall caused the Atlantic exchange: these successive subjects share a narrative ground, not an explanatory arrow. No text, numerals, labels or watermarks. Preserve all three lower bands exactly.",
-        "reference": "images/tapestry/bayeux-linear-early.png",
-        "original": "exec-7ef7164b-8df5-4bfb-a949-4a52dff016f5.png",
-        "sourceHash": "65560237b1f05cac4dd6ca2380a0852c9f2b089797316ae883287831466e704f",
-        "runtimeHash": "4afa6e3cd90a49227b7feeed69e188189afc8c344e72b64d523666e690e569a3",
-        "promptHash": "3e9d08aa12897e4655dd46d44fdd53a899bafd9072d7732b9251f1e096e8bd23",
-        "referenceHash": "5f812b6ed16f963d2a9cd06a3bfd16af780b57f0c7449ba288043a03d4a2084b",
-        "sourceFile": "images/tapestry/bayeux-linear-opening.png",
-        "runtimeFile": "images/tapestry/bayeux-linear-opening.webp",
-        "historyLinks": []
+      "sourceFile": "images/tapestry/bayeux-linear-opening-faded-wool-threads.png",
+      "runtimeFile": "images/tapestry/bayeux-linear-opening-faded-wool-threads.webp",
+      "sourceHash": "c27313ecbc7604b0d3e2ea686ac9c0bc7f6d1eb8c7f46b42c6fceeacdf34cd32",
+      "runtimeHash": "114f9853daf6b38b18697e45d1da4aff96c76b9d479ac1f1ec4876e2051b9d15",
+      "prompt": "Edit target: Image1 transparent narrative embroidery atlas. Image2 is ONLY the governing faded Bayeux facsimile for palette, not composition. ONE precise refinement: bring thread colours into Image2's low-saturation, weathered natural wool palette. Change bright scarlet/vermilion to soft dusty madder/rust around #8c5140; vivid golden orange to faded ochre around #9b8352; strong blue to subdued slate-indigo around #455358; foliage to dull olive-sage; keep warm brown stitch contours rather than high-contrast black. Snow/undyed wool is warm ivory, not brilliant white. Preserve the exact existing historical subjects, all figure positions, proportions, native canvas dimensions, separate source-band geometry, ground lines, fine handmade thread texture and flat drawing style. Colour change only; do not redraw, resize, move or add anything. Especially preserve both comets and period observers, exactly two arms per human, telegraph wires/aurora, trench approach and barren lunar scene where present. Preserve FULL true background transparency and all negative space: no linen, coloured haze, semiopaque backing, rectangle, added border or text. Colour should remain softly visible, with genuinely muted plant-dyed threads and the gentle uneven faded character of the reference, not vivid modern cartoon colours. Existing fixed scene geometry and transparent alpha are essential.",
+      "promptHash": "441ed0048a63bfe52f1ea94cab90bb18437c7252ba79ce4b62d8526da197615c",
+      "reference": "images/tapestry/bayeux-linear-opening-muted-fresh-threads.png",
+      "referenceHash": "50712a98256e7dd21fb537e4ea2f6e5653b1c5ff2e31c636fd5165556845d48c",
+      "supportingReferences": [
+        {
+          "file": "images/tapestry/style-reference-bayeux.png",
+          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+        }
+      ],
+      "promptRecord": {
+        "file": "images/tapestry/muted-embroidery-prompts.json",
+        "id": "opening-faded"
       },
-      "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present.",
-      "reference": "images/tapestry/bayeux-linear-opening.png",
-      "sourceHash": "59ff241d8426cb72042e145c63d9e9cab04ab1f8e8b1c372c2bc6bc5f86b1cf3",
-      "runtimeHash": "1b0204288392aba70436b8ff1f31ebc7f330850d18884614375db78cf6c6e0c1",
-      "promptHash": "9cd65e221dd81a1b8e4d0adf9ab0529d14949f4796901b08caf9416697626979",
-      "referenceHash": "65560237b1f05cac4dd6ca2380a0852c9f2b089797316ae883287831466e704f",
-      "sourceFile": "images/tapestry/bayeux-linear-opening-threads.png",
-      "runtimeFile": "images/tapestry/bayeux-linear-opening-threads.webp",
+      "previousGeneration": {
+        "original": "exec-56184509-9d3c-4127-b5cc-c9ebd6554b4e.png",
+        "transparent": true,
+        "sourceFile": "images/tapestry/bayeux-linear-opening-muted-fresh-threads.png",
+        "runtimeFile": "images/tapestry/bayeux-linear-opening-muted-fresh-threads.webp",
+        "sourceHash": "50712a98256e7dd21fb537e4ea2f6e5653b1c5ff2e31c636fd5165556845d48c",
+        "runtimeHash": "66f8483f5a35a582ccd1bc43b3b4007dd122175d8c2dae6c48fa6c2b6ace8bd7",
+        "prompt": "Create a single long continuous 1400–1500 historical narrative of HANDMADE BAYEUX WOOL EMBROIDERY, matching the supplied facsimile style closely: flat faded rust/madder, dull ochre, dark muted slate-indigo, subdued sage; irregular warm-brown stem-stitch contours and sparse parallel laid/couched wool; angular simple limbs, profile faces left mostly unfilled. No glossy highlights, gradients, 3D cartoon modelling, saturated colours, photographic scenery. Transparent 2172x724 canvas. ONLY ONE horizontal scene across the TOP 200 pixels, remaining space fully transparent. Whole scene shares one stitched ground baseline at y200, human figures about140px tall, major architecture185px tall, no clipped tops. App supplies linen, Latin and scientific borders, so draw NO linen backing, decorative border or lettering. Left0..30% Renaissance scholars, manuscript study and early printing press with two working printers. Middle32..66% fall of Constantinople1453: period Ottoman cannon/crew, defenders and simplified recognisable city walls/domes, drawn together with nearby civilian labour. Right70..97%1492 Atlantic voyaging with period sailing ship and crew meeting native inhabitants on a naturally drawn sloping shore. Events weave together in ONE shared horizontal picture; sparse stitched ground connects workshop/city/shore, sea is a few muted slate-blue wavy threads, no boxed scenery, no separate vignettes. Exactly two arms per person, period clothing/tools. Preserve organically tall figures and buildings in each segment. True transparent empty spaces, no coloured matte, no linen rectangle.",
+        "promptHash": "0bf288acf75f19d9a034ae6bc467e7df4b6db87f5f0d366e09adead12b27d3a5",
+        "reference": "images/tapestry/style-reference-bayeux.png",
+        "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+        "promptRecord": {
+          "file": "images/tapestry/muted-embroidery-prompts.json",
+          "id": "opening-fresh"
+        },
+        "previousGeneration": {
+          "original": "exec-5cb43a7f-3dd1-4ada-b927-c71028ee2c3d.png",
+          "transparent": true,
+          "previousGeneration": {
+            "prompt": "Edit this production atlas. Keep bands 2, 3 and 4, their borders, linen, figures, exact positions and style unchanged. Change ONLY the artwork of band 1 to cover the missing important subjects in the historical sequence. It must remain ONE connected Bayeux embroidered narrative on a single ground, with the same continuous bird/animal borders and scale. Left-to-right band 1: Renaissance manuscript scholarship and a painter with a geometric drawing in the first quarter; the 1453 fall of Constantinople represented by a sparse symbolic Byzantine city gateway, an Ottoman officer in fifteenth-century dress and a cannon in the middle; then an early Atlantic sailing ship, maize and plants carried by people with Indigenous American people shown with dignity at the right, representing the early Columbian Exchange after 1492. Retain mostly exposed linen and flat coloured wool thread grammar, profile faces, expressive hands and restrained architecture. No realistic filled background. Do not imply that Constantinople's fall caused the Atlantic exchange: these successive subjects share a narrative ground, not an explanatory arrow. No text, numerals, labels or watermarks. Preserve all three lower bands exactly.",
+            "reference": "images/tapestry/bayeux-linear-early.png",
+            "original": "exec-7ef7164b-8df5-4bfb-a949-4a52dff016f5.png",
+            "sourceHash": "65560237b1f05cac4dd6ca2380a0852c9f2b089797316ae883287831466e704f",
+            "runtimeHash": "4afa6e3cd90a49227b7feeed69e188189afc8c344e72b64d523666e690e569a3",
+            "promptHash": "3e9d08aa12897e4655dd46d44fdd53a899bafd9072d7732b9251f1e096e8bd23",
+            "referenceHash": "5f812b6ed16f963d2a9cd06a3bfd16af780b57f0c7449ba288043a03d4a2084b",
+            "sourceFile": "images/tapestry/bayeux-linear-opening.png",
+            "runtimeFile": "images/tapestry/bayeux-linear-opening.webp",
+            "historyLinks": []
+          },
+          "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present.",
+          "reference": "images/tapestry/bayeux-linear-opening.png",
+          "sourceHash": "59ff241d8426cb72042e145c63d9e9cab04ab1f8e8b1c372c2bc6bc5f86b1cf3",
+          "runtimeHash": "1b0204288392aba70436b8ff1f31ebc7f330850d18884614375db78cf6c6e0c1",
+          "promptHash": "9cd65e221dd81a1b8e4d0adf9ab0529d14949f4796901b08caf9416697626979",
+          "referenceHash": "65560237b1f05cac4dd6ca2380a0852c9f2b089797316ae883287831466e704f",
+          "sourceFile": "images/tapestry/bayeux-linear-opening-threads.png",
+          "runtimeFile": "images/tapestry/bayeux-linear-opening-threads.webp",
+          "historyLinks": [
+            "previousGeneration"
+          ]
+        },
+        "historyLinks": [
+          "previousGeneration"
+        ]
+      },
       "historyLinks": [
         "previousGeneration"
       ]
     },
     "middle": {
-      "original": "exec-33816980-3490-419d-9e24-4649137275cd.png",
+      "original": "exec-2d102f42-e4f9-4610-a1b0-3883cdb8a526.png",
       "transparent": true,
+      "sourceFile": "images/tapestry/bayeux-linear-middle-faded-wool-threads.png",
+      "runtimeFile": "images/tapestry/bayeux-linear-middle-faded-wool-threads.webp",
+      "sourceHash": "ef198bff67485ed3c0208923c9779f4c5842ea1dde5a1d94188c089f93b3b541",
+      "runtimeHash": "d0a3c17431aeecbb9a367210e551a538804a79cb4b2289db01c97be84ba407ca",
+      "prompt": "Edit target: Image1 transparent narrative embroidery atlas. Image2 is ONLY the governing faded Bayeux facsimile for palette, not composition. ONE precise refinement: bring thread colours into Image2's low-saturation, weathered natural wool palette. Change bright scarlet/vermilion to soft dusty madder/rust around #8c5140; vivid golden orange to faded ochre around #9b8352; strong blue to subdued slate-indigo around #455358; foliage to dull olive-sage; keep warm brown stitch contours rather than high-contrast black. Snow/undyed wool is warm ivory, not brilliant white. Preserve the exact existing historical subjects, all figure positions, proportions, native canvas dimensions, separate source-band geometry, ground lines, fine handmade thread texture and flat drawing style. Colour change only; do not redraw, resize, move or add anything. Especially preserve both comets and period observers, exactly two arms per human, telegraph wires/aurora, trench approach and barren lunar scene where present. Preserve FULL true background transparency and all negative space: no linen, coloured haze, semiopaque backing, rectangle, added border or text. Colour should remain softly visible, with genuinely muted plant-dyed threads and the gentle uneven faded character of the reference, not vivid modern cartoon colours. Existing fixed scene geometry and transparent alpha are essential.",
+      "promptHash": "441ed0048a63bfe52f1ea94cab90bb18437c7252ba79ce4b62d8526da197615c",
+      "reference": "images/tapestry/bayeux-linear-middle-muted-extracted-threads.png",
+      "referenceHash": "63da7d69fb8b86954ff95ca97ec5b3319dcd6d6d48241a26518068f9574cc7e6",
+      "supportingReferences": [
+        {
+          "file": "images/tapestry/style-reference-bayeux.png",
+          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+        }
+      ],
+      "promptRecord": {
+        "file": "images/tapestry/muted-embroidery-prompts.json",
+        "id": "middle-faded"
+      },
       "previousGeneration": {
-        "prompt": "Use case: precise-object-edit. Correct only the positioning and size of the newly added comet/observers in this four-row source atlas. Preserve EVERY existing historical drawing and the native full atlas size. The row boundaries are strict production crop boundaries. No newly added pixel may cross into a neighbouring row or the animal divider. Do not recreate all scenes. No labels or letters. Keep the same flat coloured stitched wool style on exposed linen, coherent two-arm humans, period clothing and telescope.\nThe new comet currently crosses the UPPER animal divider of the second row. Remove the comet from that divider and restore the divider. Place the WHOLE comet INSIDE the SECOND row's narrative area, strictly y=222â€“378 on a 2172x724 source. Keep observers near x=710â€“950, but reduce their height to about 95px, feet at y=375 and heads near y=280. Telescope barrel around y=275; the whole comet must fit y=225â€“268, with 40px star-head and an expressive tail near x=680â€“930. Keep clear of the industrial loom and steam engine. This is Palitzsch's 1758â€“59 return scene, mid-eighteenth-century rural observers, NOT Halley. Preserve all other three rows, especially the two-arm telegraph operator in the bottom band.",
-        "reference": "images/tapestry/source-bayeux-linear-middle-comets.png",
-        "original": "exec-7fa438e3-0677-4196-a003-062a79ec4496.png",
+        "original": "exec-15904c43-a17a-4b40-ae4d-b75af94e8ccf.png",
+        "transparent": true,
+        "sourceFile": "images/tapestry/bayeux-linear-middle-muted-extracted-threads.png",
+        "runtimeFile": "images/tapestry/bayeux-linear-middle-muted-extracted-threads.webp",
+        "sourceHash": "63da7d69fb8b86954ff95ca97ec5b3319dcd6d6d48241a26518068f9574cc7e6",
+        "runtimeHash": "ff0644877a72a66ea3168bc3d226ca84966dc749af460c8fed17105834af17ed",
+        "prompt": "Edit target: supplied middle four-strip narrative embroidery atlas. Single focused change: remove ALL linen/fabric/paper backing and empty background between and behind the stitched subjects, making it genuinely transparent alpha=0 wherever there is no embroidery. Preserve every depicted person, architecture, machine, clothing, wool stitch, muted colour, scene position and full native proportions. Preserve four original complete horizontal drawings and their stitched ground lines. NO coloured matte, fake checkerboard, opaque scenic background, haze or rectangular strip backings. Faces can retain sparse natural undyed thread; snow, water and lunar rocks remain embroidered subjects. Do not add borders or text. Same canvas dimensions/composition as the input. Preserve muted flat handmade wool embroidery. True transparency is essential; linen is supplied as one continuous app canvas.",
+        "promptHash": "de85212a4ad5b8fce8620f7dc291d0b38f641c901719025062ea9cef0f0521e0",
+        "reference": "images/tapestry/bayeux-linear-middle-muted-fresh-threads.png",
+        "referenceHash": "97220cb5eaf2b954a2d160ecb21919307f5a920d0cf6c575976e5a7103f60691",
+        "promptRecord": {
+          "file": "images/tapestry/muted-embroidery-prompts.json",
+          "id": "middle-extract"
+        },
         "previousGeneration": {
-          "prompt": "Use case: precise-object-edit. Edit target is the FIRST supplied image, the entire 2172 by 724 pixel four-band embroidered production atlas. The SECOND image is a close-up identifying the anatomical mistake, not a replacement image. Make exactly one small correction: in the fourth/bottom narrative band, near 40 percent of the atlas width, the startled male telegraph operator in a dark blue Victorian coat beneath the sparking telegraph wires has THREE arms. Remove the extra raised hand and its extra forearm immediately in front of/above his face, restoring pale linen and the existing background thread lines behind it. He must have exactly TWO arms: keep the existing leftmost arm bent forward with an open hand toward the spark, and keep the existing arm extending down and behind his right hip with its hand. Preserve his head, face, coat, stance and these two retained arms. Make the tiny repaired area match the flat Bayeux wool-thread contours and exposed linen texture seamlessly. Keep the rest of the entire atlas absolutely unchanged: all four bands, every other person/object, figures' positions, telegraph network and aurora, Napoleon, engine, animal borders, exact crop boundaries and 2172x724 dimensions. No redesign, new letters, captions, dates, new limbs or new subjects. Return the full atlas, not the close-up.",
-          "reference": "images/tapestry/bayeux-linear-middle.png",
-          "original": "exec-2ec6ef02-3d67-48c5-a6b7-775546a7fbe8.png",
-          "generatedAt": "2026-10-02",
-          "tool": "built-in image_gen",
-          "correction": "Remove the telegraph operator's extra arm; retain exactly two arms and the shared scene.",
-          "supportingReference": {
-            "role": "user close-up identifying the unwanted third arm",
-            "source": "Context drawing instructions S42",
-            "sha256": "22788f683b9257c5c7d304425cf1755777f9ef31381813a5b842c701f23b75f4"
+          "original": "exec-75c06fdd-0a13-4cdd-988c-3c6f2a202f79.png",
+          "transparent": false,
+          "sourceFile": "images/tapestry/bayeux-linear-middle-muted-fresh-threads.png",
+          "runtimeFile": "images/tapestry/bayeux-linear-middle-muted-fresh-threads.webp",
+          "sourceHash": "97220cb5eaf2b954a2d160ecb21919307f5a920d0cf6c575976e5a7103f60691",
+          "runtimeHash": "fdc05aec9621619268bb6b37704ca20d179d3a60271e16f6a061b90adb994428",
+          "prompt": "Use case: historical-scene. NEW artwork matching the supplied Bayeux facsimile style very closely: flat muted madder/rust, faded slate-indigo, subdued ochre, dull sage, natural wool and warm brown contours; irregular stem stitches and visible laid/couched parallel wool, transparent/unfilled profile faces and angular simple limbs. NO smooth shading, gradients, glossy highlights, saturated bright colours, dimensional cartoon modelling or photoreal scenery. Genuinely transparent2172x724 source atlas, FOUR continuous horizontal narrative strips stored vertically, no decorative borders or text. Keep all four drawings at consistent standing-human scale and a shared stitched ground line; complete figures and trees with organic tops, no clipped rectangular scenic strips. Scientific borders/Latin/continuous linen are supplied separately by the app. Every strip is one shared chronological picture with events drawn together, not detached vignettes. Strip1: early18th-century succession war, red-coated soldiers/cannon/horsemen in left40%, winter village, labour and sparse snowy trees across right60%. Strip2: mid18th-century soldiers/cannon at left20%, winter village at20..30%, 1758-59 Halley RETURN comet and gesturing period observers at32..44% (not Halley himself), steam engine/textile mill at44..71%, American and French revolutionary groups at73..98%. Strip3: French revolution at0..16%, Haitian revolution at17..34%, a naval/slavery connection at34..40%, large recognisable Napoleon at40..48%, steam engine at48..62%, early locomotive with period troops, civilian labour and snow at63..97%. Strip4: early19th-century snowy village at0..9%, telegraph operator/equipment10..29%, Carrington1859 aurora, pole sparks and a surprised telegraph operator30..48% with exactly TWO ARMS, literal telegraph wires/poles and equipment49..78%, American Civil War troops79..91%, later slave-trade ship92..98%. Comet is Bayeux's stitched star with flowing tail, period1750s rural observing dress/instruments. Snow is undyed laid wool and simple stitched contours, never painted solid backdrop panels. Flat wool machines recognisable, symbolic architecture, sparse exposed linen. Four equal-height strips about180px each, ground baselines y177,358,539,720, major humans about130px high and trees/buildings155px high; preserve proportions. Keep figure scale and complete drawing height consistent into the last strip. Native artwork/style fidelity dominates.",
+          "promptHash": "06edea6d11afa490a19f4b422f7095a5fa2c4c9995d735b8763c85f5aeefe875",
+          "reference": "images/tapestry/style-reference-bayeux.png",
+          "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+          "promptRecord": {
+            "file": "images/tapestry/muted-embroidery-prompts.json",
+            "id": "middle-fresh"
           },
           "previousGeneration": {
-            "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1700–1740: snowy winter setting ties the War of Spanish Succession and Great Frost together in one depiction: early eighteenth-century officers and musketeers, a cannon being drawn by a horse, a courier, cold village families chopping fuel, an icebound canal boat, frosted trees. Officer/cannon cluster toward the LEFT, then frozen village woven into the SAME ground, and continuing cold winter travel toward right. No medieval dress.\n2. 1740–1789: snowy countryside softens into the Seven Years' War and industrialising workshops, then the American Revolution and Constitution. A large eighteenth-century cannon and soldiers at left; a water wheel, textile worker and recognisable beam steam engine occupy the same connected setting in centre; American militia and revolutionary delegates with an unsigned parchment at right. Snow and factories interweave rather than independent boxes. Colonial/revolutionary dress, no modern flags.\n3. 1789–1830: revolutionary France, Haiti, Napoleon and steam power composed into one long drawing: a French crowd and tricolour with revolutionary figures at left; dignified Black Haitian organisers and revolutionary figures in period dress connected by an Atlantic sailing ship; a strongly recognisable Napoleon with bicorne and hand-in-coat STANDING NEXT TO a large beam steam engine and its worker in centre; a snow-dusted road carries artillery and an early locomotive toward right. Napoleon and steam machinery must read together immediately. Concurrent context woven in same picture, transitions express succession along the shared baseline, not causal connections between all subjects. No modern buildings, no medieval peasants.\n4. 1830–1870: ONE continuous telegraph network stretches across the scene: large poles and copper wires connect a Victorian key operator, batteries, spark at a disconnected battery and restrained aurora thread loops OVER THE SAME WIRES. Make Carrington and the telegraph disruption one compelling central action group, never separate aurora thumbnail. At left a receding cold bare tree and Victorian village, not ongoing snow on the later right. At right a cable-laying shore station joins an American Civil War artillery/team and abolition campaigners in historically appropriate 1860s dress. Wired communication literally threads these connected objects together. No false date labels. Operator and wire sparks near LEFT-CENTRE so it stays identifiable folded.\n",
-            "reference": "images/tapestry/style-reference-bayeux.png",
-            "original": "exec-bf676bf2-c5b3-4ece-a1b9-16bb383c3e21.png",
-            "sourceHash": "3983278ec8003f5ba2ab82fa18cab50942c9b2470d4e1bf2702519a81f34b834",
-            "runtimeHash": "f8f2b2d13e2756b1887f392817bc123f3f207877d4b92a8b048011ed0b7f79b4",
-            "promptHash": "9333022d6ec3b6264085c5b42adca38ff5e121d895a9d6ab5079c3f9c98dc5fc",
-            "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-            "sourceFile": "images/tapestry/bayeux-linear-middle.png",
-            "runtimeFile": "images/tapestry/bayeux-linear-middle.webp",
-            "historyLinks": []
+            "original": "exec-33816980-3490-419d-9e24-4649137275cd.png",
+            "transparent": true,
+            "previousGeneration": {
+              "prompt": "Use case: precise-object-edit. Correct only the positioning and size of the newly added comet/observers in this four-row source atlas. Preserve EVERY existing historical drawing and the native full atlas size. The row boundaries are strict production crop boundaries. No newly added pixel may cross into a neighbouring row or the animal divider. Do not recreate all scenes. No labels or letters. Keep the same flat coloured stitched wool style on exposed linen, coherent two-arm humans, period clothing and telescope.\nThe new comet currently crosses the UPPER animal divider of the second row. Remove the comet from that divider and restore the divider. Place the WHOLE comet INSIDE the SECOND row's narrative area, strictly y=222â€“378 on a 2172x724 source. Keep observers near x=710â€“950, but reduce their height to about 95px, feet at y=375 and heads near y=280. Telescope barrel around y=275; the whole comet must fit y=225â€“268, with 40px star-head and an expressive tail near x=680â€“930. Keep clear of the industrial loom and steam engine. This is Palitzsch's 1758â€“59 return scene, mid-eighteenth-century rural observers, NOT Halley. Preserve all other three rows, especially the two-arm telegraph operator in the bottom band.",
+              "reference": "images/tapestry/source-bayeux-linear-middle-comets.png",
+              "original": "exec-7fa438e3-0677-4196-a003-062a79ec4496.png",
+              "previousGeneration": {
+                "prompt": "Use case: precise-object-edit. Edit target is the FIRST supplied image, the entire 2172 by 724 pixel four-band embroidered production atlas. The SECOND image is a close-up identifying the anatomical mistake, not a replacement image. Make exactly one small correction: in the fourth/bottom narrative band, near 40 percent of the atlas width, the startled male telegraph operator in a dark blue Victorian coat beneath the sparking telegraph wires has THREE arms. Remove the extra raised hand and its extra forearm immediately in front of/above his face, restoring pale linen and the existing background thread lines behind it. He must have exactly TWO arms: keep the existing leftmost arm bent forward with an open hand toward the spark, and keep the existing arm extending down and behind his right hip with its hand. Preserve his head, face, coat, stance and these two retained arms. Make the tiny repaired area match the flat Bayeux wool-thread contours and exposed linen texture seamlessly. Keep the rest of the entire atlas absolutely unchanged: all four bands, every other person/object, figures' positions, telegraph network and aurora, Napoleon, engine, animal borders, exact crop boundaries and 2172x724 dimensions. No redesign, new letters, captions, dates, new limbs or new subjects. Return the full atlas, not the close-up.",
+                "reference": "images/tapestry/bayeux-linear-middle.png",
+                "original": "exec-2ec6ef02-3d67-48c5-a6b7-775546a7fbe8.png",
+                "generatedAt": "2026-10-02",
+                "tool": "built-in image_gen",
+                "correction": "Remove the telegraph operator's extra arm; retain exactly two arms and the shared scene.",
+                "supportingReference": {
+                  "role": "user close-up identifying the unwanted third arm",
+                  "source": "Context drawing instructions S42",
+                  "sha256": "22788f683b9257c5c7d304425cf1755777f9ef31381813a5b842c701f23b75f4"
+                },
+                "previousGeneration": {
+                  "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1700–1740: snowy winter setting ties the War of Spanish Succession and Great Frost together in one depiction: early eighteenth-century officers and musketeers, a cannon being drawn by a horse, a courier, cold village families chopping fuel, an icebound canal boat, frosted trees. Officer/cannon cluster toward the LEFT, then frozen village woven into the SAME ground, and continuing cold winter travel toward right. No medieval dress.\n2. 1740–1789: snowy countryside softens into the Seven Years' War and industrialising workshops, then the American Revolution and Constitution. A large eighteenth-century cannon and soldiers at left; a water wheel, textile worker and recognisable beam steam engine occupy the same connected setting in centre; American militia and revolutionary delegates with an unsigned parchment at right. Snow and factories interweave rather than independent boxes. Colonial/revolutionary dress, no modern flags.\n3. 1789–1830: revolutionary France, Haiti, Napoleon and steam power composed into one long drawing: a French crowd and tricolour with revolutionary figures at left; dignified Black Haitian organisers and revolutionary figures in period dress connected by an Atlantic sailing ship; a strongly recognisable Napoleon with bicorne and hand-in-coat STANDING NEXT TO a large beam steam engine and its worker in centre; a snow-dusted road carries artillery and an early locomotive toward right. Napoleon and steam machinery must read together immediately. Concurrent context woven in same picture, transitions express succession along the shared baseline, not causal connections between all subjects. No modern buildings, no medieval peasants.\n4. 1830–1870: ONE continuous telegraph network stretches across the scene: large poles and copper wires connect a Victorian key operator, batteries, spark at a disconnected battery and restrained aurora thread loops OVER THE SAME WIRES. Make Carrington and the telegraph disruption one compelling central action group, never separate aurora thumbnail. At left a receding cold bare tree and Victorian village, not ongoing snow on the later right. At right a cable-laying shore station joins an American Civil War artillery/team and abolition campaigners in historically appropriate 1860s dress. Wired communication literally threads these connected objects together. No false date labels. Operator and wire sparks near LEFT-CENTRE so it stays identifiable folded.\n",
+                  "reference": "images/tapestry/style-reference-bayeux.png",
+                  "original": "exec-bf676bf2-c5b3-4ece-a1b9-16bb383c3e21.png",
+                  "sourceHash": "3983278ec8003f5ba2ab82fa18cab50942c9b2470d4e1bf2702519a81f34b834",
+                  "runtimeHash": "f8f2b2d13e2756b1887f392817bc123f3f207877d4b92a8b048011ed0b7f79b4",
+                  "promptHash": "9333022d6ec3b6264085c5b42adca38ff5e121d895a9d6ab5079c3f9c98dc5fc",
+                  "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+                  "sourceFile": "images/tapestry/bayeux-linear-middle.png",
+                  "runtimeFile": "images/tapestry/bayeux-linear-middle.webp",
+                  "historyLinks": []
+                },
+                "sourceHash": "04ad3d063609bcc070eacdeb0dd3977606b7dcbefc84dd10ce9bc0e979f413ed",
+                "runtimeHash": "6af76209ee505b2eeb6738fe60bb45c225ab3a96ac67dac969395f56f4f92132",
+                "promptHash": "edb546db251b29369d33895655cd1564a7a166d74e9ff5c0d0aab03ff953fa39",
+                "referenceHash": "3983278ec8003f5ba2ab82fa18cab50942c9b2470d4e1bf2702519a81f34b834",
+                "sourceFile": "images/tapestry/bayeux-linear-middle-v2.png",
+                "runtimeFile": "images/tapestry/bayeux-linear-middle-v2.webp",
+                "historyLinks": [
+                  "previousGeneration"
+                ]
+              },
+              "supportingReferences": [
+                {
+                  "file": "images/tapestry/style-reference-halley-comet.png",
+                  "hash": "184071aa8fc9b0b7d9ce5f83a528f7a80bbfbc1cd4767c9062ab7673c22c0e43"
+                }
+              ],
+              "initialEdit": {
+                "promptHash": "5ee16b7025198907419142d33d1f2f248b882c4bd086cc5408119a38dfed08a8",
+                "reference": "images/tapestry/bayeux-linear-middle-v2.png",
+                "referenceHash": "04ad3d063609bcc070eacdeb0dd3977606b7dcbefc84dd10ce9bc0e979f413ed",
+                "sourceHash": "77cdb765634cdccf099b9fd38c5e0d55ebedd8db1008113c8e14167725684dc2"
+              },
+              "sourceHash": "f77a27db00495f54196c44fbfbd6e53d6366bbbeeb7be21ba237c96941679cf1",
+              "runtimeHash": "efcd41045f2de4d589f75b9b46fdeffe575af93a3ad8d8871c28b244cbff7743",
+              "promptHash": "a77b774c996f590bfcfe5e2fb853301929521791fcbf3d458d3c9920944959df",
+              "referenceHash": "77cdb765634cdccf099b9fd38c5e0d55ebedd8db1008113c8e14167725684dc2",
+              "sourceFile": "images/tapestry/bayeux-linear-middle-comets.png",
+              "runtimeFile": "images/tapestry/bayeux-linear-middle-comets.webp",
+              "historyLinks": [
+                "previousGeneration"
+              ]
+            },
+            "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present. Preserve the 1758â€“59 comet group in the SECOND row and the corrected two-arm telegraph operator in the FOURTH row.",
+            "reference": "images/tapestry/bayeux-linear-middle-comets.png",
+            "sourceHash": "040e217d8e44531cf9434e529af2611f78c5155145485ae708a964395a1d723d",
+            "runtimeHash": "03b3fd40f8cc536e18ae428ce772830da723380fb3d55529f8c75728394ac5ee",
+            "promptHash": "3b26f52eec1f6003c09edaf73b94f5871e47b341f9640f0b999a11ecd37f3f81",
+            "referenceHash": "f77a27db00495f54196c44fbfbd6e53d6366bbbeeb7be21ba237c96941679cf1",
+            "sourceFile": "images/tapestry/bayeux-linear-middle-comets-threads.png",
+            "runtimeFile": "images/tapestry/bayeux-linear-middle-comets-threads.webp",
+            "historyLinks": [
+              "previousGeneration"
+            ]
           },
-          "sourceHash": "04ad3d063609bcc070eacdeb0dd3977606b7dcbefc84dd10ce9bc0e979f413ed",
-          "runtimeHash": "6af76209ee505b2eeb6738fe60bb45c225ab3a96ac67dac969395f56f4f92132",
-          "promptHash": "edb546db251b29369d33895655cd1564a7a166d74e9ff5c0d0aab03ff953fa39",
-          "referenceHash": "3983278ec8003f5ba2ab82fa18cab50942c9b2470d4e1bf2702519a81f34b834",
-          "sourceFile": "images/tapestry/bayeux-linear-middle-v2.png",
-          "runtimeFile": "images/tapestry/bayeux-linear-middle-v2.webp",
           "historyLinks": [
             "previousGeneration"
           ]
         },
-        "supportingReferences": [
-          {
-            "file": "images/tapestry/style-reference-halley-comet.png",
-            "hash": "184071aa8fc9b0b7d9ce5f83a528f7a80bbfbc1cd4767c9062ab7673c22c0e43"
-          }
-        ],
-        "initialEdit": {
-          "promptHash": "5ee16b7025198907419142d33d1f2f248b882c4bd086cc5408119a38dfed08a8",
-          "reference": "images/tapestry/bayeux-linear-middle-v2.png",
-          "referenceHash": "04ad3d063609bcc070eacdeb0dd3977606b7dcbefc84dd10ce9bc0e979f413ed",
-          "sourceHash": "77cdb765634cdccf099b9fd38c5e0d55ebedd8db1008113c8e14167725684dc2"
-        },
-        "sourceHash": "f77a27db00495f54196c44fbfbd6e53d6366bbbeeb7be21ba237c96941679cf1",
-        "runtimeHash": "efcd41045f2de4d589f75b9b46fdeffe575af93a3ad8d8871c28b244cbff7743",
-        "promptHash": "a77b774c996f590bfcfe5e2fb853301929521791fcbf3d458d3c9920944959df",
-        "referenceHash": "77cdb765634cdccf099b9fd38c5e0d55ebedd8db1008113c8e14167725684dc2",
-        "sourceFile": "images/tapestry/bayeux-linear-middle-comets.png",
-        "runtimeFile": "images/tapestry/bayeux-linear-middle-comets.webp",
         "historyLinks": [
           "previousGeneration"
         ]
       },
-      "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present. Preserve the 1758â€“59 comet group in the SECOND row and the corrected two-arm telegraph operator in the FOURTH row.",
-      "reference": "images/tapestry/bayeux-linear-middle-comets.png",
-      "sourceHash": "040e217d8e44531cf9434e529af2611f78c5155145485ae708a964395a1d723d",
-      "runtimeHash": "03b3fd40f8cc536e18ae428ce772830da723380fb3d55529f8c75728394ac5ee",
-      "promptHash": "3b26f52eec1f6003c09edaf73b94f5871e47b341f9640f0b999a11ecd37f3f81",
-      "referenceHash": "f77a27db00495f54196c44fbfbd6e53d6366bbbeeb7be21ba237c96941679cf1",
-      "sourceFile": "images/tapestry/bayeux-linear-middle-comets-threads.png",
-      "runtimeFile": "images/tapestry/bayeux-linear-middle-comets-threads.webp",
       "historyLinks": [
         "previousGeneration"
       ]
     },
     "modern": {
-      "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
+      "original": "exec-e78a2ac6-464c-4b16-bc4c-6f8036077b1e.png",
       "transparent": true,
-      "previousGeneration": {
-        "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
-        "reference": "images/tapestry/style-reference-bayeux.png",
-        "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
-        "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
-        "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
-        "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
-        "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-        "sourceFile": "images/tapestry/bayeux-linear-modern.png",
-        "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
-        "historyLinks": []
-      },
-      "prompt": "Use case: precise-object-edit. Edit ONLY the foremost large khaki marching soldier at the far RIGHT of the FIRST narrative band of this transparent 2172x724 four-band Bayeux embroidery atlas. Important production crop: the displayed FIRST BAND is y44 through y177. His current helmet extends above y44 and gets cut off in the app. Resize ONLY this one foreground soldier slightly smaller, keeping his feet at y172 and his helmet top at y48, so his entire helmet, face, shoulders, exactly two arms, coat, backpack, rifle and both feet are inside y48..174. Keep the whole figure inside x2010..2150 so there is a little path before the right edge. It must still be slightly larger than the next soldier behind him, preserving the receding column. Do NOT move or shrink the other soldiers, train, station, farmland or column route. Preserve EVERY other pixel area/subject as closely as possible, especially the new shallow trench approach in row2 and barren Moon in row4. Match the same flat coloured wool contours and stitch fills, with sensible period uniform and anatomy. Keep exact2172x724 full atlas canvas, all four row coordinates, the transparent background, original ground baseline and other subjects. No new text, plants, ornaments, border changes, opaque background or reflow. Only solve this single helmet/crop problem.",
-      "reference": "images/tapestry/bayeux-linear-modern-connected-trench-threads.png",
-      "sourceHash": "252d1dc6a9d6f8ebaba8b37efd7b2fd39d66dd8ecbe6614a60aca078f607f2b3",
-      "runtimeHash": "306e71cadc87a2cc98cdb3ce199855422d68e7a20098f18b7144a667166850d6",
-      "promptHash": "13c618d6558cadc349089d891ace4bca9bdb4f133dc50e11454bb991d11c62b9",
-      "referenceHash": "7fc754002b98e42ff20b7675589bc9d0b30fd080ec7d76d0f10070c6fb7ade09",
-      "scenePolish": {
-        "method": "Built-in image_gen",
-        "transparent_background": true,
-        "sourceFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.png",
-        "sourceHash": "7fc754002b98e42ff20b7675589bc9d0b30fd080ec7d76d0f10070c6fb7ade09",
-        "runtimeFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.webp",
-        "runtimeHash": "68ec7e8b8e9a03cdc2d9b94d91a42d9410319d29c5d1618e2fc2b736671ad6eb",
-        "priorGeneration": {
-          "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
-          "transparent": true,
-          "previousGeneration": {
-            "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
-            "reference": "images/tapestry/style-reference-bayeux.png",
-            "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
-            "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
-            "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
-            "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
-            "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-            "sourceFile": "images/tapestry/bayeux-linear-modern.png",
-            "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
-            "historyLinks": []
-          },
-          "prompt": "Use case: precise-object-edit. Edit this exact transparent 2172x724 four-row embroidered history atlas. Preserve the entire atlas and ALL artwork except TWO small corrections at the WWI transition. The rows are laid end-to-end into a single continuous narrative in the application. FIRST: in the FAR RIGHT end of the TOP story row, the front marching soldier is clipped by the right canvas edge. Keep the receding khaki column but place the foremost complete soldier slightly left, so both arms, coat, rifle and feet are entirely inside the canvas and the final 35 pixels lead along a shallow earthen path. Do not enlarge him. SECOND: at the FAR LEFT of story row 2 (the narrative band y216..358), remove the tall brown earth wedge that begins abruptly at x0. The first100 pixels of this row MUST be transparent exposed linen above y345: no soil fill, bush or tall trench wall there. Only a thin embroidered ground path around y350..357 continues to the left canvas edge. From x100 towards x350, let sparse brown stitched soil and trench contours rise GRADUALLY from that low path into the existing trench landscape. The approaching soldier descends along this path towards the existing trench soldiers; keep his original pose, two arms and period uniform. Beyond x350 in row2, preserve the other soldiers, machine gun, barbed wire, tank, aid station and economic scenes unchanged. Preserve all other rows EXACTLY, particularly the corrected barren Moon in row4, lunar equipment, WWII, Cold War, radio dish and satellites. Keep the original native wool outlines, flat thread fills and source-row coordinates. Retain full2172x724 canvas and true RGBA transparency. No added text, background fabric, border alterations, repeated marching figures, fades or opaque rectangles. The goal is a low connected path crossing the atlas-row join, without a vertical soil edge or a person cut in half.",
-          "reference": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.png",
-          "sourceHash": "7fc754002b98e42ff20b7675589bc9d0b30fd080ec7d76d0f10070c6fb7ade09",
-          "runtimeHash": "68ec7e8b8e9a03cdc2d9b94d91a42d9410319d29c5d1618e2fc2b736671ad6eb",
-          "promptHash": "ce79e5f9518c8bcaff5623e05bf15c8dc29da1e1c3d7dbc4a8c951344d154eca",
-          "referenceHash": "9562042a29b567e96f1c052c1739b29268b93b4dcfd2d5d8fbefd30aef732df5",
-          "scenePolish": {
-            "method": "Built-in image_gen",
-            "transparent_background": true,
-            "sourceFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.png",
-            "sourceHash": "9562042a29b567e96f1c052c1739b29268b93b4dcfd2d5d8fbefd30aef732df5",
-            "runtimeFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.webp",
-            "runtimeHash": "0a935c5f9b90561c28a9a1a7e47963966e2bd6344b42ef746bf082715d9573d2",
-            "priorGeneration": {
-              "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
-              "transparent": true,
-              "previousGeneration": {
-                "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
-                "reference": "images/tapestry/style-reference-bayeux.png",
-                "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
-                "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
-                "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
-                "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
-                "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-                "sourceFile": "images/tapestry/bayeux-linear-modern.png",
-                "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
-                "historyLinks": []
-              },
-              "prompt": "Use case: precise-object-edit. This transparent 2172x724 Bayeux thread atlas is the edit target. Preserve the entire image exactly except the FIRST 300 pixels of the SECOND narrative band (y216..358). Row1's receding marching column at the FAR RIGHT is followed immediately by row2's FAR LEFT when displayed as one continuous linear cloth. Currently the row2 trench begins as a tall vertical rectangular wall of brown soil at x0. Redraw ONLY that leftmost trench entrance: at x0 the earth should begin as a shallow stitched path along the lowest baseline, continuing the marching soldier's footing from row1's right edge. Let the earth and sandbags slope gradually upwards towards x250..300, and depict one arriving khaki soldier stepping down into the trench along this gentle approach. The second existing trench soldier and machine gun from x300 onward remain unchanged, as do the tank, nurse, later economic scenes, all other rows, the new receding column and the corrected barren Moon. Keep the first soldier's period uniform, plausible exactly-two-arm anatomy, native coloured wool contours and flat fills, transparent exposed linen. No added captions, backdrop panels, border motifs, fades or scale changes. No new source rectangles, hard vertical soil edge or gap in the story. Keep full canvas bounds, source rows and all subjects beyond the first300 pixels of row2 unchanged. Think of a continuous embroidered path descending into the trench, not two isolated pictures.",
-              "reference": "images/tapestry/bayeux-linear-modern-scene-polish-threads.png",
-              "sourceHash": "9562042a29b567e96f1c052c1739b29268b93b4dcfd2d5d8fbefd30aef732df5",
-              "runtimeHash": "0a935c5f9b90561c28a9a1a7e47963966e2bd6344b42ef746bf082715d9573d2",
-              "promptHash": "f8ed1466cef9162b6fd1adeae539df9e7d8e18504f8b18138974bf09f51b9d23",
-              "referenceHash": "c5c2b00d1ce06cf2bfe6273e9ce62d91d93d1ce82dbb8c2345291de1b6ba7989",
-              "scenePolish": {
-                "method": "Built-in image_gen",
-                "transparent_background": true,
-                "sourceFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.png",
-                "sourceHash": "c5c2b00d1ce06cf2bfe6273e9ce62d91d93d1ce82dbb8c2345291de1b6ba7989",
-                "runtimeFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.webp",
-                "runtimeHash": "34fab64901868c39f65aff57269cedd84d5f6aa893a8049c82290eab407ce171",
-                "priorGeneration": {
-                  "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
-                  "transparent": true,
-                  "previousGeneration": {
-                    "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
-                    "reference": "images/tapestry/style-reference-bayeux.png",
-                    "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
-                    "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
-                    "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
-                    "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
-                    "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-                    "sourceFile": "images/tapestry/bayeux-linear-modern.png",
-                    "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
-                    "historyLinks": []
-                  },
-                  "prompt": "Use case: precise-object-edit. Edit target: this transparent 2172 x 724 production Bayeux embroidery atlas. Keep the entire canvas, four rows, source row coordinates, all established figures, native flat colored wool stitch style and transparency unchanged except two corrections. FIRST: in row 1, at the far right where six full-size WWI soldiers march towards the left-edge trenches of row 2 in the application's linear story, replace that flat parade with a purposeful approach: a receding column of progressively smaller khaki period soldiers arrives from the distant landscape, following a gently curving earthen path, growing to one or two foreground soldiers at the extreme right, whose next step arrives at the trench scene at row 2 left. Keep the railway station, steam train, orchard and farming earlier in this row unchanged. Draw a continuous earthy ground into both row endpoints, no hard vertical cut, no empty panel gap. SECOND: row 4 at extreme left has a flowering sprig growing on the Moon. Remove it completely, leaving ONLY barren grey regolith, small craters, rocks and stitched lunar ground contours. Preserve astronaut, lunar module, flag, satellite, radio dish, conferences and all later earthly farming scenes unchanged. No vegetation anywhere on lunar terrain before the radio dish. Keep two-arm correct anatomy. NO text additions. NO borders added. Transparent exposed linen, no checkerboard painted into image, no opaque fabric panels, no new photographic background. Keep full 2172x724 atlas bounds and exact row locations; no trimming or rearrangement. Preserve other three rows and all scientific hardware. The row 2 trench machinery, tank, aid station and later economic figures must remain.",
-                  "reference": "images/tapestry/bayeux-linear-modern-threads.png",
-                  "sourceHash": "c5c2b00d1ce06cf2bfe6273e9ce62d91d93d1ce82dbb8c2345291de1b6ba7989",
-                  "runtimeHash": "34fab64901868c39f65aff57269cedd84d5f6aa893a8049c82290eab407ce171",
-                  "promptHash": "60a222d1d4714d5d847f8163596a6619690fc2070009b1d7dba52aaf17bbed44",
-                  "referenceHash": "fa4c7827744d33605a62ffc3429b038c89805312afae30bffa277afee5b609ed",
-                  "scenePolish": {
-                    "method": "Built-in image_gen",
-                    "transparent_background": true,
-                    "sourceFile": "images/tapestry/bayeux-linear-modern-threads.png",
-                    "sourceHash": "fa4c7827744d33605a62ffc3429b038c89805312afae30bffa277afee5b609ed",
-                    "runtimeFile": "images/tapestry/bayeux-linear-modern-threads.webp",
-                    "runtimeHash": "86e566df5875e99b3c5ff213e74c7df75b1c01d24202f75ac3902e65e8e01d8e",
-                    "priorGeneration": {
-                      "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
-                      "transparent": true,
-                      "previousGeneration": {
-                        "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
-                        "reference": "images/tapestry/style-reference-bayeux.png",
-                        "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
-                        "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
-                        "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
-                        "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
-                        "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
-                        "sourceFile": "images/tapestry/bayeux-linear-modern.png",
-                        "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
-                        "historyLinks": []
-                      },
-                      "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present. Preserve the WWI trench/tank, WWII imagery, rockets, satellites and all modern scene subjects unchanged.",
-                      "reference": "images/tapestry/bayeux-linear-modern.png",
-                      "sourceHash": "fa4c7827744d33605a62ffc3429b038c89805312afae30bffa277afee5b609ed",
-                      "runtimeHash": "86e566df5875e99b3c5ff213e74c7df75b1c01d24202f75ac3902e65e8e01d8e",
-                      "promptHash": "bed3841be93ca5aa3d66d4d49e5ad050225c44fc98d47352f53685698f3b078f",
-                      "referenceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
-                      "sourceFile": "images/tapestry/bayeux-linear-modern-threads.png",
-                      "runtimeFile": "images/tapestry/bayeux-linear-modern-threads.webp",
-                      "historyLinks": [
-                        "previousGeneration"
-                      ]
-                    }
-                  },
-                  "sourceFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.png",
-                  "runtimeFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.webp",
-                  "historyLinks": [
-                    "previousGeneration",
-                    "scenePolish"
-                  ]
-                }
-              },
-              "sourceFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.png",
-              "runtimeFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.webp",
-              "historyLinks": [
-                "previousGeneration",
-                "scenePolish"
-              ]
-            }
-          },
-          "sourceFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.png",
-          "runtimeFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.webp",
-          "historyLinks": [
-            "previousGeneration",
-            "scenePolish"
-          ]
+      "sourceFile": "images/tapestry/bayeux-linear-modern-faded-wool-threads.png",
+      "runtimeFile": "images/tapestry/bayeux-linear-modern-faded-wool-threads.webp",
+      "sourceHash": "85d1f08b25ad1029959d257ce1bd7478d0e60641b06dce70824b1542273ad287",
+      "runtimeHash": "9d9b8c573ac169cd7fec065ed352828c013db60f429e52cb73fd7c3b29ad841f",
+      "prompt": "Edit target: Image1 transparent narrative embroidery atlas. Image2 is ONLY the governing faded Bayeux facsimile for palette, not composition. ONE precise refinement: bring thread colours into Image2's low-saturation, weathered natural wool palette. Change bright scarlet/vermilion to soft dusty madder/rust around #8c5140; vivid golden orange to faded ochre around #9b8352; strong blue to subdued slate-indigo around #455358; foliage to dull olive-sage; keep warm brown stitch contours rather than high-contrast black. Snow/undyed wool is warm ivory, not brilliant white. Preserve the exact existing historical subjects, all figure positions, proportions, native canvas dimensions, separate source-band geometry, ground lines, fine handmade thread texture and flat drawing style. Colour change only; do not redraw, resize, move or add anything. Especially preserve both comets and period observers, exactly two arms per human, telegraph wires/aurora, trench approach and barren lunar scene where present. Preserve FULL true background transparency and all negative space: no linen, coloured haze, semiopaque backing, rectangle, added border or text. Colour should remain softly visible, with genuinely muted plant-dyed threads and the gentle uneven faded character of the reference, not vivid modern cartoon colours. Existing fixed scene geometry and transparent alpha are essential.",
+      "promptHash": "441ed0048a63bfe52f1ea94cab90bb18437c7252ba79ce4b62d8526da197615c",
+      "reference": "images/tapestry/bayeux-linear-modern-muted-extracted-threads.png",
+      "referenceHash": "5d61caa95c9fb8f9197b252b080351605667d133e93fdd43a3cbcbd7c28b284f",
+      "supportingReferences": [
+        {
+          "file": "images/tapestry/style-reference-bayeux.png",
+          "hash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
         }
+      ],
+      "promptRecord": {
+        "file": "images/tapestry/muted-embroidery-prompts.json",
+        "id": "modern-faded"
       },
-      "sourceFile": "images/tapestry/bayeux-linear-modern-crop-safe-threads.png",
-      "runtimeFile": "images/tapestry/bayeux-linear-modern-crop-safe-threads.webp",
+      "previousGeneration": {
+        "original": "exec-8858eb5b-d980-428a-93e6-a8f3cb618c08.png",
+        "transparent": true,
+        "sourceFile": "images/tapestry/bayeux-linear-modern-muted-extracted-threads.png",
+        "runtimeFile": "images/tapestry/bayeux-linear-modern-muted-extracted-threads.webp",
+        "sourceHash": "5d61caa95c9fb8f9197b252b080351605667d133e93fdd43a3cbcbd7c28b284f",
+        "runtimeHash": "0f3285a283e5f0f9442bf822341988d646a6fcdc1647856089e014be85a2e94c",
+        "prompt": "Edit target: supplied modern four-strip narrative embroidery atlas. Single focused change: remove ALL linen/fabric/paper backing and empty background between and behind the stitched subjects, making it genuinely transparent alpha=0 wherever there is no embroidery. Preserve every depicted person, architecture, machine, clothing, wool stitch, muted colour, scene position and full native proportions. Preserve four original complete horizontal drawings and their stitched ground lines. NO coloured matte, fake checkerboard, opaque scenic background, haze or rectangular strip backings. Faces can retain sparse natural undyed thread; snow, water and lunar rocks remain embroidered subjects. Also remove the rectangular black sky backing behind the lunar scene; retain astronaut, flag, lunar module and bare lunar rocks exactly, on transparent empty space. No plants on the moon. Do not add borders or text. Same canvas dimensions/composition as the input. Preserve muted flat handmade wool embroidery. True transparency is essential; linen is supplied as one continuous app canvas.",
+        "promptHash": "597de0bb853ddda8fe63b720d095006fedf16244f8a360ad7fd67e8d1e4f1e70",
+        "reference": "images/tapestry/bayeux-linear-modern-muted-fresh-threads.png",
+        "referenceHash": "f08700cab591c8bd43eae0fc4e788001bca50255458ec5cee1faec809fb01ffd",
+        "promptRecord": {
+          "file": "images/tapestry/muted-embroidery-prompts.json",
+          "id": "modern-extract"
+        },
+        "previousGeneration": {
+          "original": "exec-7104e167-1a36-4ad6-8d10-f9eb513176c4.png",
+          "transparent": false,
+          "sourceFile": "images/tapestry/bayeux-linear-modern-muted-fresh-threads.png",
+          "runtimeFile": "images/tapestry/bayeux-linear-modern-muted-fresh-threads.webp",
+          "sourceHash": "f08700cab591c8bd43eae0fc4e788001bca50255458ec5cee1faec809fb01ffd",
+          "runtimeHash": "e60ddaf130a2b8fd6a424e9b6902ad5abb4da95bce567dd99b5918888ab0b464",
+          "prompt": "Use case: historical-scene. NEW artwork matching the supplied Bayeux facsimile style very closely: flat muted madder/rust, faded slate-indigo, subdued ochre, dull sage, natural wool and warm brown contours; irregular stem stitches and visible laid/couched parallel wool, transparent/unfilled profile faces and angular simple limbs. NO smooth shading, gradients, glossy highlights, saturated bright colours, dimensional cartoon modelling or photoreal scenery. Genuinely transparent2172x724 source atlas, FOUR continuous horizontal narrative strips stored vertically, no decorative borders or text. Keep all four drawings at consistent standing-human scale and a shared stitched ground line; complete figures and trees with organic tops, no clipped rectangular scenic strips. Scientific borders/Latin/continuous linen are supplied separately by the app. Every strip is one shared chronological picture with events drawn together, not detached vignettes. Strip1(1870..1914): quiet lateVictorian field labour and horse cart on left, small station and steam train across centre, a WWI khaki troop column approaching from distance and growing to a complete foreground soldier at the far right. Strip2(1914..1939): shallow arrival path from left connects directly to soldiers in WWI trenches and sandbags, symbolic barbed wire and a rhomboid tank across left55%; nurse/aid station then waiting Great Depression workers and soup table across right half. No tall vertical trench-soil wall at the left edge. Strip3(1939..1969): flat stitched WWII tank and civilian rebuilding across left39%, a low Berlin gateway/wall and separated people in40..60%, transmitter/dish, Sputnik and large1960s rocket with period engineers at62..98%. Strip4(1969..2026): lunar astronaut, flag, module and rocks on BARREN MOON at0..25% with absolutely no plants/flowers/trees, satellite and radio dish25..45%, lateColdWar meeting table45..62%, coherent return to terrestrial agriculture and contemporary researchers/scenery on the right. Correct-era clothing/equipment, exactly two arms, no medieval machinery in modern periods. Sparse exposed linen and one common stitched baseline per strip, grounds meet across ends. Four equal180px high strips with ground y177,358,539,720 and major foreground humans consistently130px high, tallest structures around155..165px. All helmets/feet/rocket complete inside their drawing band. Receding troops deliberately smaller in distance; foreground soldier fits the displayed strip. Muted flat authentic wool thread like reference, never cartoon/toy tanks or shiny spacesuits.",
+          "promptHash": "7960403da3a6896700532844dceeec84e07b2403c15047a96a4046bded735f4d",
+          "reference": "images/tapestry/style-reference-bayeux.png",
+          "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+          "promptRecord": {
+            "file": "images/tapestry/muted-embroidery-prompts.json",
+            "id": "modern-fresh"
+          },
+          "previousGeneration": {
+            "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
+            "transparent": true,
+            "previousGeneration": {
+              "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
+              "reference": "images/tapestry/style-reference-bayeux.png",
+              "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
+              "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
+              "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
+              "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
+              "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+              "sourceFile": "images/tapestry/bayeux-linear-modern.png",
+              "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
+              "historyLinks": []
+            },
+            "prompt": "Use case: precise-object-edit. Edit ONLY the foremost large khaki marching soldier at the far RIGHT of the FIRST narrative band of this transparent 2172x724 four-band Bayeux embroidery atlas. Important production crop: the displayed FIRST BAND is y44 through y177. His current helmet extends above y44 and gets cut off in the app. Resize ONLY this one foreground soldier slightly smaller, keeping his feet at y172 and his helmet top at y48, so his entire helmet, face, shoulders, exactly two arms, coat, backpack, rifle and both feet are inside y48..174. Keep the whole figure inside x2010..2150 so there is a little path before the right edge. It must still be slightly larger than the next soldier behind him, preserving the receding column. Do NOT move or shrink the other soldiers, train, station, farmland or column route. Preserve EVERY other pixel area/subject as closely as possible, especially the new shallow trench approach in row2 and barren Moon in row4. Match the same flat coloured wool contours and stitch fills, with sensible period uniform and anatomy. Keep exact2172x724 full atlas canvas, all four row coordinates, the transparent background, original ground baseline and other subjects. No new text, plants, ornaments, border changes, opaque background or reflow. Only solve this single helmet/crop problem.",
+            "reference": "images/tapestry/bayeux-linear-modern-connected-trench-threads.png",
+            "sourceHash": "252d1dc6a9d6f8ebaba8b37efd7b2fd39d66dd8ecbe6614a60aca078f607f2b3",
+            "runtimeHash": "306e71cadc87a2cc98cdb3ce199855422d68e7a20098f18b7144a667166850d6",
+            "promptHash": "13c618d6558cadc349089d891ace4bca9bdb4f133dc50e11454bb991d11c62b9",
+            "referenceHash": "7fc754002b98e42ff20b7675589bc9d0b30fd080ec7d76d0f10070c6fb7ade09",
+            "scenePolish": {
+              "method": "Built-in image_gen",
+              "transparent_background": true,
+              "sourceFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.png",
+              "sourceHash": "7fc754002b98e42ff20b7675589bc9d0b30fd080ec7d76d0f10070c6fb7ade09",
+              "runtimeFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.webp",
+              "runtimeHash": "68ec7e8b8e9a03cdc2d9b94d91a42d9410319d29c5d1618e2fc2b736671ad6eb",
+              "priorGeneration": {
+                "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
+                "transparent": true,
+                "previousGeneration": {
+                  "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
+                  "reference": "images/tapestry/style-reference-bayeux.png",
+                  "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
+                  "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
+                  "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
+                  "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
+                  "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+                  "sourceFile": "images/tapestry/bayeux-linear-modern.png",
+                  "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
+                  "historyLinks": []
+                },
+                "prompt": "Use case: precise-object-edit. Edit this exact transparent 2172x724 four-row embroidered history atlas. Preserve the entire atlas and ALL artwork except TWO small corrections at the WWI transition. The rows are laid end-to-end into a single continuous narrative in the application. FIRST: in the FAR RIGHT end of the TOP story row, the front marching soldier is clipped by the right canvas edge. Keep the receding khaki column but place the foremost complete soldier slightly left, so both arms, coat, rifle and feet are entirely inside the canvas and the final 35 pixels lead along a shallow earthen path. Do not enlarge him. SECOND: at the FAR LEFT of story row 2 (the narrative band y216..358), remove the tall brown earth wedge that begins abruptly at x0. The first100 pixels of this row MUST be transparent exposed linen above y345: no soil fill, bush or tall trench wall there. Only a thin embroidered ground path around y350..357 continues to the left canvas edge. From x100 towards x350, let sparse brown stitched soil and trench contours rise GRADUALLY from that low path into the existing trench landscape. The approaching soldier descends along this path towards the existing trench soldiers; keep his original pose, two arms and period uniform. Beyond x350 in row2, preserve the other soldiers, machine gun, barbed wire, tank, aid station and economic scenes unchanged. Preserve all other rows EXACTLY, particularly the corrected barren Moon in row4, lunar equipment, WWII, Cold War, radio dish and satellites. Keep the original native wool outlines, flat thread fills and source-row coordinates. Retain full2172x724 canvas and true RGBA transparency. No added text, background fabric, border alterations, repeated marching figures, fades or opaque rectangles. The goal is a low connected path crossing the atlas-row join, without a vertical soil edge or a person cut in half.",
+                "reference": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.png",
+                "sourceHash": "7fc754002b98e42ff20b7675589bc9d0b30fd080ec7d76d0f10070c6fb7ade09",
+                "runtimeHash": "68ec7e8b8e9a03cdc2d9b94d91a42d9410319d29c5d1618e2fc2b736671ad6eb",
+                "promptHash": "ce79e5f9518c8bcaff5623e05bf15c8dc29da1e1c3d7dbc4a8c951344d154eca",
+                "referenceHash": "9562042a29b567e96f1c052c1739b29268b93b4dcfd2d5d8fbefd30aef732df5",
+                "scenePolish": {
+                  "method": "Built-in image_gen",
+                  "transparent_background": true,
+                  "sourceFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.png",
+                  "sourceHash": "9562042a29b567e96f1c052c1739b29268b93b4dcfd2d5d8fbefd30aef732df5",
+                  "runtimeFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.webp",
+                  "runtimeHash": "0a935c5f9b90561c28a9a1a7e47963966e2bd6344b42ef746bf082715d9573d2",
+                  "priorGeneration": {
+                    "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
+                    "transparent": true,
+                    "previousGeneration": {
+                      "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
+                      "reference": "images/tapestry/style-reference-bayeux.png",
+                      "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
+                      "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
+                      "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
+                      "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
+                      "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+                      "sourceFile": "images/tapestry/bayeux-linear-modern.png",
+                      "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
+                      "historyLinks": []
+                    },
+                    "prompt": "Use case: precise-object-edit. This transparent 2172x724 Bayeux thread atlas is the edit target. Preserve the entire image exactly except the FIRST 300 pixels of the SECOND narrative band (y216..358). Row1's receding marching column at the FAR RIGHT is followed immediately by row2's FAR LEFT when displayed as one continuous linear cloth. Currently the row2 trench begins as a tall vertical rectangular wall of brown soil at x0. Redraw ONLY that leftmost trench entrance: at x0 the earth should begin as a shallow stitched path along the lowest baseline, continuing the marching soldier's footing from row1's right edge. Let the earth and sandbags slope gradually upwards towards x250..300, and depict one arriving khaki soldier stepping down into the trench along this gentle approach. The second existing trench soldier and machine gun from x300 onward remain unchanged, as do the tank, nurse, later economic scenes, all other rows, the new receding column and the corrected barren Moon. Keep the first soldier's period uniform, plausible exactly-two-arm anatomy, native coloured wool contours and flat fills, transparent exposed linen. No added captions, backdrop panels, border motifs, fades or scale changes. No new source rectangles, hard vertical soil edge or gap in the story. Keep full canvas bounds, source rows and all subjects beyond the first300 pixels of row2 unchanged. Think of a continuous embroidered path descending into the trench, not two isolated pictures.",
+                    "reference": "images/tapestry/bayeux-linear-modern-scene-polish-threads.png",
+                    "sourceHash": "9562042a29b567e96f1c052c1739b29268b93b4dcfd2d5d8fbefd30aef732df5",
+                    "runtimeHash": "0a935c5f9b90561c28a9a1a7e47963966e2bd6344b42ef746bf082715d9573d2",
+                    "promptHash": "f8ed1466cef9162b6fd1adeae539df9e7d8e18504f8b18138974bf09f51b9d23",
+                    "referenceHash": "c5c2b00d1ce06cf2bfe6273e9ce62d91d93d1ce82dbb8c2345291de1b6ba7989",
+                    "scenePolish": {
+                      "method": "Built-in image_gen",
+                      "transparent_background": true,
+                      "sourceFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.png",
+                      "sourceHash": "c5c2b00d1ce06cf2bfe6273e9ce62d91d93d1ce82dbb8c2345291de1b6ba7989",
+                      "runtimeFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.webp",
+                      "runtimeHash": "34fab64901868c39f65aff57269cedd84d5f6aa893a8049c82290eab407ce171",
+                      "priorGeneration": {
+                        "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
+                        "transparent": true,
+                        "previousGeneration": {
+                          "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
+                          "reference": "images/tapestry/style-reference-bayeux.png",
+                          "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
+                          "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
+                          "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
+                          "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
+                          "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+                          "sourceFile": "images/tapestry/bayeux-linear-modern.png",
+                          "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
+                          "historyLinks": []
+                        },
+                        "prompt": "Use case: precise-object-edit. Edit target: this transparent 2172 x 724 production Bayeux embroidery atlas. Keep the entire canvas, four rows, source row coordinates, all established figures, native flat colored wool stitch style and transparency unchanged except two corrections. FIRST: in row 1, at the far right where six full-size WWI soldiers march towards the left-edge trenches of row 2 in the application's linear story, replace that flat parade with a purposeful approach: a receding column of progressively smaller khaki period soldiers arrives from the distant landscape, following a gently curving earthen path, growing to one or two foreground soldiers at the extreme right, whose next step arrives at the trench scene at row 2 left. Keep the railway station, steam train, orchard and farming earlier in this row unchanged. Draw a continuous earthy ground into both row endpoints, no hard vertical cut, no empty panel gap. SECOND: row 4 at extreme left has a flowering sprig growing on the Moon. Remove it completely, leaving ONLY barren grey regolith, small craters, rocks and stitched lunar ground contours. Preserve astronaut, lunar module, flag, satellite, radio dish, conferences and all later earthly farming scenes unchanged. No vegetation anywhere on lunar terrain before the radio dish. Keep two-arm correct anatomy. NO text additions. NO borders added. Transparent exposed linen, no checkerboard painted into image, no opaque fabric panels, no new photographic background. Keep full 2172x724 atlas bounds and exact row locations; no trimming or rearrangement. Preserve other three rows and all scientific hardware. The row 2 trench machinery, tank, aid station and later economic figures must remain.",
+                        "reference": "images/tapestry/bayeux-linear-modern-threads.png",
+                        "sourceHash": "c5c2b00d1ce06cf2bfe6273e9ce62d91d93d1ce82dbb8c2345291de1b6ba7989",
+                        "runtimeHash": "34fab64901868c39f65aff57269cedd84d5f6aa893a8049c82290eab407ce171",
+                        "promptHash": "60a222d1d4714d5d847f8163596a6619690fc2070009b1d7dba52aaf17bbed44",
+                        "referenceHash": "fa4c7827744d33605a62ffc3429b038c89805312afae30bffa277afee5b609ed",
+                        "scenePolish": {
+                          "method": "Built-in image_gen",
+                          "transparent_background": true,
+                          "sourceFile": "images/tapestry/bayeux-linear-modern-threads.png",
+                          "sourceHash": "fa4c7827744d33605a62ffc3429b038c89805312afae30bffa277afee5b609ed",
+                          "runtimeFile": "images/tapestry/bayeux-linear-modern-threads.webp",
+                          "runtimeHash": "86e566df5875e99b3c5ff213e74c7df75b1c01d24202f75ac3902e65e8e01d8e",
+                          "priorGeneration": {
+                            "original": "exec-5de4b298-e4ff-4a0e-bb15-b70ce43d429a.png",
+                            "transparent": true,
+                            "previousGeneration": {
+                              "prompt": "Use case: historical-scene. Production source atlas for Paper Trails' continuous folded Bayeux narrative. Match the supplied STYLE reference VERY CLOSELY: pale exposed woven flax linen, vivid madder/ochre/indigo/sage coloured wool stem-stitch contours, flat laid-and-couched wool fills, unfilled profile faces, angular expressive limbs and hands. Sparse symbolic architecture, one thin embroidered ground baseline. No tonal shading, photographic detail, painterly washes, perspective depth or filled skies. Figures and objects large relative to band height. EXACTLY FOUR connected very long horizontal bands stacked TOP TO BOTTOM, overall wide landscape 3:1 aspect; each band about twelve times as wide as high with narrow continuous animal/bird/plant borders at top and bottom. These four bands are STORAGE ONLY; they will join END TO END into ONE single linear cloth, never be displayed as a row collage. Each band is one drawn scene, with concurrent events inhabiting the SAME PICTURE: no independent vignettes, montage boxes, floating objects, separate vertical lanes or large empty holes. Keep scale, ground and border heights identical, begin/end each band on plain linen with sparse leaf sprigs for coherent end-to-end joins. No letters, numerals, labels, dates, watermark or gore. No cloned people/panels. Do not copy the reference's industrial subjects into unrelated epochs.\nFOUR BANDS IN THIS ORDER:\n1. 1870â€“1914: quiet late Victorian/Edwardian countryside and industrial everyday setting, no new named historical event: modest countryside, a horse cart and small station, a railway worker and sparse steam transport crossing the single baseline. War mobilisation begins only at the FAR RIGHT boundary: soldiers with 1914 uniforms and a train. Calm linen, no repetitions, no medieval figures.\n2. 1914â€“1939: FIRST WORLD WAR is depicted in the reference's FLAT COLOURED THREADS: recognisable helmeted soldiers inhabit a shallow embroidered trench behind a zigzag earth line, sandbags and a stylised early rhomboid tank. A nurse and worker belong in this same setting. Barbed wire is only a few symbolic coloured stitches, no huge dark masonry wall or realistic sepia insert. At right veterans and families transition into the Great Depression: waiting workers and a small soup table, sparse factory frontage. One picture, common ground, not separate cards; trenches/tank large and clear at LEFT.\n3. 1939â€“1969: SECOND WORLD WAR and the beginning of COLD WAR/SPACE RACE shown as chronological connected action along the same baseline: flat stitched 1940s tank with helmeted crew and civilian rebuilding at left; symbolic divided Berlin gateway in the centre with people separated by a LOW sparse brick outline, not dense realistic wall; transmitter dishes connect to a very recognisable rocket, tiny Sputnik sphere and 1960s suited engineers at right. The rocket should be large and obvious. Machinery is coloured wool with visible stitching, never black painted realism.\n4. 1969â€“2026: Cold War/space exploration followed by quiet contemporary scientific setting: an astronaut and lunar module beside a symbolic lunar disc at left with the same single ground line, satellite and communications dish, a restrained late-Cold-War meeting table, then contemporary trees/quiet landscape and people studying at a small bench at right. Do not invent new dated events. Keep modern subject depiction consistent with the original Bayeux style: angular profile humans, flat stitched machines, very little background, abundant exposed linen, continuous animals above/below. No dense city panorama or photo-real wall.\n",
+                              "reference": "images/tapestry/style-reference-bayeux.png",
+                              "original": "exec-b73aee80-30d9-4535-bce8-db1f23d68ec5.png",
+                              "sourceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
+                              "runtimeHash": "03dbd79d2fb91cc7b932eac53a0709fcdfbcc83d04c9f078956c4b842f8f7fe1",
+                              "promptHash": "e4f9e74532fbd544ad799b24f646d68852b68b8f41c588eee15510e29f5becdc",
+                              "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+                              "sourceFile": "images/tapestry/bayeux-linear-modern.png",
+                              "runtimeFile": "images/tapestry/bayeux-linear-modern.webp",
+                              "historyLinks": []
+                            },
+                            "prompt": "Use case: background-extraction. The input is a production embroidery atlas, not a request to redraw it. Remove ONLY the exposed beige/cream linen substrate and its photographic paper/fabric colour/texture. Output the coloured embroidered threadwork on a genuinely transparent RGBA background. Preserve all existing subjects, wool outlines and flat thread fills, pale stitched areas that belong to people/machines, ground/water strokes, animal dividers, and every object's exact placement and proportions. Holes between thread contours should be transparent linen; retain unfilled profile faces as transparent where they were exposed fabric. Do not replace, recolour, distort or invent figures. No added limb, new text, new border, glow, drop shadow, checkerboard pixels or solid backdrop. Keep the COMPLETE original 2172x724 atlas canvas and four source bands at the SAME coordinates; no tightening, trimming, cropping, scaling, reflow or repacking. This will be drawn over one continuous linen texture in the app, so retain the actual stitched threads, not rectangular chunks of their linen ground. Keep all source row boundaries exactly. Preserve the comet and observers in the bottom row where present. Preserve the WWI trench/tank, WWII imagery, rockets, satellites and all modern scene subjects unchanged.",
+                            "reference": "images/tapestry/bayeux-linear-modern.png",
+                            "sourceHash": "fa4c7827744d33605a62ffc3429b038c89805312afae30bffa277afee5b609ed",
+                            "runtimeHash": "86e566df5875e99b3c5ff213e74c7df75b1c01d24202f75ac3902e65e8e01d8e",
+                            "promptHash": "bed3841be93ca5aa3d66d4d49e5ad050225c44fc98d47352f53685698f3b078f",
+                            "referenceHash": "4090963afaaba448bcd0e24588aeff0ad40652d21971eae3ffbbcef2e30bf1c4",
+                            "sourceFile": "images/tapestry/bayeux-linear-modern-threads.png",
+                            "runtimeFile": "images/tapestry/bayeux-linear-modern-threads.webp",
+                            "historyLinks": [
+                              "previousGeneration"
+                            ]
+                          }
+                        },
+                        "sourceFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.png",
+                        "runtimeFile": "images/tapestry/bayeux-linear-modern-scene-polish-threads.webp",
+                        "historyLinks": [
+                          "previousGeneration",
+                          "scenePolish"
+                        ]
+                      }
+                    },
+                    "sourceFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.png",
+                    "runtimeFile": "images/tapestry/bayeux-linear-modern-trench-arrival-threads.webp",
+                    "historyLinks": [
+                      "previousGeneration",
+                      "scenePolish"
+                    ]
+                  }
+                },
+                "sourceFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.png",
+                "runtimeFile": "images/tapestry/bayeux-linear-modern-connected-trench-threads.webp",
+                "historyLinks": [
+                  "previousGeneration",
+                  "scenePolish"
+                ]
+              }
+            },
+            "sourceFile": "images/tapestry/bayeux-linear-modern-crop-safe-threads.png",
+            "runtimeFile": "images/tapestry/bayeux-linear-modern-crop-safe-threads.webp",
+            "historyLinks": [
+              "previousGeneration",
+              "scenePolish"
+            ]
+          },
+          "historyLinks": [
+            "previousGeneration"
+          ]
+        },
+        "historyLinks": [
+          "previousGeneration"
+        ]
+      },
       "historyLinks": [
-        "previousGeneration",
-        "scenePolish"
+        "previousGeneration"
       ]
     }
   },
-  "geometryHash": "7357586bfe1d48623b91810142fb08175b8f2fbaa2a759b0a3331bbd9fba0446",
-  "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75"
+  "geometryHash": "74fb19aab8f420a92ee47e43ba8d2eb14c1e95cb720915714198bc6bd25c21b6",
+  "referenceHash": "ba648746dc078be034a21d697fde53a3751cb1e3928eb053aa77dd0ba4840a75",
+  "mutedRedrawRecorded": true,
+  "fadedPaletteRecorded": true
 }

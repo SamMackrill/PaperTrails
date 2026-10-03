@@ -1,5 +1,7 @@
 # Continuous Tapestry border depth
 
+The later [muted wool and stable drawing-height refinement](tapestry-muted-embroidery.md) supersedes the common narrative source-pixel scale described below. Complete narrative bands now fit proportionally to one stable drawing height. The continuous border streams and their constant depths remain in effect; narrative source widths are calculated from the new proportional fit.
+
 The composed review found sudden changes in upper and lower border depth. Each narrative crop previously filled the entire central height independently. Short source rows enlarged their figures and widened their section; fitting four scientific ribbons to that width then changed their depth.
 
 The narrative now uses one source-pixel scale across the entire cloth. Short drawings retain their native proportions and share the lower baseline. The upper and lower scientific borders each form a continuous chronological stream of 48 complete, distinct source ribbons at one constant depth. Storage seams need not coincide with narrative seams. Motifs remain in source order, near their chronological narrative; their picture widths are symbolic rather than dated event intervals. The two edges have slightly different authored aspect sums, so each has its own constant depth rather than stretching instruments to force identical upper and lower heights.

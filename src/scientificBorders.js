@@ -1,7 +1,7 @@
 // Every region is used once on the chronological cloth. Storage rows never
 // become display rows, repeated tiles, or zoom-dependent replacements.
 import { scientificBorderContinuations } from './scientificBorderContinuations.js?v=pass2-continuous-linen-v1';
-import { storyPanels, storyAtlases, STORY_BODY_HEIGHT } from './storyPanels.js?v=pass2-crop-safe-soldier-v1';
+import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-muted-embroidery-v2';
 export const scientificBorderAtlases = {
   early: { file: 'images/tapestry/scientific-borders-early-threads.webp', width: 2172, height: 724,
     bands: [[7, 90], [93, 183], [187, 276], [277, 365], [367, 457], [458, 547], [547, 635], [636, 720]] },
@@ -38,7 +38,10 @@ export function scientificBorderRows(section, side) {
 // Fit each complete chronological edge as one ribbon, at a single depth.
 // Its storage-section boundaries need not coincide with narrative joins.
 export function scientificBorderFrame(totalHeight) {
-  const materialAspect = storyPanels.reduce((sum, panel) => sum + storyAtlases[panel.sheet].width / STORY_BODY_HEIGHT, 0);
+  const materialAspect = storyPanels.reduce((sum, panel) => {
+    const atlas = storyAtlases[panel.sheet], [top, bottom] = atlas.bodies[panel.row];
+    return sum + atlas.width / (bottom - top);
+  }, 0);
   const ratios = ['top', 'bottom'].map(side => materialAspect / storyPanels
     .flatMap(panel => scientificBorderRows(panel.id, side)).reduce((sum, row) => sum + row.aspect, 0));
   const artHeight = Math.max(0, totalHeight) / (1 + ratios[0] + ratios[1]);

@@ -3,14 +3,14 @@
 // Hotspot fractions describe objects in the artwork, never invented dates.
 const panel = (sheet, row, from, to, focus, subjects) => ({ id: `${sheet}-${row}`, sheet, row, from, to, focus, subjects });
 export const storyAtlases = {
-  opening: { file: 'images/tapestry/bayeux-linear-opening-threads.webp', width: 2171, height: 724,
-    bodies: [[47, 223]] },
-  early: { file: 'images/tapestry/bayeux-linear-early-scene-polish-threads.webp', width: 2172, height: 724,
-    bodies: [[47, 191], [245, 402], [452, 573], [610, 718]] },
-  middle: { file: 'images/tapestry/bayeux-linear-middle-comets-threads.webp', width: 2172, height: 724,
-    bodies: [[45, 179], [222, 378], [419, 562], [599, 718]] },
-  modern: { file: 'images/tapestry/bayeux-linear-modern-crop-safe-threads.webp', width: 2172, height: 724,
-    bodies: [[44, 177], [216, 358], [395, 536], [575, 699]] }
+  opening: { file: 'images/tapestry/bayeux-linear-opening-faded-wool-threads.webp', width: 2169, height: 725,
+    bodies: [[98, 553]] },
+  early: { file: 'images/tapestry/bayeux-linear-early-faded-wool-threads.webp', width: 2173, height: 724,
+    bodies: [[0, 223], [223, 438], [438, 608], [608, 724]] },
+  middle: { file: 'images/tapestry/bayeux-linear-middle-faded-wool-threads.webp', width: 2169, height: 725,
+    bodies: [[0, 179], [179, 383], [383, 569], [569, 721]] },
+  modern: { file: 'images/tapestry/bayeux-linear-modern-faded-wool-threads.webp', width: 2172, height: 724,
+    bodies: [[2, 187], [202, 372], [372, 563], [563, 716]] }
 };
 export const storyPanels = [
   panel('opening', 0, 1400, 1500, .48, [['event-00', .02, .30], ['event-01', .32, .66], ['event-02', .70, .97]]),
@@ -39,4 +39,3 @@ const cameraAnchors = {
   'modern-3': [[1969, 0], [1972, .18], [1980, .35], [1991, .62]]
 };
 for (const panel of storyPanels) panel.cameraAnchors = cameraAnchors[panel.id] || [];
-export const STORY_BODY_HEIGHT = 180;
