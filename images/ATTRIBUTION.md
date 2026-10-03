@@ -1,5 +1,9 @@
 # Image attribution
 
+Portraits added for the discovery and conference scientist audit:
+
+- `millikan.jpg` is cropped and resized from the Nobel Foundation's 1923 photograph of Robert Andrews Millikan, marked public domain on Commons under its historical Swedish photograph terms (PD-Sweden). [Source and rights](https://commons.wikimedia.org/wiki/File:Millikan.jpg). `cartoons/millikan.png` is an AI-assisted illustrated adaptation in the Wry Engraver house style.
+
 Portraits added for the Karlsruhe and periodic-table expansion:
 
 - `cannizzaro.jpg` is cropped from the portrait in *Zeitschrift für Physikalische Chemie*, volume 56 (1906), photographer unidentified, scanned by Armin Kübelbeck and cropped on Commons by FMSky. Public domain. [Source and rights](https://commons.wikimedia.org/wiki/File:Stanislao_Cannizzaro_01_(cropped).jpg). `cartoons/cannizzaro.png` is an AI-assisted illustrated adaptation.

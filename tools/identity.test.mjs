@@ -9,7 +9,7 @@ const data = { scientists: read('scientists'), discoveries: read('discoveries'),
 
 test('all current records have unique identities and frozen legacy aliases', () => {
   const index = buildItemIndex(data);
-  assert.equal(index.records.size, 126 + 237 + 40 + 9 + data.significantEvents.length);
+  assert.equal(index.records.size, 127 + 239 + 40 + 9 + data.significantEvents.length);
   for (const record of index.records.values()) {
     if (record.type === 'scientist') continue;
     assert.ok(record.item.id);

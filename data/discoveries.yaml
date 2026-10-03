@@ -396,6 +396,7 @@
   year: 1913
   title: Measuring the elementary electrical charge
   discoverer: Robert A. Millikan
+  scientist_ids: [millikan]
   details: Millikan’s oil-drop measurements found charges in integer multiples of a common unit and estimated
     that elementary charge. Charge now has a measured unit as well as a sign, force law and carrier. This
     is a historical measurement with experimental assumptions, not the modern exact SI value.
