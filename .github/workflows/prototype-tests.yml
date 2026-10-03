@@ -17,3 +17,8 @@ jobs:
           package-manager-cache: false
       - run: node --test tools/*.test.mjs
       - run: python3 -m unittest discover -s tools/prototype -p 'test_*.py'
+      - name: Browser interactions and visual layout
+        timeout-minutes: 5
+        run: |
+          export PAPERTRAILS_BROWSER="$(command -v google-chrome || command -v chromium)"
+          node tools/prototype/browser-audit.mjs

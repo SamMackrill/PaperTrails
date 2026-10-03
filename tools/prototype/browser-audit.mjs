@@ -87,6 +87,29 @@ try {
   const viewport = async (width, height) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 1024 }); await delay(150); };
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };
   await viewport(1440, 900);
+  // Exercise the rendered interaction layer, including the SVG clearance
+  // shapes. Pure layout tests cannot catch item lookup selecting an SVG mask
+  // instead of the actual button, which breaks hover paths and lifespan y.
+  console.log('Audit: hover relations and scientist lifespans');
+  await navigate('/?relations-audit=1#context=bars&from=1885&to=1925');
+  for (const theme of ['dark', 'light']) {
+    await evaluate(`document.body.classList.toggle('dark-mode', ${theme === 'dark'})`);
+    const hover = async selector => {
+      const point = await evaluate(`(()=>{const node=document.querySelector(${JSON.stringify(selector)});if(!node)throw new Error('Missing hover target');node.scrollIntoView({block:'nearest',inline:'center'});const r=node.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})()`);
+      await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 10, y: 10 });
+      await send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...point });
+    };
+    await hover('.discovery-marker[data-item-key="discovery:discovery-05"]');
+    assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)})()`), `${theme}: milestone hover draws finite visible connectors`);
+    assert.ok(await evaluate(`document.querySelector('.scientist-node.is-related,.scientist-cluster.is-related') instanceof HTMLElement`), `${theme}: milestone relates to an actual portrait`);
+    await hover('.scientist-node[data-item-key="scientist:planck"]');
+    assert.ok(await evaluate(`(()=>{const bar=document.querySelector('.lifespan'),node=document.querySelector('.scientist-node[data-item-key="scientist:planck"]');return bar&&Math.abs(parseFloat(bar.style.top)-(node.offsetTop+node.offsetHeight/2))<1&&bar.querySelector('.lifespan-start').textContent==='1858'&&bar.querySelector('.lifespan-end').textContent==='1947'&&parseFloat(bar.style.width)>0})()`), `${theme}: lifespan sits at the hovered scientist's height with birth/death labels`);
+    await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 10, y: 10 });
+    assert.equal(await evaluate('document.querySelectorAll(".lifespan,.relation-layer path").length'), 0, `${theme}: leaving clears hover state`);
+    await evaluate(`document.querySelector('.discovery-marker[data-item-key="discovery:discovery-05"]').click()`);
+    assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return !document.querySelector('#detail-panel').hidden&&paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)&&document.querySelector('.relation-layer').getAttribute('mask')==='url(#timeline-indicator-mask)'})()`), `${theme}: selected milestone keeps masked relations while other scientists are dimmed`);
+    await evaluate(`document.querySelector('#detail-close').click()`);
+  }
   await send('Network.setBlockedURLs', { urls: ['*landscape-b-early.png', '*landscape-b-revolutions.png', '*landscape-b-modern.png', '*landscape-b-context-chapters.png', '*landscape-b-winter-eras.png'] });
   await navigate('/?fallback=1#context=landscape');
   await until('document.querySelectorAll(".tapestry-scene[data-art-rendered=true]").length > 0 && [...document.querySelectorAll(".tapestry-scene[data-art-rendered=true]")].every(e => e.dataset.artFallback === "original")');
