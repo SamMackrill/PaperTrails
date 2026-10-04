@@ -4439,6 +4439,75 @@ palitzsch:
       url: "https://palitzsch-museum.de/museum/ueber-uns/"
   publications: []
 
+retherford:
+  name: "Robert Curtis Retherford"
+  summary: "An American experimental physicist who measured the Lamb shift with Willis Lamb, revealing a small separation between hydrogen energy levels and helping establish tests of quantum electrodynamics."
+  color: "#8395ad"
+  notability: 2
+  photo: "images/default.png"
+  cartoon: "images/cartoons/default.png"
+  nationality: "American"
+  birth: "1912"
+  death: "1981"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Robert_Retherford"
+    - label: "Treccani biography"
+      url: "https://www.treccani.it/enciclopedia/robert-curtis-retherford/"
+  academic_affiliations:
+    - institution: "Columbia University"
+      association: "Doctoral student and researcher at the Columbia Radiation Laboratory"
+      coat: "images/institutions/columbia-university.png"
+  publications:
+    - id: retherford-work-00
+      legacyKey: publication:retherford:0
+      year: 1947
+      title: "Fine Structure of the Hydrogen Atom by a Microwave Method"
+      abstract: "With Willis Lamb, used microwave transitions in metastable hydrogen to measure an energy-level separation absent from the basic Dirac prediction."
+      doi: "10.1103/PhysRev.72.241"
+      source: "https://link.aps.org/doi/10.1103/PhysRev.72.241"
+    - id: retherford-work-01
+      legacyKey: publication:retherford:1
+      year: 1950
+      title: "Fine Structure of the Hydrogen Atom. Part I"
+      abstract: "With Willis Lamb, described the hydrogen-beam apparatus, microwave measurements and experimental controls underlying their initial measurement of the Lamb shift."
+      doi: "10.1103/PhysRev.79.549"
+      source: "https://link.aps.org/doi/10.1103/PhysRev.79.549"
+
+roger:
+  name: "Gérard Roger"
+  summary: "An engineer at the Institut d'Optique who helped build and perform photon-correlation experiments with Alain Aspect's team, including the 1982 Bell test with changing analyzer settings."
+  color: "#a87d96"
+  notability: 2
+  photo: "images/default.png"
+  cartoon: "images/cartoons/default.png"
+  nationality: ""
+  birth: ""
+  death: ""
+  links:
+    - label: "Académie française account of the Bell-test team"
+      url: "https://www.academie-francaise.fr/reponse-au-discours-de-reception-de-m-alain-aspect"
+    - label: "CNRS account of the experiments"
+      url: "https://news.cnrs.fr/articles/alain-aspect-shedding-new-light-on-light-and-atoms"
+  academic_affiliations:
+    - institution: "Institut d'Optique Graduate School"
+      association: "Engineer in the Bell-test experimental team"
+  publications:
+    - id: roger-work-00
+      legacyKey: publication:roger:0
+      year: 1982
+      title: "Experimental Realization of Einstein-Podolsky-Rosen-Bohm Gedankenexperiment: A New Violation of Bell's Inequalities"
+      abstract: "With Alain Aspect and Philippe Grangier, measured entangled photon correlations using two-channel polarizers and observed a violation of Bell inequalities."
+      doi: "10.1103/PhysRevLett.49.91"
+      source: "https://link.aps.org/doi/10.1103/PhysRevLett.49.91"
+    - id: roger-work-01
+      legacyKey: publication:roger:1
+      year: 1982
+      title: "Experimental Test of Bell's Inequalities Using Time-Varying Analyzers"
+      abstract: "With Alain Aspect and Jean Dalibard, measured entangled photon correlations while rapidly switching analyzer settings, finding a violation of a Bell inequality."
+      doi: "10.1103/PhysRevLett.49.1804"
+      source: "https://link.aps.org/doi/10.1103/PhysRevLett.49.1804"
+
 lilius:
   name: "Aloysius Lilius"
   summary: "An Italian physician and astronomer whose proposed solar and lunar corrections formed the basis of the Gregorian calendar reform."

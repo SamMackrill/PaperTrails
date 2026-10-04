@@ -110,6 +110,36 @@ try {
     assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return !document.querySelector('#detail-panel').hidden&&paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)&&document.querySelector('.relation-layer').getAttribute('mask')==='url(#timeline-indicator-mask)'})()`), `${theme}: selected milestone keeps masked relations while other scientists are dimmed`);
     await evaluate(`document.querySelector('#detail-close').click()`);
   }
+  console.log('Audit: experimental profiles with partial or unknown life dates');
+  for (const [id, name, year, discoveryId] of [
+    ['retherford', 'Robert Curtis Retherford', 1947, 'discovery-33'],
+    ['roger', 'Gérard Roger', 1982, 'discovery-36']
+  ]) {
+    for (const theme of ['dark', 'light']) {
+      await navigate(`/?experimental-audit=${id}-${theme}#context=tapestry&from=${year - 8}&to=${year + 8}&item=scientist:${id}`);
+      await until(`document.querySelector('.scientist-node[data-item-key="scientist:${id}"]') && document.querySelector('#detail-panel h2')?.textContent === ${JSON.stringify(name)}`);
+      await evaluate(`document.body.classList.toggle('dark-mode', ${theme === 'dark'})`);
+      assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)})()`), `${theme}: ${id} profile keeps finite discovery connectors`);
+      assert.equal(await evaluate(`document.querySelector('#detail-panel').textContent.includes('aged ')`), false, 'Partial or unknown dates do not invent an exact age');
+      if (id === 'retherford') {
+        assert.ok(await evaluate(`document.querySelector('#detail-identity').textContent.includes('1912–1981') && document.querySelector('.lifespan-start')?.textContent === '1912' && document.querySelector('.lifespan-end')?.textContent === '1981'`), 'Year-only lifespan remains available');
+      } else {
+        assert.ok(await evaluate(`document.querySelector('#detail-identity').hidden && !document.querySelector('.lifespan') && !document.querySelector('#detail-panel').textContent.includes('Born ')`), 'Unknown personal dates do not imply a lifespan, birth year or living status');
+      }
+      await navigate(`/?experimental-link=${id}-${theme}#context=tapestry&from=${year - 8}&to=${year + 8}&item=discovery:${discoveryId}`);
+      await until(`document.querySelector('#detail-panel button[aria-label^="Open scientist profile for ${name},"]')`);
+      await evaluate(`document.querySelector('#detail-panel button[aria-label^="Open scientist profile for ${name},"]').click()`);
+      await until(`document.querySelector('#detail-panel h2')?.textContent === ${JSON.stringify(name)}`);
+    }
+    for (const [index, doi] of id === 'retherford'
+      ? [[0, '10.1103/PhysRev.72.241'], [1, '10.1103/PhysRev.79.549']]
+      : [[0, '10.1103/PhysRevLett.49.91'], [1, '10.1103/PhysRevLett.49.1804']]) {
+      await navigate(`/?experimental-paper=${id}-${index}#context=tapestry&from=${year - 8}&to=${year + 8}&item=publication:${id}-work-0${index}`);
+      await until(`document.querySelector('#detail-panel h2') && !document.querySelector('#detail-panel').hidden`);
+      assert.ok(await evaluate(`Array.from(document.querySelectorAll('#detail-panel a')).some(a=>a.href === ${JSON.stringify(`https://doi.org/${doi}`)})`), 'New publication card exposes the verified DOI');
+      assert.ok(await evaluate(`Array.from(document.querySelectorAll('#detail-panel a')).some(a=>a.href === ${JSON.stringify(`https://link.aps.org/doi/${doi}`)})`), 'New publication card exposes the original APS source');
+    }
+  }
   console.log('Audit: scientists without listed publications');
   for (const [id, name, year, discoveryId] of [
     ['lilius', 'Aloysius Lilius', 1582, 'discovery-04'],
