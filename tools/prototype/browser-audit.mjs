@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { assertStorySnapshot, storySnapshotExpression } from './context-audit.mjs';
+import { decodePngPixels } from '../png-pixels.mjs';
 const root = resolve(process.argv[2] || fileURLToPath(new URL('../../', import.meta.url)));
 const yaml = createRequire(import.meta.url)(resolve(root, 'vendor/js-yaml.min.js'));
 const expectedStoryKeys = yaml.load(await readFile(join(root, 'data/significantevents.yaml'), 'utf8'))
@@ -86,13 +87,38 @@ try {
   };
   const viewport = async (width, height) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 1024 }); await delay(150); };
   const screenshot = async name => { const capture = await send('Page.captureScreenshot', { format: 'png' }); await writeFile(join(output, name), Buffer.from(capture.data, 'base64')); };
+  // Compare actual painted pixels, rather than accepting a nonempty SVG path
+  // that a broken mask could still hide completely. Limit the comparison to
+  // the visible path bounds, and leave unrelated page content out of it.
+  const relationPixels = async () => {
+    await delay(600);
+    const region = await evaluate(`(()=>{const rects=[...document.querySelectorAll('.relation-layer path')].map(p=>p.getBoundingClientRect());const view=document.querySelector('#timeline-container').getBoundingClientRect();return {left:Math.max(0,view.left,Math.min(...rects.map(r=>r.left))-2),top:Math.max(0,view.top,Math.min(...rects.map(r=>r.top))-2),right:Math.min(innerWidth,view.right,Math.max(...rects.map(r=>r.right))+2),bottom:Math.min(innerHeight,view.bottom,Math.max(...rects.map(r=>r.bottom))+2)}})()`);
+    const capture = async () => decodePngPixels(Buffer.from((await send('Page.captureScreenshot', { format: 'png' })).data, 'base64'));
+    const visibility = await evaluate(`document.querySelector('.relation-layer').style.visibility`);
+    const paint = async visibility => evaluate(`new Promise(resolve=>{document.querySelector('.relation-layer').style.visibility=${JSON.stringify(visibility)};requestAnimationFrame(()=>requestAnimationFrame(resolve))})`);
+    try {
+      await paint('hidden'); const absent = await capture();
+      await paint(visibility); const present = await capture();
+      assert.equal(present.width, absent.width); assert.equal(present.height, absent.height);
+      let changed = 0;
+      for (let y = Math.max(0, Math.floor(region.top)); y < Math.min(present.height, Math.ceil(region.bottom)); y++) {
+        for (let x = Math.max(0, Math.floor(region.left)); x < Math.min(present.width, Math.ceil(region.right)); x++) {
+          const a = (y * absent.width + x) * absent.channels, b = (y * present.width + x) * present.channels;
+          if ([0, 1, 2].some(c => Math.abs(absent.pixels[a+c] - present.pixels[b+c]) > 3)) changed++;
+        }
+      }
+      console.log('Audit: relation painted pixels', changed, region);
+      return changed;
+    } finally { await paint(visibility); }
+  };
   await viewport(1440, 900);
   // Exercise the rendered interaction layer, including the SVG clearance
   // shapes. Pure layout tests cannot catch item lookup selecting an SVG mask
   // instead of the actual button, which breaks hover paths and lifespan y.
   console.log('Audit: hover relations and scientist lifespans');
-  await navigate('/?relations-audit=1#context=bars&from=1885&to=1925');
   for (const theme of ['dark', 'light']) {
+    await navigate(`/?relations-audit=${theme}#context=bars&from=1885&to=1925`);
+    await evaluate(`(()=>{const style=document.createElement('style');style.id='audit-static-paint';style.textContent='*,*::before,*::after{animation:none!important;transition:none!important}';document.head.appendChild(style)})()`);
     await evaluate(`document.body.classList.toggle('dark-mode', ${theme === 'dark'})`);
     const hover = async selector => {
       const point = await evaluate(`(()=>{const node=document.querySelector(${JSON.stringify(selector)});if(!node)throw new Error('Missing hover target');node.scrollIntoView({block:'nearest',inline:'center'});const r=node.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})()`);
@@ -102,13 +128,23 @@ try {
     await hover('.discovery-marker[data-item-key="discovery:discovery-05"]');
     assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)})()`), `${theme}: milestone hover draws finite visible connectors`);
     assert.ok(await evaluate(`document.querySelector('.scientist-node.is-related,.scientist-cluster.is-related') instanceof HTMLElement`), `${theme}: milestone relates to an actual portrait`);
+    assert.ok(await relationPixels() > 20, `${theme}: hover connectors contribute visible rendered pixels`);
+    // Negative control: unchanged path geometry with an all-black mask must
+    // contribute no pixels. This catches exactly the false pass in #95.
+    const backingFill = await evaluate(`document.querySelector('#timeline-indicator-mask > rect').getAttribute('fill')`);
+    try {
+      await evaluate(`document.querySelector('#timeline-indicator-mask > rect').setAttribute('fill','black')`);
+      assert.equal(await relationPixels(), 0, `${theme}: hidden-mask control has no rendered connector pixels`);
+    } finally { await evaluate(`document.querySelector('#timeline-indicator-mask > rect').setAttribute('fill',${JSON.stringify(backingFill)})`); }
     await hover('.scientist-node[data-item-key="scientist:planck"]');
     assert.ok(await evaluate(`(()=>{const bar=document.querySelector('.lifespan'),node=document.querySelector('.scientist-node[data-item-key="scientist:planck"]');return bar&&Math.abs(parseFloat(bar.style.top)-(node.offsetTop+node.offsetHeight/2))<1&&bar.querySelector('.lifespan-start').textContent==='1858'&&bar.querySelector('.lifespan-end').textContent==='1947'&&parseFloat(bar.style.width)>0})()`), `${theme}: lifespan sits at the hovered scientist's height with birth/death labels`);
     await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 10, y: 10 });
     assert.equal(await evaluate('document.querySelectorAll(".lifespan,.relation-layer path").length'), 0, `${theme}: leaving clears hover state`);
     await evaluate(`document.querySelector('.discovery-marker[data-item-key="discovery:discovery-05"]').click()`);
     assert.ok(await evaluate(`(()=>{const paths=[...document.querySelectorAll('.relation-layer path')];return !document.querySelector('#detail-panel').hidden&&paths.length>0&&paths.every(p=>!/(?:NaN|Infinity)/.test(p.getAttribute('d'))&&p.getTotalLength()>0)&&document.querySelector('.relation-layer').getAttribute('mask')==='url(#timeline-indicator-mask)'})()`), `${theme}: selected milestone keeps masked relations while other scientists are dimmed`);
+    assert.ok(await relationPixels() > 20, `${theme}: selected connectors contribute visible rendered pixels`);
     await evaluate(`document.querySelector('#detail-close').click()`);
+    await evaluate(`document.querySelector('#audit-static-paint').remove()`);
   }
   console.log('Audit: experimental profiles with partial or unknown life dates');
   for (const [id, name, year, discoveryId] of [
