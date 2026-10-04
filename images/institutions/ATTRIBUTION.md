@@ -127,6 +127,8 @@ These sources establish the identity of the mark, but generally do not grant a s
 
 ## Deliberately neutral entries
 
+The conference-scientist addition reuses existing École Polytechnique, École des mines de Paris (Mines Paris), University of Paris, University of Amsterdam, Institute for Advanced Study, City College of New York and MIT assets with their recorded terms. Radium Institute, Paris, Utrecht University and Rockefeller University have no verified local emblems in this layer and use neutral icons. The University of Paris emblem is not substituted for the separate Radium Institute affiliation.
+
 The quantum-scientist addition reuses verified Bristol, Paris ENS, École Polytechnique and Collège de France assets. Technion, Tel Aviv University, Chapman University, École normale supérieure de Cachan and Institut d'Optique Graduate School have no verified local assets in this layer and use neutral icons. Cachan's affiliation does not reuse the emblem of the separate Paris ENS.
 
 The Stern–Gerlach addition reuses the existing ETH Zurich, Hamburg, Tübingen, Munich and Bonn assets with their recorded terms. University of Breslau, University of Rostock, Carnegie Institute of Technology and University of Frankfurt have no verified local emblems in this addition and use neutral academic icons. Frankfurt occurs in both new profiles.

@@ -1,0 +1,253 @@
+{
+  "date": "2026-10-03",
+  "description": "Conference-scientist audit additions; exact identity inputs, source rights and built-in drawing prompts. Raw and review-only artifacts remain outside the repository.",
+  "portraits": [
+    {
+      "id": "cornu",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Marie-Alfred_Cornu,_dal_1872_al_1902_-_Accademia_delle_Scienze_di_Torino_0103.jpg",
+      "institutionalSource": "https://www.accademiadellescienze.it/accademia/soci/marie-alfred-cornu",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/50/Marie-Alfred_Cornu%2C_dal_1872_al_1902_-_Accademia_delle_Scienze_di_Torino_0103.jpg",
+      "credit": "Nadar; historical archive, Accademia delle Scienze di Torino",
+      "date": "1872–1902",
+      "rights": "Commons marks public domain: photographer died 1910; source record supplies PD-old-100 and PD-US-expired rationales. No first-publication day is invented.",
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/run/research/conference-scientists/cornu-original.jpg",
+      "crop": [
+        130,
+        220,
+        1230,
+        1320
+      ],
+      "photoPreparation": {
+        "output": "images/cornu.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/cornu.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, Alfred Cornu photographed by Nadar. Images 2, 3 and 4 are approved Rutherford, Bohr and Alfvén house-style references only; do not borrow their faces.\nPrimary request: draw a fresh affectionate editorial caricature of Alfred Cornu, recognisable before humorous, in the Wry Engraver style.\nRecognition anchors: rounded broad cheek and forehead; neatly side-parted short hair receding at the temples; conspicuous downturned moustache joined to a pointed short goatee. Preserve the three-quarter gaze towards the right and the very large period bow tie and high white collar in the photo.\nComic idea: the photo's generous bow tie provides the entire restrained visual joke. No props or hands.\nStyle/medium: bold charcoal-teal ink contour, simplified graphic shapes, restrained flat fills, one shallow shadow tone, faint print grain. Match the graphic face simplification in the approved references, never colourise a photo.\nComposition: centred head-and-shoulders bust, head occupying the same proportion as the style references, hair beginning 8% from top, shoulders ending at lower edge; eyes near 42% canvas height. Face and moustache safely inside central 76%, readable in 42px and 92px circular crops.\nPalette: muted charcoal brown period suit and bow tie, cream collar; natural neutral pink-beige skin. The sepia photograph is an identity source, not the skin colour. No yellow/orange/sepia overall cast.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square 1024×1024 RGBA PNG; retain historical identity and clothing; no text, caption, signature, watermark, apparatus or full body. Avoid photographic realism, airbrushing, gradients and dense hatching.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-bbb3e3e9-04d0-4fb0-9f1d-1fbc24a6b989.png",
+        "finisher": "Approved deterministic finisher: normalized 1254×1254 to 1024×1024; removed 0 background pixels; final validator PASS.",
+        "identityReferenceSha256": "2da8bd85c1b1ec0e7b42f24e727ecc56a9dc956a07a29aa95290a223df5f22c0",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "cbdbd81dea6c723da0f2adbc514b78edb45e911915a27cf6c07329d7918c3f4b"
+      },
+      "finalAssets": [
+        "images/cornu.jpg",
+        "images/cartoons/cornu.png",
+        "images/thumbs/cornu.webp",
+        "images/thumbs/cartoons/cornu.webp"
+      ],
+      "originalSha256": "cd7a7c347a94b3c7bccc758be8e330ea153a3f26d91a8763b765e408041cabcb",
+      "finalSha256": {
+        "images/cornu.jpg": "2da8bd85c1b1ec0e7b42f24e727ecc56a9dc956a07a29aa95290a223df5f22c0",
+        "images/cartoons/cornu.png": "d2a9ad9c9c75bb7abef5df5194b44a3e016dcd40537ef81f6c5d96fd58e6043f",
+        "images/thumbs/cornu.webp": "d1080204ac89fb6aba21050cf936d5aac36499847c7d37920696f645ca37f33f",
+        "images/thumbs/cartoons/cornu.webp": "525409d8181fcf6995b577f023e01822db2feba1c6d84570ffae4eb766a89edb"
+      }
+    },
+    {
+      "id": "curie_irene",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Portrait_of_Marie_Curie_and_her_daughter_Irene_Wellcome_L0001759.jpg",
+      "institutionalSource": "https://wellcomecollection.org/works/nbpjwgzw",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Portrait_of_Marie_Curie_and_her_daughter_Irene_Wellcome_L0001759.jpg",
+      "credit": "Wellcome Collection / Wellcome Library, London; anonymous photographer",
+      "date": "1925",
+      "rights": "CC BY 4.0, confirmed on the work-specific Wellcome image licence and Commons file. Photo, illustrated adaptation and WebP derivatives retain credit, source and licence.",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/run/research/conference-scientists/curie_irene-wellcome-original.jpg",
+      "crop": [
+        500,
+        100,
+        1700,
+        1300
+      ],
+      "identityNote": "Irène is the standing younger woman at left; Marie at right and apparatus are excluded from the identity crop.",
+      "photoPreparation": {
+        "output": "images/curie_irene.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/curie_irene.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, Irène Joliot-Curie, the standing younger woman in the prepared crop of Wellcome's 1925 photo. Images 2, 3 and 4 are approved Rutherford, Bohr and Alfvén house-style references only; never borrow their facial identity.\nPrimary request: redraw Irène Joliot-Curie as a fresh affectionate editorial caricature in the Wry Engraver style. Preserve her distinctive likeness from the photograph.\nRecognition anchors: broad oval face with a short softly rounded chin; dark short wavy hair framing both cheeks with an uneven centre part; straight nose and closed small mouth with a thoughtful downward gaze. Preserve the plain rounded collar and dark period dress shown, no modern hairstyle or makeup.\nComic idea: none; the quietly concentrated expression is enough.\nStyle: confident bold charcoal-teal ink outline, simple graphic shapes, restrained flat fills, just one shallow shadow tone, faint printed grain. The halftone photo is identity only; do not reproduce its dots, photographic lighting or damage. No glamour smoothing, no skin pores or gradients.\nComposition: centred head-and-shoulders bust in the same graphic family and proportions as style refs. Hair starts around 8% from top, eyes near 42% canvas height; shoulders meet bottom edge. Keep face centred inside central 76% for 42px and 92px circles.\nPalette: natural light neutral pink-beige skin, muted dark teal-charcoal period dress, dark brown hair with restrained graphic highlights. Avoid yellow, sepia or orange cast.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square 1024×1024 RGBA PNG, recognisable historical face; no hands, apparatus, second person, text, signature, watermark or scenic background. Omit the laboratory equipment. Not a coloured photograph or painterly portrait.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-c2d5bb5d-3ecd-4807-8d65-31c273a4842c.png",
+        "finisher": "Approved deterministic finisher: normalized 1254×1254 to 1024×1024; removed 0 background pixels; final validator PASS.",
+        "identityReferenceSha256": "e425bad468a304047da89b9a285c62c0ae9950d430fb9118a3c9c4e8416b42f1",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "06d190b27fe93b08a6371c9ee65dbfd18a30018e22436b7df0c0ce89de895e87"
+      },
+      "finalAssets": [
+        "images/curie_irene.jpg",
+        "images/cartoons/curie_irene.png",
+        "images/thumbs/curie_irene.webp",
+        "images/thumbs/cartoons/curie_irene.webp"
+      ],
+      "originalSha256": "04faa456ccf68aa69a83945adc42bed1b4d49e159d35edd62988989410f9ee75",
+      "finalSha256": {
+        "images/curie_irene.jpg": "e425bad468a304047da89b9a285c62c0ae9950d430fb9118a3c9c4e8416b42f1",
+        "images/cartoons/curie_irene.png": "0903a532751d597478829c03d1747956736eba971e4204d925b38a0cb03424f7",
+        "images/thumbs/curie_irene.webp": "7fb709e8fa414aa654c8b74ec9a68052f24d19719647fad3b8897b0319b7cbd1",
+        "images/thumbs/cartoons/curie_irene.webp": "9bf9459909dbaf9605113926e41b4a4a73be32f8aa38d8f69bfef9bc602d4472"
+      }
+    },
+    {
+      "id": "pais",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Pais,Abraham_1963_Kopenhagen.jpg",
+      "institutionalSource": null,
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/42/Pais%2CAbraham_1963_Kopenhagen.jpg",
+      "credit": "GFHund",
+      "date": "July 1963, Copenhagen",
+      "rights": "Copyright holder GFHund explicitly offers CC BY 3.0 (also GFDL); this project selects CC BY 3.0. Photo, illustrated adaptation and WebP derivatives retain attribution, source and licence.",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/run/research/conference-scientists/pais-original.jpg",
+      "crop": [
+        0,
+        0,
+        720,
+        720
+      ],
+      "identityNote": "Original photo is soft-focus; no synthetic enhancement of the photograph or extreme upscaling.",
+      "photoPreparation": {
+        "output": "images/pais.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/pais.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, Abraham Pais photographed in Copenhagen in July 1963 by GFHund. Images 2, 3 and 4 are approved Rutherford, Bohr and Alfvén house-style references only; never borrow their faces.\nPrimary request: make a fresh affectionate editorial caricature of Abraham Pais in the Wry Engraver style, retaining the likeness even though the old photo is soft-focus.\nRecognition anchors: large high balding forehead with short dark hair at sides; heavy straight brow behind rounded rectangular spectacles; broad nose and full lower cheeks with a small closed mouth and clean-shaven chin. Retain the slightly oblique near-frontal gaze and dark suit, white shirt, plain tie in the photo. Do not invent a moustache or beard.\nComic idea: no props, just an attentive dry expression.\nStyle: bold charcoal-teal ink contour, simplified graphic facial shapes, flat restrained colour and one shallow shadow tone, faint print grain only. Newly drawn, not colourised photo, not photographic soft focus. Match reference line weight and graphic clarity.\nComposition: centred head-and-shoulders bust, generous head with compressed shoulders; head starts around 8% from top, eyes near42% canvas height. Keep forehead, glasses and mouth within central76% safe for 42px and92px circles. Shoulders at bottom edge.\nPalette: natural light neutral pink-beige skin, muted dark blue-gray period suit, cream shirt. No global sepia or yellow/orange skin.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square1024×1024 RGBA PNG, historical identity and correct glasses; no text, captions, signature, watermark, hands, props, scene or full body. Avoid painterly face, pores, airbrushing, gradients, dense hatching and generic handsome smoothing.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-eedb7661-d8be-4b15-ac9f-c8f1bc858f11.png",
+        "finisher": "Approved deterministic finisher: normalized 1254×1254 to 1024×1024; removed 0 background pixels; final validator PASS.",
+        "identityReferenceSha256": "da8d3d5fdb0f5dae162fada81c4c8cb902891b93b2d250a20621fd5ecf297786",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "b767c7c2dfab33b197eee3d6a75388e10cd416468037ad4b66e31dba5205e6fc"
+      },
+      "finalAssets": [
+        "images/pais.jpg",
+        "images/cartoons/pais.png",
+        "images/thumbs/pais.webp",
+        "images/thumbs/cartoons/pais.webp"
+      ],
+      "originalSha256": "8a3a6c8d7275e75446cf466296fe36aeca618efbd29f679e80943ca69c38d191",
+      "finalSha256": {
+        "images/pais.jpg": "da8d3d5fdb0f5dae162fada81c4c8cb902891b93b2d250a20621fd5ecf297786",
+        "images/cartoons/pais.png": "dc10d4288e6f998b1803c77e433e67acd14f5dbe0eb825e86a92d6f1be52441d",
+        "images/thumbs/pais.webp": "54dc078fceb3f3578397fe4eb76741005a708b4bd7e44fa7d75e84fcc1824366",
+        "images/thumbs/cartoons/pais.webp": "b754f83ae5f6e7bf52e58e6d6839a3ff197d869a6c9fb9402477baf0a17afd11"
+      }
+    },
+    {
+      "id": "feshbach",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Herman_Feshbach.jpg",
+      "institutionalSource": "https://repository.aip.org/portrait-feshbach-1",
+      "originalUrl": "https://repository.aip.org/_foxml/datastream/nbla%3A297577%2BOBJ%2BOBJ.0",
+      "credit": "AIP Emilio Segrè Visual Archives, Gallery of Member Society Presidents",
+      "date": null,
+      "rights": "AIP catalogue Feshbach Herman A1 explicitly names American Institute of Physics as copyright holder; AIP permission policy allows use with listed credit. No PD or CC licence inferred.",
+      "permissionUrl": "https://aip.libguides.com/esvaguide/copyright",
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/run/research/conference-scientists/feshbach-original.jpg",
+      "crop": [
+        0,
+        0,
+        2482,
+        2482
+      ],
+      "photoPreparation": {
+        "output": "images/feshbach.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/feshbach.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image1 is the sole identity reference, Herman Feshbach's AIP archival portrait. Images2,3,4 are approved Rutherford, Bohr and Alfvén house-style references only, never borrow their faces.\nPrimary request: freshly draw Herman Feshbach as a recognisable affectionate editorial caricature in the Wry Engraver style.\nRecognition anchors: very high broad receding forehead with swept-back gray hair around the sides and a few upright wisps; large rounded rectangular dark-rim spectacles; broad clean-shaven lower face with an asymmetrical small smile. Preserve slightly oblique near-frontal pose, formal dark jacket, white shirt and the large dark bow tie actually shown. Use the bow tie's tiny understated repeating motifs without inventing readable symbols.\nComic idea: modestly emphasise the bow tie already in the portrait; no props or hands.\nStyle: bold confident charcoal-teal contour, simplified graphic shapes, flat restrained fills with just one shallow shadow tone, faint print grain. Match the house-reference graphic family. Newly drawn caricature, never photo colourisation or painterly realism; no dense hatching, gradient skin or photographic pores.\nComposition: centred head-and-shoulders bust, large head and compressed shoulders, hair starts8%from top, eyes near42%canvasheight, bust ends at lower edge. Central76% contains all key face, spectacles, smile and bow tie; safe for42px/92px circular crops.\nPalette: natural light neutral pink-beige skin, muted charcoal-teal jacket and gray hair, cream shirt, charcoal bow tie. No yellow/orange/sepia global cast.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square1024×1024 RGBA PNG, preserve historical face and glasses, no text, caption, signature, watermark, scene, apparatus or full body.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-f0a933e0-31ef-4090-a770-429263b809a5.png",
+        "finisher": "Approved deterministic finisher: normalized 1254×1254 to 1024×1024; removed 0 background pixels; final validator PASS.",
+        "correction": {
+          "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular portrait, focused drawing-finish correction.\nInput images: Image1 is the existing proposed Feshbach drawing to correct. Image2 is Herman Feshbach's identity photo, not a drawing style. Images3,4,5 are approved Rutherford, Bohr and Alfvén house-style references.\nChange only the face's drawing finish: replace photographic-looking cheek/chin texture, pores and dense tonal modelling with the flat graphic skin treatment of the approved references. Use natural neutral pink-beige flat skin and one shallow, simple shadow shape, confident charcoal-teal contours, sparse deliberate facial lines and only faint print grain.\nPreserve Feshbach's high receding forehead, swept gray hair, large rounded spectacles, broad clean-shaven face, small asymmetric smile, exact head-and-shoulders composition, period jacket, white shirt and patterned bow tie. Preserve the existing expression and likeness; do not borrow any reference's facial identity. Preserve the hair and clothing graphic treatment.\nKeep face, glasses and smile within central76% safe for42px/92px circle. Output1024×1024 RGBA PNG. No hands, props, text, captions, signature or watermark.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nAvoid gradients, painterly modelling, airbrushing, pores, colourised-photo realism, yellow/sepia skin cast or dense hatching.",
+          "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-fa048feb-1c20-4ef3-8209-1f98ae7b85f3.png",
+          "targetPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/run/research/conference-scientists/feshbach-v2-validated.png",
+          "finalStagedPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/run/research/conference-scientists/feshbach-v3-validated.png",
+          "change": "Simplified skin drawing finish, preserving identity, clothing and composition.",
+          "rawSha256": "3a6301a732665499ae319c5711c7c6b971c06b78058409aaa9cfe29e62bbde69",
+          "targetSha256": "89eeff2c686578bab34b2e5c7b63daebbc24f9f0c145b213079a52f463c29b6b"
+        },
+        "identityReferenceSha256": "31f9026922e753dc9eef742297ec4fcd7fa8b253ba86752e83709e6692d0809a",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "f02c36b3f832104ff705bffe477ef03f6bc7d3e7921776c1434e3fa27d289f6f"
+      },
+      "finalAssets": [
+        "images/feshbach.jpg",
+        "images/cartoons/feshbach.png",
+        "images/thumbs/feshbach.webp",
+        "images/thumbs/cartoons/feshbach.webp"
+      ],
+      "originalSha256": "c5f4d5246c5dc391b9789fb694b9daa33b7d90b19a0c8da40a874bfa71dfac35",
+      "finalSha256": {
+        "images/feshbach.jpg": "31f9026922e753dc9eef742297ec4fcd7fa8b253ba86752e83709e6692d0809a",
+        "images/cartoons/feshbach.png": "4a275b1289fb4bb626b3a3cd4c9b2697f6a54ecb3d6bb4a3e38dcf45ef18bc38",
+        "images/thumbs/feshbach.webp": "9a8cf7a4bf06119e510800ecde44ee325c3f4145708c6f4e6c447ab5d7f5e91e",
+        "images/thumbs/cartoons/feshbach.webp": "5038d434490a398b41b02c27beaa8338a5e603770bf37eee0b2f2f2bdd5409a2"
+      }
+    }
+  ],
+  "acceptance": "Final PNGs pass alpha/dimension validator. Source/current/proposed comparisons, dark/light backgrounds and 92px colour/42px grayscale circles inspected. Only deterministic source-photo crop/resize, approved finisher and thumbnails; no Python drawing edits."
+}

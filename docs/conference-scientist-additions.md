@@ -1,0 +1,35 @@
+# Scientists named in conference records
+
+Alfred Cornu, Irène Joliot-Curie, Abraham Pais and Herman Feshbach now have profiles, two original publication records each, sourced photographs, newly drawn Wry Engraver illustrations and both 192px WebP thumbnails. Conference attendee links connect Cornu to the 1900 International Congress of Physics, Joliot-Curie to the 1933 Solvay meeting, and Pais/Feshbach to Shelter Island in 1947. Existing conference dates, descriptions and photo captions remain intact.
+
+## Identity and academic associations
+
+- **Alfred Cornu**, French, **6 March 1841–12 April 1902**. [National Academy of Sciences](https://www.nasonline.org/directory-entry/alfred-cornu-uk40cy/) supplies exact life dates; [Florida State University's optics biography](https://micro.magnet.fsu.edu/optics/timeline/people/cornu.html) corroborates identity, birth date, education at École Polytechnique and École des mines, and the Polytechnique physics professorship. [English Wikipedia identity](https://en.wikipedia.org/wiki/Alfred_Cornu) and the [Torino archive](https://www.accademiadellescienze.it/accademia/soci/marie-alfred-cornu) identify the same physicist.
+- **Irène Joliot-Curie**, French, **12 September 1897–17 March 1956**. [Nobel facts](https://www.nobelprize.org/prizes/chemistry/1935/joliot-curie/facts/) supplies exact dates; [Nobel biography](https://www.nobelprize.org/prizes/chemistry/1935/joliot-curie/biographical/) records Paris Faculty of Science studies, the 1925 doctorate, professorship and Radium Institute directorship. [Lindau's research profile](https://mediatheque.lindau-nobel.org/laureates/joliot-curie/research-profile) corroborates research and 1933 Solvay attendance. [English Wikipedia identity](https://en.wikipedia.org/wiki/Ir%C3%A8ne_Joliot-Curie) provides further reading.
+- **Abraham Pais**, Dutch-American, **19 May 1918–28 July 2000**. [Institute for Advanced Study](https://www.ias.edu/sns/Abraham_Pais) and the [National Academy biographical memoir](https://www.nasonline.org/wp-content/uploads/2024/06/abraham-pais.pdf) agree on full life dates. The memoir documents Amsterdam undergraduate studies, Utrecht graduate studies/doctorate and assistantship, IAS research/professorship and 1954 U.S. citizenship. [Rockefeller's obituary](https://www.rockefeller.edu/news/4254-rockefeller-university-professor-emeritus-dr-abraham-pais-dies-at-82/) confirms its faculty appointment; no disputed joining year is encoded. [English Wikipedia identity](https://en.wikipedia.org/wiki/Abraham_Pais) is provided for further reading.
+- **Herman Feshbach**, American, **2 February 1917–22 December 2000**. [Physics Today's obituary](https://physicstoday.aip.org/obituaries/herman-feshbach) supplies full dates, City College degree, MIT doctorate, professorship and Center for Theoretical Physics directorship. [American Academy of Arts and Sciences](https://www.amacad.org/news/remembrance-herman-feshbach-1917-2000) corroborates the institutions, long MIT appointment and death date. [English Wikipedia identity](https://en.wikipedia.org/wiki/Herman_Feshbach) provides further reading.
+
+Affiliations are concise verified coverage rather than exhaustive careers. Existing institutional assets are reused only for their actual institutions. Radium Institute, Utrecht and Rockefeller use neutral icons, bringing the exact count to 30. The Paris university emblem is not used for the separate Radium Institute row.
+
+## Original works
+
+| Scientist | Year | Work / authoritative record |
+| --- | --- | --- |
+| Cornu | 1874 | [Méthode nouvelle pour la discussion des problémes de diffraction dans le cas d'une onde cylindrique](https://jphystap.journaldephysique.org/articles/jphystap/abs/1874/01/jphystap_1874__3__5_0/jphystap_1874__3__5_0.html), DOI 10.1051/jphystap:0187400300500 |
+| Cornu | 1875 | [Détermination de la vitesse de la lumière et de la parallaxe du soleil](https://jphystap.journaldephysique.org/en/articles/jphystap/abs/1875/01/jphystap_1875__4__104_1/jphystap_1875__4__104_1.html), DOI 10.1051/jphystap:018750040010401 |
+| Joliot-Curie | 1934 | *Un nouveau type de radioactivité*, with Frédéric Joliot, Comptes rendus 198:254–256; [AIP's archival research bibliography](https://www.aip.org/library/from-artificial-radioactivity-to-mainstream-medicine) |
+| Joliot-Curie | 1934 | [Artificial Production of a New Kind of Radio-Element](https://www.nature.com/articles/133201a0), with Frédéric Joliot, DOI 10.1038/133201a0 |
+| Pais | 1952 | [Some Remarks on the V-Particles](https://link.aps.org/doi/10.1103/PhysRev.86.663), DOI 10.1103/PhysRev.86.663 |
+| Pais | 1955 | [Behavior of Neutral Particles under Charge Conjugation](https://link.aps.org/doi/10.1103/PhysRev.97.1387), with Murray Gell-Mann, DOI 10.1103/PhysRev.97.1387 |
+| Feshbach | 1954 | [Model for Nuclear Reactions with Neutrons](https://link.aps.org/doi/10.1103/PhysRev.96.448), with C. E. Porter and V. F. Weisskopf, DOI 10.1103/PhysRev.96.448 |
+| Feshbach | 1958 | [Unified theory of nuclear reactions](https://www.sciencedirect.com/science/article/pii/0003491658900071), DOI 10.1016/0003-4916(58)90007-1; [INSPIRE corroboration](https://inspirehep.net/literature/33542) |
+
+The 1874 Cornu title retains the publisher record's accent spelling. All eight publication records have unique persisted IDs and frozen legacy aliases. Portrait anchors use their earliest selected landmark works (1874, 1934, 1952 and 1954), while conference attendance retains its own historical date. Attendance does not fabricate an earlier publication. Abstracts are original concise summaries and acknowledge coauthors.
+
+## Portrait rights and validation
+
+Cornu uses Nadar's historical Torino portrait marked public domain; Joliot-Curie uses Wellcome's 1925 photograph under CC BY 4.0; Pais uses GFHund's 1963 photograph under CC BY 3.0; Feshbach uses the AIP-owned archival portrait with explicit credited-use permission. Each licence, credit and change indication applies to its illustration and thumbnail derivatives, as recorded in [image attribution](../images/ATTRIBUTION.md). The [provenance file](conference-scientist-portrait-provenance.json) records exact original URLs, crops, prompts, reference/raw/final hashes and Feshbach's focused skin-finish correction.
+
+All final portraits pass the PNG alpha/dimension validator. Source/current/proposed comparisons, dark/light backgrounds, 92px colour and 42px grayscale circular crops were inspected. There are 136 scientists, 257 publication records, 42 discoveries and 9 conferences. All 123 native tests and the full browser regression audit pass.
+
+Collaborative-browser checks verified all four profiles, loaded photographic and illustrated thumbnails across both themes, all eight publication panels with their DOI/source links, and the three conference panels with the new attendees. Profile panels show their conference links in the reverse direction. The regression audit includes context modes, hover relations, scientist lifespans, photography selection and trail interactions.
