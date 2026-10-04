@@ -4421,3 +4421,40 @@ clavius:
       title: "Romani calendarii a Gregorio XIII P. M. restituti explicatio"
       abstract: "Explained the astronomical and computational basis of the Gregorian calendar, including its solar and lunar corrections and revised leap-year rules."
       source: "https://www.digitale-sammlungen.de/en/details/bsb11199757"
+
+palitzsch:
+  name: "Johann Georg Palitzsch"
+  summary: "A German farmer and self-taught astronomer who first recovered Halley's comet on its predicted return in December 1758."
+  color: "#7b9b88"
+  notability: 2
+  photo: "images/palitzsch.jpg"
+  cartoon: "images/cartoons/palitzsch.png"
+  nationality: "German"
+  birth: "1723-06-11"
+  death: "1788-02-21"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Johann_Georg_Palitzsch"
+    - label: "Palitzsch Museum"
+      url: "https://palitzsch-museum.de/museum/ueber-uns/"
+  publications: []
+
+lilius:
+  name: "Aloysius Lilius"
+  summary: "An Italian physician and astronomer whose proposed solar and lunar corrections formed the basis of the Gregorian calendar reform."
+  color: "#a78370"
+  notability: 2
+  photo: "images/default.png"
+  cartoon: "images/cartoons/default.png"
+  nationality: "Italian"
+  birth: "c. 1510"
+  death: "c. 1576"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Aloysius_Lilius"
+    - label: "Treccani biography"
+      url: "https://www.treccani.it/enciclopedia/luigi-giglio_(Dizionario-Biografico)/"
+  academic_affiliations:
+    - institution: "University of Perugia"
+      association: "Lecturer in medicine"
+  publications: []

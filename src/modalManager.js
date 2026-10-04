@@ -1,6 +1,8 @@
 import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-story-v2';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { createPortrait, getPortraitSource } from './portraits.js?v=3';
+import { getScientistAnchor } from './scientistAnchor.js?v=1';
+import { formatScientistYear } from './scientistDates.js?v=1';
 
 // Wide screens dock the panel beside the timeline so both stay usable.
 // Narrow screens show it as a modal bottom sheet.
@@ -126,14 +128,8 @@ function createConferencePhoto(photo, conferenceTitle) {
   return figure;
 }
 
-function getFirstPublicationYear(scientist) {
-  return [...(scientist.publications || [])]
-    .filter((publication) => Number.isFinite(publication.year))
-    .sort((a, b) => a.year - b.year)[0]?.year;
-}
-
 function locateScientistOnTimeline(scientistId, scientist) {
-  const detail = { scientistId, year: getFirstPublicationYear(scientist) };
+  const detail = { scientistId, year: getScientistAnchor(scientistId, scientist, discoveries, conferences)?.year };
   if (isPanelDocked()) {
     document.dispatchEvent(new CustomEvent('papertrails:locatescientist', { detail }));
     return;
@@ -440,11 +436,6 @@ function createLocateAction(scientistId, scientist) {
   return button;
 }
 
-function formatYear(date) {
-  const year = Number.parseInt(String(date || '').slice(0, 4), 10);
-  return Number.isFinite(year) ? String(year) : null;
-}
-
 function calculateAge(birth, death) {
   const birthMatch = String(birth || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
   const deathMatch = String(death || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -458,8 +449,8 @@ function calculateAge(birth, death) {
 }
 
 function getIdentityLine(scientist) {
-  const birthYear = formatYear(scientist.birth);
-  const deathYear = formatYear(scientist.death);
+  const birthYear = formatScientistYear(scientist.birth);
+  const deathYear = formatScientistYear(scientist.death);
   const age = calculateAge(scientist.birth, scientist.death);
   const lifespan = birthYear && deathYear ? `${birthYear}–${deathYear}` : birthYear ? `Born ${birthYear}` : null;
   return [scientist.nationality, lifespan, age !== null ? `aged ${age}` : null].filter(Boolean).join(' · ');

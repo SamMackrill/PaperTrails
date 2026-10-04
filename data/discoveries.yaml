@@ -40,7 +40,7 @@
   year: 1582
   title: "Gregorian Calendar Reform"
   discoverer: "Aloysius Lilius, Christopher Clavius, and Pope Gregory XIII"
-  scientist_ids: [clavius]
+  scientist_ids: [lilius, clavius]
   details: "The reform removed ten calendar days and revised leap-year rules to keep the civil year more closely aligned with the seasons; adoption spread gradually beyond the first Catholic states."
   particle: CAL
   color: "#6d597a"
@@ -130,6 +130,7 @@
   year: 1758
   title: "Return of Halley's Comet"
   discoverer: "Johann Georg Palitzsch; return predicted by Edmond Halley"
+  scientist_ids: [palitzsch]
   theorist_ids: [newton, halley]
   details: "Palitzsch recovered the predicted comet on 25 December 1758; it reached perihelion in March 1759. Its return confirmed Halley's application of Newtonian gravitation to periodic cometary orbits."
   sources:

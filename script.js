@@ -3,8 +3,8 @@ import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
 import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-story-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';
-import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-story-v2';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-photography-v1';
+import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-scientist-anchors-v1';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-scientist-anchors-v1';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
@@ -13,6 +13,7 @@ import { formatHash, parseHash } from './src/urlState.js?v=pass2-labels-v5';
 import { CONTEXT_MODE_STORAGE_KEY, DEFAULT_CONTEXT_MODE, getContextMode, nextContextMode, savedContextMode, updateContextModeButton } from './src/contextMode.js?v=pass2-tapestry-default-v1';
 import { applyRovingTabindex, describePosition, handleLaneKey, rememberFocus } from './src/keyboardNav.js?v=pass2-chapters-v2';
 import { zoomProgress } from './src/zoomLayout.js?v=pass2-chapters-v2';
+import { getScientistAnchor } from './src/scientistAnchor.js?v=1';
 
 const HINT_STORAGE_KEY = 'paperTrailsHintSeen';
 const SCALE_STORAGE_KEY = 'paperTrailsScale';
@@ -310,8 +311,7 @@ function getItemYear(key) {
   const record = resolveItem(key);
   if (!record) return null;
   if (record.type === 'scientist') {
-    const years = (record.item.publications || []).map(publication => publication.year).filter(Number.isFinite);
-    return years.length ? Math.min(...years) : null;
+    return getScientistAnchor(record.scientistId, record.item, discoveries, conferences)?.year ?? null;
   }
   return record.item.year ?? record.item.startYear;
 }
