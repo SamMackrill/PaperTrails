@@ -1,9 +1,9 @@
-name: Prototype tests
+name: Timeline tests
 on:
   pull_request:
-    branches: ['prototype/ui-pass2', 'ui-pass2/**']
+    branches: ['main', 'prototype/ui-pass2', 'ui-pass2/**']
   push:
-    branches: ['prototype/ui-pass2', 'ui-pass2/**']
+    branches: ['main', 'prototype/ui-pass2', 'ui-pass2/**']
 permissions:
   contents: read
 jobs:
