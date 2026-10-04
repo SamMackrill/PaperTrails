@@ -6,12 +6,12 @@ The included dataset focuses mainly on physics, astronomy, mathematics, and rela
 
 ## Features
 
-- Scientist portraits linked to their first listed publication. In crowded periods portraits move sideways to find room, joined to their publication by a diagonal line, and only group into face stacks when no nearby space is free. Surnames appear as you zoom in
+- Scientist portraits linked to their earliest listed publication, or to a linked discovery or conference when no authored paper is verified. In crowded periods portraits move sideways to find room, joined to their anchor year by a diagonal line, and only group into face stacks when no nearby space is free. Surnames appear as you zoom in
 - Publication markers stacked by date, so their height doubles as a histogram of scientific output
 - Discovery markers for experiments, particles, and milestones
 - Diamond markers for scientific conferences
 - Duration bars for significant historical events
-- Historical context in three views: Bars, Landscape (default), and a Bayeux-inspired Tapestry with Latin headings and no visible dates. Landscape keeps its folding cloth and braids; Tapestry presents a continuous embroidered story with animal borders. All three views share the total context area height.
+- Historical context in three views: Bars, Landscape, and a Bayeux-inspired Tapestry, the default for new visitors. Landscape keeps its folding cloth, braids, English names and dates; Tapestry presents a continuous embroidered story with stitched Latin inscriptions and varied period-appropriate scientific borders. All three views share the total context area height and retain it through zoom.
 - A details panel for scientists, publications, discoveries, conferences, and events. On wide screens it docks beside the timeline, which stays usable; on phones it opens as a sheet. It links related items in both directions, keeps a Back history, and offers further reading and citations
 - Hovering or selecting an item draws its connections: a scientist's discoveries, conferences, and events, with their lifespan shown as a bar, or the people linked to a discovery or conference
 - Mouse, trackpad, touch, and keyboard controls for panning and zooming, with a readout of the years in view
