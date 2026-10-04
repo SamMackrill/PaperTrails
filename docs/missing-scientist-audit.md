@@ -14,14 +14,14 @@ Millikan's PR adds Millikan only. The audit identified sixteen further candidate
 | Alain Aspect | Bell-test experiment | Implemented in the quantum-scientist layer |
 | Jean Dalibard | Bell-test experiment | Implemented in the quantum-scientist layer |
 | Gérard Roger | Bell-test experiment | Awaiting complete profile |
-| William Derham | Speed-of-sound measurement | Awaiting complete profile |
-| Samuel Molyneux | Stellar aberration | Awaiting complete profile |
+| William Derham | Speed-of-sound measurement | Implemented in the historical-scientist layer |
+| Samuel Molyneux | Stellar aberration | Implemented with verified publications and documented neutral portrait |
 | Johann Georg Palitzsch | Halley's 1758–59 return | Verify original work and historical likeness |
 | Aloysius Lilius | Gregorian calendar reform | Verify partial life dates, surviving work and historical likeness |
-| Christopher Clavius | Gregorian calendar reform | Awaiting complete profile |
+| Christopher Clavius | Gregorian calendar reform | Implemented in the historical-scientist layer |
 | Alfred Cornu | 1900 physics congress | Implemented in the conference-scientist layer |
 | Irène Joliot-Curie | 1933 Solvay photograph | Implemented in the conference-scientist layer |
 | Abraham Pais | 1947 Shelter Island photograph | Implemented in the conference-scientist layer |
 | Herman Feshbach | 1947 Shelter Island photograph | Implemented in the conference-scientist layer |
 
-The seven remaining candidates stay in scope for subsequent scientist additions. Retherford and Roger need additional archival biography/portrait research; their verified joint papers do not justify guessing missing personal details. An observer's contribution must not be presented as authorship of someone else's paper. Partial historical dates must not be expanded into invented precise dates. An unavailable licensed likeness must not be replaced by an invented face.
+The four remaining candidates stay in scope for subsequent scientist additions. The user confirmed that Palitzsch and Lilius may have discovery-positioned profiles without invented publications. Retherford and Roger need additional archival biography/portrait research; their verified joint papers do not justify guessing missing personal details. An observer's contribution must not be presented as authorship of someone else's paper. Partial historical dates must not be expanded into invented precise dates. An unavailable licensed likeness must not be replaced by an invented face.

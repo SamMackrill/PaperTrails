@@ -40,6 +40,7 @@
   year: 1582
   title: "Gregorian Calendar Reform"
   discoverer: "Aloysius Lilius, Christopher Clavius, and Pope Gregory XIII"
+  scientist_ids: [clavius]
   details: "The reform removed ten calendar days and revised leap-year rules to keep the civil year more closely aligned with the seasons; adoption spread gradually beyond the first Catholic states."
   particle: CAL
   color: "#6d597a"
@@ -109,6 +110,7 @@
   year: 1708
   title: "Measurement of the Speed of Sound"
   discoverer: "William Derham"
+  scientist_ids: [derham]
   details: "Derham timed the delay between the visible flash and the report of distant gunfire from the tower of St Laurence Church in Upminster. Using surveyed distances, he obtained one of the earliest reasonably accurate measurements of the speed of sound in air."
   particle: vₛ
   color: "#52796f"
@@ -216,7 +218,7 @@
   year: 1728
   title: "Stellar Aberration"
   discoverer: "James Bradley, using observations begun with Samuel Molyneux"
-  scientist_ids: [bradley]
+  scientist_ids: [bradley, molyneux]
   details: "Using observations begun with Samuel Molyneux, Bradley explained an annual change in apparent star positions by combining Earth's orbital velocity with the finite speed of light. Stellar aberration supplied evidence for Earth's orbital motion and a new way to estimate light's speed."
   particle: "α"
   color: "#51768c"

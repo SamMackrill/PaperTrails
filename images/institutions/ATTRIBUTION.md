@@ -1,5 +1,7 @@
 # Institutional arms, seals, and emblems
 
+The historical-scientist addition reuses the existing Trinity College Dublin asset for Molyneux. Trinity College, Oxford, University of Coimbra and Collegio Romano have no verified local emblems and deliberately use neutral icons. Oxford's college does not reuse the Cambridge or Dublin Trinity assets; Collegio Romano does not substitute a successor institution's emblem.
+
 The images in this directory identify academic affiliations and do not imply endorsement by the institutions. Each asset is a verified institutional arm, seal, or official emblem checked against an institutional, archival, or openly licensed source; no heraldry is invented or approximated.
 
 Most Commons files are small rendered derivatives with no design changes. Assets from institutional sites are the supplied files themselves, except `university-of-strasbourg.svg`, which reproduces the compact 28-pixel mark embedded in the university's live header. Copyright licences and institutional trademark or official-insignia rules are separate: a mark may be copyright-free while its use remains regulated.

@@ -4320,3 +4320,104 @@ feshbach:
       abstract: "Developed a projection-based formulation that connects direct and compound-nucleus reactions through a generalized optical potential."
       doi: "10.1016/0003-4916(58)90007-1"
       source: "https://www.sciencedirect.com/science/article/pii/0003491658900071"
+
+derham:
+  name: "William Derham"
+  summary: "An English natural philosopher and clergyman who measured the speed of sound, investigated weather and natural history, and explained practical clock-making."
+  color: "#7c946d"
+  notability: 2
+  photo: "images/derham.jpg"
+  cartoon: "images/cartoons/derham.png"
+  nationality: "English"
+  birth: "1657-11-26"
+  death: "1735-04-05"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/William_Derham"
+    - label: "Naturalist biography"
+      url: "https://brycchancarey.com/naturalists/william_derham.html"
+  academic_affiliations:
+    - institution: "Trinity College, Oxford"
+      association: "Student and Bachelor of Arts"
+  publications:
+    - id: derham-work-00
+      legacyKey: publication:derham:0
+      year: 1696
+      title: "The artificial clock-maker"
+      abstract: "Explained the calculation and construction of watch and clock movements, making practical horological methods accessible to readers without advanced mathematics."
+      source: "https://www.si.edu/object/siris_sil_247407"
+    - id: derham-work-01
+      legacyKey: publication:derham:1
+      year: 1708
+      title: "Experimenta observationes de soni motu, aliisque ad id attinentibus"
+      abstract: "Used timed gun reports and surveyed distances to measure the speed of sound and investigate the influence of wind on its propagation."
+      doi: "10.1098/rstl.1708.0001"
+      source: "https://royalsocietypublishing.org/rstl/article/26/313/2/110387/I-Experimenta-observationes-de-soni-motu-aliisque"
+
+molyneux:
+  name: "Samuel Molyneux"
+  summary: "A British astronomer and telescope designer whose observations with James Bradley helped establish the evidence Bradley explained as stellar aberration."
+  color: "#9a7c9d"
+  notability: 2
+  photo: "images/default.png"
+  cartoon: "images/cartoons/default.png"
+  nationality: "British"
+  birth: "1689-07-18"
+  death: "1728-04-13"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Samuel_Molyneux"
+    - label: "University of St Andrews biography"
+      url: "https://mathshistory.st-andrews.ac.uk/Biographies/Molyneux_Samuel/"
+  academic_affiliations:
+    - institution: "Trinity College Dublin"
+      association: "Bachelor of Arts and Master of Arts"
+      coat: "images/institutions/trinity-college-dublin.png"
+  publications:
+    - id: molyneux-work-00
+      legacyKey: publication:molyneux:0
+      year: 1708
+      title: "A relation of the strange effects of thunder and lightnings which happened at Mrs. Close's house at New-Forge, in the county of Down in Ireland, on the 9th of August, 1707"
+      abstract: "Communicated an account of lightning damage in County Down to the Royal Society, documenting its effects on a house and its occupants."
+      doi: "10.1098/rstl.1708.0002"
+      source: "https://royalsocietypublishing.org/rstl/article/26/313/36/110386/II-A-relation-of-the-strange-effects-of-thunder"
+    - id: molyneux-work-01
+      legacyKey: publication:molyneux:1
+      year: 1738
+      title: "The method of grinding and polishing glasses for Telescopes, extracted from Mr. Huygens and other Authors, by the Honourable Samuel Molyneux Esquire"
+      abstract: "Published posthumously in Robert Smith's A Compleat System of Opticks, combined Molyneux's practical telescope-making papers with methods drawn from Huygens and other authors, supplemented by Smith."
+      source: "https://www.e-rara.ch/download/pdf/11013332.pdf"
+
+clavius:
+  name: "Christopher Clavius"
+  summary: "A German Jesuit mathematician and astronomer who helped develop and explain the Gregorian calendar reform and wrote influential mathematical and astronomical textbooks."
+  color: "#8e8260"
+  notability: 2
+  photo: "images/clavius.jpg"
+  cartoon: "images/cartoons/clavius.png"
+  nationality: "German"
+  birth: "1538-03-25"
+  death: "1612-02-06"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Christopher_Clavius"
+    - label: "Astronomy biography"
+      url: "https://www2.hao.ucar.edu/education/scientists/christoph-clavius-1537-1612"
+  academic_affiliations:
+    - institution: "University of Coimbra"
+      association: "Student"
+    - institution: "Collegio Romano"
+      association: "Student and professor of mathematics"
+  publications:
+    - id: clavius-work-00
+      legacyKey: publication:clavius:0
+      year: 1570
+      title: "In sphaeram Ioannis de Sacro Bosco commentarius"
+      abstract: "Expanded Sacrobosco's account of the celestial sphere into an influential astronomical textbook, presenting mathematical methods within a geocentric framework."
+      source: "https://www2.hao.ucar.edu/education/scientists/christoph-clavius-1537-1612"
+    - id: clavius-work-01
+      legacyKey: publication:clavius:1
+      year: 1603
+      title: "Romani calendarii a Gregorio XIII P. M. restituti explicatio"
+      abstract: "Explained the astronomical and computational basis of the Gregorian calendar, including its solar and lunar corrections and revised leap-year rules."
+      source: "https://www.digitale-sammlungen.de/en/details/bsb11199757"

@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-03",
+  "description": "Historical discovery scientists; verified engravings, exact drawing inputs and source rights. Molyneux intentionally retains the shared neutral portrait.",
+  "portraits": [
+    {
+      "id": "derham",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:William_Derham.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/William_Derham.jpg",
+      "credit": "Anonymous eighteenth-century engraving; faithful scan from an eighteenth-century text, via Wikimedia Commons",
+      "date": "Eighteenth century; precise date and creator unknown. 2012 metadata is reproduction/upload metadata.",
+      "rights": "Public-domain underlying eighteenth-century published art (before U.S. copyright cutoffs); Commons PD-old/PD-Art faithful reproduction statement. No new blanket CC0 grant is inferred.",
+      "crop": [
+        145,
+        130,
+        725,
+        710
+      ],
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/41-historical-scientists/../run/research/historical-scientists/derham-original.jpg",
+      "photoPreparation": {
+        "output": "images/derham.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/derham.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, the historical engraved likeness of William Derham. Images 2, 3 and 4 are approved Rutherford, Bohr and Alfvén house-style references only; never borrow their faces.\nPrimary request: draw a fresh affectionate editorial caricature of William Derham in the Wry Engraver style, recognisable before humorous.\nRecognition anchors: broad softly rounded clean-shaven face with pronounced long straight nose; shoulder-length wavy dark hair parted near the centre, receding slightly at the temples; alert level eyes and a quietly pursed mouth. Retain his three-quarter turn towards the viewer's left and the two rectangular white clerical bands above the dark robe.\nComic idea: his generous clerical bands and slightly inquisitive eyebrow are the only understated visual beat. No props or hands.\nStyle: bold charcoal-teal ink contour, simplified graphic shapes, restrained flat fills, one shallow shadow tone and faint print grain. Match the approved graphic reference portraits, never colourise the engraving.\nComposition: centred head-and-shoulders bust. Hair begins 8% from top, shoulders reach bottom edge, eyes near 42% canvas height. Face, hair and clerical bands readable and safely cropped at 42px and 92px circular sizes; important facial features inside central 76%.\nPalette: charcoal-teal and muted brown-black period robe and hair, cream clerical bands; natural neutral pink-beige skin. The sepia engraving is an identity source, not a skin colour. No yellow, orange, bronze or sepia cast.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square 1024×1024 RGBA PNG. Preserve documented facial identity and period clothes. No text, captions, signature, watermark, apparatus or full body. Avoid photorealism, dense engraving hatching, airbrushing and gradients.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-8c8b247c-de38-401c-83f0-a5bc3313075e.png",
+        "finisher": "Raw 1254px; one lower corner was occupied by the shoulder. Approved finisher normalized to 1024px and removed 0 edge-connected background pixels. Final validator PASS.",
+        "identityReferenceSha256": "72e739abaf8dc5a83b64cd742930fdfa93bae4b97c3d6d03d6c2a17cee0b3995",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "92cf9dd66f430957bbdd583f1bf83298f22b4af2d06a03454165f47e16165afa"
+      },
+      "finalAssets": [
+        "images/derham.jpg",
+        "images/cartoons/derham.png",
+        "images/thumbs/derham.webp",
+        "images/thumbs/cartoons/derham.webp"
+      ],
+      "originalSha256": "dfcf9c7a088fca0f1df6ef35e5066d8cf7654116bcad2de320c45c070bea7f08",
+      "finalSha256": {
+        "images/derham.jpg": "72e739abaf8dc5a83b64cd742930fdfa93bae4b97c3d6d03d6c2a17cee0b3995",
+        "images/cartoons/derham.png": "dda7ffabb0d4b482cea8093ce28984f67169b937b5bc1158fd98eaf746944de4",
+        "images/thumbs/derham.webp": "f8e42760676bf9c5808734184e0f9c5865f1fd034b0b974886df214d7eb1746e",
+        "images/thumbs/cartoons/derham.webp": "41b030fd2ff3db4cea1302240d417a0323108a8c2752f4d1d48432a4370f4358"
+      }
+    },
+    {
+      "id": "clavius",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Portret_van_astronoom_Christoph_Clavius,_RP-P-OB-38.439_(cropped).jpg",
+      "institutionalSource": "http://hdl.handle.net/10934/RM0001.COLLECT.188648",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Portret_van_astronoom_Christoph_Clavius%2C_RP-P-OB-38.439_%28cropped%29.jpg",
+      "credit": "Francesco Villamena, 1606; Rijksmuseum RP-P-OB-38.439",
+      "date": "1606",
+      "rights": "CC0 1.0 Universal; source explicitly grants CC0 and identifies the engraving as public domain.",
+      "crop": [
+        900,
+        420,
+        2600,
+        2120
+      ],
+      "originalPath": "C:/Users/Sam/source/repos/PaperTrails-worktrees/ui-pass2/41-historical-scientists/../run/research/historical-scientists/clavius-original.jpg",
+      "photoPreparation": {
+        "output": "images/clavius.jpg",
+        "format": "RGB JPEG",
+        "dimensions": [
+          640,
+          640
+        ],
+        "resize": "Lanczos",
+        "quality": 93
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "identityReference": "images/clavius.jpg",
+        "styleReferences": [
+          "images/cartoons/rutherford.png",
+          "images/cartoons/bohr.png",
+          "images/cartoons/alfven.png"
+        ],
+        "prompt": "Use case: style-transfer\nAsset type: Paper Trails circular timeline portrait.\nInput images: Image 1 is the sole identity reference, Francesco Villamena's 1606 engraving of Christopher Clavius from the Rijksmuseum. Images 2, 3 and 4 are approved Rutherford, Bohr and Alfvén house-style references only, never borrow their faces.\nPrimary request: draw a fresh affectionate editorial caricature of Christopher Clavius in the Wry Engraver style, recognisable before humorous.\nRecognition anchors: angular four-cornered Jesuit cap sitting high on the head; broad short clean-shaven face with deeply arched eyebrows over narrowed eyes; small firmly pursed mouth, strong broad nose and heavy rounded chin. Preserve the near-frontal three-quarter gaze and plain Jesuit robe with broad folded lapels in the engraving.\nComic idea: the distinctive cap and concentrated inquisitive expression provide the only subtle visual beat. Omit hands, drawing tools, books, armillary sphere and all background apparatus.\nStyle: confident bold charcoal-teal ink contour, simplified graphic shapes, restrained flat fills, at most one shallow shadow tone, very faint print grain. Match the graphic references, not the dense hatching or sepia colour of the engraving.\nComposition: centred head-and-shoulders bust, cap begins 8% from top, eyes near 42% canvas height, shoulders reach bottom. Face inside central 76%, distinctive cap and facial features survive 42px and 92px circular crops.\nPalette: dark muted charcoal-teal Jesuit robe and cap, narrow cream collar; natural neutral pink-beige skin. Do not infer a white robe from light engraving paper. No yellow, orange, bronze or sepia cast.\nBackground: genuine alpha transparency; empty pixels outside the bust; never draw or depict a checkerboard, transparency grid, studio backdrop, halo, or background colour.\nConstraints: square 1024×1024 RGBA PNG; preserve historical facial identity and period details; no text, captions, signature, watermark, apparatus or full body. Avoid photorealism, colourised-photo realism, dense hatching, airbrushing and gradients.",
+        "rawPath": "C:/Users/Sam/.codex/generated_images/01a0f855-473a-7020-94fc-156722394196/exec-2ebfe5d2-27c2-43ba-a606-aa32094f14d9.png",
+        "finisher": "Raw 1254px; approved finisher normalized to 1024px and removed 0 edge-connected background pixels. Final validator PASS.",
+        "identityReferenceSha256": "fa2b448fbb2891d656582eebf50c8348e87a6961088d30164265b718e660705a",
+        "styleReferenceSha256": {
+          "images/cartoons/rutherford.png": "0a6b816cc6959652ee8b0acc0dc93130b505b96199bbba01774eecf8b60df2a3",
+          "images/cartoons/bohr.png": "1af2dedbcf0cf1201dbed2a363a25b8c4ff41a418b4f42e58d76567ce50228ec",
+          "images/cartoons/alfven.png": "8b62b8776f3725509d4f03f1107fb6ebc2a1aafd60432b26e27b003f9c900b77"
+        },
+        "rawSha256": "75dba9db87b97f004f82404b95acf3a2e9536bca12aa2eeef00fbec7402c51f0"
+      },
+      "finalAssets": [
+        "images/clavius.jpg",
+        "images/cartoons/clavius.png",
+        "images/thumbs/clavius.webp",
+        "images/thumbs/cartoons/clavius.webp"
+      ],
+      "originalSha256": "fe6ebbe93af08d5681130d23c9cffe26f17e08b75ceb0a84420a165f8f1d38c0",
+      "finalSha256": {
+        "images/clavius.jpg": "fa2b448fbb2891d656582eebf50c8348e87a6961088d30164265b718e660705a",
+        "images/cartoons/clavius.png": "20bbbb260eda27b13d06bd08553fff0584fb67409bd9180a0ad2ead577cb2277",
+        "images/thumbs/clavius.webp": "de2debe721ef9c0cd239697a4c2a1642f2ace3959e128dee54f3ad5c13a63c15",
+        "images/thumbs/cartoons/clavius.webp": "b83e35c6ab9d538c86c59dbbd77135f07484ad3d2413e0e17034a92f8da0a13e"
+      }
+    }
+  ],
+  "neutralPortraits": [
+    {
+      "id": "molyneux",
+      "photo": "images/default.png",
+      "cartoon": "images/cartoons/default.png",
+      "reason": "No verified contemporary likeness found; Linda Hall Library reports inability to locate one. Neither relatives nor a fabricated face are substituted.",
+      "source": "https://www.lindahall.org/about/news/scientist-of-the-day/samuel-molyneux/"
+    }
+  ]
+}
