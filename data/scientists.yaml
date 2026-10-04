@@ -4042,3 +4042,127 @@ gerlach:
       abstract: "With Otto Stern, showed that a silver atomic beam divides into distinct components rather than a continuous distribution, demonstrating spatial quantization."
       doi: "10.1007/BF01326983"
       source: "https://link.springer.com/article/10.1007/BF01326983"
+
+aharonov:
+  name: "Yakir Aharonov"
+  summary: "An Israeli theoretical physicist whose work with David Bohm revealed the quantum significance of electromagnetic potentials and whose later research introduced weak values in quantum measurement."
+  color: "#798ab1"
+  notability: 2
+  photo: "images/aharonov.jpg"
+  cartoon: "images/cartoons/aharonov.png"
+  nationality: "Israeli"
+  birth: "1932-08-28"
+  death: ""
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Yakir_Aharonov"
+    - label: "Chapman University profile"
+      url: "https://www.chapman.edu/our-faculty/yakir-aharonov.aspx"
+  academic_affiliations:
+    - institution: "Technion – Israel Institute of Technology"
+      association: "Bachelor of Science"
+    - institution: "University of Bristol"
+      association: "Doctorate under David Bohm"
+      coat: "images/institutions/university-of-bristol.png"
+    - institution: "Tel Aviv University"
+      association: "Professor emeritus"
+    - institution: "Chapman University"
+      association: "Professor of natural philosophy and director of the Institute for Quantum Studies"
+  publications:
+    - id: aharonov-work-00
+      legacyKey: publication:aharonov:0
+      year: 1959
+      title: "Significance of Electromagnetic Potentials in the Quantum Theory"
+      abstract: "With David Bohm, predicted observable quantum interference effects of electromagnetic potentials in regions where the corresponding fields vanish."
+      doi: "10.1103/PhysRev.115.485"
+      source: "https://link.aps.org/doi/10.1103/PhysRev.115.485"
+    - id: aharonov-work-01
+      legacyKey: publication:aharonov:1
+      year: 1988
+      title: "How the result of a measurement of a component of the spin of a spin-1/2 particle can turn out to be 100"
+      abstract: "With David Albert and Lev Vaidman, introduced weak values obtained from weak measurements on preselected and postselected quantum ensembles."
+      doi: "10.1103/PhysRevLett.60.1351"
+      source: "https://link.aps.org/doi/10.1103/PhysRevLett.60.1351"
+
+aspect:
+  name: "Alain Aspect"
+  summary: "A French experimental physicist whose tests of entangled photons violated Bell inequalities, advancing experimental studies of quantum nonlocality and quantum optics."
+  color: "#a48a48"
+  notability: 2
+  photo: "images/aspect.jpg"
+  cartoon: "images/cartoons/aspect.png"
+  nationality: "French"
+  birth: "1947-06-15"
+  death: ""
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Alain_Aspect"
+    - label: "Nobel Prize profile"
+      url: "https://www.nobelprize.org/prizes/physics/2022/aspect/facts/"
+  academic_affiliations:
+    - institution: "École normale supérieure de Cachan"
+      association: "Student and physics graduate"
+    - institution: "Institut d'Optique Graduate School"
+      association: "Professor and founder of the atomic optics group"
+    - institution: "École Polytechnique"
+      association: "Professor"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "Collège de France"
+      association: "Researcher and deputy laboratory director"
+      coat: "images/institutions/college-de-france.png"
+  publications:
+    - id: aspect-work-00
+      legacyKey: publication:aspect:0
+      year: 1982
+      title: "Experimental Realization of Einstein-Podolsky-Rosen-Bohm Gedankenexperiment: A New Violation of Bell's Inequalities"
+      abstract: "With Philippe Grangier and Gérard Roger, used two-channel polarizers to measure correlations of entangled photons that violated generalized Bell inequalities."
+      doi: "10.1103/PhysRevLett.49.91"
+      source: "https://link.aps.org/doi/10.1103/PhysRevLett.49.91"
+    - id: aspect-work-01
+      legacyKey: publication:aspect:1
+      year: 1982
+      title: "Experimental Test of Bell's Inequalities Using Time-Varying Analyzers"
+      abstract: "With Jean Dalibard and Gérard Roger, measured photon polarization correlations with rapidly changing analyzer settings and observed a violation of Bell inequalities."
+      doi: "10.1103/PhysRevLett.49.1804"
+      source: "https://link.aps.org/doi/10.1103/PhysRevLett.49.1804"
+
+dalibard:
+  name: "Jean Dalibard"
+  summary: "A French physicist who helped test Bell inequalities with changing analyzer settings and developed theoretical methods for laser cooling and the study of ultracold quantum gases."
+  color: "#6795a1"
+  notability: 2
+  photo: "images/dalibard.jpg"
+  cartoon: "images/cartoons/dalibard.png"
+  nationality: "French"
+  birth: "1958-12-08"
+  death: ""
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Jean_Dalibard"
+    - label: "Collège de France biography"
+      url: "https://www.college-de-france.fr/en/chair/jean-dalibard-atoms-and-radiation-statutory-chair/biography"
+  academic_affiliations:
+    - institution: "École Normale Supérieure"
+      association: "Student and researcher at the Kastler Brossel Laboratory"
+      coat: "images/institutions/ecole-normale-superieure.png"
+    - institution: "École Polytechnique"
+      association: "Professor of physics"
+      coat: "images/institutions/ecole-polytechnique.jpg"
+    - institution: "Collège de France"
+      association: "Professor holding the Atoms and Radiation chair"
+      coat: "images/institutions/college-de-france.png"
+  publications:
+    - id: dalibard-work-00
+      legacyKey: publication:dalibard:0
+      year: 1982
+      title: "Experimental Test of Bell's Inequalities Using Time-Varying Analyzers"
+      abstract: "With Alain Aspect and Gérard Roger, tested correlations of entangled photons using rapidly switching analyzers, obtaining results incompatible with local hidden-variable inequalities."
+      doi: "10.1103/PhysRevLett.49.1804"
+      source: "https://link.aps.org/doi/10.1103/PhysRevLett.49.1804"
+    - id: dalibard-work-01
+      legacyKey: publication:dalibard:1
+      year: 1989
+      title: "Laser cooling below the Doppler limit by polarization gradients: simple theoretical models"
+      abstract: "With Claude Cohen-Tannoudji, explained polarization-gradient cooling mechanisms that allow atoms to reach temperatures below the usual Doppler limit."
+      doi: "10.1364/JOSAB.6.002023"
+      source: "https://opg.optica.org/josab/abstract.cfm?uri=josab-6-11-2023"

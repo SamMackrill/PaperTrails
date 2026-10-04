@@ -10,9 +10,9 @@ Millikan's PR adds Millikan only. The audit identified sixteen further candidate
 | Otto Stern | Stern–Gerlach experiment | Implemented with Gerlach in this layer |
 | Walther Gerlach | Stern–Gerlach experiment | Implemented with Stern in this layer |
 | Robert Curtis Retherford | Lamb-shift measurement | Awaiting complete profile |
-| Yakir Aharonov | Aharonov–Bohm effect | Awaiting complete profile |
-| Alain Aspect | Bell-test experiment | Awaiting complete profile |
-| Jean Dalibard | Bell-test experiment | Awaiting complete profile |
+| Yakir Aharonov | Aharonov–Bohm effect | Implemented in the quantum-scientist layer |
+| Alain Aspect | Bell-test experiment | Implemented in the quantum-scientist layer |
+| Jean Dalibard | Bell-test experiment | Implemented in the quantum-scientist layer |
 | Gérard Roger | Bell-test experiment | Awaiting complete profile |
 | William Derham | Speed-of-sound measurement | Awaiting complete profile |
 | Samuel Molyneux | Stellar aberration | Awaiting complete profile |
@@ -24,4 +24,4 @@ Millikan's PR adds Millikan only. The audit identified sixteen further candidate
 | Abraham Pais | 1947 Shelter Island photograph | Awaiting complete profile |
 | Herman Feshbach | 1947 Shelter Island photograph | Awaiting complete profile |
 
-The fourteen remaining candidates stay in scope for subsequent scientist additions. An observer's contribution must not be presented as authorship of someone else's paper. Partial historical dates must not be expanded into invented precise dates. An unavailable licensed likeness must not be replaced by an invented face.
+The eleven remaining candidates stay in scope for subsequent scientist additions. Retherford and Roger need additional archival biography/portrait research; their verified joint papers do not justify guessing missing personal details. An observer's contribution must not be presented as authorship of someone else's paper. Partial historical dates must not be expanded into invented precise dates. An unavailable licensed likeness must not be replaced by an invented face.
