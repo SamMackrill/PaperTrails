@@ -107,7 +107,7 @@ example_id:
 
 Scientists normally appear at their earliest listed publication. A profile without listed papers uses its earliest explicitly linked discovery or conference for timeline positioning, profile navigation and shared URLs. Keep `publications: []` when no own authored work is verified; never invent a paper or attribute another person's work to create an anchor. Life dates accept verified ISO dates, year-only dates and `c. YYYY` approximate years; approximate years remain qualified in the profile and lifespan, with no invented exact age.
 
-Thirty-five affiliation rows deliberately omit `coat` and display the neutral icon:
+Thirty-six affiliation rows deliberately omit `coat` and display the neutral icon:
 
 - **Manchester Academy** — the historical dissenting academy where John Dalton taught has no distinct, reliably documented surviving mark. The modern Manchester music venue and the arms of a successor college are not equivalent.
 - **Académie royale des sciences** — no repository-compatible historical emblem was added for du Fay's research association; the neutral icon avoids substituting the modern Académie des sciences identity.
@@ -131,6 +131,7 @@ Thirty-five affiliation rows deliberately omit `coat` and display the neutral ic
 - **Radium Institute, Paris**, **Utrecht University**, and **Rockefeller University** — the Joliot-Curie and Pais affiliations use neutral icons because no verified local emblems are recorded.
 - **Trinity College, Oxford**, **University of Coimbra**, and **Collegio Romano** — Derham's and Clavius's affiliations use neutral icons because no verified local emblems are recorded; Oxford's college does not reuse the Cambridge or Dublin Trinity emblems.
 - **University of Perugia** — Lilius's documented medicine lectureship uses the neutral icon because no verified local emblem is recorded.
+- **Graz University of Technology** — Tesla's student affiliation uses the neutral icon because no verified local emblem is recorded; the separate University of Graz emblem does not represent this institution.
 
 The full asset provenance, licence information, and institutional-use caveats are recorded in [`images/institutions/ATTRIBUTION.md`](images/institutions/ATTRIBUTION.md).
 

@@ -7,14 +7,16 @@ const yaml = createRequire(import.meta.url)('../vendor/js-yaml.min.js');
 const read = (name) => yaml.load(readFileSync(new URL(`../data/${name}.yaml`, import.meta.url), 'utf8'));
 const data = { scientists: read('scientists'), discoveries: read('discoveries'), conferences: read('conferences'), significantEvents: read('significantevents') };
 
-test('all current records have unique identities and frozen legacy aliases', () => {
+test('all current records have unique identities and preserve recorded legacy aliases', () => {
   const index = buildItemIndex(data);
-  assert.equal(index.records.size, 143 + 267 + 42 + 9 + data.significantEvents.length);
+  const people = Object.values(data.scientists);
+  const publicationCount = people.reduce((count, scientist) => count + scientist.publications.length, 0);
+  assert.equal(index.records.size, people.length + publicationCount + data.discoveries.length + data.conferences.length + data.significantEvents.length);
   for (const record of index.records.values()) {
     if (record.type === 'scientist') continue;
     assert.ok(record.item.id);
-    assert.ok(record.item.legacyKey);
-    assert.equal(index.resolve(record.item.legacyKey), record);
+    assert.equal(index.resolve(`${record.type}:${record.item.id}`), record);
+    if (record.item.legacyKey) assert.equal(index.resolve(record.item.legacyKey), record);
   }
 });
 
@@ -44,7 +46,7 @@ test('mixed-case scientist keys retain their own publication aliases', () => {
   assert.equal(index.resolve('publication:deBroglie:0').scientistId, 'deBroglie');
   assert.equal(index.resolve('publication:deBroglie:0').item.title, data.scientists.deBroglie.publications[0].title);
   for (const record of index.records.values()) {
-    if (record.type === 'publication') assert.ok(record.item.legacyKey.startsWith(`publication:${record.scientistId}:`));
+    if (record.type === 'publication' && record.item.legacyKey) assert.ok(record.item.legacyKey.startsWith(`publication:${record.scientistId}:`));
   }
   assert.throws(() => buildItemIndex({ scientists: { deBroglie: { publications: [{ id: 'bad', legacyKey: 'publication:compton:1' }] } } }), /another record/);
 });

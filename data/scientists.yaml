@@ -4527,3 +4527,40 @@ lilius:
     - institution: "University of Perugia"
       association: "Lecturer in medicine"
   publications: []
+
+tesla:
+  name: "Nikola Tesla"
+  summary: "A Serbian-American inventor and electrical engineer whose polyphase alternating-current motors and high-frequency experiments helped shape modern electrical power and wireless technology."
+  color: "#477fa6"
+  notability: 1
+  photo: "images/tesla.jpg"
+  cartoon: "images/cartoons/tesla.png"
+  nationality: "Serbian-American"
+  birth: "1856-07-10"
+  death: "1943-01-07"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Nikola_Tesla"
+  academic_affiliations:
+    - institution: "Graz University of Technology"
+      association: "Student of technical sciences; left without a degree"
+    - institution: "Charles University"
+      association: "Attended lectures in natural philosophy in 1880; no degree"
+      coat: "images/institutions/charles-university.png"
+  publications:
+    - id: "tesla-work-00"
+      year: 1888
+      title: "A New System of Alternate Current Motors and Transformers"
+      abstract: "Described polyphase alternating-current circuits that produce rotating magnetic fields, enabling induction motors and a coordinated system of electrical power transmission."
+      source: "https://www.pbs.org/tesla/res/res_art02.html"
+    - id: "tesla-work-01"
+      year: 1891
+      title: "Experiments with Alternate Currents of Very High Frequency and Their Application to Methods of Artificial Illumination"
+      abstract: "Presented high-frequency, high-voltage experiments using resonant coils and electrical discharges to investigate new methods of artificial lighting."
+      source: "https://teslasciencecenter.org/announcements/experiments-with-alternate-currents-of-very-high-frequency-and-their-application-to-methods-of-artificial-illumination-by-nikola-tesla/"
+    - id: "tesla-work-02"
+      year: 1893
+      title: "On Light and Other High Frequency Phenomena"
+      abstract: "Demonstrated high-frequency electrical lighting and resonance experiments and discussed how tuned circuits could transmit electrical energy without wires."
+      doi: "10.1016/0016-0032(93)90308-H"
+      source: "https://www.sciencedirect.com/science/article/abs/pii/001600329390308H"
