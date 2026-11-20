@@ -24,7 +24,7 @@ IMAGES = ROOT / 'images'
 THUMBS = IMAGES / 'thumbs'
 THUMB_SIZE = 192
 PORTRAIT_SUFFIXES = {'.jpg', '.jpeg', '.png', '.webp'}
-SKIP = {'icon.png', 'brand-mark.png'}
+SKIP = {'icon.png'}
 # The panoramas the timeline draws. Other PNGs in images/tapestry are kept
 # only as provenance sources (see images/tapestry/README.md).
 LEGACY_ATLASES = ('early-panorama.png', 'revolutions-panorama-v2.png', 'modern-panorama.png')
