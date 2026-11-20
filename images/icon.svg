@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Paper Trails</title>
+  <rect width="64" height="64" rx="14" fill="#2f4a7a"/>
+  <path d="M9 55 C 14 50, 15 44, 23 41" fill="none" stroke="#e9c98a" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="0.1 6"/>
+  <path d="M53 11 L13 29 L29 35 Z" fill="#fbf8f2"/>
+  <path d="M53 11 L29 35 L37 52 Z" fill="#d6c8ad"/>
+  <path d="M29 35 L28 45 L33 41 Z" fill="#b8a786"/>
+</svg>
