@@ -13,6 +13,7 @@ import {
   EVENT_PIN_GAP,
   EVENT_LABEL_PADDING,
   binPublications,
+  computeMilestoneVerticalLayout,
   getTimelineLabel,
   getNotability,
   layoutEventRows,
@@ -20,8 +21,9 @@ import {
   layoutPeople,
   planEventLabel,
   planLanes,
+  planPublicationCaps,
   rankForFaces
-} from './timelineLayout.js?v=2';
+} from './timelineLayout.js?v=3';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const EVENT_LABEL_FONT = '650 11px';
@@ -472,20 +474,17 @@ function renderPublications(timeline, width, axisY, coordinates) {
     timeline.appendChild(marker);
   });
 
-  let lastTextCapX = -Infinity;
-  caps.forEach(({ binX, count, year }, capIndex) => {
+  planPublicationCaps(caps).forEach(({ binX, count, year, compact }, capIndex) => {
     const cap = document.createElement('button');
     cap.type = 'button';
     // Neighbouring counts would collide, so crowded caps become dots.
-    const compact = binX - lastTextCapX < 22;
-    if (!compact) lastTextCapX = binX;
     cap.className = `publication-cap${compact ? ' is-compact' : ''}`;
     cap.dataset.itemKey = `publication-cap:${capIndex}`;
     cap.dataset.tooltip = `${count} more publications around ${year} · zoom in to see them`;
     cap.setAttribute('aria-label', `${count} more publications around ${year}. Zoom in to see them.`);
     cap.textContent = `+${count}`;
     cap.style.left = `${binX}px`;
-    cap.style.top = `${stackY(PUBLICATION_MAX_STACK) - 12}px`;
+    cap.style.top = `${stackY(PUBLICATION_MAX_STACK) - 13}px`;
     itemActions.set(cap.dataset.itemKey, () => {
       document.dispatchEvent(new CustomEvent('papertrails:zoomcluster', { detail: { year } }));
     });
@@ -658,11 +657,14 @@ function renderMilestones(timeline, svg, width, axisY, contextTop, scale) {
 
   const markerSize = getMilestoneSize(scale);
   const { placements, rows } = layoutMilestoneRows(items, markerSize);
-  const firstLevelY = axisY + MILESTONE_FIRST_OFFSET;
-  const available = contextTop - firstLevelY - markerSize / 2 - 8;
-  // Dense decades stack markers closer, overlapping if necessary, rather than
-  // spilling into the context lane.
-  const levelGap = rows > 1 ? Math.min(MILESTONE_GAP, Math.max(8, available / (rows - 1))) : MILESTONE_GAP;
+  const { firstLevelY, levelGap } = computeMilestoneVerticalLayout({
+    axisY,
+    contextTop,
+    markerSize,
+    rows,
+    idealFirstOffset: MILESTONE_FIRST_OFFSET,
+    idealGap: MILESTONE_GAP
+  });
   const glyphRoom = markerSize - 9;
 
   placements.forEach(({ item, index, type, x, level }) => {
