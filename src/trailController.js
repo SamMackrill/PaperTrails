@@ -7,6 +7,8 @@ import { getActiveTrail, getTrailState, layoutTrailLabels, setTrailState, trailR
 export function setupTrails({ change, openRecord }) {
   const bar = document.getElementById('trail-bar');
   const select = document.getElementById('trail-select');
+  const hint = document.getElementById('trail-bar-hint');
+  const stepControls = document.getElementById('trail-step-controls');
   const panel = document.getElementById('trail-panel');
   const content = document.getElementById('trail-content');
   const progress = document.getElementById('trail-progress');
@@ -24,6 +26,9 @@ export function setupTrails({ change, openRecord }) {
     const trail = getActiveTrail(), state = getTrailState();
     const index = trail?.stops.findIndex(stop => stop.id === state.stop) ?? -1;
     select.value = state.trail || '';
+    bar.classList.toggle('is-active', Boolean(trail));
+    if (hint) hint.hidden = Boolean(trail);
+    if (stepControls) stepControls.hidden = !trail;
     back.disabled = !trail || index <= 0;
     next.disabled = !trail || index >= trail.stops.length - 1;
     const printLink = document.getElementById('trail-print');

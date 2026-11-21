@@ -164,6 +164,43 @@ export function layoutMilestoneRows(items, markerSize, gap = 10) {
   return { placements, rows: Math.max(1, rowEnds.length) };
 }
 
+// Keeps every milestone row strictly inside the milestones lane (above
+// contextTop), tightening the top offset gently when a narrow viewport stacks
+// many rows into a short lane.
+export function computeMilestoneVerticalLayout({
+  axisY,
+  contextTop,
+  markerSize,
+  rows,
+  idealFirstOffset = 60,
+  idealGap = 42,
+  minFirstOffset = 42,
+  bottomMargin = 6
+}) {
+  const maxCenterY = contextTop - markerSize / 2 - bottomMargin;
+  const minCenterY = axisY + minFirstOffset;
+  let firstLevelY = Math.min(axisY + idealFirstOffset, Math.max(minCenterY, maxCenterY));
+  if (rows <= 1) return { firstLevelY, levelGap: idealGap };
+  let available = Math.max(0, maxCenterY - firstLevelY);
+  if (available < (rows - 1) * 10 && firstLevelY > minCenterY) {
+    firstLevelY = Math.max(minCenterY, maxCenterY - (rows - 1) * 10);
+    available = Math.max(0, maxCenterY - firstLevelY);
+  }
+  const levelGap = Math.min(idealGap, available / (rows - 1));
+  return { firstLevelY, levelGap };
+}
+
+// Decides which publication overflow caps show a "+N" text count vs a compact
+// dot so neighbouring labels never collide horizontally.
+export function planPublicationCaps(caps, { minTextGap = 32 } = {}) {
+  let lastTextCapX = -Infinity;
+  return caps.map((cap) => {
+    const compact = cap.binX - lastTextCapX < minTextGap;
+    if (!compact) lastTextCapX = cap.binX;
+    return { ...cap, compact };
+  });
+}
+
 // Chooses how an event band shows its title. Titles never cross a band's
 // edges: a band either contains its label, carries it alongside as a pin, or
 // relies on its tooltip.

@@ -157,7 +157,8 @@
     <span class="trail-bar-label">Follow an idea</span>
     <label class="sr-only" for="trail-select">Choose an idea trail</label>
     <select id="trail-select"><option value="">Full archive</option></select>
-    <div class="trail-step-controls" role="group" aria-label="Trail steps">
+    <span class="trail-bar-hint" id="trail-bar-hint">Curated question-led routes through the archive</span>
+    <div class="trail-step-controls" id="trail-step-controls" role="group" aria-label="Trail steps" hidden>
       <button id="trail-prev" class="text-button" type="button" aria-label="Previous trail stop">←</button>
       <output id="trail-progress" aria-live="polite">Choose an idea trail</output>
       <button id="trail-next" class="text-button" type="button" aria-label="Next trail stop">→</button>
@@ -167,7 +168,6 @@
     <a id="trail-print" class="text-button" target="_blank" rel="noopener" hidden>Print trail ↗</a>
     <button id="trail-clear" class="text-button" type="button" hidden>Full archive</button>
   </section>
-  <p class="context-guide">Names and dates follow woven braids · knots mark single-year events · zoom for illustrated detail</p>
   <main class="timeline-shell">
     <section class="timeline-frame" aria-label="Interactive scientific history timeline">
       <div class="minimap-corner" aria-hidden="true">Overview</div>
@@ -226,6 +226,7 @@
       <div class="detail-body" id="detail-body"></div>
     </aside>
   </main>
+  <p class="context-guide">Names and dates follow woven braids · knots mark single-year events · zoom for illustrated detail</p>
 
   <div class="detail-backdrop" id="detail-backdrop" hidden></div>
 

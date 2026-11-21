@@ -6,13 +6,15 @@ import { buildSearchIndex, foldText, searchIndex } from '../src/search.js';
 import { formatHash, parseHash } from '../src/urlState.js';
 import {
   binPublications,
+  computeMilestoneVerticalLayout,
   findFreeLevel,
   getTimelineLabel,
   layoutEventRows,
   layoutMilestoneRows,
   layoutPeople,
   planEventLabel,
-  planLanes
+  planLanes,
+  planPublicationCaps
 } from '../src/timelineLayout.js';
 import { getInitials, isPlaceholderImage } from '../src/portraits.js';
 import { formatCitation, hasUnlinkedDiscoverers } from '../src/modalManager.js';
@@ -123,6 +125,25 @@ test('milestones use extra rows instead of overlapping', () => {
   const { placements, rows } = layoutMilestoneRows([0, 5, 10, 60].map((x) => ({ x })), 30);
   assert.equal(rows, 3);
   assert.equal(placements[3].level, 0);
+});
+
+test('milestone rows stay strictly above the context lane even on short screens', () => {
+  const axisY = 200;
+  const contextTop = 340;
+  const markerSize = 22;
+  const rows = 18;
+  const { firstLevelY, levelGap } = computeMilestoneVerticalLayout({ axisY, contextTop, markerSize, rows });
+  const bottomEdge = firstLevelY + (rows - 1) * levelGap + markerSize / 2;
+  assert.ok(firstLevelY >= axisY + 42, 'keeps room below axis year labels');
+  assert.ok(bottomEdge <= contextTop - 5, `bottom edge ${bottomEdge} must clear contextTop ${contextTop}`);
+});
+
+test('publication overflow caps leave room between text labels', () => {
+  const caps = [0, 11, 22, 33, 44].map((binX) => ({ binX, count: 5, year: 1900 }));
+  const planned = planPublicationCaps(caps);
+  const textCaps = planned.filter((cap) => !cap.compact);
+  assert.equal(textCaps.length, 2);
+  assert.ok(textCaps[1].binX - textCaps[0].binX >= 32);
 });
 
 test('lanes give context and milestones what they need within limits', () => {

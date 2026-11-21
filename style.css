@@ -32,7 +32,7 @@
   --shadow-lg: 0 24px 60px rgba(42, 36, 28, 0.2);
   --paper-grain: rgba(42, 36, 28, 0.025);
   --portrait-filter: grayscale(100%) sepia(15%) contrast(0.94);
-  --header-height: 68px;
+  --header-height: 58px;
   --current-scale: 1;
   --current-inverse-scale: 1;
 }
@@ -162,13 +162,13 @@ input:focus-visible,
 .app-header {
   position: relative;
   min-height: var(--header-height);
-  padding: 10px 20px;
+  padding: 8px 20px;
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   z-index: 100;
 }
 
@@ -280,27 +280,27 @@ html[data-theme="dark"] .icon-sun {
 
 .timeline-toolbar {
   position: relative;
-  min-height: 54px;
-  padding: 8px 20px;
+  min-height: 46px;
+  padding: 6px 20px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
   z-index: 90;
   box-shadow: var(--shadow-sm);
 }
 
 .toolbar-primary {
   flex: 0 0 auto;
-  gap: 12px;
+  gap: 8px;
 }
 
 .toolbar-secondary {
-  min-width: 0;
+  flex: 0 0 auto;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
 }
 
 .zoom-controls,
@@ -311,7 +311,7 @@ html[data-theme="dark"] .icon-sun {
 .view-actions .icon-button:disabled { opacity: .35; cursor: default; }
 
 .zoom-level {
-  min-width: 78px;
+  min-width: 72px;
   color: var(--text-secondary);
   text-align: center;
   font-size: 12px;
@@ -319,7 +319,7 @@ html[data-theme="dark"] .icon-sun {
 }
 
 #zoom-slider {
-  width: 112px;
+  width: 96px;
   height: 18px;
   margin: 0 4px;
   appearance: none;
@@ -372,14 +372,14 @@ html[data-theme="dark"] .icon-sun {
 }
 
 .filter-legend {
-  min-width: 0;
+  flex: 0 0 auto;
   gap: 4px;
 }
 
 .filter-button {
-  gap: 7px;
+  gap: 6px;
   min-height: 34px;
-  padding: 0 9px;
+  padding: 0 8px;
   color: var(--text-secondary);
   font-size: 12px;
   font-weight: 600;
@@ -500,9 +500,9 @@ html[data-theme="dark"] .icon-sun {
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
+  gap: 14px;
   flex: 1;
-  padding: 16px 20px 20px;
+  padding: 10px 20px 6px;
 }
 
 .timeline-frame {
@@ -800,14 +800,14 @@ html[data-theme="dark"] .icon-sun {
 
 .publication-cap {
   position: absolute;
-  padding: 0 3px;
+  padding: 0 2px;
   border: 0;
   border-radius: 3px;
   background: var(--surface);
   color: var(--publication);
   cursor: pointer;
   font-family: var(--serif);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   line-height: 1.2;
   transform: translateX(-50%);
@@ -815,13 +815,14 @@ html[data-theme="dark"] .icon-sun {
 }
 
 .publication-cap.is-compact {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   padding: 0;
-  margin-top: 5px;
+  margin-top: 4px;
   border-radius: 50%;
   background: var(--publication);
   font-size: 0;
+  z-index: 25;
 }
 
 .publication-cap:hover {
@@ -2306,7 +2307,7 @@ body.has-docked-panel .timeline-shell {
   border-top: 0;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1240px) {
   .options-button {
     display: inline-flex;
   }
@@ -2472,8 +2473,8 @@ body.has-docked-panel .timeline-shell {
   .lane-label {
     left: 50%;
     right: auto;
-    font-size: 12px;
-    letter-spacing: 0.03em;
+    font-size: 10px;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     writing-mode: vertical-rl;
     transform: translate(-50%, -50%) rotate(180deg);
@@ -2650,7 +2651,7 @@ body.has-docked-panel .timeline-shell {
   color: #794331;
 }
 .tapestry-ribbon[data-art-style="tapestry"] .tapestry-caption-date { display: none; }
-.context-guide { display: grid; margin: 0; padding: 6px 16px; color: var(--text-secondary); font-size: 11px; border-top: 1px solid var(--border-color); background: var(--page-bg); }
+.context-guide { display: grid; margin: 0; padding: 3px 20px 8px; color: var(--text-tertiary); font-size: 11px; text-align: center; background: var(--page-bg); flex-shrink: 0; }
 .context-guide > span { grid-area: 1 / 1; min-width: 0; }
 .context-guide-sizer { visibility: hidden; pointer-events: none; user-select: none; }
 
@@ -2658,10 +2659,12 @@ body.has-docked-panel .timeline-shell {
 .tapestry-ribbon { background-color: #dfcda5; }
 
 /* Curated research routes: a precise ink line above the historical tapestry. */
-.trail-bar { display: flex; align-items: center; gap: 16px; padding: 10px 24px; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+.trail-bar { display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 5px 20px; border-bottom: 1px solid var(--border); background: var(--surface-muted); flex-shrink: 0; }
+.trail-bar.is-active { background: var(--surface); }
 .trail-bar[hidden], .trail-panel[hidden] { display: none; }
-.trail-bar-label { font-size: 10px; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; color: var(--context); }
-.trail-bar select { font: 600 14px Georgia, serif; max-width: 230px; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 5px; padding: 6px 26px 6px 10px; }
+.trail-bar-label { font-size: 10px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--context); white-space: nowrap; }
+.trail-bar-hint { font-size: 12px; color: var(--text-tertiary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trail-bar select { font: 600 13px Georgia, serif; max-width: 230px; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 6px; padding: 4px 24px 4px 9px; }
 .trail-step-controls { display: flex; align-items: center; gap: 10px; margin-right: auto; }
 .trail-step-controls output { font-size: 11px; color: var(--text-secondary); min-width: 48px; text-align: center; }
 .trail-bar .text-button { font-size: 12px; white-space: nowrap; }
@@ -2695,8 +2698,10 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
 .has-active-trail .lane-label.people-label { font-size: 0; }
 .has-active-trail .lane-label.people-label::after { content: 'Idea trail'; font-size: 10px; }
 @media (max-width: 1023px) {
-  .trail-bar { flex-wrap: wrap; gap: 8px 14px; padding: 8px 16px; }
+  .trail-bar { flex-wrap: wrap; gap: 6px 12px; padding: 6px 12px; min-height: 38px; }
   .trail-bar-label { display: none; }
+  .trail-bar-hint { display: none; }
+  .context-guide { padding: 4px 12px 6px; font-size: 10px; }
   .trail-step-controls { margin-right: 0; }
   body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr); }
   .trail-panel { position: absolute; z-index: 30; left: 10px; right: 10px; bottom: 8px; max-height: 48dvh; box-shadow: var(--shadow-lg); }
