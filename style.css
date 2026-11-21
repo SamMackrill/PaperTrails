@@ -1284,6 +1284,15 @@ html[data-theme="dark"] .icon-sun {
 
 .tapestry-definitions { position: absolute; width: 0; height: 0; pointer-events: none; }
 .tapestry-story-canvas { position: absolute; top: 0; pointer-events: none; }
+.tapestry-story {
+  background-color: #e8dec8;
+  border-block: 1px solid color-mix(in srgb, #80563c 55%, transparent);
+  box-shadow: 0 2px 10px rgba(42, 30, 16, 0.12), inset 0 1px 0 rgba(255, 249, 232, 0.65);
+}
+.tapestry-story::before,
+.tapestry-story::after {
+  content: none;
+}
 .tapestry-story .tapestry-caption { overflow: visible; max-width: none; text-shadow: none; letter-spacing: normal; background: transparent; }
 .tapestry-story .tapestry-caption:not([hidden]) { display: block; }
 .tapestry-inscription { display: block; }
