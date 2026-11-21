@@ -1,13 +1,13 @@
 import { setupTrails } from './src/trailController.js?v=pass2-story-v2';
 import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
 import { config } from './src/config.js?v=16';
-import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents } from './src/dataLoader.js?v=pass2-story-v2';
+import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents, trails } from './src/dataLoader.js?v=pass2-story-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-scientist-anchors-v1';
 import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-scientist-anchors-v1';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
-import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-01';
+import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-02';
 import { createMinimap } from './src/minimap.js?v=pass2-chapters-v2';
 import { formatHash, parseHash } from './src/urlState.js?v=pass2-labels-v5';
 import { CONTEXT_MODE_STORAGE_KEY, DEFAULT_CONTEXT_MODE, getContextMode, nextContextMode, savedContextMode, updateContextModeButton } from './src/contextMode.js?v=pass2-tapestry-default-v1';
@@ -106,9 +106,46 @@ function updateTransform() {
   zoomSlider.setAttribute('aria-valuetext', `${Math.round(currentScale * 100)}%, showing ${from} to ${to}`);
   document.getElementById('pan-earlier').disabled = currentTranslateX >= -0.5;
   document.getElementById('pan-later').disabled = currentTranslateX <= timelineContainer.clientWidth - timeline.offsetWidth + 0.5;
+  updateEraJumpState(from, to);
   announceVisibleRange(from, to);
   minimap?.setWindow(-currentTranslateX / (timeline.offsetWidth || 1), timelineContainer.clientWidth / (timeline.offsetWidth || 1));
   scheduleUrlUpdate();
+}
+
+function eraBounds(button) {
+  const from = Number(button.dataset.eraFrom);
+  const to = button.dataset.eraTo === 'current' ? config.END_YEAR : Number(button.dataset.eraTo);
+  return { from, to };
+}
+
+function updateEraJumpState(visibleFrom, visibleTo) {
+  const zoomed = currentScale > 1.15;
+  const viewSpan = Math.max(1, visibleTo - visibleFrom);
+  const viewMid = (visibleFrom + visibleTo) / 2;
+  document.querySelectorAll('#era-jumps .era-chip').forEach((button) => {
+    const { from, to } = eraBounds(button);
+    const active = zoomed && viewMid >= from && viewMid <= to && viewSpan <= (to - from) * 1.45;
+    button.setAttribute('aria-pressed', String(active));
+  });
+}
+
+function jumpToRange(from, to) {
+  const fromFraction = yearToX(from, 1);
+  const toFraction = yearToX(to, 1);
+  const span = Math.max(1 / config.MAX_SCALE, toFraction - fromFraction);
+  hideInteractionHint();
+  return animateView(clampScale(1 / span), (fromFraction + toFraction) / 2);
+}
+
+function updateLayerStatus() {
+  const hiddenCount = getHiddenLayers().length;
+  const reset = document.getElementById('layers-reset');
+  if (reset) reset.hidden = hiddenCount === 0;
+  const optionsToggle = document.getElementById('options-toggle');
+  if (optionsToggle) {
+    if (hiddenCount > 0) optionsToggle.dataset.hiddenCount = String(hiddenCount);
+    else delete optionsToggle.dataset.hiddenCount;
+  }
 }
 
 function prefersReducedMotion() {
@@ -630,7 +667,28 @@ function setupControls() {
     document.getElementById(id).addEventListener('click', (event) => {
       togglePressed(event.currentTarget);
       updateTapestryAvailability();
+      updateLayerStatus();
       render();
+    });
+  });
+
+  document.getElementById('layers-reset')?.addEventListener('click', () => {
+    Object.values(LAYER_TOGGLES).forEach((id) => {
+      document.getElementById(id)?.setAttribute('aria-pressed', 'true');
+    });
+    updateTapestryAvailability();
+    updateLayerStatus();
+    render();
+  });
+
+  document.querySelectorAll('#era-jumps .era-chip').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button.getAttribute('aria-pressed') === 'true') {
+        fitTimeline();
+        return;
+      }
+      const { from, to } = eraBounds(button);
+      jumpToRange(from, to);
     });
   });
 
@@ -716,9 +774,15 @@ function setupSearchField() {
   setupSearch({
     input,
     listbox: document.getElementById('search-results'),
+    clearButton: document.getElementById('search-clear'),
     getIndex: () => searchEntries,
     onChoose: async (entry) => {
       header.classList.remove('is-searching');
+      if (entry.type === 'trail') {
+        closeModal({ restoreFocus: false });
+        trailUI?.openTrail(entry.trailId);
+        return;
+      }
       // Open first, so a docked panel has taken its space before the
       // timeline zooms to the item in the final layout.
       openItem(entry.key, { fromTimeline: true });
@@ -792,6 +856,7 @@ function applyUrlLayers(state, { initial = false } = {}) {
   setScaleMode(state.scale ?? (initial ? getScaleMode() : 'linear'), dataYears);
   document.getElementById('densityToggle').setAttribute('aria-pressed', String(getScaleMode() === 'density'));
   updateTapestryAvailability();
+  updateLayerStatus();
 }
 
 /**
@@ -939,7 +1004,7 @@ async function initializeApp() {
   document.getElementById('timeline-loading').hidden = true;
   timelineContainer.setAttribute('aria-busy', 'false');
   dataYears = collectDataYears();
-  searchEntries = buildSearchIndex({ scientists, discoveries, conferences, significantEvents });
+  searchEntries = buildSearchIndex({ scientists, discoveries, conferences, significantEvents, trails });
   try {
     if (localStorage.getItem(SCALE_STORAGE_KEY) === 'density') {
       setScaleMode('density', dataYears);
@@ -968,6 +1033,7 @@ async function initializeApp() {
   setupControls();
   setupSearchField();
   updateTapestryAvailability();
+  updateLayerStatus();
   setupPointerInteractions();
   setupTooltips();
   setupResizeHandler();

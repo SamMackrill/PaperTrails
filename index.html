@@ -42,7 +42,10 @@
 
     <div class="header-search" role="search">
       <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg>
-      <input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="Search people, publications, discoveries, conferences, and events" placeholder="Search people, works, events…">
+      <input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-label="Search people, publications, discoveries, conferences, events, years, and trails" placeholder="Search people, works, years, topics…">
+      <button class="search-clear" id="search-clear" type="button" aria-label="Clear search" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"></path></svg>
+      </button>
       <kbd class="search-shortcut" aria-hidden="true">/</kbd>
       <ul class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></ul>
     </div>
@@ -128,6 +131,7 @@
           <span class="legend-symbol event-symbol" aria-hidden="true"></span>
           <span>Context</span>
         </button>
+        <button class="text-button layers-reset" id="layers-reset" type="button" hidden>Show all</button>
       </div>
 
       <div class="toolbar-divider" aria-hidden="true"></div>
@@ -157,7 +161,14 @@
     <span class="trail-bar-label">Follow an idea</span>
     <label class="sr-only" for="trail-select">Choose an idea trail</label>
     <select id="trail-select"><option value="">Full archive</option></select>
-    <span class="trail-bar-hint" id="trail-bar-hint">Curated question-led routes through the archive</span>
+    <div class="era-jumps" id="era-jumps" role="group" aria-label="Jump to historical era">
+      <span class="era-jumps-label">Jump to era</span>
+      <button class="era-chip" type="button" data-era-from="1400" data-era-to="1600" aria-pressed="false">1400–1600<span>Renaissance</span></button>
+      <button class="era-chip" type="button" data-era-from="1600" data-era-to="1750" aria-pressed="false">1600–1750<span>Sci. Revolution</span></button>
+      <button class="era-chip" type="button" data-era-from="1750" data-era-to="1850" aria-pressed="false">1750–1850<span>Enlightenment</span></button>
+      <button class="era-chip" type="button" data-era-from="1850" data-era-to="1915" aria-pressed="false">1850–1915<span>Classical</span></button>
+      <button class="era-chip" type="button" data-era-from="1915" data-era-to="current" aria-pressed="false">1915–today<span>Modern</span></button>
+    </div>
     <div class="trail-step-controls" id="trail-step-controls" role="group" aria-label="Trail steps" hidden>
       <button id="trail-prev" class="text-button" type="button" aria-label="Previous trail stop">←</button>
       <output id="trail-progress" aria-live="polite">Choose an idea trail</output>
