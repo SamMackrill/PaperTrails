@@ -313,6 +313,7 @@ function ensureLayerVisible(key) {
   if (toggle?.getAttribute('aria-pressed') === 'false') {
     toggle.setAttribute('aria-pressed', 'true');
     updateTapestryAvailability();
+    updateLayerStatus();
     render();
   }
 }

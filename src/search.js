@@ -243,6 +243,8 @@ export function setupSearch({ input, listbox, clearButton = null, getIndex, onCh
 
   const close = () => {
     listbox.hidden = true;
+    listbox.replaceChildren();
+    options = [];
     input.setAttribute('aria-expanded', 'false');
     input.removeAttribute('aria-activedescendant');
     activeIndex = -1;
@@ -335,13 +337,13 @@ export function setupSearch({ input, listbox, clearButton = null, getIndex, onCh
   input.addEventListener('focus', () => { if (input.value.trim()) renderResults(); });
   input.addEventListener('blur', () => window.setTimeout(close, 120));
   input.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowDown' && options.length) {
+    if (event.key === 'ArrowDown' && !listbox.hidden && options.length) {
       event.preventDefault();
       setActive((activeIndex + 1) % options.length);
-    } else if (event.key === 'ArrowUp' && options.length) {
+    } else if (event.key === 'ArrowUp' && !listbox.hidden && options.length) {
       event.preventDefault();
       setActive((activeIndex - 1 + options.length) % options.length);
-    } else if (event.key === 'Enter' && options[activeIndex]) {
+    } else if (event.key === 'Enter' && !listbox.hidden && options[activeIndex]) {
       event.preventDefault();
       choose(options[activeIndex].entry);
     } else if (event.key === 'Escape') {
