@@ -220,9 +220,15 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
         <span class="detail-back-label"></span>
       </button>
-      <button class="detail-close icon-button" id="detail-close" type="button" aria-label="Close details">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
-      </button>
+      <div class="detail-top-actions">
+        <span class="detail-share-status" id="detail-share-status" role="status" aria-live="polite"></span>
+        <button class="detail-share icon-button" id="detail-share" type="button" aria-label="Copy link to this record" title="Copy link">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+        <button class="detail-close icon-button" id="detail-close" type="button" aria-label="Close details">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
       <div class="detail-header">
         <div class="detail-media" id="detail-media" hidden></div>
         <div class="detail-heading">
