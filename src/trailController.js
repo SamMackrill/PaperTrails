@@ -55,7 +55,7 @@ export function setupTrails({ change, openRecord }) {
         dot.setAttribute('aria-current', i === index ? 'step' : 'false');
         dot.setAttribute('aria-label', `Stop ${i + 1}: ${s.label} (${rec.item.year})`);
         dot.title = `Stop ${i + 1} (${rec.item.year}): ${s.label}`;
-        dot.addEventListener('click', () => choose(trail.id, s.id, true, 'stop'));
+        dot.addEventListener('click', () => choose(trail.id, s.id, true, 'stop', 'stepper'));
         stepper.append(dot);
       });
     }
@@ -78,7 +78,7 @@ export function setupTrails({ change, openRecord }) {
         const dir = element('span', direction === 'prev' ? `← Stop ${index} · ${targetRecord.item.year}` : `Stop ${index + 2} · ${targetRecord.item.year} →`, 'trail-panel-nav-dir');
         const label = element('span', targetStop.label, 'trail-panel-nav-label');
         btn.append(dir, label);
-        btn.addEventListener('click', () => choose(trail.id, targetStop.id, true, 'stop'));
+        btn.addEventListener('click', () => choose(trail.id, targetStop.id, true, 'stop', direction));
         slot.append(btn);
         return slot;
       };
@@ -86,9 +86,17 @@ export function setupTrails({ change, openRecord }) {
     }
     panel.scrollTop = 0;
   }
-  function choose(id, stop, explain, action) {
+  function choose(id, stop, explain, action, focusTarget = null) {
     setTrailState(researchIndex.trailById.get(id), stop, explain);
     update(); change(action);
+    if (focusTarget === 'stepper') {
+      stepper?.querySelector('[aria-current="step"]')?.focus({ preventScroll: true });
+    } else if (focusTarget === 'prev' || focusTarget === 'next') {
+      const fallback = focusTarget === 'prev' ? 'next' : 'prev';
+      (panelNav?.querySelector(`.is-${focusTarget} button`)
+        || panelNav?.querySelector(`.is-${fallback} button`)
+        || stepper?.querySelector('[aria-current="step"]'))?.focus({ preventScroll: true });
+    }
   }
   select.addEventListener('change', () => choose(select.value, null, true, 'overview'));
   archive.addEventListener('click', () => choose(null, null, false, 'archive'));
