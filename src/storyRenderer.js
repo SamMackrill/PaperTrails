@@ -1,7 +1,8 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-latin-retries-v1';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-photography-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-cloth-dynamics-v1';
 import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-photography-v1';
-import { paintLinen } from './linenBacking.js?v=pass2-muted-embroidery-v2';
+import { paintLinen, paintFragmentLinen } from './linenBacking.js?v=pass2-cloth-dynamics-v1';
+import { analyzeClothFolds, clothSelvageRelief } from './clothDynamics.js?v=pass2-cloth-dynamics-v1';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
@@ -130,6 +131,15 @@ function paint(model, container) {
     }));
     button.tabIndex = spans.length ? 0 : -1;
   }
+  ink.translate(-camera, 0);
+  // Paint anchored linen weave per fragment so flax fibers physically glide
+  // with each cloth pleat as it unfolds, then draw wool embroidery and borders.
+  for (const fragment of fragments) {
+    const { left, sourceX, width: exposedWidth } = fragment;
+    if (left + exposedWidth < camera || left > camera + viewport) continue;
+    paintFragmentLinen(ink, left, exposedWidth + 0.5, height, left - sourceX);
+  }
+  ink.translate(camera, 0);
   for (const { entry, left, row, inscription } of lettering) {
     ink.drawImage(entry.lettering, left - worldLeft, artTop + 2 + row * LETTER_ROW_HEIGHT,
       inscription.width, inscription.height);
@@ -158,17 +168,102 @@ function paint(model, container) {
         border.left, y, border.width, border.height);
     }
   }
-  // A thin turned edge explains each fold. No grey bands tint the scene, and
-  // no crease remains when the full fixed drawing is exposed at maximum zoom.
-  for (const fragment of fragments) {
-    const cell = fragment.panel;
-    const edge = fragment.left + fragment.width;
-    if (cell.open >= 1 || edge < camera || edge > camera + viewport) continue;
-    const shade = ink.createLinearGradient(edge - 3, 0, edge, 0);
-    shade.addColorStop(0, 'transparent'); shade.addColorStop(.75, `rgba(103,67,36,${.20 * (1 - cell.open)})`);
-    shade.addColorStop(1, `rgba(74,43,24,${.42 * (1 - cell.open)})`);
-    ink.fillStyle = shade; ink.fillRect(edge - 3, 0, 3, height);
-    ink.fillStyle = `rgba(255,246,216,${.45 * (1 - cell.open)})`; ink.fillRect(edge, 0, .7, height);
+  // Physical cloth fold optics: soft multiply-blended cast shadows onto the
+  // recessed under-cloth, warm sunlit linen crests on turned upper lips, and a
+  // subtle selvage drape shadow that flattens completely at full opening.
+  const folds = analyzeClothFolds(fragments);
+  const visibleFolds = folds.filter(f => f.x + f.shadowWidth + 8 >= camera && f.x - f.shadowWidth - 8 <= camera + viewport);
+  if (visibleFolds.length) {
+    ink.save();
+    ink.globalCompositeOperation = 'multiply';
+    for (const fold of visibleFolds) {
+      const { x, upperSide, depth, shadowWidth, valleyWidth } = fold;
+      const alpha = 0.28 * depth;
+      if (upperSide === 'left' && shadowWidth > 0.5) {
+        const cast = ink.createLinearGradient(x, 0, x + shadowWidth, 0);
+        cast.addColorStop(0, `rgba(72,46,26,${alpha})`);
+        cast.addColorStop(0.28, `rgba(88,58,34,${alpha * 0.55})`);
+        cast.addColorStop(0.68, `rgba(104,72,44,${alpha * 0.16})`);
+        cast.addColorStop(1, 'rgba(104,72,44,0)');
+        ink.fillStyle = cast;
+        ink.fillRect(x, 0, shadowWidth, height);
+      } else if (upperSide === 'right' && shadowWidth > 0.5) {
+        const cast = ink.createLinearGradient(x, 0, x - shadowWidth, 0);
+        cast.addColorStop(0, `rgba(72,46,26,${alpha})`);
+        cast.addColorStop(0.28, `rgba(88,58,34,${alpha * 0.55})`);
+        cast.addColorStop(0.68, `rgba(104,72,44,${alpha * 0.16})`);
+        cast.addColorStop(1, 'rgba(104,72,44,0)');
+        ink.fillStyle = cast;
+        ink.fillRect(x - shadowWidth, 0, shadowWidth, height);
+      } else if (valleyWidth > 0.5) {
+        const leftV = ink.createLinearGradient(x - valleyWidth, 0, x, 0);
+        leftV.addColorStop(0, 'rgba(92,62,36,0)');
+        leftV.addColorStop(0.65, `rgba(82,54,30,${alpha * 0.45})`);
+        leftV.addColorStop(1, `rgba(64,40,22,${alpha * 0.92})`);
+        ink.fillStyle = leftV;
+        ink.fillRect(x - valleyWidth, 0, valleyWidth, height);
+        const rightV = ink.createLinearGradient(x, 0, x + valleyWidth, 0);
+        rightV.addColorStop(0, `rgba(64,40,22,${alpha * 0.92})`);
+        rightV.addColorStop(0.35, `rgba(82,54,30,${alpha * 0.45})`);
+        rightV.addColorStop(1, 'rgba(92,62,36,0)');
+        ink.fillStyle = rightV;
+        ink.fillRect(x, 0, valleyWidth, height);
+      }
+      // Crisp linen tuck crease in the deep fold pocket.
+      ink.fillStyle = `rgba(62,38,20,${0.26 * depth})`;
+      ink.fillRect(x - 0.5, 0, 1, height);
+    }
+    ink.restore();
+
+    // Warm raking highlight along the rounded upper lip catching light.
+    ink.save();
+    for (const fold of visibleFolds) {
+      const { x, upperSide, depth, crestWidth } = fold;
+      if (crestWidth <= 0.5) continue;
+      const hi = 0.46 * depth;
+      if (upperSide === 'left' || upperSide === 'valley') {
+        const crest = ink.createLinearGradient(x - crestWidth, 0, x, 0);
+        crest.addColorStop(0, 'rgba(255,248,224,0)');
+        crest.addColorStop(0.6, `rgba(255,248,224,${hi})`);
+        crest.addColorStop(1, `rgba(232,216,184,${hi * 0.4})`);
+        ink.fillStyle = crest;
+        ink.fillRect(x - crestWidth, 0, crestWidth, height);
+      }
+      if (upperSide === 'right' || upperSide === 'valley') {
+        const crest = ink.createLinearGradient(x, 0, x + crestWidth, 0);
+        crest.addColorStop(0, `rgba(232,216,184,${hi * 0.4})`);
+        crest.addColorStop(0.4, `rgba(255,248,224,${hi})`);
+        crest.addColorStop(1, 'rgba(255,248,224,0)');
+        ink.fillStyle = crest;
+        ink.fillRect(x, 0, crestWidth, height);
+      }
+    }
+    // Soft draped selvage contour shadow at top & bottom hems near active folds;
+    // settles cleanly to 0px as the cloth pulls flat at maximum zoom.
+    if (model.pose.progress < 0.999) {
+      const step = 12;
+      const startX = Math.floor(camera / step) * step;
+      const endX = camera + viewport + step;
+      ink.fillStyle = `rgba(58,36,18,${0.24 * (1 - model.pose.progress)})`;
+      ink.beginPath();
+      ink.moveTo(startX, 0);
+      for (let x = startX; x <= endX; x += step) {
+        ink.lineTo(x, clothSelvageRelief(x, visibleFolds, model.pose.progress));
+      }
+      ink.lineTo(endX, 0);
+      ink.closePath();
+      ink.fill();
+
+      ink.beginPath();
+      ink.moveTo(startX, height);
+      for (let x = startX; x <= endX; x += step) {
+        ink.lineTo(x, height - clothSelvageRelief(x, visibleFolds, model.pose.progress));
+      }
+      ink.lineTo(endX, height);
+      ink.closePath();
+      ink.fill();
+    }
+    ink.restore();
   }
   const failed = [...model.loaded.values()].some(value => !value);
   ribbon.dataset.artReady = model.loading ? 'false' : failed ? 'fallback' : 'true';
