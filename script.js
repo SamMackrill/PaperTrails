@@ -1,5 +1,5 @@
 import { setupTrails } from './src/trailController.js?v=pass2-story-v2';
-import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06c';
+import { getActiveTrail, getTrailState } from './src/trailState.js?v=pass2-06d';
 import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents, trails } from './src/dataLoader.js?v=pass2-story-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';

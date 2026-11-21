@@ -26,6 +26,21 @@ export function layoutTrailLabels(points, width, labelWidth = 144) {
   });
 }
 
+export function getTrailStepContext(trail, currentStopId) {
+  const stops = Array.isArray(trail?.stops) ? trail.stops : [];
+  if (!stops.length) return { index: -1, total: 0, prev: null, current: null, next: null, states: [] };
+  const found = stops.findIndex(stop => stop.id === currentStopId);
+  const index = found >= 0 ? found : 0;
+  return {
+    index,
+    total: stops.length,
+    prev: index > 0 ? stops[index - 1] : null,
+    current: stops[index],
+    next: index < stops.length - 1 ? stops[index + 1] : null,
+    states: stops.map((_, i) => (i < index ? 'visited' : i === index ? 'current' : 'upcoming'))
+  };
+}
+
 // Route labels rise in 64px rows above their dated rail. Keep every assigned
 // row inside the timeline when a narrow view needs additional rows.
 export function trailRouteRailY(axisY, highestRow) {
