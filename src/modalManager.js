@@ -1,4 +1,4 @@
-import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents } from './dataLoader.js?v=pass2-story-v2';
+import { getItemKey, resolveItem, conferences, discoveries, scientistRelations, scientists, significantEvents, trails } from './dataLoader.js?v=pass2-story-v2';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { createPortrait, getPortraitSource } from './portraits.js?v=3';
 import { getScientistAnchor } from './scientistAnchor.js?v=1';
@@ -11,6 +11,9 @@ const DOCKED_QUERY = '(min-width: 1024px)';
 let panel;
 let backdrop;
 let closeButton;
+let shareButton;
+let shareStatus;
+let shareTimer = null;
 let backButton;
 let eyebrow;
 let title;
@@ -30,6 +33,8 @@ function fetchElements() {
   panel = document.getElementById('detail-panel');
   backdrop = document.getElementById('detail-backdrop');
   closeButton = document.getElementById('detail-close');
+  shareButton = document.getElementById('detail-share');
+  shareStatus = document.getElementById('detail-share-status');
   backButton = document.getElementById('detail-back');
   eyebrow = document.getElementById('detail-eyebrow');
   title = document.getElementById('detail-title');
@@ -629,10 +634,182 @@ function renderTimelineItem({
   renderMetadata([...itemMetadata, ...extraMetadata]);
 }
 
+export function findTrailStopsForKey(key, trailList = trails, resolve = resolveItem) {
+  const matches = [];
+  const isScientist = String(key || '').startsWith('scientist:');
+  const scientistId = isScientist ? key.slice('scientist:'.length) : null;
+  for (const trail of Array.isArray(trailList) ? trailList : []) {
+    const stops = Array.isArray(trail.stops) ? trail.stops : [];
+    stops.forEach((stop, index) => {
+      const exact = stop.item === key;
+      const byScientist = isScientist && resolve(stop.item)?.scientistId === scientistId;
+      if (exact || byScientist) {
+        matches.push({ trail, stop, index, total: stops.length });
+      }
+    });
+  }
+  return matches;
+}
+
+export function findOverlappingContextEvents(year, eventList = significantEvents, keyOf = (index) => getItemKey('event', index)) {
+  if (!Number.isFinite(year)) return [];
+  return (Array.isArray(eventList) ? eventList : [])
+    .map((event, index) => ({ event, index }))
+    .filter(({ event }) => Number.isFinite(event.startYear) && Number.isFinite(event.endYear) && event.startYear <= year && year <= event.endYear)
+    .sort((a, b) => (a.event.endYear - a.event.startYear) - (b.event.endYear - b.event.startYear) || a.event.startYear - b.event.startYear)
+    .map(({ event, index }) => ({
+      key: keyOf(index),
+      title: event.shortTitle || event.title || 'Historical event',
+      fullTitle: event.title || 'Historical event',
+      period: contextDate(event)
+    }));
+}
+
+export function findChronologicalNeighbors(key, {
+  scientistsMap = scientists,
+  discoveriesList = discoveries,
+  conferencesList = conferences,
+  eventsList = significantEvents,
+  keyOf = getItemKey,
+  resolve = resolveItem
+} = {}) {
+  const record = resolve(key);
+  if (!record) return { prev: null, next: null };
+  let ordered = [];
+  if (record.type === 'scientist') {
+    ordered = Object.entries(scientistsMap)
+      .map(([id, scientist]) => ({
+        key: `scientist:${id}`,
+        title: scientist.name || 'Unknown scientist',
+        year: getScientistAnchor(id, scientist, discoveriesList, conferencesList)?.year ?? Infinity
+      }))
+      .filter((entry) => Number.isFinite(entry.year))
+      .sort((a, b) => a.year - b.year || a.title.localeCompare(b.title));
+  } else if (record.type === 'publication') {
+    Object.entries(scientistsMap).forEach(([id, scientist]) => {
+      (scientist.publications || []).forEach((pub, index) => {
+        if (!Number.isFinite(pub.year)) return;
+        ordered.push({
+          key: keyOf('publication', index, id),
+          title: pub.title || 'Untitled publication',
+          year: pub.year
+        });
+      });
+    });
+    ordered.sort((a, b) => a.year - b.year || a.title.localeCompare(b.title));
+  } else if (record.type === 'discovery') {
+    ordered = discoveriesList
+      .map((item, index) => ({ key: keyOf('discovery', index), title: item.title || 'Untitled discovery', year: item.year }))
+      .filter((entry) => Number.isFinite(entry.year))
+      .sort((a, b) => a.year - b.year || a.title.localeCompare(b.title));
+  } else if (record.type === 'conference') {
+    ordered = conferencesList
+      .map((item, index) => ({ key: keyOf('conference', index), title: item.title || 'Untitled conference', year: item.year }))
+      .filter((entry) => Number.isFinite(entry.year))
+      .sort((a, b) => a.year - b.year || a.title.localeCompare(b.title));
+  } else if (record.type === 'event') {
+    ordered = eventsList
+      .map((item, index) => ({ key: keyOf('event', index), title: item.shortTitle || item.title || 'Historical event', year: item.startYear }))
+      .filter((entry) => Number.isFinite(entry.year))
+      .sort((a, b) => a.year - b.year || a.title.localeCompare(b.title));
+  }
+  const index = ordered.findIndex((entry) => entry.key === record.key);
+  if (index === -1) return { prev: null, next: null };
+  return {
+    prev: index > 0 ? ordered[index - 1] : null,
+    next: index < ordered.length - 1 ? ordered[index + 1] : null
+  };
+}
+
+function createTrailCallout(key) {
+  const matches = findTrailStopsForKey(key);
+  if (!matches.length) return null;
+  const section = document.createElement('section');
+  section.className = 'detail-trail-callout';
+  section.appendChild(createSectionHeading('Featured in idea trail', matches.length > 1 ? matches.length : undefined, 'stop'));
+  const list = document.createElement('div');
+  list.className = 'detail-trail-cards';
+  matches.slice(0, 3).forEach(({ trail, stop, index, total }) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'detail-trail-card';
+    const kicker = document.createElement('span');
+    kicker.className = 'detail-trail-card-kicker';
+    kicker.textContent = `${trail.title} · Stop ${index + 1} of ${total}`;
+    const label = document.createElement('span');
+    label.className = 'detail-trail-card-label';
+    label.textContent = stop.label;
+    const action = document.createElement('span');
+    action.className = 'detail-trail-card-action';
+    action.textContent = 'Follow in trail →';
+    button.append(kicker, label, action);
+    button.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('papertrails:opentrail', { detail: { trailId: trail.id, stopId: stop.id } }));
+    });
+    list.appendChild(button);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+function createOverlappingContextSection(year) {
+  const events = findOverlappingContextEvents(year);
+  if (!events.length) return null;
+  const section = document.createElement('section');
+  section.className = 'detail-context-chips';
+  section.appendChild(createSectionHeading(`Historical context in ${year}`));
+  const list = document.createElement('div');
+  list.className = 'detail-chip-list';
+  events.forEach((item) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'detail-context-chip';
+    button.setAttribute('aria-label', `Open historical context ${item.fullTitle}, ${item.period}`);
+    const name = document.createElement('span');
+    name.textContent = item.title;
+    const period = document.createElement('small');
+    period.textContent = item.period;
+    button.append(name, period);
+    button.addEventListener('click', () => openItem(item.key));
+    list.appendChild(button);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+function createNeighborNavigation(key) {
+  const { prev, next } = findChronologicalNeighbors(key);
+  if (!prev && !next) return null;
+  const nav = document.createElement('nav');
+  nav.className = 'detail-neighbors';
+  nav.setAttribute('aria-label', 'Adjacent records in chronological order');
+  const buildLink = (entry, direction) => {
+    const slot = document.createElement('div');
+    slot.className = `detail-neighbor-slot is-${direction}`;
+    if (!entry) return slot;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'detail-neighbor-button';
+    const dir = document.createElement('span');
+    dir.className = 'detail-neighbor-dir';
+    dir.textContent = direction === 'prev' ? `← Earlier · ${entry.year}` : `Later · ${entry.year} →`;
+    const name = document.createElement('span');
+    name.className = 'detail-neighbor-title';
+    name.textContent = entry.title;
+    button.append(dir, name);
+    button.addEventListener('click', () => openItem(entry.key));
+    slot.appendChild(button);
+    return slot;
+  };
+  nav.append(buildLink(prev, 'prev'), buildLink(next, 'next'));
+  return nav;
+}
+
 function renderPublication(scientistId, index) {
   const scientist = scientists[scientistId];
   const publication = scientist?.publications?.[index];
   if (!publication) return false;
+  const key = getItemKey('publication', index, scientistId);
   const extraMetadata = [];
   if (publication.dateNote) extraMetadata.push(['Date qualification', publication.dateNote]);
   if (publication.doi) {
@@ -650,7 +827,13 @@ function renderPublication(scientistId, index) {
     description: publication.abstract,
     scientistIds: [scientistId],
     extraMetadata,
-    extraBody: [createSources(publication.sources), createCitationAction(formatCitation(scientist.name, publication.year, publication.title, publication.doi))]
+    extraBody: [
+      createTrailCallout(key),
+      createOverlappingContextSection(publication.year),
+      createSources(publication.sources),
+      createCitationAction(formatCitation(scientist.name, publication.year, publication.title, publication.doi)),
+      createNeighborNavigation(key)
+    ]
   });
   return true;
 }
@@ -658,6 +841,7 @@ function renderPublication(scientistId, index) {
 function renderDiscovery(index) {
   const item = discoveries[index];
   if (!item) return false;
+  const key = getItemKey('discovery', index);
   renderTimelineItem({
     type: 'discovery',
     actorName: item.discoverer,
@@ -667,7 +851,12 @@ function renderDiscovery(index) {
     scientistIds: item.scientist_ids,
     theoristIds: item.theorist_ids,
     extraMetadata: item.dateNote ? [['Date qualification', item.dateNote]] : [],
-    extraBody: [createSources(item.sources)]
+    extraBody: [
+      createTrailCallout(key),
+      createOverlappingContextSection(item.year),
+      createSources(item.sources),
+      createNeighborNavigation(key)
+    ]
   });
   return true;
 }
@@ -675,6 +864,7 @@ function renderDiscovery(index) {
 function renderConference(index) {
   const item = conferences[index];
   if (!item) return false;
+  const key = getItemKey('conference', index);
   renderTimelineItem({
     type: 'conference',
     year: item.year,
@@ -684,7 +874,11 @@ function renderConference(index) {
     theoristIds: item.theorist_ids,
     location: item.location,
     historicalMap: item.historical_map,
-    photo: item.photo
+    photo: item.photo,
+    extraBody: [
+      createOverlappingContextSection(item.year),
+      createNeighborNavigation(key)
+    ]
   });
   return true;
 }
@@ -692,6 +886,7 @@ function renderConference(index) {
 function renderEvent(index) {
   const item = significantEvents[index];
   if (!item) return false;
+  const key = getItemKey('event', index);
   renderTimelineItem({
     type: 'event',
     year: contextDate(item),
@@ -699,7 +894,11 @@ function renderEvent(index) {
     description: item.details,
     attendeeIds: item.attendee_ids,
     extraMetadata: item.scope ? [['Scope', item.scope]] : [],
-    extraBody: [createContextChapters(item), createSources(item.sources, 'Evidence and sources')]
+    extraBody: [
+      createContextChapters(item),
+      createSources(item.sources, 'Evidence and sources'),
+      createNeighborNavigation(key)
+    ]
   });
   return true;
 }
@@ -762,13 +961,16 @@ function renderScientist(scientistId, fromTimeline) {
 
   // Items opened from the timeline are already selected and in view.
   const locateAction = fromTimeline ? null : createLocateAction(scientistId, scientist);
+  const key = `scientist:${scientistId}`;
   body.replaceChildren(...[
-    createAcademicAffiliations(scientist),
     summary,
+    createTrailCallout(key),
+    createAcademicAffiliations(scientist),
     createPublicationList(scientistId, scientist),
     ...createRelationLists(scientistId),
     createSources(scientist.links),
-    locateAction
+    locateAction,
+    createNeighborNavigation(key)
   ].filter(Boolean));
 
   const portrait = createPortrait(scientist, 'detail-portrait');
@@ -823,6 +1025,8 @@ export function openItem(key, { fromTimeline = false, fromHistory = false } = {}
   if (wasOpen && current && current.key !== key && !fromHistory) history.push(current);
   if (!wasOpen && !fromHistory) history = [];
   current = { key, title: title.textContent };
+  if (shareButton) shareButton.hidden = String(key).startsWith('group:');
+  if (shareStatus) shareStatus.textContent = '';
   updateBackButton();
   panel.scrollTop = 0;
   openPanel({ refocus: wasOpen, peek: fromTimeline });
@@ -917,6 +1121,18 @@ export function setupModalEventListeners() {
   }
 
   closeButton.addEventListener('click', () => closeModal());
+  shareButton?.addEventListener('click', async () => {
+    clearTimeout(shareTimer);
+    try {
+      await navigator.clipboard.writeText(location.href);
+      if (shareStatus) shareStatus.textContent = 'Link copied';
+    } catch {
+      if (shareStatus) shareStatus.textContent = 'Copy from address bar';
+    }
+    shareTimer = window.setTimeout(() => {
+      if (shareStatus) shareStatus.textContent = '';
+    }, 2400);
+  });
   backButton.addEventListener('click', goBack);
   sheetHandle.addEventListener('click', () => setPeek(!panel.classList.contains('is-peek')));
   panel.addEventListener('scroll', () => {
