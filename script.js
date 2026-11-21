@@ -1070,7 +1070,10 @@ async function initializeApp() {
     focusScientist(event.detail.scientistId, event.detail.year);
   });
   document.addEventListener('papertrails:opentrail', (event) => {
-    closeModal({ restoreFocus: false });
+    closeModal({
+      restoreFocus: false,
+      afterClose: () => document.getElementById('trail-explain')?.focus({ preventScroll: true })
+    });
     trailUI?.openTrail(event.detail.trailId, event.detail.stopId, 'stop');
   });
   if (!interactionHint.classList.contains('is-hidden')) hideInteractionHint(6500);

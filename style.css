@@ -1338,30 +1338,45 @@ html[data-theme="dark"] .icon-sun {
   transform: translateX(0);
 }
 
-.detail-back {
+.detail-top-bar {
   position: absolute;
   top: 18px;
   left: 22px;
-  max-width: calc(100% - 96px);
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.detail-back {
+  min-width: 0;
+  flex: 0 1 auto;
   padding: 0 10px 0 6px;
   border-color: var(--border);
   background: var(--surface-muted);
   color: var(--text-secondary);
+  pointer-events: auto;
+}
+
+.detail-back svg {
+  flex: 0 0 auto;
 }
 
 .detail-back-label {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .detail-top-actions {
-  position: absolute;
-  top: 18px;
-  right: 20px;
+  margin-left: auto;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 6px;
+  pointer-events: auto;
 }
 
 .detail-share-status {
@@ -2142,14 +2157,10 @@ body.has-docked-panel .timeline-shell {
   transition: none;
 }
 
-.detail-panel.is-docked .detail-top-actions {
+.detail-panel.is-docked .detail-top-bar {
   top: 14px;
-  right: 14px;
-}
-
-.detail-panel.is-docked .detail-back {
-  top: 16px;
   left: 18px;
+  right: 14px;
 }
 
 /* Connections of the hovered or selected item. */
@@ -2770,15 +2781,10 @@ body.has-docked-panel .timeline-shell {
     transform: translateY(0);
   }
 
-  .detail-top-actions {
+  .detail-top-bar {
     top: 14px;
-    right: 14px;
-  }
-
-  .detail-back {
-    top: 16px;
     left: 16px;
-    max-width: calc(100% - 80px);
+    right: 14px;
   }
 
   .detail-media {
