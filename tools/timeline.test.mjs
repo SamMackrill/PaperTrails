@@ -17,7 +17,13 @@ import {
   planPublicationCaps
 } from '../src/timelineLayout.js';
 import { getInitials, isPlaceholderImage } from '../src/portraits.js';
-import { formatCitation, hasUnlinkedDiscoverers } from '../src/modalManager.js';
+import {
+  findChronologicalNeighbors,
+  findOverlappingContextEvents,
+  findTrailStopsForKey,
+  formatCitation,
+  hasUnlinkedDiscoverers
+} from '../src/modalManager.js';
 import { buildScientistRelations } from '../src/dataLoader.js';
 
 test('year and x positions convert in both directions', () => {
@@ -176,6 +182,49 @@ test('relations index discoveries, conferences, and events by scientist', () => 
 test('citations include the DOI when there is one', () => {
   assert.equal(formatCitation('Emmy Noether', 1918, 'Invariante Variationsprobleme'), 'Emmy Noether (1918). Invariante Variationsprobleme.');
   assert.equal(formatCitation('A', 1900, 'T', '10.1000/x'), 'A (1900). T. https://doi.org/10.1000/x');
+});
+
+test('detail panel helpers resolve trail membership, overlapping context, and chronological neighbors', () => {
+  const sampleTrails = [{
+    id: 'charge',
+    title: 'Understanding charge',
+    stops: [
+      { id: 's1', item: 'publication:franklin-0', label: 'Two signs' },
+      { id: 's2', item: 'publication:maxwell-0', label: 'Fields' }
+    ]
+  }];
+  const resolver = (key) => {
+    if (key === 'publication:maxwell-0') return { type: 'publication', key, scientistId: 'maxwell', index: 0 };
+    if (key === 'scientist:maxwell') return { type: 'scientist', key, scientistId: 'maxwell' };
+    if (key === 'discovery:d1') return { type: 'discovery', key, index: 1 };
+    return null;
+  };
+  const pubStops = findTrailStopsForKey('publication:maxwell-0', sampleTrails, resolver);
+  assert.equal(pubStops.length, 1);
+  assert.equal(pubStops[0].index, 1);
+  const sciStops = findTrailStopsForKey('scientist:maxwell', sampleTrails, resolver);
+  assert.equal(sciStops.length, 1);
+  assert.equal(sciStops[0].stop.id, 's2');
+
+  const events = [
+    { startYear: 1870, endYear: 1914, title: 'Second Industrial Revolution', shortTitle: '2nd Industrial Rev.' },
+    { startYear: 1914, endYear: 1918, title: 'World War I', shortTitle: 'WWI' },
+    { startYear: 1700, endYear: 1800, title: 'Earlier era' }
+  ];
+  const in1914 = findOverlappingContextEvents(1914, events, (i) => `event:${i}`);
+  assert.deepEqual(in1914.map((e) => e.title), ['WWI', '2nd Industrial Rev.']);
+
+  const neighbors = findChronologicalNeighbors('discovery:d1', {
+    discoveriesList: [
+      { year: 1905, title: 'Photoelectric' },
+      { year: 1897, title: 'Electron' },
+      { year: 1913, title: 'Oil drop' }
+    ],
+    keyOf: (_type, i) => `discovery:d${i}`,
+    resolve: resolver
+  });
+  assert.equal(neighbors.prev, null);
+  assert.equal(neighbors.next.title, 'Photoelectric');
 });
 
 test('only well-formed HTTPS source links are used', async () => {
