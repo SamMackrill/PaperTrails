@@ -276,6 +276,31 @@ html[data-theme="dark"] .icon-sun {
 
 .options-button {
   display: none;
+  position: relative;
+}
+
+.options-button[data-hidden-count]::after {
+  content: attr(data-hidden-count);
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 15px;
+  text-align: center;
+}
+
+.layers-reset {
+  min-height: 30px;
+  padding: 0 8px;
+  color: var(--accent);
+  font-size: 11px;
 }
 
 .timeline-toolbar {
@@ -2127,7 +2152,38 @@ body.has-docked-panel .timeline-shell {
   pointer-events: none;
 }
 
-#search-input:focus + .search-shortcut {
+.search-clear {
+  position: absolute;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-clear:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.search-clear svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+#search-input:focus ~ .search-shortcut,
+#search-input:not(:placeholder-shown) ~ .search-shortcut {
   display: none;
 }
 
@@ -2182,6 +2238,24 @@ body.has-docked-panel .timeline-shell {
 .search-empty {
   color: var(--text-secondary);
   font-size: 12px;
+}
+
+.search-option-snippet {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.search-option mark {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.search-trail .search-option-title {
+  color: var(--context);
 }
 
 .search-empty {
@@ -2663,7 +2737,30 @@ body.has-docked-panel .timeline-shell {
 .trail-bar.is-active { background: var(--surface); }
 .trail-bar[hidden], .trail-panel[hidden] { display: none; }
 .trail-bar-label { font-size: 10px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--context); white-space: nowrap; }
-.trail-bar-hint { font-size: 12px; color: var(--text-tertiary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.era-jumps { display: flex; align-items: center; gap: 6px; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.era-jumps::-webkit-scrollbar { display: none; }
+.era-jumps-label { font-size: 10px; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; color: var(--text-tertiary); white-space: nowrap; margin-right: 2px; }
+.era-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  min-height: 26px;
+  padding: 2px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.era-chip span { color: var(--text-tertiary); font-weight: 500; font-family: Georgia, serif; }
+.era-chip:hover { border-color: var(--border-strong); background: var(--surface-raised); color: var(--text-primary); }
+.era-chip[aria-pressed="true"] { border-color: color-mix(in srgb, var(--accent) 38%, var(--border)); background: var(--accent-soft); color: var(--accent); }
+.era-chip[aria-pressed="true"] span { color: var(--text-primary); }
 .trail-bar select { font: 600 13px Georgia, serif; max-width: 230px; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 6px; padding: 4px 24px 4px 9px; }
 .trail-step-controls { display: flex; align-items: center; gap: 10px; margin-right: auto; }
 .trail-step-controls output { font-size: 11px; color: var(--text-secondary); min-width: 48px; text-align: center; }
@@ -2697,10 +2794,13 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
 .has-active-trail .scientist-node, .has-active-trail .scientist-cluster, .has-active-trail .scientist-link { opacity: .28; }
 .has-active-trail .lane-label.people-label { font-size: 0; }
 .has-active-trail .lane-label.people-label::after { content: 'Idea trail'; font-size: 10px; }
+@media (max-width: 1180px) {
+  .era-chip span { display: none; }
+}
 @media (max-width: 1023px) {
   .trail-bar { flex-wrap: wrap; gap: 6px 12px; padding: 6px 12px; min-height: 38px; }
   .trail-bar-label { display: none; }
-  .trail-bar-hint { display: none; }
+  .era-jumps-label { display: none; }
   .context-guide { padding: 4px 12px 6px; font-size: 10px; }
   .trail-step-controls { margin-right: 0; }
   body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr); }
@@ -2731,4 +2831,7 @@ body.has-trail-panel .timeline-shell { grid-template-columns: minmax(0, 1fr) min
   letter-spacing: .01em;
 }
 .tapestry-ribbon[data-art-style="landscape"] .tapestry-caption-date { font-size: 11px; }
+@media (max-width: 768px) {
+  .era-jumps { display: none; }
+}
 @media (max-width: 360px) { .toolbar-primary { flex-wrap: wrap; } }

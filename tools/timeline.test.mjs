@@ -209,6 +209,38 @@ test('search folds diacritics and letters that do not decompose', () => {
   assert.deepEqual(searchIndex(index, '   '), []);
 });
 
+test('search matches exact years, spanning historical periods, abstracts, affiliations, and trails', () => {
+  const index = buildSearchIndex({
+    scientists: {
+      einstein: {
+        name: 'Albert Einstein',
+        birth: '1879-03-14',
+        death: '1955-04-18',
+        notability: 1,
+        summary: 'Formulated special and general relativity.',
+        academic_affiliations: [{ institution: 'ETH Zurich' }],
+        publications: [{ year: 1905, title: 'Zur Elektrodynamik bewegter Körper', abstract: 'Introduces special relativity.' }]
+      }
+    },
+    discoveries: [{ year: 1905, title: 'Photoelectric quantum', discoverer: 'Albert Einstein', details: 'Light quanta eject electrons.' }],
+    conferences: [{ year: 1927, title: '5th Solvay Conference', location: 'Brussels', details: 'Debated quantum mechanics.' }],
+    significantEvents: [{ startYear: 1900, endYear: 1910, title: 'Edwardian era', details: 'Turn of the century.' }],
+    trails: [{ id: 'understanding-charge', title: 'Understanding charge', question: 'How did charge become measurable?', stops: [{ label: 'Two signs' }] }]
+  });
+  const byYear = searchIndex(index, '1905');
+  assert.ok(byYear.some((g) => g.type === 'publication' && g.results[0].key === 'publication:einstein:0'));
+  assert.ok(byYear.some((g) => g.type === 'discovery'));
+  assert.ok(byYear.some((g) => g.type === 'event' && g.results[0].title === 'Edwardian era'));
+
+  const byKeyword = searchIndex(index, 'ETH Zurich');
+  assert.equal(byKeyword[0].results[0].key, 'scientist:einstein');
+  assert.ok(byKeyword[0].results[0].snippet.includes('ETH Zurich'));
+
+  const byTrail = searchIndex(index, 'measurable');
+  assert.equal(byTrail[0].type, 'trail');
+  assert.equal(byTrail[0].results[0].trailId, 'understanding-charge');
+});
+
 test('view state round-trips through the URL hash', () => {
   const state = { trail: null, stop: null, explain: false, from: 1850, to: 1950, item: 'scientist:maxwell', hidden: ['publications'], scale: 'density', tapestry: true, contextMode: null };
   const hash = formatHash(state);

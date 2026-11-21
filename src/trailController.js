@@ -7,7 +7,7 @@ import { getActiveTrail, getTrailState, layoutTrailLabels, setTrailState, trailR
 export function setupTrails({ change, openRecord }) {
   const bar = document.getElementById('trail-bar');
   const select = document.getElementById('trail-select');
-  const hint = document.getElementById('trail-bar-hint');
+  const eraJumps = document.getElementById('era-jumps');
   const stepControls = document.getElementById('trail-step-controls');
   const panel = document.getElementById('trail-panel');
   const content = document.getElementById('trail-content');
@@ -27,7 +27,7 @@ export function setupTrails({ change, openRecord }) {
     const index = trail?.stops.findIndex(stop => stop.id === state.stop) ?? -1;
     select.value = state.trail || '';
     bar.classList.toggle('is-active', Boolean(trail));
-    if (hint) hint.hidden = Boolean(trail);
+    if (eraJumps) eraJumps.hidden = Boolean(trail);
     if (stepControls) stepControls.hidden = !trail;
     back.disabled = !trail || index <= 0;
     next.disabled = !trail || index >= trail.stops.length - 1;
@@ -74,6 +74,7 @@ export function setupTrails({ change, openRecord }) {
   next.addEventListener('click', () => step(1));
 
   return {
+    openTrail(id, stopId = null, action = 'overview') { choose(id, stopId, true, action); },
     restore(state) { setTrailState(researchIndex.trailById.get(state.trail), state.stop, state.explain); update(); },
     hidePanel() { const s = getTrailState(); setTrailState(getActiveTrail(), s.stop, false); update(); },
     renderRoute(timeline, width, axisY) {
