@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getTrailState, setTrailState, trailIncludes, layoutTrailLabels, trailRouteRailY } from '../src/trailState.js';
+import { getTrailState, getTrailStepContext, setTrailState, trailIncludes, layoutTrailLabels, trailRouteRailY } from '../src/trailState.js';
 import { parseHash, formatHash } from '../src/urlState.js';
 
 test('route identity, panel state and ordered step survive sharing and clearing', () => {
@@ -28,4 +28,17 @@ test('route rail leaves room for the highest trail-label row', () => {
   const railY = trailRouteRailY(135, 2);
   assert.equal(railY, 192);
   assert.ok(railY - 64 - 2 * 64 >= 0);
+});
+test('trail step context reports visited, current, and upcoming stops with neighbors', () => {
+  const trail = { id: 'charge', stops: [{ id: 'a' }, { id: 'b' }, { id: 'c' }] };
+  const mid = getTrailStepContext(trail, 'b');
+  assert.equal(mid.index, 1);
+  assert.equal(mid.total, 3);
+  assert.equal(mid.prev.id, 'a');
+  assert.equal(mid.current.id, 'b');
+  assert.equal(mid.next.id, 'c');
+  assert.deepEqual(mid.states, ['visited', 'current', 'upcoming']);
+  const empty = getTrailStepContext(null, 'a');
+  assert.equal(empty.index, -1);
+  assert.deepEqual(empty.states, []);
 });
