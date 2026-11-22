@@ -25,14 +25,14 @@ All eight transparent RGBA wool-thread motifs live in [bayeux-boundary-dividers-
 | `trench-post` | `1914` (`modern-0->modern-1`) | Built-in `image-generator` | Weathered timber trench post and knee-high stacked burlap sandbag parapet concealing the cropped trailing leg and vertical mud wall |
 | `ruined-pier` | `1939` (`modern-1->modern-2`) | Built-in `image-generator` | Broken terracotta-and-stone Bayeux archway pier with ivy & rubble |
 
-Divider-less joins (`1789` French Revolution and `1969` Apollo lunar horizon) keep the ground rails intact (`leftFeather: 0`) so no bare-linen seam gap appears.
+Divider-less joins (`1789` French Revolution and `1969` Apollo lunar horizon) keep their ground rails intact (`1789` unfeathered; `1969` feathers only the grey lunar horizon between `0.50` and `0.965` of art height so the bottom embroidered ground bar remains unbroken with no bare-linen notch).
 
 - Provenance inventory: [boundary-dividers-generation.json](../images/tapestry/boundary-dividers-generation.json)
 - Validator: `node tools/boundary-dividers-artwork.mjs check` verifies RGBA alpha, dimensions, PNG/WebP SHA-256 hashes, geometry hash, per-motif RGBA pixel hashes, prompt hashes, and pixel-derived parent master hashes.
 
 ## Native-proportion border rail alignment
 
-Continuation border bands store inter-row padding or adjacent-row rail bleed inside their nominal row slices. `measureBorderRailTrim` measures each band's red framing rails once from the loaded image (cached per image — no hardcoded magic trim table), and `nativeAlignedBorderRect` / `drawAlignedBorderSlice` trims only that padding while drawing at exact native 1:1 proportions (`destH = srcH * border.unit`) aligned flush to the outer edge, preserving the contract in [scientific-tapestry-borders.md](scientific-tapestry-borders.md).
+Continuation border bands store inter-row padding or adjacent-row rail bleed inside their nominal row slices. `measureBorderRailTrim` (backed by pure `detectBorderRailTrim`, unit-tested directly against decoded pixels from all 96 shipped border PNG bands) measures each band's red framing rails once from the loaded image (cached per image — no hardcoded magic trim table), and `nativeAlignedBorderRect` / `drawAlignedBorderSlice` trims only that padding while drawing at exact native 1:1 proportions (`destH = srcH * border.unit`) aligned flush to the outer edge, preserving the contract in [scientific-tapestry-borders.md](scientific-tapestry-borders.md).
 
 ## Opening camera motion (`1400–1460`)
 

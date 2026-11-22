@@ -6,6 +6,7 @@ import { layoutStory, foldStory, exposedStory, storyCamera, storyYearX } from '.
 import {
   BOUNDARY_DIVIDER_ATLAS,
   DIVIDER_CROPS,
+  detectBorderRailTrim,
   nativeAlignedBorderRect,
   boundarySpecs,
   fragmentEdgeFeathers,
@@ -14,6 +15,7 @@ import {
 } from '../src/tapestryBoundaries.js';
 import { layoutScientificBorder } from '../src/scientificBorders.js';
 import { validateBoundaryDividers } from './boundary-dividers-artwork.mjs';
+import { decodePngPixels } from './png-pixels.mjs';
 import { xToYear } from '../src/timeScale.js?v=3';
 import { config } from '../src/config.js?v=16';
 
@@ -133,6 +135,56 @@ test('nativeAlignedBorderRect preserves exact 1:1 source proportions and outer-e
       assert.ok(Math.abs((rect.destY + rect.destH) - (baseY + border.height)) < 1e-9);
     }
   }
+});
+
+test('detectBorderRailTrim measures real scientific border PNG pixels accurately across all 96 bands', () => {
+  const layout = layoutStory(events, 1280, 160);
+  const borders = layoutScientificBorder(layout);
+  assert.equal(borders.length, 96);
+
+  const decodedCache = new Map();
+  const sampleBand = (border, cols = 48) => {
+    const pngPath = border.file.replace(/\.webp$/, '.png');
+    if (!decodedCache.has(pngPath)) {
+      decodedCache.set(pngPath, decodePngPixels(readFileSync(new URL(`../${pngPath}`, import.meta.url))));
+    }
+    const img = decodedCache.get(pngPath);
+    const h = border.crop.height;
+    const out = new Uint8Array(cols * h * 4);
+    for (let row = 0; row < h; row++) {
+      const srcY = border.crop.y + row;
+      for (let col = 0; col < cols; col++) {
+        const srcX = Math.min(img.width - 1, Math.floor((col + 0.5) * (img.width / cols)));
+        const si = (srcY * img.width + srcX) * img.channels;
+        const di = (row * cols + col) * 4;
+        out[di] = img.pixels[si];
+        out[di + 1] = img.pixels[si + 1];
+        out[di + 2] = img.pixels[si + 2];
+        out[di + 3] = img.channels === 4 ? img.pixels[si + 3] : 255;
+      }
+    }
+    return detectBorderRailTrim(out, cols, h);
+  };
+
+  const results = new Map();
+  for (const border of borders) {
+    const trim = sampleBand(border);
+    assert.ok(trim.trimTop >= 0 && trim.trimBottom >= 0);
+    assert.ok(border.crop.height - trim.trimTop - trim.trimBottom >= border.crop.height * 0.72,
+      `over-trimmed real band ${border.id}: ${JSON.stringify(trim)} of ${border.crop.height}`);
+    results.set(border.id, trim);
+  }
+
+  // Continuation rows with known inter-row top bleed are detected while tight primary rows stay minimal.
+  assert.ok(results.get('eighteenthContinuation-1').trimTop >= 8, 'detects 11px top bleed on eighteenthContinuation-1');
+  assert.ok(results.get('eighteenth-4').trimTop <= 2, 'keeps tight primary eighteenth-4 top rail intact');
+  assert.ok(results.get('seventeenthContinuation-3').trimTop >= 5, 'detects top bleed on seventeenthContinuation-3');
+  assert.ok(results.get('electronsContinuation-1').trimTop >= 6, 'detects top bleed on electronsContinuation-1');
+
+  // Verify 1969 lunar seam keeps its bottom ground rail opaque (no bare-linen ground notch).
+  const apolloJoin = PANEL_BOUNDARIES['modern-2->modern-3'];
+  assert.equal(apolloJoin.leftFeather, 0);
+  assert.ok(apolloJoin.rightFeatherBottomFrac > 0.9 && apolloJoin.rightFeatherBottomFrac < 1);
 });
 
 test('boundary divider atlas provenance and SHA-256 pixel hashes validate and reject tampering', () => {

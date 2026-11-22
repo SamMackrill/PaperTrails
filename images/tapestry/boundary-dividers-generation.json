@@ -3,6 +3,7 @@
   "generatedAt": "2026-11-22",
   "transparent": true,
   "notes": "Non-narrative faded-wool Bayeux scene dividers and pixel-matched winter seam continuations rendered in fixed cloth material coordinates along panel joins. Existing narrative masters and scientific border atlases remain untouched.",
+  "assembly": "Isolated image-generator outputs on solid #FFFFFF backgrounds were matted to RGBA via exterior flood-fill background removal with 2px rim anti-aliasing, scaled with LANCZOS resampling to target strip heights (360px upright dividers, 160px harbour quay, 120px snow slope), and packed with 12px transparent gutters into a 2-row 928x556 RGBA PNG master plus WebP derivative (quality 90).",
   "sourceFile": "images/tapestry/bayeux-boundary-dividers-threads.png",
   "runtimeFile": "images/tapestry/bayeux-boundary-dividers-threads.webp",
   "dimensions": {
@@ -11,7 +12,7 @@
   },
   "sourceHash": "83cad43736ae647dceea04f106e4023be8dfc9481b799244a8ea6689e2113406",
   "runtimeHash": "c4c0cde7e153ea782bf9a0ecf55c40a7576d55226410ea435d6adede0171c2b2",
-  "geometryHash": "d163c2bdfe7b250e55706c80a76535c6d81ecbce3ecbe7a74164f3adfa0a4d7a",
+  "geometryHash": "51a9cefcf3a9a0d24a3161ecb25dbb415228b2b61915809a66f9a24726917342",
   "motifs": {
     "palm-shore": {
       "origin": "image-generator",
@@ -84,6 +85,7 @@
         "early-2->early-3"
       ],
       "description": "Pixel-matched continuation completing the clipped bare winter twigs on early-2 and S-curving the exact ivory snowbank and braided ochre-brown ground cord into early-3.",
+      "derivation": "Sampled snow and ochre-brown ground-cord tiles directly from early-2 (rows 438..608, scaled to 360px) and early-3 (rows 608..724, scaled to 360px), warped vertically across a 15.5px cubic smoothstep S-curve with 24px horizontal cross-feathers, and extended the three clipped right-edge twigs using percentiles sampled from early-2's branch pixels blurred at sigma=1.4px.",
       "parentSources": [
         {
           "file": "images/tapestry/bayeux-linear-early-faded-wool-threads.png",
@@ -104,6 +106,7 @@
         "middle-0->middle-1"
       ],
       "description": "Pixel-matched continuation rounding off the clipped lower-right olive-taupe bough on middle-0 and sloping both snowdrifts along the bridge angle into middle-1's flat snow and russet ground cord.",
+      "derivation": "Sampled snow highlight, taupe shadow, and ridge contour percentiles directly from middle-0 (rows 0..179) to paint back and foreground snowdrifts following the snowy bridge slope down into middle-1 (rows 179..383), bridged the 4px russet ground-cord step with cloned cord pixels from both rows, attached a scaled olive-taupe foliage tip cloned from middle-0's upper canopy, and carved alpha cleanly behind the Prussian soldier's rear boot.",
       "parentSources": [
         {
           "file": "images/tapestry/bayeux-linear-middle-faded-wool-threads.png",

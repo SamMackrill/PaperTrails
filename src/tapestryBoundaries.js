@@ -24,32 +24,10 @@ export const DIVIDER_CROPS = {
 const borderTrimCache = new WeakMap();
 let borderSampleCanvas = null;
 
-// Measures leading/trailing blank padding or adjacent-row rail bleed once per
-// border band directly from the loaded RGBA image (cached per image) so border
-// rail alignment stays resilient if any border atlas is regenerated.
-export function measureBorderRailTrim(drawing, crop) {
-  if (!drawing || !crop || crop.height < 12 || typeof document === 'undefined') {
-    return { trimTop: 0, trimBottom: 0 };
-  }
-  let map = borderTrimCache.get(drawing);
-  if (!map) {
-    map = new Map();
-    borderTrimCache.set(drawing, map);
-  }
-  const key = `${crop.y}:${crop.height}`;
-  if (map.has(key)) return map.get(key);
-
-  const cols = 48;
-  const h = Math.round(crop.height);
-  const srcW = drawing.naturalWidth || drawing.width || crop.width;
-  if (!borderSampleCanvas) borderSampleCanvas = document.createElement('canvas');
-  if (borderSampleCanvas.width < cols) borderSampleCanvas.width = cols;
-  if (borderSampleCanvas.height < h) borderSampleCanvas.height = h;
-  const ctx = borderSampleCanvas.getContext('2d', { willReadFrequently: true });
-  ctx.clearRect(0, 0, cols, h);
-  ctx.drawImage(drawing, 0, crop.y, srcW, crop.height, 0, 0, cols, h);
-  const data = ctx.getImageData(0, 0, cols, h).data;
-
+// Pure RGBA rail detector shared between browser runtime measurement and Node
+// unit tests against real decoded scientific border PNGs.
+export function detectBorderRailTrim(data, cols, h) {
+  if (!data || cols < 4 || h < 12) return { trimTop: 0, trimBottom: 0 };
   const redCov = new Float32Array(h);
   const opCov = new Float32Array(h);
   for (let row = 0; row < h; row++) {
@@ -101,7 +79,35 @@ export function measureBorderRailTrim(drawing, crop) {
     trimTop = 0;
     trimBottom = 0;
   }
-  const result = { trimTop, trimBottom };
+  return { trimTop, trimBottom };
+}
+
+// Measures leading/trailing blank padding or adjacent-row rail bleed once per
+// border band directly from the loaded RGBA image (cached per image) so border
+// rail alignment stays resilient if any border atlas is regenerated.
+export function measureBorderRailTrim(drawing, crop) {
+  if (!drawing || !crop || crop.height < 12 || typeof document === 'undefined') {
+    return { trimTop: 0, trimBottom: 0 };
+  }
+  let map = borderTrimCache.get(drawing);
+  if (!map) {
+    map = new Map();
+    borderTrimCache.set(drawing, map);
+  }
+  const key = `${crop.y}:${crop.height}`;
+  if (map.has(key)) return map.get(key);
+
+  const cols = 48;
+  const h = Math.round(crop.height);
+  const srcW = drawing.naturalWidth || drawing.width || crop.width;
+  if (!borderSampleCanvas) borderSampleCanvas = document.createElement('canvas');
+  if (borderSampleCanvas.width < cols) borderSampleCanvas.width = cols;
+  if (borderSampleCanvas.height < h) borderSampleCanvas.height = h;
+  const ctx = borderSampleCanvas.getContext('2d', { willReadFrequently: true });
+  ctx.clearRect(0, 0, cols, h);
+  ctx.drawImage(drawing, 0, crop.y, srcW, crop.height, 0, 0, cols, h);
+  const data = ctx.getImageData(0, 0, cols, h).data;
+  const result = detectBorderRailTrim(data, cols, h);
   map.set(key, result);
   return result;
 }
@@ -279,6 +285,7 @@ export const PANEL_BOUNDARIES = {
     leftFeather: 0,
     rightFeather: 0.11,
     rightFeatherTopFrac: 0.50,
+    rightFeatherBottomFrac: 0.965,
     heightScale: 0,
     centerBias: 0,
     flip: false,
@@ -333,6 +340,8 @@ export function boundarySpecs(panels, artHeight) {
       featherTopFrac: cfg.featherTopFrac || 0,
       leftFeatherTopFrac: cfg.leftFeatherTopFrac ?? cfg.featherTopFrac ?? 0,
       rightFeatherTopFrac: cfg.rightFeatherTopFrac ?? cfg.featherTopFrac ?? 0,
+      leftFeatherBottomFrac: cfg.leftFeatherBottomFrac ?? 1,
+      rightFeatherBottomFrac: cfg.rightFeatherBottomFrac ?? 1,
       drawWidth,
       drawHeight,
       halfWidthPx,
@@ -343,27 +352,33 @@ export function boundarySpecs(panels, artHeight) {
   return specs;
 }
 
-// Returns the directional feather widths and vertical start fraction active on
+// Returns the directional feather widths and vertical band fractions active on
 // this exposed fragment's left and right edges.
 export function fragmentEdgeFeathers(fragment, boundaries) {
   let leftFeather = 0;
   let rightFeather = 0;
   let leftTopFrac = 0;
   let rightTopFrac = 0;
-  if (!fragment || !boundaries?.length) return { leftFeather, rightFeather, leftTopFrac, rightTopFrac };
+  let leftBottomFrac = 1;
+  let rightBottomFrac = 1;
+  if (!fragment || !boundaries?.length) {
+    return { leftFeather, rightFeather, leftTopFrac, rightTopFrac, leftBottomFrac, rightBottomFrac };
+  }
   const panelStart = fragment.panel.sourceX;
   const panelEnd = panelStart + fragment.panel.sourceWidth;
   for (const b of boundaries) {
     if (b.rightPanelId === fragment.panel.id && fragment.sourceX < panelStart + b.rightFeatherPx - 1e-6) {
       leftFeather = Math.max(leftFeather, b.rightFeatherPx);
       leftTopFrac = b.rightFeatherTopFrac || 0;
+      leftBottomFrac = b.rightFeatherBottomFrac ?? 1;
     }
     if (b.leftPanelId === fragment.panel.id && fragment.sourceX + fragment.width > panelEnd - b.leftFeatherPx + 1e-6) {
       rightFeather = Math.max(rightFeather, b.leftFeatherPx);
       rightTopFrac = b.leftFeatherTopFrac || 0;
+      rightBottomFrac = b.leftFeatherBottomFrac ?? 1;
     }
   }
-  return { leftFeather, rightFeather, leftTopFrac, rightTopFrac };
+  return { leftFeather, rightFeather, leftTopFrac, rightTopFrac, leftBottomFrac, rightBottomFrac };
 }
 
 // Finds every panel boundary currently exposed flat (no hidden cloth folded
@@ -414,7 +429,14 @@ function getFlippedAtlas(atlasImage) {
 // its panel-boundary edge strips (and optionally only in the lower ground zone
 // when `topFrac > 0`, keeping existing upper tree canopies 100% sharp).
 export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, artHeight, edgeInfo, pixelRatio = 1) {
-  const { leftFeather = 0, rightFeather = 0, leftTopFrac = 0, rightTopFrac = 0 } = edgeInfo || {};
+  const {
+    leftFeather = 0,
+    rightFeather = 0,
+    leftTopFrac = 0,
+    rightTopFrac = 0,
+    leftBottomFrac = 1,
+    rightBottomFrac = 1
+  } = edgeInfo || {};
   const { left, sourceX, width: exposedWidth } = fragment;
   const bodyHeight = panel.crop.height * panel.unit;
   const destY = artTop + artHeight - bodyHeight;
@@ -453,12 +475,13 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
   }
 
   // 2. Softly feather the narrow panel-boundary strip onto transparent linen.
-  const drawStrip = (stripSourceX, stripW, fadeSide, featherSpan, topFrac) => {
+  const drawStrip = (stripSourceX, stripW, fadeSide, featherSpan, topFrac, bottomFrac = 1) => {
     if (stripW <= 0.05 || featherSpan <= 0.05) return;
     const cropX = panel.crop.x + (stripSourceX - panelStart) / panel.unit;
     const destX = left + (stripSourceX - sourceX);
 
-    // Keep upper canopy completely crisp when feathering only the lower ground/snow band.
+    // Keep upper canopy and/or lower ground bar completely crisp when feathering
+    // only an interior vertical band (e.g. lunar horizon above the ground rail).
     const rawSplitY = topFrac > 0 ? bodyHeight * topFrac : 0;
     const splitY = rawSplitY > 1
       ? Math.max(0, Math.min(bodyHeight, (Math.round((destY + rawSplitY) * pixelRatio) / pixelRatio) - destY))
@@ -470,46 +493,61 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
         destX, destY, stripW, splitY);
     }
 
-    const fadeH = bodyHeight - splitY;
-    if (fadeH <= 0.5) return;
-    const sw = Math.max(1, Math.ceil(stripW * pixelRatio));
-    const sh = Math.max(1, Math.ceil(fadeH * pixelRatio));
-    const scratch = ensureScratch(sw, sh);
-    const sctx = scratch.getContext('2d');
-    sctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    sctx.globalCompositeOperation = 'source-over';
-    sctx.clearRect(0, 0, stripW + 2, fadeH + 2);
+    const rawEndY = bottomFrac < 1 ? bodyHeight * bottomFrac : bodyHeight;
+    const endY = bottomFrac < 1
+      ? Math.max(splitY, Math.min(bodyHeight, (Math.round((destY + rawEndY) * pixelRatio) / pixelRatio) - destY))
+      : bodyHeight;
+    const snappedEndFrac = endY / bodyHeight;
 
-    const lowerSrcY = panel.crop.y + panel.crop.height * snappedTopFrac;
-    const lowerSrcH = panel.crop.height * (1 - snappedTopFrac);
-    sctx.drawImage(image, cropX, lowerSrcY, stripW / panel.unit, lowerSrcH,
-      0, 0, stripW, fadeH);
+    const fadeH = endY - splitY;
+    if (fadeH > 0.5) {
+      const sw = Math.max(1, Math.ceil(stripW * pixelRatio));
+      const sh = Math.max(1, Math.ceil(fadeH * pixelRatio));
+      const scratch = ensureScratch(sw, sh);
+      const sctx = scratch.getContext('2d');
+      sctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      sctx.globalCompositeOperation = 'source-over';
+      sctx.clearRect(0, 0, stripW + 2, fadeH + 2);
 
-    sctx.globalCompositeOperation = 'destination-in';
-    const grad = fadeSide === 'left'
-      ? sctx.createLinearGradient(panelStart - stripSourceX, 0, panelStart + featherSpan - stripSourceX, 0)
-      : sctx.createLinearGradient(panelEnd - featherSpan - stripSourceX, 0, panelEnd - stripSourceX, 0);
-    if (fadeSide === 'left') {
-      grad.addColorStop(0, 'rgba(0,0,0,0)');
-      grad.addColorStop(0.25, 'rgba(0,0,0,0.34)');
-      grad.addColorStop(0.65, 'rgba(0,0,0,0.84)');
-      grad.addColorStop(1, 'rgba(0,0,0,1)');
-    } else {
-      grad.addColorStop(0, 'rgba(0,0,0,1)');
-      grad.addColorStop(0.35, 'rgba(0,0,0,0.84)');
-      grad.addColorStop(0.75, 'rgba(0,0,0,0.34)');
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      const bandSrcY = panel.crop.y + panel.crop.height * snappedTopFrac;
+      const bandSrcH = panel.crop.height * (snappedEndFrac - snappedTopFrac);
+      sctx.drawImage(image, cropX, bandSrcY, stripW / panel.unit, bandSrcH,
+        0, 0, stripW, fadeH);
+
+      sctx.globalCompositeOperation = 'destination-in';
+      const grad = fadeSide === 'left'
+        ? sctx.createLinearGradient(panelStart - stripSourceX, 0, panelStart + featherSpan - stripSourceX, 0)
+        : sctx.createLinearGradient(panelEnd - featherSpan - stripSourceX, 0, panelEnd - stripSourceX, 0);
+      if (fadeSide === 'left') {
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(0.25, 'rgba(0,0,0,0.34)');
+        grad.addColorStop(0.65, 'rgba(0,0,0,0.84)');
+        grad.addColorStop(1, 'rgba(0,0,0,1)');
+      } else {
+        grad.addColorStop(0, 'rgba(0,0,0,1)');
+        grad.addColorStop(0.35, 'rgba(0,0,0,0.84)');
+        grad.addColorStop(0.75, 'rgba(0,0,0,0.34)');
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+      }
+      sctx.fillStyle = grad;
+      sctx.fillRect(0, 0, stripW, fadeH);
+      sctx.globalCompositeOperation = 'source-over';
+
+      ink.drawImage(scratch, 0, 0, stripW * pixelRatio, fadeH * pixelRatio,
+        destX, destY + splitY, stripW, fadeH);
     }
-    sctx.fillStyle = grad;
-    sctx.fillRect(0, 0, stripW, fadeH);
-    sctx.globalCompositeOperation = 'source-over';
 
-    ink.drawImage(scratch, 0, 0, stripW * pixelRatio, fadeH * pixelRatio,
-      destX, destY + splitY, stripW, fadeH);
+    const tailH = bodyHeight - endY;
+    if (tailH > 0.5) {
+      const tailSrcY = panel.crop.y + panel.crop.height * snappedEndFrac;
+      const tailSrcH = panel.crop.height * (1 - snappedEndFrac);
+      ink.drawImage(image, cropX, tailSrcY, stripW / panel.unit, tailSrcH,
+        destX, destY + endY, stripW, tailH);
+    }
   };
 
-  if (leftFadeW > 0.25) drawStrip(sourceX, leftFadeW, 'left', leftFeather, leftTopFrac);
-  if (rightFadeW > 0.25) drawStrip(midEnd, rightFadeW, 'right', rightFeather, rightTopFrac);
+  if (leftFadeW > 0.25) drawStrip(sourceX, leftFadeW, 'left', leftFeather, leftTopFrac, leftBottomFrac);
+  if (rightFadeW > 0.25) drawStrip(midEnd, rightFadeW, 'right', rightFeather, rightTopFrac, rightBottomFrac);
 }
 
 // Paints the embroidered Bayeux boundary divider or ground-braid bridge sprite
