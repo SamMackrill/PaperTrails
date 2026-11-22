@@ -243,7 +243,7 @@ try {
   const recoveredStory = await evaluate(storySnapshotExpression);
   assertStorySnapshot(recoveredStory, expectedStoryKeys);
   assert.ok(recoveredStory.visibleKeys.length > 0, 'PNG recovery renders visible subjects');
-  assert.equal(await evaluate(`new Set(performance.getEntriesByType('resource').filter(e=>/-threads\\.png(?:\\?|$)/.test(e.name)).map(e=>e.name)).size`), 16);
+  assert.equal(await evaluate(`new Set(performance.getEntriesByType('resource').filter(e=>/-threads\\.png(?:\\?|$)/.test(e.name)).map(e=>e.name)).size`), 17);
   await send('Network.setBlockedURLs', { urls: [] });
   await navigate('/');
   assert.ok(await evaluate('document.querySelectorAll(".publication").length > 100'));

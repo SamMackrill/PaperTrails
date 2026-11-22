@@ -1,8 +1,9 @@
 import { layoutContextLabels } from './contextLabels.js?v=pass2-latin-retries-v1';
-import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-cloth-dynamics-v1';
+import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout.js?v=pass2-boundaries-v1';
 import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-photography-v1';
 import { paintLinen, paintFragmentLinen } from './linenBacking.js?v=pass2-cloth-dynamics-v1';
 import { analyzeClothFolds, clothSelvageRelief } from './clothDynamics.js?v=pass2-cloth-dynamics-v1';
+import { BOUNDARY_DIVIDER_ATLAS, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, drawFeatheredPanelSlice, drawGroundBridge, drawBoundaryDivider, drawBorderJoinAlignment } from './tapestryBoundaries.js?v=pass2-boundaries-v2';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
@@ -103,8 +104,12 @@ function paint(model, container) {
   const worldLeft = Math.max(0, view.left - ribbon.getBoundingClientRect().left);
   const viewport = Math.min(width - worldLeft, container.clientWidth);
   if (viewport <= 0) return;
-  const year = xToYear(worldLeft + viewport / 2, width);
-  const camera = storyCamera(year, model.pose, viewport);
+  const halfView = viewport / 2;
+  const year = xToYear(worldLeft + halfView, width);
+  const camera = storyCamera(year, model.pose, viewport, {
+    startYear: xToYear(halfView, width),
+    endYear: xToYear(Math.max(halfView, width - halfView), width)
+  });
   const fragments = exposedStory(model.pose);
   const pixelRatio = Math.min(2, window.devicePixelRatio || 1);
   canvas.style.left = `${worldLeft}px`; canvas.style.width = `${viewport}px`; canvas.style.height = `${height}px`;
@@ -145,6 +150,8 @@ function paint(model, container) {
       inscription.width, inscription.height);
   }
   ink.translate(-camera, 0);
+  const boundaries = model.boundaries || [];
+  const dividerAtlas = model.loaded.get(BOUNDARY_DIVIDER_ATLAS);
   for (const fragment of fragments) {
     const { panel, left, sourceX, width: exposedWidth } = fragment;
     if (left + exposedWidth < camera || left > camera + viewport) continue;
@@ -152,12 +159,11 @@ function paint(model, container) {
     // Each band already contains one authored scene. Never composite separate
     // historical motifs here or introduce new baselines for concurrent events.
     if (image) {
-      const cropX = panel.crop.x + (sourceX - panel.sourceX) / panel.unit;
-      const bodyHeight = panel.crop.height * panel.unit;
+      const { leftFeather, rightFeather } = fragmentEdgeFeathers(fragment, boundaries);
       // Transparent thread artwork shares one linen backing. Opaque wool
-      // interrupts lettering naturally; exposed fabric remains continuous.
-      ink.drawImage(image, cropX, panel.crop.y, exposedWidth / panel.unit, panel.crop.height,
-        left, artTop + model.artHeight - bodyHeight, exposedWidth, bodyHeight);
+      // interrupts lettering naturally; panel boundaries feather gently into
+      // the linen before Bayeux scene dividers bridge the join.
+      drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, model.artHeight, leftFeather, rightFeather, pixelRatio);
       ink.globalCompositeOperation = 'source-over';
     }
     for (const border of exposedScientificBorder(model.borders, fragment)) {
@@ -166,6 +172,22 @@ function paint(model, container) {
       const y = scientificBorderY(border, model);
       ink.drawImage(drawing, border.crop.x, border.crop.y, border.crop.width, border.crop.height,
         border.left, y, border.width, border.height);
+    }
+  }
+  const flatJoins = exposedFlatBoundaries(fragments, boundaries);
+  // Smoothly align ground-line bands and subtle border framing threads across
+  // flat inter-panel joins before placing the embroidered Bayeux dividers.
+  for (const { spec, x } of flatJoins) {
+    if (x + 60 < camera || x - 60 > camera + viewport) continue;
+    drawGroundBridge(ink, spec, x, artTop, model.artHeight);
+    drawBorderJoinAlignment(ink, x, model.borderHeight, model.bottomBorderHeight, model.artHeight);
+  }
+  if (dividerAtlas) {
+    for (const fragment of fragments) {
+      if (fragment.left + fragment.width < camera || fragment.left > camera + viewport) continue;
+      for (const boundary of boundaries) {
+        drawBoundaryDivider(ink, dividerAtlas, boundary, fragment, artTop, model.artHeight);
+      }
     }
   }
   // Physical cloth fold optics: soft multiply-blended cast shadows onto the
@@ -290,6 +312,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   Object.assign(model, { width, height: Math.max(1, height - top - 16), onSelect });
   Object.assign(model, scientificBorderFrame(model.height));
   model.layout = layoutStory([...events, ...scientificStoryRecords(scientists, discoveries)], width, model.artHeight);
+  model.boundaries = boundarySpecs(model.layout.panels, model.artHeight);
   model.borders = layoutScientificBorder(model.layout);
   for (const border of model.borders.filter(border => border.revision)) {
     const discovery = discoveries.find(d => d.id === border.revision.milestoneId);
@@ -322,7 +345,7 @@ export function renderStory(timeline, events, width, height, top, scale, onSelec
   }
   if (ribbon.parentElement !== timeline) timeline.appendChild(ribbon);
   const files = [...new Set([...model.layout.panels.map(p => p.atlas.file),
-    ...model.borders.map(border => border.file)])];
+    ...model.borders.map(border => border.file), BOUNDARY_DIVIDER_ATLAS])];
   const missing = files.filter(file => !model.loaded.has(file)); model.loading = missing.length > 0;
   if (missing.length) {
     const generation = ++model.generation;

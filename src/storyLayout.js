@@ -5,6 +5,10 @@ import { allocatePleatCascade, unfoldProgress } from './clothDynamics.js?v=pass2
 const FRONT = 160;
 const RETURN = 240;
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const smoothstep = (t) => {
+  const u = clamp(t, 0, 1);
+  return u * u * (3 - 2 * u);
+};
 
 // Native artwork dimensions depend on context height, never zoom or density.
 // All concurrent subjects are already drawn together in each source row.
@@ -119,6 +123,40 @@ export function storyYearX(year, pose) {
 
 // Symbolic cloth space is not a second duration axis. Follow the scientific
 // viewport's central year without stretching the underlying embroidery.
-export function storyCamera(year, pose, viewport) {
-  return clamp(storyYearX(year, pose) - viewport / 2, 0, Math.max(0, pose.width - viewport));
+// Near the opening (1400) and closing edges, ease the viewport anchor smoothly
+// between the cloth edge and center-lock so panning moves the tapestry
+// immediately from 1400 instead of stalling in a half-viewport dead zone.
+export function storyCamera(year, pose, viewport, bounds = null) {
+  const maxCamera = Math.max(0, pose.width - viewport);
+  if (maxCamera <= 1e-6) return 0;
+  const x = storyYearX(year, pose);
+  const startYear = bounds?.startYear ?? config.START_YEAR;
+  const endYear = bounds?.endYear ?? config.END_YEAR;
+  const startX = storyYearX(startYear, pose);
+  const endX = storyYearX(endYear, pose);
+  const spanX = endX - startX;
+  if (spanX <= 1e-6) return clamp(x - viewport / 2, 0, maxCamera);
+
+  const half = viewport / 2;
+  const leftOffset = startX;
+  const rightOffset = endX - maxCamera;
+  const leftDelta = half - leftOffset;
+  const rightDelta = rightOffset - half;
+  // Require ramp >= 2.5 * |delta| so d(camera)/dx >= 0.4 > 0 everywhere.
+  const leftRamp = Math.abs(leftDelta) > 1e-6 ? Math.max(viewport * 0.75, 2.5 * Math.abs(leftDelta)) : 0;
+  const rightRamp = Math.abs(rightDelta) > 1e-6 ? Math.max(viewport * 0.75, 2.5 * Math.abs(rightDelta)) : 0;
+
+  if (leftRamp + rightRamp >= spanX) {
+    const t = clamp((x - startX) / spanX, 0, 1);
+    return t * maxCamera;
+  }
+  let offset = half;
+  if (leftRamp > 0 && x < startX + leftRamp) {
+    const t = clamp((x - startX) / leftRamp, 0, 1);
+    offset = leftOffset + leftDelta * smoothstep(t);
+  } else if (rightRamp > 0 && x > endX - rightRamp) {
+    const t = clamp((endX - x) / rightRamp, 0, 1);
+    offset = rightOffset - rightDelta * smoothstep(t);
+  }
+  return clamp(x - offset, 0, maxCamera);
 }
