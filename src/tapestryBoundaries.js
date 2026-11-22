@@ -6,16 +6,15 @@
 export const BOUNDARY_DIVIDER_ATLAS = 'images/tapestry/bayeux-boundary-dividers-threads.webp';
 
 // Exact [x, y, width, height] crop boxes inside bayeux-boundary-dividers-threads.webp
-// (1271x506 RGBA transparent wool-thread sprite sheet).
+// (1054x516 RGBA transparent wool-thread sprite sheet).
 export const DIVIDER_CROPS = {
   'palm-shore': [12, 12, 165, 360],
   'winter-tree': [189, 12, 109, 360],
-  'winter-to-field': [310, 12, 120, 360],
-  'coastal-shore': [442, 12, 122, 360],
-  'trench-post': [576, 12, 103, 360],
-  'ruined-pier': [691, 12, 89, 360],
-  'snow-bridge-down': [12, 384, 581, 110],
-  'snow-to-earth-bridge': [605, 384, 654, 110]
+  'trench-post': [310, 12, 103, 360],
+  'ruined-pier': [425, 12, 89, 360],
+  'harbour-quay': [526, 212, 516, 160],
+  'snow-bridge-down': [12, 394, 581, 110],
+  'snow-slope-single': [605, 384, 376, 120]
 };
 
 // Per-join visual tuning across all 11 panel-to-panel joins of storyPanels.
@@ -57,27 +56,27 @@ export const PANEL_BOUNDARIES = {
     rightGround: 0.995
   },
   'early-3->middle-0': {
-    motif: 'snow-to-earth-bridge',
+    motif: 'snow-slope-single',
     label: '1700 · Existing Winter Tree → War of the Spanish Succession',
-    leftFeather: 0.13,
-    rightFeather: 0.06,
-    featherTopFrac: 0.56,
-    heightScale: 0.145,
-    widthScale: 0.72,
-    centerBias: -0.07,
+    leftFeather: 0.04,
+    rightFeather: 0.025,
+    featherTopFrac: 0.68,
+    heightScale: 0.175,
+    widthScale: 0.54,
+    centerBias: -0.03,
     flip: false,
     leftGround: 0.995,
     rightGround: 0.995
   },
   'middle-0->middle-1': {
-    motif: 'snow-to-earth-bridge',
+    motif: 'snow-slope-single',
     label: '1740 · Existing Winter Tree & Stream → Seven Years’ War',
-    leftFeather: 0.14,
-    rightFeather: 0.05,
-    featherTopFrac: 0.56,
-    heightScale: 0.145,
-    widthScale: 0.72,
-    centerBias: -0.06,
+    leftFeather: 0.055,
+    rightFeather: 0.02,
+    featherTopFrac: 0.60,
+    heightScale: 0.22,
+    widthScale: 0.44,
+    centerBias: -0.045,
     flip: false,
     leftGround: 0.995,
     rightGround: 0.985
@@ -105,15 +104,17 @@ export const PANEL_BOUNDARIES = {
     rightGround: 0.986
   },
   'middle-3->modern-0': {
-    motif: 'coastal-shore',
+    motif: 'harbour-quay',
     label: '1870 · Atlantic Ship → Harvest & Plough',
-    leftFeather: 0.17,
-    rightFeather: 0.05,
-    heightScale: 0.94,
-    centerBias: -0.07,
+    leftFeather: 0.14,
+    rightFeather: 0.025,
+    featherTopFrac: 0.62,
+    heightScale: 0.41,
+    widthScale: 0.51,
+    centerBias: -0.175,
     flip: false,
-    leftGround: 0.988,
-    rightGround: 0.978
+    leftGround: 0.992,
+    rightGround: 0.985
   },
   'modern-0->modern-1': {
     motif: 'trench-post',
