@@ -242,10 +242,9 @@ function render() {
   updateTransform();
   if (focusedKey) {
     const escaped = CSS.escape(focusedKey);
-    const focusTarget = focusedInRibbon
-      ? timeline.querySelector(`.tapestry-ribbon [data-item-key="${escaped}"]`)
-      : timeline.querySelector(`[data-item-key="${escaped}"]:not(.tapestry-scene):not(.tapestry-border-target)`)
-        || timeline.querySelector(`[data-item-key="${escaped}"]`);
+    const focusTarget = (focusedInRibbon ? timeline.querySelector(`.tapestry-ribbon [data-item-key="${escaped}"]`) : null)
+      || timeline.querySelector(`[data-item-key="${escaped}"]:not(.tapestry-scene):not(.tapestry-border-target)`)
+      || timeline.querySelector(`[data-item-key="${escaped}"]`);
     focusTarget?.focus({ preventScroll: true });
   } else if (focusedTrailStop) {
     timeline.querySelector(`[data-trail-stop="${CSS.escape(focusedTrailStop)}"]`)?.focus({ preventScroll: true });
