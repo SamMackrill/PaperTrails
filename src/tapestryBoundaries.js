@@ -7,29 +7,29 @@
 export const BOUNDARY_DIVIDER_ATLAS = 'images/tapestry/bayeux-boundary-dividers-threads.webp';
 
 // Exact [x, y, width, height] crop boxes inside bayeux-boundary-dividers-threads.webp
-// (745x384 RGBA transparent wool-thread sprite sheet).
+// (792x384 RGBA transparent wool-thread sprite sheet).
 export const DIVIDER_CROPS = {
-  'bayeux-tree': [12, 12, 118, 360],
-  'winter-tree': [142, 12, 109, 360],
-  'winter-to-field': [263, 12, 120, 360],
-  'coastal-shore': [395, 12, 122, 360],
-  'trench-post': [529, 12, 103, 360],
-  'ruined-pier': [644, 12, 89, 360]
+  'palm-shore': [12, 12, 165, 360],
+  'winter-tree': [189, 12, 109, 360],
+  'winter-to-field': [310, 12, 120, 360],
+  'coastal-shore': [442, 12, 122, 360],
+  'trench-post': [576, 12, 103, 360],
+  'ruined-pier': [691, 12, 89, 360]
 };
 
 // Per-join visual tuning across all 11 panel-to-panel joins of storyPanels.
 // Fractions are relative to artHeight so geometry scales cleanly at any height.
 export const PANEL_BOUNDARIES = {
   'opening-0->early-1': {
-    motif: 'bayeux-tree',
+    motif: 'palm-shore',
     label: '1500 · Columbian Exchange → Renaissance Print',
-    leftFeather: 0.14,
-    rightFeather: 0.05,
-    heightScale: 0.93,
-    centerBias: 0.06,
+    leftFeather: 0.09,
+    rightFeather: 0.03,
+    heightScale: 0.85,
+    centerBias: 0.02,
     flip: false,
-    leftGround: 0.985,
-    rightGround: 0.975,
+    leftGround: 0.972,
+    rightGround: 0.966,
     groundTone: 'earth'
   },
   'early-1->early-2': {
@@ -158,7 +158,7 @@ export const PANEL_BOUNDARIES = {
 };
 
 const DEFAULT_BOUNDARY = {
-  motif: 'bayeux-tree',
+  motif: 'winter-tree',
   label: 'Scene boundary',
   leftFeather: 0.11,
   rightFeather: 0.11,
