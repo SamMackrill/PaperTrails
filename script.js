@@ -4,7 +4,7 @@ import { config } from './src/config.js?v=16';
 import { resolveItem, conferences, discoveries, initializeData, scientists, significantEvents, trails } from './src/dataLoader.js?v=pass2-story-v2';
 import { initializeTheme } from './src/themeManager.js?v=18';
 import { closeModal, openItem, setupModalEventListeners } from './src/modalManager.js?v=pass2-scientist-anchors-v1';
-import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-scientist-anchors-v1';
+import { clearTimelineSelection, renderTimeline, renderTimelineMotion, selectItemByKey, updateEventLabelPositions } from './src/timelineRenderer.js?v=pass2-relation-targets-v1';
 import { getScaleMode, scaleToSlider, setScaleMode, sliderToScale, xToYear, yearToX } from './src/timeScale.js?v=3';
 import { updatePortraitStyle } from './src/portraits.js?v=3';
 import { buildSearchIndex, setupSearch } from './src/search.js?v=pass2-02';
@@ -222,6 +222,7 @@ function render() {
   // across by its stable item or trail-stop key.
   const focusedElement = timeline.contains(document.activeElement) ? document.activeElement : null;
   const focusedKey = focusedElement?.dataset.itemKey;
+  const focusedInRibbon = Boolean(focusedElement?.closest('.tapestry-ribbon'));
   const focusedTrailStop = focusedElement?.dataset.trailStop;
   renderTimeline(timelineContainer, timeline, currentScale);
   // A resized viewport or changed time scale can alter the unfolding limit.
@@ -240,7 +241,11 @@ function render() {
   updatePortraitStyle(isPressed('cartoonToggle'));
   updateTransform();
   if (focusedKey) {
-    timeline.querySelector(`[data-item-key="${CSS.escape(focusedKey)}"]`)?.focus({ preventScroll: true });
+    const escaped = CSS.escape(focusedKey);
+    const focusTarget = (focusedInRibbon ? timeline.querySelector(`.tapestry-ribbon [data-item-key="${escaped}"]`) : null)
+      || timeline.querySelector(`[data-item-key="${escaped}"]:not(.tapestry-scene):not(.tapestry-border-target)`)
+      || timeline.querySelector(`[data-item-key="${escaped}"]`);
+    focusTarget?.focus({ preventScroll: true });
   } else if (focusedTrailStop) {
     timeline.querySelector(`[data-trail-stop="${CSS.escape(focusedTrailStop)}"]`)?.focus({ preventScroll: true });
   }
@@ -319,7 +324,9 @@ function ensureLayerVisible(key) {
 }
 
 function findItemOnTimeline(key) {
-  return timeline.querySelector(`[data-item-key="${CSS.escape(key)}"]`);
+  const escaped = CSS.escape(key);
+  if (key.startsWith('event:')) return timeline.querySelector(`[data-item-key="${escaped}"]`);
+  return timeline.querySelector(`[data-item-key="${escaped}"]:not(.tapestry-scene):not(.tapestry-border-target)`);
 }
 
 // Zooms to an item's year, further if it is hidden in a group or a
@@ -360,7 +367,8 @@ function revealElement(element, { centre = false } = {}) {
   const containerRect = timelineContainer.getBoundingClientRect();
   const rect = element.getBoundingClientRect();
   const padding = Math.min(64, containerRect.width / 6);
-  if (element.matches('.tapestry-scene') && (rect.left < containerRect.left || rect.right > containerRect.right)) {
+  const unexposedStoryScene = element.matches('.tapestry-scene') && Boolean(element.closest('.tapestry-story')) && !element.querySelector('.tapestry-story-hit');
+  if (element.matches('.tapestry-scene') && (unexposedStoryScene || rect.left < containerRect.left || rect.right > containerRect.right)) {
     const year = Number(element.dataset.startYear);
     animatePan(containerRect.width / 2 - yearToX(year, timeline.offsetWidth));
     return;

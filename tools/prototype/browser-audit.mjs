@@ -146,6 +146,32 @@ try {
     await evaluate(`document.querySelector('#detail-close').click()`);
     await evaluate(`document.querySelector('#audit-static-paint').remove()`);
   }
+  console.log('Audit: Halley hover targets milestone rather than concealed tapestry scene');
+  await navigate('/?halley-relations-audit=1#context=tapestry&from=1630&to=1740');
+  await until('document.querySelector(".tapestry-story")?.dataset.artReady === "true" && document.querySelector(".scientist-node[data-item-key=\\"scientist:halley\\"]")');
+  // Trigger a re-render that retains the existing cloth so DOM order and canonical lookup are both exercised.
+  await evaluate(`document.querySelector('#zoom-in').click()`);
+  await delay(400);
+  await until('!document.querySelector("#timeline").dataset.zoomMotion');
+  const halleyOrder = await evaluate(`(()=>{const timeline=document.querySelector('#timeline'),marker=timeline.querySelector('.discovery-marker[data-item-key="discovery:discovery-13"]'),ribbon=timeline.querySelector('.tapestry-ribbon');return Boolean(marker&&ribbon&&(marker.compareDocumentPosition(ribbon)&Node.DOCUMENT_POSITION_FOLLOWING))})()`);
+  assert.ok(halleyOrder, 'retained tapestry ribbon remains after canonical markers in DOM order');
+  const halleyPoint = await evaluate(`(()=>{const node=document.querySelector('.scientist-node[data-item-key="scientist:halley"]'),view=document.querySelector('#timeline-container').getBoundingClientRect(),r=node.getBoundingClientRect();if(r.left<view.left||r.right>view.right)throw new Error('Halley portrait is outside viewport');return {x:r.left+r.width/2,y:r.top+r.height/2}})()`);
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 10, y: 10 });
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...halleyPoint });
+  const halleyHover = await evaluate(`(()=>{const halley=document.querySelector('.scientist-node[data-item-key="scientist:halley"]'),pub=document.querySelector('.publication[data-item-key="publication:halley-work-00"]'),marker=document.querySelector('.discovery-marker[data-item-key="discovery:discovery-13"]'),scene=document.querySelector('.tapestry-scene[data-item-key="discovery:discovery-13"]'),paths=[...document.querySelectorAll('.relation-layer path')];const path=paths[0];const match=path?.getAttribute('d')?.match(/M([\\d.-]+)\\s+([\\d.-]+)\\s+Q[\\d.-]+\\s+[\\d.-]+\\s+([\\d.-]+)\\s+([\\d.-]+)/);return {count:paths.length,sceneHidden:!scene?.querySelector('.tapestry-story-hit'),pubRelated:Boolean(pub?.classList.contains('is-related')),markerRelated:Boolean(marker?.classList.contains('is-related')),sceneRelated:Boolean(scene?.classList.contains('is-related')),fromX:match?Number(match[1]):NaN,toX:match?Number(match[3]):NaN,toY:match?Number(match[4]):NaN,halleyX:halley.offsetLeft+halley.offsetWidth/2,markerX:marker.offsetLeft+marker.offsetWidth/2,markerY:marker.offsetTop+marker.offsetHeight/2}})()`);
+  assert.ok(halleyHover.sceneHidden, '1758 comet scene is off-screen during Halley hover check');
+  assert.equal(halleyHover.count, 1, 'Halley hover draws one discovery connector');
+  assert.ok(halleyHover.pubRelated, 'Halley hover highlights the 1705 publication marker');
+  assert.ok(halleyHover.markerRelated && !halleyHover.sceneRelated, 'Halley hover highlights the 1758 discovery marker rather than its tapestry scene');
+  assert.ok(halleyHover.toX > halleyHover.fromX && Math.abs(halleyHover.toX - halleyHover.markerX) < 1 && Math.abs(halleyHover.toY - halleyHover.markerY) < 1, 'Halley discovery connector terminates on the 1758 milestone to the right');
+  // When discoveries are hidden and the 1758 comet scene is off-screen, no fallback connector may shoot to the viewport edge.
+  await evaluate(`document.querySelector('#discoveriesToggle').click()`);
+  await until('!document.querySelector(".discovery-marker")');
+  const halleyHiddenPoint = await evaluate(`(()=>{const node=document.querySelector('.scientist-node[data-item-key="scientist:halley"]');const r=node.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})()`);
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 10, y: 10 });
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...halleyHiddenPoint });
+  assert.equal(await evaluate(`document.querySelectorAll('.relation-layer path').length`), 0, 'Halley hover does not draw a connector to an off-screen concealed tapestry scene');
+  await evaluate(`document.querySelector('#discoveriesToggle').click()`);
   console.log('Audit: experimental profiles with partial or unknown life dates');
   for (const [id, name, year, discoveryId] of [
     ['retherford', 'Robert Curtis Retherford', 1947, 'discovery-33'],
