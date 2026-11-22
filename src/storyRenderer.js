@@ -156,8 +156,9 @@ function paint(model, container) {
     const { panel, left, sourceX, width: exposedWidth } = fragment;
     if (left + exposedWidth < camera || left > camera + viewport) continue;
     const image = model.loaded.get(panel.atlas.file);
-    // Each band already contains one authored scene. Never composite separate
-    // historical motifs here or introduce new baselines for concurrent events.
+    // Each band remains one authored historical scene without compositing
+    // separate historical events or extra baselines; non-narrative seam
+    // dividers bridge only panel boundaries (docs/tapestry-boundary-dividers.md).
     if (image) {
       const edgeInfo = fragmentEdgeFeathers(fragment, boundaries);
       // Transparent thread artwork shares one linen backing. Opaque wool

@@ -3,8 +3,17 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { layoutStory, foldStory, exposedStory, storyCamera, storyYearX } from '../src/storyLayout.js';
-import { BOUNDARY_DIVIDER_ATLAS, DIVIDER_CROPS, BORDER_RAIL_TRIMS, alignedBorderCrop, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, PANEL_BOUNDARIES } from '../src/tapestryBoundaries.js';
+import {
+  BOUNDARY_DIVIDER_ATLAS,
+  DIVIDER_CROPS,
+  nativeAlignedBorderRect,
+  boundarySpecs,
+  fragmentEdgeFeathers,
+  exposedFlatBoundaries,
+  PANEL_BOUNDARIES
+} from '../src/tapestryBoundaries.js';
 import { layoutScientificBorder } from '../src/scientificBorders.js';
+import { validateBoundaryDividers } from './boundary-dividers-artwork.mjs';
 import { xToYear } from '../src/timeScale.js?v=3';
 import { config } from '../src/config.js?v=16';
 
@@ -24,8 +33,6 @@ test('storyCamera moves immediately from 1400 at full zoom with no 1400-1460 dea
   let prev = storyCamera(bounds.startYear, pose, viewport, bounds);
   assert.equal(prev, 0, 'camera starts cleanly at 0 when viewport left edge is 1400');
 
-  // Step through every 2 years from 1400 across the entire timeline and verify
-  // strict positive motion from the very first pan step (zero 1400-1460 freeze).
   const cam1405 = storyCamera(bounds.startYear + 5, pose, viewport, bounds);
   const cam1420 = storyCamera(bounds.startYear + 20, pose, viewport, bounds);
   const cam1460 = storyCamera(bounds.startYear + 60, pose, viewport, bounds);
@@ -43,13 +50,12 @@ test('storyCamera moves immediately from 1400 at full zoom with no 1400-1460 dea
   const endCam = storyCamera(bounds.endYear, pose, viewport, bounds);
   assert.ok(Math.abs(endCam - (pose.width - viewport)) < 1e-6, 'camera reaches exact right cloth edge at END_YEAR');
 
-  // Mid-timeline anchors remain exact center-locked.
   const cam1804 = storyCamera(1804, pose, viewport, bounds);
   const expected1804 = storyYearX(1804, pose) - viewport / 2;
   assert.ok(Math.abs(cam1804 - expected1804) < 1e-6, 'mid-timeline remains center-locked');
 });
 
-test('boundarySpecs covers all 11 panel joins with bounded feathers and valid motifs', () => {
+test('boundarySpecs covers all 11 panel joins and defaults unknown seams to a no-op', () => {
   const layout = layoutStory(events, 1280, 160);
   const specs = boundarySpecs(layout.panels, 160);
   assert.equal(specs.length, 11);
@@ -58,32 +64,41 @@ test('boundarySpecs covers all 11 panel joins with bounded feathers and valid mo
     const spec = specs[i];
     assert.ok(PANEL_BOUNDARIES[spec.id], `explicit boundary config for ${spec.id}`);
     assert.equal(spec.sourceX, layout.panels[i + 1].sourceX);
-    assert.ok(spec.leftFeatherPx > 0 && spec.leftFeatherPx < 40);
-    assert.ok(spec.rightFeatherPx > 0 && spec.rightFeatherPx < 40);
-    assert.ok(spec.halfWidthPx > 0 && spec.halfWidthPx < 90);
+    assert.ok(spec.leftFeatherPx >= 0 && spec.leftFeatherPx < 40);
+    assert.ok(spec.rightFeatherPx >= 0 && spec.rightFeatherPx < 40);
+    assert.ok(spec.halfWidthPx >= 0 && spec.halfWidthPx < 90);
     if (spec.motif) {
       assert.ok(DIVIDER_CROPS[spec.motif], `valid divider crop for ${spec.motif}`);
       assert.ok(spec.drawWidth > 20 && spec.drawHeight > 16);
     }
   }
+
+  // Unknown future seams must default to a clean no-op (never a surprise tree).
+  const synthetic = [
+    { id: 'future-0', sourceX: 0, sourceWidth: 400 },
+    { id: 'future-1', sourceX: 400, sourceWidth: 400 }
+  ];
+  const [unknownSpec] = boundarySpecs(synthetic, 160);
+  assert.equal(unknownSpec.motif, null);
+  assert.equal(unknownSpec.leftFeatherPx, 0);
+  assert.equal(unknownSpec.rightFeatherPx, 0);
+  assert.equal(unknownSpec.drawWidth, 0);
+  assert.equal(unknownSpec.drawHeight, 0);
 });
 
 test('fragmentEdgeFeathers and exposedFlatBoundaries activate only at exposed panel seams', () => {
   const layout = layoutStory(events, 1200, 140);
   const specs = boundarySpecs(layout.panels, 140);
 
-  // At overview (1x), panel seams are folded behind pleats so no flat joins exist.
   const overview = foldStory(layout, 1200, 1);
   const overviewFragments = exposedStory(overview);
   assert.equal(exposedFlatBoundaries(overviewFragments, specs).length, 0);
 
-  // At full zoom (32x), all 11 panel joins are exposed flat.
   const flat = foldStory(layout, 1200, config.MAX_SCALE);
   const flatFragments = exposedStory(flat);
   const flatJoins = exposedFlatBoundaries(flatFragments, specs);
   assert.equal(flatJoins.length, 11);
 
-  // Only fragments touching a panel's outer edge receive non-zero edge feathers.
   const openingPanel = layout.panels[0];
   const openingEndFrag = flatFragments.find(
     f => f.panel.id === openingPanel.id && Math.abs((f.sourceX + f.width) - (openingPanel.sourceX + openingPanel.sourceWidth)) < 1e-6
@@ -94,19 +109,43 @@ test('fragmentEdgeFeathers and exposedFlatBoundaries activate only at exposed pa
   assert.ok(edges.rightFeather > 0);
 });
 
-test('alignedBorderCrop trims continuation rail padding strictly inside every band', () => {
+test('nativeAlignedBorderRect preserves exact 1:1 source proportions and outer-edge alignment', () => {
   const layout = layoutStory(events, 1280, 160);
   const borders = layoutScientificBorder(layout);
   assert.equal(borders.length, 96);
-  let trimmedCount = 0;
+
   for (const border of borders) {
-    const aligned = alignedBorderCrop(border);
-    assert.equal(aligned.x, border.crop.x);
-    assert.equal(aligned.width, border.crop.width);
-    assert.ok(aligned.y >= border.crop.y);
-    assert.ok(aligned.y + aligned.height <= border.crop.y + border.crop.height);
-    assert.ok(aligned.height >= border.crop.height * 0.72, `excessive vertical trim for ${border.id}`);
-    if (BORDER_RAIL_TRIMS[border.id]) trimmedCount++;
+    const baseY = border.side === 'top' ? 0 : 200;
+    const rect = nativeAlignedBorderRect(border, { trimTop: 8, trimBottom: 4 }, baseY);
+    assert.equal(rect.srcX, border.crop.x);
+    assert.equal(rect.srcW, border.crop.width);
+    assert.equal(rect.destW, border.width);
+    assert.ok(rect.srcY >= border.crop.y);
+    assert.ok(rect.srcY + rect.srcH <= border.crop.y + border.crop.height);
+    // Zero vertical distortion: destination aspect matches trimmed source aspect exactly.
+    const srcAspect = rect.srcW / rect.srcH;
+    const destAspect = rect.destW / rect.destH;
+    assert.ok(Math.abs(destAspect - srcAspect) < 1e-9, `aspect distortion on ${border.id}: ${destAspect} vs ${srcAspect}`);
+    // Align flush to the outer tapestry edge per docs/scientific-tapestry-borders.md.
+    if (border.side === 'top') {
+      assert.equal(rect.destY, baseY);
+    } else {
+      assert.ok(Math.abs((rect.destY + rect.destH) - (baseY + border.height)) < 1e-9);
+    }
   }
-  assert.ok(trimmedCount > 50, 'aligns continuation and primary border rail offsets');
+});
+
+test('boundary divider atlas provenance and SHA-256 pixel hashes validate and reject tampering', () => {
+  const summary = validateBoundaryDividers();
+  assert.equal(summary.motifs, Object.keys(DIVIDER_CROPS).length);
+  assert.equal(summary.joins, Object.keys(PANEL_BOUNDARIES).length);
+
+  const record = JSON.parse(readFileSync(new URL('../images/tapestry/boundary-dividers-generation.json', import.meta.url), 'utf8'));
+  const badHash = structuredClone(record);
+  badHash.sourceHash = '0'.repeat(64);
+  assert.throws(() => validateBoundaryDividers(badHash), /Unrecorded boundary divider atlas bytes/);
+
+  const badMotif = structuredClone(record);
+  badMotif.motifs['harbour-quay'].pixelHash = 'f'.repeat(64);
+  assert.throws(() => validateBoundaryDividers(badMotif), /Stale boundary divider pixel hash/);
 });

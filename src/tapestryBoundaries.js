@@ -7,6 +7,9 @@ export const BOUNDARY_DIVIDER_ATLAS = 'images/tapestry/bayeux-boundary-dividers-
 
 // Exact [x, y, width, height] crop boxes inside bayeux-boundary-dividers-threads.webp
 // (928x556 RGBA transparent wool-thread sprite sheet).
+// Provenance and exact SHA-256 pixel hashes are recorded in
+// images/tapestry/boundary-dividers-generation.json and validated by
+// tools/boundary-dividers-artwork.mjs.
 export const DIVIDER_CROPS = {
   'palm-shore': [12, 12, 165, 360],
   'winter-tree': [189, 12, 109, 360],
@@ -18,58 +21,131 @@ export const DIVIDER_CROPS = {
   'snow-slope-single': [540, 424, 376, 120]
 };
 
-// Source-pixel [trimTop, trimBottom] adjustments measured from the red framing
-// rails of each scientific border band so continuation rows (which include
-// 5-11px of inter-row margin or adjacent-row rail bleed) align flush with
-// tightly cropped primary rows without modifying any provenance-hashed atlas.
-export const BORDER_RAIL_TRIMS = {
-  'early-0': [1, 0], 'early-1': [1, 0], 'early-3': [0, 1], 'early-4': [0, 1], 'early-7': [0, 2],
-  'seventeenth-0': [1, 0], 'seventeenth-1': [1, 1], 'seventeenth-2': [1, 1], 'seventeenth-3': [1, 1],
-  'seventeenth-4': [1, 1], 'seventeenth-5': [1, 1], 'seventeenth-6': [1, 1], 'seventeenth-7': [1, 2],
-  'eighteenth-0': [5, 1], 'eighteenth-1': [3, 1], 'eighteenth-2': [1, 2], 'eighteenth-3': [1, 2],
-  'eighteenth-4': [1, 2], 'eighteenth-5': [2, 1], 'eighteenth-6': [2, 2], 'eighteenth-7': [1, 2],
-  'nineteenth-0': [1, 1], 'nineteenth-1': [9, 3], 'nineteenth-2': [1, 3], 'nineteenth-3': [1, 2],
-  'nineteenth-4': [1, 2], 'nineteenth-5': [1, 3], 'nineteenth-6': [2, 3], 'nineteenth-7': [2, 3],
-  'electrons-0': [2, 2], 'electrons-1': [2, 2], 'electrons-2': [3, 2], 'electrons-3': [2, 2],
-  'electrons-4': [2, 1], 'electrons-5': [3, 2], 'electrons-6': [3, 2], 'electrons-7': [2, 2],
-  'space-0': [1, 2], 'space-1': [0, 2], 'space-2': [0, 1], 'space-4': [0, 2],
-  'space-5': [0, 1], 'space-6': [1, 1], 'space-7': [0, 2],
-  'earlyContinuation-0': [6, 4], 'earlyContinuation-2': [0, 15], 'earlyContinuation-3': [3, 0],
-  'earlyContinuation-4': [2, 0], 'earlyContinuation-5': [2, 0], 'earlyContinuation-7': [0, 4],
-  'seventeenthContinuation-0': [6, 7], 'seventeenthContinuation-2': [8, 0],
-  'seventeenthContinuation-3': [7, 0], 'seventeenthContinuation-4': [6, 0],
-  'seventeenthContinuation-5': [6, 6], 'seventeenthContinuation-6': [0, 8],
-  'seventeenthContinuation-7': [0, 9],
-  'eighteenthContinuation-0': [7, 0], 'eighteenthContinuation-1': [11, 0],
-  'eighteenthContinuation-2': [11, 0], 'eighteenthContinuation-3': [10, 0],
-  'eighteenthContinuation-4': [10, 0], 'eighteenthContinuation-5': [11, 0],
-  'eighteenthContinuation-6': [10, 7], 'eighteenthContinuation-7': [0, 5],
-  'nineteenthContinuation-0': [0, 9], 'nineteenthContinuation-2': [0, 9],
-  'nineteenthContinuation-3': [0, 8], 'nineteenthContinuation-4': [0, 7],
-  'nineteenthContinuation-5': [0, 4], 'nineteenthContinuation-7': [0, 10],
-  'electronsContinuation-0': [8, 0], 'electronsContinuation-1': [9, 0],
-  'electronsContinuation-2': [7, 0], 'electronsContinuation-3': [8, 0],
-  'electronsContinuation-4': [9, 0], 'electronsContinuation-5': [8, 0],
-  'electronsContinuation-6': [9, 0], 'electronsContinuation-7': [8, 8],
-  'spaceContinuation-0': [6, 0], 'spaceContinuation-1': [5, 0], 'spaceContinuation-4': [4, 0],
-  'spaceContinuation-5': [0, 11], 'spaceContinuation-7': [0, 4]
-};
+const borderTrimCache = new WeakMap();
+let borderSampleCanvas = null;
 
-// Returns the rail-aligned source crop rectangle for a scientific border band.
-export function alignedBorderCrop(border) {
-  const trim = BORDER_RAIL_TRIMS[border?.id];
-  if (!trim) return border.crop;
-  const [trimTop, trimBottom] = trim;
-  const height = border.crop.height - trimTop - trimBottom;
-  if (height <= 4) return border.crop;
-  return { x: border.crop.x, y: border.crop.y + trimTop, width: border.crop.width, height };
+// Measures leading/trailing blank padding or adjacent-row rail bleed once per
+// border band directly from the loaded RGBA image (cached per image) so border
+// rail alignment stays resilient if any border atlas is regenerated.
+export function measureBorderRailTrim(drawing, crop) {
+  if (!drawing || !crop || crop.height < 12 || typeof document === 'undefined') {
+    return { trimTop: 0, trimBottom: 0 };
+  }
+  let map = borderTrimCache.get(drawing);
+  if (!map) {
+    map = new Map();
+    borderTrimCache.set(drawing, map);
+  }
+  const key = `${crop.y}:${crop.height}`;
+  if (map.has(key)) return map.get(key);
+
+  const cols = 48;
+  const h = Math.round(crop.height);
+  const srcW = drawing.naturalWidth || drawing.width || crop.width;
+  if (!borderSampleCanvas) borderSampleCanvas = document.createElement('canvas');
+  if (borderSampleCanvas.width < cols) borderSampleCanvas.width = cols;
+  if (borderSampleCanvas.height < h) borderSampleCanvas.height = h;
+  const ctx = borderSampleCanvas.getContext('2d', { willReadFrequently: true });
+  ctx.clearRect(0, 0, cols, h);
+  ctx.drawImage(drawing, 0, crop.y, srcW, crop.height, 0, 0, cols, h);
+  const data = ctx.getImageData(0, 0, cols, h).data;
+
+  const redCov = new Float32Array(h);
+  const opCov = new Float32Array(h);
+  for (let row = 0; row < h; row++) {
+    let redCount = 0;
+    let opCount = 0;
+    const base = row * cols * 4;
+    for (let col = 0; col < cols; col++) {
+      const i = base + col * 4;
+      const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+      if (a > 120) opCount++;
+      if (a > 90 && r > g + 8 && r > b + 12) redCount++;
+    }
+    redCov[row] = redCount / cols;
+    opCov[row] = opCount / cols;
+  }
+
+  const findClusters = (start, len, profile, thresh) => {
+    const out = [];
+    let inC = false;
+    let s = 0;
+    for (let i = 0; i < len; i++) {
+      if (profile[start + i] >= thresh && !inC) { inC = true; s = i; }
+      else if (profile[start + i] < thresh && inC) { out.push([s, i - 1]); inC = false; }
+    }
+    if (inC) out.push([s, len - 1]);
+    return out;
+  };
+
+  const zone = Math.min(20, Math.floor(h / 4));
+  let tc = findClusters(0, zone, redCov, 0.45);
+  if (!tc.length) tc = findClusters(0, zone, opCov, 0.58);
+  let bc = findClusters(h - zone, zone, redCov, 0.45);
+  if (!bc.length) bc = findClusters(h - zone, zone, opCov, 0.58);
+
+  let topRail = 0;
+  if (tc.length >= 2 && tc[0][0] <= 1 && tc[0][1] <= 3 && tc[1][0] - tc[0][1] >= 2) topRail = tc[1][0];
+  else if (tc.length) topRail = tc[0][0];
+
+  let botRail = h - 1;
+  if (bc.length >= 2 && bc[bc.length - 1][1] >= zone - 2 && bc[bc.length - 1][0] >= zone - 4 && bc[bc.length - 1][0] - bc[bc.length - 2][1] >= 2) {
+    botRail = (h - zone) + bc[bc.length - 2][1];
+  } else if (bc.length) {
+    botRail = (h - zone) + bc[bc.length - 1][1];
+  }
+
+  let trimTop = Math.max(0, topRail - 1);
+  let trimBottom = Math.max(0, h - Math.min(h, botRail + 2));
+  if (h - trimTop - trimBottom < h * 0.72) {
+    trimTop = 0;
+    trimBottom = 0;
+  }
+  const result = { trimTop, trimBottom };
+  map.set(key, result);
+  return result;
 }
 
-// Draws one scientific border slice with its red framing rails vertically aligned.
+// Computes exact native-proportion source and destination rectangles for a
+// border slice after trimming inter-row padding/bleed. Preserves the exact 1:1
+// source aspect ratio (zero vertical stretching) and aligns flush to the outer
+// edge per docs/scientific-tapestry-borders.md.
+export function nativeAlignedBorderRect(border, trim, y) {
+  const trimTop = Math.max(0, trim?.trimTop || 0);
+  const trimBottom = Math.max(0, trim?.trimBottom || 0);
+  const srcH = border.crop.height - trimTop - trimBottom;
+  if (!(srcH > 4) || srcH >= border.crop.height) {
+    return {
+      srcX: border.crop.x,
+      srcY: border.crop.y,
+      srcW: border.crop.width,
+      srcH: border.crop.height,
+      destX: border.left,
+      destY: y,
+      destW: border.width,
+      destH: border.height
+    };
+  }
+  const destH = border.height * (srcH / border.crop.height);
+  const destY = border.side === 'bottom' ? y + (border.height - destH) : y;
+  return {
+    srcX: border.crop.x,
+    srcY: border.crop.y + trimTop,
+    srcW: border.crop.width,
+    srcH,
+    destX: border.left,
+    destY,
+    destW: border.width,
+    destH
+  };
+}
+
+// Draws one scientific border slice at exact native proportions with outer
+// framing rails aligned flush and inter-row bleed trimmed away.
 export function drawAlignedBorderSlice(ink, drawing, border, y) {
-  const crop = alignedBorderCrop(border);
-  ink.drawImage(drawing, crop.x, crop.y, crop.width, crop.height,
-    border.left, y, border.width, border.height);
+  const trim = measureBorderRailTrim(drawing, border.crop);
+  const r = nativeAlignedBorderRect(border, trim, y);
+  ink.drawImage(drawing, r.srcX, r.srcY, r.srcW, r.srcH, r.destX, r.destY, r.destW, r.destH);
 }
 
 // Per-join visual tuning across all 11 panel-to-panel joins of storyPanels.
@@ -141,8 +217,8 @@ export const PANEL_BOUNDARIES = {
   'middle-1->middle-2': {
     motif: null,
     label: '1789 · Revolutionary Cannon → Revolutionary Crowd',
-    leftFeather: 0.015,
-    rightFeather: 0.015,
+    leftFeather: 0,
+    rightFeather: 0,
     heightScale: 0,
     centerBias: 0,
     flip: false,
@@ -200,8 +276,9 @@ export const PANEL_BOUNDARIES = {
   'modern-2->modern-3': {
     motif: null,
     label: '1969 · Saturn V Launchpad → Apollo Lunar Surface',
-    leftFeather: 0.04,
-    rightFeather: 0.13,
+    leftFeather: 0,
+    rightFeather: 0.11,
+    rightFeatherTopFrac: 0.50,
     heightScale: 0,
     centerBias: 0,
     flip: false,
@@ -210,16 +287,17 @@ export const PANEL_BOUNDARIES = {
   }
 };
 
+// Unknown future panel joins default to a clean no-op (no unexpected motif or fade).
 const DEFAULT_BOUNDARY = {
-  motif: 'winter-tree',
+  motif: null,
   label: 'Scene boundary',
-  leftFeather: 0.11,
-  rightFeather: 0.11,
-  heightScale: 0.90,
+  leftFeather: 0,
+  rightFeather: 0,
+  heightScale: 0,
   centerBias: 0,
   flip: false,
-  leftGround: 0.982,
-  rightGround: 0.982
+  leftGround: 1.0,
+  rightGround: 1.0
 };
 
 // Computes fixed material-space boundary specs for every adjacent panel join.
