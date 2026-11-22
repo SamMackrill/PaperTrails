@@ -6,13 +6,13 @@
 export const BOUNDARY_DIVIDER_ATLAS = 'images/tapestry/bayeux-boundary-dividers-threads.webp';
 
 // Exact [x, y, width, height] crop boxes inside bayeux-boundary-dividers-threads.webp
-// (1054x516 RGBA transparent wool-thread sprite sheet).
+// (1181x516 RGBA transparent wool-thread sprite sheet).
 export const DIVIDER_CROPS = {
   'palm-shore': [12, 12, 165, 360],
   'winter-tree': [189, 12, 109, 360],
-  'trench-post': [310, 12, 103, 360],
-  'ruined-pier': [425, 12, 89, 360],
-  'harbour-quay': [526, 212, 516, 160],
+  'trench-post': [310, 12, 230, 360],
+  'ruined-pier': [552, 12, 89, 360],
+  'harbour-quay': [653, 212, 516, 160],
   'snow-bridge-down': [12, 394, 581, 110],
   'snow-slope-single': [605, 384, 376, 120]
 };
@@ -119,10 +119,12 @@ export const PANEL_BOUNDARIES = {
   'modern-0->modern-1': {
     motif: 'trench-post',
     label: '1914 · Marching Infantry → Western Front Trench',
-    leftFeather: 0.04,
-    rightFeather: 0.14,
-    heightScale: 0.90,
-    centerBias: 0.03,
+    leftFeather: 0.02,
+    rightFeather: 0.02,
+    featherTopFrac: 0.62,
+    heightScale: 0.84,
+    widthScale: 0.54,
+    centerBias: 0.042,
     flip: false,
     leftGround: 0.978,
     rightGround: 0.98
