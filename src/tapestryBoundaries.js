@@ -1,20 +1,21 @@
 // Authentic Bayeux Tapestry scene-boundary transitions: directional linen
-// feathering, soft ground-line alignment, and embroidered faded-wool Bayeux
-// dividers (intertwined trees, snow-dusted winter trees, coastal reeds,
-// weathered trench post, and ruined brick archway) anchored in fixed cloth
-// material coordinates so transitions unfold seamlessly with the fabric.
+// feathering, embroidered snowbank & braided-earth ground bridges, subtle
+// border-rail alignment, and faded-wool Bayeux dividers anchored in fixed
+// cloth material coordinates so transitions unfold seamlessly with the fabric.
 
 export const BOUNDARY_DIVIDER_ATLAS = 'images/tapestry/bayeux-boundary-dividers-threads.webp';
 
 // Exact [x, y, width, height] crop boxes inside bayeux-boundary-dividers-threads.webp
-// (792x384 RGBA transparent wool-thread sprite sheet).
+// (1271x506 RGBA transparent wool-thread sprite sheet).
 export const DIVIDER_CROPS = {
   'palm-shore': [12, 12, 165, 360],
   'winter-tree': [189, 12, 109, 360],
   'winter-to-field': [310, 12, 120, 360],
   'coastal-shore': [442, 12, 122, 360],
   'trench-post': [576, 12, 103, 360],
-  'ruined-pier': [691, 12, 89, 360]
+  'ruined-pier': [691, 12, 89, 360],
+  'snow-bridge-down': [12, 384, 581, 110],
+  'snow-to-earth-bridge': [605, 384, 654, 110]
 };
 
 // Per-join visual tuning across all 11 panel-to-panel joins of storyPanels.
@@ -29,8 +30,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: 0.02,
     flip: false,
     leftGround: 0.972,
-    rightGround: 0.966,
-    groundTone: 'earth'
+    rightGround: 0.966
   },
   'early-1->early-2': {
     motif: 'winter-tree',
@@ -41,47 +41,46 @@ export const PANEL_BOUNDARIES = {
     centerBias: -0.02,
     flip: false,
     leftGround: 0.99,
-    rightGround: 0.955,
-    groundTone: 'snow'
+    rightGround: 0.955
   },
   'early-2->early-3': {
-    motif: null,
-    label: '1650 · Bare Winter Tree → Timber Cottage',
-    leftFeather: 0.16,
-    rightFeather: 0.15,
-    heightScale: 0,
-    centerBias: 0,
+    motif: 'snow-bridge-down',
+    label: '1650 · Existing Winter Tree → Timber Cottage',
+    leftFeather: 0.11,
+    rightFeather: 0.11,
+    featherTopFrac: 0.66,
+    heightScale: 0.18,
+    widthScale: 0.64,
+    centerBias: 0.01,
     flip: false,
     leftGround: 0.96,
-    rightGround: 0.992,
-    groundTone: 'snow',
-    snowBridge: true
+    rightGround: 0.995
   },
   'early-3->middle-0': {
-    motif: null,
-    label: '1700 · Bare Winter Tree → War of the Spanish Succession',
-    leftFeather: 0.16,
-    rightFeather: 0.08,
-    heightScale: 0,
-    centerBias: 0,
+    motif: 'snow-to-earth-bridge',
+    label: '1700 · Existing Winter Tree → War of the Spanish Succession',
+    leftFeather: 0.13,
+    rightFeather: 0.06,
+    featherTopFrac: 0.56,
+    heightScale: 0.145,
+    widthScale: 0.72,
+    centerBias: -0.07,
     flip: false,
-    leftGround: 0.992,
-    rightGround: 0.992,
-    groundTone: 'mixed',
-    snowBridge: true
+    leftGround: 0.995,
+    rightGround: 0.995
   },
   'middle-0->middle-1': {
-    motif: null,
-    label: '1740 · Winter Tree & Stream → Seven Years’ War',
-    leftFeather: 0.16,
-    rightFeather: 0.08,
-    heightScale: 0,
-    centerBias: 0,
+    motif: 'snow-to-earth-bridge',
+    label: '1740 · Existing Winter Tree & Stream → Seven Years’ War',
+    leftFeather: 0.14,
+    rightFeather: 0.05,
+    featherTopFrac: 0.56,
+    heightScale: 0.145,
+    widthScale: 0.72,
+    centerBias: -0.06,
     flip: false,
-    leftGround: 0.992,
-    rightGround: 0.978,
-    groundTone: 'mixed',
-    snowBridge: true
+    leftGround: 0.995,
+    rightGround: 0.985
   },
   'middle-1->middle-2': {
     motif: null,
@@ -92,8 +91,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: 0,
     flip: false,
     leftGround: 0.992,
-    rightGround: 0.982,
-    groundTone: 'earth'
+    rightGround: 0.982
   },
   'middle-2->middle-3': {
     motif: 'winter-tree',
@@ -104,8 +102,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: 0.01,
     flip: false,
     leftGround: 0.982,
-    rightGround: 0.986,
-    groundTone: 'snow'
+    rightGround: 0.986
   },
   'middle-3->modern-0': {
     motif: 'coastal-shore',
@@ -116,8 +113,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: -0.07,
     flip: false,
     leftGround: 0.988,
-    rightGround: 0.978,
-    groundTone: 'earth'
+    rightGround: 0.978
   },
   'modern-0->modern-1': {
     motif: 'trench-post',
@@ -128,8 +124,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: 0.03,
     flip: false,
     leftGround: 0.978,
-    rightGround: 0.98,
-    groundTone: 'mud'
+    rightGround: 0.98
   },
   'modern-1->modern-2': {
     motif: 'ruined-pier',
@@ -140,8 +135,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: 0.07,
     flip: false,
     leftGround: 0.98,
-    rightGround: 0.99,
-    groundTone: 'earth'
+    rightGround: 0.99
   },
   'modern-2->modern-3': {
     motif: null,
@@ -152,8 +146,7 @@ export const PANEL_BOUNDARIES = {
     centerBias: 0,
     flip: false,
     leftGround: 0.984,
-    rightGround: 0.992,
-    groundTone: 'lunar'
+    rightGround: 0.992
   }
 };
 
@@ -166,8 +159,7 @@ const DEFAULT_BOUNDARY = {
   centerBias: 0,
   flip: false,
   leftGround: 0.982,
-  rightGround: 0.982,
-  groundTone: 'earth'
+  rightGround: 0.982
 };
 
 // Computes fixed material-space boundary specs for every adjacent panel join.
@@ -184,7 +176,7 @@ export function boundarySpecs(panels, artHeight) {
     const rightFeatherPx = Math.min(right.sourceWidth * 0.18, artHeight * cfg.rightFeather);
     const crop = cfg.motif ? DIVIDER_CROPS[cfg.motif] : null;
     const drawHeight = crop ? artHeight * cfg.heightScale : 0;
-    const drawWidth = crop ? (crop[2] / crop[3]) * drawHeight : 0;
+    const drawWidth = crop ? (crop[2] / crop[3]) * drawHeight * (cfg.widthScale || 1) : 0;
     const centerX = sourceX + artHeight * (cfg.centerBias || 0);
     const halfWidthPx = crop ? drawWidth / 2 : Math.max(leftFeatherPx, rightFeatherPx);
     specs.push({
@@ -200,35 +192,38 @@ export function boundarySpecs(panels, artHeight) {
       label: cfg.label,
       leftFeatherPx,
       rightFeatherPx,
+      featherTopFrac: cfg.featherTopFrac || 0,
       drawWidth,
       drawHeight,
       halfWidthPx,
       leftGroundY: artHeight * cfg.leftGround,
-      rightGroundY: artHeight * cfg.rightGround,
-      groundTone: cfg.groundTone,
-      snowBridge: Boolean(cfg.snowBridge)
+      rightGroundY: artHeight * cfg.rightGround
     });
   }
   return specs;
 }
 
-// Returns the directional feather widths (in material pixels) active on this
-// exposed fragment's left and right edges, based on actual panel boundaries.
+// Returns the directional feather widths and vertical start fraction active on
+// this exposed fragment's left and right edges.
 export function fragmentEdgeFeathers(fragment, boundaries) {
   let leftFeather = 0;
   let rightFeather = 0;
-  if (!fragment || !boundaries?.length) return { leftFeather, rightFeather };
+  let leftTopFrac = 0;
+  let rightTopFrac = 0;
+  if (!fragment || !boundaries?.length) return { leftFeather, rightFeather, leftTopFrac, rightTopFrac };
   const panelStart = fragment.panel.sourceX;
   const panelEnd = panelStart + fragment.panel.sourceWidth;
   for (const b of boundaries) {
     if (b.rightPanelId === fragment.panel.id && fragment.sourceX < panelStart + b.rightFeatherPx - 1e-6) {
       leftFeather = Math.max(leftFeather, b.rightFeatherPx);
+      leftTopFrac = b.featherTopFrac || 0;
     }
     if (b.leftPanelId === fragment.panel.id && fragment.sourceX + fragment.width > panelEnd - b.leftFeatherPx + 1e-6) {
       rightFeather = Math.max(rightFeather, b.leftFeatherPx);
+      rightTopFrac = b.featherTopFrac || 0;
     }
   }
-  return { leftFeather, rightFeather };
+  return { leftFeather, rightFeather, leftTopFrac, rightTopFrac };
 }
 
 // Finds every panel boundary currently exposed flat (no hidden cloth folded
@@ -276,9 +271,10 @@ function getFlippedAtlas(atlasImage) {
 }
 
 // Draws a panel fragment with smooth directional alpha feathering ONLY along
-// its panel-boundary edge strips so abrupt vertical artwork cuts melt softly
-// into the shared linen weave before the Bayeux divider is layered on top.
-export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, artHeight, leftFeather, rightFeather, pixelRatio = 1) {
+// its panel-boundary edge strips (and optionally only in the lower ground zone
+// when `topFrac > 0`, keeping existing upper tree canopies 100% sharp).
+export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, artHeight, edgeInfo, pixelRatio = 1) {
+  const { leftFeather = 0, rightFeather = 0, leftTopFrac = 0, rightTopFrac = 0 } = edgeInfo || {};
   const { left, sourceX, width: exposedWidth } = fragment;
   const bodyHeight = panel.crop.height * panel.unit;
   const destY = artTop + artHeight - bodyHeight;
@@ -290,7 +286,6 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
   const rightZoneStart = rightFeather > 0 ? Math.max(sourceX, panelEnd - rightFeather) : sourceX + exposedWidth;
   const rightFadeW = Math.max(0, (sourceX + exposedWidth) - rightZoneStart);
 
-  // Fast path: interior fragment far from any panel seam.
   if (leftFadeW <= 0.25 && rightFadeW <= 0.25) {
     const cropX = panel.crop.x + (sourceX - panelStart) / panel.unit;
     ink.drawImage(image, cropX, panel.crop.y, exposedWidth / panel.unit, panel.crop.height,
@@ -309,19 +304,33 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
   }
 
   // 2. Softly feather the narrow panel-boundary strip onto transparent linen.
-  const drawStrip = (stripSourceX, stripW, fadeSide, featherSpan) => {
+  const drawStrip = (stripSourceX, stripW, fadeSide, featherSpan, topFrac) => {
     if (stripW <= 0.05 || featherSpan <= 0.05) return;
+    const cropX = panel.crop.x + (stripSourceX - panelStart) / panel.unit;
+    const destX = left + (stripSourceX - sourceX);
+
+    // Keep upper canopy completely crisp when feathering only the lower ground/snow band.
+    const splitY = topFrac > 0 ? bodyHeight * topFrac : 0;
+    if (splitY > 1) {
+      const topSrcH = panel.crop.height * topFrac;
+      ink.drawImage(image, cropX, panel.crop.y, stripW / panel.unit, topSrcH,
+        destX, destY, stripW, splitY);
+    }
+
+    const fadeH = bodyHeight - splitY;
+    if (fadeH <= 0.5) return;
     const sw = Math.max(1, Math.ceil(stripW * pixelRatio));
-    const sh = Math.max(1, Math.ceil(bodyHeight * pixelRatio));
+    const sh = Math.max(1, Math.ceil(fadeH * pixelRatio));
     const scratch = ensureScratch(sw, sh);
     const sctx = scratch.getContext('2d');
     sctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     sctx.globalCompositeOperation = 'source-over';
-    sctx.clearRect(0, 0, stripW + 2, bodyHeight + 2);
+    sctx.clearRect(0, 0, stripW + 2, fadeH + 2);
 
-    const cropX = panel.crop.x + (stripSourceX - panelStart) / panel.unit;
-    sctx.drawImage(image, cropX, panel.crop.y, stripW / panel.unit, panel.crop.height,
-      0, 0, stripW, bodyHeight);
+    const lowerSrcY = panel.crop.y + panel.crop.height * topFrac;
+    const lowerSrcH = panel.crop.height * (1 - topFrac);
+    sctx.drawImage(image, cropX, lowerSrcY, stripW / panel.unit, lowerSrcH,
+      0, 0, stripW, fadeH);
 
     sctx.globalCompositeOperation = 'destination-in';
     const grad = fadeSide === 'left'
@@ -339,98 +348,21 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
       grad.addColorStop(1, 'rgba(0,0,0,0)');
     }
     sctx.fillStyle = grad;
-    sctx.fillRect(0, 0, stripW, bodyHeight);
+    sctx.fillRect(0, 0, stripW, fadeH);
     sctx.globalCompositeOperation = 'source-over';
 
-    ink.drawImage(scratch, 0, 0, stripW * pixelRatio, bodyHeight * pixelRatio,
-      left + (stripSourceX - sourceX), destY, stripW, bodyHeight);
+    ink.drawImage(scratch, 0, 0, stripW * pixelRatio, fadeH * pixelRatio,
+      destX, destY + splitY, stripW, fadeH);
   };
 
-  if (leftFadeW > 0.25) drawStrip(sourceX, leftFadeW, 'left', leftFeather);
+  if (leftFadeW > 0.25) drawStrip(sourceX, leftFadeW, 'left', leftFeather, leftTopFrac);
   const clampedRightStart = Math.max(rightZoneStart, midStart);
-  if (rightFadeW > 0.25) drawStrip(clampedRightStart, (sourceX + exposedWidth) - clampedRightStart, 'right', rightFeather);
+  if (rightFadeW > 0.25) drawStrip(clampedRightStart, (sourceX + exposedWidth) - clampedRightStart, 'right', rightFeather, rightTopFrac);
 }
 
-// Smoothly bridges the embroidered ground-line strip across a flat panel join
-// so small vertical ground-band height differences between adjacent rows never
-// read as a stair-step cut.
-export function drawGroundBridge(ink, spec, seamX, artTop, artHeight) {
-  if (spec.groundTone === 'lunar') return;
-  const span = Math.max(22, spec.leftFeatherPx + spec.rightFeatherPx);
-  const yL = artTop + spec.leftGroundY;
-  const yR = artTop + spec.rightGroundY;
-  const bandH = Math.max(3.0, artHeight * 0.030);
-  const x0 = seamX - span * 0.72;
-  const x1 = seamX + span * 0.72;
-
-  ink.save();
-  // On winter joins where an existing tree already serves as the scene divider,
-  // lay a soft feathered snowdrift bank across the lower seam so snowbanks and
-  // ground levels merge organically without adding a second tree.
-  if (spec.snowBridge) {
-    const snowH = artHeight * (spec.groundTone === 'snow' ? 0.16 : 0.11);
-    const snowGrad = ink.createLinearGradient(x0, 0, x1, 0);
-    snowGrad.addColorStop(0, 'rgba(236, 228, 210, 0)');
-    snowGrad.addColorStop(0.24, 'rgba(236, 228, 210, 0.92)');
-    snowGrad.addColorStop(0.55, spec.groundTone === 'snow' ? 'rgba(236, 228, 210, 0.92)' : 'rgba(226, 214, 192, 0.62)');
-    snowGrad.addColorStop(1, 'rgba(226, 214, 192, 0)');
-    ink.fillStyle = snowGrad;
-    ink.beginPath();
-    ink.moveTo(x0, artTop + artHeight);
-    ink.lineTo(x0, yL - bandH);
-    ink.bezierCurveTo(
-      seamX - span * 0.25, Math.min(yL, yR) - snowH,
-      seamX + span * 0.25, Math.min(yL, yR) - snowH * (spec.groundTone === 'snow' ? 0.92 : 0.55),
-      x1, yR - bandH
-    );
-    ink.lineTo(x1, artTop + artHeight);
-    ink.closePath();
-    ink.fill();
-
-    // Soft hand-stitched snow crest contour fading cleanly at both ends.
-    const crestGrad = ink.createLinearGradient(x0, 0, x1, 0);
-    crestGrad.addColorStop(0, 'rgba(120, 96, 70, 0)');
-    crestGrad.addColorStop(0.30, 'rgba(120, 96, 70, 0.42)');
-    crestGrad.addColorStop(0.70, 'rgba(120, 96, 70, 0.36)');
-    crestGrad.addColorStop(1, 'rgba(120, 96, 70, 0)');
-    ink.strokeStyle = crestGrad;
-    ink.lineWidth = 1.05;
-    ink.beginPath();
-    ink.moveTo(x0, yL - bandH * 1.4);
-    ink.bezierCurveTo(
-      seamX - span * 0.25, Math.min(yL, yR) - snowH,
-      seamX + span * 0.25, Math.min(yL, yR) - snowH * (spec.groundTone === 'snow' ? 0.92 : 0.55),
-      x1, yR - bandH * 1.4
-    );
-    ink.stroke();
-  }
-
-  const tone = spec.groundTone === 'mud'
-    ? '108, 86, 64'
-    : spec.groundTone === 'snow'
-      ? '148, 110, 74'
-      : '134, 95, 58';
-  const grad = ink.createLinearGradient(x0, 0, x1, 0);
-  grad.addColorStop(0, `rgba(${tone}, 0)`);
-  grad.addColorStop(0.24, `rgba(${tone}, 0.85)`);
-  grad.addColorStop(0.76, `rgba(${tone}, 0.85)`);
-  grad.addColorStop(1, `rgba(${tone}, 0)`);
-  ink.strokeStyle = grad;
-  ink.lineWidth = bandH;
-  ink.lineCap = 'round';
-  ink.beginPath();
-  ink.moveTo(x0, yL - bandH * 0.5);
-  ink.bezierCurveTo(
-    seamX - span * 0.18, yL - bandH * 0.5,
-    seamX + span * 0.18, yR - bandH * 0.5,
-    x1, yR - bandH * 0.5
-  );
-  ink.stroke();
-  ink.restore();
-}
-
-// Paints the embroidered Bayeux boundary divider sprite clipped strictly to the
-// exposed cloth fragment, so it glides and unfolds naturally out of cloth pleats.
+// Paints the embroidered Bayeux boundary divider or ground-braid bridge sprite
+// clipped strictly to the exposed cloth fragment, so it glides and unfolds
+// naturally out of cloth pleats.
 export function drawBoundaryDivider(ink, atlasImage, boundary, fragment, artTop, artHeight) {
   if (!atlasImage || !boundary.crop || !(boundary.drawWidth > 0)) return;
   const spriteStart = boundary.centerX - boundary.drawWidth / 2;
@@ -464,7 +396,6 @@ export function drawBorderJoinAlignment(ink, x, borderHeight, bottomBorderHeight
     const pad = Math.max(1.2, h * 0.048);
     const halfSpan = Math.max(8, h * 0.32);
     ink.save();
-    // Delicate faded-madder thread bridging the outer and inner framing lines smoothly.
     for (const ry of [topY + pad, topY + h - pad]) {
       const g = ink.createLinearGradient(x - halfSpan, 0, x + halfSpan, 0);
       g.addColorStop(0, 'rgba(154, 78, 57, 0)');

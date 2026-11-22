@@ -59,10 +59,10 @@ test('boundarySpecs covers all 11 panel joins with bounded feathers and valid mo
     assert.equal(spec.sourceX, layout.panels[i + 1].sourceX);
     assert.ok(spec.leftFeatherPx > 0 && spec.leftFeatherPx < 40);
     assert.ok(spec.rightFeatherPx > 0 && spec.rightFeatherPx < 40);
-    assert.ok(spec.halfWidthPx > 0 && spec.halfWidthPx < 60);
+    assert.ok(spec.halfWidthPx > 0 && spec.halfWidthPx < 90);
     if (spec.motif) {
       assert.ok(DIVIDER_CROPS[spec.motif], `valid divider crop for ${spec.motif}`);
-      assert.ok(spec.drawWidth > 20 && spec.drawHeight > 100);
+      assert.ok(spec.drawWidth > 20 && spec.drawHeight > 16);
     }
   }
 });

@@ -3,7 +3,7 @@ import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout
 import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-photography-v1';
 import { paintLinen, paintFragmentLinen } from './linenBacking.js?v=pass2-cloth-dynamics-v1';
 import { analyzeClothFolds, clothSelvageRelief } from './clothDynamics.js?v=pass2-cloth-dynamics-v1';
-import { BOUNDARY_DIVIDER_ATLAS, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, drawFeatheredPanelSlice, drawGroundBridge, drawBoundaryDivider, drawBorderJoinAlignment } from './tapestryBoundaries.js?v=pass2-boundaries-v2';
+import { BOUNDARY_DIVIDER_ATLAS, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, drawFeatheredPanelSlice, drawBoundaryDivider, drawBorderJoinAlignment } from './tapestryBoundaries.js?v=pass2-boundaries-v3';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
@@ -159,11 +159,11 @@ function paint(model, container) {
     // Each band already contains one authored scene. Never composite separate
     // historical motifs here or introduce new baselines for concurrent events.
     if (image) {
-      const { leftFeather, rightFeather } = fragmentEdgeFeathers(fragment, boundaries);
+      const edgeInfo = fragmentEdgeFeathers(fragment, boundaries);
       // Transparent thread artwork shares one linen backing. Opaque wool
       // interrupts lettering naturally; panel boundaries feather gently into
       // the linen before Bayeux scene dividers bridge the join.
-      drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, model.artHeight, leftFeather, rightFeather, pixelRatio);
+      drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, model.artHeight, edgeInfo, pixelRatio);
       ink.globalCompositeOperation = 'source-over';
     }
     for (const border of exposedScientificBorder(model.borders, fragment)) {
@@ -175,11 +175,10 @@ function paint(model, container) {
     }
   }
   const flatJoins = exposedFlatBoundaries(fragments, boundaries);
-  // Smoothly align ground-line bands and subtle border framing threads across
-  // flat inter-panel joins before placing the embroidered Bayeux dividers.
-  for (const { spec, x } of flatJoins) {
+  // Smoothly align subtle border framing threads across flat inter-panel joins
+  // before placing the embroidered Bayeux dividers and ground-braid bridges.
+  for (const { x } of flatJoins) {
     if (x + 60 < camera || x - 60 > camera + viewport) continue;
-    drawGroundBridge(ink, spec, x, artTop, model.artHeight);
     drawBorderJoinAlignment(ink, x, model.borderHeight, model.bottomBorderHeight, model.artHeight);
   }
   if (dividerAtlas) {
