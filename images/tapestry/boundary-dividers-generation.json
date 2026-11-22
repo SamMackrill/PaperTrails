@@ -1,0 +1,157 @@
+{
+  "method": "Built-in image-generator and direct pixel-matched master compositing",
+  "generatedAt": "2026-11-22",
+  "transparent": true,
+  "notes": "Non-narrative faded-wool Bayeux scene dividers and pixel-matched winter seam continuations rendered in fixed cloth material coordinates along panel joins. Existing narrative masters and scientific border atlases remain untouched.",
+  "assembly": "Isolated image-generator outputs on solid #FFFFFF backgrounds were matted to RGBA via exterior flood-fill background removal with 2px rim anti-aliasing, scaled with LANCZOS resampling to target strip heights (360px upright dividers, 160px harbour quay, 120px snow slope), and packed with 12px transparent gutters into a 2-row 928x556 RGBA PNG master plus WebP derivative (quality 90).",
+  "sourceFile": "images/tapestry/bayeux-boundary-dividers-threads.png",
+  "runtimeFile": "images/tapestry/bayeux-boundary-dividers-threads.webp",
+  "dimensions": {
+    "width": 928,
+    "height": 556
+  },
+  "sourceHash": "83cad43736ae647dceea04f106e4023be8dfc9481b799244a8ea6689e2113406",
+  "runtimeHash": "c4c0cde7e153ea782bf9a0ecf55c40a7576d55226410ea435d6adede0171c2b2",
+  "geometryHash": "51a9cefcf3a9a0d24a3161ecb25dbb415228b2b61915809a66f9a24726917342",
+  "motifs": {
+    "palm-shore": {
+      "origin": "image-generator",
+      "joins": [
+        "opening-0->early-1"
+      ],
+      "description": "Faded-wool Bayeux tropical palm and fern shoreline taper completing the cropped Columbian Exchange island edge into open linen.",
+      "prompt": "Isolated medieval Bayeux-Tapestry-style wool-embroidered tropical palm and fern shoreline edge motif on pure white (#FFFFFF), faded sage/olive/ochre wool threads matching opening-0 palm foliage, tapering naturally rightward into open linen.",
+      "promptHash": "55398f7c028fe232115b986c10d84c0d856fe2cc3c7ec929d4300a1fdf83e08c",
+      "crop": [
+        12,
+        12,
+        165,
+        360
+      ],
+      "pixelHash": "55237b13a393cf076ec68d26549d8f40b7f8e90030c594375c06095fb1226032"
+    },
+    "winter-tree": {
+      "origin": "image-generator",
+      "joins": [
+        "early-1->early-2",
+        "middle-2->middle-3"
+      ],
+      "description": "Snow-dusted intertwined bare winter Bayeux divider tree rooted in a small snowdrift base.",
+      "prompt": "Isolated medieval Bayeux-Tapestry-style faded-wool embroidered bare intertwined winter tree with delicate snow-dusted branches and small snowdrift base on pure white (#FFFFFF), soft umber stem-stitch outlines.",
+      "promptHash": "86691eff03693126491f21fee9e7418ddf2c934fe7288c57134fbfbb40af60ba",
+      "crop": [
+        189,
+        12,
+        109,
+        360
+      ],
+      "pixelHash": "9d690a4f2920a14f0dc98d4a1f082e93d472a28211362a58ea1d463dc59e93e7"
+    },
+    "trench-post": {
+      "origin": "image-generator",
+      "joins": [
+        "modern-0->modern-1"
+      ],
+      "description": "Weathered timber trench post with crossed rope lashing and knee-high stacked WWI burlap sandbag parapet on muddy earth.",
+      "prompt": "Isolated upright-L-shaped medieval Bayeux-Tapestry-style wool-embroidered weathered timber trench post with crossed rope lashing on the left third and knee-high stacked burlap sandbags over muddy earth with grass tufts and muted russet ground line on pure white (#FFFFFF).",
+      "promptHash": "d779cd38923c76891e50d81b9d7782405ba969c2f0acf7dbded283a8052099ad",
+      "crop": [
+        310,
+        12,
+        230,
+        360
+      ],
+      "pixelHash": "a330d93b1c8ec00116f30eccaecdaf7fb762080585cf1e98bbc0e1081083856d"
+    },
+    "ruined-pier": {
+      "origin": "image-generator",
+      "joins": [
+        "modern-1->modern-2"
+      ],
+      "description": "Broken terracotta-and-stone Bayeux archway pier with ivy and fallen rubble framing the WWII brick wall.",
+      "prompt": "Isolated medieval Bayeux-Tapestry-style faded-wool embroidered broken terracotta brick and stone ruined archway pier with sparse ivy and small rubble base on pure white (#FFFFFF).",
+      "promptHash": "a97621244d55a18d1a0c02ba9cbca57b9e04bb4188145f69c1b36632d8eae032",
+      "crop": [
+        552,
+        12,
+        89,
+        360
+      ],
+      "pixelHash": "19f646bef8cab914b90872a8859964a1aaf04b6d6160d985fd6ce2592f02e189"
+    },
+    "join4-bridge": {
+      "origin": "pixel-derived",
+      "joins": [
+        "early-2->early-3"
+      ],
+      "description": "Pixel-matched continuation completing the clipped bare winter twigs on early-2 and S-curving the exact ivory snowbank and braided ochre-brown ground cord into early-3.",
+      "derivation": "Sampled snow and ochre-brown ground-cord tiles directly from early-2 (rows 438..608, scaled to 360px) and early-3 (rows 608..724, scaled to 360px), warped vertically across a 15.5px cubic smoothstep S-curve with 24px horizontal cross-feathers, and extended the three clipped right-edge twigs using percentiles sampled from early-2's branch pixels blurred at sigma=1.4px.",
+      "parentSources": [
+        {
+          "file": "images/tapestry/bayeux-linear-early-faded-wool-threads.png",
+          "hash": "029588ba6b34c2326e3f7675b7f3c855424ece8a1f1f5a9b7b59c40d032a9bd3"
+        }
+      ],
+      "crop": [
+        653,
+        12,
+        128,
+        360
+      ],
+      "pixelHash": "90b5d1e9a94cc43d0984625b14c02e72998144feda37afa6e01b4a0d2520ee5f"
+    },
+    "join5-bridge": {
+      "origin": "pixel-derived",
+      "joins": [
+        "middle-0->middle-1"
+      ],
+      "description": "Pixel-matched continuation rounding off the clipped lower-right olive-taupe bough on middle-0 and sloping both snowdrifts along the bridge angle into middle-1's flat snow and russet ground cord.",
+      "derivation": "Sampled snow highlight, taupe shadow, and ridge contour percentiles directly from middle-0 (rows 0..179) to paint back and foreground snowdrifts following the snowy bridge slope down into middle-1 (rows 179..383), bridged the 4px russet ground-cord step with cloned cord pixels from both rows, attached a scaled olive-taupe foliage tip cloned from middle-0's upper canopy, and carved alpha cleanly behind the Prussian soldier's rear boot.",
+      "parentSources": [
+        {
+          "file": "images/tapestry/bayeux-linear-middle-faded-wool-threads.png",
+          "hash": "ef198bff67485ed3c0208923c9779f4c5842ea1dde5a1d94188c089f93b3b541"
+        }
+      ],
+      "crop": [
+        793,
+        12,
+        104,
+        360
+      ],
+      "pixelHash": "370d00dbdcbfda7eda1f23e8dbf0422f1623795b0e2a0724e0f011ec12beea18"
+    },
+    "harbour-quay": {
+      "origin": "image-generator",
+      "joins": [
+        "middle-3->modern-0"
+      ],
+      "description": "Low-profile weathered Bayeux stone harbour quay with wooden pilings, rope-coiled mooring bollard, slate-matched lapping surf, and sandy grassy embankment.",
+      "prompt": "Isolated low-profile medieval Bayeux-Tapestry-style wool-embroidered weathered stone harbour quay with wooden pilings, rope-coiled mooring bollard, lapping blue-slate waves on the left, and a grassy sandy slope on the right on pure white (#FFFFFF).",
+      "promptHash": "504925c800199d0d8fcd5922100fe9d8a409b4892dd859f9413d739ac4bc6895",
+      "crop": [
+        12,
+        384,
+        516,
+        160
+      ],
+      "pixelHash": "98a3c7611473040ffe4a8e7f6cb8bcee3238a8add23cf3f5de2250866aa86bf4"
+    },
+    "snow-slope-single": {
+      "origin": "image-generator",
+      "joins": [
+        "early-3->middle-0"
+      ],
+      "description": "Embroidered downward-sloping warm-cream snowdrift ribbon with thin russet-brown stitched ground cord.",
+      "prompt": "Isolated medieval Bayeux-Tapestry-style wool-embroidered horizontal snowdrift sloping smoothly down from left to right into flat low cream snow grounded by a thin continuous muted russet-brown stitched cord on pure white (#FFFFFF).",
+      "promptHash": "ab68055df2a6ff1f8ce3a8d78b4c2f01e741941db4decdc5ab58533a00532673",
+      "crop": [
+        540,
+        424,
+        376,
+        120
+      ],
+      "pixelHash": "708787fed5446d83be17589422cf1da304576fd85c4784616501f7bef9bbf86d"
+    }
+  }
+}
