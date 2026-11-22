@@ -197,10 +197,13 @@ function applySelection(timeline) {
   return element;
 }
 
-// Finds the element for an item key. People hidden inside a face stack are
-// represented by their group.
+// Finds the element for an item key. Primary lane markers take precedence over
+// secondary tapestry depictions that share a canonical key; people hidden
+// inside a face stack are represented by their group.
 function findItemElement(timeline, key) {
-  const direct = timeline.querySelector(`[data-item-key="${CSS.escape(key)}"]`);
+  const escaped = CSS.escape(key);
+  const direct = timeline.querySelector(`[data-item-key="${escaped}"]:not(.tapestry-scene):not(.tapestry-border-target)`)
+    || timeline.querySelector(`[data-item-key="${escaped}"]`);
   if (direct || !key.startsWith('scientist:')) return direct;
   return timeline.querySelector(`.scientist-cluster[data-member-ids~="${CSS.escape(key.slice('scientist:'.length))}"]`);
 }
@@ -264,13 +267,18 @@ function refreshRelations(timeline) {
     return { x: rect.left - timelineRect.left + rect.width / 2, y: rect.top - timelineRect.top + rect.height / 2 };
   };
   const from = pointOf(source);
+  // Concealed Tapestry story buttons park at the viewport edge with no hit spans;
+  // never draw a connector to or from that off-screen placeholder position.
+  const isUnexposedStoryTarget = (element) => Boolean(element?.closest('.tapestry-story'))
+    && element.matches('.tapestry-scene, .tapestry-border-target')
+    && !element.querySelector('.tapestry-story-hit');
   getRelatedItems(key).forEach(({ key: relatedKey, line }) => {
     const target = findItemElement(timeline, relatedKey);
     if (!target || target === source) return;
     target.classList.add('is-related');
-    if (!line || !layer) return;
+    if (!line || !layer || isUnexposedStoryTarget(source) || isUnexposedStoryTarget(target)) return;
     let to = pointOf(target);
-    if (target.classList.contains('event-band') || target.classList.contains('tapestry-scene')) {
+    if (target.classList.contains('event-band') || target.classList.contains('tapestry-scene') || target.classList.contains('tapestry-border-target')) {
       const band = target.getBoundingClientRect();
       const bandLeft = band.left - timelineRect.left;
       to = { x: Math.max(bandLeft, Math.min(bandLeft + band.width, from.x)), y: band.top - timelineRect.top + 4 };
@@ -846,8 +854,8 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   if (previousCloth && !retainedCloth) disposeTapestry(previousCloth);
   // Assemble the next layout off the live document. Portraits, SVG and label
   // writes must not trigger layout of the previous cloth between insertions.
+  if (retainedCloth) retainedCloth.remove();
   const content = document.createElement('div');
-  if (retainedCloth) content.appendChild(retainedCloth);
   timeline.style.width = `${width}px`;
   timeline.style.height = `${height}px`;
 
@@ -882,6 +890,7 @@ export function renderTimeline(timelineContainer, timeline, scale = 1) {
   content.appendChild(publications);
   renderMilestones(content, connectorLayer, width, axisY, contextTop, scale);
   if (tapestry) {
+    if (retainedCloth) content.appendChild(retainedCloth);
     renderTapestry(content, significantEvents, width, height, contextTop, scale, (button) => {
       selectItem(button);
       openItem(button.dataset.itemKey, { fromTimeline: true });
