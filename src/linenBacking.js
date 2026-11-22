@@ -1,7 +1,7 @@
 // One fabric ground under the whole viewport. Source storage rectangles never
 // own a second linen colour or restart the weave at their boundaries.
 let tile;
-export function paintLinen(ink, width, height, camera = 0) {
+function ensureLinenTile() {
   if (!tile) {
     tile = document.createElement('canvas'); tile.width = tile.height = 257;
     const weave = tile.getContext('2d');
@@ -24,7 +24,21 @@ export function paintLinen(ink, width, height, camera = 0) {
       weave.fillRect(random() * 257, random() * 257, .4 + random() * .7, 1 + random() * 3);
     }
   }
-  const pattern = ink.createPattern(tile, 'repeat');
+  return tile;
+}
+
+export function paintLinen(ink, width, height, camera = 0) {
+  const pattern = ink.createPattern(ensureLinenTile(), 'repeat');
   pattern.setTransform(new DOMMatrix().translate(-camera, 0));
   ink.fillStyle = pattern; ink.fillRect(0, 0, width, height);
+}
+
+// Anchors the flax weave to each sliding cloth fragment's own sourceX so the
+// woven ground physically moves with the embroidered wool while unfolding,
+// and reunites seamlessly when fragment.left === fragment.sourceX at full zoom.
+export function paintFragmentLinen(ink, left, width, height, weaveShift) {
+  const pattern = ink.createPattern(ensureLinenTile(), 'repeat');
+  pattern.setTransform(new DOMMatrix().translate(weaveShift, 0));
+  ink.fillStyle = pattern;
+  ink.fillRect(left, 0, width, height);
 }

@@ -1,6 +1,7 @@
 import { config } from './config.js?v=16';
 import { yearToX } from './timeScale.js?v=3';
 import { storyPanels, storyAtlases } from './storyPanels.js?v=pass2-photography-v1';
+import { allocatePleatCascade, unfoldProgress } from './clothDynamics.js?v=pass2-cloth-dynamics-v1';
 const FRONT = 160;
 const RETURN = 240;
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -40,10 +41,11 @@ export function layoutStory(events, width, height) {
   return { panels, records, materialWidth: sourceX };
 }
 
-// Both sides unfold behind the same identifying front. Fully open faces
-// recover their original source order; no scaling, scene swapping or mirroring.
+// Both sides unfold sequentially from behind the same identifying front crown.
+// Fully open faces recover their original source order; no scaling, scene
+// swapping or mirroring.
 export function foldStory(layout, viewport, scale) {
-  const progress = clamp((scale - config.MIN_SCALE) / (config.MAX_SCALE - config.MIN_SCALE), 0, 1);
+  const progress = unfoldProgress(scale, config.MIN_SCALE, config.MAX_SCALE);
   const base = Math.min(viewport, layout.materialWidth);
   const total = base + (layout.materialWidth - base) * progress;
   const ratio = layout.materialWidth ? total / layout.materialWidth : 1;
@@ -51,13 +53,35 @@ export function foldStory(layout, viewport, scale) {
     const width = panel.sourceWidth * ratio;
     const open = clamp((width - panel.summaryWidth) / (panel.sourceWidth - panel.summaryWidth || 1), 0, 1);
     const summaryLeft = width < panel.summaryWidth ? (width - panel.summaryWidth) / 2 : open * panel.summaryX;
+    const leftFaces = panel.faces.filter(f => f.side === 'left').sort((a, b) => b.order - a.order);
+    const rightFaces = panel.faces.filter(f => f.side === 'right').sort((a, b) => b.order - a.order);
+    const leftAvail = open * panel.summaryX;
+    const rightAvail = open * Math.max(0, panel.sourceWidth - panel.summaryX - panel.summaryWidth);
+    const leftAlloc = allocatePleatCascade(leftFaces.map(f => f.sourceWidth), leftAvail);
+    const rightAlloc = allocatePleatCascade(rightFaces.map(f => f.sourceWidth), rightAvail);
+
+    const positioned = new Map();
+    let leftCursor = summaryLeft;
+    leftFaces.forEach((face, k) => {
+      leftCursor -= leftAlloc[k];
+      positioned.set(face, {
+        left: leftCursor,
+        shade: face.sourceWidth > 1e-8 ? clamp(1 - leftAlloc[k] / face.sourceWidth, 0, 1) : 0
+      });
+    });
+    let rightCursor = summaryLeft + panel.summaryWidth;
+    rightFaces.forEach((face, k) => {
+      rightCursor += rightAlloc[k];
+      positioned.set(face, {
+        left: rightCursor - face.sourceWidth,
+        shade: face.sourceWidth > 1e-8 ? clamp(1 - rightAlloc[k] / face.sourceWidth, 0, 1) : 0
+      });
+    });
+
     const faces = panel.faces.map(face => {
-      const local = face.sourceX - panel.sourceX;
-      const left = face.summary ? summaryLeft : face.side === 'left'
-        ? summaryLeft - face.sourceWidth + open * (local - panel.summaryX + face.sourceWidth)
-        : summaryLeft + panel.summaryWidth - face.sourceWidth
-          + open * (local - panel.summaryX - panel.summaryWidth + face.sourceWidth);
-      return { ...face, left, shade: 1 - open };
+      if (face.summary) return { ...face, left: summaryLeft, shade: 1 - open };
+      const pose = positioned.get(face);
+      return { ...face, left: pose.left, shade: pose.shade };
     });
     return { ...panel, left: panel.sourceX * ratio, width, open, faces };
   });
