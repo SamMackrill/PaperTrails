@@ -3,7 +3,7 @@ import { layoutStory, foldStory, exposedStory, storyCamera } from './storyLayout
 import { layoutScientificBorder, exposedScientificBorder, scientificBorderFrame, scientificBorderY } from './scientificBorders.js?v=pass2-photography-v1';
 import { paintLinen, paintFragmentLinen } from './linenBacking.js?v=pass2-cloth-dynamics-v1';
 import { analyzeClothFolds, clothSelvageRelief } from './clothDynamics.js?v=pass2-cloth-dynamics-v1';
-import { BOUNDARY_DIVIDER_ATLAS, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, drawFeatheredPanelSlice, drawBoundaryDivider, drawBorderJoinAlignment } from './tapestryBoundaries.js?v=pass2-boundaries-v3';
+import { BOUNDARY_DIVIDER_ATLAS, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, drawFeatheredPanelSlice, drawBoundaryDivider, drawBorderJoinAlignment, drawAlignedBorderSlice } from './tapestryBoundaries.js?v=pass2-boundaries-v4';
 import { contextHeading } from './contextHeadings.js?v=pass2-cloth-recovery-v1';
 import { contextDate } from './contextModel.js?v=pass2-chapters-v2';
 import { recordKey } from './itemIdentity.js';
@@ -170,8 +170,7 @@ function paint(model, container) {
       const drawing = model.loaded.get(border.file);
       if (!drawing) continue;
       const y = scientificBorderY(border, model);
-      ink.drawImage(drawing, border.crop.x, border.crop.y, border.crop.width, border.crop.height,
-        border.left, y, border.width, border.height);
+      drawAlignedBorderSlice(ink, drawing, border, y);
     }
   }
   const flatJoins = exposedFlatBoundaries(fragments, boundaries);

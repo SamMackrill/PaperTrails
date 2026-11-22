@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { layoutStory, foldStory, exposedStory, storyCamera, storyYearX } from '../src/storyLayout.js';
-import { BOUNDARY_DIVIDER_ATLAS, DIVIDER_CROPS, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, PANEL_BOUNDARIES } from '../src/tapestryBoundaries.js';
+import { BOUNDARY_DIVIDER_ATLAS, DIVIDER_CROPS, BORDER_RAIL_TRIMS, alignedBorderCrop, boundarySpecs, fragmentEdgeFeathers, exposedFlatBoundaries, PANEL_BOUNDARIES } from '../src/tapestryBoundaries.js';
+import { layoutScientificBorder } from '../src/scientificBorders.js';
 import { xToYear } from '../src/timeScale.js?v=3';
 import { config } from '../src/config.js?v=16';
 
@@ -91,4 +92,21 @@ test('fragmentEdgeFeathers and exposedFlatBoundaries activate only at exposed pa
   const edges = fragmentEdgeFeathers(openingEndFrag, specs);
   assert.equal(edges.leftFeather, 0);
   assert.ok(edges.rightFeather > 0);
+});
+
+test('alignedBorderCrop trims continuation rail padding strictly inside every band', () => {
+  const layout = layoutStory(events, 1280, 160);
+  const borders = layoutScientificBorder(layout);
+  assert.equal(borders.length, 96);
+  let trimmedCount = 0;
+  for (const border of borders) {
+    const aligned = alignedBorderCrop(border);
+    assert.equal(aligned.x, border.crop.x);
+    assert.equal(aligned.width, border.crop.width);
+    assert.ok(aligned.y >= border.crop.y);
+    assert.ok(aligned.y + aligned.height <= border.crop.y + border.crop.height);
+    assert.ok(aligned.height >= border.crop.height * 0.72, `excessive vertical trim for ${border.id}`);
+    if (BORDER_RAIL_TRIMS[border.id]) trimmedCount++;
+  }
+  assert.ok(trimmedCount > 50, 'aligns continuation and primary border rail offsets');
 });

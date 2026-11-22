@@ -6,16 +6,71 @@
 export const BOUNDARY_DIVIDER_ATLAS = 'images/tapestry/bayeux-boundary-dividers-threads.webp';
 
 // Exact [x, y, width, height] crop boxes inside bayeux-boundary-dividers-threads.webp
-// (1181x516 RGBA transparent wool-thread sprite sheet).
+// (928x556 RGBA transparent wool-thread sprite sheet).
 export const DIVIDER_CROPS = {
   'palm-shore': [12, 12, 165, 360],
   'winter-tree': [189, 12, 109, 360],
   'trench-post': [310, 12, 230, 360],
   'ruined-pier': [552, 12, 89, 360],
-  'harbour-quay': [653, 212, 516, 160],
-  'snow-bridge-down': [12, 394, 581, 110],
-  'snow-slope-single': [605, 384, 376, 120]
+  'join4-bridge': [653, 12, 128, 360],
+  'join5-bridge': [793, 12, 104, 360],
+  'harbour-quay': [12, 384, 516, 160],
+  'snow-slope-single': [540, 424, 376, 120]
 };
+
+// Source-pixel [trimTop, trimBottom] adjustments measured from the red framing
+// rails of each scientific border band so continuation rows (which include
+// 5-11px of inter-row margin or adjacent-row rail bleed) align flush with
+// tightly cropped primary rows without modifying any provenance-hashed atlas.
+export const BORDER_RAIL_TRIMS = {
+  'early-0': [1, 0], 'early-1': [1, 0], 'early-3': [0, 1], 'early-4': [0, 1], 'early-7': [0, 2],
+  'seventeenth-0': [1, 0], 'seventeenth-1': [1, 1], 'seventeenth-2': [1, 1], 'seventeenth-3': [1, 1],
+  'seventeenth-4': [1, 1], 'seventeenth-5': [1, 1], 'seventeenth-6': [1, 1], 'seventeenth-7': [1, 2],
+  'eighteenth-0': [5, 1], 'eighteenth-1': [3, 1], 'eighteenth-2': [1, 2], 'eighteenth-3': [1, 2],
+  'eighteenth-4': [1, 2], 'eighteenth-5': [2, 1], 'eighteenth-6': [2, 2], 'eighteenth-7': [1, 2],
+  'nineteenth-0': [1, 1], 'nineteenth-1': [9, 3], 'nineteenth-2': [1, 3], 'nineteenth-3': [1, 2],
+  'nineteenth-4': [1, 2], 'nineteenth-5': [1, 3], 'nineteenth-6': [2, 3], 'nineteenth-7': [2, 3],
+  'electrons-0': [2, 2], 'electrons-1': [2, 2], 'electrons-2': [3, 2], 'electrons-3': [2, 2],
+  'electrons-4': [2, 1], 'electrons-5': [3, 2], 'electrons-6': [3, 2], 'electrons-7': [2, 2],
+  'space-0': [1, 2], 'space-1': [0, 2], 'space-2': [0, 1], 'space-4': [0, 2],
+  'space-5': [0, 1], 'space-6': [1, 1], 'space-7': [0, 2],
+  'earlyContinuation-0': [6, 4], 'earlyContinuation-2': [0, 15], 'earlyContinuation-3': [3, 0],
+  'earlyContinuation-4': [2, 0], 'earlyContinuation-5': [2, 0], 'earlyContinuation-7': [0, 4],
+  'seventeenthContinuation-0': [6, 7], 'seventeenthContinuation-2': [8, 0],
+  'seventeenthContinuation-3': [7, 0], 'seventeenthContinuation-4': [6, 0],
+  'seventeenthContinuation-5': [6, 6], 'seventeenthContinuation-6': [0, 8],
+  'seventeenthContinuation-7': [0, 9],
+  'eighteenthContinuation-0': [7, 0], 'eighteenthContinuation-1': [11, 0],
+  'eighteenthContinuation-2': [11, 0], 'eighteenthContinuation-3': [10, 0],
+  'eighteenthContinuation-4': [10, 0], 'eighteenthContinuation-5': [11, 0],
+  'eighteenthContinuation-6': [10, 7], 'eighteenthContinuation-7': [0, 5],
+  'nineteenthContinuation-0': [0, 9], 'nineteenthContinuation-2': [0, 9],
+  'nineteenthContinuation-3': [0, 8], 'nineteenthContinuation-4': [0, 7],
+  'nineteenthContinuation-5': [0, 4], 'nineteenthContinuation-7': [0, 10],
+  'electronsContinuation-0': [8, 0], 'electronsContinuation-1': [9, 0],
+  'electronsContinuation-2': [7, 0], 'electronsContinuation-3': [8, 0],
+  'electronsContinuation-4': [9, 0], 'electronsContinuation-5': [8, 0],
+  'electronsContinuation-6': [9, 0], 'electronsContinuation-7': [8, 8],
+  'spaceContinuation-0': [6, 0], 'spaceContinuation-1': [5, 0], 'spaceContinuation-4': [4, 0],
+  'spaceContinuation-5': [0, 11], 'spaceContinuation-7': [0, 4]
+};
+
+// Returns the rail-aligned source crop rectangle for a scientific border band.
+export function alignedBorderCrop(border) {
+  const trim = BORDER_RAIL_TRIMS[border?.id];
+  if (!trim) return border.crop;
+  const [trimTop, trimBottom] = trim;
+  const height = border.crop.height - trimTop - trimBottom;
+  if (height <= 4) return border.crop;
+  return { x: border.crop.x, y: border.crop.y + trimTop, width: border.crop.width, height };
+}
+
+// Draws one scientific border slice with its red framing rails vertically aligned.
+export function drawAlignedBorderSlice(ink, drawing, border, y) {
+  const crop = alignedBorderCrop(border);
+  ink.drawImage(drawing, crop.x, crop.y, crop.width, crop.height,
+    border.left, y, border.width, border.height);
+}
 
 // Per-join visual tuning across all 11 panel-to-panel joins of storyPanels.
 // Fractions are relative to artHeight so geometry scales cleanly at any height.
@@ -43,17 +98,18 @@ export const PANEL_BOUNDARIES = {
     rightGround: 0.955
   },
   'early-2->early-3': {
-    motif: 'snow-bridge-down',
+    motif: 'join4-bridge',
     label: '1650 · Existing Winter Tree → Timber Cottage',
-    leftFeather: 0.11,
-    rightFeather: 0.11,
-    featherTopFrac: 0.66,
-    heightScale: 0.18,
-    widthScale: 0.64,
-    centerBias: 0.01,
+    leftFeather: 0.10,
+    rightFeather: 0.08,
+    leftFeatherTopFrac: 0.87,
+    rightFeatherTopFrac: 0.66,
+    heightScale: 1.0,
+    widthScale: 1.0,
+    centerBias: 0,
     flip: false,
-    leftGround: 0.96,
-    rightGround: 0.995
+    leftGround: 1.0,
+    rightGround: 1.0
   },
   'early-3->middle-0': {
     motif: 'snow-slope-single',
@@ -69,17 +125,18 @@ export const PANEL_BOUNDARIES = {
     rightGround: 0.995
   },
   'middle-0->middle-1': {
-    motif: 'snow-slope-single',
+    motif: 'join5-bridge',
     label: '1740 · Existing Winter Tree & Stream → Seven Years’ War',
-    leftFeather: 0.055,
-    rightFeather: 0.02,
-    featherTopFrac: 0.60,
-    heightScale: 0.22,
-    widthScale: 0.44,
-    centerBias: -0.045,
+    leftFeather: 0.045,
+    rightFeather: 0.022,
+    leftFeatherTopFrac: 0.66,
+    rightFeatherTopFrac: 0.88,
+    heightScale: 1.0,
+    widthScale: 1.0,
+    centerBias: -0.0111,
     flip: false,
-    leftGround: 0.995,
-    rightGround: 0.985
+    leftGround: 1.0,
+    rightGround: 1.0
   },
   'middle-1->middle-2': {
     motif: null,
@@ -196,6 +253,8 @@ export function boundarySpecs(panels, artHeight) {
       leftFeatherPx,
       rightFeatherPx,
       featherTopFrac: cfg.featherTopFrac || 0,
+      leftFeatherTopFrac: cfg.leftFeatherTopFrac ?? cfg.featherTopFrac ?? 0,
+      rightFeatherTopFrac: cfg.rightFeatherTopFrac ?? cfg.featherTopFrac ?? 0,
       drawWidth,
       drawHeight,
       halfWidthPx,
@@ -219,11 +278,11 @@ export function fragmentEdgeFeathers(fragment, boundaries) {
   for (const b of boundaries) {
     if (b.rightPanelId === fragment.panel.id && fragment.sourceX < panelStart + b.rightFeatherPx - 1e-6) {
       leftFeather = Math.max(leftFeather, b.rightFeatherPx);
-      leftTopFrac = b.featherTopFrac || 0;
+      leftTopFrac = b.rightFeatherTopFrac || 0;
     }
     if (b.leftPanelId === fragment.panel.id && fragment.sourceX + fragment.width > panelEnd - b.leftFeatherPx + 1e-6) {
       rightFeather = Math.max(rightFeather, b.leftFeatherPx);
-      rightTopFrac = b.featherTopFrac || 0;
+      rightTopFrac = b.leftFeatherTopFrac || 0;
     }
   }
   return { leftFeather, rightFeather, leftTopFrac, rightTopFrac };
@@ -285,9 +344,18 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
   const panelEnd = panelStart + panel.sourceWidth;
 
   const leftZoneEnd = leftFeather > 0 ? Math.min(sourceX + exposedWidth, panelStart + leftFeather) : sourceX;
-  const leftFadeW = Math.max(0, leftZoneEnd - sourceX);
+  const rawLeftFadeW = Math.max(0, leftZoneEnd - sourceX);
   const rightZoneStart = rightFeather > 0 ? Math.max(sourceX, panelEnd - rightFeather) : sourceX + exposedWidth;
-  const rightFadeW = Math.max(0, (sourceX + exposedWidth) - rightZoneStart);
+  const rawRightFadeW = Math.max(0, (sourceX + exposedWidth) - rightZoneStart);
+
+  // Snap horizontal strip split coordinates to exact device pixels so adjacent
+  // slices meet with zero subpixel light gap and zero double-composited seam.
+  const snapOffset = (offset) => (Math.round((left + offset) * pixelRatio) / pixelRatio) - left;
+  const leftFadeW = rawLeftFadeW > 0.25 ? Math.max(0, Math.min(exposedWidth, snapOffset(rawLeftFadeW))) : 0;
+  const rightSplitOffset = rawRightFadeW > 0.25
+    ? Math.max(leftFadeW, Math.min(exposedWidth, snapOffset(exposedWidth - rawRightFadeW)))
+    : exposedWidth;
+  const rightFadeW = Math.max(0, exposedWidth - rightSplitOffset);
 
   if (leftFadeW <= 0.25 && rightFadeW <= 0.25) {
     const cropX = panel.crop.x + (sourceX - panelStart) / panel.unit;
@@ -298,7 +366,7 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
 
   // 1. Draw the crisp unfeathered interior directly.
   const midStart = sourceX + leftFadeW;
-  const midEnd = sourceX + exposedWidth - rightFadeW;
+  const midEnd = sourceX + rightSplitOffset;
   if (midEnd > midStart + 0.05) {
     const midW = midEnd - midStart;
     const cropX = panel.crop.x + (midStart - panelStart) / panel.unit;
@@ -313,9 +381,13 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
     const destX = left + (stripSourceX - sourceX);
 
     // Keep upper canopy completely crisp when feathering only the lower ground/snow band.
-    const splitY = topFrac > 0 ? bodyHeight * topFrac : 0;
+    const rawSplitY = topFrac > 0 ? bodyHeight * topFrac : 0;
+    const splitY = rawSplitY > 1
+      ? Math.max(0, Math.min(bodyHeight, (Math.round((destY + rawSplitY) * pixelRatio) / pixelRatio) - destY))
+      : 0;
+    const snappedTopFrac = splitY / bodyHeight;
     if (splitY > 1) {
-      const topSrcH = panel.crop.height * topFrac;
+      const topSrcH = panel.crop.height * snappedTopFrac;
       ink.drawImage(image, cropX, panel.crop.y, stripW / panel.unit, topSrcH,
         destX, destY, stripW, splitY);
     }
@@ -330,8 +402,8 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
     sctx.globalCompositeOperation = 'source-over';
     sctx.clearRect(0, 0, stripW + 2, fadeH + 2);
 
-    const lowerSrcY = panel.crop.y + panel.crop.height * topFrac;
-    const lowerSrcH = panel.crop.height * (1 - topFrac);
+    const lowerSrcY = panel.crop.y + panel.crop.height * snappedTopFrac;
+    const lowerSrcH = panel.crop.height * (1 - snappedTopFrac);
     sctx.drawImage(image, cropX, lowerSrcY, stripW / panel.unit, lowerSrcH,
       0, 0, stripW, fadeH);
 
@@ -359,8 +431,7 @@ export function drawFeatheredPanelSlice(ink, image, panel, fragment, artTop, art
   };
 
   if (leftFadeW > 0.25) drawStrip(sourceX, leftFadeW, 'left', leftFeather, leftTopFrac);
-  const clampedRightStart = Math.max(rightZoneStart, midStart);
-  if (rightFadeW > 0.25) drawStrip(clampedRightStart, (sourceX + exposedWidth) - clampedRightStart, 'right', rightFeather, rightTopFrac);
+  if (rightFadeW > 0.25) drawStrip(midEnd, rightFadeW, 'right', rightFeather, rightTopFrac);
 }
 
 // Paints the embroidered Bayeux boundary divider or ground-braid bridge sprite
