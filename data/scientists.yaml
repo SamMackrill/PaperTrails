@@ -4578,10 +4578,6 @@ doppler:
   links:
     - label: "Wikipedia"
       url: "https://en.wikipedia.org/wiki/Christian_Doppler"
-    - label: "University of St Andrews biography"
-      url: "https://mathshistory.st-andrews.ac.uk/Biographies/Doppler/"
-    - label: "Österreichisches Biographisches Lexikon"
-      url: "https://www.biographien.ac.at/oebl/oebl_D/Doppler_Christian_1803_1853.xml"
   academic_affiliations:
     - institution: "Vienna Polytechnic Institute"
       association: "Student, assistant in higher mathematics, and later professor of practical geometry"
@@ -4618,8 +4614,6 @@ voigt:
   links:
     - label: "Wikipedia"
       url: "https://en.wikipedia.org/wiki/Woldemar_Voigt"
-    - label: "Deutsche Biographie"
-      url: "https://www.deutsche-biographie.de/gnd117478008.html"
   academic_affiliations:
     - institution: "Leipzig University"
       association: "Student of mathematics and physics"
