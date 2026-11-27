@@ -4564,3 +4564,85 @@ tesla:
       abstract: "Demonstrated high-frequency electrical lighting and resonance experiments and discussed how tuned circuits could transmit electrical energy without wires."
       doi: "10.1016/0016-0032(93)90308-H"
       source: "https://www.sciencedirect.com/science/article/abs/pii/001600329390308H"
+
+doppler:
+  name: "Christian Doppler"
+  summary: "An Austrian mathematician and physicist who formulated the principle that the observed frequency of light and sound waves shifts with the relative motion of source and observer."
+  color: "#4b7a8c"
+  notability: 2
+  photo: "images/doppler.jpg"
+  cartoon: "images/cartoons/doppler.png"
+  nationality: "Austrian"
+  birth: "1803-11-29"
+  death: "1853-03-17"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Christian_Doppler"
+    - label: "University of St Andrews biography"
+      url: "https://mathshistory.st-andrews.ac.uk/Biographies/Doppler/"
+    - label: "Österreichisches Biographisches Lexikon"
+      url: "https://www.biographien.ac.at/oebl/oebl_D/Doppler_Christian_1803_1853.xml"
+  academic_affiliations:
+    - institution: "Vienna Polytechnic Institute"
+      association: "Student, assistant in higher mathematics, and later professor of practical geometry"
+    - institution: "Prague Polytechnic Institute"
+      association: "Associate professor and professor of elementary mathematics and practical geometry"
+    - institution: "Mining and Forestry Academy, Schemnitz"
+      association: "Professor of mathematics, physics, and mechanics"
+    - institution: "University of Vienna"
+      association: "Student and later professor of experimental physics and first director of the Institute of Physics"
+      coat: "images/institutions/university-of-vienna.png"
+  publications:
+    - id: "doppler-work-00"
+      year: 1842
+      title: "Ueber das farbige Licht der Doppelsterne und einiger anderer Gestirne des Himmels"
+      abstract: "Proposed that relative motion between a wave source and an observer shifts the perceived frequency of light and sound, introducing what became known as the Doppler effect."
+      source: "https://archive.org/details/ueberdasfarbigel00dopp"
+    - id: "doppler-work-01"
+      year: 1846
+      title: "Bemerkungen zu meiner Theorie des farbigen Lichtes der Doppelsterne etc. mit vorzüglicher Rücksicht auf die von Herrn Dr. Ballot zu Utrecht dagegen erhobenen Bedenken"
+      abstract: "Refined and defended his theory of motion-dependent frequency shifts in response to Christoph Buys Ballot's acoustic experiments and optical objections."
+      doi: "10.1002/andp.18461440502"
+      source: "https://onlinelibrary.wiley.com/doi/abs/10.1002/andp.18461440502"
+
+voigt:
+  name: "Woldemar Voigt"
+  summary: "A German theoretical physicist who systematized crystal physics, introduced the modern term tensor, discovered the magneto-optical Voigt effect, and formulated the Voigt transformation and spectral line profile."
+  color: "#8c5a4b"
+  notability: 2
+  photo: "images/voigt.jpg"
+  cartoon: "images/cartoons/voigt.png"
+  nationality: "German"
+  birth: "1850-09-02"
+  death: "1919-12-13"
+  links:
+    - label: "Wikipedia"
+      url: "https://en.wikipedia.org/wiki/Woldemar_Voigt"
+    - label: "Deutsche Biographie"
+      url: "https://www.deutsche-biographie.de/gnd117478008.html"
+  academic_affiliations:
+    - institution: "Leipzig University"
+      association: "Student of mathematics and physics"
+      coat: "images/institutions/leipzig-university.png"
+    - institution: "University of Königsberg"
+      association: "Student, doctorate, and extraordinary professor of physics"
+      coat: "images/institutions/university-of-konigsberg.png"
+    - institution: "University of Göttingen"
+      association: "Professor of theoretical physics and head of the Mathematical Physics Department"
+      coat: "images/institutions/university-of-gottingen.svg"
+  publications:
+    - id: "voigt-work-00"
+      year: 1887
+      title: "Ueber das Doppler'sche Princip"
+      abstract: "Derived a space-time coordinate transformation that leaves the wave equation invariant in a moving frame, anticipating the mathematical form of the Lorentz transformation."
+      source: "https://gdz.sub.uni-goettingen.de/de/id/PPN252457072_1887"
+    - id: "voigt-work-01"
+      year: 1910
+      title: "Lehrbuch der Kristallphysik (mit Ausschluss der Kristalloptik)"
+      abstract: "Synthesized crystal elasticity, piezoelectricity, and pyroelectricity using tensor analysis and compact Voigt notation."
+      source: "https://archive.org/details/bub_gb_SvPPAAAAMAAJ"
+    - id: "voigt-work-02"
+      year: 1912
+      title: "Über das Gesetz der Intensitätsverteilung innerhalb der Linien eines Gasspektrums"
+      abstract: "Derived the spectral line-shape convolution of Gaussian Doppler broadening and Lorentzian damping now known as the Voigt profile."
+      source: "https://publikationen.badw.de/de/003395768"
