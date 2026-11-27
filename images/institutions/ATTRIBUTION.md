@@ -131,6 +131,8 @@ These sources establish the identity of the mark, but generally do not grant a s
 
 ## Deliberately neutral entries
 
+Doppler's University of Vienna affiliation reuses `university-of-vienna.png` under the public-domain terms recorded above. His Vienna Polytechnic Institute, Prague Polytechnic Institute, and Mining and Forestry Academy, Schemnitz affiliations use the neutral academic icon because no verified local emblems are bundled; the separate University of Vienna and Charles University assets are not substituted for the Vienna and Prague polytechnic institutes. Voigt's Leipzig University, University of Königsberg, and University of Göttingen affiliations reuse the existing `leipzig-university.png`, `university-of-konigsberg.png`, and `university-of-gottingen.svg` assets under their recorded terms.
+
 Tesla's Charles University affiliation reuses `charles-university.png` under the public-domain terms recorded above. His Graz University of Technology affiliation uses the neutral academic icon because no verified local emblem is bundled; the separate University of Graz asset is not a substitute.
 
 The conference-scientist addition reuses existing École Polytechnique, École des mines de Paris (Mines Paris), University of Paris, University of Amsterdam, Institute for Advanced Study, City College of New York and MIT assets with their recorded terms. Radium Institute, Paris, Utrecht University and Rockefeller University have no verified local emblems in this layer and use neutral icons. The University of Paris emblem is not substituted for the separate Radium Institute affiliation.
